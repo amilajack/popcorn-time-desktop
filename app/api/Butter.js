@@ -19,25 +19,24 @@ function Butter() {
  * @desc    Base http request that converts response to json
  * @private
  */
-Butter.prototype._get = function _get(url) {
-  return fetch(url)
-    .then(response => response.json());
+Butter.prototype.get = function get(url) {
+  return fetch(url).then(response => response.json());
 };
 
-Butter.prototype.getMovies = function getMovies() {
-  return this._get('https://api-fetch.website/tv/movies');
+Butter.prototype.getMovies = function getMovies(pageNumber = 1) {
+  return this.get(`https://api-fetch.website/tv/shows/${pageNumber}`);
 };
 
 Butter.prototype.getMovie = function getMovie(movieId) {
-  return this._get(`https://api-fetch.website/tv/movie/${movieId}`);
+  return this.get(`https://api-fetch.website/tv/movie/${movieId}`);
 };
 
 Butter.prototype.getShows = function getShows() {
-  return this._get('https://api-fetch.website/tv/movies');
+  return this.get('https://api-fetch.website/tv/movies');
 };
 
 Butter.prototype.getShow = function getShow(showId) {
-  return this._get(`https://api-fetch.website/tv/movie/${showId}`);
+  return this.get(`https://api-fetch.website/tv/movie/${showId}`);
 };
 
 export default Butter;

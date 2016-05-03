@@ -14,7 +14,6 @@ export default class Home extends Component {
   async getMovies() {
     const butter = new Butter();
     const movies = await butter.getMovies();
-
     this.setState({ movies });
   }
 
@@ -22,7 +21,7 @@ export default class Home extends Component {
     return (
       <div>
         {this.state.movies.map((movie, index) => {
-          return (<div key={index}>{movie}</div>);
+          return (<div key={index}>{movie.title}</div>);
         })}
       </div>
     );
