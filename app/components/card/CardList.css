@@ -1,0 +1,17 @@
+.CardList {
+  display: flex;
+  justify-content: space-between;
+  align-content: flex-start;
+  flex-flow: row wrap;
+}
+
+.Card {
+  border: 2px solid red;
+  width: 150px;
+  margin: 10px;
+}
+
+.Card img {
+  width: 100%;
+  height: 100%;
+}

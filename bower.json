@@ -1,0 +1,30 @@
+{
+  "name": "popcorn-time",
+  "description": "Popcorn-time client",
+  "main": "main.js",
+  "authors": [
+    "[object Object]"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "electron",
+    "boilerplate",
+    "react",
+    "react-router",
+    "flux",
+    "webpack",
+    "react-hot"
+  ],
+  "homepage": "https://github.com/amilajack/popcorn-desktop-experimental",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "./app/vendor",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "v4.0.0-alpha.2"
+  }
+}

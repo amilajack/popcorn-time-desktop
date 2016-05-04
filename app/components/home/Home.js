@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Butter from '../../api/Butter';
+import CardList from '../card/CardList';
 
 export default class Home extends Component {
 
@@ -19,11 +20,7 @@ export default class Home extends Component {
 
   render() {
     return (
-      <div>
-        {this.state.movies.map((movie, index) => {
-          return (<div key={index}>{movie.title}</div>);
-        })}
-      </div>
+      <CardList movies={this.state.movies} />
     );
   }
 }
