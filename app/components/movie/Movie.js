@@ -1,6 +1,13 @@
+/**
+ * Movie component that is responsible for playing movie
+ *
+ * @todo: Remove state mutation, migrate to Redux reducers
+ */
+
 import React, { Component } from 'react';
 import Butter from '../../api/Butter';
 import WebTorrent from 'webtorrent';
+
 
 export default class Movie extends Component {
 
