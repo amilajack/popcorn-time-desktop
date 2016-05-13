@@ -15,7 +15,6 @@ export default class Home extends Component {
 
   async getMovies() {
     const movies = await this.butter.getMovies();
-    console.log(movies);
     this.setState({ movies });
   }
 

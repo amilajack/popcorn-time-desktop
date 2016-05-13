@@ -23,20 +23,22 @@ export default class Movie extends Component {
   }
 
   async getMovie(movieId) {
-    const movieDetails = await this.butter.getMovie(movieId);
-    console.log(movieDetails);
-    this.setState({ movieDetails });
+    const movie = await this.butter.getMovie(movieId);
+
+    this.setState({ movie });
+    console.log(movie);
+    this.startTorrent(movie.magnet);
   }
 
-  startTorrent() {
+  startTorrent(magnetURI) {
     const client = new WebTorrent();
-    const magnetURI = '...';
+    console.log(magnetURI);
 
-    client.add(magnetURI, torrent => {
+    client.add(magnetURI, function(torrent) {
       // Got torrent metadata!
       console.log('Client is downloading:', torrent.infoHash);
 
-      torrent.files.forEach(file => {
+      torrent.files.forEach(function(file) {
         // Display the file by appending it to the DOM. Supports video, audio, images, and
         // more. Specify a container element (CSS selector or reference to DOM node).
         file.appendTo('body');

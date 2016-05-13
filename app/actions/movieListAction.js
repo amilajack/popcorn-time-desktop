@@ -1,9 +1,9 @@
-export const INCREMENT_COUNTER = 'INCREMENT_COUNTER';
+export const PAGINATE_MOVIES = 'PAGINATE_MOVIES';
 export const DECREMENT_COUNTER = 'DECREMENT_COUNTER';
 
 export function increment() {
   return {
-    type: INCREMENT_COUNTER
+    type: PAGINATE_MOVIES
   };
 }
 
