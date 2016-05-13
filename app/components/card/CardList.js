@@ -14,11 +14,11 @@ export default class Card extends Component {
           <div className={styles.CardList}>
             {this.props.movies.map((movie, index) => {
               return (
-                <Link to={`/movie/${movie.ids.slug}`}>
-                  <div className={styles.Card} key={index}>
+                <div className={styles.Card} key={movie.ids.slug}>
+                  <Link to={`/movie/${movie.ids.slug}`}>
                     <img src={movie.images.poster.thumb} />
-                  </div>
-                </Link>
+                  </Link>
+                </div>
               );
             })}
           </div>

@@ -1,3 +1,8 @@
+/**
+ * Method list:
+ * https://github.com/vankasteelj/trakt.tv/wiki/Supported-methods
+ */
+
 import Trakt from 'trakt.tv';
 
 export default class Butter {
@@ -9,14 +14,21 @@ export default class Butter {
     });
   }
 
-  getMovies() {
+  async getMovies() {
     return this.trakt.movies.popular({
       paginate: true,
+      page: 3,
+      limit: 50,
       extended: 'images'
     });
   }
 
-  getMovie() {}
+  getMovie(movieId) {
+    return this.trakt.movies.summary({
+      id: movieId,
+      extended: 'full,images,metadata'
+    });
+  }
 
   getShows() {}
 

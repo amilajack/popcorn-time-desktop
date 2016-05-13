@@ -8,6 +8,6 @@ import MoviePage from './containers/MoviePage';
 export default (
   <Route path="/" component={App}>
     <IndexRoute component={HomePage} />
-    <Route path="movie/:id" component={MoviePage} />
+    <Route path="movie/:movieId" component={MoviePage} />
   </Route>
 );

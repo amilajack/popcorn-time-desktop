@@ -108,7 +108,8 @@
     "redux": "^3.5.2",
     "redux-thunk": "^2.0.1",
     "source-map-support": "^0.4.0",
-    "trakt.tv": "^1.4.2"
+    "trakt.tv": "^1.4.2",
+    "webtorrent": "^0.93.2"
   },
   "devEngines": {
     "node": "4.x || 5.x || 6.x",
