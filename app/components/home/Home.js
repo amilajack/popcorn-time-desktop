@@ -6,6 +6,7 @@ export default class Home extends Component {
 
   constructor() {
     super();
+    this.butter = new Butter();
     this.state = {
       movies: []
     };
@@ -13,8 +14,8 @@ export default class Home extends Component {
   }
 
   async getMovies() {
-    const butter = new Butter();
-    const movies = await butter.getMovies();
+    const movies = await this.butter.getMovies();
+    console.log(movies);
     this.setState({ movies });
   }
 

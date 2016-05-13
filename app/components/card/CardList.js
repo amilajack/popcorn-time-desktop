@@ -1,4 +1,9 @@
+/**
+ * A list of thumbnail poster images of movies that are rendered on the home page
+ */
+
 import React, { Component } from 'react';
+import { Link } from 'react-router';
 import styles from './CardList.css';
 
 export default class Card extends Component {
@@ -9,9 +14,11 @@ export default class Card extends Component {
           <div className={styles.CardList}>
             {this.props.movies.map((movie, index) => {
               return (
-                <div className={styles.Card} key={index}>
-                  <img src={movie.images.poster} />
-                </div>
+                <Link to={`/movie/${movie.ids.slug}`}>
+                  <div className={styles.Card} key={index}>
+                    <img src={movie.images.poster.thumb} />
+                  </div>
+                </Link>
               );
             })}
           </div>

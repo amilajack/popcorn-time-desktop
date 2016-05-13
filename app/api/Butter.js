@@ -1,42 +1,24 @@
-/**
- * API wrapper for popcorntime-api
- */
+import Trakt from 'trakt.tv';
 
-function Butter() {
-  this.DEFAULTS = {
-    moviesUrl: 'https://api-fetch.website/tv/movies',
-    movieUrl: 'https://api-fetch.website/tv/movie',
-    showsUrl: 'https://api-fetch.website/tv/shows',
-    showUrl: 'https://api-fetch.website/tv/show'
-  };
+export default class Butter {
 
-  this.items = [];
+  constructor() {
+    this.trakt = new Trakt({
+      client_id: '52b30c468753bbcf60a4138f510b3eb655ad6d21f70b4848aa6641381ca7d003',
+      client_secret: 'd395c9152654ea6ef4e0107d203b1f217cdf66ed01b6e047fa51a9e8cb93956f'
+    });
+  }
 
-  return this;
+  getMovies() {
+    return this.trakt.movies.popular({
+      paginate: true,
+      extended: 'images'
+    });
+  }
+
+  getMovie() {}
+
+  getShows() {}
+
+  getShow() {}
 }
-
-/**
- * @desc    Base http request that converts response to json
- * @private
- */
-Butter.prototype.get = function get(url) {
-  return fetch(url).then(response => response.json());
-};
-
-Butter.prototype.getMovies = function getMovies(pageNumber = 1) {
-  return this.get(`https://api-fetch.website/tv/shows/${pageNumber}`);
-};
-
-Butter.prototype.getMovie = function getMovie(movieId) {
-  return this.get(`https://api-fetch.website/tv/movie/${movieId}`);
-};
-
-Butter.prototype.getShows = function getShows() {
-  return this.get('https://api-fetch.website/tv/movies');
-};
-
-Butter.prototype.getShow = function getShow(showId) {
-  return this.get(`https://api-fetch.website/tv/movie/${showId}`);
-};
-
-export default Butter;
