@@ -1,15 +1,8 @@
 export const PAGINATE_MOVIES = 'PAGINATE_MOVIES';
-export const DECREMENT_COUNTER = 'DECREMENT_COUNTER';
 
-export function increment() {
+export function paginateMovies() {
   return {
     type: PAGINATE_MOVIES
-  };
-}
-
-export function decrement() {
-  return {
-    type: DECREMENT_COUNTER
   };
 }
 

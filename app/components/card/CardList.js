@@ -15,7 +15,7 @@ export default class Card extends Component {
             {this.props.movies.map((movie, index) => {
               return (
                 <div className={styles.Card} key={movie.ids.slug}>
-                  <Link to={`/movie/${movie.ids.slug}`}>
+                  <Link to={`/movie/${movie.ids.imdb}`}>
                     <img src={movie.images.poster.thumb} />
                   </Link>
                 </div>

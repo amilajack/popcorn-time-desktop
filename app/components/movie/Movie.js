@@ -2,6 +2,7 @@
  * Movie component that is responsible for playing movie
  *
  * @todo: Remove state mutation, migrate to Redux reducers
+ * @todo: Migrate to YTS
  */
 
 import React, { Component } from 'react';
@@ -16,7 +17,9 @@ export default class Movie extends Component {
 
     this.butter = new Butter();
     this.state = {
-      movieDetails: {}
+      movie: {
+        homepage: 'some'
+      }
     };
 
     this.getMovie(this.props.movieId);
@@ -25,7 +28,7 @@ export default class Movie extends Component {
   async getMovie(movieId) {
     const movie = await this.butter.getMovie(movieId);
 
-    this.setState({ movie });
+    // this.setState({ movie: movie.movie });
     console.log(movie);
     this.startTorrent(movie.magnet);
   }
@@ -34,12 +37,15 @@ export default class Movie extends Component {
     this.client = new WebTorrent();
 
     this.client.add(magnetURI, (torrent) => {
-      console.log(torrent.files);
+      torrent.deselect(0, torrent.files.length, 0);
 
       for (const file of torrent.files) {
         if (file.path.includes('mp4', 'srt')) {
           file.appendTo('.Movie');
+          file.select();
           break;
+        } else {
+          torrent.deselect();
         }
       }
     });
@@ -52,6 +58,9 @@ export default class Movie extends Component {
   render() {
     return (
       <div className="Movie">
+        <h6>
+          {this.state.movie.overview}
+        </h6>
         {this.props.movieDetails}
       </div>
     );

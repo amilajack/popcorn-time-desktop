@@ -35,18 +35,41 @@ export default class Butter {
     });
   }
 
+  constructMagnet(hash, title) {
+    const trackers = [
+      'udp://glotorrents.pw:6969/announce',
+      'udp://tracker.opentrackr.org:1337/announce',
+      'udp://torrent.gresille.org:80/announce',
+      'udp://tracker.openbittorrent.com:80',
+      'udp://tracker.coppersurfer.tk:6969',
+      'udp://tracker.leechers-paradise.org:6969',
+      'udp://p4p.arenabg.ch:1337',
+      'udp://tracker.internetwarriors.net:1337'
+    ];
+
+    const magnet = `magnet:?xt=urn:btih:${hash}`;
+
+    return magnet;
+  }
+
   async getMovie(movieId) {
-    const movie = await this.trakt.movies.summary({
+    const movieSummary = await this.trakt.movies.summary({
       id: movieId,
       extended: 'full,images,metadata'
     });
 
-    const torrentData = await this.getTorrent(movie.ids.imdb);
-    const magnet = torrentData.results[0].magnet;
+    const results = await fetch(`https://yts.ag/api/v2/list_movies.json?query_term=${movieId}?quality=1080`)
+                      .then(response => response.json());
 
-    return {
-      magnet, movie
-    };
+    // HACK: Filter only 1080p video qualtiy
+    // TODO: Refactor by exporting api-specific code. Try to make this into an adapter
+    let magnet = results.data.movies[0].torrents.filter(item => {
+      return item.quality === '1080p';
+    })[0];
+
+    magnet = this.constructMagnet(magnet.hash, magnet.name);
+
+    return Object.assign({}, movieSummary, results, { magnet });
   }
 
   getShows() {}

@@ -70,7 +70,7 @@
     "electron-packager": "^7.0.1",
     "electron-prebuilt": "^1.0.2",
     "electron-rebuild": "^1.1.3",
-    "eslint": "^2.9.0",
+    "eslint": "^2.10.0",
     "eslint-config-airbnb": "^9.0.1",
     "eslint-plugin-import": "^1.8.0",
     "eslint-plugin-jsx-a11y": "^1.2.0",
@@ -118,7 +118,7 @@
     "redux-thunk": "^2.1.0",
     "source-map-support": "^0.4.0",
     "trakt.tv": "^1.4.2",
-    "webtorrent": "^0.93.2"
+    "webtorrent": "^0.93.3"
   },
   "devEngines": {
     "node": "4.x || 5.x || 6.x",

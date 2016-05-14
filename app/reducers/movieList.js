@@ -1,11 +1,9 @@
-import { PAGINATE_MOVIES, DECREMENT_COUNTER } from '../actions/movieListAction';
+import { PAGINATE_MOVIES } from '../actions/movieListAction';
 
-export default function movieList(state = [], action) {
+export default function movieList(state = [], action, movies) {
   switch (action.type) {
     case PAGINATE_MOVIES:
-      return state.push();
-    case DECREMENT_COUNTER:
-      return state.push();
+      return state.concat([movies]);
     default:
       return state;
   }
