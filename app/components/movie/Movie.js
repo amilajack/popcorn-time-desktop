@@ -31,24 +31,27 @@ export default class Movie extends Component {
   }
 
   startTorrent(magnetURI) {
-    const client = new WebTorrent();
-    console.log(magnetURI);
+    this.client = new WebTorrent();
 
-    client.add(magnetURI, function(torrent) {
-      // Got torrent metadata!
-      console.log('Client is downloading:', torrent.infoHash);
+    this.client.add(magnetURI, (torrent) => {
+      console.log(torrent.files);
 
-      torrent.files.forEach(function(file) {
-        // Display the file by appending it to the DOM. Supports video, audio, images, and
-        // more. Specify a container element (CSS selector or reference to DOM node).
-        file.appendTo('body');
-      });
+      for (const file of torrent.files) {
+        if (file.path.includes('mp4', 'srt')) {
+          file.appendTo('.Movie');
+          break;
+        }
+      }
     });
+  }
+
+  stopTorrent() {
+    this.client.destroy();
   }
 
   render() {
     return (
-      <div>
+      <div className="Movie">
         {this.props.movieDetails}
       </div>
     );

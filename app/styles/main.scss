@@ -1,7 +1,21 @@
+//
 // Modules
+//
+
 @import 'variables';
 
+//
 // Bootstrap
 //
 // Core variables and mixins
-@import '../app/vendor/bootstrap/scss/bootstrap-flex.scss';
+//
+
+@import '../vendor/bootstrap/scss/bootstrap-flex.scss';
+
+//
+// Components
+//
+
+@import './components/Home.scss';
+@import './components/Movie.scss';
+@import './components/CardList.scss';
