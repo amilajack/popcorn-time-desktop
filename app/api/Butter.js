@@ -36,6 +36,7 @@ export default class Butter {
   }
 
   constructMagnet(hash, title) {
+    // TODO: Combine multiple trackers with magnet
     const trackers = [
       'udp://glotorrents.pw:6969/announce',
       'udp://tracker.opentrackr.org:1337/announce',
@@ -75,4 +76,8 @@ export default class Butter {
   getShows() {}
 
   getShow() {}
+
+  search() {}
+
+  similar() {}
 }
