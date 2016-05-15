@@ -1,0 +1,28 @@
+//
+// Card list for homepage
+//
+
+.CardList {
+  display: flex;
+  justify-content: space-between;
+  align-content: flex-start;
+  flex-flow: row wrap;
+  text-align: left;
+
+	.Card {
+	  border: 2px solid transparent;
+		width: 150px;
+		margin: 10px;
+		border-radius: 10px;
+		overflow: hidden;
+
+		&:hover {
+			border: 2px solid red;
+		}
+	}
+
+	.Card img {
+	  width: 100%;
+	  height: 100%;
+	}
+}

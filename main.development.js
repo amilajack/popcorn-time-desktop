@@ -25,7 +25,13 @@ app.on('ready', () => {
   mainWindow = new BrowserWindow({
     show: false,
     width: 1024,
-    height: 728
+    height: 728,
+    backgroundColor: '#000000',
+    webPreferences: {
+      darkTheme: true,
+      scrollBounce: true,
+      overlayFullscreenVideo: false
+    }
   });
 
   mainWindow.loadURL(`file://${__dirname}/app/app.html`);

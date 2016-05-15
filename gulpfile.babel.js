@@ -3,14 +3,17 @@ import gulpLoadPlugins from 'gulp-load-plugins';
 
 const $ = gulpLoadPlugins();
 
-const stylesSource = './app/styles/main.scss';
+const stylesSource = [
+  './app/styles/*',
+  './app/styles/**/*'
+];
 
 const autoprefixerSettings = [
   'chrome >= 34'
 ];
 
 gulp.task('styles', () => {
-  return gulp.src(stylesSource)
+  return gulp.src('./app/styles/main.scss')
     .pipe($.sass({
       precision: 10
     })
