@@ -1,5 +1,4 @@
-
-A highly experimental popcorn-time client build with:
+## A highly experimental popcorn-time client build with:
 
 * ES6
 * React 15.0
@@ -9,7 +8,7 @@ A highly experimental popcorn-time client build with:
 * Electron 1.0.0
 * Webpack
 
-Installation:
+## Installation:
 ```
 git clone https://github.com/amilajack/popcorn-desktop-experimental.git
 cd popcorn-desktop-experimental
