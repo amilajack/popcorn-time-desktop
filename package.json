@@ -108,6 +108,7 @@
     "css-modules-require-hook": "^4.0.0",
     "electron-debug": "^1.0.0",
     "font-awesome": "^4.6.1",
+    "immutable": "^3.8.1",
     "kat-api": "github:team-pct/kat-api",
     "postcss": "^5.0.21",
     "react": "^15.0.2",
