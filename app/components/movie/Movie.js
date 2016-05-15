@@ -8,6 +8,7 @@
 import React, { Component } from 'react';
 import Butter from '../../api/Butter';
 import WebTorrent from 'webtorrent';
+import { Link } from 'react-router';
 
 
 export default class Movie extends Component {
@@ -18,15 +19,23 @@ export default class Movie extends Component {
     this.getMovie(this.props.movieId);
 
     this.state = {
-      movie: {}
+      movie: {
+        images: {
+          fanart: ''
+        }
+      }
     };
   }
 
-  async getMovie(movieId) {
-    const movie = await this.butter.getMovie(movieId);
+  /**
+   * Get the details of a movie using the butter api
+   */
+  async getMovie(imdbId) {
+    const movie = await this.butter.getMovie(imdbId);
 
+    console.log(movie);
     this.setState({ movie });
-    this.startTorrent(movie.magnet);
+    // this.startTorrent(movie.magnet);
   }
 
   startTorrent(magnetURI) {
@@ -57,13 +66,28 @@ export default class Movie extends Component {
   render() {
     return (
       <div className="Movie">
-        <a onClick={this.stopTorrent.bind(this)}>
+        <Link to="/">
+          <button className="ion-android-arrow-back">Back</button>
+        </Link>
+        <button onClick={this.stopTorrent.bind(this)}>
           Stop
-        </a>
+        </button>
+        <button onClick={this.startTorrent.bind(this, this.state.movie.magnet)}>
+          Start
+        </button>
+        <h1>
+          {this.state.movie.title}
+        </h1>
+        <h5>
+          Rating: {this.state.movie.rating}
+        </h5>
+        <h5>
+          Year: {this.state.movie.year}
+        </h5>
         <h6>
           {this.state.movie.overview}
         </h6>
-        {this.props.movieDetails}
+        <img className="Movie--posterImage" src={this.state.movie.images.fanart.full} />
       </div>
     );
   }

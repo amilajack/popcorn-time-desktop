@@ -2,7 +2,9 @@
  * Method list:
  * https://github.com/vankasteelj/trakt.tv/wiki/Supported-methods
  *
- * @todo: find a way to get trackers or magnetURI
+ * @todo: Find a way to get trackers or magnetURI
+ * @todo: getMovies should search yts, or provider, instead of trakt.
+ * 				Use trakt to fetch information about movies
  */
 
 import Trakt from 'trakt.tv';
@@ -53,6 +55,9 @@ export default class Butter {
     return magnet;
   }
 
+  /**
+   * @todo: Use Promise.all
+   */
   async getMovie(movieId) {
     const movieSummary = await this.trakt.movies.summary({
       id: movieId,
