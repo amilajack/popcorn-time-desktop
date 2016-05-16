@@ -35,7 +35,6 @@ export default class Movie extends Component {
 
     console.log(movie);
     this.setState({ movie });
-    // this.startTorrent(movie.magnet);
   }
 
   startTorrent(magnetURI) {
