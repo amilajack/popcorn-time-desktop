@@ -28,10 +28,10 @@ export default class Butter {
     });
   }
 
-  getMovies() {
+  getMovies(page = 1) {
     return this.trakt.movies.popular({
       paginate: true,
-      page: 3,
+      page,
       limit: 50,
       extended: 'full,images,metadata'
     });
