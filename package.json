@@ -113,6 +113,7 @@
     "font-awesome": "^4.6.1",
     "immutable": "^3.8.1",
     "kat-api": "github:team-pct/kat-api",
+    "legit-image": "^0.1.4",
     "postcss": "^5.0.21",
     "react": "^15.0.2",
     "react-dom": "^15.0.2",

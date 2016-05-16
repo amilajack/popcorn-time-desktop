@@ -13,16 +13,40 @@
 	  border: 2px solid transparent;
 		width: 150px;
 		margin: 10px;
-		border-radius: 10px;
 		overflow: hidden;
+		position: relative;
 
-		&:hover {
-			border: 2px solid red;
+		&:hover .CardList--overlay {
+			opacity: 1;
+		}
+
+		.CardList--title {
+			white-space: nowrap;
+			width: 100%;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+
+		.CardList--overlay {
+			opacity: 0;
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			top: 0;
+			bottom: 0;
+			right: 0;
+			left: 0;
+			background: rgba(0,0,0,0.5)
+		}
+
+		.CardList--overlay-container {
+			position: relative;
 		}
 	}
 
 	.Card img {
 	  width: 100%;
 	  height: 100%;
+		border-radius: 10px;
 	}
 }

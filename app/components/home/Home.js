@@ -19,8 +19,6 @@ export default class Home extends Component {
   async getMovies(page = 1) {
     const movies = await this.butter.getMovies(this.state.page);
 
-    console.log(movies);
-
     this.setState({
       movies: this.state.movies.concat(movies),
       page: this.state.page + 1

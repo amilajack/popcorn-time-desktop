@@ -26,7 +26,7 @@ app.on('ready', () => {
     show: false,
     width: 1024,
     height: 728,
-    backgroundColor: '#000000',
+    backgroundColor: '#252525',
     webPreferences: {
       darkTheme: true,
       scrollBounce: true,

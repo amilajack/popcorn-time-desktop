@@ -32,8 +32,6 @@ export default class Movie extends Component {
    */
   async getMovie(imdbId) {
     const movie = await this.butter.getMovie(imdbId);
-
-    console.log(movie);
     this.setState({ movie });
   }
 
@@ -64,29 +62,33 @@ export default class Movie extends Component {
 
   render() {
     return (
-      <div className="Movie">
-        <Link to="/">
-          <button className="ion-android-arrow-back">Back</button>
-        </Link>
-        <button onClick={this.stopTorrent.bind(this)}>
-          Stop
-        </button>
-        <button onClick={this.startTorrent.bind(this, this.state.movie.magnet)}>
-          Start
-        </button>
-        <h1>
-          {this.state.movie.title}
-        </h1>
-        <h5>
-          Rating: {this.state.movie.rating}
-        </h5>
-        <h5>
-          Year: {this.state.movie.year}
-        </h5>
-        <h6>
-          {this.state.movie.overview}
-        </h6>
-        <img className="Movie--posterImage" src={this.state.movie.images.fanart.full} />
+      <div className="container">
+        <div className="col-xs-12">
+          <div className="Movie">
+            <Link to="/">
+              <button className="ion-android-arrow-back">Back</button>
+            </Link>
+            <button onClick={this.stopTorrent.bind(this)}>
+              Stop
+            </button>
+            <button onClick={this.startTorrent.bind(this, this.state.movie.magnet)}>
+              Start
+            </button>
+            <h1>
+              {this.state.movie.title}
+            </h1>
+            <h5>
+              Rating: {this.state.movie.rating}
+            </h5>
+            <h5>
+              Year: {this.state.movie.year}
+            </h5>
+            <h6>
+              {this.state.movie.overview}
+            </h6>
+            <img className="Movie--poster-image" src={this.state.movie.images.fanart.full} />
+          </div>
+        </div>
       </div>
     );
   }

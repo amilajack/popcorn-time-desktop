@@ -34,7 +34,8 @@ gulp.task('styles', () => {
     .pipe($.autoprefixer(autoprefixerSettings))
     .pipe($.if('*.css', $.cssnano()))
     .pipe($.size({ title: 'styles' }))
-    .pipe(gulp.dest('./dist/'));
+    .pipe(gulp.dest('./dist/'))
+    .pipe(gulp.dest('./app/'));
 });
 
 gulp.task('dev', () => {

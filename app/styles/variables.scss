@@ -1,0 +1,13 @@
+// Bootstrap variables override
+//
+
+$body-bg: #252525;
+
+$container-max-widths: (
+  sm: 576px,
+  md: 720px,
+  lg: 1440px,
+  xl: 1440px
+) !default;
+
+$headings-color: white;

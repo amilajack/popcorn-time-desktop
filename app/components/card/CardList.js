@@ -5,6 +5,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import Rating from 'react-star-rating-component';
+import Image from 'legit-image';
 
 export default class Card extends Component {
   render() {
@@ -16,18 +17,22 @@ export default class Card extends Component {
               return (
                 <div className="Card">
                   <Link to={`/movie/${movie.ids.imdb}`}>
-                    <img src={movie.images.poster.thumb} />
+                    <div className="CardList--overlay-container">
+                      <Image src={movie.images.poster.thumb} />
+                      <div className="CardList--overlay"></div>
+                    </div>
                   </Link>
-                  <Link to={`/movie/${movie.ids.imdb}`}>
-                    {movie.title}
-                  </Link>
+                  <div>
+                    <Link className="CardList--title" to={`/movie/${movie.ids.imdb}`}>
+                      {movie.title}
+                    </Link>
+                  </div>
                   <Rating
                     renderStarIcon={() => <span className="ion-android-star"></span>}
                     starColor={'white'}
                     value={movie.rating / 2}
                     editing={false}
                   />
-                  <div>{Math.round(movie.rating)} / 10</div>
                   <div>{movie.year}</div>
                 </div>
               );
