@@ -28,18 +28,17 @@ export default class Butter {
     });
   }
 
-  getMovies(page = 1) {
+  getMovies(page = 1, limit = 50) {
     return this.trakt.movies.popular({
       paginate: true,
       page,
-      limit: 50,
+      limit,
       extended: 'full,images,metadata'
     });
   }
 
   constructMagnet(hash) {
-    const magnet = `magnet:?xt=urn:btih:${hash}`;
-    return magnet;
+    return `magnet:?xt=urn:btih:${hash}`;
   }
 
   /**
