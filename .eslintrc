@@ -11,9 +11,13 @@
     "react/prefer-stateless-function": 0,
     "comma-dangle": 0,
     "no-use-before-define": 0,
-    "consistent-return": 0
+    "consistent-return": 0,
+    "immutable/no-let": 2,
+    "immutable/no-this": 2,
+    "immutable/no-mutation": 2
   },
   "plugins": [
-    "react"
+    "react",
+    "immutable"
   ]
 }
