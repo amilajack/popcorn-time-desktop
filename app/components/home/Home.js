@@ -10,6 +10,7 @@ export default class Home extends Component {
     this.state = {
       movies: []
     };
+
     this.getMovies();
   }
 
