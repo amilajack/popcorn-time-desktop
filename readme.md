@@ -20,5 +20,11 @@ gulp
 npm run dev
 ```
 
+## Todos:
+(Ordered by priority)
+- [ ] Refactor to Provider architecture
+- [ ] Write initial tests, configure with Travis CI
+- [ ] Transition to immutable state with Redux and ImmutableJS, stateless components
+
 ## Goal:
 ![alt tag](https://raw.github.com/amilajack/popcorn-desktop-experimental/master/images/movie-page.jpg)
