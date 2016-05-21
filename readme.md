@@ -2,7 +2,7 @@
 
 * ES6
 * React 15.0
-* Redix
+* Redux
 * Sass
 * ImmutableJS
 * Electron 1.0.0
