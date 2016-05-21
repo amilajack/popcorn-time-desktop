@@ -38,6 +38,7 @@ export default class Card extends Component {
         <Rating
           renderStarIcon={() => <span className="ion-android-star"></span>}
           starColor={'white'}
+          name={'rating'}
           value={this.props.rating}
           editing={false}
         />
