@@ -12,6 +12,10 @@ export default class CardList extends Component {
     movies: PropTypes.array.isRequired
   };
 
+  static defaultProps = {
+    movies: []
+  };
+
   shouldComponentUpdate(previousProps) {
     return previousProps.movies.length !== this.props.movies.length;
   }

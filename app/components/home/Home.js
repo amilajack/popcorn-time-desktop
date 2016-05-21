@@ -9,8 +9,13 @@ export default class Home extends Component {
     movies: PropTypes.array.isRequired
   };
 
+  static defaultProps = {
+    movies: []
+  };
+
   constructor() {
     super();
+
     this.butter = new Butter();
     this.state = {
       movies: [],
