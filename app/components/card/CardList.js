@@ -2,10 +2,19 @@
  * A list of thumbnail poster images of movies that are rendered on the home page
  */
 
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import Card from './Card';
 
+
 export default class CardList extends Component {
+
+  static propTypes = {
+    movies: PropTypes.array.isRequired
+  };
+
+  shouldComponentUpdate(previousProps) {
+    return previousProps.movies.length !== this.props.movies.length;
+  }
 
   render() {
     return (
