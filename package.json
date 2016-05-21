@@ -105,9 +105,11 @@
     "style-loader": "^0.13.1",
     "webpack": "^1.13.0",
     "webpack-dev-middleware": "^1.6.1",
-    "webpack-hot-middleware": "^2.10.0"
+    "webpack-hot-middleware": "^2.10.0",
+    "why-did-you-update": "0.0.8"
   },
   "dependencies": {
+    "classnames": "^2.2.5",
     "css-modules-require-hook": "^4.0.0",
     "electron-debug": "^1.0.0",
     "font-awesome": "^4.6.1",
