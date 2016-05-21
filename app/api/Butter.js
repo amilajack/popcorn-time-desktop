@@ -5,6 +5,7 @@
  * @todo: Find a way to get trackers or magnetURI
  * @todo: getMovies should search yts, or provider, instead of trakt.
  * 				Use trakt to fetch information about movies
+ * @todo: Add caching method to resolve from cache before sending request
  */
 
 import Trakt from 'trakt.tv';

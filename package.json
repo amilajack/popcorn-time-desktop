@@ -130,8 +130,12 @@
     "trakt.tv": "^1.4.2",
     "webtorrent": "^0.94.0"
   },
+  "engines": {
+    "node": "5.x || 6.x",
+    "npm": "2.x || 3.x"
+  },
   "devEngines": {
-    "node": "4.x || 5.x || 6.x",
+    "node": "5.x || 6.x",
     "npm": "2.x || 3.x"
   }
 }
