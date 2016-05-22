@@ -18,6 +18,11 @@
 * Electron 1.0.0
 * Webpack
 
+## Requirements:
+
+* Node >= 5
+* Mac or Linux. Windows support pending
+
 ## Installation:
 ```
 git clone https://github.com/amilajack/popcorn-desktop-experimental.git
