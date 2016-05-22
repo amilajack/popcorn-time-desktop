@@ -5,7 +5,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import Rating from 'react-star-rating-component';
-import Image from 'legit-image';
+
 
 export default class Card extends Component {
 
@@ -26,7 +26,6 @@ export default class Card extends Component {
   }
 
   render() {
-
     const divStyle = {
       backgroundImage: `url(${this.props.image})`
     };

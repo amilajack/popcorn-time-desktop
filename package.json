@@ -1,8 +1,8 @@
 {
-  "name": "electron-react-boilerplate",
-  "productName": "ElectronReact",
-  "version": "0.10.0",
-  "description": "Electron application boilerplate based on React, React Router, Webpack, React Hot Loader for rapid application development",
+  "name": "popcorn-time-experimental",
+  "productName": "Popcorn Time",
+  "version": "0.0.1",
+  "description": "Experimental version of the popconr time client",
   "main": "main.js",
   "scripts": {
     "test": "cross-env NODE_ENV=test mocha --compilers js:babel-register --recursive --require ./test/setup.js test/**/*.spec.js",
@@ -25,27 +25,26 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/chentsulin/electron-react-boilerplate.git"
+    "url": "git+https://github.com/amilajack/popcorn-desktop-experimental.git"
   },
   "author": {
-    "name": "C. T. Lin",
-    "email": "chentsulin@gmail.com",
-    "url": "https://github.com/chentsulin"
+    "name": "Amila Welihinda",
+    "email": "amilajack@gmail.com",
+    "url": "https://github.com/amilajack"
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/chentsulin/electron-react-boilerplate/issues"
+    "url": "https://github.com/amilajack/popcorn-desktop-experimental/issues"
   },
   "keywords": [
+    "popcorn-time",
     "electron",
-    "boilerplate",
     "react",
-    "react-router",
-    "flux",
-    "webpack",
-    "react-hot"
+    "redux",
+    "sass",
+    "es6"
   ],
-  "homepage": "https://github.com/chentsulin/electron-react-boilerplate#readme",
+  "homepage": "https://github.com/amilajack/popcorn-desktop-experimental#readme",
   "devDependencies": {
     "asar": "^0.11.0",
     "babel-core": "^6.9.0",
@@ -115,7 +114,6 @@
     "font-awesome": "^4.6.1",
     "immutable": "^3.8.1",
     "kat-api": "github:team-pct/kat-api",
-    "legit-image": "^0.1.4",
     "postcss": "^5.0.21",
     "react": "^15.1.0",
     "react-dom": "^15.1.0",

@@ -11,6 +11,7 @@
 import Trakt from 'trakt.tv';
 import Kat from 'kat-api';
 
+
 export default class Butter {
 
   constructor() {
@@ -63,20 +64,20 @@ export default class Butter {
     // HACK: Filter only 1080p video qualtiy
     const [traktMovieData, ytsTorrentData] = result;
 
-    let magnet = traktMovieData.data.movies[0].torrents.filter(item => {
-      return item.quality === '1080p';
-    })[0];
+    let magnet = traktMovieData
+      .data.movies[0].torrents
+      .filter(item => item.quality === '1080p')[0];
 
     magnet = this.constructMagnet(magnet.hash, magnet.name);
 
     return Object.assign({}, traktMovieData, ytsTorrentData, { magnet });
   }
 
-  getShows(imdbId) {}
+  // getShows(imdbId) {}
 
-  getShow(imdbId) {}
+  // getShow(imdbId) {}
 
-  search(imdbId) {}
+  // search(imdbId) {}
 
-  similar(imdbId) {}
+  // similar(imdbId) {}
 }
