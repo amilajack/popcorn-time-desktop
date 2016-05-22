@@ -1,5 +1,7 @@
 /**
  * A list of thumbnail poster images of movies that are rendered on the home page
+ *
+ * @todo: Extract the rating's divison of 2. This should be done in ButterProvider
  */
 
 import React, { Component, PropTypes } from 'react';
@@ -9,11 +11,13 @@ import Card from './Card';
 export default class CardList extends Component {
 
   static propTypes = {
-    movies: PropTypes.array.isRequired
+    movies: PropTypes.array.isRequired,
+    isLoading: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
-    movies: []
+    movies: [],
+    isLoading: false
   };
 
   shouldComponentUpdate(previousProps) {
@@ -21,6 +25,10 @@ export default class CardList extends Component {
   }
 
   render() {
+    const shouldShowLoading = {
+      opacity: this.props.isLoading ? 0 : 1
+    };
+
     return (
       <div className="row">
         <div className="col-xs-12">
@@ -37,6 +45,9 @@ export default class CardList extends Component {
               );
             })}
           </div>
+        </div>
+        <div className="col-xs-12 text-center" style={shouldShowLoading}>
+          <h1>LOADING</h1>
         </div>
       </div>
     );

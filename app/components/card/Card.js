@@ -17,16 +17,24 @@ export default class Card extends Component {
     rating: PropTypes.number
   };
 
+  static defaultProps = {
+    image: 'some',
+  };
+
   shouldComponentUpdate() {
     return false;
   }
 
   render() {
+
+    const divStyle = {
+      backgroundImage: `url(${this.props.image})`
+    };
+
     return (
       <div className="Card">
         <Link to={`/movie/${this.props.id}`}>
-          <div className="CardList--overlay-container">
-            <Image src={this.props.image} />
+          <div className="CardList--overlay-container" style={divStyle}>
             <div className="CardList--overlay"></div>
           </div>
         </Link>
