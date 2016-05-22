@@ -3,7 +3,9 @@
 ## Features:
 
 **Performance**: Significantly faster than other clients
+
 **Modern Stack**: A stack that you actually use
+
 **Functional Programming**: Embraces pure functions, immutability, and stateless components
 
 ## Stack:
