@@ -5,13 +5,21 @@
  * @todo: Refactor to be more adapter-like
  */
 
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import Butter from '../../api/Butter';
 import WebTorrent from 'webtorrent';
 import { Link } from 'react-router';
 
 
 export default class Movie extends Component {
+
+  static propTypes = {
+    movieId: PropTypes.string.isRequired
+  };
+
+  static defaultProps = {
+    movieId: '',
+  };
 
   constructor(props) {
     super(props);
@@ -86,7 +94,11 @@ export default class Movie extends Component {
             <h6>
               {this.state.movie.overview}
             </h6>
-            <img className="Movie--poster-image" src={this.state.movie.images.fanart.full} />
+            <img
+              className="Movie--poster-image"
+              role="presentation"
+              src={this.state.movie.images.fanart.full}
+            />
           </div>
         </div>
       </div>

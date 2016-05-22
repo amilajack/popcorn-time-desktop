@@ -1,26 +1,25 @@
 {
-  "name": "popcorn-time",
+  "name": "popcorn-time-experimental",
   "description": "Popcorn-time client",
   "main": "main.js",
   "authors": [
-    "[object Object]"
+    "Amila Welihinda"
   ],
   "license": "MIT",
   "keywords": [
+    "popcorn-time",
     "electron",
-    "boilerplate",
     "react",
-    "react-router",
-    "flux",
-    "webpack",
-    "react-hot"
+    "redux",
+    "sass",
+    "es6"
   ],
   "homepage": "https://github.com/amilajack/popcorn-desktop-experimental",
   "ignore": [
     "**/.*",
     "node_modules",
     "bower_components",
-    "./app/vendor",
+    "./vendor",
     "test",
     "tests"
   ],
