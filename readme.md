@@ -1,4 +1,12 @@
-## A highly experimental popcorn-time client build with:
+## A experimental popcorn-time client
+
+## Features:
+
+**Performance**: Significantly faster than other clients
+**Modern Stack**: A stack that you actually use
+**Functional Programming**: Embraces pure functions, immutability, and stateless components
+
+## Stack:
 
 * ES6
 * React 15.0
