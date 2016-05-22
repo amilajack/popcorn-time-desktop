@@ -40,7 +40,13 @@
 		}
 
 		.CardList--overlay-container {
+			width: 100%;
+			height: 219px;
 			position: relative;
+			background-color: black;
+			background-repeat: no-repeat;
+			background-size: contain;
+			background-position: center;
 		}
 	}
 

@@ -1,5 +1,7 @@
 /**
  * Home page component that renders CardList and uses VisibilitySensor
+ *
+ * @todo: Use waitForImages plugin to load background images and fade in on load
  */
 
 import React, { Component, PropTypes } from 'react';
@@ -28,8 +30,6 @@ export default class Home extends Component {
       page: 1,
       limit: 10
     };
-
-    this.getMovies();
   }
 
   onChange(isVisible) {
@@ -55,8 +55,7 @@ export default class Home extends Component {
   render() {
     return (
       <div>
-        <h1>{this.state.isLoading}</h1>
-        <CardList movies={this.state.movies} />
+        <CardList movies={this.state.movies} isLoading={this.state.isLoading} />
         <VisibilitySensor onChange={this.onChange.bind(this)} />
       </div>
     );

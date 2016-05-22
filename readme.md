@@ -25,7 +25,6 @@ npm run dev
 - [ ] Refactor to Provider architecture
 - [ ] Write initial tests, configure with Travis CI
 - [ ] Transition to immutable state with Redux and ImmutableJS, stateless components
-- [ ] PropType validation
 
 ## Goal:
 ![alt tag](https://raw.github.com/amilajack/popcorn-desktop-experimental/master/images/movie-page.jpg)
