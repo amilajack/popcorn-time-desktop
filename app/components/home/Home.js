@@ -28,7 +28,7 @@ export default class Home extends Component {
       movies: [],
       isLoading: false,
       page: 1,
-      limit: 10
+      limit: 50
     };
   }
 
