@@ -16,17 +16,15 @@ const autoprefixerSettings = [
 
 // Clean output directory
 // Remove logs, compiled front-end resources (css, js, html), email styles
-gulp.task('clean', cb => del([
+gulp.task('clean', () => del([
   './app/dist/*',
   './dist/*',
 ], { dot: true }));
 
-gulp.task('bower', () => {
-  return $.bower();
-});
+gulp.task('bower', () => $.bower());
 
-gulp.task('styles', () => {
-  return gulp.src('./app/styles/main.scss')
+gulp.task('styles', () =>
+  gulp.src('./app/styles/main.scss')
     .pipe($.sass({
       precision: 10
     })
@@ -35,8 +33,8 @@ gulp.task('styles', () => {
     .pipe($.if('*.css', $.cssnano()))
     .pipe($.size({ title: 'styles' }))
     .pipe(gulp.dest('./dist/'))
-    .pipe(gulp.dest('./app/'));
-});
+    .pipe(gulp.dest('./app/'))
+);
 
 gulp.task('dev', () => {
   gulp.watch([stylesSource], ['styles']);

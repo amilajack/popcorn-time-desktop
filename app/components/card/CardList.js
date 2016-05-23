@@ -33,17 +33,15 @@ export default class CardList extends Component {
       <div className="row">
         <div className="col-xs-12">
           <div className="CardList">
-            {this.props.movies.map((movie, index) => {
-              return (
-                <Card
-                  image={movie.images.poster.thumb}
-                  title={movie.title}
-                  id={movie.ids.imdb}
-                  year={movie.year}
-                  rating={movie.rating / 2}
-                />
-              );
-            })}
+            {this.props.movies.map((movie) => (
+              <Card
+                image={movie.images.poster.thumb}
+                title={movie.title}
+                id={movie.ids.imdb}
+                year={movie.year}
+                rating={movie.rating / 2}
+              />
+            ))}
           </div>
         </div>
         <div className="col-xs-12 text-center" style={shouldShowLoading}>
