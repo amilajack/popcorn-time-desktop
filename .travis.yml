@@ -3,7 +3,6 @@ sudo: false
 language: node_js
 
 node_js:
-  # - "4"
   - "5"
   - "6"
 
@@ -34,8 +33,7 @@ before_script:
 
 script:
   - npm run package
-
-# - npm run lint
+  - npm run lint
 # - npm run test
 # - npm run build
 # - npm run test-e2e

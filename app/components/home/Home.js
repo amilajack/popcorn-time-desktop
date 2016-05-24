@@ -8,7 +8,6 @@ import React, { Component, PropTypes } from 'react';
 import Butter from '../../api/Butter';
 import CardList from '../card/CardList';
 import VisibilitySensor from 'react-visibility-sensor';
-import Torrent from '../../api/torrents/TorrentAdapter';
 
 
 export default class Home extends Component {
@@ -32,15 +31,13 @@ export default class Home extends Component {
       limit: 50
     };
 
-    Torrent('tt0816692')
-      .then(torrents => {
-        console.log(torrents);
-      });
+    this.initInfinitePagination();
   }
 
-  onChange(isVisible) {
+  async onChange(isVisible) {
     if (isVisible && !this.state.isLoading) {
-      this.getMovies(this.state.page);
+      await this.getMovies(this.state.page);
+      await this.getMovies(this.state.page);
     }
   }
 
@@ -58,11 +55,23 @@ export default class Home extends Component {
     });
   }
 
+  initInfinitePagination() {
+    setTimeout(() => {
+      document.addEventListener('scroll', () => {
+        const scrollDimentions = document.querySelector('body').getBoundingClientRect();
+        if (scrollDimentions.bottom < 1000 && !this.state.isLoading) {
+          this.getMovies(this.state.page);
+        }
+      });
+    }, 1000);
+  }
+
   render() {
     return (
       <div>
         <CardList movies={this.state.movies} isLoading={this.state.isLoading} />
         <VisibilitySensor onChange={this.onChange.bind(this)} />
+        <div id="bottom"></div>
       </div>
     );
   }

@@ -6,6 +6,7 @@
  */
 
 import React, { Component, PropTypes } from 'react';
+import Rating from 'react-star-rating-component';
 import Butter from '../../api/Butter';
 import Torrent from '../../api/Torrent';
 import peerflix from 'peerflix';
@@ -69,21 +70,8 @@ export default class Movie extends Component {
     this.engine.server.on('listening', () => {
       const servingUrl = `http://localhost:${this.engine.server.address().port}/`;
       this.setState({ servingUrl });
-      console.log({ servingUrl });
       plyr.setup();
     });
-  }
-
-  isVideo(filename) {
-    const filetypes = ['mp4'];
-
-    for (const filetype of filetypes) {
-      if (filename.includes(filetype)) {
-        return true;
-      }
-    }
-
-    return false;
   }
 
   stopTorrent() {
@@ -96,28 +84,46 @@ export default class Movie extends Component {
         <div className="col-xs-12">
           <div className="Movie">
             <Link to="/">
-              <button className="ion-android-arrow-back">Back</button>
+              <button onClick={this.stopTorrent.bind(this)} className="ion-android-arrow-back">
+                Back
+              </button>
             </Link>
-            <button onClick={this.stopTorrent.bind(this)}>
+            <button>
               Stop
             </button>
             <button
               hidden={!this.state.torrent['1080p'].magnet}
-              onClick={this.startTorrent.bind(this, this.state.torrent['1080p'].magnet)}>
+              onClick={this.startTorrent.bind(this, this.state.torrent['1080p'].magnet)}
+            >
               Start 1080p
+            </button>
+            <button
+              hidden={!this.state.torrent['720p'].magnet}
+              onClick={this.startTorrent.bind(this, this.state.torrent['720p'].magnet)}
+            >
+              Start 720p
             </button>
             <h1>
               {this.state.movie.title}
             </h1>
-            <h5>
-              Rating: {this.state.movie.rating}
-            </h5>
             <h5>
               Year: {this.state.movie.year}
             </h5>
             <h6>
               {this.state.movie.overview}
             </h6>
+            {this.state.movie.rating ?
+              <Rating
+                renderStarIcon={() => <span className="ion-android-star"></span>}
+                starColor={'white'}
+                name={'rating'}
+                value={this.state.movie.rating / 2}
+                editing={false}
+              />
+              :
+              <span></span>
+            }
+
             <div className="plyr">
               <video controls poster={this.state.movie.images.fanart.full}>
                 <source src={this.state.servingUrl} type="video/mp4" />
