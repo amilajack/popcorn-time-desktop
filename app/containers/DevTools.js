@@ -5,7 +5,7 @@ import DockMonitor from 'redux-devtools-dock-monitor';
 import whyDidYouUpdate from 'why-did-you-update';
 
 if (process.env.NODE_ENV !== 'production') {
-  whyDidYouUpdate(React);
+  // whyDidYouUpdate(React);
 }
 
 export default createDevTools(

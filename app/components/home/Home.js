@@ -8,6 +8,7 @@ import React, { Component, PropTypes } from 'react';
 import Butter from '../../api/Butter';
 import CardList from '../card/CardList';
 import VisibilitySensor from 'react-visibility-sensor';
+import Torrent from '../../api/torrents/TorrentAdapter';
 
 
 export default class Home extends Component {
@@ -30,6 +31,11 @@ export default class Home extends Component {
       page: 1,
       limit: 50
     };
+
+    Torrent('tt0816692')
+      .then(torrents => {
+        console.log(torrents);
+      });
   }
 
   onChange(isVisible) {
