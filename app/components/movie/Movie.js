@@ -7,7 +7,9 @@
 
 import React, { Component, PropTypes } from 'react';
 import Butter from '../../api/Butter';
-import WebTorrent from 'webtorrent';
+import Torrent from '../../api/Torrent';
+import peerflix from 'peerflix';
+import plyr from 'plyr';
 import { Link } from 'react-router';
 
 
@@ -23,13 +25,26 @@ export default class Movie extends Component {
 
   constructor(props) {
     super(props);
+
     this.butter = new Butter();
+    this.torrent = new Torrent();
+    this.engine = {};
+
     this.getMovie(this.props.movieId);
+    this.getTorrent(this.props.movieId);
 
     this.state = {
       movie: {
         images: {
           fanart: ''
+        }
+      },
+      torrent: {
+        '1080p': {
+          quality: ''
+        },
+        '720p': {
+          quality: ''
         }
       }
     };
@@ -43,29 +58,36 @@ export default class Movie extends Component {
     this.setState({ movie });
   }
 
+  async getTorrent(imdbId) {
+    const torrent = await this.butter.getTorrent(imdbId);
+    this.setState({ torrent });
+  }
+
   startTorrent(magnetURI) {
-    console.log('starting torrent...');
-    this.client = new WebTorrent();
+    this.engine = this.torrent.start(magnetURI);
 
-    this.client.add(magnetURI, (torrent) => {
-      torrent.deselect(0, torrent.files.length, 0);
-
-      for (const file of torrent.files) {
-        if (file.path.includes('mp4', 'srt')) {
-          file.appendTo('.Movie');
-          file.select();
-          break;
-        } else {
-          torrent.deselect();
-        }
-      }
+    this.engine.server.on('listening', () => {
+      const servingUrl = `http://localhost:${this.engine.server.address().port}/`;
+      this.setState({ servingUrl });
+      console.log({ servingUrl });
+      plyr.setup();
     });
   }
 
+  isVideo(filename) {
+    const filetypes = ['mp4'];
+
+    for (const filetype of filetypes) {
+      if (filename.includes(filetype)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   stopTorrent() {
-    this.client.destroy(() => {
-      console.log('client destroyed');
-    });
+    this.torrent.destroy();
   }
 
   render() {
@@ -79,8 +101,10 @@ export default class Movie extends Component {
             <button onClick={this.stopTorrent.bind(this)}>
               Stop
             </button>
-            <button onClick={this.startTorrent.bind(this, this.state.movie.magnet)}>
-              Start
+            <button
+              hidden={!this.state.torrent['1080p'].magnet}
+              onClick={this.startTorrent.bind(this, this.state.torrent['1080p'].magnet)}>
+              Start 1080p
             </button>
             <h1>
               {this.state.movie.title}
@@ -94,11 +118,11 @@ export default class Movie extends Component {
             <h6>
               {this.state.movie.overview}
             </h6>
-            <img
-              className="Movie--poster-image"
-              role="presentation"
-              src={this.state.movie.images.fanart.full}
-            />
+            <div className="plyr">
+              <video controls poster={this.state.movie.images.fanart.full}>
+                <source src={this.state.servingUrl} type="video/mp4" />
+              </video>
+            </div>
           </div>
         </div>
       </div>
