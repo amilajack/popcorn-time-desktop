@@ -9,9 +9,10 @@
   "rules": {
     "global-require": 0,
     "react/jsx-no-bind": 1,
+    "no-use-before-define": 0,
     "react/prefer-stateless-function": 1,
+    "no-unused-vars": 0,
     "comma-dangle": 0,
-    "no-use-before-define": 2,
     "consistent-return": 0,
     "immutable/no-let": 1,
     "immutable/no-this": 1,
