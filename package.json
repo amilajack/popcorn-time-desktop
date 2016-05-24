@@ -128,8 +128,7 @@
     "redux-thunk": "^2.1.0",
     "source-map-support": "^0.4.0",
     "torrent-stream": "^1.0.3",
-    "trakt.tv": "^1.4.2",
-    "wcjs-player": "^0.5.8"
+    "trakt.tv": "^1.4.2"
   },
   "engines": {
     "node": "5.x || 6.x",

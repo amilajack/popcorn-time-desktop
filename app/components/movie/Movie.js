@@ -7,7 +7,6 @@
 
 import React, { Component, PropTypes } from 'react';
 import Butter from '../../api/Butter';
-// import TorrentStream from 'torrent-stream';
 import peerflix from 'peerflix';
 import plyr from 'plyr';
 import { Link } from 'react-router';
@@ -61,27 +60,15 @@ export default class Movie extends Component {
 
   startTorrent(magnetURI) {
     console.log('starting torrent...');
-
     const engine = peerflix(magnetURI);
 
     engine.server.on('listening', () => {
       const servingUrl = `http://localhost:${engine.server.address().port}/`;
       console.log({ servingUrl });
       this.setState({ servingUrl });
+      // document.querySelector('video').play();
+      plyr.setup();
     });
-
-    // const engine = TorrentStream(magnetURI);
-    //
-    // engine.on('ready', () => {
-    //   for (const file of engine.files) {
-    //     console.log(file);
-    //     if (this.isVideo(file.name)) {
-    //       file.select();
-    //
-    //       break;
-    //     }
-    //   }
-    // });
   }
 
   isVideo(filename) {
@@ -134,11 +121,11 @@ export default class Movie extends Component {
             <h6>
               {this.state.movie.overview}
             </h6>
-            <video
-              className="Movie--poster-image"
-              poster={this.state.movie.images.fanart.full}
-              src={this.state.servingUrl}
-            />
+            <div className="plyr">
+              <video controls poster={this.state.movie.images.fanart.full}>
+                <source src={this.state.servingUrl} type="video/mp4" />
+              </video>
+            </div>
           </div>
         </div>
       </div>
