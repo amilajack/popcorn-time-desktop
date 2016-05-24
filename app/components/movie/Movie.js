@@ -7,7 +7,9 @@
 
 import React, { Component, PropTypes } from 'react';
 import Butter from '../../api/Butter';
-import WebTorrent from 'webtorrent';
+// import TorrentStream from 'torrent-stream';
+import peerflix from 'peerflix';
+import plyr from 'plyr';
 import { Link } from 'react-router';
 
 
@@ -54,29 +56,32 @@ export default class Movie extends Component {
 
   async getTorrent(imdbId) {
     const torrent = await this.butter.getTorrent(imdbId);
-    console.log(torrent);
     this.setState({ torrent });
   }
 
   startTorrent(magnetURI) {
     console.log('starting torrent...');
-    this.client = new WebTorrent();
 
-    this.client.add(magnetURI, (torrent) => {
+    const engine = peerflix(magnetURI);
 
-      torrent.deselect(0, torrent.files.length, 0);
-
-      for (const file of torrent.files) {
-        if (this.isVideo(file.path)) {
-          console.log('SUPER MOO DO');
-          file.select();
-          file.appendTo('.Movie');
-          break;
-        } else {
-          torrent.deselect();
-        }
-      }
+    engine.server.on('listening', () => {
+      const servingUrl = `http://localhost:${engine.server.address().port}/`;
+      console.log({ servingUrl });
+      this.setState({ servingUrl });
     });
+
+    // const engine = TorrentStream(magnetURI);
+    //
+    // engine.on('ready', () => {
+    //   for (const file of engine.files) {
+    //     console.log(file);
+    //     if (this.isVideo(file.name)) {
+    //       file.select();
+    //
+    //       break;
+    //     }
+    //   }
+    // });
   }
 
   isVideo(filename) {
@@ -129,10 +134,10 @@ export default class Movie extends Component {
             <h6>
               {this.state.movie.overview}
             </h6>
-            <img
+            <video
               className="Movie--poster-image"
-              role="presentation"
-              src={this.state.movie.images.fanart.full}
+              poster={this.state.movie.images.fanart.full}
+              src={this.state.servingUrl}
             />
           </div>
         </div>

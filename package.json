@@ -114,6 +114,7 @@
     "font-awesome": "^4.6.1",
     "immutable": "^3.8.1",
     "kat-api": "github:team-pct/kat-api",
+    "peerflix": "^0.35.0",
     "plyr": "^1.6.16",
     "postcss": "^5.0.21",
     "react": "^15.1.0",
@@ -126,8 +127,9 @@
     "redux": "^3.5.2",
     "redux-thunk": "^2.1.0",
     "source-map-support": "^0.4.0",
+    "torrent-stream": "^1.0.3",
     "trakt.tv": "^1.4.2",
-    "webtorrent": "^0.94.0"
+    "wcjs-player": "^0.5.8"
   },
   "engines": {
     "node": "5.x || 6.x",
