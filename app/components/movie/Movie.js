@@ -7,6 +7,7 @@
 
 import React, { Component, PropTypes } from 'react';
 import Butter from '../../api/Butter';
+import Torrent from '../../api/Torrent';
 import peerflix from 'peerflix';
 import plyr from 'plyr';
 import { Link } from 'react-router';
@@ -24,7 +25,11 @@ export default class Movie extends Component {
 
   constructor(props) {
     super(props);
+
     this.butter = new Butter();
+    this.torrent = new Torrent();
+    this.engine = {};
+
     this.getMovie(this.props.movieId);
     this.getTorrent(this.props.movieId);
 
@@ -59,14 +64,12 @@ export default class Movie extends Component {
   }
 
   startTorrent(magnetURI) {
-    console.log('starting torrent...');
-    const engine = peerflix(magnetURI);
+    this.engine = this.torrent.start(magnetURI);
 
-    engine.server.on('listening', () => {
-      const servingUrl = `http://localhost:${engine.server.address().port}/`;
-      console.log({ servingUrl });
+    this.engine.server.on('listening', () => {
+      const servingUrl = `http://localhost:${this.engine.server.address().port}/`;
       this.setState({ servingUrl });
-      // document.querySelector('video').play();
+      console.log({ servingUrl });
       plyr.setup();
     });
   }
@@ -84,9 +87,7 @@ export default class Movie extends Component {
   }
 
   stopTorrent() {
-    this.client.destroy(() => {
-      console.log('client destroyed');
-    });
+    this.torrent.destroy();
   }
 
   render() {
@@ -100,15 +101,11 @@ export default class Movie extends Component {
             <button onClick={this.stopTorrent.bind(this)}>
               Stop
             </button>
-
-            {this.state.torrent['1080p'].magnet ?
-              <button onClick={this.startTorrent.bind(this, this.state.torrent['1080p'].magnet)}>
-                Start 1080p
-              </button>
-              :
-              <div>There is no banner!</div>
-            }
-
+            <button
+              hidden={!this.state.torrent['1080p'].magnet}
+              onClick={this.startTorrent.bind(this, this.state.torrent['1080p'].magnet)}>
+              Start 1080p
+            </button>
             <h1>
               {this.state.movie.title}
             </h1>
