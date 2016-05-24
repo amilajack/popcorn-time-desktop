@@ -1,3 +1,4 @@
+import { determineQuality } from './BaseTorrentProvider';
 import kat from 'kat-api';
 
 
@@ -5,6 +6,7 @@ export default class KatTorrentProvider {
 
   static fetch(imdbId) {
     return kat.search({
+      query: 'mp4',
       sort_by: 'seeders',
       order: 'desc',
       imdb: imdbId,
@@ -36,14 +38,4 @@ export default class KatTorrentProvider {
         console.log(error);
       });
   }
-}
-
-function determineQuality(title) {
-  if (title.includes('720')) {
-    return '720p';
-  }
-  if (title.includes('1080')) {
-    return '1080p';
-  }
-  return '';
 }

@@ -25,11 +25,20 @@ export default class Movie extends Component {
     super(props);
     this.butter = new Butter();
     this.getMovie(this.props.movieId);
+    this.getTorrent(this.props.movieId);
 
     this.state = {
       movie: {
         images: {
           fanart: ''
+        }
+      },
+      torrent: {
+        '1080p': {
+          quality: ''
+        },
+        '720p': {
+          quality: ''
         }
       }
     };
@@ -43,23 +52,43 @@ export default class Movie extends Component {
     this.setState({ movie });
   }
 
+  async getTorrent(imdbId) {
+    const torrent = await this.butter.getTorrent(imdbId);
+    console.log(torrent);
+    this.setState({ torrent });
+  }
+
   startTorrent(magnetURI) {
     console.log('starting torrent...');
     this.client = new WebTorrent();
 
     this.client.add(magnetURI, (torrent) => {
+
       torrent.deselect(0, torrent.files.length, 0);
 
       for (const file of torrent.files) {
-        if (file.path.includes('mp4', 'srt')) {
-          file.appendTo('.Movie');
+        if (this.isVideo(file.path)) {
+          console.log('SUPER MOO DO');
           file.select();
+          file.appendTo('.Movie');
           break;
         } else {
           torrent.deselect();
         }
       }
     });
+  }
+
+  isVideo(filename) {
+    const filetypes = ['mp4'];
+
+    for (const filetype of filetypes) {
+      if (filename.includes(filetype)) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   stopTorrent() {
@@ -79,9 +108,15 @@ export default class Movie extends Component {
             <button onClick={this.stopTorrent.bind(this)}>
               Stop
             </button>
-            <button onClick={this.startTorrent.bind(this, this.state.movie.magnet)}>
-              Start
-            </button>
+
+            {this.state.torrent['1080p'].magnet ?
+              <button onClick={this.startTorrent.bind(this, this.state.torrent['1080p'].magnet)}>
+                Start 1080p
+              </button>
+              :
+              <div>There is no banner!</div>
+            }
+
             <h1>
               {this.state.movie.title}
             </h1>

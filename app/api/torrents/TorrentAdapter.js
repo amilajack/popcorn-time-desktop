@@ -1,8 +1,6 @@
-import kat from 'kat-api';
-
-
 export default async function TorrentAdapter(imdbId) {
   const providers = [
+    require('./YtsTorrentProvider'),
     require('./KatTorrentProvider')
   ];
 
@@ -50,7 +48,6 @@ function merge(providerResults) {
  * @return {object}
  */
 function selectTorrents(torrents) {
-  console.log(torrents);
   return {
     '720p': torrents.find(torrent => torrent.quality === '720p'),
     '1080p': torrents.find(torrent => torrent.quality === '1080p')
