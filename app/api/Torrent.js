@@ -8,6 +8,10 @@ import peerflix from 'peerflix';
 
 export default class Torrent {
 
+  inProgress = false;
+
+  finished = false;
+
   start(magnetURI) {
     console.log('starting torrent...');
     this.engine = peerflix(magnetURI);
