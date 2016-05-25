@@ -30,7 +30,7 @@ export default class CardList extends Component {
     };
 
     return (
-      <div className="row">
+      <div>
         <div className="col-xs-12">
           <div className="CardList">
             {this.props.movies.map((movie) => (
