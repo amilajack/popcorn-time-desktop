@@ -34,7 +34,7 @@ npm i
 gulp
 npm run dev
 
-# You must reload the browser when you get the console error 'Failed to load resource'
+# When getting the error 'Failed to load resource' in the console, refresh electron (CMD/ctrl + R)
 # This is cause because electron is trying to fetch the compiled file before it has finished
 ```
 
