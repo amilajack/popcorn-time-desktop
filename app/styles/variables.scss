@@ -1,7 +1,11 @@
-// Bootstrap variables override
+//
+//  Bootstrap variables override
 //
 
 $body-bg: #252525;
+$gray-dark: black;
+$gray: #303030;
+$brand-primary: white;
 
 $container-max-widths: (
   sm: 576px,
@@ -11,3 +15,8 @@ $container-max-widths: (
 ) !default;
 
 $headings-color: white;
+
+$enable-rounded: false;
+$enable-hover-media-query: true;
+
+$navbar-dark-color: #252525;

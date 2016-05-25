@@ -30,8 +30,6 @@ export default class Home extends Component {
       page: 1,
       limit: 50
     };
-
-    // this.initInfinitePagination();
   }
 
   componentDidMount() {
