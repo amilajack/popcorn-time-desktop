@@ -4,7 +4,7 @@
 
 .CardList {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-content: flex-start;
   flex-flow: row wrap;
   text-align: left;
@@ -36,6 +36,8 @@
 			bottom: 0;
 			right: 0;
 			left: 0;
+			will-change: opacity;
+			transition: opacity 0.1s linear;
 			background: rgba(0,0,0,0.5)
 		}
 

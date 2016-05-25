@@ -60,11 +60,13 @@ export default class Home extends Component {
 
     const movies = await this.butter.getMovies(this.state.page, this.state.limit);
 
-    this.setState({
-      isLoading: false,
-      movies: this.state.movies.concat(movies),
-      page: this.state.page + 1
-    });
+    setTimeout(() => {
+      this.setState({
+        isLoading: false,
+        movies: this.state.movies.concat(movies),
+        page: this.state.page + 1
+      });
+    }, 0);
   }
 
   initInfinitePagination() {
