@@ -108,7 +108,6 @@
     "why-did-you-update": "^0.0.8"
   },
   "dependencies": {
-    "classnames": "^2.2.5",
     "css-modules-require-hook": "^4.0.0",
     "electron-debug": "^1.0.0",
     "font-awesome": "^4.6.1",

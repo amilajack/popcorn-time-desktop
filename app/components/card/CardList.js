@@ -45,7 +45,7 @@ export default class CardList extends Component {
           </div>
         </div>
         <div className="col-xs-12 text-center" style={shouldShowLoading}>
-          <h1>LOADING</h1>
+          <h3>Loading</h3>
         </div>
       </div>
     );

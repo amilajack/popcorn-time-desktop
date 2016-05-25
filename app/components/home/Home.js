@@ -31,7 +31,19 @@ export default class Home extends Component {
       limit: 50
     };
 
-    this.initInfinitePagination();
+    // this.initInfinitePagination();
+  }
+
+  componentDidMount() {
+    console.log('mounting');
+    this._didMount = true;
+    document.addEventListener('scroll', this.initInfinitePagination.bind(this));
+  }
+
+  componentWillUnmount() {
+    console.log('unmounting');
+    this._didMount = false;
+    document.removeEventListener('scroll', this.initInfinitePagination.bind(this));
   }
 
   async onChange(isVisible) {
@@ -42,6 +54,8 @@ export default class Home extends Component {
   }
 
   async getMovies() {
+    if (!this._didMount) return false;
+
     this.setState({
       isLoading: true
     });
@@ -56,14 +70,10 @@ export default class Home extends Component {
   }
 
   initInfinitePagination() {
-    setTimeout(() => {
-      document.addEventListener('scroll', () => {
-        const scrollDimentions = document.querySelector('body').getBoundingClientRect();
-        if (scrollDimentions.bottom < 1000 && !this.state.isLoading) {
-          this.getMovies(this.state.page);
-        }
-      });
-    }, 1000);
+    const scrollDimentions = document.querySelector('body').getBoundingClientRect();
+    if (scrollDimentions.bottom < 2000 && !this.state.isLoading) {
+      this.getMovies(this.state.page);
+    }
   }
 
   render() {
@@ -71,7 +81,6 @@ export default class Home extends Component {
       <div>
         <CardList movies={this.state.movies} isLoading={this.state.isLoading} />
         <VisibilitySensor onChange={this.onChange.bind(this)} />
-        <div id="bottom"></div>
       </div>
     );
   }

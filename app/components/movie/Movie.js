@@ -61,6 +61,7 @@ export default class Movie extends Component {
 
   async getTorrent(imdbId) {
     const torrent = await this.butter.getTorrent(imdbId);
+    console.log(torrent);
     this.setState({ torrent });
   }
 
@@ -75,7 +76,7 @@ export default class Movie extends Component {
   }
 
   stopTorrent() {
-    this.torrent.destroy();
+    if (this.torrent.inProgress) this.torrent.destroy();
   }
 
   render() {
@@ -91,18 +92,20 @@ export default class Movie extends Component {
             <button>
               Stop
             </button>
-            <button
-              hidden={!this.state.torrent['1080p'].magnet}
-              onClick={this.startTorrent.bind(this, this.state.torrent['1080p'].magnet)}
-            >
-              Start 1080p
-            </button>
-            <button
-              hidden={!this.state.torrent['720p'].magnet}
-              onClick={this.startTorrent.bind(this, this.state.torrent['720p'].magnet)}
-            >
-              Start 720p
-            </button>
+            {this.state.torrent['1080p'] ?
+              <button onClick={this.startTorrent.bind(this, this.state.torrent['1080p'].magnet)}>
+                Start 1080p
+              </button>
+              :
+              <span></span>
+            }
+            {this.state.torrent['720p'] ?
+              <button onClick={this.startTorrent.bind(this, this.state.torrent['720p'].magnet)}>
+                Start 720p
+              </button>
+              :
+              <span></span>
+            }
             <h1>
               {this.state.movie.title}
             </h1>
