@@ -64,6 +64,9 @@ export default class Movie extends Component {
     this.setState({ torrent });
   }
 
+  /**
+   * @todo: Abstract 'listening' event to Torrent api
+   */
   startTorrent(magnetURI) {
     this.engine = this.torrent.start(magnetURI);
 

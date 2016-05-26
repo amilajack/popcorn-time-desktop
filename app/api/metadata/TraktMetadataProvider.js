@@ -27,7 +27,7 @@ export default class TraktMetadataAdapter {
       limit,
       extended: 'full,images,metadata'
     })
-    .then(movies => movies.map(movie => this.formatMovie(movie)));
+    .then(movies => movies.map(movie => formatMovie(movie)));
   }
 
   getMovie(movieId) {
@@ -35,45 +35,7 @@ export default class TraktMetadataAdapter {
       id: movieId,
       extended: 'full,images,metadata'
     })
-    .then(response => this.formatMovie(response));
-  }
-
-  // getMovie(imdbId) {
-  //   return this.trakt.movies.summary({
-  //     id: imdbId,
-  //     extended: 'full,images,metadata'
-  //   })
-  //   .catch((error) => {
-  //     console.log(error);
-  //   })
-  //   .then(movie => {
-  //     console.log(movie);
-  //     return movie;
-  //   })
-  //   // .then(movie => this.formatMovie(movie));
-  // }
-
-  formatMovie(movie = {}) {
-    return {
-      title: movie.title,
-      year: movie.year,
-      imdbId: movie.ids.imdb,
-      id: movie.ids.imdb,
-      summary: movie.overview,
-      rating: movie.rating ? movie.rating / 2 : 'n/a',
-      images: {
-        fanart: {
-          full: movie.images.fanart.full,
-          medium: movie.images.fanart.medium,
-          thumb: movie.images.fanart.thumb
-        },
-        poster: {
-          full: movie.images.poster.full,
-          medium: movie.images.poster.medium,
-          thumb: movie.images.poster.thumb
-        }
-      }
-    };
+    .then(response => formatMovie(response));
   }
 
   search(query, limit, genre, sortBy) {
@@ -81,8 +43,31 @@ export default class TraktMetadataAdapter {
       heades: this.headers
     })
     .then(response => response.json())
-    .then(response => response.map(movie => this.formatMovie(movie.movie)));
+    .then(response => response.map(movie => formatMovie(movie.movie)));
   }
 
   provide() {}
+}
+
+export function formatMovie(movie = {}) {
+  return {
+    title: movie.title,
+    year: movie.year,
+    imdbId: movie.ids.imdb,
+    id: movie.ids.imdb,
+    summary: movie.overview,
+    rating: movie.rating ? movie.rating / 2 : 'n/a',
+    images: {
+      fanart: {
+        full: movie.images.fanart.full,
+        medium: movie.images.fanart.medium,
+        thumb: movie.images.fanart.thumb
+      },
+      poster: {
+        full: movie.images.poster.full,
+        medium: movie.images.poster.medium,
+        thumb: movie.images.poster.thumb
+      }
+    }
+  };
 }
