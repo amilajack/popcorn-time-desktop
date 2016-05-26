@@ -61,10 +61,12 @@ export default class Movie extends Component {
 
   async getTorrent(imdbId) {
     const torrent = await this.butter.getTorrent(imdbId);
-    console.log(torrent);
     this.setState({ torrent });
   }
 
+  /**
+   * @todo: Abstract 'listening' event to Torrent api
+   */
   startTorrent(magnetURI) {
     this.engine = this.torrent.start(magnetURI);
 
@@ -113,14 +115,14 @@ export default class Movie extends Component {
               Year: {this.state.movie.year}
             </h5>
             <h6>
-              {this.state.movie.overview}
+              {this.state.movie.summary}
             </h6>
             {this.state.movie.rating ?
               <Rating
                 renderStarIcon={() => <span className="ion-android-star"></span>}
                 starColor={'white'}
                 name={'rating'}
-                value={this.state.movie.rating / 2}
+                value={this.state.movie.rating}
                 editing={false}
               />
               :

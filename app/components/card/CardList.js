@@ -37,9 +37,9 @@ export default class CardList extends Component {
               <Card
                 image={movie.images.poster.thumb}
                 title={movie.title}
-                id={movie.ids.imdb}
+                id={movie.imdbId}
                 year={movie.year}
-                rating={movie.rating / 2}
+                rating={movie.rating}
               />
             ))}
           </div>
