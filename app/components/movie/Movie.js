@@ -56,7 +56,7 @@ export default class Movie extends Component {
    */
   async getMovie(imdbId) {
     const movie = await this.butter.getMovie(imdbId);
-    // this.setState({ movie });
+    this.setState({ movie });
   }
 
   async getTorrent(imdbId) {

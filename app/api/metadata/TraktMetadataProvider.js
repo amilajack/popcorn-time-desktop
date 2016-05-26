@@ -30,20 +30,28 @@ export default class TraktMetadataAdapter {
     .then(movies => movies.map(movie => this.formatMovie(movie)));
   }
 
-  getMovie(imdbId) {
+  getMovie(movieId) {
     return this.trakt.movies.summary({
-      id: imdbId,
+      id: movieId,
       extended: 'full,images,metadata'
     })
-    .catch((error) => {
-      console.log(error);
-    })
-    .then(movie => {
-      console.log(movie);
-      return movie;
-    })
-    // .then(movie => this.formatMovie(movie));
+    .then(response => this.formatMovie(response));
   }
+
+  // getMovie(imdbId) {
+  //   return this.trakt.movies.summary({
+  //     id: imdbId,
+  //     extended: 'full,images,metadata'
+  //   })
+  //   .catch((error) => {
+  //     console.log(error);
+  //   })
+  //   .then(movie => {
+  //     console.log(movie);
+  //     return movie;
+  //   })
+  //   // .then(movie => this.formatMovie(movie));
+  // }
 
   formatMovie(movie = {}) {
     return {
