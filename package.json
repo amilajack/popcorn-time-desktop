@@ -110,7 +110,6 @@
   "dependencies": {
     "css-modules-require-hook": "^4.0.0",
     "electron-debug": "^1.0.0",
-    "font-awesome": "^4.6.3",
     "immutable": "^3.8.1",
     "kat-api": "github:team-pct/kat-api",
     "peerflix": "^0.35.0",
