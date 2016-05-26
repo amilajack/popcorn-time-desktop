@@ -29,12 +29,11 @@ function getMovies(page, limit, genre, sortBy) {}
  * Get list of movies with specific paramaters
  *
  * @param string query
- * @param number page
  * @param number limit
  * @param string genre
  * @param string sortBy
  */
-function search(query, page, limit, genre, sortBy) {}
+function search(query, limit, genre, sortBy) {}
 
 /**
  * Get list of movies with specific paramaters

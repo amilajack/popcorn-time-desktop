@@ -33,13 +33,11 @@ export default class Home extends Component {
   }
 
   componentDidMount() {
-    console.log('mounting');
     this._didMount = true;
     document.addEventListener('scroll', this.initInfinitePagination.bind(this));
   }
 
   componentWillUnmount() {
-    console.log('unmounting');
     this._didMount = false;
     document.removeEventListener('scroll', this.initInfinitePagination.bind(this));
   }

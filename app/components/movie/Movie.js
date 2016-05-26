@@ -56,12 +56,11 @@ export default class Movie extends Component {
    */
   async getMovie(imdbId) {
     const movie = await this.butter.getMovie(imdbId);
-    this.setState({ movie });
+    // this.setState({ movie });
   }
 
   async getTorrent(imdbId) {
     const torrent = await this.butter.getTorrent(imdbId);
-    console.log(torrent);
     this.setState({ torrent });
   }
 
@@ -113,14 +112,14 @@ export default class Movie extends Component {
               Year: {this.state.movie.year}
             </h5>
             <h6>
-              {this.state.movie.overview}
+              {this.state.movie.summary}
             </h6>
             {this.state.movie.rating ?
               <Rating
                 renderStarIcon={() => <span className="ion-android-star"></span>}
                 starColor={'white'}
                 name={'rating'}
-                value={this.state.movie.rating / 2}
+                value={this.state.movie.rating}
                 editing={false}
               />
               :
