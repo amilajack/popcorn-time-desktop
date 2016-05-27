@@ -18,6 +18,8 @@ export default class TraktMetadataAdapter {
       client_id: this.client_id,
       client_secret: this.client_secret
     });
+
+    this.search('potter');
   }
 
   getMovies(page = 1, limit = 50) {
@@ -38,13 +40,15 @@ export default class TraktMetadataAdapter {
     .then(response => formatMovie(response));
   }
 
-  search(query, limit, genre, sortBy) {
-    return this.trakt.search('movies', query)
-    // return fetch('https://api-v2launch.trakt.tv/search?type=movie&query=batman', {
-    //   heades: this.headers
-    // })
-    .then(response => response.json())
-    .then(response => response.map(movie => formatMovie(movie.movie)));
+  search(query = 'batman', type = 'movies') {
+    return this.trakt.search({
+      query: 'batman',
+      type: 'movie'
+    })
+    .then(response => response
+      .filter(item => item.movie.ids.imdb !== '')
+      .map(movie => formatMovie(movie.movie))
+    );
   }
 
   provide() {}
