@@ -3,9 +3,9 @@ import Trakt from 'trakt.tv';
 
 export default class TraktMetadataAdapter {
 
-  client_id = 'd395c9152654ea6ef4e0107d203b1f217cdf66ed01b6e047fa51a9e8cb93956f';
+  client_id = '647c69e4ed1ad13393bf6edd9d8f9fb6fe9faf405b44320a6b71ab960b4540a2';
 
-  client_secret = '52b30c468753bbcf60a4138f510b3eb655ad6d21f70b4848aa6641381ca7d003';
+  client_secret = 'f55b0a53c63af683588b47f6de94226b7572a6f83f40bd44c58a7c83fe1f2cb1';
 
   headers = {
     'Content-Type': 'application/json',
@@ -18,6 +18,8 @@ export default class TraktMetadataAdapter {
       client_id: this.client_id,
       client_secret: this.client_secret
     });
+
+    this.search('potter');
   }
 
   getMovies(page = 1, limit = 50) {
@@ -38,12 +40,15 @@ export default class TraktMetadataAdapter {
     .then(response => formatMovie(response));
   }
 
-  search(query, limit, genre, sortBy) {
-    return fetch('https://api-v2launch.trakt.tv/search?type=movie&query=batman&year=2015', {
-      heades: this.headers
+  search(query = 'batman', type = 'movies') {
+    return this.trakt.search({
+      query: 'batman',
+      type: 'movie'
     })
-    .then(response => response.json())
-    .then(response => response.map(movie => formatMovie(movie.movie)));
+    .then(response => response
+      .filter(item => item.movie.ids.imdb !== '')
+      .map(movie => formatMovie(movie.movie))
+    );
   }
 
   provide() {}
