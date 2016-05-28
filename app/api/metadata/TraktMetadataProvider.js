@@ -18,8 +18,6 @@ export default class TraktMetadataAdapter {
       client_id: this.client_id,
       client_secret: this.client_secret
     });
-
-    this.search('potter');
   }
 
   getMovies(page = 1, limit = 50) {
@@ -40,10 +38,10 @@ export default class TraktMetadataAdapter {
     .then(response => formatMovie(response));
   }
 
-  search(query = 'batman', type = 'movies') {
+  search(query = 'batman', type = 'movie') {
     return this.trakt.search({
-      query: 'batman',
-      type: 'movie'
+      query,
+      type
     })
     .then(response => response
       .filter(item => item.movie.ids.imdb !== '')
