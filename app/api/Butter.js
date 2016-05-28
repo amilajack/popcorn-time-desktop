@@ -1,10 +1,6 @@
 /**
- * Method list:
- * https://github.com/vankasteelj/trakt.tv/wiki/Supported-methods
+ * The highest level abstraction layer for querying torrents and metadata
  *
- * @todo: Find a way to get trackers or magnetURI
- * @todo: getMovies should search yts, or provider, instead of trakt.
- * 				Use trakt to fetch information about movies
  * @todo: Add caching method to resolve from cache before sending request
  */
 

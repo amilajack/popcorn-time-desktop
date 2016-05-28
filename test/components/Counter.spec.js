@@ -8,9 +8,9 @@ import {
   findRenderedDOMComponentWithClass,
   Simulate
 } from 'react-addons-test-utils';
-import Counter from '../../app/components/Counter';
 
 
+/**
 function setup() {
   const actions = {
     increment: spy(),
@@ -58,3 +58,4 @@ describe('Counter component', () => {
     expect(actions.incrementAsync.called).to.be.true;
   });
 });
+ */
