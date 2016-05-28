@@ -29,6 +29,7 @@ app.on('ready', () => {
     backgroundColor: '#252525',
     webPreferences: {
       darkTheme: true,
+      'web-preferences': { 'web-security': false },
       scrollBounce: true,
       overlayFullscreenVideo: false
     }
