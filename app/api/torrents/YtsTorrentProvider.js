@@ -1,4 +1,5 @@
 import { determineQuality } from './BaseTorrentProvider';
+import fetch from 'isomorphic-fetch';
 
 
 export default class YtsTorrentProvider {
