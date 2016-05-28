@@ -25,42 +25,47 @@ describe('api', () => {
   describe('Butter', () => {
     describe('metadata', () => {
       describe('movies', () => {
-        it('should return array of objects', async () => {
+        it('should return array of objects', async (done) => {
           const movies = await moviesFactory();
           const movie = movies[0];
           expect(movies).to.be.a('array');
           expect(movie).to.be.an('object');
+          done();
         });
 
-        it('should have movies that have necessary properties', async () => {
+        it('should have movies that have necessary properties', async (done) => {
           const movies = await moviesFactory();
           const movie = movies[0];
           assertMovieFormat(movie);
+          done();
         });
       });
 
       describe('movie', () => {
-        it('should have necessary properties', async () => {
+        it('should have necessary properties', async (done) => {
           const movie = await movieFactory();
           assertMovieFormat(movie);
+          done();
         });
       });
 
       describe('search', () => {
-        it('should search movies and return valid response', async () => {
+        it('should search movies and return valid response', async (done) => {
           const searchResults = await butterFactory().search('harry potter', 'movies');
           expect(searchResults).to.be.a('array');
           const movie = searchResults[0];
           expect(movie).to.be.an('object');
           assertMovieFormat(movie);
+          done();
         });
       });
     });
 
     describe('torrents', () => {
-      it('should get torrents and return torrent magnets of 720 and 1080 quality', async () => {
+      it('should get torrents and return torrent magnets of 720 and 1080 quality', async (done) => {
         const torrent = await butterFactory().getTorrent(imdbId);
         assertTorrentFormat(torrent);
+        done();
       });
     });
   });
