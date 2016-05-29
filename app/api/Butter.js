@@ -12,7 +12,7 @@ import MetadataAdapter, { formatMovie } from './metadata/TraktMetadataProvider';
 export default class Butter {
 
   constructor() {
-    this.metadataProvider = new MetadataAdapter();
+    this.metadataAdapter = new MetadataAdapter();
 
     // @todo: Should be abstracted to MetadataProvider
     this.trakt = new Trakt({
@@ -22,7 +22,7 @@ export default class Butter {
   }
 
   getMovies(page = 1, limit = 50) {
-    return this.metadataProvider.getMovies(page, limit);
+    return this.metadataAdapter.getMovies(page, limit);
   }
 
   /**
@@ -41,7 +41,7 @@ export default class Butter {
   }
 
   search(query) {
-    return this.metadataProvider.search(query);
+    return this.metadataAdapter.search(query);
   }
 
   // getShows(imdbId) {}

@@ -14,7 +14,10 @@ export default class Card extends Component {
     image: PropTypes.string,
     id: PropTypes.string,
     year: PropTypes.number,
-    rating: PropTypes.number
+    rating: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.string
+    ])
   };
 
   static defaultProps = {
@@ -42,13 +45,17 @@ export default class Card extends Component {
             {this.props.title}
           </Link>
         </div>
-        <Rating
-          renderStarIcon={() => <span className="ion-android-star"></span>}
-          starColor={'white'}
-          name={'rating'}
-          value={this.props.rating}
-          editing={false}
-        />
+        {this.props.rating !== 'n/a' ?
+          <Rating
+            renderStarIcon={() => <span className="ion-android-star"></span>}
+            starColor={'white'}
+            name={'rating'}
+            value={this.props.rating}
+            editing={false}
+          />
+          :
+          null
+        }
         <div>{this.props.year}</div>
       </div>
     );

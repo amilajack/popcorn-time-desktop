@@ -12,7 +12,7 @@
 //   imdbId: <string>,
 //   id: <string>, A general id that is not specific to movies. Reserved for future use
 //   summary: <string>
-//   rating: <number>, 1 - 5, round to 1 decimal place
+//   rating: <number>, 1 - 5, round to 1 decimal place || <string> n/a
 //   images: {
 //     fanart: {
 //        full: <string>
