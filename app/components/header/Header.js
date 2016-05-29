@@ -5,7 +5,6 @@ import Butter from '../../api/Butter';
 export default class Header extends Component {
 
   static propTypes = {
-    setMovies: PropTypes.func.isRequired,
     setMode: PropTypes.func.isRequired
   };
 
@@ -19,33 +18,42 @@ export default class Header extends Component {
     };
   }
 
-  handleSearchChange(event) {
-    this.setState({ searchQuery: event.target.value });
+  /**
+   * Set the mode of the movies to be 'search'
+   *
+   * @todo: move setting of search movies to Home component
+   */
+  setSearchState(searchQuery) {
+    this.props.setMode('search', { searchQuery });
   }
 
   /**
-   * @todo: move setting of search movies to Home component
+   * Set the mode of the movies to be 'movies'
    */
-  async search(query) {
-    if (query.length) {
-      const movies = await this.butter.search(query);
-      this.props.setMovies([]);
-      this.props.setMovies(movies);
-      this.props.setMode('search');
-      console.log(movies);
-    }
+  setMovieState() {
+    this.props.setMode('movies');
+  }
+
+  handleSearchChange(event) {
+    this.setState({ searchQuery: event.target.value });
   }
 
   render() {
     return (
       <div className="col-xs-12">
         <nav className="navbar navbar-dark navbar-fixed-top bg-inverse">
-          <div className="nav navbar-nav">
-            <a className="nav-item nav-link active" href="#">
-              Popcorn Time
-              <span className="sr-only">(current)</span>
-            </a>
-          </div>
+          <a className="navbar-brand">Popcorn Time</a>
+          <ul className="nav navbar-nav">
+            <li className="nav-item active">
+              <a
+                className="nav-link"
+                onClick={this.setMovieState.bind(this)}
+                href="#"
+              >
+                Movies <span className="sr-only">(current)</span>
+              </a>
+            </li>
+          </ul>
           <form className="form-inline pull-xs-right">
             <input
               className="form-control"
@@ -56,7 +64,7 @@ export default class Header extends Component {
             />
             <button
               className="btn btn-success-outline"
-              onClick={this.search.bind(this, this.state.searchQuery)}
+              onClick={this.setSearchState.bind(this, this.state.searchQuery)}
               type="button"
             >
               Search
@@ -65,7 +73,7 @@ export default class Header extends Component {
         </nav>
         <nav className="navbar hidden navbar-dark bg-inverse">
           <div className="nav navbar-nav">
-            <a className="nav-item nav-link active" href="#">
+            <a className="nav-item nav-link active">
               Popcorn Time
               <span className="sr-only">(current)</span>
             </a>

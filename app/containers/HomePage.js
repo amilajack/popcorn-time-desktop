@@ -9,31 +9,34 @@ export default class HomePage extends Component {
     super();
 
     this.state = {
-      movies: []
+      mode: {
+        modeType: 'movies',
+        options: {
+          page: '',
+          limit: '',
+          searchQuery: ''
+        }
+      }
     };
   }
 
   /**
-   * Mode kinds: search, movies, shows
+   * Mode types include search, movies, and shows
    */
-  setMode(mode) {
-    this.setState({ mode });
-  }
-
-  setMovies(movies) {
-    this.setState({ movies });
-    console.log(movies);
+  setMode(modeType, options = {}) {
+    this.setState({
+      mode: {
+        modeType,
+        options
+      }
+    });
   }
 
   render() {
     return (
       <div>
-        <Header setMovies={this.setMovies.bind(this)} setMode={this.setMode.bind(this)} />
-        <Home
-          setMovies={this.setMovies.bind(this)}
-          movies={this.state.movies}
-          mode={this.state.mode}
-        />
+        <Header setMode={this.setMode.bind(this)} />
+        <Home mode={this.state.mode} />
       </div>
     );
   }
