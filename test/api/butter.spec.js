@@ -32,8 +32,20 @@ describe('api', () => {
         });
       });
 
+      describe('similar', () => {
+        it('should get similar movies in correct format', async (done) => {
+          try {
+            const similarMovies = await butterFactory().getSimilarMovies(imdbId);
+            assertMovieFormat(similarMovies[0]);
+            done();
+          } catch (err) {
+            console.log(err);
+          }
+        });
+      });
+
       describe('search', () => {
-        it('should search movies and return valid response', async (done) => {
+        it('should search movies in correct format', async (done) => {
           try {
             const searchResults = await butterFactory().search('harry potter', 'movies');
             expect(searchResults).to.be.a('array');
@@ -49,7 +61,7 @@ describe('api', () => {
     });
 
     describe('torrents', () => {
-      it('should get torrents and return torrent magnets of 720 and 1080 quality', async (done) => {
+      it('should get torrents and their magnets of 720p and 1080p', async (done) => {
         const torrent = await butterFactory().getTorrent(imdbId);
         assertTorrentFormat(torrent);
         done();

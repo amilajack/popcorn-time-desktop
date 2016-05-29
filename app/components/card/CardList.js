@@ -21,12 +21,15 @@ export default class CardList extends Component {
   };
 
   shouldComponentUpdate(previousProps) {
-    return previousProps.movies.length !== this.props.movies.length;
+    return (
+      previousProps.movies.length !== this.props.movies.length ||
+      previousProps.isLoading !== this.props.isLoading
+    );
   }
 
   render() {
     const shouldShowLoading = {
-      opacity: this.props.isLoading ? 0 : 1
+      opacity: this.props.isLoading ? 1 : 0
     };
 
     return (
@@ -44,9 +47,13 @@ export default class CardList extends Component {
             ))}
           </div>
         </div>
-        <div className="col-xs-12 text-center" style={shouldShowLoading}>
-          <h3>Loading</h3>
-        </div>
+        {this.props.isLoading ?
+          <div className="col-xs-12 text-center">
+            <h3>Loading</h3>
+          </div>
+          :
+          null
+        }
       </div>
     );
   }

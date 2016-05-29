@@ -96,6 +96,9 @@ export default class Home extends Component {
     }, 0);
   }
 
+  /**
+   * If bottom of component is 2000px from viewport, query
+   */
   initInfinitePagination() {
     if (this.props.infinitePagination) {
       const scrollDimentions = document.querySelector('body').getBoundingClientRect();
