@@ -61,9 +61,8 @@ export default class Home extends Component {
 
   async onChange(isVisible) {
     if (isVisible && !this.state.isLoading) {
-      console.log('on change');
-      await this.getMovies('movies');
-      await this.getMovies('movies');
+      await this.getMovies(this.props.mode.modeType, this.props.mode.options);
+      await this.getMovies(this.props.mode.modeType, this.props.mode.options);
     }
   }
 

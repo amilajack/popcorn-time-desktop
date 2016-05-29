@@ -39,7 +39,11 @@ export default class TraktMetadataAdapter {
     .then(response => formatMovie(response));
   }
 
-  search(query = 'batman', type = 'movie', page = 1) {
+  search(query, type = 'movie', page = 1) {
+    if (!query) {
+      throw Error('query paramater required');
+    }
+
     return fetch(
       `http://www.omdbapi.com/?s=${encodeURIComponent(query)}&type=${type}&page=${page}`
     )

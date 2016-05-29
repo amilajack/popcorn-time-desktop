@@ -38,6 +38,12 @@ export default class Header extends Component {
     this.setState({ searchQuery: event.target.value });
   }
 
+  handleKeyPress(e) {
+    if (e.key === 'Enter') {
+      this.props.setMode('search', { searchQuery: this.state.searchQuery });
+    }
+  }
+
   render() {
     return (
       <div className="col-xs-12">
@@ -54,10 +60,11 @@ export default class Header extends Component {
               </a>
             </li>
           </ul>
-          <form className="form-inline pull-xs-right">
+          <div className="form-inline pull-xs-right">
             <input
               className="form-control"
               value={this.state.searchQuery}
+              onKeyPress={this.handleKeyPress.bind(this)}
               onChange={this.handleSearchChange.bind(this)}
               type="text"
               placeholder="Search"
@@ -69,7 +76,7 @@ export default class Header extends Component {
             >
               Search
             </button>
-          </form>
+          </div>
         </nav>
         <nav className="navbar hidden navbar-dark bg-inverse">
           <div className="nav navbar-nav">
