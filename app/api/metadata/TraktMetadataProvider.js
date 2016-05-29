@@ -41,7 +41,6 @@ export default class TraktMetadataAdapter {
 
   search(query = 'batman', type = 'movie', page = 1) {
     return fetch(
-      // `http://www.omdbapi.com/?s=batman`
       `http://www.omdbapi.com/?s=${encodeURIComponent(query)}&type=${type}&page=${page}`
     )
       .then(response => response.json())
