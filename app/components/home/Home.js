@@ -13,14 +13,16 @@ import VisibilitySensor from 'react-visibility-sensor';
 export default class Home extends Component {
 
   static propTypes = {
-    movies: PropTypes.array.isRequired,
-    setMovies: PropTypes.func.isRequired,
-    mode: PropTypes.string.isRequired
+    mode: PropTypes.object.isRequired,
+    infinitePagination: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
-    mode: 'movies',
-    movies: []
+    mode: {
+      movieType: 'movies',
+      options: {}
+    },
+    infinitePagination: false
   };
 
   constructor() {
@@ -31,13 +33,25 @@ export default class Home extends Component {
       movies: [],
       isLoading: false,
       page: 1,
-      limit: 50
+      limit: 50,
+      paginate: true
     };
   }
 
   componentDidMount() {
     this._didMount = true;
     document.addEventListener('scroll', this.initInfinitePagination.bind(this));
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    if (
+      this._didMount &&
+      nextProps.mode.modeType !== this.props.mode.modeType ||
+      nextProps.mode.options !== this.props.mode.options
+    ) {
+      this.setState({ movies: [], page: 1 });
+      this.getMovies(nextProps.mode.modeType, nextProps.mode.options);
+    }
   }
 
   componentWillUnmount() {
@@ -47,19 +61,32 @@ export default class Home extends Component {
 
   async onChange(isVisible) {
     if (isVisible && !this.state.isLoading) {
-      await this.getMovies(this.state.page);
-      await this.getMovies(this.state.page);
+      await this.getMovies(this.props.mode.modeType, this.props.mode.options);
+      await this.getMovies(this.props.mode.modeType, this.props.mode.options);
     }
   }
 
-  async getMovies() {
-    if (!this._didMount || this.props.mode === 'search') return false;
+  async getMovies(mode, options = {}) {
+    if (!this._didMount) return false;
 
     this.setState({
       isLoading: true
     });
 
-    const movies = await this.butter.getMovies(this.state.page, this.state.limit);
+    let movies = [];
+
+    switch (mode) {
+      case 'search':
+        movies = await this.butter.search(options.searchQuery);
+        this.setState({ movies: [] });
+        this.setState({ movies });
+        break;
+      case 'movies':
+        movies = await this.butter.getMovies(this.state.page, this.state.limit);
+        this.setState({ movies: this.state.movies.concat(movies) });
+        break;
+      default:
+    }
 
     setTimeout(() => {
       this.setState({
@@ -67,26 +94,31 @@ export default class Home extends Component {
         page: this.state.page + 1
       });
     }, 0);
-
-    this.props.setMovies(this.props.movies.concat(movies));
   }
 
+  /**
+   * If bottom of component is 2000px from viewport, query
+   */
   initInfinitePagination() {
-    const scrollDimentions = document.querySelector('body').getBoundingClientRect();
-    if (scrollDimentions.bottom < 2000 && !this.state.isLoading) {
-      this.getMovies(this.state.page);
+    if (this.props.infinitePagination) {
+      const scrollDimentions = document.querySelector('body').getBoundingClientRect();
+      if (scrollDimentions.bottom < 2000 && !this.state.isLoading) {
+        this.getMovies(this.state.page);
+      }
     }
   }
 
   render() {
     return (
       <div>
+        <h1>{this.props.mode.modeType}</h1>
         <CardList
-          mode={this.state.mode}
-          movies={this.props.movies}
+          movies={this.state.movies}
           isLoading={this.state.isLoading}
         />
-        <VisibilitySensor onChange={this.onChange.bind(this)} />
+        <VisibilitySensor
+          onChange={this.onChange.bind(this)}
+        />
       </div>
     );
   }

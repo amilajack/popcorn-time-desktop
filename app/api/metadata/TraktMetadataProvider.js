@@ -8,12 +8,6 @@ export default class TraktMetadataAdapter {
 
   client_secret = 'f55b0a53c63af683588b47f6de94226b7572a6f83f40bd44c58a7c83fe1f2cb1';
 
-  headers = {
-    'Content-Type': 'application/json',
-    'trakt-api-version': 2,
-    'trakt-api-key': this.client_id
-  };
-
   constructor() {
     this.trakt = new Trakt({
       client_id: this.client_id,
@@ -31,20 +25,37 @@ export default class TraktMetadataAdapter {
     .then(movies => movies.map(movie => formatMovie(movie)));
   }
 
-  getMovie(movieId) {
+  getMovie(imdbId) {
     return this.trakt.movies.summary({
-      id: movieId,
+      id: imdbId,
       extended: 'full,images,metadata'
     })
     .then(response => formatMovie(response));
   }
 
-  search(query = 'batman', type = 'movie', page = 1) {
+  search(query, type = 'movie', page = 1) {
+    if (!query) {
+      throw Error('query paramater required');
+    }
+
     return fetch(
       `http://www.omdbapi.com/?s=${encodeURIComponent(query)}&type=${type}&page=${page}`
     )
       .then(response => response.json())
       .then(response => response.Search.map(movie => formatMovieSearch(movie)));
+  }
+
+  /**
+   * @param {string} type   | movie or show
+   * @param {string} imdbId | movie or show
+   */
+  similar(type = 'movie', imdbId, limit = 5) {
+    return this.trakt[`${type}s`].related({
+      id: imdbId,
+      limit,
+      extended: 'full,images,metadata'
+    })
+    .then(movies => movies.map(movie => formatMovie(movie)));
   }
 
   provide() {}

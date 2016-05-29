@@ -7,6 +7,7 @@
 
 import React, { Component, PropTypes } from 'react';
 import Rating from 'react-star-rating-component';
+import CardList from '../card/CardList';
 import Butter from '../../api/Butter';
 import Torrent from '../../api/Torrent';
 import peerflix from 'peerflix';
@@ -31,9 +32,6 @@ export default class Movie extends Component {
     this.torrent = new Torrent();
     this.engine = {};
 
-    this.getMovie(this.props.movieId);
-    this.getTorrent(this.props.movieId);
-
     this.state = {
       movie: {
         images: {
@@ -47,21 +45,53 @@ export default class Movie extends Component {
         '720p': {
           quality: ''
         }
-      }
+      },
+      similarMoviesLoading: false,
+      isLoading: false
     };
+  }
+
+  componentDidMount() {
+    this.getAllData(this.props.movieId);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.getAllData(nextProps.movieId);
+  }
+
+  getAllData(movieId) {
+    this.getMovie(movieId);
+    this.getSimilarMovies(movieId);
+    this.getTorrent(movieId);
   }
 
   /**
    * Get the details of a movie using the butter api
    */
   async getMovie(imdbId) {
+    this.setState({ isLoading: true });
     const movie = await this.butter.getMovie(imdbId);
-    this.setState({ movie });
+    this.setState({ movie, isLoading: false });
   }
 
   async getTorrent(imdbId) {
     const torrent = await this.butter.getTorrent(imdbId);
     this.setState({ torrent });
+  }
+
+  async getSimilarMovies(imdbId) {
+    this.setState({ similarMoviesLoading: true });
+
+    const similarMovies = await this.butter.getSimilarMovies(imdbId);
+
+    this.setState({
+      similarMoviesLoading: false,
+      similarMovies
+    });
+  }
+
+  stopTorrent() {
+    if (this.torrent.inProgress) this.torrent.destroy();
   }
 
   /**
@@ -77,15 +107,14 @@ export default class Movie extends Component {
     });
   }
 
-  stopTorrent() {
-    if (this.torrent.inProgress) this.torrent.destroy();
-  }
 
   render() {
+    const opacity = { opacity: this.state.isLoading ? 0 : 1 };
+
     return (
       <div className="container">
         <div className="col-xs-12">
-          <div className="Movie">
+          <div className="Movie" style={opacity}>
             <Link to="/">
               <button onClick={this.stopTorrent.bind(this)} className="ion-android-arrow-back">
                 Back
@@ -99,14 +128,14 @@ export default class Movie extends Component {
                 Start 1080p
               </button>
               :
-              <span></span>
+              null
             }
             {this.state.torrent['720p'] ?
               <button onClick={this.startTorrent.bind(this, this.state.torrent['720p'].magnet)}>
                 Start 720p
               </button>
               :
-              <span></span>
+              null
             }
             <h1>
               {this.state.movie.title}
@@ -126,7 +155,7 @@ export default class Movie extends Component {
                 editing={false}
               />
               :
-              <span></span>
+              null
             }
 
             <div className="plyr">
@@ -135,6 +164,12 @@ export default class Movie extends Component {
               </video>
             </div>
           </div>
+        </div>
+        <div className="col-xs-12">
+          <CardList
+            movies={this.state.similarMovies}
+            isLoading={this.state.similarMoviesLoading}
+          />
         </div>
       </div>
     );
