@@ -34,12 +34,16 @@ describe('api', () => {
 
       describe('search', () => {
         it('should search movies and return valid response', async (done) => {
-          const searchResults = await butterFactory().search('harry potter', 'movies');
-          expect(searchResults).to.be.a('array');
-          const movie = searchResults[0];
-          expect(movie).to.be.an('object');
-          assertMovieFormat(movie);
-          done();
+          try {
+            const searchResults = await butterFactory().search('harry potter', 'movies');
+            expect(searchResults).to.be.a('array');
+            const movie = searchResults[0];
+            expect(movie).to.be.an('object');
+            assertMovieFormat(movie);
+            done();
+          } catch (error) {
+            console.error(error);
+          }
         });
       });
     });

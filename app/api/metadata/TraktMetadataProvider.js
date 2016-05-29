@@ -1,4 +1,5 @@
 import Trakt from 'trakt.tv';
+import fetch from 'isomorphic-fetch';
 
 
 export default class TraktMetadataAdapter {
@@ -38,15 +39,13 @@ export default class TraktMetadataAdapter {
     .then(response => formatMovie(response));
   }
 
-  search(query = 'batman', type = 'movie') {
-    return this.trakt.search({
-      query,
-      type
-    })
-    .then(response => response
-      .filter(item => item.movie.ids.imdb !== '')
-      .map(movie => formatMovie(movie.movie))
-    );
+  search(query = 'batman', type = 'movie', page = 1) {
+    return fetch(
+      // `http://www.omdbapi.com/?s=batman`
+      `http://www.omdbapi.com/?s=${encodeURIComponent(query)}&type=${type}&page=${page}`
+    )
+      .then(response => response.json())
+      .then(response => response.Search.map(movie => formatMovieSearch(movie)));
   }
 
   provide() {}
@@ -70,6 +69,29 @@ export function formatMovie(movie = {}) {
         full: movie.images.poster.full,
         medium: movie.images.poster.medium,
         thumb: movie.images.poster.thumb
+      }
+    }
+  };
+}
+
+function formatMovieSearch(movie) {
+  return {
+    title: movie.Title,
+    year: parseInt(movie.Year),
+    imdbId: movie.imdbID,
+    id: movie.imdbID,
+    summary: 'n/a',
+    rating: 'n/a',
+    images: {
+      fanart: {
+        full: movie.Poster,
+        medium: movie.Poster,
+        thumb: movie.Poster
+      },
+      poster: {
+        full: movie.Poster,
+        medium: movie.Poster,
+        thumb: movie.Poster
       }
     }
   };
