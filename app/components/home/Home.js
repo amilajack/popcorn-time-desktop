@@ -13,10 +13,13 @@ import VisibilitySensor from 'react-visibility-sensor';
 export default class Home extends Component {
 
   static propTypes = {
-    movies: PropTypes.array.isRequired
+    movies: PropTypes.array.isRequired,
+    setMovies: PropTypes.func.isRequired,
+    mode: PropTypes.string.isRequired
   };
 
   static defaultProps = {
+    mode: 'movies',
     movies: []
   };
 
@@ -50,7 +53,7 @@ export default class Home extends Component {
   }
 
   async getMovies() {
-    if (!this._didMount) return false;
+    if (!this._didMount || this.props.mode === 'search') return false;
 
     this.setState({
       isLoading: true
@@ -61,10 +64,11 @@ export default class Home extends Component {
     setTimeout(() => {
       this.setState({
         isLoading: false,
-        movies: this.state.movies.concat(movies),
         page: this.state.page + 1
       });
     }, 0);
+
+    this.props.setMovies(this.props.movies.concat(movies));
   }
 
   initInfinitePagination() {
@@ -77,7 +81,11 @@ export default class Home extends Component {
   render() {
     return (
       <div>
-        <CardList movies={this.state.movies} isLoading={this.state.isLoading} />
+        <CardList
+          mode={this.state.mode}
+          movies={this.props.movies}
+          isLoading={this.state.isLoading}
+        />
         <VisibilitySensor onChange={this.onChange.bind(this)} />
       </div>
     );
