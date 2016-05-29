@@ -44,9 +44,13 @@ export default class Butter {
     return this.metadataAdapter.search(query);
   }
 
+  getSimilarMovies(imdbId) {
+    return this.metadataAdapter.similar('movie', imdbId, 5);
+  }
+
   // getShows(imdbId) {}
 
   // getShow(imdbId) {}
 
-  // similar(imdbId) {}
+  // getSimilarShows(imdbId) {}
 }
