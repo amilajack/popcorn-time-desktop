@@ -20,7 +20,7 @@
 
 ## Requirements:
 
-* Node >= 5
+* [Node >= 5](nodejs.org)
 * Mac or Linux. Windows support pending
 
 ## Installation:
