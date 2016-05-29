@@ -4,23 +4,6 @@ import assert from 'assert';
 
 const imdbId = 'tt0120737';
 
-function butterFactory() {
-  return new Butter();
-}
-
-function moviesFactory() {
-  return new Butter().getMovies(1, 50);
-}
-
-function movieFactory() {
-  return new Butter().getMovie(imdbId);
-}
-
-function assertNAorNumber(variable) {
-  const assertion = variable === 'n/a' || typeof variable === 'number';
-  expect(assertion).to.be.true;  // eslint-disable-line no-unused-expressions
-}
-
 describe('api', () => {
   describe('Butter', () => {
     describe('metadata', () => {
@@ -70,6 +53,23 @@ describe('api', () => {
     });
   });
 });
+
+function butterFactory() {
+  return new Butter();
+}
+
+function moviesFactory() {
+  return new Butter().getMovies(1, 50);
+}
+
+function movieFactory() {
+  return new Butter().getMovie(imdbId);
+}
+
+function assertNAorNumber(variable) {
+  const assertion = variable === 'n/a' || typeof variable === 'number';
+  expect(assertion).to.be.true;  // eslint-disable-line no-unused-expressions
+}
 
 function assertMovieFormat(movie) {
   expect(movie).to.have.property('title').that.is.a('string');
