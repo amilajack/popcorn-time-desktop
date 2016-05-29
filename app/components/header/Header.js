@@ -1,8 +1,13 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import Butter from '../../api/Butter';
 
 
 export default class Header extends Component {
+
+  static propTypes = {
+    setMovies: PropTypes.func.isRequired,
+    setMode: PropTypes.func.isRequired
+  };
 
   constructor() {
     super();
@@ -12,20 +17,22 @@ export default class Header extends Component {
     this.state = {
       searchQuery: ''
     };
-
-    setTimeout(() => {
-      this.search('harry potter');
-    }, 1000);
   }
 
   handleSearchChange(event) {
     this.setState({ searchQuery: event.target.value });
   }
 
+  /**
+   * @todo: move setting of search movies to Home component
+   */
   async search(query) {
     if (query.length) {
-      const searchResults = await this.butter.search(query);
-      console.dir(searchResults);
+      const movies = await this.butter.search(query);
+      this.props.setMovies([]);
+      this.props.setMovies(movies);
+      this.props.setMode('search');
+      console.log(movies);
     }
   }
 

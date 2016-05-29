@@ -76,7 +76,7 @@ export function formatMovie(movie = {}) {
 function formatMovieSearch(movie) {
   return {
     title: movie.Title,
-    year: parseInt(movie.Year),
+    year: parseInt(movie.Year, 10),
     imdbId: movie.imdbID,
     id: movie.imdbID,
     summary: 'n/a',
