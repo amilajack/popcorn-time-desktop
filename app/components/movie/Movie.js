@@ -47,8 +47,8 @@ export default class Movie extends Component {
         }
       },
       similarMoviesLoading: false,
-      isLoading: false,
-      inProgress: false,
+      movieMetadataLoading: false,
+      torrentInProgress: false,
       torrentProgress: 0
     };
   }
@@ -73,11 +73,20 @@ export default class Movie extends Component {
 
   /**
    * Get the details of a movie using the butter api
+   *
+   * @todo: remove the temporary loctaion reload once until a way is found to
+   *        correctly configure destroy and reconfigure plyr
+   *
+   * @hack: Possbile solution is to remove the video element on change of movie
    */
   async getMovie(imdbId) {
-    this.setState({ isLoading: true });
+    if (document.querySelector('.plyr').plyr) {
+      location.reload();
+    }
+
+    this.setState({ movieMetadataLoading: true });
     const movie = await this.butter.getMovie(imdbId);
-    this.setState({ movie, isLoading: false });
+    this.setState({ movie, movieMetadataLoading: false });
     document.querySelector('video').setAttribute('poster', this.state.movie.images.fanart.full);
   }
 
@@ -101,14 +110,15 @@ export default class Movie extends Component {
     });
   }
 
+  /**
+   * @todo
+   */
+  setupPlyr(servingUrl, posterSrc) {}
+
   stopTorrent() {
     this.torrent.destroy();
     this.destroyPlyr();
-    this.setState({ inProgress: this.torrent.inProgress });
-  }
-
-  setupPlyr(servingUrl, posterSrc) {
-
+    this.setState({ torrentInProgress: this.torrent.inProgress });
   }
 
   /**
@@ -117,9 +127,9 @@ export default class Movie extends Component {
   destroyPlyr() {
     if (document.querySelector('.plyr').plyr) {
       document.querySelector('.plyr').plyr.destroy();
-      if (document.querySelector('.plyr button').length) {
-        document.querySelector('.plyr button').remove();
-      }
+      // if (document.querySelector('.plyr button').length) {
+      //   document.querySelector('.plyr button').remove();
+      // }
     }
   }
 
@@ -128,22 +138,21 @@ export default class Movie extends Component {
    */
   startTorrent(magnetURI) {
     this.engine = this.torrent.start(magnetURI);
-    this.setState({ inProgress: this.torrent.inProgress });
+    this.setState({ torrentInProgress: this.torrent.inProgress });
 
     this.engine.server.on('listening', () => {
       const servingUrl = `http://localhost:${this.engine.server.address().port}/`;
       this.setState({ servingUrl });
+      console.log('serving......');
 
       plyr.setup({
         autoplay: true
       });
-
-      console.log(plyr.source);
     });
   }
 
   render() {
-    const opacity = { opacity: this.state.isLoading ? 0 : 1 };
+    const opacity = { opacity: this.state.movieMetadataLoading ? 0 : 1 };
     const torrentLoadingStatusStyle = { color: 'maroon' };
 
     return (
@@ -151,7 +160,10 @@ export default class Movie extends Component {
         <div className="col-xs-12">
           <div className="Movie">
             <Link to="/">
-              <button className="btn btn-info ion-android-arrow-back" onClick={this.stopTorrent.bind(this)}>
+              <button
+                className="btn btn-info ion-android-arrow-back"
+                onClick={this.stopTorrent.bind(this)}
+              >
                 Back
               </button>
             </Link>
@@ -193,11 +205,11 @@ export default class Movie extends Component {
               null
             }
 
+            {this.state.torrentInProgress + ''}
             <h1 style={torrentLoadingStatusStyle}>
-              {!this.state.servingUrl && this.state.inProgress ? 'Loading torrent...' : null}
+              {!this.state.servingUrl && this.state.torrentInProgress ? 'Loading torrent...' : null}
             </h1>
 
-            <h3>{this.state.movie.images.fanart.full}</h3>
             <div className="plyr" style={opacity}>
               <video controls poster={this.state.movie.images.fanart.full}>
                 <source src={this.state.servingUrl} type="video/mp4" />
@@ -209,7 +221,7 @@ export default class Movie extends Component {
           <h3 className="text-center">Similar</h3>
           <CardList
             movies={this.state.similarMovies}
-            isLoading={this.state.similarMoviesLoading}
+            movieMetadataLoading={this.state.similarMoviesLoading}
           />
         </div>
       </div>
