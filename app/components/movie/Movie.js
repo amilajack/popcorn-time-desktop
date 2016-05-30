@@ -146,7 +146,8 @@ export default class Movie extends Component {
       console.log('serving......');
 
       plyr.setup({
-        autoplay: true
+        autoplay: true,
+        volume: 10
       });
     });
   }
