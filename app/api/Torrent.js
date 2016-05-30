@@ -13,17 +13,33 @@ export default class Torrent {
   finished = false;
 
   start(magnetURI) {
+    if (this.inProgress) {
+      throw Error('Torrent already in progress');
+    }
+
     console.log('starting torrent...');
+    this.inProgress = true;
     this.engine = peerflix(magnetURI);
     return this.engine;
   }
 
-  destroy() {
-    console.log('destroyed torrent');
-    this.engine.destroy();
+  /**
+   * @todo: wait on issue: https://github.com/mafintosh/torrent-stream/issues/71
+   */
+  getProgress() {
+    const progress = Math.round(
+      this.engine.swarm.downloaded / this.engine.torrent.length
+    );
+    console.log(progress);
   }
 
-  // progress() {}
+  destroy() {
+    if (this.inProgress) {
+      console.log('destroyed torrent...');
+      this.engine.destroy();
+      this.inProgress = false;
+    }
+  }
 
   // pause() {}
 
