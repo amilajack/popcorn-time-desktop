@@ -204,8 +204,6 @@ export default class Movie extends Component {
               :
               null
             }
-
-            {this.state.torrentInProgress + ''}
             <h1 style={torrentLoadingStatusStyle}>
               {!this.state.servingUrl && this.state.torrentInProgress ? 'Loading torrent...' : null}
             </h1>
