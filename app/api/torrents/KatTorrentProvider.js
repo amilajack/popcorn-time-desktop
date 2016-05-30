@@ -4,9 +4,10 @@ import kat from 'kat-api';
 
 export default class KatTorrentProvider {
 
-  static fetch(imdbId) {
+  static fetch(imdbId, query = 'mp4') {
     return kat.search({
-      query: 'mp4',
+      query,
+      min_seeds: '10',
       sort_by: 'seeders',
       order: 'desc',
       imdb: imdbId,

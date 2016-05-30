@@ -21,6 +21,7 @@ export default class YtsTorrentProvider {
   static provide(imdbId) {
     return this.fetch(imdbId)
       .then(results => {
+        if (!results.data.movie_count) return [];
         const torrents = results.data.movies[0].torrents;
         return torrents.splice(0, 10).map(this.formatMovie);
       })
