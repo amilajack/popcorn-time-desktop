@@ -97,6 +97,39 @@ export default class Home extends Component {
   }
 
   /**
+   * Return movies and finished status without mutation
+   *
+   * @todo: 'getMovies' with this method
+   * @todo: determine if query has reached last page
+   *
+   * @param {string} modeType | Search, movies, shows, etc
+   * @param {number} page     | Current page number
+   * @param {number} limit    | Number of max movies to get
+   * @param {array}  movies   | List of movies to be concatanted to
+   */
+  async paginate(modeType, page, limit, moviesToAppend = []) {
+    let movies = [].concat(moviesToAppend);
+
+    switch (modeType) {
+      case 'search':
+        movies = movies.concat(await this.butter.search(modeType));
+        break;
+      case 'movies':
+        movies = movies.concat(
+          await this.butter.getMovies(this.state.page, this.state.limit)
+        );
+        break;
+      default:
+        throw Error("Mode type not found. This must be 'movies' or 'searh'");
+    }
+
+    return {
+      movies,
+      finished: false
+    };
+  }
+
+  /**
    * If bottom of component is 2000px from viewport, query
    */
   initInfinitePagination() {

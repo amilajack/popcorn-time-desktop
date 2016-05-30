@@ -43,3 +43,20 @@ function search(query, limit, genre, sortBy) {}
  * @param {number} limit  | movie, show, anime, etc
  */
 function similar(imdbId, type, limit) {}
+
+/**
+ * Convert runtime from minutes to hours
+ *
+ * @param  {number} runtimeInMinutes
+ * @return {object}
+ */
+export function convertRuntimeToHours(runtimeInMinutes) {
+  const hours = Math.round(runtimeInMinutes / 60);
+  const minutes = runtimeInMinutes % 60;
+
+  return {
+    full: `${hours} ${hours > 1 ? 'hours' : 'hour'} ${minutes} minutes`,
+    hours,
+    minutes
+  };
+}
