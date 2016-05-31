@@ -158,70 +158,76 @@ export default class Movie extends Component {
 
     return (
       <div className="container">
-        <div className="col-xs-12">
-          <div className="Movie">
-            <Link to="/">
-              <button
-                className="btn btn-info ion-android-arrow-back"
-                onClick={this.stopTorrent.bind(this)}
-              >
-                Back
+        <div className="row">
+          <div className="col-xs-12">
+            <div className="Movie">
+              <Link to="/">
+                <button
+                  className="btn btn-info ion-android-arrow-back"
+                  onClick={this.stopTorrent.bind(this)}
+                >
+                  Back
+                </button>
+              </Link>
+              <button onClick={this.stopTorrent.bind(this)}>
+                Stop
               </button>
-            </Link>
-            <button onClick={this.stopTorrent.bind(this)}>
-              Stop
-            </button>
-            {this.state.torrent['1080p'] ?
-              <button onClick={this.startTorrent.bind(this, this.state.torrent['1080p'].magnet)}>
-                Start 1080p
-              </button>
-              :
-              null
-            }
-            {this.state.torrent['720p'] ?
-              <button onClick={this.startTorrent.bind(this, this.state.torrent['720p'].magnet)}>
-                Start 720p
-              </button>
-              :
-              null
-            }
-            <h1>
-              {this.state.movie.title}
-            </h1>
-            <h5>
-              Year: {this.state.movie.year}
-            </h5>
-            <h6>
-              {this.state.movie.summary}
-            </h6>
-            {this.state.movie.rating ?
-              <Rating
-                renderStarIcon={() => <span className="ion-android-star"></span>}
-                starColor={'white'}
-                name={'rating'}
-                value={this.state.movie.rating}
-                editing={false}
-              />
-              :
-              null
-            }
-            <h1 style={torrentLoadingStatusStyle}>
-              {!this.state.servingUrl && this.state.torrentInProgress ? 'Loading torrent...' : null}
-            </h1>
+              {this.state.torrent['1080p'] ?
+                <button onClick={this.startTorrent.bind(this, this.state.torrent['1080p'].magnet)}>
+                  Start 1080p
+                </button>
+                :
+                null
+              }
+              {this.state.torrent['720p'] ?
+                <button onClick={this.startTorrent.bind(this, this.state.torrent['720p'].magnet)}>
+                  Start 720p
+                </button>
+                :
+                null
+              }
+              <h1>
+                {this.state.movie.title}
+              </h1>
+              <h5>
+                Year: {this.state.movie.year}
+              </h5>
+              <h6>
+                {this.state.movie.summary}
+              </h6>
+              {this.state.movie.rating ?
+                <Rating
+                  renderStarIcon={() => <span className="ion-android-star"></span>}
+                  starColor={'white'}
+                  name={'rating'}
+                  value={this.state.movie.rating}
+                  editing={false}
+                />
+                :
+                null
+              }
+              <h1 style={torrentLoadingStatusStyle}>
+                {
+                  !this.state.servingUrl &&
+                  this.state.torrentInProgress ?
+                  'Loading torrent...' : null
+                }
+              </h1>
 
-            <div className="plyr" style={opacity}>
-              <video controls poster={this.state.movie.images.fanart.full}>
-                <source src={this.state.servingUrl} type="video/mp4" />
-              </video>
+              <div className="plyr" style={opacity}>
+                <video controls poster={this.state.movie.images.fanart.full}>
+                  <source src={this.state.servingUrl} type="video/mp4" />
+                </video>
+              </div>
             </div>
           </div>
-        </div>
-        <div className="col-xs-12">
-          <h3 className="text-center">Similar</h3>
-          <CardList
-            movies={this.state.similarMovies}
-            movieMetadataLoading={this.state.similarMoviesLoading}
-          />
+          <div className="col-xs-12">
+            <h3 className="text-center">Similar</h3>
+            <CardList
+              movies={this.state.similarMovies}
+              movieMetadataLoading={this.state.similarMoviesLoading}
+            />
+          </div>
         </div>
       </div>
     );
