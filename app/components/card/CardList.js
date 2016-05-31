@@ -6,6 +6,7 @@
 
 import React, { Component, PropTypes } from 'react';
 import Card from './Card';
+import Loader from '../loader/Loader';
 
 
 export default class CardList extends Component {
@@ -47,11 +48,8 @@ export default class CardList extends Component {
             ))}
           </div>
         </div>
-        <div
-          style={{ opacity: this.props.isLoading ? 1 : 0 }}
-          className="col-xs-12 text-center"
-        >
-          <h3>Loading</h3>
+        <div className="col-xs-12">
+          <Loader isLoading={this.props.isLoading} />
         </div>
       </div>
     );

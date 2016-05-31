@@ -39,12 +39,12 @@ export default class Card extends Component {
     return (
       <div className="Card">
         <Link to={`/movie/${this.props.id}`}>
-          <div className="CardList--overlay-container" style={divStyle}>
-            <div className="CardList--overlay"></div>
+          <div className="Card--overlay-container" style={divStyle}>
+            <div className="Card--overlay"></div>
           </div>
         </Link>
         <div>
-          <Link className="CardList--title" to={`/movie/${this.props.id}`}>
+          <Link className="Card--title" to={`/movie/${this.props.id}`}>
             {this.props.title}
           </Link>
         </div>
@@ -59,7 +59,7 @@ export default class Card extends Component {
           :
           null
         }
-        <div>{this.props.year}</div>
+        <div className="Card--year">{this.props.year}</div>
       </div>
     );
   }
