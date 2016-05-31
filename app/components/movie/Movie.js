@@ -36,7 +36,8 @@ export default class Movie extends Component {
       movie: {
         images: {
           fanart: ''
-        }
+        },
+        runtime: {}
       },
       torrent: {
         '1080p': {
@@ -191,6 +192,9 @@ export default class Movie extends Component {
               </h1>
               <h5>
                 Year: {this.state.movie.year}
+              </h5>
+              <h5>
+                Length: {this.state.movie.runtime.full}
               </h5>
               <h6>
                 {this.state.movie.summary}
