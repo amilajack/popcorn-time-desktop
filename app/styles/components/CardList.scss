@@ -16,18 +16,18 @@
 		overflow: hidden;
 		position: relative;
 
-		&:hover .CardList--overlay {
+		&:hover .Card--overlay {
 			opacity: 1;
 		}
 
-		.CardList--title {
+		.Card--title {
 			white-space: nowrap;
 			width: 100%;
 			overflow: hidden;
 			text-overflow: ellipsis;
 		}
 
-		.CardList--overlay {
+		.Card--overlay {
 			opacity: 0;
 			position: absolute;
 			width: 100%;
@@ -41,7 +41,7 @@
 			background: rgba(0,0,0,0.5)
 		}
 
-		.CardList--overlay-container {
+		.Card--overlay-container {
 			width: 100%;
 			height: 219px;
 			position: relative;
@@ -50,11 +50,11 @@
 			background-size: contain;
 			background-position: center;
 		}
-	}
 
-	.Card img {
-	  width: 100%;
-	  height: 100%;
-		border-radius: 10px;
+		img {
+		  width: 100%;
+		  height: 100%;
+			border-radius: 10px;
+		}
 	}
 }

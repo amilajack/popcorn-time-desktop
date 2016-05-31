@@ -1,0 +1,41 @@
+.Loader {
+	padding: 60px 0;
+
+	.Loader--container {
+	  position: absolute;
+	  top: 50%;
+	  left: 50%;
+	  transform: translate(-50%, -50%);
+	}
+
+	.Loader--dot {
+	  width: 15px;
+	  height: 15px;
+	  border: 2px solid white;
+	  border-radius: 50%;
+	  float: left;
+	  margin: 0 5px;
+	  transform: scale(0);
+	  animation: fx 1000ms ease infinite 0ms;
+	}
+
+	.Loader--dot:nth-child(2) {
+		animation: fx 1000ms ease infinite 300ms;
+	}
+
+	.Loader--dot:nth-child(3) {
+	  animation: fx 1000ms ease infinite 600ms;
+	}
+
+	@keyframes fx {
+
+	  50% {
+	    transform: scale(1);
+	    opacity: 1;
+	  }
+
+	  100% {
+	    opacity: 0;
+	  }
+	}
+}
