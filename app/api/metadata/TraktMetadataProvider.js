@@ -1,5 +1,6 @@
 import Trakt from 'trakt.tv';
 import fetch from 'isomorphic-fetch';
+import { convertRuntimeToHours } from './MetadataAdapter';
 
 
 export default class TraktMetadataAdapter {
@@ -33,6 +34,9 @@ export default class TraktMetadataAdapter {
     .then(response => formatMovie(response));
   }
 
+  /**
+   * @todo: migrate from omdbapi to an api that can provide more information
+   */
   search(query, type = 'movie', page = 1) {
     if (!query) {
       throw Error('query paramater required');
@@ -69,6 +73,8 @@ export function formatMovie(movie = {}) {
     id: movie.ids.imdb,
     summary: movie.overview,
     rating: movie.rating ? movie.rating / 2 : 'n/a',
+    runtime: convertRuntimeToHours(movie.runtime),
+    trailer: movie.trailer,
     images: {
       fanart: {
         full: movie.images.fanart.full,
@@ -90,8 +96,14 @@ function formatMovieSearch(movie) {
     year: parseInt(movie.Year, 10),
     imdbId: movie.imdbID,
     id: movie.imdbID,
-    summary: 'n/a',
-    rating: 'n/a',
+    summary: 'n/a',  // omdbapi does not support
+    rating: 'n/a',   // omdbapi does not support
+    runtime: {
+      full: 'n/a',   // omdbapi does not support
+      hours: 'n/a',  // omdbapi does not support
+      minutes: 'n/a' // omdbapi does not support
+    },
+    trailer: 'n/a',  // omdbapi does not support
     images: {
       fanart: {
         full: movie.Poster,

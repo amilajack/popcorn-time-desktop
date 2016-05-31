@@ -1,6 +1,8 @@
 import { expect } from 'chai';
 import Butter from '../../app/api/Butter';
 import assert from 'assert';
+import { convertRuntimeToHours } from '../../app/api/metadata/MetadataAdapter';
+
 
 const imdbId = 'tt0120737';
 
@@ -8,6 +10,18 @@ describe('api', () => {
   describe('Butter', () => {
     describe('metadata', () => {
       describe('movies', () => {
+        it('should convert time from minutes to hours', (done) => {
+          expect(convertRuntimeToHours(64).full).to.equal('1 hour 4 minutes');
+          expect(convertRuntimeToHours(64).hours).to.equal(1);
+          expect(convertRuntimeToHours(64).minutes).to.equal(4);
+
+          expect(convertRuntimeToHours(126).full).to.equal('2 hours 6 minutes');
+          expect(convertRuntimeToHours(126).hours).to.equal(2);
+          expect(convertRuntimeToHours(126).minutes).to.equal(6);
+
+          done();
+        });
+
         it('should return array of objects', async (done) => {
           const movies = await moviesFactory();
           const movie = movies[0];
@@ -26,9 +40,13 @@ describe('api', () => {
 
       describe('movie', () => {
         it('should have necessary properties', async (done) => {
-          const movie = await movieFactory();
-          assertMovieFormat(movie);
-          done();
+          try {
+            const movie = await movieFactory();
+            assertMovieFormat(movie);
+            done();
+          } catch (err) {
+            console.log(err);
+          }
         });
       });
 
@@ -94,6 +112,14 @@ function assertMovieFormat(movie) {
   expect(movie).to.have.property('imdbId').that.is.a('string');
   expect(movie).to.have.property('summary').that.is.a('string');
   assertNAorNumber(movie.rating);
+
+  expect(movie).to.have.property('runtime').that.is.an('object');
+  expect(movie).to.have.deep.property('runtime.full').that.is.a('string');
+  assertNAorNumber(movie.runtime.hours);
+  assertNAorNumber(movie.runtime.minutes);
+
+  expect(movie).to.have.property('trailer').that.is.a('string');
+
   expect(movie).to.have.property('images').that.is.an('object');
   expect(movie).to.have.deep.property('images.poster').that.is.an('object');
   expect(movie).to.have.deep.property('images.fanart').that.is.an('object');

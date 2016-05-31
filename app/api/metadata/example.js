@@ -11,7 +11,13 @@
 //   year: <number>,
 //   imdbId: <string>,
 //   id: <string>, A general id that is not specific to movies. Reserved for future use
-//   summary: <string>
+//   summary: <string>,
+//   runtime: {
+//      full: <number>,
+//      hours: <number>,
+//      minutes: <number>
+//   },
+//   trailer: <string>, A link to the trailer of the movie
 //   rating: <number>, 1 - 5, round to 1 decimal place || <string> n/a
 //   images: {
 //     fanart: {
