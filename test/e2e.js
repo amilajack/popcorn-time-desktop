@@ -35,6 +35,7 @@ describe('main window', function spec() {
   const test = this;
   const findCardList = () => this.driver.findElement(webdriver.By.className('CardList'));
   const findCard = () => this.driver.findElement(webdriver.By.className('Card'));
+  const findMovie = () => this.driver.findElement(webdriver.By.className('Movie'));
 
   after(async (done) => {
     await this.driver.quit();
@@ -58,7 +59,10 @@ describe('main window', function spec() {
     done();
   });
 
-  it('should display movie and torrent data', async (done) => {
-
-  });
+  /**
+   * @todo: write test that navigates to '/movie/tt0816692' and asserts .Movie isDisplayed
+   */
+  // it('should display movie and torrent data', async function(done) {
+  //
+  // });
 });
