@@ -9,11 +9,11 @@ export default class YtsTorrentProvider {
       .then(response => response.json());
   }
 
-  static formatMovie(movie) {
+  static formatTorrent(torrent) {
     return {
-      quality: determineQuality(movie.quality),
-      magnet: constructMagnet(movie.hash),
-      seeders: movie.seeds,
+      quality: determineQuality(torrent.quality),
+      magnet: constructMagnet(torrent.hash),
+      seeders: torrent.seeds,
       leechers: 'n/a'
     };
   }
@@ -23,7 +23,7 @@ export default class YtsTorrentProvider {
       .then(results => {
         if (!results.data.movie_count) return [];
         const torrents = results.data.movies[0].torrents;
-        return torrents.splice(0, 10).map(this.formatMovie);
+        return torrents.splice(0, 10).map(this.formatTorrent);
       })
       .catch(error => {
         console.log(error);
