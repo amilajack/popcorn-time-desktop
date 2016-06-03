@@ -6,8 +6,8 @@
 export default async function TorrentAdapter(imdbId, extendedDetails, returnAll = false) {
   const providers = [
     require('./YtsTorrentProvider'),
-    require('./PbTorrentProvider'),
-    require('./KatTorrentProvider')
+    require('./PbTorrentProvider')
+    // require('./KatTorrentProvider')
   ];
 
   const movieProviderResults = await cascade(providers.map(
