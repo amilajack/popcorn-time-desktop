@@ -11,8 +11,13 @@ export default class Loader extends Component {
   };
 
   render() {
+    const shouldShow = {
+      opacity: this.props.isLoading ? 1 : 0,
+      display: this.props.isLoading ? 'initial' : 'none'
+    };
+
     return (
-      <div className="Loader" style={{ opacity: this.props.isLoading ? 1 : 0 }}>
+      <div className="Loader" style={shouldShow}>
         <div className="Loader--container">
           <div className="Loader--dot"></div>
           <div className="Loader--dot"></div>

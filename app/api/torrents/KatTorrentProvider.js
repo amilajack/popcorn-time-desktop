@@ -21,19 +21,19 @@ export default class KatTorrentProvider {
     });
   }
 
-  static formatMovie(movie) {
+  static formatTorrent(torrent) {
     return {
-      quality: determineQuality(movie.magnet),
-      magnet: movie.magnet,
-      seeders: movie.seeds,
-      leechers: movie.leechs
+      quality: determineQuality(torrent.magnet),
+      magnet: torrent.magnet,
+      seeders: parseInt(torrent.seeds, 10),
+      leechers: torrent.leechs
     };
   }
 
   static provide(imdbId) {
     return this.fetch(imdbId)
       .then(
-        results => results.splice(0, 10).map(this.formatMovie)
+        results => results.splice(0, 10).map(this.formatTorrent)
       )
       .catch(error => {
         console.log(error);

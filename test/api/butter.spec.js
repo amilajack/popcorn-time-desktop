@@ -6,35 +6,51 @@ import { convertRuntimeToHours } from '../../app/api/metadata/MetadataAdapter';
 
 const imdbId = 'tt0120737';
 
+function greaterThanOrEqualTo(first, second) {
+  return (first > second || first === second);
+}
+
 describe('api', () => {
   describe('Butter', () => {
     describe('metadata', () => {
       describe('movies', () => {
         it('should convert time from minutes to hours', (done) => {
-          expect(convertRuntimeToHours(64).full).to.equal('1 hour 4 minutes');
-          expect(convertRuntimeToHours(64).hours).to.equal(1);
-          expect(convertRuntimeToHours(64).minutes).to.equal(4);
+          try {
+            expect(convertRuntimeToHours(64).full).to.equal('1 hour 4 minutes');
+            expect(convertRuntimeToHours(64).hours).to.equal(1);
+            expect(convertRuntimeToHours(64).minutes).to.equal(4);
 
-          expect(convertRuntimeToHours(126).full).to.equal('2 hours 6 minutes');
-          expect(convertRuntimeToHours(126).hours).to.equal(2);
-          expect(convertRuntimeToHours(126).minutes).to.equal(6);
+            expect(convertRuntimeToHours(126).full).to.equal('2 hours 6 minutes');
+            expect(convertRuntimeToHours(126).hours).to.equal(2);
+            expect(convertRuntimeToHours(126).minutes).to.equal(6);
 
-          done();
+            done();
+          } catch (err) {
+            done(err);
+          }
         });
 
         it('should return array of objects', async (done) => {
-          const movies = await moviesFactory();
-          const movie = movies[0];
-          expect(movies).to.be.a('array');
-          expect(movie).to.be.an('object');
-          done();
+          try {
+            const movies = await moviesFactory();
+            const movie = movies[0];
+            expect(movies).to.be.a('array');
+            expect(movie).to.be.an('object');
+            done();
+          } catch (err) {
+            done(err);
+          }
         });
 
         it('should have movies that have necessary properties', async (done) => {
-          const movies = await moviesFactory();
-          const movie = movies[0];
-          assertMovieFormat(movie);
-          done();
+          try {
+            const movies = await moviesFactory();
+            const movie = movies[0];
+            assertMovieFormat(movie);
+            done();
+          } catch (err) {
+            done(err);
+          }
         });
       });
 
@@ -45,7 +61,7 @@ describe('api', () => {
             assertMovieFormat(movie);
             done();
           } catch (err) {
-            console.log(err);
+            done(err);
           }
         });
       });
@@ -57,7 +73,7 @@ describe('api', () => {
             assertMovieFormat(similarMovies[0]);
             done();
           } catch (err) {
-            console.log(err);
+            done(err);
           }
         });
       });
@@ -71,8 +87,8 @@ describe('api', () => {
             expect(movie).to.be.an('object');
             assertMovieFormat(movie);
             done();
-          } catch (error) {
-            console.error(error);
+          } catch (err) {
+            done(err);
           }
         });
       });
@@ -80,9 +96,29 @@ describe('api', () => {
 
     describe('torrents', () => {
       it('should get torrents and their magnets of 720p and 1080p', async (done) => {
-        const torrent = await butterFactory().getTorrent(imdbId);
-        assertTorrentFormat(torrent);
-        done();
+        try {
+          const torrent = await butterFactory().getTorrent(imdbId);
+          assertTorrentFormat(torrent);
+          done();
+        } catch (err) {
+          done(err);
+        }
+      });
+
+      it('should order torrents by seeder count by default', async (done) => {
+        try {
+          // Get all sorted torrents
+          const torrents = await butterFactory().getTorrent('tt1375666', {
+            searchQuery: 'Inception',
+          }, true);
+
+          greaterThanOrEqualTo(torrents[0].seeders, torrents[1].seeders);
+          greaterThanOrEqualTo(torrents[1].seeders, torrents[2].seeders);
+          greaterThanOrEqualTo(torrents[3].seeders, torrents[4].seeders);
+          done();
+        } catch (err) {
+          done(err);
+        }
       });
     });
   });

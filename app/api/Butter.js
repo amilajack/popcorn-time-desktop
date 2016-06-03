@@ -7,7 +7,7 @@
 import Trakt from 'trakt.tv';
 import TorrentAdapter from './torrents/TorrentAdapter';
 import MetadataAdapter, { formatMovie } from './metadata/TraktMetadataProvider';
-
+import some from './torrents/PbTorrentProvider';
 
 export default class Butter {
 
@@ -36,8 +36,8 @@ export default class Butter {
     .then(response => formatMovie(response));
   }
 
-  getTorrent(imdbId) {
-    return TorrentAdapter(imdbId); // eslint-disable-line new-cap
+  getTorrent(imdbId, extendedDetails = {}, returnAll) {
+    return TorrentAdapter(imdbId, extendedDetails, returnAll); // eslint-disable-line new-cap
   }
 
   search(query) {

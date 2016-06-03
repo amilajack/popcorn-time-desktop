@@ -14,7 +14,7 @@ export default class Home extends Component {
 
   static propTypes = {
     mode: PropTypes.object.isRequired,
-    infinitePagination: PropTypes.bool.isRequired,
+    infinitePagination: PropTypes.bool.isRequired
   };
 
   static defaultProps = {

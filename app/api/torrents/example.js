@@ -2,7 +2,10 @@
 //  Here is an example of the structure of a TorrentProvider
 //
 
-// getTorrent(imdbId) {}
+// getTorrent(imdbId, {
+//  searchQuery: 'harry potter and the half...',
+//  ...otherCustomOptions
+// })
 //
 // Return array of availabe torrents
 // Preferrably, these should be ordered by best quality.
