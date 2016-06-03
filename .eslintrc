@@ -10,6 +10,7 @@
     "global-require": 0,
     "react/jsx-no-bind": 1,
     "no-use-before-define": 0,
+    "import/no-unresolved": [2, { ignore: ['electron'] }],
     "react/prefer-stateless-function": 1,
     "no-underscore-dangle": 0,
     "comma-dangle": ["error", "never"],

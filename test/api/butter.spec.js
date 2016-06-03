@@ -81,7 +81,8 @@ describe('api', () => {
       describe('search', () => {
         it('should search movies in correct format', async (done) => {
           try {
-            const searchResults = await butterFactory().search('harry potter', 'movies');
+            const searchResults = await butterFactory().search('tt0468569', 'the dark knight');
+
             expect(searchResults).to.be.a('array');
             const movie = searchResults[0];
             expect(movie).to.be.an('object');

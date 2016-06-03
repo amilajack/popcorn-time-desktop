@@ -3,16 +3,15 @@ import fetch from 'isomorphic-fetch';
 import { convertRuntimeToHours } from './MetadataAdapter';
 
 
-export default class TraktMetadataAdapter {
+export const CLIENT_ID = '647c69e4ed1ad13393bf6edd9d8f9fb6fe9faf405b44320a6b71ab960b4540a2';
+export const CLIENT_SECRET = 'f55b0a53c63af683588b47f6de94226b7572a6f83f40bd44c58a7c83fe1f2cb1';
 
-  client_id = '647c69e4ed1ad13393bf6edd9d8f9fb6fe9faf405b44320a6b71ab960b4540a2';
-
-  client_secret = 'f55b0a53c63af683588b47f6de94226b7572a6f83f40bd44c58a7c83fe1f2cb1';
+export default class TraktMetadataProvider {
 
   constructor() {
     this.trakt = new Trakt({
-      client_id: this.client_id,
-      client_secret: this.client_secret
+      client_id: CLIENT_ID,
+      client_secret: CLIENT_SECRET
     });
   }
 
@@ -32,21 +31,6 @@ export default class TraktMetadataAdapter {
       extended: 'full,images,metadata'
     })
     .then(response => formatMovie(response));
-  }
-
-  /**
-   * @todo: migrate from omdbapi to an api that can provide more information
-   */
-  search(query, type = 'movie', page = 1) {
-    if (!query) {
-      throw Error('query paramater required');
-    }
-
-    return fetch(
-      `http://www.omdbapi.com/?s=${encodeURIComponent(query)}&type=${type}&page=${page}`
-    )
-      .then(response => response.json())
-      .then(response => response.Search.map(movie => formatMovieSearch(movie)));
   }
 
   /**
@@ -85,35 +69,6 @@ export function formatMovie(movie = {}) {
         full: movie.images.poster.full,
         medium: movie.images.poster.medium,
         thumb: movie.images.poster.thumb
-      }
-    }
-  };
-}
-
-function formatMovieSearch(movie) {
-  return {
-    title: movie.Title,
-    year: parseInt(movie.Year, 10),
-    imdbId: movie.imdbID,
-    id: movie.imdbID,
-    summary: 'n/a',  // omdbapi does not support
-    rating: 'n/a',   // omdbapi does not support
-    runtime: {
-      full: 'n/a',   // omdbapi does not support
-      hours: 'n/a',  // omdbapi does not support
-      minutes: 'n/a' // omdbapi does not support
-    },
-    trailer: 'n/a',  // omdbapi does not support
-    images: {
-      fanart: {
-        full: movie.Poster,
-        medium: movie.Poster,
-        thumb: movie.Poster
-      },
-      poster: {
-        full: movie.Poster,
-        medium: movie.Poster,
-        thumb: movie.Poster
       }
     }
   };

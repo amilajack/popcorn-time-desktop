@@ -18,17 +18,6 @@ export default async function TorrentAdapter(imdbId, extendedDetails, returnAll 
 }
 
 /**
- * Retrieve providers and set as property on class
- *
- * @todo  mount provider paths from .env
- * @param TorrentProvidersArray
- */
-function mount(TorrentProvidersArray) {
-  const providers = TorrentProvidersArray;
-  return providers;
-}
-
-/**
  * Merge results from providers
  *
  * @todo   Do this functionally (with map, filter, etc)
@@ -56,28 +45,25 @@ function merge(providerResults) {
  * @param  {bool}   returnAll
  * @return {object}
  */
-function selectTorrents(torrents, sortMethod = 'seeders', returnAll = false) {
+function selectTorrents(torrents, sortProperty = 'seeders', returnAll = false) {
   const sortedTorrents = torrents
     .filter(torrent => torrent.quality !== 'n/a')
     .filter(torrent => torrent.quality !== '')
     .sort((prev, next) => {
-      if (prev.seeders === next.seeders) {
+      if (prev[sortProperty] === next[sortProperty]) {
         return 0;
       }
 
-      return prev.seeders > next.seeders ? -1 : 1;
+      return prev[sortProperty] > next[sortProperty] ? -1 : 1;
     });
-
-  console.log(sortedTorrents);
-  console.log(sortedTorrents.length);
 
   if (returnAll) {
     return sortedTorrents;
   }
 
   return {
-    '720p': sortedTorrents.find(torrent => torrent.quality === '720p'),
-    '1080p': sortedTorrents.find(torrent => torrent.quality === '1080p')
+    '720p': sortedTorrents.find(torrent => torrent.quality === '720p') || {},
+    '1080p': sortedTorrents.find(torrent => torrent.quality === '1080p') || {}
   };
 }
 
