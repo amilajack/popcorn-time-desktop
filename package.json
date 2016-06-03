@@ -129,7 +129,7 @@
     "redux": "^3.5.2",
     "redux-thunk": "^2.1.0",
     "source-map-support": "^0.4.0",
-    "thepiratebay-new": "^1.0.2",
+    "thepiratebay-new": "^1.1.0",
     "trakt.tv": "^1.4.2"
   },
   "engines": {

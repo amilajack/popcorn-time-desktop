@@ -9,6 +9,7 @@ export default class PbTorrentProvider {
 
   static fetch(searchQuery) {
     return PirateBay.search(searchQuery, {
+      category: 200,
       orderBy: 'seeds',
       sortBy: 'desc'
     })
