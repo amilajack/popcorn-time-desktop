@@ -1,14 +1,20 @@
-export default async function TorrentAdapter(imdbId) {
+/**
+ * @param   {string} imdbId
+ * @param   {object} extendedDetails
+ * @example { searchQuery: 'harry potter', ... }
+ */
+export default async function TorrentAdapter(imdbId, extendedDetails, returnAll = false) {
   const providers = [
     require('./YtsTorrentProvider'),
+    require('./PbTorrentProvider'),
     require('./KatTorrentProvider')
   ];
 
   const movieProviderResults = await cascade(providers.map(
-    provider => provider.provide(imdbId)
+    provider => provider.provide(imdbId, extendedDetails)
   ));
 
-  return selectTorrents(merge(movieProviderResults));
+  return selectTorrents(merge(movieProviderResults), undefined, returnAll);
 }
 
 /**
@@ -43,14 +49,35 @@ function merge(providerResults) {
 
 /**
  * Select one 720p and 1080p quality movie from torrent list
+ * By default, sort all torrents by seeders
  *
- * @param  {array} torrents
+ * @param  {array}  torrents
+ * @param  {string} sortMethod
+ * @param  {bool}   returnAll
  * @return {object}
  */
-function selectTorrents(torrents) {
+function selectTorrents(torrents, sortMethod = 'seeders', returnAll = false) {
+  const sortedTorrents = torrents
+    .filter(torrent => torrent.quality !== 'n/a')
+    .filter(torrent => torrent.quality !== '')
+    .sort((prev, next) => {
+      if (prev.seeders === next.seeders) {
+        return 0;
+      }
+
+      return prev.seeders > next.seeders ? -1 : 1;
+    });
+
+  console.log(sortedTorrents);
+  console.log(sortedTorrents.length);
+
+  if (returnAll) {
+    return sortedTorrents;
+  }
+
   return {
-    '720p': torrents.find(torrent => torrent.quality === '720p'),
-    '1080p': torrents.find(torrent => torrent.quality === '1080p')
+    '720p': sortedTorrents.find(torrent => torrent.quality === '720p'),
+    '1080p': sortedTorrents.find(torrent => torrent.quality === '1080p')
   };
 }
 

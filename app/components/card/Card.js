@@ -20,10 +20,6 @@ export default class Card extends Component {
     ])
   };
 
-  static defaultProps = {
-    image: 'some',
-  };
-
   shouldComponentUpdate() {
     return false;
   }

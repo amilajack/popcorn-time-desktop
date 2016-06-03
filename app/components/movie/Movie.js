@@ -22,7 +22,7 @@ export default class Movie extends Component {
   };
 
   static defaultProps = {
-    movieId: '',
+    movieId: ''
   };
 
   constructor(props) {
@@ -67,9 +67,12 @@ export default class Movie extends Component {
     this.destroyPlyr();
     this.state.servingUrl = undefined;
 
-    this.getMovie(movieId);
+    this.getMovie(movieId)
+      .then(movie => {
+        this.getTorrent(movieId, movie.title);
+      });
+
     this.getSimilarMovies(movieId);
-    this.getTorrent(movieId);
   }
 
   /**
@@ -89,11 +92,13 @@ export default class Movie extends Component {
     const movie = await this.butter.getMovie(imdbId);
     this.setState({ movie, movieMetadataLoading: false });
     document.querySelector('video').setAttribute('poster', this.state.movie.images.fanart.full);
+
+    return movie;
   }
 
-  async getTorrent(imdbId) {
+  async getTorrent(imdbId, movieTitle) {
     try {
-      const torrent = await this.butter.getTorrent(imdbId);
+      const torrent = await this.butter.getTorrent(imdbId, { searchQuery: movieTitle });
       this.setState({ torrent });
     } catch (err) {
       console.log(err);
@@ -173,14 +178,14 @@ export default class Movie extends Component {
               <button onClick={this.stopTorrent.bind(this)}>
                 Stop
               </button>
-              {this.state.torrent['1080p'] ?
+              {'magnet' in this.state.torrent['1080p'] ?
                 <button onClick={this.startTorrent.bind(this, this.state.torrent['1080p'].magnet)}>
                   Start 1080p
                 </button>
                 :
                 null
               }
-              {this.state.torrent['720p'] ?
+              {'magnet' in this.state.torrent['720p'] ?
                 <button onClick={this.startTorrent.bind(this, this.state.torrent['720p'].magnet)}>
                   Start 720p
                 </button>

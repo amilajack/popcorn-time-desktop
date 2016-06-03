@@ -5,7 +5,9 @@ import fetch from 'isomorphic-fetch';
 export default class YtsTorrentProvider {
 
   static fetch(imdbId) {
-    return fetch(`https://yts.ag/api/v2/list_movies.json?query_term=${imdbId}`)
+    return fetch(
+      `https://yts.ag/api/v2/list_movies.json?query_term=${imdbId}&order_by=desc&sort_by=seeds&limit=50`
+    )
       .then(response => response.json());
   }
 
@@ -13,7 +15,7 @@ export default class YtsTorrentProvider {
     return {
       quality: determineQuality(torrent.quality),
       magnet: constructMagnet(torrent.hash),
-      seeders: torrent.seeds,
+      seeders: parseInt(torrent.seeds, 10),
       leechers: 'n/a'
     };
   }
