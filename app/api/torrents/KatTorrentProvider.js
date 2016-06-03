@@ -26,7 +26,8 @@ export default class KatTorrentProvider {
       quality: determineQuality(torrent.magnet),
       magnet: torrent.magnet,
       seeders: parseInt(torrent.seeds, 10),
-      leechers: torrent.leechs
+      leechers: torrent.leechs,
+      _provider: 'kat'
     };
   }
 

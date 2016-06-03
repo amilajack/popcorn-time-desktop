@@ -16,7 +16,8 @@ export default class YtsTorrentProvider {
       quality: determineQuality(torrent.quality),
       magnet: constructMagnet(torrent.hash),
       seeders: parseInt(torrent.seeds, 10),
-      leechers: 'n/a'
+      leechers: 'n/a',
+      _provider: 'yts'
     };
   }
 
