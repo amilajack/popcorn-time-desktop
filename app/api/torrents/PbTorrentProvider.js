@@ -26,7 +26,8 @@ export default class PbTorrentProvider {
       quality: determineQuality(torrent.magnetLink),
       magnet: torrent.magnetLink,
       seeders: parseInt(torrent.seeders, 10),
-      leechers: parseInt(torrent.leechers, 10)
+      leechers: parseInt(torrent.leechers, 10),
+      _provider: 'pb'
     };
   }
 
