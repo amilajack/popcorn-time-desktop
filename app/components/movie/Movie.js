@@ -32,6 +32,17 @@ export default class Movie extends Component {
     this.torrent = new Torrent();
     this.engine = {};
 
+    this.defaultTorrent = {
+      '1080p': {
+        quality: '',
+        magnet: ''
+      },
+      '720p': {
+        quality: '',
+        magnet: ''
+      }
+    };
+
     this.state = {
       movie: {
         images: {
@@ -39,14 +50,7 @@ export default class Movie extends Component {
         },
         runtime: {}
       },
-      torrent: {
-        '1080p': {
-          quality: ''
-        },
-        '720p': {
-          quality: ''
-        }
-      },
+      torrent: this.defaultTorrent,
       similarMoviesLoading: false,
       movieMetadataLoading: false,
       torrentInProgress: false,
@@ -99,7 +103,14 @@ export default class Movie extends Component {
   async getTorrent(imdbId, movieTitle) {
     try {
       const torrent = await this.butter.getTorrent(imdbId, { searchQuery: movieTitle });
-      this.setState({ torrent });
+      console.log(torrent);
+      this.setState({
+        torrent: {
+          '1080p': torrent['1080p'] || this.defaultTorrent['1080p'],
+          '720p': torrent['720p'] || this.defaultTorrent['720p']
+        }
+        // torrent: torrent || this.defaultTorrent
+      });
     } catch (err) {
       console.log(err);
     }
@@ -178,19 +189,18 @@ export default class Movie extends Component {
               <button onClick={this.stopTorrent.bind(this)}>
                 Stop
               </button>
-              {'magnet' in this.state.torrent['1080p'] ?
-                <button onClick={this.startTorrent.bind(this, this.state.torrent['1080p'].magnet)}>
-                  Start 1080p
-                </button>
-                :
-                null
-              }
-              {'magnet' in this.state.torrent['720p'] ?
-                <button onClick={this.startTorrent.bind(this, this.state.torrent['720p'].magnet)}>
-                  Start 720p
-                </button>
-                :
-                null
+              <button
+                onClick={this.startTorrent.bind(this, this.state.torrent['1080p'].magnet)}
+                disabled={!this.state.torrent['1080p'].quality}
+              >
+                Start 1080p
+              </button>
+              <button
+                onClick={this.startTorrent.bind(this, this.state.torrent['720p'].magnet)}
+                disabled={!this.state.torrent['720p'].quality}
+              >
+                Start 720p
+              </button>
               }
               <h1>
                 {this.state.movie.title}
