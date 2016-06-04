@@ -1,4 +1,4 @@
-import { determineQuality } from './BaseTorrentProvider';
+import { determineQuality, getHealth } from './BaseTorrentProvider';
 import kat from 'kat-api';
 
 
@@ -27,6 +27,7 @@ export default class KatTorrentProvider {
       magnet: torrent.magnet,
       seeders: parseInt(torrent.seeds, 10),
       leechers: torrent.leechs,
+      ...getHealth(torrent.seeders, torrent.peers, torrent.leechs),
       _provider: 'kat'
     };
   }

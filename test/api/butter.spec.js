@@ -173,16 +173,38 @@ function assertTorrentFormat(torrent) {
   expect(torrent).to.have.property('1080p').that.is.an('object');
 
   expect(torrent).to.have.deep.property('720p.quality').that.is.a('string');
+  expect(torrent).to.have.deep.property('720p._provider').that.is.a('string');
   expect(torrent).to.have.deep.property('720p.magnet').that.is.a('string');
-  expect(torrent).to.have.deep.property('720p.seeders');
+  expect(torrent).to.have.deep.property('720p.health')
+                  .that.is.a('string')
+                  .that.oneOf(['healthy', 'decent', 'poor']);
+
+  expect(torrent).to.have.deep.property('720p.seeders')
+                  .that.is.a('number')
+                  .that.is.at.least(0);
+
   assertNAorNumber(torrent['720p'].seeders);
-  expect(torrent).to.have.deep.property('720p.leechers');
+  expect(torrent).to.have.deep.property('720p.leechers')
+                  .that.is.a('number')
+                  .that.is.at.least(0);
+
   assertNAorNumber(torrent['720p'].leechers);
 
   expect(torrent).to.have.deep.property('1080p.quality').that.is.a('string');
+  expect(torrent).to.have.deep.property('1080p._provider').that.is.a('string');
   expect(torrent).to.have.deep.property('1080p.magnet').that.is.a('string');
-  expect(torrent).to.have.deep.property('1080p.seeders');
+  expect(torrent).to.have.deep.property('1080p.health')
+                  .that.is.a('string')
+                  .that.oneOf(['healthy', 'decent', 'poor']);
+
+  expect(torrent).to.have.deep.property('1080p.seeders')
+                  .that.is.a('number')
+                  .that.is.at.least(0);
+
   assertNAorNumber(torrent['1080p'].seeders);
-  expect(torrent).to.have.deep.property('1080p.leechers');
+  expect(torrent).to.have.deep.property('1080p.leechers')
+                  .that.is.a('number')
+                  .that.is.at.least(0);
+
   assertNAorNumber(torrent['1080p'].leechers);
 }

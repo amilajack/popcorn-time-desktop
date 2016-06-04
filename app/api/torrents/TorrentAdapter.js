@@ -3,18 +3,29 @@
  * @param   {object} extendedDetails
  * @example { searchQuery: 'harry potter', ... }
  */
-export default async function TorrentAdapter(imdbId, extendedDetails, returnAll = false) {
+/* eslint max-len: 0 */
+export default async function TorrentAdapter(imdbId, extendedDetails, returnAll = false, type = 'all') {
   const providers = [
     require('./YtsTorrentProvider'),
     require('./PbTorrentProvider')
     // require('./KatTorrentProvider')
   ];
 
-  const movieProviderResults = await cascade(providers.map(
+  const torrentPromises = providers.map(
     provider => provider.provide(imdbId, extendedDetails)
-  ));
+  );
 
-  return selectTorrents(merge(movieProviderResults), undefined, returnAll);
+  switch (type) {
+    case 'all': {
+      const movieProviderResults = await cascade(torrentPromises);
+      return selectTorrents(merge(movieProviderResults), undefined, returnAll);
+    }
+    case 'race': {
+      return Promise.race(torrentPromises);
+    }
+    default:
+      throw new Error('Invalid type');
+  }
 }
 
 /**
@@ -68,8 +79,10 @@ function selectTorrents(torrents, sortMethod = 'seeders', returnAll = false) {
       return prev.seeders > next.seeders ? -1 : 1;
     });
 
-  console.log(sortedTorrents);
-  console.log(sortedTorrents.length);
+  if (process.env.NODE_ENV === 'development') {
+    console.log(sortedTorrents);
+    console.log(sortedTorrents.length);
+  }
 
   if (returnAll) {
     return sortedTorrents;

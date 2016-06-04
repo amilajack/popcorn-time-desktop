@@ -33,6 +33,7 @@ export default class Movie extends Component {
     this.engine = {};
 
     this.defaultTorrent = {
+      health: '',
       '1080p': {
         quality: '',
         magnet: ''
@@ -103,13 +104,18 @@ export default class Movie extends Component {
   async getTorrent(imdbId, movieTitle) {
     try {
       const torrent = await this.butter.getTorrent(imdbId, { searchQuery: movieTitle });
-      console.log(torrent);
+      let health;
+
+      if (torrent['1080p'].magnet || torrent['720p'].magnet) {
+        health = torrent['1080p'].health || torrent['720p'].health;
+      }
+
       this.setState({
         torrent: {
           '1080p': torrent['1080p'] || this.defaultTorrent['1080p'],
-          '720p': torrent['720p'] || this.defaultTorrent['720p']
+          '720p': torrent['720p'] || this.defaultTorrent['720p'],
+          health
         }
-        // torrent: torrent || this.defaultTorrent
       });
     } catch (err) {
       console.log(err);
@@ -201,7 +207,7 @@ export default class Movie extends Component {
               >
                 Start 720p
               </button>
-              }
+              <h4>torrent status: {this.state.torrent.health}</h4>
               <h1>
                 {this.state.movie.title}
               </h1>

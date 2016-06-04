@@ -1,7 +1,7 @@
 /**
  * Pirate Bay torrent provider
  */
-import { determineQuality } from './BaseTorrentProvider';
+import { determineQuality, getHealth } from './BaseTorrentProvider';
 import PirateBay from 'thepiratebay-new';
 
 
@@ -9,6 +9,7 @@ export default class PbTorrentProvider {
 
   static fetch(searchQuery) {
     return PirateBay.search(searchQuery, {
+      category: 200,
       orderBy: 'seeds',
       sortBy: 'desc'
     })
@@ -27,6 +28,7 @@ export default class PbTorrentProvider {
       magnet: torrent.magnetLink,
       seeders: parseInt(torrent.seeders, 10),
       leechers: parseInt(torrent.leechers, 10),
+      ...getHealth(torrent.seeders, torrent.peers),
       _provider: 'pb'
     };
   }
