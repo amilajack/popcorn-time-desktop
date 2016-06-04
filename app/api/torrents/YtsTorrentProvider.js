@@ -1,4 +1,4 @@
-import { determineQuality } from './BaseTorrentProvider';
+import { determineQuality, getHealth } from './BaseTorrentProvider';
 import fetch from 'isomorphic-fetch';
 
 
@@ -16,7 +16,8 @@ export default class YtsTorrentProvider {
       quality: determineQuality(torrent.quality),
       magnet: constructMagnet(torrent.hash),
       seeders: parseInt(torrent.seeds, 10),
-      leechers: 'n/a',
+      leechers: 0,
+      ...getHealth(torrent.seeds, torrent.peers),
       _provider: 'yts'
     };
   }
@@ -26,7 +27,7 @@ export default class YtsTorrentProvider {
       .then(results => {
         if (!results.data.movie_count) return [];
         const torrents = results.data.movies[0].torrents;
-        return torrents.splice(0, 10).map(this.formatTorrent);
+        return torrents.map(this.formatTorrent);
       })
       .catch(error => {
         console.log(error);
