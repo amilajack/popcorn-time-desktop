@@ -1,5 +1,8 @@
 ## A experimental popcorn-time client
 
+[![Travis branch](https://img.shields.io/travis/amilajack/popcorn-desktop-experimental/master.svg)]()
+[![NPM dependencies](https://img.shields.io/david/amilajack/popcorn-desktop-experimental.svg)]()
+
 ## Features:
 
 **Performance**: Significantly faster than other clients
