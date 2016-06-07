@@ -67,7 +67,7 @@ export default class Home extends Component {
   }
 
   async getMovies(mode, options = {}) {
-    if (!this._didMount) return false;
+    if (!this._didMount || this.state.isLoading) return false;
 
     this.setState({
       isLoading: true

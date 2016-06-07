@@ -12,8 +12,7 @@ export default class Loader extends Component {
 
   render() {
     const shouldShow = {
-      opacity: this.props.isLoading ? 1 : 0,
-      display: this.props.isLoading ? 'initial' : 'none'
+      opacity: this.props.isLoading ? 1 : 0
     };
 
     return (
