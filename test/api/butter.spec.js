@@ -147,6 +147,7 @@ function assertMovieFormat(movie) {
   expect(movie).to.have.property('id').that.is.a('string');
   expect(movie).to.have.property('imdbId').that.is.a('string');
   expect(movie).to.have.property('summary').that.is.a('string');
+  expect(movie).to.have.property('genres').that.is.an('array');
   assertNAorNumber(movie.rating);
 
   expect(movie).to.have.property('runtime').that.is.an('object');

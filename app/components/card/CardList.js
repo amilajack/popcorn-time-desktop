@@ -13,18 +13,21 @@ export default class CardList extends Component {
 
   static propTypes = {
     movies: PropTypes.array.isRequired,
-    isLoading: PropTypes.bool.isRequired
+    isLoading: PropTypes.bool.isRequired,
+    isFinished: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
     movies: [],
-    isLoading: false
+    isLoading: false,
+    isFinished: false
   };
 
   shouldComponentUpdate(previousProps) {
     return (
       previousProps.movies.length !== this.props.movies.length ||
-      previousProps.isLoading !== this.props.isLoading
+      previousProps.isLoading !== this.props.isLoading &&
+      previousProps.isFinished !== this.props.isFinished
     );
   }
 
@@ -44,12 +47,13 @@ export default class CardList extends Component {
                 id={movie.imdbId}
                 year={movie.year}
                 rating={movie.rating}
+                genres={movie.genres}
               />
             ))}
           </div>
         </div>
         <div className="col-xs-12">
-          <Loader isLoading={this.props.isLoading} />
+          <Loader isLoading={this.props.isLoading} isFinished={this.props.isFinished} />
         </div>
       </div>
     );
