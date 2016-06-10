@@ -49,5 +49,6 @@ npm run dev
 - [ ] Autoupdate and installation with electron
 
 ## Goal:
-![alt tag](https://raw.github.com/amilajack/popcorn-desktop-experimental/master/images/movie-page.jpg)
-![alt tag](https://raw.github.com/amilajack/popcorn-desktop-experimental/master/images/home.png)
+![Movie page](https://raw.github.com/amilajack/popcorn-desktop-experimental/master/images/movie-page.jpg)
+![Show page](https://raw.github.com/amilajack/popcorn-desktop-experimental/master/images/show-page.jpg)
+![Home page](https://raw.github.com/amilajack/popcorn-desktop-experimental/master/images/home.png)
