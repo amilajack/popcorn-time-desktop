@@ -12,6 +12,7 @@
 //   imdbId: <string>,
 //   id: <string>, A general id that is not specific to movies. Reserved for future use
 //   summary: <string>,
+//   genres: <array>,
 //   runtime: {
 //      full: <number>,
 //      hours: <number>,

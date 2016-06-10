@@ -16,7 +16,7 @@ function setup(propsOverride) {
     image: 'test_image_url',
     title: 'Test movie',
     id: '248245',
-    year: 2014,
+    genres: ['action', 'comedy'],
     rating: 4.5
   }, propsOverride);
 
@@ -24,7 +24,7 @@ function setup(propsOverride) {
   return {
     component,
     title: findRenderedDOMComponentWithClass(component, 'Card--title'),
-    year: findRenderedDOMComponentWithClass(component, 'Card--year')
+    genres: findRenderedDOMComponentWithClass(component, 'Card--genres')
   };
 }
 
@@ -35,9 +35,9 @@ describe('Card Component', () => {
     done();
   });
 
-  it('should have movie year', (done) => {
-    const { title, year } = setup();
-    expect(year.textContent).to.equal('2014');
+  it('should have movie genres', (done) => {
+    const { title, genres } = setup();
+    expect(genres.textContent).to.equal('action');
     done();
   });
 });

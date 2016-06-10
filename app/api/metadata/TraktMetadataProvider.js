@@ -1,3 +1,6 @@
+/**
+ * @todo: Filter and sort by options
+ */
 import Trakt from 'trakt.tv';
 import fetch from 'isomorphic-fetch';
 import { convertRuntimeToHours } from './MetadataAdapter';
@@ -72,6 +75,7 @@ export function formatMovie(movie = {}) {
     imdbId: movie.ids.imdb,
     id: movie.ids.imdb,
     summary: movie.overview,
+    genres: movie.genres,
     rating: movie.rating ? movie.rating / 2 : 'n/a',
     runtime: convertRuntimeToHours(movie.runtime),
     trailer: movie.trailer,
@@ -97,6 +101,7 @@ function formatMovieSearch(movie) {
     imdbId: movie.imdbID,
     id: movie.imdbID,
     summary: 'n/a',  // omdbapi does not support
+    genres: [],
     rating: 'n/a',   // omdbapi does not support
     runtime: {
       full: 'n/a',   // omdbapi does not support

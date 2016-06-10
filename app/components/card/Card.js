@@ -13,7 +13,7 @@ export default class Card extends Component {
     title: PropTypes.string.isRequired,
     image: PropTypes.string,
     id: PropTypes.string,
-    year: PropTypes.number,
+    genres: PropTypes.array,
     rating: PropTypes.oneOfType([
       PropTypes.number,
       PropTypes.string
@@ -55,7 +55,9 @@ export default class Card extends Component {
           :
           null
         }
-        <div className="Card--year">{this.props.year}</div>
+        <div className="Card--genres">
+          {this.props.genres ? this.props.genres[0] : null}
+        </div>
       </div>
     );
   }

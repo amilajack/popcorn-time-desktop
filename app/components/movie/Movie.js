@@ -129,7 +129,8 @@ export default class Movie extends Component {
 
     this.setState({
       similarMoviesLoading: false,
-      similarMovies
+      similarMovies,
+      isFinished: true
     });
   }
 
@@ -214,6 +215,12 @@ export default class Movie extends Component {
               <h5>
                 Year: {this.state.movie.year}
               </h5>
+              <h6>
+                Genres: {this.state.movie.genres ?
+                  this.state.movie.genres.map(genre => `${genre}, `)
+                  : null
+                  }
+              </h6>
               <h5>
                 Length: {this.state.movie.runtime.full}
               </h5>
@@ -251,6 +258,7 @@ export default class Movie extends Component {
             <CardList
               movies={this.state.similarMovies}
               movieMetadataLoading={this.state.similarMoviesLoading}
+              isFinished={this.state.isFinished}
             />
           </div>
         </div>
