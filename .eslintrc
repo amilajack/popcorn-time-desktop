@@ -13,6 +13,7 @@
     "import/no-unresolved": [2, { ignore: ['electron'] }],
     "react/prefer-stateless-function": 1,
     "no-underscore-dangle": 0,
+    "import/no-unresolved": [2, { ignore: ['electron'] }],
     "comma-dangle": ["error", "never"],
     "no-unused-vars": 0,
     "consistent-return": 0,

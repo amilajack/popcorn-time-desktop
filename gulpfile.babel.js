@@ -18,7 +18,7 @@ const autoprefixerSettings = [
 // Remove logs, compiled front-end resources (css, js, html), email styles
 gulp.task('clean', () => del([
   './app/dist/*',
-  './dist/*',
+  './dist/*'
 ], { dot: true }));
 
 gulp.task('bower', () => $.bower());

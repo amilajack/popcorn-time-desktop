@@ -7,6 +7,8 @@
 import TorrentAdapter from './torrents/TorrentAdapter';
 import MetadataAdapter from './metadata/TraktMetadataProvider';
 import SearchAdapter from './search/SearchAdapter';
+import TorrentAdapter, { torrentHealth, getHealth } from './torrents/TorrentAdapter';
+import MetadataAdapter, { formatMovie } from './metadata/TraktMetadataProvider';
 
 export default class Butter {
 
@@ -31,6 +33,10 @@ export default class Butter {
 
   search(imdbId, query, extended = {}) {
     return SearchAdapter(imdbId, query, extended); // eslint-disable-line new-cap
+  }
+
+  getTorrentHealth(magnet) {
+    return getHealth(magnet);
   }
 
   getSimilarMovies(imdbId) {

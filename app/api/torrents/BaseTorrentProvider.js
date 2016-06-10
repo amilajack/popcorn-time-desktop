@@ -7,3 +7,21 @@ export function determineQuality(title) {
   }
   return '';
 }
+
+export function getHealth(seeders, peers, leechers) {
+  let health;
+
+  if (seeders + peers >= 100) {
+    health = 'healthy';
+  }
+
+  if (seeders + peers >= 50 && seeders + peers < 100) {
+    health = 'decent';
+  }
+
+  if (seeders + peers < 50) {
+    health = 'poor';
+  }
+
+  return { health };
+}
