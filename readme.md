@@ -43,7 +43,7 @@ npm run dev
 ```
 
 ## Todos:
-(Ordered by priority)
+(Ordered by priority), see [roadmap](https://github.com/amilajack/popcorn-desktop-experimental/wiki/Road-Map) for full list
 - [ ] Refactor to Provider architecture
 - [ ] Write initial tests, configure with Travis CI
 - [ ] Transition to immutable state with Redux and ImmutableJS, stateless components
