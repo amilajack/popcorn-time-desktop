@@ -73,13 +73,8 @@
     "css-loader": "^0.23.1",
     "del": "^2.2.0",
     "devtron": "^1.2.0",
-<<<<<<< HEAD
-    "electron-packager": "^7.0.3",
-    "electron-prebuilt": "^1.2.2",
-=======
     "electron-packager": "^7.0.4",
     "electron-prebuilt": "^1.2.3",
->>>>>>> dev-master
     "electron-rebuild": "^1.1.5",
     "eslint": "^2.12.0",
     "eslint-config-airbnb": "^9.0.1",
@@ -127,11 +122,7 @@
     "isomorphic-fetch": "^2.2.1",
     "kat-api": "github:team-pct/kat-api",
     "peerflix": "^0.35.0",
-<<<<<<< HEAD
-    "plyr": "^1.7.0",
-=======
     "plyr": "^1.8.2",
->>>>>>> dev-master
     "postcss": "^5.0.21",
     "react": "^15.1.0",
     "react-dom": "^15.1.0",
