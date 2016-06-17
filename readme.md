@@ -2,14 +2,15 @@
 
 [![Travis branch](https://img.shields.io/travis/amilajack/popcorn-desktop-experimental/master.svg)]()
 [![NPM dependencies](https://img.shields.io/david/amilajack/popcorn-desktop-experimental.svg)]()
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)]()
 
 ## Features:
 
-**Performance**: Significantly faster than other clients
+**Performance**: Significantly faster than other clients. Everything from scrolling perf. to playing movies is buttery smooth!
 
-**Modern Stack**: A stack that you actually use
+**Modern Stack**: ES6, React, Electron, Webpack, and more!
 
-**Functional Programming**: Embraces pure functions, immutability, and stateless components
+**Functional Programming**: Embraces pure functions, immutability, and stateless components for better developer experience
 
 ## Stack:
 
