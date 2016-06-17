@@ -3,7 +3,7 @@
  * @param   {object} extendedDetails
  * @example { searchQuery: 'harry potter', ... }
  */
-/* eslint max-len: 0 */
+/* eslint max-len: 0, global-require: 0 */
 export default async function TorrentAdapter(imdbId, extendedDetails, returnAll = false, type = 'all') {
   const providers = [
     require('./YtsTorrentProvider'),
@@ -26,17 +26,6 @@ export default async function TorrentAdapter(imdbId, extendedDetails, returnAll 
     default:
       throw new Error('Invalid type');
   }
-}
-
-/**
- * Retrieve providers and set as property on class
- *
- * @todo  mount provider paths from .env
- * @param TorrentProvidersArray
- */
-function mount(TorrentProvidersArray) {
-  const providers = TorrentProvidersArray;
-  return providers;
 }
 
 /**

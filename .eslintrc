@@ -7,21 +7,23 @@
     "node": true
   },
   "rules": {
-    "global-require": 0,
     "react/jsx-no-bind": 1,
     "no-use-before-define": 0,
     "react/prefer-stateless-function": 1,
     "no-underscore-dangle": 0,
     "import/no-unresolved": [2, { ignore: ['electron'] }],
     "comma-dangle": ["error", "never"],
-    "no-unused-vars": 0,
-    "consistent-return": 0,
+    "consistent-return": 1,
     "immutable/no-let": 1,
     "immutable/no-this": 1,
     "immutable/no-mutation": 1
   },
   "plugins": [
+    "import",
     "react",
     "immutable"
-  ]
+  ],
+  # "settings": {
+  #   "import/resolver": "webpack"
+  # }
 }

@@ -10,7 +10,6 @@ import Rating from 'react-star-rating-component';
 import CardList from '../card/CardList';
 import Butter from '../../api/Butter';
 import Torrent from '../../api/Torrent';
-import peerflix from 'peerflix';
 import plyr from 'plyr';
 import { Link } from 'react-router';
 
@@ -136,7 +135,7 @@ export default class Movie extends Component {
   /**
    * @todo
    */
-  setupPlyr(servingUrl, posterSrc) {}
+  setupPlyr() {}
 
   stopTorrent() {
     this.torrent.destroy();

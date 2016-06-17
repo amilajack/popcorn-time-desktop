@@ -2,6 +2,8 @@
  * Resolve requests from cache
  */
 
+/* eslint-disable */
+
 export default function MetadataAapter() {
   const providers = [
     require('./TraktMetadataProvider')
