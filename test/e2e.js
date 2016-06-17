@@ -9,7 +9,6 @@ import webdriver from 'selenium-webdriver';
 import { expect } from 'chai';
 import electronPath from 'electron-prebuilt';
 
-
 chromedriver.start(); // on port 9515
 process.on('exit', chromedriver.stop);
 

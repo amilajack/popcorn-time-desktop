@@ -1,3 +1,5 @@
+/* eslint global-require: 0 */
+
 import React, { Component, PropTypes } from 'react';
 
 

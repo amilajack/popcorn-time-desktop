@@ -43,7 +43,7 @@ export default class Home extends Component {
     document.addEventListener('scroll', this.initInfinitePagination.bind(this));
   }
 
-  componentWillUpdate(nextProps, nextState) {
+  componentWillUpdate(nextProps) {
     if (
       this._didMount &&
       nextProps.mode.modeType !== this.props.mode.modeType ||

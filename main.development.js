@@ -1,4 +1,6 @@
-import { app, BrowserWindow, Menu, crashReporter, shell } from 'electron';
+/* eslint global-require: 0 */
+
+import { app, BrowserWindow, Menu, shell, crashReporter } from 'electron';
 
 let menu;
 let template;
@@ -118,7 +120,7 @@ app.on('ready', () => {
         label: 'Reload',
         accelerator: 'Command+R',
         click() {
-          mainWindow.restart();
+          mainWindow.webContents.reload();
         }
       }, {
         label: 'Toggle Full Screen',
@@ -201,7 +203,7 @@ app.on('ready', () => {
         label: '&Reload',
         accelerator: 'Ctrl+R',
         click() {
-          mainWindow.restart();
+          mainWindow.webContents.reload();
         }
       }, {
         label: 'Toggle &Full Screen',

@@ -8,7 +8,7 @@ export function determineQuality(title) {
   return '';
 }
 
-export function getHealth(seeders, peers, leechers) {
+export function getHealth(seeders, peers) {
   let health;
 
   if (seeders + peers >= 100) {

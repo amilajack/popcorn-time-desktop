@@ -2,7 +2,7 @@
  * Pirate Bay torrent provider
  */
 import { determineQuality, getHealth } from './BaseTorrentProvider';
-import PirateBay from 'thepiratebay-new';
+import PirateBay from 'thepiratebay';
 
 
 export default class PbTorrentProvider {
@@ -35,7 +35,7 @@ export default class PbTorrentProvider {
 
   static provide(imdbId, extendedDetails = {}) {
     if (!extendedDetails.searchQuery) {
-      return new Promise((resolve, reject) => resolve([]));
+      return new Promise((resolve) => resolve([]));
     }
 
     return this.fetch(extendedDetails.searchQuery);

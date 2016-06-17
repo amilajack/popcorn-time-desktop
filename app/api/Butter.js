@@ -5,9 +5,8 @@
  */
 
 import Trakt from 'trakt.tv';
-import TorrentAdapter, { torrentHealth, getHealth } from './torrents/TorrentAdapter';
+import TorrentAdapter, { getHealth } from './torrents/TorrentAdapter';
 import MetadataAdapter, { formatMovie } from './metadata/TraktMetadataProvider';
-import some from './torrents/PbTorrentProvider';
 
 export default class Butter {
 

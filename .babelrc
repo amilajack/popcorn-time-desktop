@@ -1,13 +1,20 @@
 {
   "presets": ["es2015", "stage-0", "react"],
   "plugins": [
-		"add-module-exports",
-		"transform-runtime"
+		"add-module-exports"
 	],
   "env": {
     "development": {
       "presets": ["react-hmre"]
     },
+		"production": {
+			"presets": ["react-optimize"],
+			"plugins": [
+				"babel-plugin-transform-remove-console",
+				"babel-plugin-transform-remove-debugger",
+				"babel-plugin-dev-expression"
+			]
+		},
     "test": {
       "plugins": [
         ["webpack-loaders", { "config": "webpack.config.node.js", "verbose": false }]

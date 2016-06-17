@@ -32,10 +32,6 @@ export default class CardList extends Component {
   }
 
   render() {
-    const shouldShowLoading = {
-      opacity: this.props.isLoading ? 1 : 0
-    };
-
     return (
       <div>
         <div className="col-xs-12">
