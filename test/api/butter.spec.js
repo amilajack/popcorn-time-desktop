@@ -4,7 +4,7 @@ import assert from 'assert';
 import { convertRuntimeToHours } from '../../app/api/metadata/MetadataAdapter';
 
 
-const imdbId = 'tt0120737';
+const imdbId = 'tt0468569';
 
 function greaterThanOrEqualTo(first, second) {
   return (first > second || first === second);
