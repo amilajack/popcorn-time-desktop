@@ -15,8 +15,9 @@
 //     quality: <string>, 1080p || 720p,
 //     magnet: <string>
 //     seeders: <number>
-//     provder: <string>
 //     leechers: <number>
+//     health: <string>, healthy || decent || poor
+//     _provder: <string>
 //   },
 //   ...
 // ]

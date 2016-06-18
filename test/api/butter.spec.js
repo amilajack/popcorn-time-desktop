@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import Butter from '../../app/api/Butter';
+import PctTorrentProvider from '../../app/api/torrents/PctTorrentProvider';
 import assert from 'assert';
 import { convertRuntimeToHours } from '../../app/api/metadata/MetadataAdapter';
 
@@ -14,7 +15,7 @@ describe('api', () => {
   describe('Butter', () => {
     describe('metadata', () => {
       describe('movies', () => {
-        it('should convert time from minutes to hours', (done) => {
+        it('should convert time from minutes to hours', done => {
           try {
             expect(convertRuntimeToHours(64).full).to.equal('1 hour 4 minutes');
             expect(convertRuntimeToHours(64).hours).to.equal(1);
@@ -30,7 +31,7 @@ describe('api', () => {
           }
         });
 
-        it('should return array of objects', async (done) => {
+        it('should return array of objects', async done => {
           try {
             const movies = await moviesFactory();
             const movie = movies[0];
@@ -42,7 +43,7 @@ describe('api', () => {
           }
         });
 
-        it('should have movies that have necessary properties', async (done) => {
+        it('should have movies that have necessary properties', async done => {
           try {
             const movies = await moviesFactory();
             const movie = movies[0];
@@ -55,7 +56,7 @@ describe('api', () => {
       });
 
       describe('movie', () => {
-        it('should have necessary properties', async (done) => {
+        it('should have necessary properties', async done => {
           try {
             const movie = await movieFactory();
             assertMovieFormat(movie);
@@ -67,7 +68,7 @@ describe('api', () => {
       });
 
       describe('similar', () => {
-        it('should get similar movies in correct format', async (done) => {
+        it('should get similar movies in correct format', async done => {
           try {
             const similarMovies = await butterFactory().getSimilarMovies(imdbId);
             assertMovieFormat(similarMovies[0]);
@@ -79,7 +80,7 @@ describe('api', () => {
       });
 
       describe('search', () => {
-        it('should search movies in correct format', async (done) => {
+        it('should search movies in correct format', async done => {
           try {
             const searchResults = await butterFactory().search('harry potter', 'movies');
             expect(searchResults).to.be.a('array');
@@ -95,30 +96,65 @@ describe('api', () => {
     });
 
     describe('torrents', () => {
-      it('should get torrents and their magnets of 720p and 1080p', async (done) => {
-        try {
-          const torrent = await butterFactory().getTorrent(imdbId);
-          assertTorrentFormat(torrent);
-          done();
-        } catch (err) {
-          done(err);
-        }
+      describe('movie torrents', () => {
+        it('should get torrents and their magnets of 720p and 1080p', async done => {
+          try {
+            const torrent = await butterFactory().getTorrent(imdbId);
+            assertTorrentFormat(torrent);
+            done();
+          } catch (err) {
+            done(err);
+          }
+        });
+
+        it('should order torrents by seeder count by default', async function(done) {
+          this.timeout(20000);
+
+          try {
+            // Get all sorted torrents
+            const torrents = await butterFactory().getTorrent('tt1375666', {
+              searchQuery: 'Inception',
+            }, true);
+
+            if (torrents.length >= 4) {
+              greaterThanOrEqualTo(torrents[0].seeders, torrents[1].seeders);
+              greaterThanOrEqualTo(torrents[1].seeders, torrents[2].seeders);
+              greaterThanOrEqualTo(torrents[3].seeders, torrents[4].seeders);
+            }
+
+            if (torrents.length > 1) {
+              greaterThanOrEqualTo(
+                torrents[0].seeders,
+                torrents[torrents.length - 1].seeders
+              );
+            }
+
+            done();
+          } catch (err) {
+            done(err);
+          }
+        });
       });
 
-      it('should order torrents by seeder count by default', async (done) => {
-        try {
-          // Get all sorted torrents
-          const torrents = await butterFactory().getTorrent('tt1375666', {
-            searchQuery: 'Inception',
-          }, true);
+      describe('show torrents', () => {
+        it('gets show by imdbId', async done => {
+          try {
+            const torrents = await PctTorrentProvider.provide('tt1475582', {
+              season: 1,
+              episode: 1
+            });
+            const [torrent] = torrents;
 
-          greaterThanOrEqualTo(torrents[0].seeders, torrents[1].seeders);
-          greaterThanOrEqualTo(torrents[1].seeders, torrents[2].seeders);
-          greaterThanOrEqualTo(torrents[3].seeders, torrents[4].seeders);
-          done();
-        } catch (err) {
-          done(err);
-        }
+            expect(torrents).to.be.an('array');
+            console.log(torrents);
+            console.log('..............................');
+            console.log(torrent);
+            assertTorrentFormat(torrents, ['0', '480p', '720p']);
+            done();
+          } catch (err) {
+            done(err);
+          }
+        });
       });
     });
   });
@@ -168,44 +204,29 @@ function assertMovieFormat(movie) {
   expect(movie).to.have.deep.property('images.fanart.thumb').that.is.a('string');
 }
 
-function assertTorrentFormat(torrent) {
+function assertTorrentFormat(torrent, qualities = ['720p', '1080p']) {
   expect(torrent).to.be.an('object');
-  expect(torrent).to.have.property('720p').that.is.an('object');
-  expect(torrent).to.have.property('1080p').that.is.an('object');
 
-  expect(torrent).to.have.deep.property('720p.quality').that.is.a('string');
-  expect(torrent).to.have.deep.property('720p._provider').that.is.a('string');
-  expect(torrent).to.have.deep.property('720p.magnet').that.is.a('string');
-  expect(torrent).to.have.deep.property('720p.health')
-                  .that.is.a('string')
-                  .that.oneOf(['healthy', 'decent', 'poor']);
+  for (const quality of qualities) {
+    expect(torrent).to.have.property(quality).that.is.an('object');
+    expect(torrent).to.have.property('1080p').that.is.an('object');
 
-  expect(torrent).to.have.deep.property('720p.seeders')
-                  .that.is.a('number')
-                  .that.is.at.least(0);
+    expect(torrent).to.have.deep.property(`${quality}.quality`).that.is.a('string');
+    expect(torrent).to.have.deep.property(`${quality}._provider`).that.is.a('string');
+    expect(torrent).to.have.deep.property(`${quality}.magnet`).that.is.a('string');
+    expect(torrent).to.have.deep.property(`${quality}.health`)
+                    .that.is.a('string')
+                    .that.oneOf(['healthy', 'decent', 'poor']);
 
-  assertNAorNumber(torrent['720p'].seeders);
-  expect(torrent).to.have.deep.property('720p.leechers')
-                  .that.is.a('number')
-                  .that.is.at.least(0);
+    expect(torrent).to.have.deep.property(`${quality}.seeders`)
+                    .that.is.a('number')
+                    .that.is.at.least(0);
 
-  assertNAorNumber(torrent['720p'].leechers);
+    assertNAorNumber(torrent[quality].seeders);
+    expect(torrent).to.have.deep.property(`${quality}.leechers`)
+                    .that.is.a('number')
+                    .that.is.at.least(0);
 
-  expect(torrent).to.have.deep.property('1080p.quality').that.is.a('string');
-  expect(torrent).to.have.deep.property('1080p._provider').that.is.a('string');
-  expect(torrent).to.have.deep.property('1080p.magnet').that.is.a('string');
-  expect(torrent).to.have.deep.property('1080p.health')
-                  .that.is.a('string')
-                  .that.oneOf(['healthy', 'decent', 'poor']);
-
-  expect(torrent).to.have.deep.property('1080p.seeders')
-                  .that.is.a('number')
-                  .that.is.at.least(0);
-
-  assertNAorNumber(torrent['1080p'].seeders);
-  expect(torrent).to.have.deep.property('1080p.leechers')
-                  .that.is.a('number')
-                  .that.is.at.least(0);
-
-  assertNAorNumber(torrent['1080p'].leechers);
+    assertNAorNumber(torrent[quality].leechers);
+  }
 }

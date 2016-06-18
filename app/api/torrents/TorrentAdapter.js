@@ -8,6 +8,7 @@ export default async function TorrentAdapter(imdbId, extendedDetails, returnAll 
   const providers = [
     require('./YtsTorrentProvider'),
     require('./PbTorrentProvider')
+    // require('./PctTorrentProvider')
     // require('./KatTorrentProvider')
   ];
 
