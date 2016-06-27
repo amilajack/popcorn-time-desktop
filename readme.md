@@ -1,5 +1,7 @@
 ## A experimental popcorn-time client
 
+[![Join the chat at https://gitter.im/amilajack/popcorn-desktop-experimental](https://badges.gitter.im/amilajack/popcorn-desktop-experimental.svg)](https://gitter.im/amilajack/popcorn-desktop-experimental?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![Travis branch](https://img.shields.io/travis/amilajack/popcorn-desktop-experimental/master.svg)]()
 [![NPM dependencies](https://img.shields.io/david/amilajack/popcorn-desktop-experimental.svg)]()
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)]()
