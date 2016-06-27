@@ -1,9 +1,8 @@
 ## A experimental popcorn-time client
 
-[![Join the chat at https://gitter.im/amilajack/popcorn-desktop-experimental](https://badges.gitter.im/amilajack/popcorn-desktop-experimental.svg)](https://gitter.im/amilajack/popcorn-desktop-experimental?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
 [![Travis branch](https://img.shields.io/travis/amilajack/popcorn-desktop-experimental/master.svg)]()
 [![NPM dependencies](https://img.shields.io/david/amilajack/popcorn-desktop-experimental.svg)]()
+[![Join the chat at https://gitter.im/amilajack/popcorn-desktop-experimental](https://badges.gitter.im/amilajack/popcorn-desktop-experimental.svg)](https://gitter.im/amilajack/popcorn-desktop-experimental?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)]()
 
 ## Features:
@@ -11,8 +10,6 @@
 **Performance**: Significantly faster than other clients. Everything from scrolling perf. to playing movies is buttery smooth!
 
 **Modern Stack**: ES6, React, Electron, Webpack, and more!
-
-**Functional Programming**: Embraces pure functions, immutability, and stateless components for better developer experience
 
 ## Stack:
 
@@ -27,7 +24,7 @@
 ## Requirements:
 
 * [Node >= 5](nodejs.org)
-* Mac or Linux. Windows support pending
+* Mac or Linux. Windows not officially supported
 
 ## Installation:
 ```
