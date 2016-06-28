@@ -32,13 +32,18 @@ export default class KatTorrentProvider {
     };
   }
 
-  static provide(imdbId) {
-    return this.fetch(imdbId)
-      .then(
-        results => results.splice(0, 10).map(this.formatTorrent)
-      )
-      .catch(error => {
-        console.log(error);
-      });
+  static provide(imdbId, type) {
+    switch (type) {
+      case 'movie':
+        return this.fetch(imdbId)
+          .then(
+            results => results.splice(0, 10).map(this.formatTorrent)
+          )
+          .catch(error => {
+            console.log(error);
+          });
+      default:
+        return [];
+    }
   }
 }

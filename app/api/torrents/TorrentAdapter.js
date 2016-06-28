@@ -3,20 +3,24 @@
  * @param   {object} extendedDetails
  * @example { searchQuery: 'harry potter', ... }
  */
-/* eslint max-len: 0, global-require: 0 */
-export default async function TorrentAdapter(imdbId, extendedDetails, returnAll = false, type = 'all') {
+/* eslint global-require: 0 */
+export default async function TorrentAdapter(imdbId,
+                                              type,
+                                              extendedDetails,
+                                              returnAll = false,
+                                              method = 'all') {
   const providers = [
     require('./YtsTorrentProvider'),
-    require('./PbTorrentProvider')
-    // require('./PctTorrentProvider')
+    require('./PbTorrentProvider'),
+    require('./PctTorrentProvider')
     // require('./KatTorrentProvider')
   ];
 
   const torrentPromises = providers.map(
-    provider => provider.provide(imdbId, extendedDetails)
+    provider => provider.provide(imdbId, type, extendedDetails)
   );
 
-  switch (type) {
+  switch (method) {
     case 'all': {
       const movieProviderResults = await cascade(torrentPromises);
       return selectTorrents(merge(movieProviderResults), undefined, returnAll);
@@ -79,6 +83,8 @@ function selectTorrents(torrents, sortMethod = 'seeders', returnAll = false) {
   }
 
   return {
+    '0p': sortedTorrents.find(torrent => torrent.quality === '0p'),
+    '480p': sortedTorrents.find(torrent => torrent.quality === '480p'),
     '720p': sortedTorrents.find(torrent => torrent.quality === '720p'),
     '1080p': sortedTorrents.find(torrent => torrent.quality === '1080p')
   };

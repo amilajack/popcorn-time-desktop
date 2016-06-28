@@ -14,7 +14,7 @@ function greaterThanOrEqualTo(first, second) {
 describe('api', () => {
   describe('Butter', () => {
     describe('metadata', () => {
-      describe('movies', () => {
+      describe('time format', () => {
         it('should convert time from minutes to hours', done => {
           try {
             expect(convertRuntimeToHours(64).full).to.equal('1 hour 4 minutes');
@@ -30,7 +30,9 @@ describe('api', () => {
             done(err);
           }
         });
+      });
 
+      describe('movies', () => {
         it('should return array of objects', async done => {
           try {
             const movies = await moviesFactory();
@@ -60,6 +62,43 @@ describe('api', () => {
           try {
             const movie = await movieFactory();
             assertMovieFormat(movie);
+            done();
+          } catch (err) {
+            done(err);
+          }
+        });
+      });
+
+      describe('shows', () => {
+        it('should return array of objects', async done => {
+          try {
+            const shows = await butterFactory().getShows();
+            const show = shows[0];
+            expect(shows).to.be.a('array');
+            expect(show).to.be.an('object');
+            done();
+          } catch (err) {
+            done(err);
+          }
+        });
+
+        it('should have movies that have necessary properties', async done => {
+          try {
+            const shows = await butterFactory().getShows();
+            const show = shows[0];
+            assertMovieFormat(show);
+            done();
+          } catch (err) {
+            done(err);
+          }
+        });
+      });
+
+      describe('show', () => {
+        it('should get show metadata', async done => {
+          try {
+            const showMetadata = await butterFactory().getShow('tt1475582');
+            assertMovieFormat(showMetadata);
             done();
           } catch (err) {
             done(err);
@@ -99,7 +138,7 @@ describe('api', () => {
       describe('movie torrents', () => {
         it('should get torrents and their magnets of 720p and 1080p', async done => {
           try {
-            const torrent = await butterFactory().getTorrent(imdbId);
+            const torrent = await butterFactory().getTorrent(imdbId, 'movie');
             assertTorrentFormat(torrent);
             done();
           } catch (err) {
@@ -112,7 +151,7 @@ describe('api', () => {
 
           try {
             // Get all sorted torrents
-            const torrents = await butterFactory().getTorrent('tt1375666', {
+            const torrents = await butterFactory().getTorrent('tt1375666', 'movie', {
               searchQuery: 'Inception',
             }, true);
 
@@ -137,15 +176,15 @@ describe('api', () => {
       });
 
       describe('show torrents', () => {
-        it('gets show by imdbId', async done => {
+        it('should get show torrent by imdbId', async done => {
           try {
-            const torrents = await PctTorrentProvider.provide('tt1475582', {
+            const torrents = await butterFactory().getTorrent('tt1475582', 'show', {
               season: 1,
               episode: 1
             });
 
             expect(torrents).to.be.an('object');
-            assertTorrentFormat(torrents, ['0', '480p', '720p']);
+            assertTorrentFormat(torrents, ['0p', '480p', '720p']);
             done();
           } catch (err) {
             done(err);
@@ -204,8 +243,6 @@ function assertMovieFormat(movie) {
  * Assert that a torrent has multiple qualities (1080p, 720p, etc)
  */
 function assertTorrentFormat(torrent, qualities = ['720p', '1080p']) {
-  console.log(torrent);
-  console.log('............................');
   for (const quality of qualities) {
     expect(torrent).to.have.property(quality).that.is.an('object');
 

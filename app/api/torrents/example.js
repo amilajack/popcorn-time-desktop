@@ -2,7 +2,13 @@
 //  Here is an example of the structure of a TorrentProvider
 //
 
-// getTorrent(imdbId, {
+// Required:
+// imdbId
+// type    | The type of torrent: movie or show
+
+// Example:
+//
+// getTorrent(imdbId, type, {
 //  searchQuery: 'harry potter and the half...',
 //  ...otherCustomOptions
 // })

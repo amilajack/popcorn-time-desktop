@@ -26,7 +26,7 @@ export default class TraktMetadataAdapter {
       limit,
       extended: 'full,images,metadata'
     })
-    .then(movies => movies.map(movie => formatMovie(movie)));
+    .then(movies => movies.map(movie => formatMetadata(movie)));
   }
 
   getMovie(imdbId) {
@@ -34,7 +34,25 @@ export default class TraktMetadataAdapter {
       id: imdbId,
       extended: 'full,images,metadata'
     })
-    .then(response => formatMovie(response));
+    .then(movie => formatMetadata(movie));
+  }
+
+  getShows(page = 1, limit = 50) {
+    return this.trakt.shows.popular({
+      paginate: true,
+      page,
+      limit,
+      extended: 'full,images,metadata'
+    })
+    .then(shows => shows.map(show => formatMetadata(show)));
+  }
+
+  getShow(imdbId) {
+    return this.trakt.shows.summary({
+      id: imdbId,
+      extended: 'full,images,metadata'
+    })
+    .then(show => formatMetadata(show));
   }
 
   /**
@@ -62,13 +80,13 @@ export default class TraktMetadataAdapter {
       limit,
       extended: 'full,images,metadata'
     })
-    .then(movies => movies.map(movie => formatMovie(movie)));
+    .then(movies => movies.map(movie => formatMetadata(movie)));
   }
 
   provide() {}
 }
 
-export function formatMovie(movie = {}) {
+function formatMetadata(movie = {}) {
   return {
     title: movie.title,
     year: movie.year,

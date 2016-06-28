@@ -72,25 +72,32 @@ export default class PctTorrentProvider {
   }
 
   static formatTorrents(torrents) {
-    const formattedTorrents = {};
+    const formattedTorrents = [];
 
     for (const quality of Object.keys(torrents)) {
       const torrent = torrents[quality];
 
-      formattedTorrents[quality] = {
-        quality,
+      formattedTorrents.push({
+        quality: quality === '0' ? '0p' : quality,
         magnet: torrent.url,
         seeders: torrent.seeds,
         leechers: 0,
         ...getHealth(torrent.seeds, torrent.peers, 0),
         _provider: 'pct'
-      };
+      });
     }
 
     return formattedTorrents;
   }
 
-  static provide(imdbId, extendedDetails) {
-    return this.fetch(imdbId, extendedDetails);
+  static provide(imdbId, type, extendedDetails) {
+    switch (type) {
+      // case 'movie':
+      //   return this.fetch(imdbId, extendedDetails);
+      case 'show':
+        return this.fetch(imdbId, extendedDetails);
+      default:
+        return [];
+    }
   }
 }

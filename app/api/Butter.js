@@ -4,39 +4,39 @@
  * @todo: Add caching method to resolve from cache before sending request
  */
 
-import Trakt from 'trakt.tv';
 import TorrentAdapter, { getHealth } from './torrents/TorrentAdapter';
-import MetadataAdapter, { formatMovie } from './metadata/TraktMetadataProvider';
+import MetadataAdapter from './metadata/TraktMetadataProvider';
 
 export default class Butter {
 
   constructor() {
     this.metadataAdapter = new MetadataAdapter();
-
-    // @todo: Should be abstracted to MetadataProvider
-    this.trakt = new Trakt({
-      client_id: '52b30c468753bbcf60a4138f510b3eb655ad6d21f70b4848aa6641381ca7d003',
-      client_secret: 'd395c9152654ea6ef4e0107d203b1f217cdf66ed01b6e047fa51a9e8cb93956f'
-    });
   }
 
   getMovies(page = 1, limit = 50) {
     return this.metadataAdapter.getMovies(page, limit);
   }
 
-  /**
-   * @todo: Should abstact to MetadataProvider
-   */
   getMovie(imdbId) {
-    return this.trakt.movies.summary({
-      id: imdbId,
-      extended: 'full,images,metadata'
-    })
-    .then(response => formatMovie(response));
+    return this.metadataAdapter.getMovie(imdbId);
   }
 
-  getTorrent(imdbId, extendedDetails = {}, returnAll) {
-    return TorrentAdapter(imdbId, extendedDetails, returnAll); // eslint-disable-line new-cap
+  getShows(page = 1, limit = 50) {
+    return this.metadataAdapter.getShows(page, limit);
+  }
+
+  getShow(imdbId) {
+    return this.metadataAdapter.getShow(imdbId);
+  }
+
+  /**
+   * @param {string}  imdbId
+   * @param {string}  type            | Type of torrent: movie or show
+   * @param {object}  extendedDetails | Additional details provided for heuristics
+   * @param {boolean} returnAll
+   */
+  getTorrent(imdbId, type, extendedDetails = {}, returnAll) {
+    return TorrentAdapter(imdbId, type, extendedDetails, returnAll); // eslint-disable-line new-cap
   }
 
   getTorrentHealth(magnet) {

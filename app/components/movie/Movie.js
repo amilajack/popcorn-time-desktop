@@ -73,7 +73,7 @@ export default class Movie extends Component {
 
     this.getMovie(movieId)
       .then(movie => {
-        this.getTorrent(movieId, movie.title);
+        this.getTorrent(movieId, 'movie', movie.title);
       });
 
     this.getSimilarMovies(movieId);
@@ -102,7 +102,7 @@ export default class Movie extends Component {
 
   async getTorrent(imdbId, movieTitle) {
     try {
-      const torrent = await this.butter.getTorrent(imdbId, { searchQuery: movieTitle });
+      const torrent = await this.butter.getTorrent(imdbId, 'movie', { searchQuery: movieTitle });
       let health;
 
       if (torrent['1080p'].magnet || torrent['720p'].magnet) {

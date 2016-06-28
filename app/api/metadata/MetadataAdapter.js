@@ -41,8 +41,8 @@ function search(query, limit, genre, sortBy) {}
  * Get list of movies with specific paramaters
  *
  * @param {string} imdbId
- * @param {string} type   | movie, show, anime, etc
- * @param {number} limit  | movie, show, anime, etc
+ * @param {string} type   | movie or show
+ * @param {number} limit  | movie or show
  */
 function similar(imdbId, type, limit) {}
 

@@ -33,11 +33,16 @@ export default class PbTorrentProvider {
     };
   }
 
-  static provide(imdbId, extendedDetails = {}) {
+  static provide(imdbId, type, extendedDetails = {}) {
     if (!extendedDetails.searchQuery) {
       return new Promise((resolve) => resolve([]));
     }
 
-    return this.fetch(extendedDetails.searchQuery);
+    switch (type) {
+      case 'movie':
+        return this.fetch(extendedDetails.searchQuery);
+      default:
+        return [];
+    }
   }
 }
