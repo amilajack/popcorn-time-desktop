@@ -26,6 +26,9 @@ export default class PctTorrentProvider {
   static async fetch(imdbId, extendedDetails) {
     const { season, episode } = extendedDetails;
 
+    /**
+     * @todo: Temporary cache
+     */
     // if (this.shows[imdbId]) {
     //   return this.filterTorrents(this.shows[imdbId], season, episode);
     // }
@@ -64,27 +67,27 @@ export default class PctTorrentProvider {
     return {
       season: episode.season,
       episode: episode.episode,
-      torrents: Object
-                  .values(episode.torrents)
-                  .map((torrent, index) =>
-                    this.formatTorrent(
-                      torrent,
-                      Object.keys(episode.torrents)[index]
-                    )
-                  )
+      torrents: this.formatTorrents(episode.torrents)
     };
   }
 
-  static formatTorrent(torrent, quality) {
-    console.log(quality);
-    return {
-      quality,
-      magnet: torrent.url,
-      seeders: torrent.seeds,
-      leechers: 0,
-      ...getHealth(torrent.seeds, torrent.peers, 0),
-      _provder: 'pct'
-    };
+  static formatTorrents(torrents) {
+    const formattedTorrents = {};
+
+    for (const quality of Object.keys(torrents)) {
+      const torrent = torrents[quality];
+
+      formattedTorrents[quality] = {
+        quality,
+        magnet: torrent.url,
+        seeders: torrent.seeds,
+        leechers: 0,
+        ...getHealth(torrent.seeds, torrent.peers, 0),
+        _provider: 'pct'
+      };
+    }
+
+    return formattedTorrents;
   }
 
   static provide(imdbId, extendedDetails) {
