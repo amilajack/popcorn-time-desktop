@@ -1,11 +1,13 @@
 import { expect } from 'chai';
 import Butter from '../../app/api/Butter';
+import { formatSeasonEpisodeToString } from '../../app/api/torrents/BaseTorrentProvider';
 import PctTorrentProvider from '../../app/api/torrents/PctTorrentProvider';
 import assert from 'assert';
 import { convertRuntimeToHours } from '../../app/api/metadata/MetadataAdapter';
 
 
 const imdbId = 'tt0468569';
+const showImdbId = 'tt1475582';
 
 function greaterThanOrEqualTo(first, second) {
   return (first > second || first === second);
@@ -25,6 +27,19 @@ describe('api', () => {
             expect(convertRuntimeToHours(126).hours).to.equal(2);
             expect(convertRuntimeToHours(126).minutes).to.equal(6);
 
+            done();
+          } catch (err) {
+            done(err);
+          }
+        });
+      });
+
+      describe('format episode and season', () => {
+        it('should format correctly', done => {
+          try {
+            expect(formatSeasonEpisodeToString(1, 4)).to.equal('s01e04');
+            expect(formatSeasonEpisodeToString(20, 40)).to.equal('s20e40');
+            expect(formatSeasonEpisodeToString(5, 10)).to.equal('s05e10');
             done();
           } catch (err) {
             done(err);
@@ -107,10 +122,13 @@ describe('api', () => {
       });
 
       describe('similar', () => {
-        it('should get similar movies in correct format', async done => {
+        it('should get similar movies and shows in correct format', async done => {
           try {
-            const similarMovies = await butterFactory().getSimilarMovies(imdbId);
+            const similarMovies = await butterFactory().getSimilar('movies', imdbId);
+            const similarShows = await butterFactory().getSimilar('shows', showImdbId);
+
             assertMovieFormat(similarMovies[0]);
+            assertMovieFormat(similarShows[0]);
             done();
           } catch (err) {
             done(err);

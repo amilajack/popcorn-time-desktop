@@ -59,7 +59,7 @@ describe('main window', function spec() {
   });
 
   /**
-   * @todo: write test that navigates to '/movie/tt0816692' and asserts .Movie isDisplayed
+   * @todo: write test that navigates to '/item/tt0816692' and asserts .Movie isDisplayed
    */
   // it('should display movie and torrent data', async function(done) {
   //

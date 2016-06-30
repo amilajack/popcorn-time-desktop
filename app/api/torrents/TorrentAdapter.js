@@ -1,7 +1,6 @@
 /**
  * @param   {string} imdbId
  * @param   {object} extendedDetails
- * @example { searchQuery: 'harry potter', ... }
  */
 /* eslint global-require: 0 */
 export default async function TorrentAdapter(imdbId,

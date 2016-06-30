@@ -23,14 +23,6 @@ export default class CardList extends Component {
     isFinished: false
   };
 
-  shouldComponentUpdate(previousProps) {
-    return (
-      previousProps.movies.length !== this.props.movies.length ||
-      previousProps.isLoading !== this.props.isLoading &&
-      previousProps.isFinished !== this.props.isFinished
-    );
-  }
-
   render() {
     return (
       <div>
@@ -38,6 +30,7 @@ export default class CardList extends Component {
           <div className="CardList">
             {this.props.movies.map((movie) => (
               <Card
+                {...this.props}
                 image={movie.images.poster.thumb}
                 title={movie.title}
                 id={movie.imdbId}

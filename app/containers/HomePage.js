@@ -9,34 +9,25 @@ export default class HomePage extends Component {
     super();
 
     this.state = {
-      mode: {
-        modeType: 'movies',
-        options: {
-          page: '',
-          limit: '',
-          searchQuery: ''
-        }
-      }
+      activeMode: 'movies'
     };
   }
 
   /**
    * Mode types include search, movies, and shows
    */
-  setMode(modeType, options = {}) {
-    this.setState({
-      mode: {
-        modeType,
-        options
-      }
-    });
+  setActiveMode(activeMode, activeModeOptions = {}) {
+    this.setState({ activeMode, activeModeOptions });
   }
 
   render() {
     return (
       <div>
-        <Header setMode={this.setMode.bind(this)} />
-        <Home mode={this.state.mode} />
+        <Header
+          activeMode={this.state.activeMode}
+          setActiveMode={this.setActiveMode.bind(this)}
+        />
+        <Home activeMode={this.state.activeMode} />
       </div>
     );
   }

@@ -13,7 +13,7 @@ import Movie from '../../app/components/movie/Movie';
 
 function setup(propsOverride) {
   const props = Object.assign({}, {
-    movieId: 'tt0435761'
+    itemId: 'tt0435761'
   }, propsOverride);
 
   const component = renderIntoDocument(<Movie {...props} />);

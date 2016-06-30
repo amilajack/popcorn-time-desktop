@@ -17,7 +17,8 @@ export default class Card extends Component {
     rating: PropTypes.oneOfType([
       PropTypes.number,
       PropTypes.string
-    ])
+    ]),
+    activeMode: PropTypes.string
   };
 
   shouldComponentUpdate() {
@@ -34,13 +35,13 @@ export default class Card extends Component {
 
     return (
       <div className="Card">
-        <Link to={`/movie/${this.props.id}`}>
+        <Link to={`/item/${this.props.activeMode}/${this.props.id}`}>
           <div className="Card--overlay-container" style={divStyle}>
             <div className="Card--overlay"></div>
           </div>
         </Link>
         <div>
-          <Link className="Card--title" to={`/movie/${this.props.id}`}>
+          <Link className="Card--title" to={`/item/${this.props.activeMode}/${this.props.id}`}>
             {this.props.title}
           </Link>
         </div>

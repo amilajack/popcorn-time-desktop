@@ -29,6 +29,10 @@ export default class Butter {
     return this.metadataAdapter.getShow(imdbId);
   }
 
+  getSimilar(type = 'movies', imdbId) {
+    return this.metadataAdapter.getSimilar(type, imdbId, 5);
+  }
+
   /**
    * @param {string}  imdbId
    * @param {string}  type            | Type of torrent: movie or show
@@ -45,10 +49,6 @@ export default class Butter {
 
   search(query) {
     return this.metadataAdapter.search(query);
-  }
-
-  getSimilarMovies(imdbId) {
-    return this.metadataAdapter.similar('movie', imdbId, 5);
   }
 
   // getShows(imdbId) {}

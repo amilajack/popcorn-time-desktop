@@ -13,27 +13,28 @@ import VisibilitySensor from 'react-visibility-sensor';
 export default class Home extends Component {
 
   static propTypes = {
-    mode: PropTypes.object.isRequired,
+    activeMode: PropTypes.string.isRequired,
+    modes: PropTypes.object.isRequired,
     infinitePagination: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
-    mode: {
-      movieType: 'movies',
-      options: {}
+    modes: {
+      movies: { page: 1, limit: 50, items: [], options: {} },
+      shows: { page: 1, limit: 50, items: [], options: {} },
+      search: { page: 1, limit: 50, items: [], options: {} }
     },
+    activeMode: 'movies',
     infinitePagination: false
   };
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.butter = new Butter();
     this.state = {
-      movies: [],
+      modes: { ...this.props.modes },
       isLoading: false,
-      page: 1,
-      limit: 50,
       paginate: true
     };
   }
@@ -46,11 +47,14 @@ export default class Home extends Component {
   componentWillUpdate(nextProps) {
     if (
       this._didMount &&
-      nextProps.mode.modeType !== this.props.mode.modeType ||
-      nextProps.mode.options !== this.props.mode.options
+      nextProps.activeMode !== this.props.activeMode
+      // nextProps.activeMode !== this.props.activeMode ||
+      // nextProps.mode.activeModeOptions !== this.props.activeModeOptions
     ) {
-      this.setState({ movies: [], page: 1 });
-      this.getMovies(nextProps.mode.modeType, nextProps.mode.options);
+      this.setState({
+        items: []
+      });
+      this.paginate(nextProps.activeMode);
     }
   }
 
@@ -61,72 +65,64 @@ export default class Home extends Component {
 
   async onChange(isVisible) {
     if (isVisible && !this.state.isLoading) {
-      await this.getMovies(this.props.mode.modeType, this.props.mode.options);
-      await this.getMovies(this.props.mode.modeType, this.props.mode.options);
+      await this.paginate(this.props.activeMode);
+      // await this.paginate(this.props.activeMode, this.props.mode.options);
     }
-  }
-
-  async getMovies(mode, options = {}) {
-    if (!this._didMount || this.state.isLoading) return false;
-
-    this.setState({
-      isLoading: true
-    });
-
-    let movies = [];
-
-    switch (mode) {
-      case 'search':
-        movies = await this.butter.search(options.searchQuery);
-        this.setState({ movies: [] });
-        this.setState({ movies });
-        break;
-      case 'movies':
-        movies = await this.butter.getMovies(this.state.page, this.state.limit);
-        this.setState({ movies: this.state.movies.concat(movies) });
-        break;
-      default:
-    }
-
-    setTimeout(() => {
-      this.setState({
-        isLoading: false,
-        page: this.state.page + 1
-      });
-    }, 0);
   }
 
   /**
    * Return movies and finished status without mutation
-   *
+   * @todo: migrate this to redux
    * @todo: 'getMovies' with this method
    * @todo: determine if query has reached last page
    *
-   * @param {string} modeType | Search, movies, shows, etc
-   * @param {number} page     | Current page number
-   * @param {number} limit    | Number of max movies to get
-   * @param {array}  movies   | List of movies to be concatanted to
+   * @param {string} queryType | 'search', 'movies', 'shows', etc
+   * @param {number} page      | Current page number
+   * @param {number} limit     | Number of max movies to get
+   * @param {array}  movies    | List of movies to be concatanted to
    */
-  async paginate(modeType, page, limit, moviesToAppend = []) {
-    let movies = [].concat(moviesToAppend);
+  async paginate(queryType, queryParams = []) {
+    this.setState({
+      isLoading: true
+    });
 
-    switch (modeType) {
-      case 'search':
-        movies = movies.concat(await this.butter.search(modeType));
-        break;
-      case 'movies':
-        movies = movies.concat(
-          await this.butter.getMovies(this.state.page, this.state.limit)
-        );
-        break;
-      default:
-        throw Error("Mode type not found. This must be 'movies' or 'searh'");
+    const { page, limit, items } = this.state.modes[queryType];
+
+    try {
+      switch (queryType) {
+        case 'search': {
+          this.state.modes[queryType].items = [
+            ...await this.butter.search.call(this, queryParams)
+          ];
+          break;
+        }
+        case 'movies': {
+          this.state.modes[queryType].items = [
+            ...items,
+            ...await this.butter.getMovies(page, limit)
+          ];
+          break;
+        }
+        case 'shows': {
+          this.state.modes[queryType].items = [
+            ...items,
+            ...await this.butter.getShows(page, limit)
+          ];
+          break;
+        }
+        default:
+          throw Error("Mode type not found. This must be 'movies' or 'searh'");
+      }
+    } catch (err) {
+      console.log(err);
     }
 
-    return {
-      movies,
-      finished: false
-    };
+    this.state.modes[queryType].page++;
+
+    this.setState({
+      isLoading: false,
+      items: this.state.modes[queryType].items
+    });
   }
 
   /**
@@ -136,7 +132,7 @@ export default class Home extends Component {
     if (this.props.infinitePagination) {
       const scrollDimentions = document.querySelector('body').getBoundingClientRect();
       if (scrollDimentions.bottom < 2000 && !this.state.isLoading) {
-        this.getMovies(this.state.page);
+        this.paginate(this.state.page);
       }
     }
   }
@@ -144,9 +140,9 @@ export default class Home extends Component {
   render() {
     return (
       <div>
-        <h1>{this.props.mode.modeType}</h1>
         <CardList
-          movies={this.state.movies}
+          {...this.props}
+          movies={this.state.items}
           isLoading={this.state.isLoading}
         />
         <VisibilitySensor

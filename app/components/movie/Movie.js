@@ -17,11 +17,12 @@ import { Link } from 'react-router';
 export default class Movie extends Component {
 
   static propTypes = {
-    movieId: PropTypes.string.isRequired
+    itemId: PropTypes.string.isRequired,
+    activeMode: PropTypes.string.isRequired
   };
 
   static defaultProps = {
-    movieId: ''
+    itemId: ''
   };
 
   constructor(props) {
@@ -33,11 +34,7 @@ export default class Movie extends Component {
 
     this.defaultTorrent = {
       health: '',
-      '1080p': {
-        quality: '',
-        magnet: ''
-      },
-      '720p': {
+      default: {
         quality: '',
         magnet: ''
       }
@@ -51,32 +48,32 @@ export default class Movie extends Component {
         runtime: {}
       },
       torrent: this.defaultTorrent,
-      similarMoviesLoading: false,
-      movieMetadataLoading: false,
+      similarLoading: false,
+      metadataLoading: false,
       torrentInProgress: false,
       torrentProgress: 0
     };
   }
 
   componentDidMount() {
-    this.getAllData(this.props.movieId);
+    this.getAllData(this.props.itemId);
   }
 
   componentWillReceiveProps(nextProps) {
-    this.getAllData(nextProps.movieId);
+    this.getAllData(nextProps.itemId);
   }
 
-  getAllData(movieId) {
+  getAllData(itemId) {
     this.torrent.destroy();
     this.destroyPlyr();
     this.state.servingUrl = undefined;
 
-    this.getMovie(movieId)
+    this.getItem(itemId)
       .then(movie => {
-        this.getTorrent(movieId, 'movie', movie.title);
+        this.getTorrent(itemId, movie.title);
       });
 
-    this.getSimilarMovies(movieId);
+    this.getSimilar(itemId);
   }
 
   /**
@@ -87,14 +84,27 @@ export default class Movie extends Component {
    *
    * @hack: Possbile solution is to remove the video element on change of movie
    */
-  async getMovie(imdbId) {
+  async getItem(imdbId) {
     if (document.querySelector('.plyr').plyr) {
       location.reload();
     }
 
-    this.setState({ movieMetadataLoading: true });
-    const movie = await this.butter.getMovie(imdbId);
-    this.setState({ movie, movieMetadataLoading: false });
+    this.setState({ metadataLoading: true });
+
+    let movie;
+
+    switch (this.props.activeMode) {
+      case 'shows':
+        movie = await this.butter.getShow(imdbId);
+        break;
+      case 'movies':
+        movie = await this.butter.getMovie(imdbId);
+        break;
+      default:
+        throw new Error('Active mode not found');
+    }
+
+    this.setState({ movie, metadataLoading: false });
     document.querySelector('video').setAttribute('poster', this.state.movie.images.fanart.full);
 
     return movie;
@@ -102,18 +112,24 @@ export default class Movie extends Component {
 
   async getTorrent(imdbId, movieTitle) {
     try {
-      const torrent = await this.butter.getTorrent(imdbId, 'movie', { searchQuery: movieTitle });
+      const torrent = await this.butter.getTorrent(imdbId, this.props.activeMode, {
+        season: 1,
+        episode: 1
+      });
+
+      console.log(torrent);
       let health;
 
-      if (torrent['1080p'].magnet || torrent['720p'].magnet) {
-        health = torrent['1080p'].health || torrent['720p'].health;
-      }
+      // if (torrent['1080p'].magnet || torrent['720p'].magnet) {
+      //   health = torrent['1080p'].health || torrent['720p'].health || torrent['480p'].health;
+      // }
 
       this.setState({
         torrent: {
-          '1080p': torrent['1080p'] || this.defaultTorrent['1080p'],
-          '720p': torrent['720p'] || this.defaultTorrent['720p'],
-          health
+          '1080p': torrent['1080p'] || this.defaultTorrent,
+          '720p': torrent['720p'] || this.defaultTorrent,
+          '480p': torrent['480p'] || this.defaultTorrent,
+          // health
         }
       });
     } catch (err) {
@@ -121,16 +137,20 @@ export default class Movie extends Component {
     }
   }
 
-  async getSimilarMovies(imdbId) {
-    this.setState({ similarMoviesLoading: true });
+  async getSimilar(imdbId) {
+    this.setState({ similarLoading: true });
 
-    const similarMovies = await this.butter.getSimilarMovies(imdbId);
+    try {
+      const similarItems = await this.butter.getSimilar(this.props.activeMode, imdbId);
 
-    this.setState({
-      similarMoviesLoading: false,
-      similarMovies,
-      isFinished: true
-    });
+      this.setState({
+        similarLoading: false,
+        similarItems,
+        isFinished: true
+      });
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   /**
@@ -176,11 +196,12 @@ export default class Movie extends Component {
   }
 
   render() {
-    const opacity = { opacity: this.state.movieMetadataLoading ? 0 : 1 };
+    const opacity = { opacity: this.state.metadataLoading ? 0 : 1 };
     const torrentLoadingStatusStyle = { color: 'maroon' };
 
     return (
       <div className="container">
+        <h1>mode: {this.props.activeMode}</h1>
         <div className="row">
           <div className="col-xs-12">
             <div className="Movie">
@@ -207,6 +228,16 @@ export default class Movie extends Component {
               >
                 Start 720p
               </button>
+              {this.props.activeMode === 'shows' ?
+                <button
+                  onClick={this.startTorrent.bind(this, this.state.torrent['480p'].magnet)}
+                  disabled={!this.state.torrent['480p'].quality}
+                >
+                  Start 480p
+                </button>
+                :
+                null
+              }
               <h4>torrent status: {this.state.torrent.health}</h4>
               <h1>
                 {this.state.movie.title}
@@ -255,8 +286,8 @@ export default class Movie extends Component {
           <div className="col-xs-12">
             <h3 className="text-center">Similar</h3>
             <CardList
-              movies={this.state.similarMovies}
-              movieMetadataLoading={this.state.similarMoviesLoading}
+              movies={this.state.similarItems}
+              metadataLoading={this.state.similarLoading}
               isFinished={this.state.isFinished}
             />
           </div>

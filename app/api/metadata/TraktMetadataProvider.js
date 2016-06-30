@@ -74,8 +74,8 @@ export default class TraktMetadataAdapter {
    * @param {string} type   | movie or show
    * @param {string} imdbId | movie or show
    */
-  similar(type = 'movie', imdbId, limit = 5) {
-    return this.trakt[`${type}s`].related({
+  getSimilar(type = 'movies', imdbId, limit = 5) {
+    return this.trakt[type].related({
       id: imdbId,
       limit,
       extended: 'full,images,metadata'

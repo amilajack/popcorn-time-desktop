@@ -1,15 +1,17 @@
 import React, { Component, PropTypes } from 'react';
 import Butter from '../../api/Butter';
+import classNames from 'classnames';
 
 
 export default class Header extends Component {
 
   static propTypes = {
-    setMode: PropTypes.func.isRequired
+    setActiveMode: PropTypes.func.isRequired,
+    activeMode: PropTypes.string.isRequired
   };
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.butter = new Butter();
 
@@ -18,20 +20,17 @@ export default class Header extends Component {
     };
   }
 
+  setActiveMode(mode, params = {}) {
+    this.props.setActiveMode(mode, params);
+  }
+
   /**
    * Set the mode of the movies to be 'search'
    *
    * @todo: move setting of search movies to Home component
    */
   setSearchState(searchQuery) {
-    this.props.setMode('search', { searchQuery });
-  }
-
-  /**
-   * Set the mode of the movies to be 'movies'
-   */
-  setMovieState() {
-    this.props.setMode('movies');
+    this.props.setActiveMode('search', { searchQuery });
   }
 
   handleSearchChange(event) {
@@ -40,7 +39,7 @@ export default class Header extends Component {
 
   handleKeyPress(e) {
     if (e.key === 'Enter') {
-      this.props.setMode('search', { searchQuery: this.state.searchQuery });
+      this.props.setActiveMode('search', { searchQuery: this.state.searchQuery });
     }
   }
 
@@ -50,13 +49,30 @@ export default class Header extends Component {
         <nav className="navbar navbar-dark navbar-fixed-top bg-inverse">
           <a className="navbar-brand">Popcorn Time</a>
           <ul className="nav navbar-nav">
-            <li className="nav-item active">
+            <li
+              className={classNames('nav-item', {
+                active: this.props.activeMode === 'movies'
+              })}
+            >
               <a
                 className="nav-link"
-                onClick={this.setMovieState.bind(this)}
+                onClick={this.setActiveMode.bind(this, 'movies')}
                 href="#"
               >
                 Movies <span className="sr-only">(current)</span>
+              </a>
+            </li>
+            <li
+              className={classNames('nav-item', {
+                active: this.props.activeMode === 'shows'
+              })}
+            >
+              <a
+                className="nav-link"
+                onClick={this.setActiveMode.bind(this, 'shows')}
+                href="#"
+              >
+                TV Shows
               </a>
             </li>
           </ul>
@@ -78,6 +94,7 @@ export default class Header extends Component {
             </button>
           </div>
         </nav>
+        {/* // HACK: Add spacing from top of page */}
         <nav className="navbar hidden navbar-dark bg-inverse">
           <div className="nav navbar-nav">
             <a className="nav-item nav-link active">

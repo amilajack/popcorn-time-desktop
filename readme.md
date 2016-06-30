@@ -31,10 +31,9 @@
 git clone https://github.com/amilajack/popcorn-desktop-experimental.git
 cd popcorn-desktop-experimental
 
-npm i -g gulp
 npm i
 
-gulp
+npm run styles
 npm run dev
 
 # When getting the error 'Failed to load resource' in the console, refresh electron (CMD/ctrl + R)
