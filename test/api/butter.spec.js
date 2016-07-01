@@ -119,6 +119,26 @@ describe('api', () => {
             done(err);
           }
         });
+
+        it('should get season', async done => {
+          try {
+            const season = await butterFactory().getSeason('tt1475582', 2);
+            console.log(season);
+            done();
+          } catch (err) {
+            console.log(err);
+          }
+        });
+
+        it('should get episode', async done => {
+          try {
+            const episode = await butterFactory().getEpisode('tt1475582', 2, 2);
+            console.log(episode);
+            done();
+          } catch (err) {
+            console.log(err);
+          }
+        });
       });
 
       describe('similar', () => {

@@ -6,9 +6,9 @@ export default class Page extends Component {
   render() {
     return (
       <div>
-        {this.state.movies.map((movie, index) => (
+        {this.state.items.map((item, index) => (
           <Card className="Card" key={index}>
-            <img role="presentation" src={movie.images.poster} />
+            <img role="presentation" src={item.images.poster} />
           </Card>
         ))}
       </div>

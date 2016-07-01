@@ -1,5 +1,5 @@
 /**
- * A list of thumbnail poster images of movies that are rendered on the home page
+ * A list of thumbnail poster images of items that are rendered on the home page
  *
  * @todo: Extract the rating's divison of 2. This should be done in ButterProvider
  */
@@ -12,13 +12,13 @@ import Loader from '../loader/Loader';
 export default class CardList extends Component {
 
   static propTypes = {
-    movies: PropTypes.array.isRequired,
+    items: PropTypes.array.isRequired,
     isLoading: PropTypes.bool.isRequired,
     isFinished: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
-    movies: [],
+    items: [],
     isLoading: false,
     isFinished: false
   };
@@ -28,15 +28,15 @@ export default class CardList extends Component {
       <div>
         <div className="col-xs-12">
           <div className="CardList">
-            {this.props.movies.map((movie) => (
+            {this.props.items.map((item) => (
               <Card
                 {...this.props}
-                image={movie.images.poster.thumb}
-                title={movie.title}
-                id={movie.imdbId}
-                year={movie.year}
-                rating={movie.rating}
-                genres={movie.genres}
+                image={item.images.poster.thumb}
+                title={item.title}
+                id={item.imdbId}
+                year={item.year}
+                rating={item.rating}
+                genres={item.genres}
               />
             ))}
           </div>

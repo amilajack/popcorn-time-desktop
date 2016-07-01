@@ -55,12 +55,14 @@ export default class PctTorrentProvider {
    * @return {array} | Array of torrents
    */
   static filterTorrents(show, season, episode) {
-    return show
+    const filterTorrents = show
       .filter(
         eachEpisode => eachEpisode.season === season &&
                        eachEpisode.episode === episode
       )
-      .map(eachEpisode => eachEpisode.torrents)[0];
+      .map(eachEpisode => eachEpisode.torrents);
+
+    return filterTorrents.length ? filterTorrents[0] : [];
   }
 
   static formatEpisode(episode) {
@@ -92,10 +94,14 @@ export default class PctTorrentProvider {
 
   static provide(imdbId, type, extendedDetails = {}) {
     switch (type) {
-      // case 'movie':
+      // case 'movies':
       //   return this.fetch(imdbId, extendedDetails);
       case 'shows':
-        return this.fetch(imdbId, extendedDetails);
+        return this.fetch(imdbId, extendedDetails)
+          .catch(err => {
+            console.log(err);
+            return [];
+          });
       default:
         return [];
     }

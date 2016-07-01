@@ -10,12 +10,8 @@ export default class KatTorrentProvider {
     return kat.search({
       query
     })
-    .then(data => {
-      console.log({ 'kat res': data.results });
-      return data.results;
-    })
     .then(
-      results => results.splice(0, 100).map(this.formatTorrent)
+      resp => resp.results.splice(0, 100).map(this.formatTorrent)
     )
     .catch(error => {
       console.log(error);

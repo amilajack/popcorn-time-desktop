@@ -44,18 +44,23 @@ export default class PbTorrentProvider {
 
     switch (type) {
       case 'movies': {
-        return this.fetch(searchQuery, 200);
+        return this.fetch(searchQuery, 200)
+          .catch(err => {
+            console.log(err);
+            return [];
+          });
       }
+      // temporarily disable shows because of PirateBay outage issues
       case 'shows': {
         const { season, episode } = extendedDetails;
         return this.fetch(
           `${searchQuery} ${formatSeasonEpisodeToString(season, episode)}`,
-          208
+          200
         )
-        .catch(err => {
-          console.log(err);
-          return [];
-        });
+          .catch(err => {
+            console.log(err);
+            return [];
+          });
       }
       default:
         return [];

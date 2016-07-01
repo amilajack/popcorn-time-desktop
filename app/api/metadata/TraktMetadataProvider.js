@@ -55,6 +55,23 @@ export default class TraktMetadataAdapter {
     .then(show => formatMetadata(show));
   }
 
+  getSeason(imdbId, season) {
+    return this.trakt.seasons.summary({
+      id: imdbId,
+      season,
+      extended: 'full,images,metadata'
+    });
+  }
+
+  getEpisode(imdbId, season, episode) {
+    return this.trakt.episodes.summary({
+      id: imdbId,
+      season,
+      episode,
+      extended: 'full,images,metadata'
+    });
+  }
+
   /**
    * @todo: migrate from omdbapi to an api that can provide more information
    */

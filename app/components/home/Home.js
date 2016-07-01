@@ -111,7 +111,7 @@ export default class Home extends Component {
           break;
         }
         default:
-          throw Error("Mode type not found. This must be 'movies' or 'searh'");
+          throw Error("Mode type not found. This must be 'movies', 'shows', or 'search'");
       }
     } catch (err) {
       console.log(err);
@@ -142,7 +142,7 @@ export default class Home extends Component {
       <div>
         <CardList
           {...this.props}
-          movies={this.state.items}
+          items={this.state.items}
           isLoading={this.state.isLoading}
         />
         <VisibilitySensor

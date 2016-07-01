@@ -1,11 +1,8 @@
 /* eslint prefer-template: 0 */
 export function determineQuality(title) {
-  if (title.includes('720')) {
-    return '720p';
-  }
-  if (title.includes('1080')) {
-    return '1080p';
-  }
+  if (title.includes('1080')) return '1080p';
+  if (title.includes('720')) return '720p';
+  if (title.includes('480')) return '480p';
   return '';
 }
 

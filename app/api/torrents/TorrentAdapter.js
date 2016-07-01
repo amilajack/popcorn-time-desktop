@@ -62,8 +62,9 @@ function merge(providerResults) {
  */
 function selectTorrents(torrents, sortMethod = 'seeders', returnAll = false) {
   const sortedTorrents = torrents
-    .filter(torrent => torrent.quality !== 'n/a')
-    .filter(torrent => torrent.quality !== '')
+    .filter(
+      torrent => (torrent.quality !== 'n/a' && torrent.quality !== '')
+    )
     .sort((prev, next) => {
       if (prev.seeders === next.seeders) {
         return 0;

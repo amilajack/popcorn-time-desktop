@@ -6,12 +6,12 @@
  */
 
 import React, { Component, PropTypes } from 'react';
+import { Link } from 'react-router';
 import Rating from 'react-star-rating-component';
 import CardList from '../card/CardList';
 import Butter from '../../api/Butter';
 import Torrent from '../../api/Torrent';
 import plyr from 'plyr';
-import { Link } from 'react-router';
 
 
 export default class Movie extends Component {
@@ -41,10 +41,8 @@ export default class Movie extends Component {
     };
 
     this.state = {
-      movie: {
-        images: {
-          fanart: ''
-        },
+      item: {
+        images: { fanart: '' },
         runtime: {}
       },
       torrent: this.defaultTorrent,
@@ -68,10 +66,22 @@ export default class Movie extends Component {
     this.destroyPlyr();
     this.state.servingUrl = undefined;
 
-    this.getItem(itemId)
-      .then(movie => {
-        this.getTorrent(itemId, movie.title);
-      });
+    this.getItem(itemId).then(async item => {
+      switch (this.props.activeMode) {
+        case 'movies':
+          this.getTorrent(itemId, item.title);
+          break;
+        case 'shows':
+          this.getTorrent(itemId, item.title, {
+            season: 2,
+            episode: 2,
+            episodeName: await this.butter.getEpisode(itemId, 2, 2)
+          });
+          break;
+        default:
+          throw new Error('Invalid mode');
+      }
+    });
 
     this.getSimilar(itemId);
   }
@@ -91,40 +101,47 @@ export default class Movie extends Component {
 
     this.setState({ metadataLoading: true });
 
-    let movie;
+    try {
+      let item;
 
-    switch (this.props.activeMode) {
-      case 'shows':
-        movie = await this.butter.getShow(imdbId);
-        break;
-      case 'movies':
-        movie = await this.butter.getMovie(imdbId);
-        break;
-      default:
-        throw new Error('Active mode not found');
+      switch (this.props.activeMode) {
+        case 'movies':
+          item = await this.butter.getMovie(imdbId);
+          break;
+        case 'shows':
+          item = await this.butter.getShow(imdbId);
+          break;
+        default:
+          throw new Error('Active mode not found');
+      }
+
+      this.setState({ item, metadataLoading: false });
+
+      document.querySelector('video').setAttribute(
+        'poster', this.state.item.images.fanart.full
+      );
+
+      return item;
+    } catch (err) {
+      console.log(err);
     }
-
-    this.setState({ movie, metadataLoading: false });
-    document.querySelector('video').setAttribute('poster', this.state.movie.images.fanart.full);
-
-    return movie;
   }
 
-  async getTorrent(imdbId, movieTitle) {
+  async getTorrent(imdbId, title) {
     let torrent;
 
     try {
       switch (this.props.activeMode) {
         case 'movies':
           torrent = await this.butter.getTorrent(imdbId, this.props.activeMode, {
-            searchQuery: movieTitle
+            searchQuery: title
           });
           break;
         case 'shows':
           torrent = await this.butter.getTorrent(imdbId, this.props.activeMode, {
-            season: 6,
-            episode: 10,
-            searchQuery: movieTitle
+            season: 2,
+            episode: 2,
+            searchQuery: title
           });
           break;
         default:
@@ -133,11 +150,11 @@ export default class Movie extends Component {
 
       console.log(torrent);
 
-      let health;
-
-      if (torrent['1080p'].magnet || torrent['720p'].magnet || torrent['480p'].magnet) {
-        health = torrent['1080p'].health || torrent['720p'].health || torrent['480p'].health;
-      }
+      const { health } = this.getIdealTorrent([
+        torrent['1080p'],
+        torrent['720p'],
+        torrent['480p']
+      ]);
 
       this.setState({
         torrent: {
@@ -152,6 +169,16 @@ export default class Movie extends Component {
     }
   }
 
+  getIdealTorrent(torrents) {
+    return torrents.sort((prev, next) => {
+      if (prev.seeders === next.seeders) {
+        return 0;
+      }
+
+      return prev.seeders > next.seeders ? -1 : 1;
+    })[0];
+  }
+
   async getSimilar(imdbId) {
     this.setState({ similarLoading: true });
 
@@ -159,8 +186,8 @@ export default class Movie extends Component {
       const similarItems = await this.butter.getSimilar(this.props.activeMode, imdbId);
 
       this.setState({
-        similarLoading: false,
         similarItems,
+        similarLoading: false,
         isFinished: true
       });
     } catch (err) {
@@ -259,29 +286,29 @@ export default class Movie extends Component {
               </span>
               <h4>torrent status: {this.state.torrent.health || ''}</h4>
               <h1>
-                {this.state.movie.title}
+                {this.state.item.title}
               </h1>
               <h5>
-                Year: {this.state.movie.year}
+                Year: {this.state.item.year}
               </h5>
               <h6>
-                Genres: {this.state.movie.genres ?
-                  this.state.movie.genres.map(genre => `${genre}, `)
+                Genres: {this.state.item.genres ?
+                  this.state.item.genres.map(genre => `${genre}, `)
                   : null
                   }
               </h6>
               <h5>
-                Length: {this.state.movie.runtime.full}
+                Length: {this.state.item.runtime.full}
               </h5>
               <h6>
-                {this.state.movie.summary}
+                {this.state.item.summary}
               </h6>
-              {this.state.movie.rating ?
+              {this.state.item.rating ?
                 <Rating
                   renderStarIcon={() => <span className="ion-android-star"></span>}
                   starColor={'white'}
                   name={'rating'}
-                  value={this.state.movie.rating}
+                  value={this.state.item.rating}
                   editing={false}
                 />
                 :
@@ -296,7 +323,7 @@ export default class Movie extends Component {
               </h1>
 
               <div className="plyr" style={opacity}>
-                <video controls poster={this.state.movie.images.fanart.full}>
+                <video controls poster={this.state.item.images.fanart.full}>
                   <source src={this.state.servingUrl} type="video/mp4" />
                 </video>
               </div>
@@ -305,7 +332,7 @@ export default class Movie extends Component {
           <div className="col-xs-12">
             <h3 className="text-center">Similar</h3>
             <CardList
-              movies={this.state.similarItems}
+              items={this.state.similarItems}
               metadataLoading={this.state.similarLoading}
               isFinished={this.state.isFinished}
             />
