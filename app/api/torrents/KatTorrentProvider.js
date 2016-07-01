@@ -41,13 +41,12 @@ export default class KatTorrentProvider {
       //       return [];
       //     });
       case 'shows': {
-        const { season, episode, episodeTitle } = extendedDetails;
+        const { season, episode } = extendedDetails;
 
         return this.fetch(
           imdbId,
           type,
-          `${searchQuery} ${episodeTitle}`
-          // `${searchQuery} ${formatSeasonEpisodeToString(season, episode)}`
+          `${searchQuery} ${formatSeasonEpisodeToString(season, episode)}`
         )
           .catch(error => {
             console.log(error);

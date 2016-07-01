@@ -20,7 +20,7 @@
     "package": "cross-env NODE_ENV=production node -r babel-register package.js",
     "package-all": "npm run package -- --all --name PopcornTime --asar true",
     "postinstall": "node node_modules/fbjs-scripts/node/check-dev-engines.js package.json",
-    "prepush": "npm run test-all",
+    "precommit": "npm run test-all",
     "dev": "concurrently --kill-others \"npm run hot-server\" \"npm run start-hot\""
   },
   "bin": {
