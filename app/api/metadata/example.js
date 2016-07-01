@@ -41,3 +41,50 @@
 // search(searchQuery, genre, sortMethod) {}
 //
 // similar(imdbId) {}
+//
+// getSeasons(imdbId) {}
+//
+// [
+//   {
+//     season: 1,
+//     images: {
+//       full: <string>,
+//       medium: <string>,
+//       thumb: <string>
+//     }
+//   }
+//   ...
+// ]
+//
+// getSeason(imdbId, season) {}
+//
+// [
+//   {
+//     title: 'Winter Is Coming',
+//     id: 'tt1480055',
+//     season: 1,
+//     episode: 1,
+//     rating: <number>, 1 - 5, round to 1 decimal place || <string> n/a
+//     images: {
+//       full: <string>,
+//       medium: <string>,
+//       thumb: <string>
+//     }
+//   }
+//   ...
+// ]
+//
+// getEpisode(imdbId, season, episode) {}
+//
+// {
+//   title: 'Winter Is Coming',
+//   id: imdbId,
+//   season: 1,
+//   episode: 1,
+//   overview: 'Ned Stark, Lord of Winterfell learns...'
+//   images: {
+//     full: <string>,
+//     medium: <string>,
+//     thumb: <string>
+//   }
+// }

@@ -9,6 +9,7 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import Rating from 'react-star-rating-component';
 import CardList from '../card/CardList';
+import Show from '../show/Show';
 import Butter from '../../api/Butter';
 import Torrent from '../../api/Torrent';
 import plyr from 'plyr';
@@ -68,9 +69,32 @@ export default class Movie extends Component {
 
     this.getItem(itemId).then(item => {
       this.getTorrent(itemId, item.title);
+      if (this.props.activeMode === 'shows') {
+        this.getShowData(itemId);
+      }
     });
 
     this.getSimilar(itemId);
+  }
+
+  async getShowData(imdbId, season, episode) {
+    if (!season) {
+      return this.setState({
+        seasons: await this.butter.getSeasons(imdbId)
+      });
+    }
+
+    if (!episode) {
+      return this.setState({
+        episodes: await this.butter.getSeason(imdbId, season)
+      });
+    }
+
+    if (season && episode) {
+      return this.setState({
+        episode: await this.butter.getEpisode(imdbId, season, episode)
+      });
+    }
   }
 
   /**
@@ -305,6 +329,12 @@ export default class Movie extends Component {
                   'Loading torrent...' : null
                 }
               </h1>
+
+              <Show
+                seasons={this.state.seasons}
+                episodes={this.state.episodes}
+                episode={this.state.episode}
+              />
 
               <div className="plyr" style={opacity}>
                 <video controls poster={this.state.item.images.fanart.full}>

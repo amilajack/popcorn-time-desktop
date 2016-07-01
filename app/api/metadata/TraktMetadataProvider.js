@@ -59,7 +59,25 @@ export default class TraktMetadataAdapter {
     return this.trakt.seasons.summary({
       id: imdbId,
       extended: 'full,images,metadata'
-    });
+    })
+    .then(res => res.map(season => ({
+      season: season.number + 1,
+      id: season.ids.imdb,
+      images: {
+        full: season.images.poster.full,
+        medium: season.images.poster.medium,
+        thumb: season.images.poster.thumb
+      }
+    })));
+  }
+
+  getSeason(imdbId, season) {
+    return this.trakt.seasons.season({
+      id: imdbId,
+      season,
+      extended: 'full,images,metadata'
+    })
+    .then(episodes => episodes.map(episode => formatSeason(episode)));
   }
 
   getEpisode(imdbId, season, episode) {
@@ -68,7 +86,8 @@ export default class TraktMetadataAdapter {
       season,
       episode,
       extended: 'full,images,metadata'
-    });
+    })
+    .then(res => formatSeason(res));
   }
 
   /**
@@ -76,7 +95,7 @@ export default class TraktMetadataAdapter {
    */
   search(query, type = 'movie', page = 1) {
     if (!query) {
-      throw Error('query paramater required');
+      throw Error('Query paramater required');
     }
 
     return fetch(
@@ -154,6 +173,22 @@ function formatMovieSearch(movie) {
         medium: movie.Poster,
         thumb: movie.Poster
       }
+    }
+  };
+}
+
+function formatSeason(season, image = 'screenshot') {
+  return {
+    id: season.ids.imdb,
+    title: season.title,
+    season: season.season,
+    episode: season.number,
+    overview: season.overview,
+    rating: season.rating / 2,
+    images: {
+      full: season.images[image].full,
+      medium: season.images[image].medium,
+      thumb: season.images[image].thumb
     }
   };
 }

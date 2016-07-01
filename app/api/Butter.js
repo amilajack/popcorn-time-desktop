@@ -29,8 +29,12 @@ export default class Butter {
     return this.metadataAdapter.getShow(imdbId);
   }
 
-  getSeasons(imdbId, season) {
-    return this.metadataAdapter.getSeasons(imdbId, season);
+  getSeasons(imdbId) {
+    return this.metadataAdapter.getSeasons(imdbId);
+  }
+
+  getSeason(imdbId, season) {
+    return this.metadataAdapter.getSeason(imdbId, season);
   }
 
   getEpisode(imdbId, season, episode) {

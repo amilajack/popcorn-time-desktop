@@ -120,19 +120,40 @@ describe('api', () => {
           }
         });
 
+        it('should get seasons', async done => {
+          try {
+            const seasons = await butterFactory().getSeasons('tt1475582');
+            expect(seasons).to.be.an('array');
+
+            const season = seasons[0];
+            expect(season).to.be.an('object');
+            expect(season).to.have.property('season').that.equals(1);
+            expect(season).to.have.deep.property('images.full').that.is.a('string');
+            expect(season).to.have.deep.property('images.medium').that.is.a('string');
+            expect(season).to.have.deep.property('images.thumb').that.is.a('string');
+            done();
+          } catch (err) {
+            done(err);
+          }
+        });
+
         it('should get season', async done => {
           try {
-            const episodes = await butterFactory().getSeasons('tt1475582', 2);
+            const episodes = await butterFactory().getSeason('game-of-thrones', 1);
             expect(episodes).to.be.an('array');
 
             const episode = episodes[0];
             expect(episode).to.be.an('object');
-            expect(episode).to.have.deep.property('images.poster.full').that.is.a('string');
-            expect(episode).to.have.deep.property('images.poster.medium').that.is.a('string');
-            expect(episode).to.have.deep.property('images.poster.thumb').that.is.a('string');
+            expect(episode).to.have.property('season').that.equals(1);
+            expect(episode).to.have.property('episode').that.equals(1);
+            expect(episode).to.have.property('id').that.equals('tt1480055');
+            expect(episode).to.have.property('title').that.equals('Winter Is Coming');
+            expect(episode).to.have.deep.property('images.full').that.is.a('string');
+            expect(episode).to.have.deep.property('images.medium').that.is.a('string');
+            expect(episode).to.have.deep.property('images.thumb').that.is.a('string');
             done();
           } catch (err) {
-            console.log(err);
+            done(err);
           }
         });
 
@@ -141,15 +162,17 @@ describe('api', () => {
             const episode = await butterFactory().getEpisode('tt1475582', 2, 2);
             expect(episode).to.be.an('object');
             expect(episode).to.have.property('season').that.equals(2);
+            expect(episode).to.have.property('episode').that.equals(2);
+            expect(episode).to.have.property('id').that.equals('tt1942613');
             expect(episode).to.have.property('title').that.equals('The Hounds of Baskerville');
             expect(episode).to.have.property('overview').that.is.a('string');
-            expect(episode).to.have.property('rating').that.is.a('number');
-            expect(episode).to.have.deep.property('images.screenshot.full').that.is.a('string');
-            expect(episode).to.have.deep.property('images.screenshot.medium').that.is.a('string');
-            expect(episode).to.have.deep.property('images.screenshot.thumb').that.is.a('string');
+            expect(episode).to.have.property('rating').that.is.a('number').that.is.within(0, 5);
+            expect(episode).to.have.deep.property('images.full').that.is.a('string');
+            expect(episode).to.have.deep.property('images.medium').that.is.a('string');
+            expect(episode).to.have.deep.property('images.thumb').that.is.a('string');
             done();
           } catch (err) {
-            console.log(err);
+            done(err);
           }
         });
       });
