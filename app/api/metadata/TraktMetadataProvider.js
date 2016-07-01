@@ -55,10 +55,9 @@ export default class TraktMetadataAdapter {
     .then(show => formatMetadata(show));
   }
 
-  getSeason(imdbId, season) {
+  getSeasons(imdbId) {
     return this.trakt.seasons.summary({
       id: imdbId,
-      season,
       extended: 'full,images,metadata'
     });
   }

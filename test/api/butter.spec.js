@@ -122,8 +122,14 @@ describe('api', () => {
 
         it('should get season', async done => {
           try {
-            const season = await butterFactory().getSeason('tt1475582', 2);
-            console.log(season);
+            const episodes = await butterFactory().getSeasons('tt1475582', 2);
+            expect(episodes).to.be.an('array');
+
+            const episode = episodes[0];
+            expect(episode).to.be.an('object');
+            expect(episode).to.have.deep.property('images.poster.full').that.is.a('string');
+            expect(episode).to.have.deep.property('images.poster.medium').that.is.a('string');
+            expect(episode).to.have.deep.property('images.poster.thumb').that.is.a('string');
             done();
           } catch (err) {
             console.log(err);
@@ -133,7 +139,14 @@ describe('api', () => {
         it('should get episode', async done => {
           try {
             const episode = await butterFactory().getEpisode('tt1475582', 2, 2);
-            console.log(episode);
+            expect(episode).to.be.an('object');
+            expect(episode).to.have.property('season').that.equals(2);
+            expect(episode).to.have.property('title').that.equals('The Hounds of Baskerville');
+            expect(episode).to.have.property('overview').that.is.a('string');
+            expect(episode).to.have.property('rating').that.is.a('number');
+            expect(episode).to.have.deep.property('images.screenshot.full').that.is.a('string');
+            expect(episode).to.have.deep.property('images.screenshot.medium').that.is.a('string');
+            expect(episode).to.have.deep.property('images.screenshot.thumb').that.is.a('string');
             done();
           } catch (err) {
             console.log(err);
@@ -267,14 +280,18 @@ function assertMovieFormat(movie) {
   expect(movie).to.have.property('trailer').that.is.a('string');
 
   expect(movie).to.have.property('images').that.is.an('object');
-  expect(movie).to.have.deep.property('images.poster').that.is.an('object');
-  expect(movie).to.have.deep.property('images.fanart').that.is.an('object');
-  expect(movie).to.have.deep.property('images.poster.full').that.is.a('string');
-  expect(movie).to.have.deep.property('images.poster.medium').that.is.a('string');
-  expect(movie).to.have.deep.property('images.poster.thumb').that.is.a('string');
-  expect(movie).to.have.deep.property('images.fanart.full').that.is.a('string');
-  expect(movie).to.have.deep.property('images.fanart.medium').that.is.a('string');
-  expect(movie).to.have.deep.property('images.fanart.thumb').that.is.a('string');
+  assertImageFormat(movie);
+}
+
+function assertImageFormat(item) {
+  expect(item).to.have.deep.property('images.poster').that.is.an('object');
+  expect(item).to.have.deep.property('images.fanart').that.is.an('object');
+  expect(item).to.have.deep.property('images.poster.full').that.is.a('string');
+  expect(item).to.have.deep.property('images.poster.medium').that.is.a('string');
+  expect(item).to.have.deep.property('images.poster.thumb').that.is.a('string');
+  expect(item).to.have.deep.property('images.fanart.full').that.is.a('string');
+  expect(item).to.have.deep.property('images.fanart.medium').that.is.a('string');
+  expect(item).to.have.deep.property('images.fanart.thumb').that.is.a('string');
 }
 
 /**

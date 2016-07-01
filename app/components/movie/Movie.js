@@ -66,21 +66,8 @@ export default class Movie extends Component {
     this.destroyPlyr();
     this.state.servingUrl = undefined;
 
-    this.getItem(itemId).then(async item => {
-      switch (this.props.activeMode) {
-        case 'movies':
-          this.getTorrent(itemId, item.title);
-          break;
-        case 'shows':
-          this.getTorrent(itemId, item.title, {
-            season: 2,
-            episode: 2,
-            episodeName: await this.butter.getEpisode(itemId, 2, 2)
-          });
-          break;
-        default:
-          throw new Error('Invalid mode');
-      }
+    this.getItem(itemId).then(item => {
+      this.getTorrent(itemId, item.title);
     });
 
     this.getSimilar(itemId);
@@ -101,30 +88,26 @@ export default class Movie extends Component {
 
     this.setState({ metadataLoading: true });
 
-    try {
-      let item;
+    let item;
 
-      switch (this.props.activeMode) {
-        case 'movies':
-          item = await this.butter.getMovie(imdbId);
-          break;
-        case 'shows':
-          item = await this.butter.getShow(imdbId);
-          break;
-        default:
-          throw new Error('Active mode not found');
-      }
-
-      this.setState({ item, metadataLoading: false });
-
-      document.querySelector('video').setAttribute(
-        'poster', this.state.item.images.fanart.full
-      );
-
-      return item;
-    } catch (err) {
-      console.log(err);
+    switch (this.props.activeMode) {
+      case 'movies':
+        item = await this.butter.getMovie(imdbId);
+        break;
+      case 'shows':
+        item = await this.butter.getShow(imdbId);
+        break;
+      default:
+        throw new Error('Active mode not found');
     }
+
+    this.setState({ item, metadataLoading: false });
+
+    document.querySelector('video').setAttribute(
+      'poster', this.state.item.images.fanart.full
+    );
+
+    return item;
   }
 
   async getTorrent(imdbId, title) {
@@ -137,13 +120,14 @@ export default class Movie extends Component {
             searchQuery: title
           });
           break;
-        case 'shows':
+        case 'shows': {
           torrent = await this.butter.getTorrent(imdbId, this.props.activeMode, {
             season: 2,
             episode: 2,
             searchQuery: title
           });
           break;
+        }
         default:
           throw new Error('Invalid active mode');
       }
