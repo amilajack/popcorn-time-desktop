@@ -73,8 +73,8 @@ function selectTorrents(torrents, sortMethod = 'seeders', returnAll = false) {
     });
 
   if (process.env.NODE_ENV === 'development') {
-    console.log(sortedTorrents);
-    console.log(sortedTorrents.length);
+    console.log({ sortedTorrents });
+    console.log({ 'sortedTorrents length': sortedTorrents.length });
   }
 
   if (returnAll) {

@@ -196,7 +196,7 @@ describe('api', () => {
       describe('show torrents', () => {
         it('should get show torrent by imdbId', async done => {
           try {
-            const torrents = await butterFactory().getTorrent('tt1475582', 'shows', {
+            const torrents = await butterFactory().getTorrent(showImdbId, 'shows', {
               season: 1,
               episode: 1
             });

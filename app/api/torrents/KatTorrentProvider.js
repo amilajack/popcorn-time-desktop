@@ -8,18 +8,14 @@ export default class KatTorrentProvider {
 
   static fetch(imdbId, type, query) {
     return kat.search({
-      query,
-      min_seeds: '10',
-      sort_by: 'seeders',
-      order: 'desc',
-      verified: 1
+      query
     })
     .then(data => {
-      console.log(data.results)
+      console.log({ 'kat res': data.results });
       return data.results;
     })
     .then(
-      results => results.splice(0, 10).map(this.formatTorrent)
+      results => results.splice(0, 100).map(this.formatTorrent)
     )
     .catch(error => {
       console.log(error);
@@ -31,9 +27,9 @@ export default class KatTorrentProvider {
     return {
       quality: determineQuality(torrent.magnet),
       magnet: torrent.magnet,
-      seeders: parseInt(torrent.seeds, 10),
+      seeders: torrent.seeds,
       leechers: torrent.leechs,
-      ...getHealth(torrent.seeders, torrent.peers, torrent.leechs),
+      ...getHealth(torrent.seeds, torrent.peers, torrent.leechs),
       _provider: 'kat'
     };
   }

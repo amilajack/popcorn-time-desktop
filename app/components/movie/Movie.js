@@ -123,7 +123,7 @@ export default class Movie extends Component {
         case 'shows':
           torrent = await this.butter.getTorrent(imdbId, this.props.activeMode, {
             season: 6,
-            episode: 1,
+            episode: 10,
             searchQuery: movieTitle
           });
           break;
@@ -131,21 +131,20 @@ export default class Movie extends Component {
           throw new Error('Invalid active mode');
       }
 
-      console.log('logging');
       console.log(torrent);
 
-      // let health;
-      //
-      // if (torrent['1080p'].magnet || torrent['720p'].magnet) {
-      //   health = torrent['1080p'].health || torrent['720p'].health || torrent['480p'].health;
-      // }
+      let health;
+
+      if (torrent['1080p'].magnet || torrent['720p'].magnet || torrent['480p'].magnet) {
+        health = torrent['1080p'].health || torrent['720p'].health || torrent['480p'].health;
+      }
 
       this.setState({
         torrent: {
           '1080p': torrent['1080p'] || this.defaultTorrent,
           '720p': torrent['720p'] || this.defaultTorrent,
-          '480p': torrent['480p'] || this.defaultTorrent
-          // health
+          '480p': torrent['480p'] || this.defaultTorrent,
+          health
         }
       });
     } catch (err) {
@@ -253,7 +252,12 @@ export default class Movie extends Component {
                 :
                 null
               }
-              <h4>torrent status: {this.state.torrent.health}</h4>
+              <span>
+                <span>1080p: {this.state.torrent['1080p'].seeders} seeders</span>|
+                <span>720p: {this.state.torrent['720p'].seeders} seeders</span>|
+                <span>480p: {this.state.torrent['480p'].seeders} seeders</span>
+              </span>
+              <h4>torrent status: {this.state.torrent.health || ''}</h4>
               <h1>
                 {this.state.movie.title}
               </h1>
