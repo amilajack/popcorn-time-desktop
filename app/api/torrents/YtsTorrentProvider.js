@@ -22,16 +22,18 @@ export default class YtsTorrentProvider {
     };
   }
 
-  static provide(imdbId) {
-    return this.fetch(imdbId)
-      .then(results => {
-        if (!results.data.movie_count) return [];
-        const torrents = results.data.movies[0].torrents;
-        return torrents.map(this.formatTorrent);
-      })
-      .catch(error => {
-        console.log(error);
-      });
+  static provide(imdbId, type) {
+    switch (type) {
+      case 'movies':
+        return this.fetch(imdbId)
+          .then(results => {
+            if (!results.data.movie_count) return [];
+            const torrents = results.data.movies[0].torrents;
+            return torrents.map(this.formatTorrent);
+          });
+      default:
+        return [];
+    }
   }
 }
 

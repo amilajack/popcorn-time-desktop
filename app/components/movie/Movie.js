@@ -34,10 +34,10 @@ export default class Movie extends Component {
 
     this.defaultTorrent = {
       health: '',
-      default: {
-        quality: '',
-        magnet: ''
-      }
+      default: { quality: '', magnet: '' },
+      '1080p': { quality: '', magnet: '' },
+      '720p': { quality: '', magnet: '' },
+      '480p': { quality: '', magnet: '' }
     };
 
     this.state = {
@@ -111,15 +111,31 @@ export default class Movie extends Component {
   }
 
   async getTorrent(imdbId, movieTitle) {
+    let torrent;
+
     try {
-      const torrent = await this.butter.getTorrent(imdbId, this.props.activeMode, {
-        season: 1,
-        episode: 1
-      });
+      switch (this.props.activeMode) {
+        case 'movies':
+          torrent = await this.butter.getTorrent(imdbId, this.props.activeMode, {
+            searchQuery: movieTitle
+          });
+          break;
+        case 'shows':
+          torrent = await this.butter.getTorrent(imdbId, this.props.activeMode, {
+            season: 6,
+            episode: 1,
+            searchQuery: movieTitle
+          });
+          break;
+        default:
+          throw new Error('Invalid active mode');
+      }
 
+      console.log('logging');
       console.log(torrent);
-      let health;
 
+      // let health;
+      //
       // if (torrent['1080p'].magnet || torrent['720p'].magnet) {
       //   health = torrent['1080p'].health || torrent['720p'].health || torrent['480p'].health;
       // }
@@ -128,7 +144,7 @@ export default class Movie extends Component {
         torrent: {
           '1080p': torrent['1080p'] || this.defaultTorrent,
           '720p': torrent['720p'] || this.defaultTorrent,
-          '480p': torrent['480p'] || this.defaultTorrent,
+          '480p': torrent['480p'] || this.defaultTorrent
           // health
         }
       });
@@ -201,7 +217,6 @@ export default class Movie extends Component {
 
     return (
       <div className="container">
-        <h1>mode: {this.props.activeMode}</h1>
         <div className="row">
           <div className="col-xs-12">
             <div className="Movie">

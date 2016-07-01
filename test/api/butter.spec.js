@@ -156,7 +156,7 @@ describe('api', () => {
       describe('movie torrents', () => {
         it('should get torrents and their magnets of 720p and 1080p', async done => {
           try {
-            const torrent = await butterFactory().getTorrent(imdbId, 'movie');
+            const torrent = await butterFactory().getTorrent(imdbId, 'movies');
             assertTorrentFormat(torrent);
             done();
           } catch (err) {
@@ -169,7 +169,7 @@ describe('api', () => {
 
           try {
             // Get all sorted torrents
-            const torrents = await butterFactory().getTorrent('tt1375666', 'movie', {
+            const torrents = await butterFactory().getTorrent('tt1375666', 'movies', {
               searchQuery: 'Inception',
             }, true);
 
@@ -196,7 +196,7 @@ describe('api', () => {
       describe('show torrents', () => {
         it('should get show torrent by imdbId', async done => {
           try {
-            const torrents = await butterFactory().getTorrent('tt1475582', 'show', {
+            const torrents = await butterFactory().getTorrent('tt1475582', 'shows', {
               season: 1,
               episode: 1
             });

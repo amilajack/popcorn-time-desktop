@@ -1,15 +1,17 @@
 /**
  * Pirate Bay torrent provider
  */
-import { determineQuality, getHealth } from './BaseTorrentProvider';
 import PirateBay from 'thepiratebay';
+import {
+  determineQuality, getHealth, formatSeasonEpisodeToString
+} from './BaseTorrentProvider';
 
 
 export default class PbTorrentProvider {
 
-  static fetch(searchQuery) {
+  static fetch(searchQuery, category) {
     return PirateBay.search(searchQuery, {
-      category: 200,
+      category,
       orderBy: 'seeds',
       sortBy: 'desc'
     })
@@ -38,9 +40,23 @@ export default class PbTorrentProvider {
       return new Promise((resolve) => resolve([]));
     }
 
+    const { searchQuery } = extendedDetails;
+
     switch (type) {
-      case 'movie':
-        return this.fetch(extendedDetails.searchQuery);
+      case 'movies': {
+        return this.fetch(searchQuery, 200);
+      }
+      case 'shows': {
+        const { season, episode } = extendedDetails;
+        return this.fetch(
+          `${searchQuery} ${formatSeasonEpisodeToString(season, episode)}`,
+          208
+        )
+        .catch(err => {
+          console.log(err);
+          return [];
+        });
+      }
       default:
         return [];
     }

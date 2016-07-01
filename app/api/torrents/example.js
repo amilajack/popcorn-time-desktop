@@ -4,7 +4,7 @@
 
 // Required:
 // imdbId
-// type    | The type of torrent: movie or show
+// type    | The type of torrent: movies or shows
 
 // Example:
 //

@@ -90,11 +90,11 @@ export default class PctTorrentProvider {
     return formattedTorrents;
   }
 
-  static provide(imdbId, type, extendedDetails) {
+  static provide(imdbId, type, extendedDetails = {}) {
     switch (type) {
       // case 'movie':
       //   return this.fetch(imdbId, extendedDetails);
-      case 'show':
+      case 'shows':
         return this.fetch(imdbId, extendedDetails);
       default:
         return [];

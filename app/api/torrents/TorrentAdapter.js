@@ -11,8 +11,8 @@ export default async function TorrentAdapter(imdbId,
   const providers = [
     require('./YtsTorrentProvider'),
     require('./PbTorrentProvider'),
-    require('./PctTorrentProvider')
-    // require('./KatTorrentProvider')
+    require('./PctTorrentProvider'),
+    require('./KatTorrentProvider')
   ];
 
   const torrentPromises = providers.map(
