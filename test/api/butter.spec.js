@@ -14,6 +14,113 @@ function greaterThanOrEqualTo(first, second) {
 }
 
 describe('api', () => {
+  describe('Torrent Providers', () => {
+    describe('Movie', () => {
+      const torrentBasePath = '../../app/api/torrents';
+      const movieProviders = [
+        {
+          name: 'PirateBay',
+          provider: require(`${torrentBasePath}/PbTorrentProvider`),
+          id: 'pb'
+        },
+        {
+          name: 'PopcornTime',
+          provider: require(`${torrentBasePath}/PctTorrentProvider`),
+          id: 'pct'
+        },
+        {
+          name: 'Kat',
+          provider: require(`${torrentBasePath}/KatTorrentProvider`),
+          id: 'kat'
+        },
+        {
+          name: 'Yts',
+          provider: require(`${torrentBasePath}/YtsTorrentProvider`),
+          id: 'yts'
+        }
+      ];
+
+      const extendedDetails = {
+        searchQuery: 'harry potter'
+      };
+
+      for (const providerConfig of movieProviders) {
+        it(`${providerConfig.name}TorrentProvider should return movie torrents`,
+        async function (done) {
+          try {
+            this.timeout(40000);
+            const torrents = await providerConfig.provider.provide(
+              imdbId, 'movies', extendedDetails
+            );
+
+            for (const torrent of torrents) {
+              assertSingleTorrent(torrent);
+              expect(torrent).to.have.property('_provider')
+                .that.equals(providerConfig.id);
+            }
+            done();
+          } catch (err) {
+            done(err);
+          }
+        });
+      }
+    });
+
+    describe('Show', () => {
+      const torrentBasePath = '../../app/api/torrents';
+      const showTorrentProviders = [
+        {
+          name: 'PirateBay',
+          provider: require(`${torrentBasePath}/PbTorrentProvider`),
+          id: 'pb'
+        },
+        {
+          name: 'PopcornTime',
+          provider: require(`${torrentBasePath}/PctTorrentProvider`),
+          id: 'pct'
+        },
+        {
+          name: 'Kat',
+          provider: require(`${torrentBasePath}/KatTorrentProvider`),
+          id: 'kat'
+        },
+        {
+          name: 'KatShows',
+          provider: require(`${torrentBasePath}/KatShowsTorrentProvider`),
+          id: 'kat-shows'
+        }
+      ];
+
+      const extendedDetails = {
+        searchQuery: 'game of thrones',
+        season: 6,
+        episode: 4
+      };
+
+      for (const providerConfig of showTorrentProviders) {
+        it(`${providerConfig.name}TorrentProvider should return show torrents`,
+        async function (done) {
+          try {
+            this.timeout(40000);
+
+            const torrents = await providerConfig.provider.provide(
+              imdbId, 'shows', extendedDetails
+            );
+
+            for (const torrent of torrents) {
+              assertSingleTorrent(torrent);
+              expect(torrent).to.have.property('_provider')
+                .that.equals(providerConfig.id);
+            }
+            done();
+          } catch (err) {
+            done(err);
+          }
+        });
+      }
+    });
+  });
+
   describe('Butter', () => {
     describe('metadata', () => {
       describe('time format', () => {
@@ -357,4 +464,40 @@ function assertTorrentFormat(torrent, qualities = ['720p', '1080p']) {
 
     assertNAorNumber(torrent[quality].leechers);
   }
+}
+
+function assertSingleTorrent(torrent) {
+  expect(torrent)
+    .to.be.an('object');
+
+  expect(torrent)
+    .to.have.deep.property('quality')
+    .that.is.a('string');
+
+  expect(torrent)
+    .to.have.deep.property('_provider')
+    .that.is.a('string');
+
+  expect(torrent)
+    .to.have.deep.property('magnet')
+    .that.is.a('string');
+
+  expect(torrent)
+    .to.have.deep.property('health')
+    .that.is.a('string')
+    .that.oneOf(['healthy', 'decent', 'poor']);
+
+  expect(torrent)
+    .to.have.deep.property('seeders')
+    .that.is.a('number')
+    .that.is.at.least(0);
+
+  assertNAorNumber(torrent.seeders);
+
+  expect(torrent)
+    .to.have.deep.property('leechers')
+    .that.is.a('number')
+    .that.is.at.least(0);
+
+  assertNAorNumber(torrent.leechers);
 }

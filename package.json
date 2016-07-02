@@ -125,6 +125,7 @@
     "immutable": "^3.8.1",
     "isomorphic-fetch": "^2.2.1",
     "kat-api": "github:amilajack/kat-api",
+    "kat-shows": "0.0.1",
     "peerflix": "^0.35.1",
     "plyr": "^1.8.7",
     "postcss": "^5.0.21",

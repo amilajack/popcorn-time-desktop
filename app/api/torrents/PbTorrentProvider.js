@@ -9,7 +9,7 @@ import {
 
 export default class PbTorrentProvider {
 
-  static fetch(searchQuery, category) {
+  static fetch(searchQuery, category = 200) {
     return PirateBay.search(searchQuery, {
       category,
       orderBy: 'seeds',
@@ -44,7 +44,7 @@ export default class PbTorrentProvider {
 
     switch (type) {
       case 'movies': {
-        return this.fetch(searchQuery, 200)
+        return this.fetch(searchQuery)
           .catch(err => {
             console.log(err);
             return [];
@@ -54,8 +54,7 @@ export default class PbTorrentProvider {
       case 'shows': {
         const { season, episode } = extendedDetails;
         return this.fetch(
-          `${searchQuery} ${formatSeasonEpisodeToString(season, episode)}`,
-          200
+          `${searchQuery} ${formatSeasonEpisodeToString(season, episode)}`
         )
           .catch(err => {
             console.log(err);

@@ -13,6 +13,7 @@ export default async function TorrentAdapter(imdbId,
     require('./PbTorrentProvider'),
     require('./PctTorrentProvider'),
     require('./KatTorrentProvider')
+    // require('./KatShowsTorrentProvider')
   ];
 
   const torrentPromises = providers.map(
