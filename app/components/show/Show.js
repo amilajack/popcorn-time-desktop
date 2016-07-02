@@ -4,7 +4,7 @@ import React, { Component, PropTypes } from 'react';
 export default class Show extends Component {
 
   static propTypes = {
-    selectEpisode: PropTypes.func.isRequired,
+    selectShow: PropTypes.func.isRequired,
     seasons: PropTypes.array.isRequired,
     episodes: PropTypes.array.isRequired,
     episode: PropTypes.object
@@ -28,11 +28,11 @@ export default class Show extends Component {
           {this.props.seasons.map(episode => <li>{episode}</li>)}
         </ul>
 
-        <div>
-          Selected season: {this.props.episode.season}
-          Selected episode: {this.props.episode.episode}
-          Overview: {this.props.episode.overview}
-        </div>
+        <ul>
+          <li>Selected season: {this.props.episode.season}</li>
+          <li>Selected episode: {this.props.episode.episode}</li>
+          <li>Episode overview: {this.props.episode.overview}</li>
+        </ul>
       </div>
     );
   }

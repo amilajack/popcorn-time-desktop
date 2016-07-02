@@ -18,7 +18,7 @@ export default class Card extends Component {
       PropTypes.number,
       PropTypes.string
     ]),
-    activeMode: PropTypes.string
+    type: PropTypes.string.isRequired
   };
 
   shouldComponentUpdate() {
@@ -35,13 +35,13 @@ export default class Card extends Component {
 
     return (
       <div className="Card">
-        <Link to={`/item/${this.props.activeMode}/${this.props.id}`}>
+        <Link to={`/item/${this.props.type}/${this.props.id}`}>
           <div className="Card--overlay-container" style={divStyle}>
             <div className="Card--overlay"></div>
           </div>
         </Link>
         <div>
-          <Link className="Card--title" to={`/item/${this.props.activeMode}/${this.props.id}`}>
+          <Link className="Card--title" to={`/item/${this.props.type}/${this.props.id}`}>
             {this.props.title}
           </Link>
         </div>

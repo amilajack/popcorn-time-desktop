@@ -20,10 +20,12 @@ describe('api', () => {
         it('should convert time from minutes to hours', done => {
           try {
             expect(convertRuntimeToHours(64).full).to.equal('1 hour 4 minutes');
+            expect(convertRuntimeToHours(20).full).to.equal('20 minutes');
             expect(convertRuntimeToHours(64).hours).to.equal(1);
             expect(convertRuntimeToHours(64).minutes).to.equal(4);
 
             expect(convertRuntimeToHours(126).full).to.equal('2 hours 6 minutes');
+            expect(convertRuntimeToHours(56).full).to.equal('56 minutes');
             expect(convertRuntimeToHours(126).hours).to.equal(2);
             expect(convertRuntimeToHours(126).minutes).to.equal(6);
 

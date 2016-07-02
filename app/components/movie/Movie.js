@@ -23,7 +23,8 @@ export default class Movie extends Component {
   };
 
   static defaultProps = {
-    itemId: ''
+    itemId: '',
+    activeMode: 'movies'
   };
 
   constructor(props) {
@@ -46,6 +47,9 @@ export default class Movie extends Component {
         images: { fanart: '' },
         runtime: {}
       },
+      seasons: [],
+      season: [],
+      episode: {},
       torrent: this.defaultTorrent,
       similarLoading: false,
       metadataLoading: false,
@@ -77,7 +81,7 @@ export default class Movie extends Component {
     this.getSimilar(itemId);
   }
 
-  async getShowData(imdbId, season, episode) {
+  async getShowData(imdbId, season = 2, episode = 2) {
     if (!season) {
       return this.setState({
         seasons: await this.butter.getSeasons(imdbId)
@@ -214,6 +218,10 @@ export default class Movie extends Component {
     this.setState({ torrentInProgress: this.torrent.inProgress });
   }
 
+  selectShow = (selectedSeason, selectEpisode) => {
+    this.setState({ selectedSeason, selectEpisode });
+  }
+
   /**
    * @todo: refactor
    */
@@ -288,11 +296,11 @@ export default class Movie extends Component {
                 null
               }
               <span>
-                <span>1080p: {this.state.torrent['1080p'].seeders} seeders</span>|
-                <span>720p: {this.state.torrent['720p'].seeders} seeders</span>|
-                <span>480p: {this.state.torrent['480p'].seeders} seeders</span>
+                <span>1080p: {this.state.torrent['1080p'].seeders} seeders</span> |
+                <span>720p: {this.state.torrent['720p'].seeders} seeders</span> |
+                <span>480p: {this.state.torrent['480p'].seeders} seeders</span> |
+                <strong>torrent status: {this.state.torrent.health || ''}</strong>
               </span>
-              <h4>torrent status: {this.state.torrent.health || ''}</h4>
               <h1>
                 {this.state.item.title}
               </h1>
@@ -330,11 +338,16 @@ export default class Movie extends Component {
                 }
               </h1>
 
-              <Show
-                seasons={this.state.seasons}
-                episodes={this.state.episodes}
-                episode={this.state.episode}
-              />
+              {this.props.activeMode === 'shows' ?
+                <Show
+                  selectShow={this.selectShow}
+                  seasons={this.state.seasons}
+                  episodes={this.state.episodes}
+                  episode={this.state.episode}
+                />
+                :
+                null
+              }
 
               <div className="plyr" style={opacity}>
                 <video controls poster={this.state.item.images.fanart.full}>

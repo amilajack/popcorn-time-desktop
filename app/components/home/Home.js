@@ -15,6 +15,7 @@ export default class Home extends Component {
   static propTypes = {
     activeMode: PropTypes.string.isRequired,
     modes: PropTypes.object.isRequired,
+    activeModeOptions: PropTypes.object.isRequired,
     infinitePagination: PropTypes.bool.isRequired
   };
 
@@ -25,6 +26,7 @@ export default class Home extends Component {
       search: { page: 1, limit: 50, items: [], options: {} }
     },
     activeMode: 'movies',
+    activeModeOptions: {},
     infinitePagination: false
   };
 
@@ -47,14 +49,14 @@ export default class Home extends Component {
   componentWillUpdate(nextProps) {
     if (
       this._didMount &&
-      nextProps.activeMode !== this.props.activeMode
-      // nextProps.activeMode !== this.props.activeMode ||
-      // nextProps.mode.activeModeOptions !== this.props.activeModeOptions
+      nextProps.activeMode !== this.props.activeMode &&
+      nextProps.activeModeOptions !== this.props.activeModeOptions ||
+      nextProps.activeModeOptions.searchQuery !== this.props.activeModeOptions.searchQuery
     ) {
       this.setState({
         items: []
       });
-      this.paginate(nextProps.activeMode);
+      this.paginate(nextProps.activeMode, nextProps.activeModeOptions);
     }
   }
 
@@ -76,12 +78,10 @@ export default class Home extends Component {
    * @todo: 'getMovies' with this method
    * @todo: determine if query has reached last page
    *
-   * @param {string} queryType | 'search', 'movies', 'shows', etc
-   * @param {number} page      | Current page number
-   * @param {number} limit     | Number of max movies to get
-   * @param {array}  movies    | List of movies to be concatanted to
+   * @param {string} queryType   | 'search', 'movies', 'shows', etc
+   * @param {object} queryParams | { searchQuery: 'game of thrones' }
    */
-  async paginate(queryType, queryParams = []) {
+  async paginate(queryType, queryParams) {
     this.setState({
       isLoading: true
     });
@@ -91,8 +91,31 @@ export default class Home extends Component {
     try {
       switch (queryType) {
         case 'search': {
+          if (queryParams) {
+            if ('searchQuery' in queryParams) {
+              if (
+                queryParams.searchQuery !==
+                this.state.modes[queryType].options.searchQuery
+              ) {
+                this.state.modes[queryType].page = 1;
+                this.state.modes[queryType].options = queryParams;
+
+                this.state.modes[queryType].items = [
+                  ...await this.butter.search(
+                    this.state.modes[queryType].options.searchQuery,
+                    this.state.modes[queryType].page
+                  )
+                ];
+
+                break;
+              }
+            }
+          }
+          const { searchQuery } = this.state.modes[queryType].options;
+
           this.state.modes[queryType].items = [
-            ...await this.butter.search.call(this, queryParams)
+            ...items,
+            ...await this.butter.search(searchQuery, this.state.modes[queryType].page)
           ];
           break;
         }

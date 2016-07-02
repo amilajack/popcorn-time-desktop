@@ -17,7 +17,8 @@ function setup(propsOverride) {
     title: 'Test movie',
     id: '248245',
     genres: ['action', 'comedy'],
-    rating: 4.5
+    rating: 4.5,
+    type: 'shows',
   }, propsOverride);
 
   const component = renderIntoDocument(<Card {...props} />);

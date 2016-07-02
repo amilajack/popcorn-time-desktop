@@ -35,6 +35,7 @@ export default class CardList extends Component {
                 title={item.title}
                 id={item.imdbId}
                 year={item.year}
+                type={item.type}
                 rating={item.rating}
                 genres={item.genres}
               />

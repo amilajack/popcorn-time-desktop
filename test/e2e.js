@@ -42,20 +42,28 @@ describe('main window', function spec() {
   });
 
   it('should open window', async (done) => {
-    const title = await this.driver.getTitle();
-    expect(title).to.equal('Popcorn Time');
-    done();
+    try {
+      const title = await this.driver.getTitle();
+      expect(title).to.equal('Popcorn Time');
+      done();
+    } catch (err) {
+      done(err);
+    }
   });
 
   it('should display card list', async function cardListTest(done) {
-    this.timeout(10000);
+    try {
+      this.timeout(10000);
 
-    await delay(1000);
-    const cardListIsDisplayed = await findCardList().isDisplayed();
-    const cardIsDisplayed = await findCard().isDisplayed();
-    expect(cardListIsDisplayed).to.equal(true);
-    expect(cardIsDisplayed).to.equal(true);
-    done();
+      await delay(1000);
+      const cardListIsDisplayed = await findCardList().isDisplayed();
+      const cardIsDisplayed = await findCard().isDisplayed();
+      expect(cardListIsDisplayed).to.equal(true);
+      expect(cardIsDisplayed).to.equal(true);
+      done();
+    } catch (err) {
+      done(err);
+    }
   });
 
   /**

@@ -9,7 +9,8 @@ export default class HomePage extends Component {
     super();
 
     this.state = {
-      activeMode: 'movies'
+      activeMode: 'movies',
+      activeModeOptions: {}
     };
   }
 
@@ -27,7 +28,10 @@ export default class HomePage extends Component {
           activeMode={this.state.activeMode}
           setActiveMode={this.setActiveMode.bind(this)}
         />
-        <Home activeMode={this.state.activeMode} />
+        <Home
+          activeMode={this.state.activeMode}
+          activeModeOptions={this.state.activeModeOptions}
+        />
       </div>
     );
   }

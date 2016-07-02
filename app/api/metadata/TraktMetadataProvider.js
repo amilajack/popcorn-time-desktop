@@ -26,7 +26,7 @@ export default class TraktMetadataAdapter {
       limit,
       extended: 'full,images,metadata'
     })
-    .then(movies => movies.map(movie => formatMetadata(movie)));
+    .then(movies => movies.map(movie => formatMetadata(movie, 'movies')));
   }
 
   getMovie(imdbId) {
@@ -34,7 +34,7 @@ export default class TraktMetadataAdapter {
       id: imdbId,
       extended: 'full,images,metadata'
     })
-    .then(movie => formatMetadata(movie));
+    .then(movie => formatMetadata(movie, 'movies'));
   }
 
   getShows(page = 1, limit = 50) {
@@ -44,7 +44,7 @@ export default class TraktMetadataAdapter {
       limit,
       extended: 'full,images,metadata'
     })
-    .then(shows => shows.map(show => formatMetadata(show)));
+    .then(shows => shows.map(show => formatMetadata(show, 'shows')));
   }
 
   getShow(imdbId) {
@@ -52,7 +52,7 @@ export default class TraktMetadataAdapter {
       id: imdbId,
       extended: 'full,images,metadata'
     })
-    .then(show => formatMetadata(show));
+    .then(show => formatMetadata(show, 'shows'));
   }
 
   getSeasons(imdbId) {
@@ -93,13 +93,14 @@ export default class TraktMetadataAdapter {
   /**
    * @todo: migrate from omdbapi to an api that can provide more information
    */
-  search(query, type = 'movie', page = 1) {
+  search(query, page = 1) {
     if (!query) {
       throw Error('Query paramater required');
     }
 
+    // http://www.omdbapi.com/?t=Game+of+thrones&y=&plot=short&r=json
     return fetch(
-      `http://www.omdbapi.com/?s=${encodeURIComponent(query)}&type=${type}&page=${page}`
+      `http://www.omdbapi.com/?s=${encodeURIComponent(query)}&y=&page=${page}`
     )
       .then(response => response.json())
       .then(response => response.Search.map(movie => formatMovieSearch(movie)));
@@ -115,18 +116,19 @@ export default class TraktMetadataAdapter {
       limit,
       extended: 'full,images,metadata'
     })
-    .then(movies => movies.map(movie => formatMetadata(movie)));
+    .then(movies => movies.map(movie => formatMetadata(movie, type)));
   }
 
   provide() {}
 }
 
-function formatMetadata(movie = {}) {
+function formatMetadata(movie = {}, type) {
   return {
     title: movie.title,
     year: movie.year,
     imdbId: movie.ids.imdb,
     id: movie.ids.imdb,
+    type,
     summary: movie.overview,
     genres: movie.genres,
     rating: movie.rating ? movie.rating / 2 : 'n/a',
@@ -153,6 +155,7 @@ function formatMovieSearch(movie) {
     year: parseInt(movie.Year, 10),
     imdbId: movie.imdbID,
     id: movie.imdbID,
+    type: movie.Type.includes('movie') ? 'movies' : 'shows',
     summary: 'n/a',  // omdbapi does not support
     genres: [],
     rating: 'n/a',   // omdbapi does not support

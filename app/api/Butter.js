@@ -59,8 +59,8 @@ export default class Butter {
     return getHealth(magnet);
   }
 
-  search(query) {
-    return this.metadataAdapter.search(query);
+  search(query, page = 1) {
+    return this.metadataAdapter.search(query, page);
   }
 
   // getShows(imdbId) {}

@@ -53,11 +53,13 @@ function similar(imdbId, type, limit) {}
  * @return {object}
  */
 export function convertRuntimeToHours(runtimeInMinutes) {
-  const hours = Math.round(runtimeInMinutes / 60);
+  const hours = runtimeInMinutes > 60 ? Math.round(runtimeInMinutes / 60) : 0;
   const minutes = runtimeInMinutes % 60;
 
   return {
-    full: `${hours} ${hours > 1 ? 'hours' : 'hour'} ${minutes} minutes`,
+    full: hours > 0
+            ? `${hours} ${hours > 1 ? 'hours' : 'hour'} ${minutes} minutes`
+            : `${minutes} minutes`,
     hours,
     minutes
   };
