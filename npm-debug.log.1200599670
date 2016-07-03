@@ -1,0 +1,24 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/Users/amila/.nvm/versions/node/v6.2.2/bin/node',
+1 verbose cli   '/Users/amila/.nvm/versions/node/v6.2.2/bin/npm',
+1 verbose cli   'config',
+1 verbose cli   'get',
+1 verbose cli   'prefix' ]
+2 info using npm@3.10.3
+3 info using node@v6.2.2
+4 verbose exit [ 0, true ]
+5 verbose stack Error: write EPIPE
+5 verbose stack     at exports._errnoException (util.js:1007:11)
+5 verbose stack     at WriteWrap.afterWrite (net.js:793:14)
+6 verbose cwd /Users/amila/Documents/Projects/popcorn-desktop-experimental
+7 error Darwin 16.0.0
+8 error argv "/Users/amila/.nvm/versions/node/v6.2.2/bin/node" "/Users/amila/.nvm/versions/node/v6.2.2/bin/npm" "config" "get" "prefix"
+9 error node v6.2.2
+10 error npm  v3.10.3
+11 error code EPIPE
+12 error errno EPIPE
+13 error syscall write
+14 error write EPIPE
+15 error If you need help, you may report this error at:
+15 error     <https://github.com/npm/npm/issues>
+16 verbose exit [ 1, true ]

@@ -11,7 +11,7 @@ export default class KatTorrentProvider {
       query
     })
     .then(
-      resp => resp.results.splice(0, 100).map(this.formatTorrent)
+      resp => resp.results.map(res => this.formatTorrent(res))
     )
     .catch(error => {
       console.log(error);
@@ -34,12 +34,12 @@ export default class KatTorrentProvider {
     const { searchQuery } = extendedDetails;
 
     switch (type) {
-      // case 'movies':
-      //   return this.fetch(imdbId, type, searchQuery)
-      //     .catch(error => {
-      //       console.log(error);
-      //       return [];
-      //     });
+      case 'movies':
+        return this.fetch(imdbId, type, searchQuery)
+          .catch(error => {
+            console.log(error);
+            return [];
+          });
       case 'shows': {
         const { season, episode } = extendedDetails;
 

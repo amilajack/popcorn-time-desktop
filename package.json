@@ -6,7 +6,7 @@
   "main": "main.js",
   "scripts": {
     "styles": "gulp",
-    "test": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 mocha --timeout 10000 --inline-diffs --async-only --compilers js:babel-register --recursive --require ./test/setup.js test/**/*.spec.js",
+    "test": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 mocha --timeout 10000 --bail --inline-diffs --async-only --compilers js:babel-register --recursive --require ./test/setup.js test/**/*.spec.js",
     "test-watch": "npm test -- --watch",
     "test-e2e": "cross-env NODE_ENV=test mocha --timeout 10000 --inline-diffs --compilers js:babel-register --require ./test/setup.js --require co-mocha ./test/e2e.js",
     "test-all": "npm run test && npm run test-e2e && npm run lint",

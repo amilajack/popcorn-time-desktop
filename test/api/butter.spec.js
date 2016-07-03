@@ -13,9 +13,9 @@ function greaterThanOrEqualTo(first, second) {
   return (first > second || first === second);
 }
 
-describe('api', () => {
-  describe('Torrent Providers', () => {
-    describe('Movie', () => {
+describe('api ->', () => {
+  describe('Torrent Providers ->', () => {
+    describe('Movie ->', () => {
       const torrentBasePath = '../../app/api/torrents';
       const movieProviders = [
         {
@@ -40,18 +40,17 @@ describe('api', () => {
         }
       ];
 
-      const extendedDetails = {
-        searchQuery: 'harry potter'
-      };
-
       for (const providerConfig of movieProviders) {
         it(`${providerConfig.name}TorrentProvider should return movie torrents`,
         async function (done) {
           try {
             this.timeout(40000);
-            const torrents = await providerConfig.provider.provide(
-              imdbId, 'movies', extendedDetails
-            );
+
+            const torrents = await providerConfig.provider.provide(imdbId, 'movies', {
+              searchQuery: 'harry potter'
+            });
+
+            expect(torrents).to.be.an('array');
 
             for (const torrent of torrents) {
               assertSingleTorrent(torrent);
@@ -66,7 +65,7 @@ describe('api', () => {
       }
     });
 
-    describe('Show', () => {
+    describe('Show ->', () => {
       const torrentBasePath = '../../app/api/torrents';
       const showTorrentProviders = [
         {
@@ -74,11 +73,11 @@ describe('api', () => {
           provider: require(`${torrentBasePath}/PbTorrentProvider`),
           id: 'pb'
         },
-        {
-          name: 'PopcornTime',
-          provider: require(`${torrentBasePath}/PctTorrentProvider`),
-          id: 'pct'
-        },
+        // {
+        //   name: 'PopcornTime',
+        //   provider: require(`${torrentBasePath}/PctTorrentProvider`),
+        //   id: 'pct'
+        // },
         {
           name: 'Kat',
           provider: require(`${torrentBasePath}/KatTorrentProvider`),
@@ -104,8 +103,10 @@ describe('api', () => {
             this.timeout(40000);
 
             const torrents = await providerConfig.provider.provide(
-              imdbId, 'shows', extendedDetails
+              showImdbId, 'shows', extendedDetails
             );
+
+            expect(torrents).to.be.an('array');
 
             for (const torrent of torrents) {
               assertSingleTorrent(torrent);
@@ -121,9 +122,9 @@ describe('api', () => {
     });
   });
 
-  describe('Butter', () => {
-    describe('metadata', () => {
-      describe('time format', () => {
+  describe('Butter ->', () => {
+    describe('metadata ->', () => {
+      describe('time format ->', () => {
         it('should convert time from minutes to hours', done => {
           try {
             expect(convertRuntimeToHours(64).full).to.equal('1 hour 4 minutes');
@@ -143,7 +144,7 @@ describe('api', () => {
         });
       });
 
-      describe('format episode and season', () => {
+      describe('format episode and season ->', () => {
         it('should format correctly', done => {
           try {
             expect(formatSeasonEpisodeToString(1, 4)).to.equal('s01e04');
@@ -156,7 +157,7 @@ describe('api', () => {
         });
       });
 
-      describe('movies', () => {
+      describe('movies ->', () => {
         it('should return array of objects', async done => {
           try {
             const movies = await moviesFactory();
@@ -181,7 +182,7 @@ describe('api', () => {
         });
       });
 
-      describe('movie', () => {
+      describe('movie ->', () => {
         it('should have necessary properties', async done => {
           try {
             const movie = await movieFactory();
@@ -193,7 +194,7 @@ describe('api', () => {
         });
       });
 
-      describe('shows', () => {
+      describe('shows ->', () => {
         it('should return array of objects', async done => {
           try {
             const shows = await butterFactory().getShows();
@@ -218,7 +219,7 @@ describe('api', () => {
         });
       });
 
-      describe('show', () => {
+      describe('show ->', () => {
         it('should get show metadata', async done => {
           try {
             const showMetadata = await butterFactory().getShow('tt1475582');
@@ -286,7 +287,7 @@ describe('api', () => {
         });
       });
 
-      describe('similar', () => {
+      describe('similar ->', () => {
         it('should get similar movies and shows in correct format', async done => {
           try {
             const similarMovies = await butterFactory().getSimilar('movies', imdbId);
@@ -301,7 +302,7 @@ describe('api', () => {
         });
       });
 
-      describe('search', () => {
+      describe('search ->', () => {
         it('should search movies in correct format', async done => {
           try {
             const searchResults = await butterFactory().search('harry potter', 'movies');
@@ -317,8 +318,8 @@ describe('api', () => {
       });
     });
 
-    describe('torrents', () => {
-      describe('movie torrents', () => {
+    describe('torrents ->', () => {
+      describe('movie torrents ->', () => {
         it('should get torrents and their magnets of 720p and 1080p', async done => {
           try {
             const torrent = await butterFactory().getTorrent(imdbId, 'movies');
@@ -358,7 +359,7 @@ describe('api', () => {
         });
       });
 
-      describe('show torrents', () => {
+      describe('show torrents ->', () => {
         it('should get show torrent by imdbId', async done => {
           try {
             const torrents = await butterFactory().getTorrent(showImdbId, 'shows', {

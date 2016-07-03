@@ -30,7 +30,7 @@ export default class PbTorrentProvider {
       magnet: torrent.magnetLink,
       seeders: parseInt(torrent.seeders, 10),
       leechers: parseInt(torrent.leechers, 10),
-      ...getHealth(torrent.seeders, torrent.peers),
+      ...getHealth(torrent.seeders),
       _provider: 'pb'
     };
   }

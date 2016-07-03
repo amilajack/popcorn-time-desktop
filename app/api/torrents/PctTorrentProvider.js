@@ -23,27 +23,43 @@ export default class PctTorrentProvider {
    *
    * @return {array} | array of torrents
    */
-  static async fetch(imdbId, extendedDetails) {
-    const { season, episode } = extendedDetails;
+  static async fetch(imdbId, type, extendedDetails) {
+    const urlTypeParam = type === 'movies' ? 'movie' : 'show';
+    const request = fetch(`http://api-fetch.website/tv/${urlTypeParam}/${imdbId}`)
+      .then(res => res.json());
 
-    /**
-     * @todo: Temporary cache
-     */
-    // if (this.shows[imdbId]) {
-    //   return this.filterTorrents(this.shows[imdbId], season, episode);
-    // }
+    switch (type) {
+      case 'movies':
+        return request.then(movie =>
+          [
+            { ...movie.torrents.en['1080p'], quality: '1080p' },
+            { ...movie.torrents.en['720p'], quality: '720p' }
+          ]
+          .map(torrent => this.formatMovieTorrent(torrent))
+        );
+      case 'shows': {
+        /**
+         * @todo: Temporary cache
+         */
+        // if (this.shows[imdbId]) {
+        //   return this.filterTorrents(this.shows[imdbId], season, episode);
+        // }
+        const { season, episode } = extendedDetails;
 
-    const show = await fetch(`http://api-fetch.website/tv/show/${imdbId}`)
-      .then(res => res.json())
-      .then(res => res.episodes.map(eachEpisode => this.formatEpisode(eachEpisode)))
-      .catch(err => {
-        console.log(err);
+        const show = await request
+          .then(res => res.episodes.map(eachEpisode => this.formatEpisode(eachEpisode)))
+          .catch(err => {
+            console.log(err);
+            return [];
+          });
+
+        this.shows[imdbId] = show;
+
+        return this.filterTorrents(show, season, episode);
+      }
+      default:
         return [];
-      });
-
-    this.shows[imdbId] = show;
-
-    return this.filterTorrents(show, season, episode);
+    }
   }
 
   /**
@@ -73,6 +89,17 @@ export default class PctTorrentProvider {
     };
   }
 
+  static formatMovieTorrent(torrent) {
+    return {
+      quality: torrent.quality,
+      magnet: torrent.url,
+      seeders: torrent.seed,
+      leechers: 0,
+      ...getHealth(torrent.seed, torrent.peer),
+      _provider: 'pct'
+    };
+  }
+
   static formatTorrents(torrents) {
     const formattedTorrents = [];
 
@@ -94,10 +121,14 @@ export default class PctTorrentProvider {
 
   static provide(imdbId, type, extendedDetails = {}) {
     switch (type) {
-      // case 'movies':
-      //   return this.fetch(imdbId, extendedDetails);
+      case 'movies':
+        return this.fetch(imdbId, type, extendedDetails)
+          .catch(err => {
+            console.log(err);
+            return [];
+          });
       case 'shows':
-        return this.fetch(imdbId, extendedDetails)
+        return this.fetch(imdbId, type, extendedDetails)
           .catch(err => {
             console.log(err);
             return [];

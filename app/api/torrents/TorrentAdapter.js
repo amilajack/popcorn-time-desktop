@@ -10,10 +10,10 @@ export default async function TorrentAdapter(imdbId,
                                               method = 'all') {
   const providers = [
     require('./YtsTorrentProvider'),
-    require('./PbTorrentProvider'),
+    // require('./PbTorrentProvider'),
     require('./PctTorrentProvider'),
-    require('./KatTorrentProvider')
-    // require('./KatShowsTorrentProvider')
+    require('./KatTorrentProvider'),
+    require('./KatShowsTorrentProvider')
   ];
 
   const torrentPromises = providers.map(
@@ -62,6 +62,11 @@ function merge(providerResults) {
  * @return {object}
  */
 function selectTorrents(torrents, sortMethod = 'seeders', returnAll = false) {
+  if (process.env.NODE_ENV === 'development') {
+    console.log({ torrents });
+    console.log({ 'torrents length': torrents.length });
+  }
+
   const sortedTorrents = torrents
     .filter(
       torrent => (torrent.quality !== 'n/a' && torrent.quality !== '')

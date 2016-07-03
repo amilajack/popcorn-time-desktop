@@ -19,16 +19,17 @@ export function formatSeasonEpisodeToString(season, episode) {
 
 export function getHealth(seeders, peers) {
   let health;
+  const total = (!!seeders && !!peers) ? (seeders + peers) : seeders;
 
-  if (seeders + peers >= 100) {
+  if (total >= 100) {
     health = 'healthy';
   }
 
-  if (seeders + peers >= 50 && seeders + peers < 100) {
+  if (total >= 50 && total < 100) {
     health = 'decent';
   }
 
-  if (seeders + peers < 50) {
+  if (total < 50) {
     health = 'poor';
   }
 
