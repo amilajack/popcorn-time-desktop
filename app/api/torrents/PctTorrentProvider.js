@@ -127,7 +127,7 @@ export default class PctTorrentProvider {
             console.log(err);
             return [];
           });
-      case 'shows':
+      case '_shows':
         return this.fetch(imdbId, type, extendedDetails)
           .catch(err => {
             console.log(err);

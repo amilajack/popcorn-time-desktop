@@ -69,19 +69,22 @@ export default class Movie extends Component {
   getAllData(itemId) {
     this.torrent.destroy();
     this.destroyPlyr();
-    this.state.servingUrl = undefined;
+    this.setState({
+      servingUrl: undefined
+    });
 
     this.getItem(itemId).then(item => {
       this.getTorrent(itemId, item.title);
-      if (this.props.activeMode === 'shows') {
-        this.getShowData(itemId);
-      }
     });
+
+    if (this.props.activeMode === 'shows') {
+      this.getShowData(itemId);
+    }
 
     this.getSimilar(itemId);
   }
 
-  async getShowData(imdbId, season = 2, episode = 2) {
+  async getShowData(imdbId, season, episode) {
     if (!season) {
       return this.setState({
         seasons: await this.butter.getSeasons(imdbId)
@@ -159,8 +162,6 @@ export default class Movie extends Component {
         default:
           throw new Error('Invalid active mode');
       }
-
-      console.log(torrent);
 
       const { health } = this.getIdealTorrent([
         torrent['1080p'],
@@ -320,23 +321,26 @@ export default class Movie extends Component {
                 {this.state.item.summary}
               </h6>
               {this.state.item.rating ?
-                <Rating
-                  renderStarIcon={() => <span className="ion-android-star"></span>}
-                  starColor={'white'}
-                  name={'rating'}
-                  value={this.state.item.rating}
-                  editing={false}
-                />
+                <div>
+                  <Rating
+                    renderStarIcon={() => <span className="ion-android-star"></span>}
+                    starColor={'white'}
+                    name={'rating'}
+                    value={this.state.item.rating}
+                    editing={false}
+                  />
+                  {this.state.item.rating}
+                </div>
                 :
                 null
               }
-              <h1 style={torrentLoadingStatusStyle}>
+              <h2 style={torrentLoadingStatusStyle}>
                 {
                   !this.state.servingUrl &&
                   this.state.torrentInProgress ?
                   'Loading torrent...' : null
                 }
-              </h1>
+              </h2>
 
               {this.props.activeMode === 'shows' ?
                 <Show

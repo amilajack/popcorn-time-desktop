@@ -16,16 +16,40 @@ export default class Show extends Component {
     episode: {}
   };
 
+  constructor() {
+    super();
+    this.state = {
+      selectedSeason: 2,
+      selectedEpisode: 2
+    };
+  }
+
   render() {
     return (
       <div>
         <ul>
           <li>Seasons:</li>
-          {this.props.seasons.map(season => <li>{season.season}</li>)}
+          {this.props.seasons.map(
+            season =>
+              <li>
+                <a onClick={this.props.selectShow.bind(this, season.season)}>
+                  {
+                    season.season === this.state.selectedEpisode ?
+                    `${season.season} selected` :
+                    season.season
+                  }
+                </a>
+              </li>
+          )}
         </ul>
         <ul>
           <li>Episodes:</li>
-          {this.props.seasons.map(episode => <li>{episode}</li>)}
+          {this.props.episodes.map(
+            episode =>
+              <li onClick={this.props.selectShow.bind(this, episode.episode)}>
+                {episode.episode}
+              </li>
+          )}
         </ul>
 
         <ul>

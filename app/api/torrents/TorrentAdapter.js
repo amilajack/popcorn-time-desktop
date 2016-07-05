@@ -89,7 +89,6 @@ function selectTorrents(torrents, sortMethod = 'seeders', returnAll = false) {
   }
 
   return {
-    '0p': sortedTorrents.find(torrent => torrent.quality === '0p'),
     '480p': sortedTorrents.find(torrent => torrent.quality === '480p'),
     '720p': sortedTorrents.find(torrent => torrent.quality === '720p'),
     '1080p': sortedTorrents.find(torrent => torrent.quality === '1080p')
