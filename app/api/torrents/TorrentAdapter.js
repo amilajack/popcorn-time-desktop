@@ -62,11 +62,6 @@ function merge(providerResults) {
  * @return {object}
  */
 function selectTorrents(torrents, sortMethod = 'seeders', returnAll = false) {
-  if (process.env.NODE_ENV === 'development') {
-    console.log({ torrents });
-    console.log({ 'torrents length': torrents.length });
-  }
-
   const sortedTorrents = torrents
     .filter(
       torrent => (torrent.quality !== 'n/a' && torrent.quality !== '')
@@ -78,11 +73,6 @@ function selectTorrents(torrents, sortMethod = 'seeders', returnAll = false) {
 
       return prev.seeders > next.seeders ? -1 : 1;
     });
-
-  if (process.env.NODE_ENV === 'development') {
-    console.log({ sortedTorrents });
-    console.log({ 'sortedTorrents length': sortedTorrents.length });
-  }
 
   if (returnAll) {
     return sortedTorrents;

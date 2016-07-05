@@ -5,6 +5,8 @@
  * @todo: Refactor to be more adapter-like
  */
 
+/* eslint react/sort-comp: 0 */
+
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import Rating from 'react-star-rating-component';
@@ -27,6 +29,31 @@ export default class Movie extends Component {
     activeMode: 'movies'
   };
 
+  defaultTorrent = {
+    health: '',
+    default: { quality: '', magnet: '' },
+    '1080p': { quality: '', magnet: '' },
+    '720p': { quality: '', magnet: '' },
+    '480p': { quality: '', magnet: '' }
+  };
+
+  initialState = {
+    item: {
+      images: { fanart: '' },
+      runtime: {}
+    },
+    selectedSeason: 1,
+    selectedEpisode: 1,
+    seasons: [],
+    season: [],
+    episode: {},
+    torrent: this.defaultTorrent,
+    similarLoading: false,
+    metadataLoading: false,
+    torrentInProgress: false,
+    torrentProgress: 0
+  };
+
   constructor(props) {
     super(props);
 
@@ -34,28 +61,7 @@ export default class Movie extends Component {
     this.torrent = new Torrent();
     this.engine = {};
 
-    this.defaultTorrent = {
-      health: '',
-      default: { quality: '', magnet: '' },
-      '1080p': { quality: '', magnet: '' },
-      '720p': { quality: '', magnet: '' },
-      '480p': { quality: '', magnet: '' }
-    };
-
-    this.state = {
-      item: {
-        images: { fanart: '' },
-        runtime: {}
-      },
-      seasons: [],
-      season: [],
-      episode: {},
-      torrent: this.defaultTorrent,
-      similarLoading: false,
-      metadataLoading: false,
-      torrentInProgress: false,
-      torrentProgress: 0
-    };
+    this.state = this.initialState;
   }
 
   componentDidMount() {
@@ -69,38 +75,42 @@ export default class Movie extends Component {
   getAllData(itemId) {
     this.torrent.destroy();
     this.destroyPlyr();
-    this.setState({
-      servingUrl: undefined
+    this.setState(this.initialState, () => {
+      if (this.props.activeMode === 'shows') {
+        this.getShowData(
+          itemId,
+          this.state.selectedSeason,
+          this.state.selectedEpisode
+        );
+      }
     });
 
     this.getItem(itemId).then(item => {
       this.getTorrent(itemId, item.title);
     });
 
-    if (this.props.activeMode === 'shows') {
-      this.getShowData(itemId);
-    }
-
     this.getSimilar(itemId);
   }
 
-  async getShowData(imdbId, season, episode) {
-    if (!season) {
-      return this.setState({
-        seasons: await this.butter.getSeasons(imdbId)
-      });
-    }
-
-    if (!episode) {
-      return this.setState({
-        episodes: await this.butter.getSeason(imdbId, season)
-      });
-    }
-
-    if (season && episode) {
-      return this.setState({
-        episode: await this.butter.getEpisode(imdbId, season, episode)
-      });
+  async getShowData(type, imdbId, season, episode) {
+    switch (type) {
+      case 'seasons':
+        this.setState({
+          seasons: await this.butter.getSeasons(imdbId)
+        });
+        break;
+      case 'episodes':
+        this.setState({
+          episodes: await this.butter.getSeason(imdbId, season)
+        });
+        break;
+      case 'episode':
+        this.setState({
+          episode: await this.butter.getEpisode(imdbId, season, episode)
+        });
+        break;
+      default:
+        throw new Error('Invalid getShowData() type');
     }
   }
 
@@ -153,8 +163,8 @@ export default class Movie extends Component {
           break;
         case 'shows': {
           torrent = await this.butter.getTorrent(imdbId, this.props.activeMode, {
-            season: 2,
-            episode: 2,
+            season: this.state.selectedSeason,
+            episode: this.state.selectedEpisode,
             searchQuery: title
           });
           break;
@@ -208,19 +218,28 @@ export default class Movie extends Component {
     }
   }
 
-  /**
-   * @todo
-   */
-  setupPlyr() {}
-
   stopTorrent() {
     this.torrent.destroy();
     this.destroyPlyr();
     this.setState({ torrentInProgress: this.torrent.inProgress });
   }
 
-  selectShow = (selectedSeason, selectEpisode) => {
-    this.setState({ selectedSeason, selectEpisode });
+  selectShow(type, selectedSeason, selectedEpisode = 1) {
+    switch (type) {
+      case 'episodes':
+        this.setState({ selectedSeason });
+        this.getShowData('episodes', this.state.item.id, selectedSeason, selectedEpisode);
+        this.getShowData('episode', this.state.item.id, selectedSeason, selectedEpisode);
+        this.getTorrent(this.state.item.id, this.state.item.title);
+        break;
+      case 'episode':
+        this.setState({ selectedSeason, selectedEpisode });
+        this.getShowData('episode', this.state.item.id, selectedSeason, selectedEpisode);
+        this.getTorrent(this.state.item.id, this.state.item.title);
+        break;
+      default:
+        throw new Error('Invalid selectShow() type');
+    }
   }
 
   /**
@@ -341,10 +360,12 @@ export default class Movie extends Component {
 
               {this.props.activeMode === 'shows' ?
                 <Show
-                  selectShow={this.selectShow}
+                  selectShow={this.selectShow.bind(this)}
                   seasons={this.state.seasons}
                   episodes={this.state.episodes}
-                  episode={this.state.episode}
+                  selectedSeason={this.state.selectedSeason}
+                  selectedEpisode={this.state.selectedEpisode}
+                  overview={this.state.episode.overview}
                 />
                 :
                 null

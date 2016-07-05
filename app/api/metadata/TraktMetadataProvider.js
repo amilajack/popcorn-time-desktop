@@ -131,7 +131,7 @@ function formatMetadata(movie = {}, type) {
     type,
     summary: movie.overview,
     genres: movie.genres,
-    rating: movie.rating ? movie.rating / 2 : 'n/a',
+    rating: movie.rating ? roundRating(movie.rating) : 'n/a',
     runtime: convertRuntimeToHours(movie.runtime),
     trailer: movie.trailer,
     images: {
@@ -187,11 +187,15 @@ function formatSeason(season, image = 'screenshot') {
     season: season.season,
     episode: season.number,
     overview: season.overview,
-    rating: season.rating / 2,
+    rating: season.rating ? roundRating(season.rating) : 'n/a',
     images: {
       full: season.images[image].full,
       medium: season.images[image].medium,
       thumb: season.images[image].thumb
     }
   };
+}
+
+function roundRating(rating) {
+  return Math.round((rating / 2) * 10) / 10;
 }
