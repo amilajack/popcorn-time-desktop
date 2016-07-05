@@ -46,18 +46,9 @@ export default class Home extends Component {
     document.addEventListener('scroll', this.initInfinitePagination.bind(this));
   }
 
-  componentWillUpdate(nextProps) {
-    if (
-      this._didMount &&
-      nextProps.activeMode !== this.props.activeMode &&
-      nextProps.activeModeOptions !== this.props.activeModeOptions ||
-      nextProps.activeModeOptions.searchQuery !== this.props.activeModeOptions.searchQuery
-    ) {
-      this.setState({
-        items: []
-      });
-      this.paginate(nextProps.activeMode, nextProps.activeModeOptions);
-    }
+  componentWillReceiveProps(nextProps) {
+    this.setState({ items: [] });
+    this.paginate(nextProps.activeMode, nextProps.activeModeOptions);
   }
 
   componentWillUnmount() {

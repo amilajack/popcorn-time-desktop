@@ -271,9 +271,6 @@ export default class Movie extends Component {
                   Back
                 </button>
               </Link>
-              <button onClick={this.stopTorrent.bind(this)}>
-                Stop
-              </button>
               <button
                 onClick={this.startTorrent.bind(this, this.state.torrent['1080p'].magnet)}
                 disabled={!this.state.torrent['1080p'].quality}
