@@ -21,8 +21,6 @@ gulp.task('clean', () => del([
   './dist/*'
 ], { dot: true }));
 
-gulp.task('bower', () => $.bower());
-
 gulp.task('styles', () =>
   gulp.src('./app/styles/main.scss')
     .pipe($.sass({
@@ -32,8 +30,7 @@ gulp.task('styles', () =>
     .pipe($.autoprefixer(autoprefixerSettings))
     .pipe($.if('*.css', $.cssnano()))
     .pipe($.size({ title: 'styles' }))
-    .pipe(gulp.dest('./dist/'))
-    .pipe(gulp.dest('./app/'))
+    .pipe(gulp.dest('./app/dist'))
 );
 
 gulp.task('dev', () => {
@@ -43,7 +40,6 @@ gulp.task('dev', () => {
 gulp.task('default', ['clean'], cb => {
   runSequence(
     'clean',
-    'bower',
     'styles',
     cb
   );

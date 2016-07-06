@@ -5,5 +5,5 @@
     "version": "0.0.1",
     "author": "Amila Welihinda <amilajack@gmail.com>",
     "license": "MIT",
-    "main": "index.js"
+    "main": "./main.js"
 }

@@ -1,3 +1,6 @@
+import jQuery from 'jquery';
+window.jQuery = jQuery;
+
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';

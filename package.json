@@ -7,8 +7,7 @@
   "scripts": {
     "postinstall": "node node_modules/fbjs-scripts/node/check-dev-engines.js package.json",
     "pack": "build --dir --mac --win --linux",
-    "release": "build --mac --win --linux",
-
+    "release": "npm run build && build --publish never --mac --win --linux",
     "styles": "gulp",
     "test": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 mocha --timeout 10000 --inline-diffs --async-only --compilers js:babel-register --recursive --require ./test/setup.js test/**/*.spec.js",
     "test-watch": "npm test -- --watch",
@@ -98,7 +97,6 @@
     "fbjs-scripts": "^0.7.1",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.0",
-    "gulp-bower": "0.0.13",
     "gulp-cssnano": "^2.1.2",
     "gulp-if": "^2.0.1",
     "gulp-load-plugins": "^1.2.4",
@@ -127,12 +125,15 @@
   },
   "dependencies": {
     "babel-runtime": "^6.9.2",
+    "bootstrap": "^4.0.0-alpha.2",
     "cheerio": "^0.20.0",
     "classnames": "^2.2.5",
     "css-modules-require-hook": "^4.0.1",
     "electron-debug": "^1.0.1",
     "immutable": "^3.8.1",
+    "ionicons-temp": "^2.0.0",
     "isomorphic-fetch": "^2.2.1",
+    "jquery": "^3.0.0",
     "kat-api": "github:amilajack/kat-api",
     "kat-shows": "0.0.1",
     "notie": "^3.2.0",
