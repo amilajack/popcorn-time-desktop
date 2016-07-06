@@ -75,12 +75,14 @@ export default class Movie extends Component {
   getAllData(itemId) {
     this.torrent.destroy();
     this.destroyPlyr();
+
     this.setState(this.initialState, () => {
       if (this.props.activeMode === 'shows') {
         this.getShowData(
-          itemId,
-          this.state.selectedSeason,
-          this.state.selectedEpisode
+          'seasons', itemId, this.state.selectedSeason, this.state.selectedEpisode
+        );
+        this.getShowData(
+          'episodes', itemId, this.state.selectedSeason, this.state.selectedEpisode
         );
       }
     });
