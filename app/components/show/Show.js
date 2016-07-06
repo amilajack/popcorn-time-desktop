@@ -25,8 +25,11 @@ export default class Show extends Component {
           <li>Seasons:</li>
           {this.props.seasons.map(
             season =>
-              <li>
-                <a onClick={this.props.selectShow.bind(this, 'episodes', season.season)}>
+              <li key={season.season}>
+                <a
+                  onClick={this.props.selectShow.bind(this, 'episodes', season.season)}
+                  key={season.season}
+                >
                   {
                     season.season === this.props.selectedSeason ?
                     `${season.season} selected` :
@@ -40,7 +43,7 @@ export default class Show extends Component {
           <li>Episodes:</li>
           {this.props.episodes.map(
             episode =>
-              <li>
+              <li key={episode.episode}>
                 <a
                   onClick={this.props.selectShow.bind(
                     this,
@@ -48,6 +51,7 @@ export default class Show extends Component {
                     this.props.selectedSeason,
                     episode.episode
                   )}
+                  key={episode.episode}
                 >
                   {episode.episode} {episode.title}
                   {
