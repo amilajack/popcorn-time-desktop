@@ -5,6 +5,10 @@
   "description": "Experimental version of the popcorn time client",
   "main": "main.js",
   "scripts": {
+    "postinstall": "install-app-deps",
+    "pack": "build --dir --mac --win --linux",
+    "dist": "build"
+
     "styles": "gulp",
     "test": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 mocha --timeout 10000 --inline-diffs --async-only --compilers js:babel-register --recursive --require ./test/setup.js test/**/*.spec.js",
     "test-watch": "npm test -- --watch",
@@ -47,6 +51,13 @@
     "sass",
     "es6"
   ],
+  "build": {
+    "appId": "popcorn-time-experimental",
+    "app-category-type": "public.app-category.video",
+    "win": {
+      "iconUrl": "https://cdn.rawgit.com/amilajack/popcorn-time-desktop/master/app/icons/app.ico"
+    }
+  }
   "homepage": "https://github.com/amilajack/popcorn-desktop-experimental#readme",
   "devDependencies": {
     "asar": "^0.11.0",
@@ -73,6 +84,7 @@
     "css-loader": "^0.23.1",
     "del": "^2.2.1",
     "devtron": "^1.2.1",
+    "electron-builder": "^5.10.5",
     "electron-packager": "^7.2.0",
     "electron-prebuilt": "^1.2.5",
     "electron-rebuild": "^1.1.5",
