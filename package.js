@@ -62,11 +62,9 @@ if (version) {
 
 function build(cfg) {
   return new Promise((resolve, reject) => {
-    exec('gulp', (err, stdout) => {
-      webpack(cfg, (err, stats) => {
-        if (err) return reject(err);
-        resolve(stats);
-      });
+    webpack(cfg, (err, stats) => {
+      if (err) return reject(err);
+      resolve(stats);
     });
   });
 }
