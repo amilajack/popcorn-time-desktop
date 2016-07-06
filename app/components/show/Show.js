@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import classNames from 'classnames';
 
 
 export default class Show extends Component {
@@ -20,31 +21,34 @@ export default class Show extends Component {
 
   render() {
     return (
-      <div>
-        <ul>
-          <li>Seasons:</li>
-          {this.props.seasons.map(
-            season =>
-              <li key={season.season}>
+      <div className="row">
+        <div className="col-xs-12 col-md-6">
+          <h4>Seasons:</h4>
+          <div className="list-group">
+            {this.props.seasons.map(
+              season =>
                 <a
+                  className={classNames(
+                    'list-group-item', { active: season.season === this.props.selectedSeason }
+                  )}
                   onClick={this.props.selectShow.bind(this, 'episodes', season.season)}
                   key={season.season}
                 >
-                  {
-                    season.season === this.props.selectedSeason ?
-                    `${season.season} selected` :
-                    season.season
-                  }
+                  Season {season.season}
                 </a>
-              </li>
-          )}
-        </ul>
-        <ul>
-          <li>Episodes:</li>
-          {this.props.episodes.map(
-            episode =>
-              <li key={episode.episode}>
+            )}
+          </div>
+        </div>
+
+        <div className="col-xs-12 col-md-6">
+          <h4>Episodes:</h4>
+          <div className="list-group">
+            {this.props.episodes.map(
+              episode =>
                 <a
+                  className={classNames(
+                    'list-group-item', { active: episode.episode === this.props.selectedEpisode }
+                  )}
                   onClick={this.props.selectShow.bind(
                     this,
                     'episode',
@@ -53,16 +57,11 @@ export default class Show extends Component {
                   )}
                   key={episode.episode}
                 >
-                  {episode.episode} {episode.title}
-                  {
-                    episode.episode === this.props.selectedEpisode ?
-                    ' --- selected' :
-                    null
-                  }
+                  Ep {episode.episode}. {episode.title}
                 </a>
-              </li>
-          )}
-        </ul>
+            )}
+          </div>
+        </div>
 
         <ul>
           <li><a>Selected season: {this.props.selectedSeason}</a></li>
