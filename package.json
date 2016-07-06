@@ -5,9 +5,9 @@
   "description": "Experimental version of the popcorn time client",
   "main": "main.js",
   "scripts": {
-    "postinstall": "install-app-deps",
+    "postinstall": "node node_modules/fbjs-scripts/node/check-dev-engines.js package.json",
     "pack": "build --dir --mac --win --linux",
-    "dist": "build"
+    "release": "build --mac --win --linux",
 
     "styles": "gulp",
     "test": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 mocha --timeout 10000 --inline-diffs --async-only --compilers js:babel-register --recursive --require ./test/setup.js test/**/*.spec.js",
@@ -23,7 +23,6 @@
     "start-hot": "cross-env HOT=1 NODE_ENV=development electron -r babel-register ./main.development",
     "package": "cross-env NODE_ENV=production node -r babel-register package.js",
     "package-all": "npm run package -- --all --name PopcornTime --asar true",
-    "postinstall": "node node_modules/fbjs-scripts/node/check-dev-engines.js package.json",
     "precommit": "npm run test-all",
     "dev": "concurrently --kill-others \"npm run hot-server\" \"npm run start-hot\""
   },
@@ -57,7 +56,7 @@
     "win": {
       "iconUrl": "https://cdn.rawgit.com/amilajack/popcorn-time-desktop/master/app/icons/app.ico"
     }
-  }
+  },
   "homepage": "https://github.com/amilajack/popcorn-desktop-experimental#readme",
   "devDependencies": {
     "asar": "^0.11.0",
@@ -86,13 +85,13 @@
     "devtron": "^1.2.1",
     "electron-builder": "^5.10.5",
     "electron-packager": "^7.2.0",
-    "electron-prebuilt": "^1.2.5",
+    "electron-prebuilt": "^1.2.6",
     "electron-rebuild": "^1.1.5",
     "eslint": "^3.0.1",
     "eslint-config-airbnb": "^9.0.1",
     "eslint-plugin-immutable": "^1.0.0",
     "eslint-plugin-import": "^1.10.2",
-    "eslint-plugin-jsx-a11y": "^1.5.3",
+    "eslint-plugin-jsx-a11y": "^1.5.5",
     "eslint-plugin-react": "^5.2.2",
     "express": "^4.14.0",
     "extract-text-webpack-plugin": "^1.0.1",
@@ -106,7 +105,7 @@
     "gulp-sass": "^2.3.2",
     "gulp-size": "^2.1.0",
     "husky": "^0.11.4",
-    "jsdom": "^9.4.0",
+    "jsdom": "^9.4.1",
     "json-loader": "^0.5.4",
     "minimist": "^1.2.0",
     "mocha": "^2.5.3",
@@ -123,7 +122,7 @@
     "style-loader": "^0.13.1",
     "webpack": "^1.13.1",
     "webpack-dev-middleware": "^1.6.1",
-    "webpack-hot-middleware": "^2.12.0",
+    "webpack-hot-middleware": "^2.12.1",
     "why-did-you-update": "^0.0.8"
   },
   "dependencies": {
@@ -136,6 +135,7 @@
     "isomorphic-fetch": "^2.2.1",
     "kat-api": "github:amilajack/kat-api",
     "kat-shows": "0.0.1",
+    "notie": "^3.2.0",
     "peerflix": "^0.35.1",
     "plyr": "^1.8.7",
     "postcss": "^5.0.21",

@@ -45,17 +45,27 @@ export default class Card extends Component {
             {this.props.title}
           </Link>
         </div>
-        {this.props.rating !== 'n/a' ?
-          <Rating
-            renderStarIcon={() => <span className="ion-android-star"></span>}
-            starColor={'white'}
-            name={'rating'}
-            value={this.props.rating}
-            editing={false}
-          />
+        <div>
+          {this.props.rating !== 'n/a' ?
+            <Rating
+              renderStarIcon={() => <span className="ion-android-star"></span>}
+              starColor={'white'}
+              name={'rating'}
+              value={this.props.rating}
+              editing={false}
+            />
+            :
+            null
+          }
+        </div>
+        {this.props.type === 'search' ?
+          <div>
+            {this.props.type}
+          </div>
           :
           null
         }
+        Kind: {this.props.type}
         <div className="Card--genres">
           {this.props.genres ? this.props.genres[0] : null}
         </div>
