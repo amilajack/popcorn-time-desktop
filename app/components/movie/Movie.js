@@ -81,9 +81,6 @@ export default class Movie extends Component {
         this.getShowData(
           'seasons', itemId, this.state.selectedSeason, this.state.selectedEpisode
         );
-        this.getShowData(
-          'episodes', itemId, this.state.selectedSeason, this.state.selectedEpisode
-        );
       }
     });
 
@@ -98,12 +95,15 @@ export default class Movie extends Component {
     switch (type) {
       case 'seasons':
         this.setState({
-          seasons: await this.butter.getSeasons(imdbId)
+          seasons: await this.butter.getSeasons(imdbId),
+          episodes: await this.butter.getSeason(imdbId, 1),
+          episode: await this.butter.getEpisode(imdbId, 1, 1)
         });
         break;
       case 'episodes':
         this.setState({
-          episodes: await this.butter.getSeason(imdbId, season)
+          episodes: await this.butter.getSeason(imdbId, season),
+          episode: await this.butter.getEpisode(imdbId, season, 1)
         });
         break;
       case 'episode':
