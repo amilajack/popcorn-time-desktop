@@ -14,18 +14,19 @@
 
 ## Stack:
 
-* ES6
-* React 15.0
+* ES7
+* React 15.0+
 * Redux
 * Sass
 * ImmutableJS
-* Electron 1.0.0
+* Electron 1.0+
 * Webpack
 
 ## Requirements:
 
 * [Node >= 5](nodejs.org)
-* Mac or Linux. Windows not officially supported
+* Mac, Linux, Windows
+* For packaging, see [packaging requirements](https://github.com/amilajack/popcorn-time-desktop/wiki/Packaging-Requirements)
 
 ## Installation:
 ```
@@ -36,11 +37,12 @@ cd popcorn-desktop-experimental
 npm install
 
 # Dev build
-npm run styles
 npm run dev
 
 # Prod build
 npm run package
+
+# For an overview of the npm scripts, checkout the [wiki](https://github.com/amilajack/popcorn-time-desktop/wiki/npm-scripts-Overview)
 
 # When getting the error 'Failed to load resource' in the console, refresh electron (CMD/ctrl + R)
 # This is cause because electron is trying to fetch the compiled file before it has finished
