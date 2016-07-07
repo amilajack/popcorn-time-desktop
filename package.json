@@ -5,7 +5,7 @@
   "description": "Experimental version of the popcorn time client",
   "main": "main.js",
   "scripts": {
-    "build": "npm run build-main && npm run build-renderer",
+    "build": "npm run styles && npm run build-main && npm run build-renderer",
     "build-main": "cross-env NODE_ENV=production node -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.electron.js --progress --profile --colors",
     "build-renderer": "cross-env NODE_ENV=production node -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.production.js --progress --profile --colors",
     "dev": "concurrently --kill-others \"npm run hot-server\" \"npm run start-hot\"",
@@ -19,7 +19,7 @@
     "test-all": "npm run build && npm run test && npm run test-e2e && npm run lint",
     "start": "cross-env NODE_ENV=production electron ./",
     "start-hot": "cross-env HOT=1 NODE_ENV=development electron -r babel-register ./main.development",
-    "package": "npm run build && build --publish never --mac --win --linux",
+    "package": "npm run build && build --publish never",
     "package-all": "npm run build && build --publish never --mac --win --linux",
     "postinstall": "node node_modules/fbjs-scripts/node/check-dev-engines.js package.json",
     "precommit": "npm run test-all"
@@ -156,10 +156,10 @@
   },
   "engines": {
     "node": "5.x || 6.x",
-    "npm": "2.x || 3.x"
+    "npm": "3.x"
   },
   "devEngines": {
     "node": "5.x || 6.x",
-    "npm": "2.x || 3.x"
+    "npm": "3.x"
   }
 }

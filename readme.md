@@ -32,10 +32,15 @@
 git clone https://github.com/amilajack/popcorn-desktop-experimental.git
 cd popcorn-desktop-experimental
 
-npm i
+# Remember to `npm rebuild` if necessary
+npm install
 
+# Dev build
 npm run styles
 npm run dev
+
+# Prod build
+npm run package
 
 # When getting the error 'Failed to load resource' in the console, refresh electron (CMD/ctrl + R)
 # This is cause because electron is trying to fetch the compiled file before it has finished
