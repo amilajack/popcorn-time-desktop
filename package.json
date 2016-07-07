@@ -131,6 +131,7 @@
     "classnames": "^2.2.5",
     "css-modules-require-hook": "^4.0.1",
     "electron-debug": "^1.0.1",
+    "electron-squirrel-startup": "^1.0.0",
     "immutable": "^3.8.1",
     "ionicons-temp": "^2.0.0",
     "isomorphic-fetch": "^2.2.1",
