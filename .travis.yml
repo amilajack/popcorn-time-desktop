@@ -1,4 +1,6 @@
-sudo: false
+sudo: required
+
+dist: trusty
 
 language: node_js
 
@@ -32,8 +34,8 @@ before_script:
   - sleep 3
 
 script:
+	- npm run build
   - npm run package
-  - npm run lint
   - npm run test
-  - npm run build
   - npm run test-e2e
+	- npm run lint

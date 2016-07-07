@@ -1,6 +1,7 @@
 ## A experimental popcorn-time client
 
 [![Travis branch](https://img.shields.io/travis/amilajack/popcorn-desktop-experimental/master.svg)]()
+[![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/m51mlf6ntd138555?svg=true)](https://ci.appveyor.com/project/amilajack/popcorn-desktop-experimental)
 [![NPM dependencies](https://img.shields.io/david/amilajack/popcorn-desktop-experimental.svg)]()
 [![Join the chat at https://gitter.im/amilajack/popcorn-desktop-experimental](https://badges.gitter.im/amilajack/popcorn-desktop-experimental.svg)](https://gitter.im/amilajack/popcorn-desktop-experimental?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)]()
