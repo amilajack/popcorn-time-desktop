@@ -15,6 +15,8 @@ const app = new Application({
 const delay = time => new Promise(resolve => setTimeout(resolve, time));
 
 describe('e2e', function testApp() {
+  this.retries(3);
+
   const findCardList = () => this.app.client.waitForVisible('.CardList');
   const findCard = () => this.app.client.waitForVisible('.Card');
   const findMovie = () => this.app.client.waitForVisible('.Movie');

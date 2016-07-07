@@ -14,6 +14,8 @@ function greaterThanOrEqualTo(first, second) {
 }
 
 describe('api ->', () => {
+  this.retries(3);
+
   describe('Torrent Providers ->', () => {
     describe('Movie ->', () => {
       const torrentBasePath = '../../app/api/torrents';
