@@ -320,22 +320,22 @@ export default class Movie extends Component {
                 <span>480p: {this.state.torrent['480p'].seeders} seeders</span> |
                 <strong>torrent status: {this.state.torrent.health || ''}</strong>
               </span>
-              <h1>
+              <h1 id="title">
                 {this.state.item.title}
               </h1>
               <h5>
                 Year: {this.state.item.year}
               </h5>
-              <h6>
+              <h6 id="genres">
                 Genres: {this.state.item.genres ?
                   this.state.item.genres.map(genre => `${genre}, `)
                   : null
                   }
               </h6>
-              <h5>
+              <h5 id="runtime">
                 Length: {this.state.item.runtime.full}
               </h5>
-              <h6>
+              <h6 id="summary">
                 {this.state.item.summary}
               </h6>
               {this.state.item.rating ?
