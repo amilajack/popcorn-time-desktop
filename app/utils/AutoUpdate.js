@@ -1,50 +1,34 @@
-import { autoUpdate } from 'electron';
+import { autoUpdater } from 'electron';
 
 
-function onResponse (err, res, data) {
-  if (err) return log(`Update error: ${err.message}`)
-  if (res.statusCode === 200) {
-    // Update available
-    try {
-      data = JSON.parse(data)
-    } catch (err) {
-      return log(`Update error: Invalid JSON response: ${err.message}`)
-    }
-    windows.main.dispatch('updateAvailable', data.version)
-  } else if (res.statusCode === 204) {
-    // No update available
-  } else {
-    // Unexpected status code
-    log(`Update error: Unexpected status code: ${res.statusCode}`)
-  }
-}
+const AUTO_UPDATE_URL = 'https://popcorn-desktop-release-server.herokuapp.com/updates/latest';
 
-function initDarwinWin32 () {
-  electron.autoUpdater.on(
+export default function initDarwinWin32() {
+  autoUpdater.on(
     'error',
-    (err) => log.error(`Update error: ${err.message}`)
-  )
+    (err) => alert(`Update error: ${err.message}`)
+  );
 
-  electron.autoUpdater.on(
+  autoUpdater.on(
     'checking-for-update',
-    () => log('Checking for update')
-  )
+    () => alert('Checking for update')
+  );
 
-  electron.autoUpdater.on(
+  autoUpdater.on(
     'update-available',
-    () => log('Update available')
-  )
+    () => alert('Update available')
+  );
 
-  electron.autoUpdater.on(
+  autoUpdater.on(
     'update-not-available',
-    () => log('Update not available')
-  )
+    () => alert('Update not available')
+  );
 
-  electron.autoUpdater.on(
+  autoUpdater.on(
     'update-downloaded',
-    (e, notes, name, date, url) => log(`Update downloaded: ${name}: ${url}`)
-  )
+    (e, notes, name, date, url) => alert(`Update downloaded: ${name}: ${url}`)
+  );
 
-  electron.autoUpdater.setFeedURL(AUTO_UPDATE_URL)
-  electron.autoUpdater.checkForUpdates()
+  autoUpdater.setFeedURL(AUTO_UPDATE_URL);
+  autoUpdater.checkForUpdates();
 }

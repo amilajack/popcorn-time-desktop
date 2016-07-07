@@ -1,6 +1,8 @@
 /* eslint global-require: 0 */
 
 import { app, BrowserWindow, Menu, shell, crashReporter } from 'electron';
+import checkUpdates from './app/utils/AutoUpdate';
+
 
 let menu;
 let template;
@@ -13,10 +15,13 @@ crashReporter.start({
   autoSubmit: false
 });
 
+if (require('electron-squirrel-startup')) return;
+
 if (process.env.NODE_ENV === 'development') {
   require('electron-debug')();
 }
 
+checkUpdates();
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit();
