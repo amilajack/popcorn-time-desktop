@@ -36,14 +36,13 @@ build/Release
 # Dependency directory
 # https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git
 node_modules
-/vendor
 
 # OSX
 .DS_Store
 
 # App packaged
 dist
+app/dist
 release
 main.js
 main.js.map
-app/main.css
