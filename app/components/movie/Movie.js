@@ -68,22 +68,6 @@ export default class Movie extends Component {
 
   componentDidMount() {
     this.getAllData(this.props.itemId);
-
-
-    var renderer = require("wcjs-renderer");
-    var vlc = require("wcjs-prebuilt").createPlayer();
-    var options = { /* Add renderer options here */ }
-    renderer.bind(document.getElementById("canvas"), vlc, options);
-    vlc.play("http://archive.org/download/CartoonClassics/Krazy_Kat_-_Keeping_Up_With_Krazy.mp4");
-
-    // this.player = new WebChimera('#canvas').addPlayer({
-    // // this.player = new WebChimera('#canvas').addPlayer({
-    //   autoplay: true,
-    //   wcjs: require('wcjs-prebuilt') // eslint-disable-line
-    // });
-
-    // this.player
-    //   .addPlaylist("http://archive.org/download/CartoonClassics/Krazy_Kat_-_Keeping_Up_With_Krazy.mp4");
   }
 
   componentWillReceiveProps(nextProps) {
@@ -166,9 +150,9 @@ export default class Movie extends Component {
 
     this.setState({ item, metadataLoading: false });
 
-    document.querySelector('video').setAttribute(
-      'poster', this.state.item.images.fanart.full
-    );
+    // document.querySelector('video').setAttribute(
+    //   'poster', this.state.item.images.fanart.full
+    // );
 
     return item;
   }
@@ -301,13 +285,11 @@ export default class Movie extends Component {
 
       this.restart();
 
-      this.player = new WebChimera('#canvas').addPlayer({
+      this.player = new WebChimera('#player').addPlayer({
         autoplay: true,
         wcjs: require('wcjs-prebuilt') // eslint-disable-line
       });
-
-      this.player
-        .addPlaylist("http://archive.org/download/CartoonClassics/Krazy_Kat_-_Keeping_Up_With_Krazy.mp4");
+      this.player.addPlaylist(servingUrl);
     });
   }
 
@@ -375,10 +357,12 @@ export default class Movie extends Component {
                 Year: {this.state.item.year}
               </h5>
               <h6 id="genres">
-                Genres: {this.state.item.genres ?
-                  this.state.item.genres.map(genre => `${genre}, `)
-                  : null
-                  }
+                Genres: {
+                          this.state.item.genres ?
+                            this.state.item.genres.map(genre => `${genre}, `)
+                            :
+                            null
+                        }
               </h6>
               <h5 id="runtime">
                 Length: {this.state.item.runtime.full}
@@ -402,9 +386,10 @@ export default class Movie extends Component {
               }
               <h2 style={torrentLoadingStatusStyle}>
                 {
-                  !this.state.servingUrl &&
-                  this.state.torrentInProgress ?
-                  'Loading torrent...' : null
+                  !this.state.servingUrl && this.state.torrentInProgress ?
+                    'Loading torrent...'
+                    :
+                    null
                 }
               </h2>
 
@@ -428,14 +413,7 @@ export default class Movie extends Component {
                     </video>
                   </div>
                   :
-
-                  <canvas id="canvas"></canvas>
-                  // <video
-                  //   controls
-                  //   autoPlay
-                  //   src={this.state.servingUrl} type="video/mp4"
-                  //   poster={this.state.item.images.fanart.full}
-                  // />
+                  <div id="player"></div>
               }
             </div>
           </div>
