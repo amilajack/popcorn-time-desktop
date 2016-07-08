@@ -40,9 +40,9 @@ node_modules
 # OSX
 .DS_Store
 
-# App packaged
+# Packaged and compiled files
 dist
 app/dist
+app/main.js
+app/main.js.map
 release
-main.js
-main.js.map

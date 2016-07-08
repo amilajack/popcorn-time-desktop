@@ -15,6 +15,8 @@ import Show from '../show/Show';
 import Butter from '../../api/Butter';
 import Torrent from '../../api/Torrent';
 import plyr from 'plyr';
+// import renderer from 'wcjs-renderer';
+// import vlc from 'wcjs-prebuilt';
 
 
 export default class Movie extends Component {
@@ -36,6 +38,8 @@ export default class Movie extends Component {
     '720p': { quality: '', magnet: '' },
     '480p': { quality: '', magnet: '' }
   };
+
+  enablePlyr = false;
 
   initialState = {
     item: {
@@ -62,6 +66,20 @@ export default class Movie extends Component {
     this.engine = {};
 
     this.state = this.initialState;
+
+    console.log(require("wcjs-renderer"));
+    // const wjs = require("wcjs-player");
+
+    // console.log(wjs);
+
+    // const player = new wjs("#player").addPlayer({
+    //   autoplay: true,
+    //   wcjs: require('webchimera.js')
+    // });
+
+    // var player = new wjs("#player").addPlayer({ autoplay: true });
+    //
+    // player.addPlaylist("http://archive.org/download/CartoonClassics/Krazy_Kat_-_Keeping_Up_With_Krazy.mp4");
   }
 
   componentDidMount() {
@@ -73,8 +91,8 @@ export default class Movie extends Component {
   }
 
   getAllData(itemId) {
-    this.torrent.destroy();
-    this.destroyPlyr();
+    // this.torrent.destroy();
+    this.pause();
 
     this.setState(this.initialState, () => {
       if (this.props.activeMode === 'shows') {
@@ -125,8 +143,10 @@ export default class Movie extends Component {
    * @hack: Possbile solution is to remove the video element on change of movie
    */
   async getItem(imdbId) {
-    if (document.querySelector('.plyr').plyr) {
-      location.reload();
+    if (this.enablePlyr) {
+      if (document.querySelector('.plyr').plyr) {
+        location.reload();
+      }
     }
 
     this.setState({ metadataLoading: true });
@@ -175,11 +195,13 @@ export default class Movie extends Component {
           throw new Error('Invalid active mode');
       }
 
-      const { health } = this.getIdealTorrent([
+      const { health, magnet } = this.getIdealTorrent([
         torrent['1080p'],
         torrent['720p'],
         torrent['480p']
       ]);
+
+      console.log({ idealTorrentMagnet: magnet });
 
       this.setState({
         torrent: {
@@ -222,8 +244,9 @@ export default class Movie extends Component {
 
   stopTorrent() {
     this.torrent.destroy();
-    this.destroyPlyr();
-    this.setState({ torrentInProgress: this.torrent.inProgress });
+    // this.pause();
+    // this.destroyPlyr();
+    this.setState({ torrentInProgress: false });
   }
 
   selectShow(type, selectedSeason, selectedEpisode = 1) {
@@ -253,6 +276,8 @@ export default class Movie extends Component {
       // if (document.querySelector('.plyr button').length) {
       //   document.querySelector('.plyr button').remove();
       // }
+    } else {
+      console.warn('no plyr instance');
     }
   }
 
@@ -260,19 +285,46 @@ export default class Movie extends Component {
    * @todo: Abstract 'listening' event to Torrent api
    */
   startTorrent(magnetURI) {
+    if (this.state.torrentInProgress) {
+      this.stopTorrent();
+    }
+
+    console.log({ magnetURI });
+
     this.engine = this.torrent.start(magnetURI);
-    this.setState({ torrentInProgress: this.torrent.inProgress });
+    this.setState({ torrentInProgress: true });
 
     this.engine.server.on('listening', () => {
       const servingUrl = `http://localhost:${this.engine.server.address().port}/`;
       this.setState({ servingUrl });
-      console.log('serving......');
+      console.log('serving at:', servingUrl);
 
-      plyr.setup({
-        autoplay: true,
-        volume: 10
-      });
+      this.restart();
+
+      if (this.enablePlyr) {
+        this.plyr = plyr.setup({
+          autoplay: true,
+          volume: 10
+        })[0].plyr;
+      }
     });
+  }
+
+  restart() {
+    // if (this.plyr && this.enablePlyr) {
+    //   this.plyr.restart();
+    // } else {
+    //   document.querySelector('video').pause();
+    //   document.querySelector('video').currentTime = 0;
+    // }
+  }
+
+  pause() {
+    // if (this.plyr && this.enablePlyr) {
+    //   this.plyr.pause();
+    // } else {
+    //   document.querySelector('video').pause();
+    // }
   }
 
   render() {
@@ -372,12 +424,23 @@ export default class Movie extends Component {
                 :
                 null
               }
+              {
+                this.enablePlyr ?
+                  <div className="plyr" style={opacity}>
+                    <video controls poster={this.state.item.images.fanart.full}>
+                      <source src={this.state.servingUrl} type="video/mp4" />
+                    </video>
+                  </div>
+                  :
 
-              <div className="plyr" style={opacity}>
-                <video controls poster={this.state.item.images.fanart.full}>
-                  <source src={this.state.servingUrl} type="video/mp4" />
-                </video>
-              </div>
+                  <canvas id="canvas" />
+                  // <video
+                  //   controls
+                  //   autoPlay
+                  //   src={this.state.servingUrl} type="video/mp4"
+                  //   poster={this.state.item.images.fanart.full}
+                  // />
+              }
             </div>
           </div>
           <div className="col-xs-12">

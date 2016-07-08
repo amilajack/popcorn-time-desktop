@@ -7,6 +7,9 @@ export default {
       loaders: ['babel-loader'],
       exclude: /node_modules/
     }, {
+      test: /\.node$/,
+      loader: 'node-loader'
+    }, {
       test: /\.json$/,
       loader: 'json-loader'
     }]
@@ -17,7 +20,7 @@ export default {
     libraryTarget: 'commonjs2'
   },
   resolve: {
-    extensions: ['', '.js', '.jsx'],
+    extensions: ['', '.js', '.jsx', '.node'],
     packageMains: ['webpack', 'browser', 'web', 'browserify', ['jam', 'main'], 'main']
   },
   plugins: [

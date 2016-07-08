@@ -21,8 +21,12 @@
     "start-hot": "cross-env HOT=1 NODE_ENV=development electron -r babel-register ./main.development",
     "package": "npm run build && build --publish never",
     "package-all": "npm run build && build --publish never --mac --win --linux",
-    "postinstall": "node node_modules/fbjs-scripts/node/check-dev-engines.js package.json",
     "precommit": "npm run test-all"
+  },
+  "wcjs-prebuilt": {
+    "runtime": "electron",
+    "runtimeVersion": "v1.2.5",
+    "version": "v0.2.5"
   },
   "bin": {
     "electron": "./node_modules/.bin/electron"
@@ -42,10 +46,12 @@
   },
   "keywords": [
     "popcorn-time",
+    "popcorn",
+    "time",
+    "client",
     "electron",
     "react",
     "redux",
-    "sass",
     "es6"
   ],
   "build": {
@@ -82,7 +88,6 @@
     "del": "^2.2.1",
     "devtron": "^1.2.1",
     "electron-builder": "^5.11.0",
-    "electron-packager": "^7.2.0",
     "electron-prebuilt": "^1.2.6",
     "electron-rebuild": "^1.1.5",
     "eslint": "^3.0.1",
@@ -107,6 +112,7 @@
     "minimist": "^1.2.0",
     "mocha": "^2.5.3",
     "node-libs-browser": "^1.0.0",
+    "node-loader": "^0.5.0",
     "react-addons-test-utils": "^15.2.0",
     "redux-devtools": "^3.3.1",
     "redux-devtools-dock-monitor": "^1.1.1",
@@ -126,7 +132,6 @@
   "dependencies": {
     "babel-runtime": "^6.9.2",
     "bootstrap": "^4.0.0-alpha.2",
-    "cheerio": "^0.20.0",
     "classnames": "^2.2.5",
     "css-modules-require-hook": "^4.0.1",
     "electron-debug": "^1.0.1",
@@ -152,7 +157,12 @@
     "redux-thunk": "^2.1.0",
     "source-map-support": "^0.4.1",
     "thepiratebay": "^1.1.9",
-    "trakt.tv": "^1.4.2"
+    "trakt.tv": "^1.4.2",
+    "wcjs-player": "^6.0.1",
+    "wcjs-prebuilt": "^3.0.0",
+    "wcjs-renderer": "^1.0.2",
+    "webchimera.js": "^0.2.5",
+    "webtorrent": "^0.95.2"
   },
   "engines": {
     "node": "5.x || 6.x",
