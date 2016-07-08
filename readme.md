@@ -35,7 +35,8 @@ cd popcorn-time-desktop
 
 
 # Install all the dependencies
-npm i # Remember to `npm rebuild` if necessary
+# Remember to `npm rebuild` if necessary
+npm install
 
 # Dev build
 npm run dev
