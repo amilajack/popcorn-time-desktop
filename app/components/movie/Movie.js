@@ -14,9 +14,7 @@ import CardList from '../card/CardList';
 import Show from '../show/Show';
 import Butter from '../../api/Butter';
 import Torrent from '../../api/Torrent';
-import plyr from 'plyr';
-// import renderer from 'wcjs-renderer';
-// import vlc from 'wcjs-prebuilt';
+import WebChimera from 'wcjs-player';
 
 
 export default class Movie extends Component {
@@ -66,24 +64,26 @@ export default class Movie extends Component {
     this.engine = {};
 
     this.state = this.initialState;
-
-    console.log(require("wcjs-renderer"));
-    // const wjs = require("wcjs-player");
-
-    // console.log(wjs);
-
-    // const player = new wjs("#player").addPlayer({
-    //   autoplay: true,
-    //   wcjs: require('webchimera.js')
-    // });
-
-    // var player = new wjs("#player").addPlayer({ autoplay: true });
-    //
-    // player.addPlaylist("http://archive.org/download/CartoonClassics/Krazy_Kat_-_Keeping_Up_With_Krazy.mp4");
   }
 
   componentDidMount() {
     this.getAllData(this.props.itemId);
+
+
+    var renderer = require("wcjs-renderer");
+    var vlc = require("wcjs-prebuilt").createPlayer();
+    var options = { /* Add renderer options here */ }
+    renderer.bind(document.getElementById("canvas"), vlc, options);
+    vlc.play("http://archive.org/download/CartoonClassics/Krazy_Kat_-_Keeping_Up_With_Krazy.mp4");
+
+    // this.player = new WebChimera('#canvas').addPlayer({
+    // // this.player = new WebChimera('#canvas').addPlayer({
+    //   autoplay: true,
+    //   wcjs: require('wcjs-prebuilt') // eslint-disable-line
+    // });
+
+    // this.player
+    //   .addPlaylist("http://archive.org/download/CartoonClassics/Krazy_Kat_-_Keeping_Up_With_Krazy.mp4");
   }
 
   componentWillReceiveProps(nextProps) {
@@ -301,30 +301,26 @@ export default class Movie extends Component {
 
       this.restart();
 
-      if (this.enablePlyr) {
-        this.plyr = plyr.setup({
-          autoplay: true,
-          volume: 10
-        })[0].plyr;
-      }
+      this.player = new WebChimera('#canvas').addPlayer({
+        autoplay: true,
+        wcjs: require('wcjs-prebuilt') // eslint-disable-line
+      });
+
+      this.player
+        .addPlaylist("http://archive.org/download/CartoonClassics/Krazy_Kat_-_Keeping_Up_With_Krazy.mp4");
     });
   }
 
   restart() {
-    // if (this.plyr && this.enablePlyr) {
-    //   this.plyr.restart();
-    // } else {
-    //   document.querySelector('video').pause();
-    //   document.querySelector('video').currentTime = 0;
-    // }
+    if (this.player) {
+      this.player.restart();
+    }
   }
 
   pause() {
-    // if (this.plyr && this.enablePlyr) {
-    //   this.plyr.pause();
-    // } else {
-    //   document.querySelector('video').pause();
-    // }
+    if (this.player) {
+      this.player.pause();
+    }
   }
 
   render() {
@@ -433,7 +429,7 @@ export default class Movie extends Component {
                   </div>
                   :
 
-                  <canvas id="canvas" />
+                  <canvas id="canvas"></canvas>
                   // <video
                   //   controls
                   //   autoPlay
