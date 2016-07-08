@@ -44,8 +44,6 @@ npm run dev
 # Prod build
 npm run package
 
-# For an overview of the npm scripts, checkout the [wiki](https://github.com/amilajack/popcorn-time-desktop/wiki/npm-scripts-Overview)
-
 # If you hit the 'Failed to load resource' error (found in the console), refresh Electron (CMD/ctrl + R)
 # This is caused when Electron is trying to fetch the compiled file before it has finished.
 ```
