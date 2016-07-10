@@ -14,7 +14,8 @@ import CardList from '../card/CardList';
 import Show from '../show/Show';
 import Butter from '../../api/Butter';
 import Torrent from '../../api/Torrent';
-import WebChimera from 'wcjs-player';
+import WebChimeraPlayer from 'wcjs-player';
+import player from 'plyr';
 
 
 export default class Movie extends Component {
@@ -50,6 +51,7 @@ export default class Movie extends Component {
     season: [],
     episode: {},
     torrent: this.defaultTorrent,
+    usingVideoFallback: false,
     similarLoading: false,
     metadataLoading: false,
     torrentInProgress: false,
@@ -76,7 +78,7 @@ export default class Movie extends Component {
 
   getAllData(itemId) {
     // this.torrent.destroy();
-    this.pause();
+    // this.pause();
 
     this.setState(this.initialState, () => {
       if (this.props.activeMode === 'shows') {
@@ -88,6 +90,7 @@ export default class Movie extends Component {
 
     this.getItem(itemId).then(item => {
       this.getTorrent(itemId, item.title);
+      this.instance.poster(item.images.fanart.full);
     });
 
     this.getSimilar(itemId);
@@ -150,15 +153,13 @@ export default class Movie extends Component {
 
     this.setState({ item, metadataLoading: false });
 
-    // document.querySelector('video').setAttribute(
-    //   'poster', this.state.item.images.fanart.full
-    // );
-
     return item;
   }
 
   async getTorrent(imdbId, title) {
     let torrent;
+
+    this.setState({ torrent: this.defaultTorrent });
 
     try {
       switch (this.props.activeMode) {
@@ -228,8 +229,7 @@ export default class Movie extends Component {
 
   stopTorrent() {
     this.torrent.destroy();
-    // this.pause();
-    // this.destroyPlyr();
+    // this.player.destroy();
     this.setState({ torrentInProgress: false });
   }
 
@@ -283,14 +283,52 @@ export default class Movie extends Component {
       this.setState({ servingUrl });
       console.log('serving at:', servingUrl);
 
-      this.restart();
+      // this.restart();
 
-      this.player = new WebChimera('#player').addPlayer({
-        autoplay: true,
-        wcjs: require('wcjs-prebuilt') // eslint-disable-line
+      this.setState({ servingUrl });
+
+      console.log(this.engine.files[0].path);
+
+      this.setState({
+        usingVideoFallback: this.isSupported(this.engine.files[0].path)
       });
-      this.player.addPlaylist(servingUrl);
+
+      if (this.isSupported(this.engine.files[0].path)) {
+        const instance = player.setup({
+          autoplay: true,
+          volume: 10
+        })[0].plyr;
+
+        instance.source({
+          sources: [{
+            src: servingUrl,
+            type: 'video/mp4'
+          }]
+        });
+
+        this.player = instance;
+      } else {
+        console.warn('Source not natively supported. Attempting playback with WebChimera');
+
+        const wc = new WebChimeraPlayer('#player').addPlayer({
+          autoplay: true,
+          wcjs: require('wcjs-prebuilt') // eslint-disable-line
+        });
+
+        wc.addPlaylist(servingUrl);
+      }
     });
+  }
+
+  isSupported(servingUrl) {
+    const supportedMimeTypes = [
+      'webm',
+      'mp4',
+      'ogg'
+    ];
+    const supported = supportedMimeTypes.find(type => servingUrl.toLowerCase().includes(type));
+
+    return !!supported;
   }
 
   restart() {
@@ -405,16 +443,17 @@ export default class Movie extends Component {
                 :
                 null
               }
-              {
-                this.enablePlyr ?
-                  <div className="plyr" style={opacity}>
-                    <video controls poster={this.state.item.images.fanart.full}>
-                      <source src={this.state.servingUrl} type="video/mp4" />
-                    </video>
-                  </div>
-                  :
-                  <div id="player"></div>
-              }
+              <div
+                id="player"
+                className={this.state.usingVideoFallback ? '' : 'hidden'}
+              />
+              <div
+                className="plyr"
+                style={opacity}
+                className={this.state.usingVideoFallback ? 'hidden' : ''}
+              >
+                <video controls poster={this.state.item.images.fanart.full} />
+              </div>
             </div>
           </div>
           <div className="col-xs-12">

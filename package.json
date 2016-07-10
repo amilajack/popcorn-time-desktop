@@ -159,7 +159,7 @@
     "source-map-support": "^0.4.1",
     "thepiratebay": "^1.1.9",
     "trakt.tv": "^1.4.2",
-    "wcjs-player": "^6.0.1",
+    "wcjs-player": "github:amilajack/wcjs-player",
     "wcjs-prebuilt": "^3.0.0",
     "wcjs-renderer": "^1.0.2",
     "webtorrent": "^0.95.2"
