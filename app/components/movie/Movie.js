@@ -14,8 +14,7 @@ import CardList from '../card/CardList';
 import Show from '../show/Show';
 import Butter from '../../api/Butter';
 import Torrent from '../../api/Torrent';
-import WebChimeraPlayer from 'wcjs-player';
-import player from 'plyr';
+import Player from '../../api/Player';
 
 
 export default class Movie extends Component {
@@ -37,8 +36,6 @@ export default class Movie extends Component {
     '720p': { quality: '', magnet: '' },
     '480p': { quality: '', magnet: '' }
   };
-
-  enablePlyr = false;
 
   initialState = {
     item: {
@@ -63,6 +60,7 @@ export default class Movie extends Component {
 
     this.butter = new Butter();
     this.torrent = new Torrent();
+    this.player = new Player();
     this.engine = {};
 
     this.state = this.initialState;
@@ -72,14 +70,16 @@ export default class Movie extends Component {
     this.getAllData(this.props.itemId);
   }
 
+  componentWillUnmount() {
+    this.torrent.destroy();
+    this.player.destroy();
+  }
+
   componentWillReceiveProps(nextProps) {
     this.getAllData(nextProps.itemId);
   }
 
   getAllData(itemId) {
-    // this.torrent.destroy();
-    // this.pause();
-
     this.setState(this.initialState, () => {
       if (this.props.activeMode === 'shows') {
         this.getShowData(
@@ -130,12 +130,6 @@ export default class Movie extends Component {
    * @hack: Possbile solution is to remove the video element on change of movie
    */
   async getItem(imdbId) {
-    if (this.enablePlyr) {
-      if (document.querySelector('.plyr').plyr) {
-        location.reload();
-      }
-    }
-
     this.setState({ metadataLoading: true });
 
     let item;
@@ -229,7 +223,7 @@ export default class Movie extends Component {
 
   stopTorrent() {
     this.torrent.destroy();
-    // this.player.destroy();
+    this.player.destroy();
     this.setState({ torrentInProgress: false });
   }
 
@@ -252,20 +246,6 @@ export default class Movie extends Component {
   }
 
   /**
-   * @todo: refactor
-   */
-  destroyPlyr() {
-    if (document.querySelector('.plyr').plyr) {
-      document.querySelector('.plyr').plyr.destroy();
-      // if (document.querySelector('.plyr button').length) {
-      //   document.querySelector('.plyr button').remove();
-      // }
-    } else {
-      console.warn('no plyr instance');
-    }
-  }
-
-  /**
    * @todo: Abstract 'listening' event to Torrent api
    */
   startTorrent(magnetURI) {
@@ -273,62 +253,22 @@ export default class Movie extends Component {
       this.stopTorrent();
     }
 
-    console.log({ magnetURI });
-
     this.engine = this.torrent.start(magnetURI);
     this.setState({ torrentInProgress: true });
 
     this.engine.server.on('listening', () => {
       const servingUrl = `http://localhost:${this.engine.server.address().port}/`;
-      this.setState({ servingUrl });
       console.log('serving at:', servingUrl);
 
-      // this.restart();
-
-      this.setState({ servingUrl });
-
-      console.log(this.engine.files[0].path);
-
       this.setState({
-        usingVideoFallback: this.isSupported(this.engine.files[0].path)
+        servingUrl,
+        usingVideoFallback: Player.isFormatSupported(this.engine.files[0].path)
       });
 
-      if (this.isSupported(this.engine.files[0].path)) {
-        const instance = player.setup({
-          autoplay: true,
-          volume: 10
-        })[0].plyr;
-
-        instance.source({
-          sources: [{
-            src: servingUrl,
-            type: 'video/mp4'
-          }]
-        });
-
-        this.player = instance;
-      } else {
-        console.warn('Source not natively supported. Attempting playback with WebChimera');
-
-        const wc = new WebChimeraPlayer('#player').addPlayer({
-          autoplay: true,
-          wcjs: require('wcjs-prebuilt') // eslint-disable-line
-        });
-
-        wc.addPlaylist(servingUrl);
-      }
+      this.player = Player.isFormatSupported(this.engine.files[0].path)
+        ? this.player.initPlyr(servingUrl, this.state.item)
+        : this.player.initWebChimeraPlayer(servingUrl, this.state.item);
     });
-  }
-
-  isSupported(servingUrl) {
-    const supportedMimeTypes = [
-      'webm',
-      'mp4',
-      'ogg'
-    ];
-    const supported = supportedMimeTypes.find(type => servingUrl.toLowerCase().includes(type));
-
-    return !!supported;
   }
 
   restart() {
@@ -396,10 +336,9 @@ export default class Movie extends Component {
               </h5>
               <h6 id="genres">
                 Genres: {
-                          this.state.item.genres ?
-                            this.state.item.genres.map(genre => `${genre}, `)
-                            :
-                            null
+                          this.state.item.genres
+                            ? this.state.item.genres.map(genre => `${genre}, `)
+                            : null
                         }
               </h6>
               <h5 id="runtime">
@@ -424,10 +363,9 @@ export default class Movie extends Component {
               }
               <h2 style={torrentLoadingStatusStyle}>
                 {
-                  !this.state.servingUrl && this.state.torrentInProgress ?
-                    'Loading torrent...'
-                    :
-                    null
+                  !this.state.servingUrl && this.state.torrentInProgress
+                    ? 'Loading torrent...'
+                    : null
                 }
               </h2>
 
@@ -443,10 +381,6 @@ export default class Movie extends Component {
                 :
                 null
               }
-              <div
-                id="player"
-                className={this.state.usingVideoFallback ? '' : 'hidden'}
-              />
               <div
                 className="plyr"
                 style={opacity}
