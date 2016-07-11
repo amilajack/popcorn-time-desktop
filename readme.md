@@ -12,6 +12,8 @@
 
 **Modern Stack**: ES6, React, Electron, Webpack, and more!
 
+**Faster Torrents**: New API optimized for fast torrents
+
 ## Stack:
 
 * ES7
