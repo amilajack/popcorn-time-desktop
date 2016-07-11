@@ -2,7 +2,7 @@
   "name": "popcorn-time-desktop",
   "productName": "Popcorn Time",
   "version": "0.0.1",
-  "description": "Experimental version of the popcorn time client",
+  "description": "An experimental PopcornTime client",
   "main": "main.js",
   "scripts": {
     "build": "npm run styles && npm run build-main && npm run build-renderer",
@@ -164,7 +164,7 @@
   "optionalDependencies": {
     "wcjs-prebuilt": "^3.0.0",
     "wcjs-player": "github:amilajack/wcjs-player",
-    "wcjs-renderer": "^1.0.2",
+    "wcjs-renderer": "^1.0.2"
   },
   "engines": {
     "node": "5.x || 6.x",
