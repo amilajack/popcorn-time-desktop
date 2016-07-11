@@ -14,7 +14,8 @@ import CardList from '../card/CardList';
 import Show from '../show/Show';
 import Butter from '../../api/Butter';
 import Torrent from '../../api/Torrent';
-import plyr from 'plyr';
+import Player from '../../api/Player';
+import notie from 'notie';
 
 
 export default class Movie extends Component {
@@ -48,6 +49,7 @@ export default class Movie extends Component {
     season: [],
     episode: {},
     torrent: this.defaultTorrent,
+    usingVideoFallback: false,
     similarLoading: false,
     metadataLoading: false,
     torrentInProgress: false,
@@ -57,8 +59,11 @@ export default class Movie extends Component {
   constructor(props) {
     super(props);
 
+    console.log(process.env.FLAG_SUPPORT_NON_NATIVE_CODECS_FALLBACK);
+
     this.butter = new Butter();
     this.torrent = new Torrent();
+    this.player = new Player();
     this.engine = {};
 
     this.state = this.initialState;
@@ -68,14 +73,16 @@ export default class Movie extends Component {
     this.getAllData(this.props.itemId);
   }
 
+  componentWillUnmount() {
+    this.torrent.destroy();
+    this.player.destroy();
+  }
+
   componentWillReceiveProps(nextProps) {
     this.getAllData(nextProps.itemId);
   }
 
   getAllData(itemId) {
-    this.torrent.destroy();
-    this.destroyPlyr();
-
     this.setState(this.initialState, () => {
       if (this.props.activeMode === 'shows') {
         this.getShowData(
@@ -86,6 +93,7 @@ export default class Movie extends Component {
 
     this.getItem(itemId).then(item => {
       this.getTorrent(itemId, item.title);
+      this.instance.poster(item.images.fanart.full);
     });
 
     this.getSimilar(itemId);
@@ -125,10 +133,6 @@ export default class Movie extends Component {
    * @hack: Possbile solution is to remove the video element on change of movie
    */
   async getItem(imdbId) {
-    if (document.querySelector('.plyr').plyr) {
-      location.reload();
-    }
-
     this.setState({ metadataLoading: true });
 
     let item;
@@ -146,15 +150,13 @@ export default class Movie extends Component {
 
     this.setState({ item, metadataLoading: false });
 
-    document.querySelector('video').setAttribute(
-      'poster', this.state.item.images.fanart.full
-    );
-
     return item;
   }
 
   async getTorrent(imdbId, title) {
     let torrent;
+
+    this.setState({ torrent: this.defaultTorrent });
 
     try {
       switch (this.props.activeMode) {
@@ -175,11 +177,13 @@ export default class Movie extends Component {
           throw new Error('Invalid active mode');
       }
 
-      const { health } = this.getIdealTorrent([
+      const { health, magnet } = this.getIdealTorrent([
         torrent['1080p'],
         torrent['720p'],
         torrent['480p']
       ]);
+
+      console.log({ idealTorrentMagnet: magnet });
 
       this.setState({
         torrent: {
@@ -222,8 +226,8 @@ export default class Movie extends Component {
 
   stopTorrent() {
     this.torrent.destroy();
-    this.destroyPlyr();
-    this.setState({ torrentInProgress: this.torrent.inProgress });
+    this.player.destroy();
+    this.setState({ torrentInProgress: false });
   }
 
   selectShow(type, selectedSeason, selectedEpisode = 1) {
@@ -245,34 +249,53 @@ export default class Movie extends Component {
   }
 
   /**
-   * @todo: refactor
-   */
-  destroyPlyr() {
-    if (document.querySelector('.plyr').plyr) {
-      document.querySelector('.plyr').plyr.destroy();
-      // if (document.querySelector('.plyr button').length) {
-      //   document.querySelector('.plyr button').remove();
-      // }
-    }
-  }
-
-  /**
    * @todo: Abstract 'listening' event to Torrent api
    */
   startTorrent(magnetURI) {
+    if (this.state.torrentInProgress) {
+      this.stopTorrent();
+    }
+
     this.engine = this.torrent.start(magnetURI);
-    this.setState({ torrentInProgress: this.torrent.inProgress });
+    this.setState({ torrentInProgress: true });
 
     this.engine.server.on('listening', () => {
       const servingUrl = `http://localhost:${this.engine.server.address().port}/`;
-      this.setState({ servingUrl });
-      console.log('serving......');
+      console.log('serving at:', servingUrl);
 
-      plyr.setup({
-        autoplay: true,
-        volume: 10
-      });
+      this.setState({ servingUrl });
+
+      const isFormatSupported = Player.isFormatSupported(this.engine.files[0].path);
+
+      if (
+        process.env.NODE_ENV !== 'production' &&
+        process.env.FLAG_SUPPORT_NON_NATIVE_CODECS_FALLBACK === 'true' &&
+        !isFormatSupported
+      ) {
+        this.player = this.player.initWebChimeraPlayer(servingUrl, this.state.item);
+        this.setState({ usingVideoFallback: true });
+        notie.alert(2, 'Falling back to non-native video codecs', 2);
+      } else {
+        if (!isFormatSupported) {
+          notie.alert(3, 'Video format is not supported', 2);
+          throw new Error('Video codec not supported');
+        }
+        this.setState({ usingVideoFallback: false });
+        this.player = this.player.initPlyr(servingUrl, this.state.item);
+      }
     });
+  }
+
+  restart() {
+    if (this.player) {
+      this.player.restart();
+    }
+  }
+
+  pause() {
+    if (this.player) {
+      this.player.pause();
+    }
   }
 
   render() {
@@ -315,10 +338,10 @@ export default class Movie extends Component {
                 null
               }
               <span>
-                <span>1080p: {this.state.torrent['1080p'].seeders} seeders</span> |
-                <span>720p: {this.state.torrent['720p'].seeders} seeders</span> |
-                <span>480p: {this.state.torrent['480p'].seeders} seeders</span> |
-                <strong>torrent status: {this.state.torrent.health || ''}</strong>
+                <a>1080p: {this.state.torrent['1080p'].seeders} seeders</a> |
+                <a>720p: {this.state.torrent['720p'].seeders} seeders</a> |
+                <a>480p: {this.state.torrent['480p'].seeders} seeders</a> |
+                <a><strong>Torrent status: {this.state.torrent.health || ''}</strong></a>
               </span>
               <h1 id="title">
                 {this.state.item.title}
@@ -327,10 +350,11 @@ export default class Movie extends Component {
                 Year: {this.state.item.year}
               </h5>
               <h6 id="genres">
-                Genres: {this.state.item.genres ?
-                  this.state.item.genres.map(genre => `${genre}, `)
-                  : null
-                  }
+                Genres: {
+                          this.state.item.genres
+                            ? this.state.item.genres.map(genre => `${genre}, `)
+                            : null
+                        }
               </h6>
               <h5 id="runtime">
                 Length: {this.state.item.runtime.full}
@@ -354,9 +378,9 @@ export default class Movie extends Component {
               }
               <h2 style={torrentLoadingStatusStyle}>
                 {
-                  !this.state.servingUrl &&
-                  this.state.torrentInProgress ?
-                  'Loading torrent...' : null
+                  !this.state.servingUrl && this.state.torrentInProgress
+                    ? 'Loading torrent...'
+                    : null
                 }
               </h2>
 
@@ -372,11 +396,12 @@ export default class Movie extends Component {
                 :
                 null
               }
-
-              <div className="plyr" style={opacity}>
-                <video controls poster={this.state.item.images.fanart.full}>
-                  <source src={this.state.servingUrl} type="video/mp4" />
-                </video>
+              <div
+                className="plyr"
+                style={opacity}
+                className={this.state.usingVideoFallback ? 'hidden' : ''}
+              >
+                <video controls poster={this.state.item.images.fanart.full} />
               </div>
             </div>
           </div>

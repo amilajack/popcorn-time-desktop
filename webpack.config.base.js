@@ -7,6 +7,9 @@ export default {
       loaders: ['babel-loader'],
       exclude: /node_modules/
     }, {
+      test: /\.node$/,
+      loader: 'node-loader'
+    }, {
       test: /\.json$/,
       loader: 'json-loader'
     }]
@@ -17,7 +20,8 @@ export default {
     libraryTarget: 'commonjs2'
   },
   resolve: {
-    extensions: ['', '.js', '.jsx'],
+    root: path.resolve('./'),
+    extensions: ['', '.js', '.jsx', '.node'],
     packageMains: ['webpack', 'browser', 'web', 'browserify', ['jam', 'main'], 'main']
   },
   plugins: [
@@ -26,5 +30,6 @@ export default {
   externals: [
     // put your node 3rd party libraries which can't be built with webpack here
     // (mysql, mongodb, and so on..)
+    'wcjs-player', 'wcjs-renderer', 'wcjs-prebuilt'
   ]
 };
