@@ -15,6 +15,7 @@ import Show from '../show/Show';
 import Butter from '../../api/Butter';
 import Torrent from '../../api/Torrent';
 import Player from '../../api/Player';
+import notie from 'notie';
 
 
 export default class Movie extends Component {
@@ -57,6 +58,8 @@ export default class Movie extends Component {
 
   constructor(props) {
     super(props);
+
+    console.log(process.env.FLAG_SUPPORT_NON_NATIVE_CODECS_FALLBACK);
 
     this.butter = new Butter();
     this.torrent = new Torrent();
@@ -260,14 +263,26 @@ export default class Movie extends Component {
       const servingUrl = `http://localhost:${this.engine.server.address().port}/`;
       console.log('serving at:', servingUrl);
 
-      this.setState({
-        servingUrl,
-        usingVideoFallback: Player.isFormatSupported(this.engine.files[0].path)
-      });
+      this.setState({ servingUrl });
 
-      this.player = Player.isFormatSupported(this.engine.files[0].path)
-        ? this.player.initPlyr(servingUrl, this.state.item)
-        : this.player.initWebChimeraPlayer(servingUrl, this.state.item);
+      const isFormatSupported = Player.isFormatSupported(this.engine.files[0].path);
+
+      if (
+        process.env.NODE_ENV !== 'production' &&
+        process.env.FLAG_SUPPORT_NON_NATIVE_CODECS_FALLBACK === 'true' &&
+        !isFormatSupported
+      ) {
+        this.player = this.player.initWebChimeraPlayer(servingUrl, this.state.item);
+        this.setState({ usingVideoFallback: true });
+        notie.alert(2, 'Falling back to non-native video codecs', 2);
+      } else {
+        if (!isFormatSupported) {
+          notie.alert(3, 'Video format is not supported', 2);
+          throw new Error('Video codec not supported');
+        }
+        this.setState({ usingVideoFallback: false });
+        this.player = this.player.initPlyr(servingUrl, this.state.item);
+      }
     });
   }
 
@@ -323,10 +338,10 @@ export default class Movie extends Component {
                 null
               }
               <span>
-                <span>1080p: {this.state.torrent['1080p'].seeders} seeders</span> |
-                <span>720p: {this.state.torrent['720p'].seeders} seeders</span> |
-                <span>480p: {this.state.torrent['480p'].seeders} seeders</span> |
-                <strong>torrent status: {this.state.torrent.health || ''}</strong>
+                <a>1080p: {this.state.torrent['1080p'].seeders} seeders</a> |
+                <a>720p: {this.state.torrent['720p'].seeders} seeders</a> |
+                <a>480p: {this.state.torrent['480p'].seeders} seeders</a> |
+                <a><strong>Torrent status: {this.state.torrent.health || ''}</strong></a>
               </span>
               <h1 id="title">
                 {this.state.item.title}

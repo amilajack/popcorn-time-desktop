@@ -4,6 +4,7 @@
  */
 
 import peerflix from 'peerflix';
+import WebTorrent from 'webtorrent';
 
 
 export default class Torrent {
@@ -39,6 +40,13 @@ export default class Torrent {
       this.engine.destroy();
       this.inProgress = false;
     }
+  }
+
+  /**
+   * Return a magnetURI that is of filetype .mov, ogg
+   */
+  isNativelyEncoded(magnetURI) {
+    // WebTorrent.
   }
 
   // pause() {}

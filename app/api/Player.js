@@ -96,6 +96,8 @@ export default class Player {
       controls: ['play-large', 'play', 'progress', 'current-time', 'captions', 'fullscreen']
     })[0].plyr;
 
+    player.toggleMute();
+
     player.source(this.constructSource(streamingUrl, metadata));
 
     const element = document.createElement('canvas');
@@ -104,7 +106,7 @@ export default class Player {
     const vlc = require('wcjs-prebuilt').createPlayer(); // eslint-disable-line
     renderer.bind(element, vlc);
 
-    const width = $('.plyr__video-wrapper').width();
+    const width = $('.container').width();
 
     document.querySelector('.plyr').addEventListener('loadeddata', () => {
       document.querySelector('video').style.display = 'none';
@@ -131,16 +133,23 @@ export default class Player {
       player.play();
     });
 
-    this.bindSeek(vlc);
+    $(window).resize(() => {
+      console.log('resizing....');
+      $('canvas').width($('.container').width());
+    });
+
+    this.bindSeek(player, vlc);
 
     return player;
   }
 
-  bindSeek(vlc) {
+  bindSeek(player, vlc) {
     document.querySelector('.plyr').addEventListener('seeking', () => {
       console.log('seeking.......');
-      const time = Math.round(document.querySelector('video').currentTime);
-      vlc.time(10000);
+      const time = player.getCurrentTime(); // Current time in seconds
+      console.log({ time });
+      vlc.time = 100000; // eslint-disable-line
+      // vlc.time = time; // eslint-disable-line
     });
   }
 }
