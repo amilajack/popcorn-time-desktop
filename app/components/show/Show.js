@@ -64,9 +64,8 @@ export default class Show extends Component {
         </div>
 
         <ul>
-          <li><a>Selected season: {this.props.selectedSeason}</a></li>
-          <li><a>Selected episode: {this.props.selectedEpisode}</a></li>
-          <li><a>Episode overview: {this.props.overview}</a></li>
+          <li><h3>Episode overview:</h3></li>
+          <li><a>{this.props.overview}</a></li>
         </ul>
       </div>
     );

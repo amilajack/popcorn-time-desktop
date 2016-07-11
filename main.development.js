@@ -1,7 +1,6 @@
 /* eslint global-require: 0 */
 
 import { app, BrowserWindow, Menu, shell, crashReporter } from 'electron';
-// import checkUpdates from './app/utils/AutoUpdate';
 
 
 let menu;
@@ -22,9 +21,8 @@ let mainWindow = null;
 
   if (process.env.NODE_ENV === 'development') {
     require('electron-debug')();
+    require('dotenv').config();
   }
-
-  // checkUpdates();
 
   app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') app.quit();
@@ -65,9 +63,9 @@ let mainWindow = null;
 
     if (process.platform === 'darwin') {
       template = [{
-        label: 'Electron',
+        label: 'PopcornTime',
         submenu: [{
-          label: 'About ElectronReact',
+          label: 'About PopcornTime',
           selector: 'orderFrontStandardAboutPanel:'
         }, {
           type: 'separator'
@@ -77,7 +75,7 @@ let mainWindow = null;
         }, {
           type: 'separator'
         }, {
-          label: 'Hide ElectronReact',
+          label: 'Hide PopcornTime',
           accelerator: 'Command+H',
           selector: 'hide:'
         }, {
@@ -173,22 +171,22 @@ let mainWindow = null;
         submenu: [{
           label: 'Learn More',
           click() {
-            shell.openExternal('http://electron.atom.io');
+            shell.openExternal('https://github.com/amilajack/popcorn-time-desktop');
           }
         }, {
           label: 'Documentation',
           click() {
-            shell.openExternal('https://github.com/atom/electron/tree/master/docs#readme');
+            shell.openExternal('https://github.com/amilajack/popcorn-time-desktop/wiki');
           }
         }, {
           label: 'Community Discussions',
           click() {
-            shell.openExternal('https://discuss.atom.io/c/electron');
+            shell.openExternal('https://gitter.im/amilajack/popcorn-time-desktop');
           }
         }, {
           label: 'Search Issues',
           click() {
-            shell.openExternal('https://github.com/atom/electron/issues');
+            shell.openExternal('https://github.com/amilajack/popcorn-time-desktop/issues');
           }
         }]
       }];
@@ -240,22 +238,22 @@ let mainWindow = null;
         submenu: [{
           label: 'Learn More',
           click() {
-            shell.openExternal('http://electron.atom.io');
+            shell.openExternal('http://github.com/amilajack/popcorn-time-desktop');
           }
         }, {
           label: 'Documentation',
           click() {
-            shell.openExternal('https://github.com/atom/electron/tree/master/docs#readme');
+            shell.openExternal('https://github.com/amilajack/popcorn-time-desktop/wiki');
           }
         }, {
           label: 'Community Discussions',
           click() {
-            shell.openExternal('https://discuss.atom.io/c/electron');
+            shell.openExternal('https://gitter.im/amilajack/popcorn-time-desktop');
           }
         }, {
           label: 'Search Issues',
           click() {
-            shell.openExternal('https://github.com/atom/electron/issues');
+            shell.openExternal('https://github.com/amilajack/popcorn-time-desktop/issues');
           }
         }]
       }];

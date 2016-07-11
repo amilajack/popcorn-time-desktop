@@ -21,8 +21,12 @@
     "start-hot": "cross-env HOT=1 NODE_ENV=development electron -r babel-register ./main.development",
     "package": "npm run build && build --publish never",
     "package-all": "npm run build && build --publish never --mac --win --linux",
-    "postinstall": "node node_modules/fbjs-scripts/node/check-dev-engines.js package.json",
     "precommit": "npm run test-all"
+  },
+  "wcjs-prebuilt": {
+    "runtime": "electron",
+    "runtimeVersion": "v1.2.6",
+    "version": "v0.2.6"
   },
   "bin": {
     "electron": "./node_modules/.bin/electron"
@@ -42,10 +46,12 @@
   },
   "keywords": [
     "popcorn-time",
+    "popcorn",
+    "time",
+    "client",
     "electron",
     "react",
     "redux",
-    "sass",
     "es6"
   ],
   "build": {
@@ -59,7 +65,7 @@
   "devDependencies": {
     "asar": "^0.11.0",
     "babel-core": "^6.10.4",
-    "babel-eslint": "^6.1.0",
+    "babel-eslint": "^6.1.2",
     "babel-loader": "^6.2.4",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-dev-expression": "^0.2.1",
@@ -74,6 +80,7 @@
     "babel-preset-react-optimize": "^1.0.1",
     "babel-preset-stage-0": "^6.5.0",
     "babel-register": "^6.9.0",
+    "bootstrap": "^4.0.0-alpha.2",
     "chai": "^3.5.0",
     "co-mocha": "^1.1.2",
     "concurrently": "^2.2.0",
@@ -81,8 +88,8 @@
     "css-loader": "^0.23.1",
     "del": "^2.2.1",
     "devtron": "^1.2.1",
-    "electron-builder": "^5.11.0",
-    "electron-packager": "^7.2.0",
+    "dotenv": "^2.0.0",
+    "electron-builder": "^5.11.3",
     "electron-prebuilt": "^1.2.6",
     "electron-rebuild": "^1.1.5",
     "eslint": "^3.0.1",
@@ -107,7 +114,9 @@
     "minimist": "^1.2.0",
     "mocha": "^2.5.3",
     "node-libs-browser": "^1.0.0",
-    "react-addons-test-utils": "^15.2.0",
+    "node-loader": "^0.5.0",
+    "postcss": "^5.0.21",
+    "react-addons-test-utils": "^15.2.1",
     "redux-devtools": "^3.3.1",
     "redux-devtools-dock-monitor": "^1.1.1",
     "redux-devtools-inspector": "^0.6.1",
@@ -115,8 +124,11 @@
     "redux-logger": "^2.6.1",
     "run-sequence": "^1.2.2",
     "sinon": "^1.17.4",
-    "spectron": "^3.2.5",
+    "spectron": "^3.2.6",
     "style-loader": "^0.13.1",
+    "wcjs-prebuilt": "^3.0.0",
+    "wcjs-player": "github:amilajack/wcjs-player",
+    "wcjs-renderer": "^1.0.2",
     "wdio-mocha-framework": "^0.3.5",
     "webpack": "^1.13.1",
     "webpack-dev-middleware": "^1.6.1",
@@ -125,8 +137,6 @@
   },
   "dependencies": {
     "babel-runtime": "^6.9.2",
-    "bootstrap": "^4.0.0-alpha.2",
-    "cheerio": "^0.20.0",
     "classnames": "^2.2.5",
     "css-modules-require-hook": "^4.0.1",
     "electron-debug": "^1.0.1",
@@ -134,15 +144,14 @@
     "immutable": "^3.8.1",
     "ionicons-temp": "^2.0.0",
     "isomorphic-fetch": "^2.2.1",
-    "jquery": "^3.0.0",
+    "jquery": "^3.1.0",
     "kat-api": "github:amilajack/kat-api",
     "kat-shows": "0.0.1",
     "notie": "^3.2.0",
     "peerflix": "^0.35.1",
     "plyr": "^1.8.7",
-    "postcss": "^5.0.21",
-    "react": "^15.2.0",
-    "react-dom": "^15.2.0",
+    "react": "^15.2.1",
+    "react-dom": "^15.2.1",
     "react-redux": "^4.4.5",
     "react-router": "^2.5.2",
     "react-router-redux": "^4.0.5",
@@ -152,7 +161,8 @@
     "redux-thunk": "^2.1.0",
     "source-map-support": "^0.4.1",
     "thepiratebay": "^1.1.9",
-    "trakt.tv": "^1.4.2"
+    "trakt.tv": "^1.4.2",
+    "webtorrent": "^0.95.2"
   },
   "engines": {
     "node": "5.x || 6.x",
