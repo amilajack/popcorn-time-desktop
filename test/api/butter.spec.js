@@ -77,11 +77,11 @@ describe('api ->', function testApi() {
           provider: require(`${torrentBasePath}/PbTorrentProvider`),
           id: 'pb'
         },
-        // {
-        //   name: 'PopcornTime',
-        //   provider: require(`${torrentBasePath}/PctTorrentProvider`),
-        //   id: 'pct'
-        // },
+        {
+          name: 'PopcornTime',
+          provider: require(`${torrentBasePath}/PctTorrentProvider`),
+          id: 'pct'
+        },
         {
           name: 'Kat',
           provider: require(`${torrentBasePath}/KatTorrentProvider`),
@@ -348,10 +348,14 @@ describe('api ->', function testApi() {
               searchQuery: 'Inception',
             }, true);
 
+            for (const torrent of torrents) {
+              assertSingleTorrent(torrent);
+            }
+
             if (torrents.length >= 4) {
               greaterThanOrEqualTo(torrents[0].seeders, torrents[1].seeders);
               greaterThanOrEqualTo(torrents[1].seeders, torrents[2].seeders);
-              greaterThanOrEqualTo(torrents[3].seeders, torrents[4].seeders);
+              greaterThanOrEqualTo(torrents[2].seeders, torrents[3].seeders);
             }
 
             if (torrents.length > 1) {
