@@ -1,5 +1,5 @@
 {
-  "name": "popcorn-time-experimental",
+  "name": "popcorn-time-desktop",
   "productName": "Popcorn Time",
   "version": "0.0.1",
   "description": "Experimental version of the popcorn time client",
@@ -33,7 +33,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/amilajack/popcorn-desktop-experimental.git"
+    "url": "git+https://github.com/amilajack/popcorn-time-desktop.git"
   },
   "author": {
     "name": "Amila Welihinda",
@@ -42,7 +42,7 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/amilajack/popcorn-desktop-experimental/issues"
+    "url": "https://github.com/amilajack/popcorn-time-desktop/issues"
   },
   "keywords": [
     "popcorn-time",
@@ -55,13 +55,13 @@
     "es6"
   ],
   "build": {
-    "appId": "popcorn-time-experimental",
+    "appId": "popcorn-time-desktop",
     "app-category-type": "public.app-category.video",
     "win": {
       "iconUrl": "https://cdn.rawgit.com/amilajack/popcorn-time-desktop/master/app/icons/app.ico"
     }
   },
-  "homepage": "https://github.com/amilajack/popcorn-desktop-experimental#readme",
+  "homepage": "https://github.com/amilajack/popcorn-time-desktop#readme",
   "devDependencies": {
     "asar": "^0.11.0",
     "babel-core": "^6.10.4",
@@ -126,9 +126,6 @@
     "sinon": "^1.17.4",
     "spectron": "^3.2.6",
     "style-loader": "^0.13.1",
-    "wcjs-prebuilt": "^3.0.0",
-    "wcjs-player": "github:amilajack/wcjs-player",
-    "wcjs-renderer": "^1.0.2",
     "wdio-mocha-framework": "^0.3.5",
     "webpack": "^1.13.1",
     "webpack-dev-middleware": "^1.6.1",
@@ -163,6 +160,11 @@
     "thepiratebay": "^1.1.9",
     "trakt.tv": "^1.4.2",
     "webtorrent": "^0.95.2"
+  },
+  "optionalDependencies": {
+    "wcjs-prebuilt": "^3.0.0",
+    "wcjs-player": "github:amilajack/wcjs-player",
+    "wcjs-renderer": "^1.0.2",
   },
   "engines": {
     "node": "5.x || 6.x",
