@@ -86,13 +86,12 @@ export default class Player {
   }
 
   initWebChimeraPlayer(streamingUrl, metadata = {}) {
-    console.warn('Source not natively supported. Attempting playback with WebChimera');
-
     this.currentPlayer = 'WebChimera';
 
     const player = plyr.setup({
       autoplay: false,
       volume: 0,
+      storage: { enabled: false },
       controls: ['play-large', 'play', 'progress', 'current-time', 'captions', 'fullscreen']
     })[0].plyr;
 

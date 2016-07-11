@@ -59,8 +59,6 @@ export default class Movie extends Component {
   constructor(props) {
     super(props);
 
-    console.log(process.env.FLAG_SUPPORT_NON_NATIVE_CODECS_FALLBACK);
-
     this.butter = new Butter();
     this.torrent = new Torrent();
     this.player = new Player();
@@ -275,6 +273,7 @@ export default class Movie extends Component {
         this.player = this.player.initWebChimeraPlayer(servingUrl, this.state.item);
         this.setState({ usingVideoFallback: true });
         notie.alert(2, 'Falling back to non-native video codecs', 2);
+        console.warn('FLAG_SUPPORT_NON_NATIVE_CODECS_FALLBACK: Using WebChimera');
       } else {
         if (!isFormatSupported) {
           notie.alert(3, 'Video format is not supported', 2);

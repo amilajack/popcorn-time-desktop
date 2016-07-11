@@ -1,6 +1,8 @@
 import { expect } from 'chai';
 import Butter from '../../app/api/Butter';
-import { formatSeasonEpisodeToString } from '../../app/api/torrents/BaseTorrentProvider';
+import {
+  formatSeasonEpisodeToString, formatSeasonEpisodeToObject
+} from '../../app/api/torrents/BaseTorrentProvider';
 import PctTorrentProvider from '../../app/api/torrents/PctTorrentProvider';
 import assert from 'assert';
 import { convertRuntimeToHours } from '../../app/api/metadata/MetadataAdapter';
@@ -152,6 +154,11 @@ describe('api ->', function testApi() {
             expect(formatSeasonEpisodeToString(1, 4)).to.equal('s01e04');
             expect(formatSeasonEpisodeToString(20, 40)).to.equal('s20e40');
             expect(formatSeasonEpisodeToString(5, 10)).to.equal('s05e10');
+            expect(formatSeasonEpisodeToString(22, 22)).to.equal('s22e22');
+
+            expect(formatSeasonEpisodeToObject(1, 4)).to.eql({ season: '01', episode: '04' });
+            expect(formatSeasonEpisodeToObject(5, 10)).to.eql({ season: '05', episode: '10' });
+            expect(formatSeasonEpisodeToObject(22, 22)).to.eql({ season: '22', episode: '22' });
             done();
           } catch (err) {
             done(err);

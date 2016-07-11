@@ -6,12 +6,19 @@ import {
 
 export default class KatTorrentProvider {
 
-  static fetch(imdbId, type, query) {
+  static fetch(query, season, episode) {
+    const formattedDetails = formatSeasonEpisodeToString(season, episode);
+
     return kat.search({
       query
     })
     .then(
-      resp => resp.results.map(res => this.formatTorrent(res))
+      resp => resp.results.filter(
+        res => res.magnet.includes(formattedDetails)
+      )
+    )
+    .then(
+      resp => resp.map(res => this.formatTorrent(res))
     )
     .catch(error => {
       console.log(error);
@@ -35,7 +42,7 @@ export default class KatTorrentProvider {
 
     switch (type) {
       case 'movies':
-        return this.fetch(imdbId, type, searchQuery)
+        return this.fetch(searchQuery)
           .catch(error => {
             console.log(error);
             return [];
@@ -44,9 +51,9 @@ export default class KatTorrentProvider {
         const { season, episode } = extendedDetails;
 
         return this.fetch(
-          imdbId,
-          type,
-          `${searchQuery} ${formatSeasonEpisodeToString(season, episode)}`
+          `${searchQuery} ${formatSeasonEpisodeToString(season, episode)}`,
+          season,
+          episode
         )
           .catch(error => {
             console.log(error);

@@ -23,6 +23,31 @@ export default async function TorrentAdapter(imdbId,
   switch (method) {
     case 'all': {
       const movieProviderResults = await cascade(torrentPromises);
+      if (process.env.NODE_ENV !== 'production') {
+        console.log({ movieProviderResults });
+      }
+      if (
+        process.env.NODE_ENV !== 'production' &&
+        process.env.FLAG_FORCE_STRICT_TORRENT_VALIDATION === 'true') {
+        const { formatSeasonEpisodeToString } = require('./BaseTorrentProvider');
+
+        console.warn(
+          'FLAG_FORCE_STRICT_TORRENT_VALIDATION:',
+          'Strict torrent filtering enabled'
+        );
+
+        return selectTorrents(
+          merge(movieProviderResults).filter(
+            result => result.magnet.includes(formatSeasonEpisodeToString(
+              extendedDetails.season,
+              extendedDetails.episode
+            ))
+          ),
+          undefined,
+          returnAll
+        );
+      }
+
       return selectTorrents(merge(movieProviderResults), undefined, returnAll);
     }
     case 'race': {
