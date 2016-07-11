@@ -7,14 +7,20 @@ import {
 export default class KatTorrentProvider {
 
   static fetch(query, season, episode) {
-    const formattedDetails = formatSeasonEpisodeToString(season, episode);
+    const formattedDetails = season && episode
+                              ? formatSeasonEpisodeToString(season, episode)
+                              : undefined;
 
     return kat.search({
       query
     })
     .then(
-      resp => resp.results.filter(
-        res => res.magnet.includes(formattedDetails)
+      resp => (
+        season && episode
+          ? resp.results.filter(
+              res => res.magnet.includes(formattedDetails)
+            )
+          : resp.results
       )
     )
     .then(

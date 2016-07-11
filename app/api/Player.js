@@ -17,7 +17,11 @@ export default class Player {
   destroy() {
     switch (this.currentPlayer) {
       case 'plyr':
-        document.querySelector('.plyr').plyr.destroy();
+        if (document.querySelector('.plyr')) {
+          if (document.querySelector('.plyr').plyr) {
+            document.querySelector('.plyr').plyr.destroy();
+          }
+        }
         break;
       default:
     }

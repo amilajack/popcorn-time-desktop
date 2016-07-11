@@ -91,7 +91,6 @@ export default class Movie extends Component {
 
     this.getItem(itemId).then(item => {
       this.getTorrent(itemId, item.title);
-      this.instance.poster(item.images.fanart.full);
     });
 
     this.getSimilar(itemId);
@@ -100,6 +99,7 @@ export default class Movie extends Component {
   async getShowData(type, imdbId, season, episode) {
     switch (type) {
       case 'seasons':
+        this.setState({ seasons: [], episodes: [], episode: {} });
         this.setState({
           seasons: await this.butter.getSeasons(imdbId),
           episodes: await this.butter.getSeason(imdbId, 1),
@@ -107,12 +107,14 @@ export default class Movie extends Component {
         });
         break;
       case 'episodes':
+        this.setState({ episodes: [], episode: {} });
         this.setState({
           episodes: await this.butter.getSeason(imdbId, season),
           episode: await this.butter.getEpisode(imdbId, season, 1)
         });
         break;
       case 'episode':
+        this.setState({ episode: {} });
         this.setState({
           episode: await this.butter.getEpisode(imdbId, season, episode)
         });

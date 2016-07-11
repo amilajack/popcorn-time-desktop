@@ -10,7 +10,7 @@ export default async function TorrentAdapter(imdbId,
                                               method = 'all') {
   const providers = [
     require('./YtsTorrentProvider'),
-    // require('./PbTorrentProvider'),
+    require('./PbTorrentProvider'),
     require('./PctTorrentProvider'),
     require('./KatTorrentProvider'),
     require('./KatShowsTorrentProvider')
@@ -23,12 +23,11 @@ export default async function TorrentAdapter(imdbId,
   switch (method) {
     case 'all': {
       const movieProviderResults = await cascade(torrentPromises);
-      if (process.env.NODE_ENV !== 'production') {
-        console.log({ movieProviderResults });
-      }
+
       if (
         process.env.NODE_ENV !== 'production' &&
-        process.env.FLAG_FORCE_STRICT_TORRENT_VALIDATION === 'true') {
+        process.env.FLAG_FORCE_STRICT_TORRENT_VALIDATION === 'true' &&
+        type === 'shows') {
         const { formatSeasonEpisodeToString } = require('./BaseTorrentProvider');
 
         console.warn(

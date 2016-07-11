@@ -10,6 +10,7 @@ import { convertRuntimeToHours } from '../../app/api/metadata/MetadataAdapter';
 
 const imdbId = 'tt0468569';
 const showImdbId = 'tt1475582';
+const deafultMinTorrentsCount = 1;
 
 function greaterThanOrEqualTo(first, second) {
   return (first > second || first === second);
@@ -25,6 +26,7 @@ describe('api ->', function testApi() {
         {
           name: 'PirateBay',
           provider: require(`${torrentBasePath}/PbTorrentProvider`),
+          minTorrentsCount: 10,
           id: 'pb'
         },
         {
@@ -35,6 +37,7 @@ describe('api ->', function testApi() {
         {
           name: 'Kat',
           provider: require(`${torrentBasePath}/KatTorrentProvider`),
+          minTorrentsCount: 10,
           id: 'kat'
         },
         {
@@ -50,11 +53,17 @@ describe('api ->', function testApi() {
           try {
             this.timeout(40000);
 
-            const torrents = await providerConfig.provider.provide(imdbId, 'movies', {
-              searchQuery: 'harry potter'
+            const torrents = await providerConfig.provider.provide('tt0330373', 'movies', {
+              searchQuery: 'Harry Potter and the Goblet of Fire'
             });
 
             expect(torrents).to.be.an('array');
+            console.log('torrent count: ', torrents.length);
+            expect(torrents).to.have.length.above(
+              'minTorrentsCount' in providerConfig
+                ? providerConfig.minTorrentsCount
+                : deafultMinTorrentsCount
+            );
 
             for (const torrent of torrents) {
               assertSingleTorrent(torrent);
@@ -75,21 +84,25 @@ describe('api ->', function testApi() {
         {
           name: 'PirateBay',
           provider: require(`${torrentBasePath}/PbTorrentProvider`),
+          minTorrentsCount: 10,
           id: 'pb'
         },
         {
           name: 'PopcornTime',
           provider: require(`${torrentBasePath}/PctTorrentProvider`),
+          minTorrentsCount: -1,
           id: 'pct'
         },
         {
           name: 'Kat',
           provider: require(`${torrentBasePath}/KatTorrentProvider`),
+          minTorrentsCount: 10,
           id: 'kat'
         },
         {
           name: 'KatShows',
           provider: require(`${torrentBasePath}/KatShowsTorrentProvider`),
+          minTorrentsCount: 10,
           id: 'kat-shows'
         }
       ];
@@ -111,6 +124,12 @@ describe('api ->', function testApi() {
             );
 
             expect(torrents).to.be.an('array');
+            console.log('torrent count: ', torrents.length);
+            expect(torrents).to.have.length.above(
+              'minTorrentsCount' in providerConfig
+                ? providerConfig.minTorrentsCount
+                : deafultMinTorrentsCount
+            );
 
             for (const torrent of torrents) {
               assertSingleTorrent(torrent);
@@ -314,7 +333,9 @@ describe('api ->', function testApi() {
       describe('search ->', () => {
         it('should search movies in correct format', async done => {
           try {
-            const searchResults = await butterFactory().search('harry potter', 'movies');
+            const searchResults = await butterFactory().search(
+              'Harry Potter and the Goblet of Fire', 'movies'
+            );
             expect(searchResults).to.be.a('array');
             const movie = searchResults[0];
             expect(movie).to.be.an('object');
@@ -331,7 +352,9 @@ describe('api ->', function testApi() {
       describe('movie torrents ->', () => {
         it('should get torrents and their magnets of 720p and 1080p', async done => {
           try {
-            const torrent = await butterFactory().getTorrent(imdbId, 'movies');
+            const torrent = await butterFactory().getTorrent(imdbId, 'movies', {
+              searchQuery: 'the dark knight'
+            });
             assertTorrentFormat(torrent);
             done();
           } catch (err) {

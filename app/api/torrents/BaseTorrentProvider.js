@@ -1,12 +1,18 @@
 /* eslint prefer-template: 0 */
 export function determineQuality(title) {
-  if (title.includes('1080')) return '1080p';
-  if (title.includes('bluray')) return '1080p';
-  if (title.includes('blu-ray')) return '1080p';
-  if (title.includes('dvd')) return '720p';
-  if (title.includes('720')) return '720p';
-  if (title.includes('hdtv')) return '720p';
-  if (title.includes('480')) return '480p';
+  const lowerCaseTitle = title.toLowerCase();
+  if (lowerCaseTitle.includes('1080')) return '1080p';
+  if (lowerCaseTitle.includes('bluray')) return '1080p';
+  if (lowerCaseTitle.includes('blu-ray')) return '1080p';
+  if (lowerCaseTitle.includes('dvd')) return '720p';
+  if (lowerCaseTitle.includes('720')) return '720p';
+  if (lowerCaseTitle.includes('hdtv')) return '720p';
+  if (lowerCaseTitle.includes('480')) return '480p';
+
+  // Filter non-english languages
+  if (lowerCaseTitle.includes('french')) return '';
+  if (lowerCaseTitle.includes('german')) return '';
+
   return '';
 }
 

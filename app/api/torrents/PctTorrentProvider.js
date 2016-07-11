@@ -81,11 +81,11 @@ export default class PctTorrentProvider {
     return filterTorrents.length ? filterTorrents[0] : [];
   }
 
-  static formatEpisode(episode) {
+  static formatEpisode({ season, episode, torrents } = episode) {
     return {
-      season: episode.season,
-      episode: episode.episode,
-      torrents: this.formatTorrents(episode.torrents)
+      season,
+      episode,
+      torrents: this.formatTorrents(torrents)
     };
   }
 
