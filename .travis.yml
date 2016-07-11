@@ -5,7 +5,7 @@ dist: trusty
 language: node_js
 
 node_js:
-	- 6
+  - 6
   - 5
 
 cache:
@@ -34,8 +34,8 @@ before_script:
   - sleep 3
 
 script:
-	- npm run build
+  - npm run build
   - npm run package
   - npm run test
   - npm run test-e2e
-	- npm run lint
+  - npm run lint
