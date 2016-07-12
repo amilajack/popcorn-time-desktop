@@ -156,8 +156,6 @@ export default class Movie extends Component {
   async getTorrent(imdbId, title, season, episode) {
     let torrent;
 
-    console.log(arguments);
-
     this.setState({ torrent: this.defaultTorrent });
 
     try {
@@ -258,16 +256,15 @@ export default class Movie extends Component {
       this.stopTorrent();
     }
 
-    this.engine = this.torrent.start(magnetURI);
     this.setState({ torrentInProgress: true });
 
-    this.engine.server.on('listening', () => {
-      const servingUrl = `http://localhost:${this.engine.server.address().port}/`;
+    this.engine = this.torrent.start(magnetURI, file => {
+      const servingUrl = `http://localhost:9090/${file.index}`;
       console.log('serving at:', servingUrl);
 
       this.setState({ servingUrl });
 
-      const isFormatSupported = Player.isFormatSupported(this.engine.files[0].path);
+      const isFormatSupported = Player.isFormatSupported(file.name);
 
       if (
         process.env.NODE_ENV !== 'production' &&

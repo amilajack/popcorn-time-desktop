@@ -2,9 +2,7 @@
  * Torrents controller, responsible for playing, stoping, etc
  * Serves as an abstraction layer for peerflix or other torrent streams
  */
-
-import peerflix from 'peerflix';
-// import WebTorrent from 'webtorrent';
+import WebTorrent from 'webtorrent';
 
 
 export default class Torrent {
@@ -13,20 +11,50 @@ export default class Torrent {
 
   finished = false;
 
-  start(magnetURI) {
+  start(magnetURI, fn) {
     if (this.inProgress) {
-      throw Error('Torrent already in progress');
+      throw new Error('Torrent already in progress');
     }
 
     console.log('starting torrent...');
     this.inProgress = true;
-    this.engine = peerflix(magnetURI);
+
+    this.engine = new WebTorrent();
+    this.engine.add(magnetURI, torrent => {
+      console.log('torrent started....');
+      console.log('files', torrent.files);
+
+      this.server = torrent.createServer();
+
+      let file = torrent.files[0];
+      file.index = 0;
+
+      for (let i = 0; i < torrent.files.length; i++) {
+        if (file.length < torrent.files[i].length) {
+          file.deselect();
+          file = torrent.files[i];
+          file.index = i;
+        }
+      }
+
+      file.select();
+
+      this.file = file;
+
+      console.log({ file });
+      fn(file);
+
+      this.server.listen('9090');
+    });
+
     return this.engine;
   }
 
-  /**
-   * @todo: wait on issue: https://github.com/mafintosh/torrent-stream/issues/71
-   */
+  ready(fn) {
+    console.log('ready setting......');
+    this.fn = fn;
+  }
+
   getProgress() {
     const progress = Math.round(
       this.engine.swarm.downloaded / this.engine.torrent.length
@@ -37,6 +65,7 @@ export default class Torrent {
   destroy() {
     if (this.inProgress) {
       console.log('destroyed torrent...');
+      this.server.close();
       this.engine.destroy();
       this.inProgress = false;
     }

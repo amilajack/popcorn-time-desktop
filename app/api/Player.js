@@ -24,14 +24,11 @@ export default class Player {
         }
         break;
       default:
+        throw new Error('No player available');
     }
   }
 
   restart() {
-
-  }
-
-  pause() {
 
   }
 
@@ -153,7 +150,6 @@ export default class Player {
       const time = player.getCurrentTime(); // Current time in seconds
       console.log({ time });
       vlc.time = 100000; // eslint-disable-line
-      // vlc.time = time; // eslint-disable-line
     });
   }
 }

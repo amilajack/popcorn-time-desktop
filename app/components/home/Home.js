@@ -47,8 +47,11 @@ export default class Home extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({ items: [] });
-    this.paginate(nextProps.activeMode, nextProps.activeModeOptions);
+    if (!this.state.modes[nextProps.activeMode].items.length) {
+      this.paginate(nextProps.activeMode, nextProps.activeModeOptions);
+    } else {
+      this.setState({ items: this.state.modes[nextProps.activeMode].items });
+    }
   }
 
   componentWillUnmount() {
