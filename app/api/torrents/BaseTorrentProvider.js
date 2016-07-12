@@ -1,17 +1,44 @@
 /* eslint prefer-template: 0 */
 export function determineQuality(title) {
   const lowerCaseTitle = title.toLowerCase();
+
+  if (
+    process.env.NODE_ENV !== 'production' &&
+    process.env.FLAG_ALLOW_UNVERIFIED_TORRENTS === 'true'
+  ) {
+    return '480p';
+  }
+
+  if (
+    process.env.NODE_ENV !== 'production' &&
+    process.env.FLAG_ALLOW_SUBTITLED_MOVIES
+  ) {
+    if (lowerCaseTitle.includes('subtitles')) return '720p';
+  }
+
+  // Filter videos with rendered subtitles
+  if (lowerCaseTitle.includes('subtitles')) return '';
+
+  // Filter non-english languages
+  if (hasNonEnglishLanguage(title)) {
+    return '';
+  }
+
   if (lowerCaseTitle.includes('1080')) return '1080p';
   if (lowerCaseTitle.includes('bluray')) return '1080p';
   if (lowerCaseTitle.includes('blu-ray')) return '1080p';
+
   if (lowerCaseTitle.includes('dvd')) return '720p';
+  if (lowerCaseTitle.includes('rip')) return '720p';
+  if (lowerCaseTitle.includes('mp4')) return '720p';
   if (lowerCaseTitle.includes('720')) return '720p';
   if (lowerCaseTitle.includes('hdtv')) return '720p';
+  if (lowerCaseTitle.includes('english')) return '720p';
+  if (lowerCaseTitle.includes('+eng+')) return '720p';
+
   if (lowerCaseTitle.includes('480')) return '480p';
 
-  // Filter non-english languages
-  if (lowerCaseTitle.includes('french')) return '';
-  if (lowerCaseTitle.includes('german')) return '';
+  console.warn(`title: ${title}, could not be verified`);
 
   return '';
 }
@@ -55,4 +82,13 @@ export function getHealth(seeders, peers) {
   }
 
   return { health };
+}
+
+export function hasNonEnglishLanguage(title) {
+  if (title.includes('french')) return '';
+  if (title.includes('german')) return '';
+  if (title.includes('dutch')) return '';
+  if (title.includes('spanish')) return '';
+  if (title.includes('hindi')) return '';
+  if (title.includes('russian')) return '';
 }

@@ -90,7 +90,7 @@ export default class Movie extends Component {
     });
 
     this.getItem(itemId).then(item => {
-      this.getTorrent(itemId, item.title);
+      this.getTorrent(itemId, item.title, 1, 1);
     });
 
     this.getSimilar(itemId);
@@ -153,8 +153,10 @@ export default class Movie extends Component {
     return item;
   }
 
-  async getTorrent(imdbId, title) {
+  async getTorrent(imdbId, title, season, episode) {
     let torrent;
+
+    console.log(arguments);
 
     this.setState({ torrent: this.defaultTorrent });
 
@@ -167,8 +169,8 @@ export default class Movie extends Component {
           break;
         case 'shows': {
           torrent = await this.butter.getTorrent(imdbId, this.props.activeMode, {
-            season: this.state.selectedSeason,
-            episode: this.state.selectedEpisode,
+            season,
+            episode,
             searchQuery: title
           });
           break;
@@ -236,12 +238,12 @@ export default class Movie extends Component {
         this.setState({ selectedSeason });
         this.getShowData('episodes', this.state.item.id, selectedSeason, selectedEpisode);
         this.getShowData('episode', this.state.item.id, selectedSeason, selectedEpisode);
-        this.getTorrent(this.state.item.id, this.state.item.title);
+        this.getTorrent(this.state.item.id, this.state.item.title, selectedSeason, selectedEpisode);
         break;
       case 'episode':
         this.setState({ selectedSeason, selectedEpisode });
         this.getShowData('episode', this.state.item.id, selectedSeason, selectedEpisode);
-        this.getTorrent(this.state.item.id, this.state.item.title);
+        this.getTorrent(this.state.item.id, this.state.item.title, selectedSeason, selectedEpisode);
         break;
       default:
         throw new Error('Invalid selectShow() type');
