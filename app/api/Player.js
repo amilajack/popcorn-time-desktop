@@ -130,12 +130,12 @@ export default class Player {
       .addEventListener('exitfullscreen', () => $('canvas').width(width));
 
     vlc.events.on('Playing', () => {
-      console.log('playing....');
+      console.log('playing...');
       player.play();
     });
 
     $(window).resize(() => {
-      console.log('resizing....');
+      console.log('resizing...');
       $('canvas').width($('.container').width());
     });
 
@@ -146,10 +146,9 @@ export default class Player {
 
   bindSeek(player, vlc) {
     document.querySelector('.plyr').addEventListener('seeking', () => {
-      console.log('seeking.......');
-      const time = player.getCurrentTime(); // Current time in seconds
-      console.log({ time });
-      vlc.time = 100000; // eslint-disable-line
+      console.log('seeking...');
+      // Current time in seconds and convert to miliseconds
+      vlc.time = player.getCurrentTime() * 1000; // eslint-disable-line
     });
   }
 }

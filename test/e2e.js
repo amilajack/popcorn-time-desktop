@@ -17,6 +17,9 @@ const delay = time => new Promise(resolve => setTimeout(resolve, time));
 describe('e2e', function testApp() {
   this.retries(3);
 
+  // Constructs url similar to file:///Users/john/popcorn-desktop-experimental/app/app.html#/${url}
+  const navigate = url => this.app.client.url(`file://${process.cwd()}/app/app.html#/${url}`);
+
   const findCardList = () => this.app.client.waitForVisible('.CardList');
   const findCard = () => this.app.client.waitForVisible('.Card');
   const findMovie = () => this.app.client.waitForVisible('.Movie');
@@ -49,6 +52,16 @@ describe('e2e', function testApp() {
   });
 
   describe('HomePage', () => {
+    beforeEach(async done => {
+      try {
+        await navigate('');
+        await delay(2000);
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+
     it('should display CardList', async function cardListTest(done) {
       try {
         const cardListIsDisplayed = await findCardList().isVisible('.CardList');
@@ -73,9 +86,6 @@ describe('e2e', function testApp() {
         expect(movieTitles[0]).to.include('Harry Potter');
         expect(movieTitles[1]).to.include('Harry Potter');
         expect(movieTitles[2]).to.include('Harry Potter');
-
-        await this.app.client.back();
-        await delay(2000); // await HomePage movies to load
         done();
       } catch (err) {
         done(err);
@@ -94,9 +104,6 @@ describe('e2e', function testApp() {
 
         const [titleText] = await this.app.client.getText('.Movie h1');
         expect(titleText).to.be.a('string');
-
-        await this.app.client.back();
-        await delay(2000); // wait for HomePage movies to load
         done();
       } catch (err) {
         done(err);
@@ -118,7 +125,6 @@ describe('e2e', function testApp() {
     it('should paginate items on scroll to bottom of viewport', async done => {
       try {
         const firstCardLinks = await this.app.client.getAttribute('.Card a', 'href');
-        await delay(2000);
         await this.app.client.scroll('.Loader');
         await delay(2000);
         const secondCardLinks = await this.app.client.getAttribute('.Card a', 'href');
@@ -131,14 +137,10 @@ describe('e2e', function testApp() {
   });
 
   describe('MoviePage', () => {
-    before(async done => {
+    beforeEach(async done => {
       try {
-        await delay(2000);
-
-        await this.app.client
-          .click('.Card--overlay:first-child')
-          .waitForVisible('.Movie');
-
+        await navigate('item/shows/tt0944947');
+        await this.app.client.waitForVisible('.Movie');
         await delay(2000);
         done();
       } catch (err) {

@@ -258,13 +258,12 @@ export default class Movie extends Component {
 
     this.setState({ torrentInProgress: true });
 
-    this.engine = this.torrent.start(magnetURI, file => {
-      const servingUrl = `http://localhost:9090/${file.index}`;
+    this.engine = this.torrent.start(magnetURI, servingUrl => {
       console.log('serving at:', servingUrl);
 
       this.setState({ servingUrl });
 
-      const isFormatSupported = Player.isFormatSupported(file.name);
+      const isFormatSupported = Player.isFormatSupported(this.engine.files[0].path);
 
       if (
         process.env.NODE_ENV !== 'production' &&

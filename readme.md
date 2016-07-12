@@ -10,9 +10,9 @@
 
 **Performance**: Significantly faster than other clients. Everything from scrolling perf. to playing movies is buttery smooth!
 
-**Modern Stack**: ES6, React, Electron, Webpack, and more!
+**Faster Torrents**: New API optimized for fast torrents by querying the from multiple endpoints
 
-**Faster Torrents**: New API optimized for fast torrents
+**Modern Stack**: ES6, React, Electron, Webpack, and more!
 
 ## Stack:
 

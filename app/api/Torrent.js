@@ -2,7 +2,7 @@
  * Torrents controller, responsible for playing, stoping, etc
  * Serves as an abstraction layer for peerflix or other torrent streams
  */
-import WebTorrent from 'webtorrent';
+import Peerflix from 'peerflix';
 
 
 export default class Torrent {
@@ -19,40 +19,13 @@ export default class Torrent {
     console.log('starting torrent...');
     this.inProgress = true;
 
-    this.engine = new WebTorrent();
-    this.engine.add(magnetURI, torrent => {
-      console.log('torrent started....');
-      console.log('files', torrent.files);
+    this.engine = new Peerflix(magnetURI);
 
-      this.server = torrent.createServer();
-
-      let file = torrent.files[0];
-      file.index = 0;
-
-      for (let i = 0; i < torrent.files.length; i++) {
-        if (file.length < torrent.files[i].length) {
-          file.deselect();
-          file = torrent.files[i];
-          file.index = i;
-        }
-      }
-
-      file.select();
-
-      this.file = file;
-
-      console.log({ file });
-      fn(file);
-
-      this.server.listen('9090');
-    });
+    this.engine.server.on('listening',
+      () => fn(`http://localhost:${this.engine.server.address().port}/`)
+    );
 
     return this.engine;
-  }
-
-  ready(fn) {
-    console.log('ready setting......');
-    this.fn = fn;
   }
 
   getProgress() {
@@ -65,7 +38,6 @@ export default class Torrent {
   destroy() {
     if (this.inProgress) {
       console.log('destroyed torrent...');
-      this.server.close();
       this.engine.destroy();
       this.inProgress = false;
     }
@@ -74,9 +46,9 @@ export default class Torrent {
   /**
    * Return a magnetURI that is of filetype .mov, ogg
    */
-  // isNativelyEncoded(magnetURI) {
-  //   // WebTorrent.
-  // }
+  isNativelyEncoded(magnetURI) {
+    // ...
+  }
 
   // pause() {}
 
