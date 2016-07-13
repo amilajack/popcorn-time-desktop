@@ -168,25 +168,37 @@ export default class Movie extends Component {
           });
           break;
         case 'shows': {
+          if (
+            process.env.NODE_ENV !== 'production' &&
+            process.env.FLAG_SUPPORT_NON_NATIVE_CODECS_FALLBACK === 'true'
+          ) {
+            [idealTorrent] = await this.butter.getTorrent(imdbId, this.props.activeMode, {
+              season,
+              episode,
+              searchQuery: title
+            }, true);
+
+            console.log(idealTorrent);
+          } else {
+            const torrents = await this.butter.getTorrent(imdbId, this.props.activeMode, {
+              season,
+              episode,
+              searchQuery: title
+            }, true);
+
+            idealTorrent = await Torrent.getTorrentWithSupportedFormats(
+              torrents,
+              process.env.NODE_ENV !== 'production' &&
+              process.env.FLAG_SUPPORT_NON_NATIVE_CODECS_FALLBACK === 'true'
+                ? [...Player.experimentalPlaybackFormats, ...Player.supportedPlaybackFormats]
+                : Player.supportedPlaybackFormats
+            );
+          }
           torrent = await this.butter.getTorrent(imdbId, this.props.activeMode, {
             season,
             episode,
             searchQuery: title
           });
-
-          const torrents = await this.butter.getTorrent(imdbId, this.props.activeMode, {
-            season,
-            episode,
-            searchQuery: title
-          }, true);
-
-          idealTorrent = await Torrent.getTorrentWithSupportedFormats(
-            torrents,
-            process.env.NODE_ENV !== 'production' &&
-            process.env.FLAG_SUPPORT_NON_NATIVE_CODECS_FALLBACK === 'true'
-              ? [...Player.experimentalPlaybackFormats, ...Player.supportedPlaybackFormats]
-              : Player.supportedPlaybackFormats
-          );
 
           break;
         }
@@ -337,12 +349,12 @@ export default class Movie extends Component {
                 onClick={this.startTorrent.bind(this, this.state.idealTorrent.magnet)}
                 disabled={!this.state.idealTorrent.quality}
               >
-                Play
+                Start Ideal
               </button>
               {
                 process.env.FLAG_ALLOW_MANUAL_TORRENT_SELECTION &&
                 process.env.NODE_ENV !== 'production' ?
-                  <div>
+                  <span>
                     <button
                       onClick={this.startTorrent.bind(this, this.state.torrent['1080p'].magnet)}
                       disabled={!this.state.torrent['1080p'].quality}
@@ -365,7 +377,7 @@ export default class Movie extends Component {
                       :
                       null
                     }
-                  </div>
+                  </span>
                 :
                 null
               }

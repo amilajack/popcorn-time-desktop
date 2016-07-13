@@ -172,18 +172,5 @@ describe('e2e', function testApp() {
         done(err);
       }
     });
-
-    /**
-     * @todo
-     */
-    it('should play episode', async done => {
-      try {
-        await this.app.client.click('.Movie button:nth-child(2)'); // click 1080p play button
-        await delay(20000);
-        done();
-      } catch (err) {
-        done(err);
-      }
-    });
   });
 });
