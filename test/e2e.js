@@ -139,6 +139,7 @@ describe('e2e', function testApp() {
   describe('MoviePage', () => {
     beforeEach(async done => {
       try {
+        // navigate to Game of thrones
         await navigate('item/shows/tt0944947');
         await this.app.client.waitForVisible('.Movie');
         await delay(2000);
@@ -175,14 +176,14 @@ describe('e2e', function testApp() {
     /**
      * @todo
      */
-    // it('should play episode', async done => {
-    //   try {
-    //     await this.app.client.click('.Movie button:nth-child(2)'); // click 1080p play button
-    //     await delay(20000);
-    //     done();
-    //   } catch (err) {
-    //     done(err);
-    //   }
-    // });
+    it('should play episode', async done => {
+      try {
+        await this.app.client.click('.Movie button:nth-child(2)'); // click 1080p play button
+        await delay(20000);
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
   });
 });

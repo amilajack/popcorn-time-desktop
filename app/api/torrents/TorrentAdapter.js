@@ -1,6 +1,7 @@
 /**
  * @param   {string} imdbId
  * @param   {object} extendedDetails
+ * @todo    Removed torrents with duplicated magnets
  */
 /* eslint global-require: 0 */
 export default async function TorrentAdapter(imdbId,

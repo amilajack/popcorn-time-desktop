@@ -163,7 +163,6 @@
   },
   "optionalDependencies": {
     "wcjs-prebuilt": "^3.0.0",
-    "wcjs-player": "github:amilajack/wcjs-player",
     "wcjs-renderer": "^1.0.2"
   },
   "engines": {

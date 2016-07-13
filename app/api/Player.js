@@ -1,4 +1,4 @@
-import renderer from 'wcjs-renderer';
+import { remote } from 'electron';
 import plyr from 'plyr';
 import $ from 'jquery';
 
@@ -7,9 +7,11 @@ export default class Player {
 
   currentPlayer = 'plyr';
 
-  constructor() {
-    return this;
-  }
+  powerSaveBlockerId = 0;
+
+  static supportedPlaybackFormats = ['mp4', 'ogg', 'mov', 'webmv'];
+
+  static experimentalPlaybackFormats = ['mkv', 'wmv'];
 
   /**
    * Cleanup all traces of the player UI
@@ -22,6 +24,9 @@ export default class Player {
             document.querySelector('.plyr').plyr.destroy();
           }
         }
+        break;
+      case 'WebChimera':
+        remote.powerSaveBlocker.stop(this.powerSaveBlockerId);
         break;
       default:
         throw new Error('No player available');
@@ -105,6 +110,7 @@ export default class Player {
     element.style.display = 'none';
 
     const vlc = require('wcjs-prebuilt').createPlayer(); // eslint-disable-line
+    const renderer = require('wcjs-renderer'); // eslint-disable-line
     renderer.bind(element, vlc);
 
     const width = $('.container').width();
@@ -132,6 +138,18 @@ export default class Player {
     vlc.events.on('Playing', () => {
       console.log('playing...');
       player.play();
+
+      // Prevent display from sleeping
+      if (!remote.powerSaveBlocker.isStarted(this.powerSaveBlockerId)) {
+        this.powerSaveBlockerId = remote.powerSaveBlocker.start('prevent-display-sleep');
+      }
+    });
+
+    vlc.events.on('Paused', () => {
+      console.log('paused...');
+
+      // Allow the display to sleep
+      remote.powerSaveBlocker.stop(this.powerSaveBlockerId);
     });
 
     $(window).resize(() => {

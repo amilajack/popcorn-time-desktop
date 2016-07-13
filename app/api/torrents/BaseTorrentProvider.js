@@ -9,11 +9,12 @@ export function determineQuality(title) {
     return '480p';
   }
 
-  if (
-    process.env.NODE_ENV !== 'production' &&
-    process.env.FLAG_ALLOW_SUBTITLED_MOVIES
-  ) {
-    if (lowerCaseTitle.includes('subtitles')) return '720p';
+  if (process.env.NODE_ENV === 'production') {
+    if (hasSubtitles(title)) return '';
+  } else {
+    if (process.env.FLAG_ALLOW_SUBTITLED_MOVIES !== 'true') {
+      if (hasSubtitles(title)) return '';
+    }
   }
 
   // Filter videos with rendered subtitles
@@ -93,5 +94,10 @@ export function hasNonEnglishLanguage(title) {
   if (title.includes('hindi')) return true;
   if (title.includes('russian')) return true;
 
+  return false;
+}
+
+export function hasSubtitles(title) {
+  if (title.includes('subs')) return true;
   return false;
 }
