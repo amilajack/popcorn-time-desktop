@@ -1,7 +1,8 @@
 import { expect } from 'chai';
 import Butter from '../../app/api/Butter';
 import {
-  formatSeasonEpisodeToString, formatSeasonEpisodeToObject
+  formatSeasonEpisodeToString,
+  formatSeasonEpisodeToObject
 } from '../../app/api/torrents/BaseTorrentProvider';
 import PctTorrentProvider from '../../app/api/torrents/PctTorrentProvider';
 import assert from 'assert';

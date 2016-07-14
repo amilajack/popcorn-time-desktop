@@ -1,15 +1,15 @@
 environment:
   matrix:
-    - nodejs_version: '6'
-    - nodejs_version: '5'
+    - nodejs_version: 6
+    - nodejs_version: 5
 install:
   - ps: Install-Product node $env:nodejs_version
   - set CI=true
   - npm -g install npm@latest
   - set PATH=%APPDATA%\npm;%PATH%
-  - npm install
+  - npm install --no-optional
 matrix:
-  fast_finish: true
+  fast_finish: false
 build: off
 version: '{build}'
 shallow_clone: true
@@ -17,4 +17,8 @@ clone_depth: 1
 test_script:
   - node --version
   - npm --version
-  - npm test
+  # - npm run build
+  # - npm run package
+  # - npm run test
+  - npm run test-e2e
+  - npm run lint
