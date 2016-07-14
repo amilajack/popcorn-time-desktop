@@ -27,7 +27,7 @@ describe('api ->', function testApi() {
         {
           name: 'PirateBay',
           provider: require(`${torrentBasePath}/PbTorrentProvider`),
-          minTorrentsCount: 10,
+          minTorrentsCount: 5,
           id: 'pb'
         },
         {
@@ -38,7 +38,7 @@ describe('api ->', function testApi() {
         {
           name: 'Kat',
           provider: require(`${torrentBasePath}/KatTorrentProvider`),
-          minTorrentsCount: 10,
+          minTorrentsCount: 5,
           id: 'kat'
         },
         {
@@ -85,7 +85,7 @@ describe('api ->', function testApi() {
         {
           name: 'PirateBay',
           provider: require(`${torrentBasePath}/PbTorrentProvider`),
-          minTorrentsCount: 10,
+          minTorrentsCount: 5,
           id: 'pb'
         },
         {
@@ -97,13 +97,13 @@ describe('api ->', function testApi() {
         {
           name: 'Kat',
           provider: require(`${torrentBasePath}/KatTorrentProvider`),
-          minTorrentsCount: 10,
+          minTorrentsCount: 5,
           id: 'kat'
         },
         {
           name: 'KatShows',
           provider: require(`${torrentBasePath}/KatShowsTorrentProvider`),
-          minTorrentsCount: 10,
+          minTorrentsCount: 5,
           id: 'kat-shows'
         }
       ];

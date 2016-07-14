@@ -5,7 +5,7 @@ import { expect } from 'chai';
 
 
 const app = new Application({
-  path: path.join(__dirname, '..', 'node_modules', '.bin', 'electron'),
+  path: require('electron-prebuilt'),
   args: [
     path.join(__dirname, '..', 'app')
   ],
