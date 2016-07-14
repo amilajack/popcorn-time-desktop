@@ -28,7 +28,8 @@ export default async function TorrentAdapter(imdbId,
       if (
         process.env.NODE_ENV !== 'production' &&
         process.env.FLAG_FORCE_STRICT_TORRENT_VALIDATION === 'true' &&
-        type === 'shows') {
+        type === 'shows'
+      ) {
         const { formatSeasonEpisodeToString } = require('./BaseTorrentProvider');
 
         console.warn(
@@ -38,10 +39,12 @@ export default async function TorrentAdapter(imdbId,
 
         return selectTorrents(
           merge(movieProviderResults).filter(
-            result => result.magnet.includes(formatSeasonEpisodeToString(
+            result => result.magnet.toLowerCase().includes(
+              formatSeasonEpisodeToString(
               extendedDetails.season,
               extendedDetails.episode
-            ))
+              )
+            )
           ),
           undefined,
           returnAll

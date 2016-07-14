@@ -405,7 +405,15 @@ describe('api ->', function testApi() {
             });
 
             expect(torrents).to.be.an('object');
-            assertTorrentFormat(torrents, ['480p', '720p']);
+
+            for (const quality of ['480p', '720p', '1080p']) {
+              if (torrents[quality]) {
+                assertSingleTorrent(torrents[quality]);
+                expect(torrents[quality])
+                  .to.have.deep.property('quality')
+                  .that.equals(quality);
+              }
+            }
             done();
           } catch (err) {
             done(err);

@@ -9,16 +9,14 @@ export function determineQuality(title) {
     return '480p';
   }
 
+  // Filter videos with 'rendered' subtitles
   if (process.env.NODE_ENV === 'production') {
     if (hasSubtitles(title)) return '';
   } else {
     if (process.env.FLAG_ALLOW_SUBTITLED_MOVIES !== 'true') {
-      if (hasSubtitles(title)) return '';
+      if (hasSubtitles(title)) return '480p';
     }
   }
-
-  // Filter videos with rendered subtitles
-  if (lowerCaseTitle.includes('subtitles')) return '';
 
   // Filter non-english languages
   if (hasNonEnglishLanguage(title)) {
@@ -33,10 +31,15 @@ export function determineQuality(title) {
   if (lowerCaseTitle.includes('rip')) return '720p';
   if (lowerCaseTitle.includes('mp4')) return '720p';
   if (lowerCaseTitle.includes('web')) return '720p';
+
   if (lowerCaseTitle.includes('720')) return '720p';
   if (lowerCaseTitle.includes('hdtv')) return '720p';
   if (lowerCaseTitle.includes('english')) return '720p';
   if (lowerCaseTitle.includes('+eng+')) return '720p';
+
+  // Non-native codecs
+  if (lowerCaseTitle.includes('avi')) return '720p';
+  if (lowerCaseTitle.includes('mvk')) return '720p';
 
   if (lowerCaseTitle.includes('480')) return '480p';
 

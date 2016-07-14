@@ -22,10 +22,10 @@ export default class Torrent {
 
     this.engine = new Peerflix(magnetURI);
 
-    this.engine.server.on(
-      'listening',
-      () => fn(`http://localhost:${this.engine.server.address().port}/`)
-    );
+    this.engine.server.on('listening', () => {
+      console.log(this.engine.files);
+      fn(`http://localhost:${this.engine.server.address().port}/`);
+    });
 
     return this.engine;
   }

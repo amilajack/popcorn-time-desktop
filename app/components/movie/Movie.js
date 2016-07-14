@@ -158,7 +158,10 @@ export default class Movie extends Component {
     let torrent;
     let idealTorrent;
 
-    this.setState({ torrent: this.defaultTorrent });
+    this.setState({
+      idealTorrent: this.defaultTorrent,
+      torrent: this.defaultTorrent
+    });
 
     try {
       switch (this.props.activeMode) {
@@ -177,8 +180,6 @@ export default class Movie extends Component {
               episode,
               searchQuery: title
             }, true);
-
-            console.log(idealTorrent);
           } else {
             const torrents = await this.butter.getTorrent(imdbId, this.props.activeMode, {
               season,
@@ -213,7 +214,9 @@ export default class Movie extends Component {
         torrent['480p']
       ]);
 
-      console.log(idealTorrent);
+      if (idealTorrent.quality === 'poor') {
+        notie.alert(2, 'Slow torrent, low seeder count', 1);
+      }
 
       this.setState({
         idealTorrent,
@@ -318,7 +321,7 @@ export default class Movie extends Component {
 
   restart() {
     if (this.player) {
-      this.player.restart();
+      this.player.reset();
     }
   }
 
@@ -345,12 +348,6 @@ export default class Movie extends Component {
                   Back
                 </button>
               </Link>
-              <button
-                onClick={this.startTorrent.bind(this, this.state.idealTorrent.magnet)}
-                disabled={!this.state.idealTorrent.quality}
-              >
-                Start Ideal
-              </button>
               {
                 process.env.FLAG_ALLOW_MANUAL_TORRENT_SELECTION &&
                 process.env.NODE_ENV !== 'production' ?

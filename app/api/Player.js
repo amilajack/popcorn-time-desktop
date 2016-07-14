@@ -17,6 +17,8 @@ export default class Player {
    * Cleanup all traces of the player UI
    */
   destroy() {
+    clearInterval();
+
     switch (this.currentPlayer) {
       case 'plyr':
         if (document.querySelector('.plyr')) {
@@ -31,10 +33,6 @@ export default class Player {
       default:
         throw new Error('No player available');
     }
-  }
-
-  restart() {
-
   }
 
   /**
@@ -110,18 +108,16 @@ export default class Player {
     element.style.display = 'none';
 
     // HACK: forced require at runtime
-    const vlc = eval("require('wcjs-prebuilt').createPlayer()"); // eslint-disable-line
-    const renderer = eval("require('wcjs-renderer')"); // eslint-disable-line
+    const vlc = require('wcjs-prebuilt').createPlayer(); // eslint-disable-line
+    const renderer = require('wcjs-renderer'); // eslint-disable-line
     renderer.bind(element, vlc);
 
     const width = $('.container').width();
 
-    document.querySelector('.plyr').addEventListener('loadeddata', () => {
-      document.querySelector('video').style.display = 'none';
-      document.querySelector('.plyr__video-wrapper').appendChild(element);
-      element.style.display = 'initial';
-      $('canvas').width(width);
-    });
+    document.querySelector('video').style.display = 'none';
+    document.querySelector('.plyr__video-wrapper').appendChild(element);
+    element.style.display = 'initial';
+    $('canvas').width(width);
 
     vlc.play(streamingUrl);
 
@@ -136,6 +132,17 @@ export default class Player {
       .querySelector('.plyr')
       .addEventListener('exitfullscreen', () => $('canvas').width(width));
 
+    setInterval(() => {
+      console.log($('canvas').is(':hover'));
+      if ($('canvas').is(':hover')) {
+        $('canvas').css({ cursor: 'none' });
+      }
+    }, 5000);
+
+    document.querySelector('.plyr').addEventListener('mousemove', () => {
+      $('canvas').css({ cursor: 'initial' });
+    });
+
     vlc.events.on('Playing', () => {
       console.log('playing...');
       player.play();
@@ -144,6 +151,19 @@ export default class Player {
       if (!remote.powerSaveBlocker.isStarted(this.powerSaveBlockerId)) {
         this.powerSaveBlockerId = remote.powerSaveBlocker.start('prevent-display-sleep');
       }
+    });
+
+    vlc.events.on('Buffering', percent => {
+      console.log('buffering...', percent);
+      if (percent === 100) {
+        player.play();
+      } else {
+        player.pause();
+        console.log('pausing...');
+      }
+
+      // Allow the display to sleep
+      remote.powerSaveBlocker.stop(this.powerSaveBlockerId);
     });
 
     vlc.events.on('Paused', () => {
