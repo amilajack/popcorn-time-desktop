@@ -1,4 +1,5 @@
 import { remote } from 'electron';
+import os from 'os';
 import plyr from 'plyr';
 import $ from 'jquery';
 
@@ -91,6 +92,12 @@ export default class Player {
   }
 
   initWebChimeraPlayer(streamingUrl, metadata = {}) {
+    // HACK: Temporarily prevent linux from using WebChimera
+    //       Waiting on issue 69: https://github.com/RSATom/WebChimera.js/issues/69
+    if (os.type === 'Linux') {
+      return false;
+    }
+
     this.currentPlayer = 'WebChimera';
 
     const player = plyr.setup({
