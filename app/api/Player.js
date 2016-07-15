@@ -2,6 +2,7 @@ import { remote } from 'electron';
 import os from 'os';
 import plyr from 'plyr';
 import $ from 'jquery';
+import requireOptional from 'require-optional';
 
 
 export default class Player {
@@ -115,8 +116,13 @@ export default class Player {
     element.style.display = 'none';
 
     // HACK: forced require at runtime
-    const vlc = require('wcjs-prebuilt').createPlayer(); // eslint-disable-line
-    const renderer = require('wcjs-renderer'); // eslint-disable-line
+    const vlc = requireOptional('wcjs-prebuilt').createPlayer(); // eslint-disable-line
+    const renderer = requireOptional('wcjs-renderer'); // eslint-disable-line
+
+    if (vlc && renderer) {
+      return false;
+    }
+
     renderer.bind(element, vlc);
 
     const width = $('.container').width();
