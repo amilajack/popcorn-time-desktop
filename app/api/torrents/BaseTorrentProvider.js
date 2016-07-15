@@ -1,6 +1,9 @@
 /* eslint prefer-template: 0 */
-export function determineQuality(title) {
-  const lowerCaseTitle = title.toLowerCase();
+
+export function determineQuality(magnet, metadata) {
+  const lowerCaseMetadata = metadata
+                              ? metadata.toLowerCase()
+                              : magnet.toLowerCase();
 
   if (
     process.env.NODE_ENV !== 'production' &&
@@ -11,39 +14,39 @@ export function determineQuality(title) {
 
   // Filter videos with 'rendered' subtitles
   if (process.env.NODE_ENV === 'production') {
-    if (hasSubtitles(title)) return '';
+    if (hasSubtitles(lowerCaseMetadata)) return '';
   } else {
     if (process.env.FLAG_ALLOW_SUBTITLED_MOVIES !== 'true') {
-      if (hasSubtitles(title)) return '480p';
+      if (hasSubtitles(lowerCaseMetadata)) return '480p';
     }
   }
 
   // Filter non-english languages
-  if (hasNonEnglishLanguage(title)) {
+  if (hasNonEnglishLanguage(lowerCaseMetadata)) {
     return '';
   }
 
-  if (lowerCaseTitle.includes('1080')) return '1080p';
-  if (lowerCaseTitle.includes('bluray')) return '1080p';
-  if (lowerCaseTitle.includes('blu-ray')) return '1080p';
+  if (lowerCaseMetadata.includes('1080')) return '1080p';
+  if (lowerCaseMetadata.includes('bluray')) return '1080p';
+  if (lowerCaseMetadata.includes('blu-ray')) return '1080p';
 
-  if (lowerCaseTitle.includes('dvd')) return '720p';
-  if (lowerCaseTitle.includes('rip')) return '720p';
-  if (lowerCaseTitle.includes('mp4')) return '720p';
-  if (lowerCaseTitle.includes('web')) return '720p';
+  if (lowerCaseMetadata.includes('dvd')) return '720p';
+  if (lowerCaseMetadata.includes('rip')) return '720p';
+  if (lowerCaseMetadata.includes('mp4')) return '720p';
+  if (lowerCaseMetadata.includes('web')) return '720p';
 
-  if (lowerCaseTitle.includes('720')) return '720p';
-  if (lowerCaseTitle.includes('hdtv')) return '720p';
-  if (lowerCaseTitle.includes('english')) return '720p';
-  if (lowerCaseTitle.includes('+eng+')) return '720p';
+  if (lowerCaseMetadata.includes('720')) return '720p';
+  if (lowerCaseMetadata.includes('hdtv')) return '720p';
+  if (lowerCaseMetadata.includes('english')) return '720p';
+  if (lowerCaseMetadata.includes('+eng+')) return '720p';
 
   // Non-native codecs
-  if (lowerCaseTitle.includes('avi')) return '720p';
-  if (lowerCaseTitle.includes('mvk')) return '720p';
+  if (lowerCaseMetadata.includes('avi')) return '720p';
+  if (lowerCaseMetadata.includes('mvk')) return '720p';
 
-  if (lowerCaseTitle.includes('480')) return '480p';
+  if (lowerCaseMetadata.includes('480')) return '480p';
 
-  console.warn(`title: ${title}, could not be verified`);
+  console.warn(`magnet: ${magnet}, could not be verified`);
 
   return '';
 }
@@ -70,6 +73,10 @@ export function formatSeasonEpisodeToObject(season, episode) {
   };
 }
 
+export function isExactEpisode(title, season, episode) {
+  return title.toLowerCase().includes(formatSeasonEpisodeToString(season, episode));
+}
+
 export function getHealth(seeders, peers) {
   let health;
   const total = (!!seeders && !!peers) ? (seeders + peers) : seeders;
@@ -89,18 +96,24 @@ export function getHealth(seeders, peers) {
   return { health };
 }
 
-export function hasNonEnglishLanguage(title) {
-  if (title.includes('french')) return true;
-  if (title.includes('german')) return true;
-  if (title.includes('dutch')) return true;
-  if (title.includes('spanish')) return true;
-  if (title.includes('hindi')) return true;
-  if (title.includes('russian')) return true;
+export function hasNonEnglishLanguage(metadata) {
+  if (metadata.includes('french')) return true;
+  if (metadata.includes('german')) return true;
+  if (metadata.includes('greek')) return true;
+  if (metadata.includes('dutch')) return true;
+  if (metadata.includes('hindi')) return true;
+  if (metadata.includes('português')) return true;
+  if (metadata.includes('portugues')) return true;
+  if (metadata.includes('spanish')) return true;
+  if (metadata.includes('español')) return true;
+  if (metadata.includes('espanol')) return true;
+  if (metadata.includes('latino')) return true;
+  if (metadata.includes('russian')) return true;
+  if (metadata.includes('subtitulado')) return true;
 
   return false;
 }
 
-export function hasSubtitles(title) {
-  if (title.includes('subs')) return true;
-  return false;
+export function hasSubtitles(metadata) {
+  return metadata.includes('sub');
 }

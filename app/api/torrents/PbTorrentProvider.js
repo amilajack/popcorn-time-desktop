@@ -3,7 +3,6 @@
  */
 import PirateBay from 'thepiratebay';
 import {
-  determineQuality,
   getHealth,
   formatSeasonEpisodeToString
 } from './BaseTorrentProvider';
@@ -36,10 +35,10 @@ export default class PbTorrentProvider {
 
   static formatTorrent(torrent) {
     return {
-      quality: determineQuality(torrent.magnetLink),
       magnet: torrent.magnetLink,
       seeders: parseInt(torrent.seeders, 10),
       leechers: parseInt(torrent.leechers, 10),
+      metadata: torrent.name + torrent.magnetLink + torrent.link,
       ...getHealth(torrent.seeders),
       _provider: 'pb'
     };

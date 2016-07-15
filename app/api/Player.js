@@ -114,8 +114,7 @@ export default class Player {
     const element = document.createElement('canvas');
     element.style.display = 'none';
 
-    // HACK: forced require at runtime
-    const vlc = require('wcjs-prebuilt').createPlayer(); // eslint-disable-line
+    const vlc = require('wcjs-prebuilt').createPlayer(['-vvv']); // eslint-disable-line
     const renderer = require('wcjs-renderer'); // eslint-disable-line
 
     renderer.bind(element, vlc);

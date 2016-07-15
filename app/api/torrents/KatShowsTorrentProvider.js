@@ -1,7 +1,8 @@
 /* eslint new-cap: 0 */
 import KatShows from 'kat-shows';
 import {
-  determineQuality, getHealth, formatSeasonEpisodeToObject
+  getHealth,
+  formatSeasonEpisodeToObject
 } from './BaseTorrentProvider';
 
 
@@ -18,7 +19,6 @@ export default class KatShowsTorrentProvider {
     return {
       ...torrent,
       ...getHealth(torrent.seeders, torrent.seeders, torrent.leechers),
-      quality: determineQuality(torrent.magnet),
       _provider: 'kat-shows'
     };
   }

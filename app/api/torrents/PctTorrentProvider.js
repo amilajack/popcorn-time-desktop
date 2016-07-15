@@ -95,6 +95,7 @@ export default class PctTorrentProvider {
       magnet: torrent.url,
       seeders: torrent.seed,
       leechers: 0,
+      metadata: torrent.url,
       ...getHealth(torrent.seed, torrent.peer),
       _provider: 'pct'
     };

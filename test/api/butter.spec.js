@@ -356,7 +356,14 @@ describe('api ->', function testApi() {
             const torrent = await butterFactory().getTorrent(imdbId, 'movies', {
               searchQuery: 'the dark knight'
             });
-            assertTorrentFormat(torrent);
+
+            for (const quality of ['720p', '1080p']) {
+              assertSingleTorrent(torrent[quality]);
+              expect(torrent[quality])
+                .to.have.deep.property('quality')
+                .that.is.a('string')
+                .that.equals(quality);
+            }
             done();
           } catch (err) {
             done(err);
@@ -408,12 +415,11 @@ describe('api ->', function testApi() {
             expect(torrents).to.be.an('object');
 
             for (const quality of ['480p', '720p', '1080p']) {
-              if (torrents[quality]) {
-                assertSingleTorrent(torrents[quality]);
-                expect(torrents[quality])
-                  .to.have.deep.property('quality')
-                  .that.equals(quality);
-              }
+              assertSingleTorrent(torrents[quality]);
+              expect(torrents[quality])
+                .to.have.deep.property('quality')
+                .that.is.a('string')
+                .that.equals(quality);
             }
             done();
           } catch (err) {
@@ -473,53 +479,9 @@ function assertImageFormat(item) {
   expect(item).to.have.deep.property('images.fanart.thumb').that.is.a('string');
 }
 
-/**
- * Assert that a torrent has multiple qualities (1080p, 720p, etc)
- */
-function assertTorrentFormat(torrent, qualities = ['720p', '1080p']) {
-  for (const quality of qualities) {
-    expect(torrent).to.have.property(quality).that.is.an('object');
-
-    expect(torrent)
-      .to.have.deep.property(`${quality}.quality`)
-      .that.is.a('string');
-
-    expect(torrent)
-      .to.have.deep.property(`${quality}._provider`)
-      .that.is.a('string');
-
-    expect(torrent)
-      .to.have.deep.property(`${quality}.magnet`)
-      .that.is.a('string');
-
-    expect(torrent)
-      .to.have.deep.property(`${quality}.health`)
-      .that.is.a('string')
-      .that.oneOf(['healthy', 'decent', 'poor']);
-
-    expect(torrent)
-      .to.have.deep.property(`${quality}.seeders`)
-      .that.is.a('number')
-      .that.is.at.least(0);
-
-    assertNAorNumber(torrent[quality].seeders);
-
-    expect(torrent)
-      .to.have.deep.property(`${quality}.leechers`)
-      .that.is.a('number')
-      .that.is.at.least(0);
-
-    assertNAorNumber(torrent[quality].leechers);
-  }
-}
-
 function assertSingleTorrent(torrent) {
   expect(torrent)
     .to.be.an('object');
-
-  expect(torrent)
-    .to.have.deep.property('quality')
-    .that.is.a('string');
 
   expect(torrent)
     .to.have.deep.property('_provider')
@@ -538,6 +500,10 @@ function assertSingleTorrent(torrent) {
     .to.have.deep.property('seeders')
     .that.is.a('number')
     .that.is.at.least(0);
+
+  expect(torrent)
+    .to.have.deep.property('metadata')
+    .that.is.a('string');
 
   assertNAorNumber(torrent.seeders);
 

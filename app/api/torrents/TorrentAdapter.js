@@ -4,6 +4,9 @@
  * @todo    Removed torrents with duplicated magnets
  */
 /* eslint global-require: 0 */
+import { determineQuality } from './BaseTorrentProvider';
+
+
 export default async function TorrentAdapter(imdbId,
                                               type,
                                               extendedDetails,
@@ -77,7 +80,13 @@ function merge(providerResults) {
     }
   }
 
-  return mergedResults;
+  const formattedResults = mergedResults.map(result => (
+    'quality' in result
+      ? result
+      : { ...result, quality: determineQuality(result.magnet, result.metadata, result) })
+  );
+
+  return formattedResults;
 }
 
 /**

@@ -348,6 +348,14 @@ export default class Movie extends Component {
                   Back
                 </button>
               </Link>
+              <span>
+                <button
+                  onClick={this.startTorrent.bind(this, this.state.idealTorrent.magnet)}
+                  disabled={!this.state.idealTorrent.quality}
+                >
+                  Start Ideal Torrent
+                </button>
+              </span>
               {
                 process.env.FLAG_ALLOW_MANUAL_TORRENT_SELECTION &&
                 process.env.NODE_ENV !== 'production' ?
@@ -378,6 +386,7 @@ export default class Movie extends Component {
                 :
                 null
               }
+              <br />
               <span>
                 <a>1080p: {this.state.torrent['1080p'].seeders} seeders</a> |
                 <a>720p: {this.state.torrent['720p'].seeders} seeders</a> |

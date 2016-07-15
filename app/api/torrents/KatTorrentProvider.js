@@ -1,6 +1,7 @@
 import kat from 'kat-api';
 import {
-  determineQuality, getHealth, formatSeasonEpisodeToString
+  getHealth,
+  formatSeasonEpisodeToString
 } from './BaseTorrentProvider';
 
 
@@ -12,7 +13,8 @@ export default class KatTorrentProvider {
                               : undefined;
 
     return kat.search({
-      query
+      query,
+      category: season && episode ? 'tv' : 'movies'
     })
     .then(
       resp => (
@@ -34,10 +36,14 @@ export default class KatTorrentProvider {
 
   static formatTorrent(torrent) {
     return {
-      quality: determineQuality(torrent.magnet),
       magnet: torrent.magnet,
       seeders: torrent.seeds,
       leechers: torrent.leechs,
+      metadata: torrent.link +
+                torrent.title +
+                torrent.torrentLink +
+                torrent.guid +
+                torrent.magnet,
       ...getHealth(torrent.seeds, torrent.peers, torrent.leechs),
       _provider: 'kat'
     };
