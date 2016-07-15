@@ -117,6 +117,7 @@ export default class Player {
     // HACK: forced require at runtime
     const vlc = require('wcjs-prebuilt').createPlayer(); // eslint-disable-line
     const renderer = require('wcjs-renderer'); // eslint-disable-line
+
     renderer.bind(element, vlc);
 
     const width = $('.container').width();
