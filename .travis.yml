@@ -37,6 +37,6 @@ before_script:
 script:
   - npm run build
   - npm run package
-  # - npm run test # Fails on linux because WebChimera does not compile to Linux
+  - npm run test
   - npm run test-e2e
   - npm run lint
