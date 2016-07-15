@@ -20,5 +20,5 @@ test_script:
   - npm run build
   - npm run package
   - npm run test
-  # - npm run test-e2e
+  - npm run test-e2e
   - npm run lint
