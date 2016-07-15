@@ -118,10 +118,6 @@ export default class Player {
     const vlc = require('wcjs-prebuilt').createPlayer(); // eslint-disable-line
     const renderer = require('wcjs-renderer'); // eslint-disable-line
 
-    if (vlc && renderer) {
-      return false;
-    }
-
     renderer.bind(element, vlc);
 
     const width = $('.container').width();
