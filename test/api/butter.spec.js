@@ -161,6 +161,7 @@ describe('api ->', function testApi() {
             expect(convertRuntimeToHours(126).hours).to.equal(2);
             expect(convertRuntimeToHours(126).minutes).to.equal(6);
 
+            expect(convertRuntimeToHours(60).full).to.equal('1 hour');
             done();
           } catch (err) {
             done(err);
@@ -214,7 +215,7 @@ describe('api ->', function testApi() {
       describe('movie ->', () => {
         it('should have necessary properties', async done => {
           try {
-            const movie = await movieFactory();
+            const movie = await new Butter().getMovie('tt0417741');
             assertMovieFormat(movie);
             done();
           } catch (err) {
@@ -251,7 +252,7 @@ describe('api ->', function testApi() {
       describe('show ->', () => {
         it('should get show metadata', async done => {
           try {
-            const showMetadata = await butterFactory().getShow('tt1475582');
+            const showMetadata = await butterFactory().getShow('tt0944947');
             assertMovieFormat(showMetadata);
             done();
           } catch (err) {

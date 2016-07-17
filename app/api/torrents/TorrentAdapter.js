@@ -29,7 +29,6 @@ export default async function TorrentAdapter(imdbId,
       const movieProviderResults = await cascade(torrentPromises);
 
       if (
-        process.env.NODE_ENV !== 'production' &&
         process.env.FLAG_FORCE_STRICT_TORRENT_VALIDATION === 'true' &&
         type === 'shows'
       ) {

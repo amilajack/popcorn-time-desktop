@@ -31,7 +31,6 @@ export default class Movie extends Component {
   };
 
   defaultTorrent = {
-    health: '',
     default: { quality: '', magnet: '' },
     '1080p': { quality: '', magnet: '' },
     '720p': { quality: '', magnet: '' },
@@ -48,6 +47,7 @@ export default class Movie extends Component {
     seasons: [],
     season: [],
     episode: {},
+    fetchingTorrents: false,
     idealTorrent: this.defaultTorrent,
     torrent: this.defaultTorrent,
     usingVideoFallback: false,
@@ -159,6 +159,7 @@ export default class Movie extends Component {
     let idealTorrent;
 
     this.setState({
+      fetchingTorrents: true,
       idealTorrent: this.defaultTorrent,
       torrent: this.defaultTorrent
     });
@@ -171,15 +172,18 @@ export default class Movie extends Component {
           });
           break;
         case 'shows': {
-          if (
-            process.env.NODE_ENV !== 'production' &&
-            process.env.FLAG_SUPPORT_NON_NATIVE_CODECS_FALLBACK === 'true'
-          ) {
-            [idealTorrent] = await this.butter.getTorrent(imdbId, this.props.activeMode, {
+          if (process.env.SUPPORTED_PLAYBACK_FILTERING !== 'true') {
+            torrent = await this.butter.getTorrent(imdbId, this.props.activeMode, {
               season,
               episode,
               searchQuery: title
-            }, true);
+            });
+
+            idealTorrent = this.getIdealTorrent([
+              torrent['1080p'] || this.defaultTorrent,
+              torrent['720p'] || this.defaultTorrent,
+              torrent['480p'] || this.defaultTorrent
+            ]);
           } else {
             const torrents = await this.butter.getTorrent(imdbId, this.props.activeMode, {
               season,
@@ -189,30 +193,22 @@ export default class Movie extends Component {
 
             idealTorrent = await Torrent.getTorrentWithSupportedFormats(
               torrents,
-              process.env.NODE_ENV !== 'production' &&
-              process.env.FLAG_SUPPORT_NON_NATIVE_CODECS_FALLBACK === 'true'
+              process.env.NODE_ENV === 'production'
                 ? [...Player.experimentalPlaybackFormats, ...Player.supportedPlaybackFormats]
                 : Player.supportedPlaybackFormats
             );
-          }
-          torrent = await this.butter.getTorrent(imdbId, this.props.activeMode, {
-            season,
-            episode,
-            searchQuery: title
-          });
 
+            torrent = await this.butter.getTorrent(imdbId, this.props.activeMode, {
+              season,
+              episode,
+              searchQuery: title
+            });
+          }
           break;
         }
         default:
           throw new Error('Invalid active mode');
       }
-
-      const { health } = this.getIdealTorrent([
-        idealTorrent,
-        torrent['1080p'],
-        torrent['720p'],
-        torrent['480p']
-      ]);
 
       if (idealTorrent.quality === 'poor') {
         notie.alert(2, 'Slow torrent, low seeder count', 1);
@@ -220,11 +216,11 @@ export default class Movie extends Component {
 
       this.setState({
         idealTorrent,
+        fetchingTorrents: false,
         torrent: {
           '1080p': torrent['1080p'] || this.defaultTorrent,
           '720p': torrent['720p'] || this.defaultTorrent,
-          '480p': torrent['480p'] || this.defaultTorrent,
-          health
+          '480p': torrent['480p'] || this.defaultTorrent
         }
       });
     } catch (err) {
@@ -265,12 +261,13 @@ export default class Movie extends Component {
   }
 
   selectShow(type, selectedSeason, selectedEpisode = 1) {
+    console.log(type, selectedSeason, selectedEpisode);
+
     switch (type) {
       case 'episodes':
         this.setState({ selectedSeason });
-        this.getShowData('episodes', this.state.item.id, selectedSeason, selectedEpisode);
-        this.getShowData('episode', this.state.item.id, selectedSeason, selectedEpisode);
-        this.getTorrent(this.state.item.id, this.state.item.title, selectedSeason, selectedEpisode);
+        this.getShowData('episodes', this.state.item.id, selectedSeason);
+        this.selectShow('episode', selectedSeason, 1);
         break;
       case 'episode':
         this.setState({ selectedSeason, selectedEpisode });
@@ -299,11 +296,7 @@ export default class Movie extends Component {
 
       const formatIsSupported = Player.isFormatSupported(this.engine.files[0].path);
 
-      if (
-        process.env.NODE_ENV !== 'production' &&
-        process.env.FLAG_SUPPORT_NON_NATIVE_CODECS_FALLBACK === 'true' &&
-        !formatIsSupported
-      ) {
+      if (!formatIsSupported) {
         this.player = this.player.initWebChimeraPlayer(servingUrl, this.state.item);
         this.setState({ usingVideoFallback: true });
         notie.alert(2, 'Falling back to non-native video codecs', 2);
@@ -357,27 +350,26 @@ export default class Movie extends Component {
                 </button>
               </span>
               {
-                process.env.FLAG_ALLOW_MANUAL_TORRENT_SELECTION &&
-                process.env.NODE_ENV !== 'production' ?
+                process.env.FLAG_ALLOW_MANUAL_TORRENT_SELECTION === 'true' ?
                   <span>
                     <button
                       onClick={this.startTorrent.bind(this, this.state.torrent['1080p'].magnet)}
                       disabled={!this.state.torrent['1080p'].quality}
                     >
-                      Start 1080p
+                      Start 1080p -- {this.state.torrent['1080p'].seeders} seeders
                     </button>
                     <button
                       onClick={this.startTorrent.bind(this, this.state.torrent['720p'].magnet)}
                       disabled={!this.state.torrent['720p'].quality}
                     >
-                      Start 720p
+                      Start 720p -- {this.state.torrent['720p'].seeders} seeders
                     </button>
                     {this.props.activeMode === 'shows' ?
                       <button
                         onClick={this.startTorrent.bind(this, this.state.torrent['480p'].magnet)}
                         disabled={!this.state.torrent['480p'].quality}
                       >
-                        Start 480p
+                        Start 480p -- {this.state.torrent['480p'].seeders} seeders
                       </button>
                       :
                       null
@@ -386,11 +378,7 @@ export default class Movie extends Component {
                 :
                 null
               }
-              <br />
               <span>
-                <a>1080p: {this.state.torrent['1080p'].seeders} seeders</a> |
-                <a>720p: {this.state.torrent['720p'].seeders} seeders</a> |
-                <a>480p: {this.state.torrent['480p'].seeders} seeders</a> |
                 <a><strong>Torrent status: {this.state.idealTorrent.health || ''}</strong></a>
               </span>
               <h1 id="title">
@@ -421,19 +409,25 @@ export default class Movie extends Component {
                     value={this.state.item.rating}
                     editing={false}
                   />
-                  {this.state.item.rating}
+                  <a>{this.state.item.rating}</a>
                 </div>
                 :
                 null
               }
-              <h2 style={torrentLoadingStatusStyle}>
+              <h3 style={torrentLoadingStatusStyle}>
                 {
                   !this.state.servingUrl && this.state.torrentInProgress
                     ? 'Loading torrent...'
                     : null
                 }
-              </h2>
-
+              </h3>
+              <h3 style={torrentLoadingStatusStyle}>
+                {
+                  this.state.fetchingTorrents
+                    ? 'Fetching torrents...'
+                    : null
+                }
+              </h3>
               {this.props.activeMode === 'shows' ?
                 <Show
                   selectShow={this.selectShow.bind(this)}

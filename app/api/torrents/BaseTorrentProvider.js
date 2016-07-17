@@ -6,19 +6,17 @@ export function determineQuality(magnet, metadata) {
                               : magnet.toLowerCase();
 
   if (
-    process.env.NODE_ENV !== 'production' &&
     process.env.FLAG_ALLOW_UNVERIFIED_TORRENTS === 'true'
   ) {
     return '480p';
   }
 
   // Filter videos with 'rendered' subtitles
-  if (process.env.NODE_ENV === 'production') {
-    if (hasSubtitles(lowerCaseMetadata)) return '';
-  } else {
-    if (process.env.FLAG_ALLOW_SUBTITLED_MOVIES !== 'true') {
-      if (hasSubtitles(lowerCaseMetadata)) return '480p';
-    }
+  if (
+    process.env.FLAG_ALLOW_SUBTITLED_MOVIES !== 'true' &&
+    hasSubtitles(lowerCaseMetadata)
+  ) {
+    return '480p';
   }
 
   // Filter non-english languages
@@ -26,25 +24,26 @@ export function determineQuality(magnet, metadata) {
     return '';
   }
 
+  // Most accurate categorization
   if (lowerCaseMetadata.includes('1080')) return '1080p';
+  if (lowerCaseMetadata.includes('720')) return '720p';
+  if (lowerCaseMetadata.includes('480')) return '480p';
+
+  // Guess the quality 1080p
   if (lowerCaseMetadata.includes('bluray')) return '1080p';
   if (lowerCaseMetadata.includes('blu-ray')) return '1080p';
 
+  // Guess the quality 720p, prefer english
   if (lowerCaseMetadata.includes('dvd')) return '720p';
   if (lowerCaseMetadata.includes('rip')) return '720p';
   if (lowerCaseMetadata.includes('mp4')) return '720p';
   if (lowerCaseMetadata.includes('web')) return '720p';
-
-  if (lowerCaseMetadata.includes('720')) return '720p';
   if (lowerCaseMetadata.includes('hdtv')) return '720p';
-  if (lowerCaseMetadata.includes('english')) return '720p';
-  if (lowerCaseMetadata.includes('+eng+')) return '720p';
+  if (lowerCaseMetadata.includes('eng')) return '720p';
 
   // Non-native codecs
   if (lowerCaseMetadata.includes('avi')) return '720p';
   if (lowerCaseMetadata.includes('mvk')) return '720p';
-
-  if (lowerCaseMetadata.includes('480')) return '480p';
 
   console.warn(`magnet: ${magnet}, could not be verified`);
 

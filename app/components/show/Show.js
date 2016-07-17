@@ -31,7 +31,9 @@ export default class Show extends Component {
                   className={classNames(
                     'list-group-item', { active: season.season === this.props.selectedSeason }
                   )}
-                  onClick={this.props.selectShow.bind(this, 'episodes', season.season)}
+                  onClick={
+                    this.props.selectShow.bind(this, 'episodes', season.season)
+                  }
                   key={season.season}
                 >
                   Season {season.season}

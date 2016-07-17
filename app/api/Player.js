@@ -29,6 +29,12 @@ export default class Player {
         }
         break;
       case 'WebChimera':
+        if (document.querySelector('.plyr')) {
+          if (document.querySelector('.plyr').plyr) {
+            document.querySelector('.plyr').plyr.destroy();
+          }
+        }
+        this.player.close();
         remote.powerSaveBlocker.stop(this.powerSaveBlockerId);
         break;
       default:
@@ -66,9 +72,7 @@ export default class Player {
   }
 
   static isFormatSupported(filename) {
-    if (process.env.NODE_ENV !== 'production') {
-      console.log('filename: ', filename);
-    }
+    console.log('filename: ', filename);
 
     const supportedMimeTypes = ['webm', 'mp4', 'ogg'];
     const supported = supportedMimeTypes
@@ -128,16 +132,23 @@ export default class Player {
 
     vlc.play(streamingUrl);
 
+    //
+    // Event bindings
+    //
     document.querySelector('.plyr').addEventListener('pause', () => vlc.pause());
     document.querySelector('.plyr').addEventListener('play', () => vlc.play());
-
-    document
-      .querySelector('.plyr')
-      .addEventListener('enterfullscreen', () => $('canvas').width($('body').width()));
-
-    document
-      .querySelector('.plyr')
-      .addEventListener('exitfullscreen', () => $('canvas').width(width));
+    document.querySelector('.plyr').addEventListener('enterfullscreen',
+      () => $('canvas').width($('body').width())
+    );
+    document.querySelector('.plyr').addEventListener('exitfullscreen',
+      () => $('canvas').width(width)
+    );
+    document.querySelector('.plyr').addEventListener('seeking', () => {
+      vlc.time = player.getCurrentTime() * 1000; // eslint-disable-line
+    });
+    document.querySelector('.plyr').addEventListener('mousemove', () => {
+      $('canvas').css({ cursor: 'initial' });
+    });
 
     setInterval(() => {
       console.log($('canvas').is(':hover'));
@@ -145,10 +156,6 @@ export default class Player {
         $('canvas').css({ cursor: 'none' });
       }
     }, 5000);
-
-    document.querySelector('.plyr').addEventListener('mousemove', () => {
-      $('canvas').css({ cursor: 'initial' });
-    });
 
     vlc.events.on('Playing', () => {
       console.log('playing...');
@@ -187,14 +194,8 @@ export default class Player {
 
     this.bindSeek(player, vlc);
 
-    return player;
-  }
+    this.player = vlc;
 
-  bindSeek(player, vlc) {
-    document.querySelector('.plyr').addEventListener('seeking', () => {
-      console.log('seeking...');
-      // Current time in seconds and convert to miliseconds
-      vlc.time = player.getCurrentTime() * 1000; // eslint-disable-line
-    });
+    return player;
   }
 }
