@@ -34,7 +34,9 @@ export default class Player {
             document.querySelector('.plyr').plyr.destroy();
           }
         }
-        this.player.close();
+        if (this.player) {
+          this.player.close();
+        }
         remote.powerSaveBlocker.stop(this.powerSaveBlockerId);
         break;
       default:
@@ -118,8 +120,10 @@ export default class Player {
     const element = document.createElement('canvas');
     element.style.display = 'none';
 
-    const vlc = require('wcjs-prebuilt').createPlayer(['-vvv']); // eslint-disable-line
+    const wcjsPlayer = require('wcjs-prebuilt'); // eslint-disable-line
     const renderer = require('wcjs-renderer'); // eslint-disable-line
+
+    const vlc = wcjsPlayer.createPlayer(['-vvv']);
 
     renderer.bind(element, vlc);
 
