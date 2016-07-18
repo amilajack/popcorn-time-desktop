@@ -294,21 +294,20 @@ export default class Movie extends Component {
 
       this.setState({ servingUrl });
 
-      const formatIsSupported = Player.isFormatSupported(this.engine.files[0].path);
+      // notie.alert(2, 'Falling back to non-native video codecs', 2);
+      notie.alert(2, this.engine.files[0].path, 2);
 
-      if (!formatIsSupported) {
-        this.player = this.player.initWebChimeraPlayer(servingUrl, this.state.item);
-        this.setState({ usingVideoFallback: true });
-        notie.alert(2, 'Falling back to non-native video codecs', 2);
-        console.warn('FLAG_SUPPORT_NON_NATIVE_CODECS_FALLBACK: Using WebChimera');
-      } else {
-        if (!formatIsSupported) {
-          notie.alert(3, 'Video format is not supported', 2);
-          throw new Error('Video codec not supported');
-        }
-        this.setState({ usingVideoFallback: false });
-        this.player = this.player.initPlyr(servingUrl, this.state.item);
-      }
+      this.player = this.player.initWebChimeraPlayer(servingUrl, this.state.item);
+      this.setState({ usingVideoFallback: true });
+      notie.alert(2, 'Falling back to non-native video codecs', 2);
+      console.warn('FLAG_SUPPORT_NON_NATIVE_CODECS_FALLBACK: Using WebChimera');
+
+      // if (!formatIsSupported) {
+      //   notie.alert(3, 'Video format is not supported', 2);
+      //   throw new Error('Video codec not supported');
+      // }
+      // this.setState({ usingVideoFallback: false });
+      // this.player = this.player.initPlyr(servingUrl, this.state.item);
     });
   }
 
