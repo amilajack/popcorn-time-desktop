@@ -20,10 +20,6 @@ export default {
         warnings: false
       }
     }),
-    new webpack.BannerPlugin(
-      'require("source-map-support").install();',
-      { raw: true, entryOnly: false }
-    ),
     new webpack.EnvironmentPlugin([
       'NODE_ENV'
     ])
