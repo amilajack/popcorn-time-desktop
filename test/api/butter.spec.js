@@ -1,6 +1,9 @@
 import { expect } from 'chai';
 import Butter from '../../app/api/Butter';
-import { formatSeasonEpisodeToString } from '../../app/api/torrents/BaseTorrentProvider';
+import {
+  formatSeasonEpisodeToString,
+  formatSeasonEpisodeToObject
+} from '../../app/api/torrents/BaseTorrentProvider';
 import PctTorrentProvider from '../../app/api/torrents/PctTorrentProvider';
 import assert from 'assert';
 import { convertRuntimeToHours } from '../../app/api/metadata/MetadataAdapter';
@@ -8,6 +11,7 @@ import { convertRuntimeToHours } from '../../app/api/metadata/MetadataAdapter';
 
 const imdbId = 'tt0468569';
 const showImdbId = 'tt1475582';
+const deafultMinTorrentsCount = 1;
 
 function greaterThanOrEqualTo(first, second) {
   return (first > second || first === second);
@@ -23,6 +27,7 @@ describe('api ->', function testApi() {
         {
           name: 'PirateBay',
           provider: require(`${torrentBasePath}/PbTorrentProvider`),
+          minTorrentsCount: 5,
           id: 'pb'
         },
         {
@@ -33,6 +38,7 @@ describe('api ->', function testApi() {
         {
           name: 'Kat',
           provider: require(`${torrentBasePath}/KatTorrentProvider`),
+          minTorrentsCount: 5,
           id: 'kat'
         },
         {
@@ -43,16 +49,22 @@ describe('api ->', function testApi() {
       ];
 
       for (const providerConfig of movieProviders) {
-        it(`${providerConfig.name}TorrentProvider should return movie torrents`,
+        it.skip(`${providerConfig.name}TorrentProvider should return movie torrents`,
         async function (done) {
           try {
             this.timeout(40000);
 
-            const torrents = await providerConfig.provider.provide(imdbId, 'movies', {
-              searchQuery: 'harry potter'
+            const torrents = await providerConfig.provider.provide('tt0330373', 'movies', {
+              searchQuery: 'Harry Potter and the Goblet of Fire'
             });
 
             expect(torrents).to.be.an('array');
+            console.log(`${providerConfig.name}TorrentProvider torrent count: `, torrents.length);
+            expect(torrents).to.have.length.above(
+              'minTorrentsCount' in providerConfig
+                ? providerConfig.minTorrentsCount
+                : deafultMinTorrentsCount
+            );
 
             for (const torrent of torrents) {
               assertSingleTorrent(torrent);
@@ -73,21 +85,25 @@ describe('api ->', function testApi() {
         {
           name: 'PirateBay',
           provider: require(`${torrentBasePath}/PbTorrentProvider`),
+          minTorrentsCount: 5,
           id: 'pb'
         },
-        // {
-        //   name: 'PopcornTime',
-        //   provider: require(`${torrentBasePath}/PctTorrentProvider`),
-        //   id: 'pct'
-        // },
+        {
+          name: 'PopcornTime',
+          provider: require(`${torrentBasePath}/PctTorrentProvider`),
+          minTorrentsCount: -1,
+          id: 'pct'
+        },
         {
           name: 'Kat',
           provider: require(`${torrentBasePath}/KatTorrentProvider`),
+          minTorrentsCount: 5,
           id: 'kat'
         },
         {
           name: 'KatShows',
           provider: require(`${torrentBasePath}/KatShowsTorrentProvider`),
+          minTorrentsCount: 5,
           id: 'kat-shows'
         }
       ];
@@ -99,7 +115,7 @@ describe('api ->', function testApi() {
       };
 
       for (const providerConfig of showTorrentProviders) {
-        it(`${providerConfig.name}TorrentProvider should return show torrents`,
+        it.skip(`${providerConfig.name}TorrentProvider should return show torrents`,
         async function (done) {
           try {
             this.timeout(40000);
@@ -109,6 +125,12 @@ describe('api ->', function testApi() {
             );
 
             expect(torrents).to.be.an('array');
+            console.log(`${providerConfig.name}TorrentProvider torrent count: `, torrents.length);
+            expect(torrents).to.have.length.above(
+              'minTorrentsCount' in providerConfig
+                ? providerConfig.minTorrentsCount
+                : deafultMinTorrentsCount
+            );
 
             for (const torrent of torrents) {
               assertSingleTorrent(torrent);
@@ -139,6 +161,7 @@ describe('api ->', function testApi() {
             expect(convertRuntimeToHours(126).hours).to.equal(2);
             expect(convertRuntimeToHours(126).minutes).to.equal(6);
 
+            expect(convertRuntimeToHours(60).full).to.equal('1 hour');
             done();
           } catch (err) {
             done(err);
@@ -152,6 +175,11 @@ describe('api ->', function testApi() {
             expect(formatSeasonEpisodeToString(1, 4)).to.equal('s01e04');
             expect(formatSeasonEpisodeToString(20, 40)).to.equal('s20e40');
             expect(formatSeasonEpisodeToString(5, 10)).to.equal('s05e10');
+            expect(formatSeasonEpisodeToString(22, 22)).to.equal('s22e22');
+
+            expect(formatSeasonEpisodeToObject(1, 4)).to.eql({ season: '01', episode: '04' });
+            expect(formatSeasonEpisodeToObject(5, 10)).to.eql({ season: '05', episode: '10' });
+            expect(formatSeasonEpisodeToObject(22, 22)).to.eql({ season: '22', episode: '22' });
             done();
           } catch (err) {
             done(err);
@@ -187,7 +215,7 @@ describe('api ->', function testApi() {
       describe('movie ->', () => {
         it('should have necessary properties', async done => {
           try {
-            const movie = await movieFactory();
+            const movie = await new Butter().getMovie('tt0417741');
             assertMovieFormat(movie);
             done();
           } catch (err) {
@@ -224,7 +252,7 @@ describe('api ->', function testApi() {
       describe('show ->', () => {
         it('should get show metadata', async done => {
           try {
-            const showMetadata = await butterFactory().getShow('tt1475582');
+            const showMetadata = await butterFactory().getShow('tt0944947');
             assertMovieFormat(showMetadata);
             done();
           } catch (err) {
@@ -307,7 +335,9 @@ describe('api ->', function testApi() {
       describe('search ->', () => {
         it('should search movies in correct format', async done => {
           try {
-            const searchResults = await butterFactory().search('harry potter', 'movies');
+            const searchResults = await butterFactory().search(
+              'Harry Potter and the Goblet of Fire', 'movies'
+            );
             expect(searchResults).to.be.a('array');
             const movie = searchResults[0];
             expect(movie).to.be.an('object');
@@ -324,8 +354,17 @@ describe('api ->', function testApi() {
       describe('movie torrents ->', () => {
         it('should get torrents and their magnets of 720p and 1080p', async done => {
           try {
-            const torrent = await butterFactory().getTorrent(imdbId, 'movies');
-            assertTorrentFormat(torrent);
+            const torrent = await butterFactory().getTorrent(imdbId, 'movies', {
+              searchQuery: 'the dark knight'
+            });
+
+            for (const quality of ['720p', '1080p']) {
+              assertSingleTorrent(torrent[quality]);
+              expect(torrent[quality])
+                .to.have.deep.property('quality')
+                .that.is.a('string')
+                .that.equals(quality);
+            }
             done();
           } catch (err) {
             done(err);
@@ -341,10 +380,14 @@ describe('api ->', function testApi() {
               searchQuery: 'Inception',
             }, true);
 
+            for (const torrent of torrents) {
+              assertSingleTorrent(torrent);
+            }
+
             if (torrents.length >= 4) {
               greaterThanOrEqualTo(torrents[0].seeders, torrents[1].seeders);
               greaterThanOrEqualTo(torrents[1].seeders, torrents[2].seeders);
-              greaterThanOrEqualTo(torrents[3].seeders, torrents[4].seeders);
+              greaterThanOrEqualTo(torrents[2].seeders, torrents[3].seeders);
             }
 
             if (torrents.length > 1) {
@@ -371,7 +414,14 @@ describe('api ->', function testApi() {
             });
 
             expect(torrents).to.be.an('object');
-            assertTorrentFormat(torrents, ['480p', '720p']);
+
+            for (const quality of ['480p', '720p', '1080p']) {
+              assertSingleTorrent(torrents[quality]);
+              expect(torrents[quality])
+                .to.have.deep.property('quality')
+                .that.is.a('string')
+                .that.equals(quality);
+            }
             done();
           } catch (err) {
             done(err);
@@ -430,53 +480,9 @@ function assertImageFormat(item) {
   expect(item).to.have.deep.property('images.fanart.thumb').that.is.a('string');
 }
 
-/**
- * Assert that a torrent has multiple qualities (1080p, 720p, etc)
- */
-function assertTorrentFormat(torrent, qualities = ['720p', '1080p']) {
-  for (const quality of qualities) {
-    expect(torrent).to.have.property(quality).that.is.an('object');
-
-    expect(torrent)
-      .to.have.deep.property(`${quality}.quality`)
-      .that.is.a('string');
-
-    expect(torrent)
-      .to.have.deep.property(`${quality}._provider`)
-      .that.is.a('string');
-
-    expect(torrent)
-      .to.have.deep.property(`${quality}.magnet`)
-      .that.is.a('string');
-
-    expect(torrent)
-      .to.have.deep.property(`${quality}.health`)
-      .that.is.a('string')
-      .that.oneOf(['healthy', 'decent', 'poor']);
-
-    expect(torrent)
-      .to.have.deep.property(`${quality}.seeders`)
-      .that.is.a('number')
-      .that.is.at.least(0);
-
-    assertNAorNumber(torrent[quality].seeders);
-
-    expect(torrent)
-      .to.have.deep.property(`${quality}.leechers`)
-      .that.is.a('number')
-      .that.is.at.least(0);
-
-    assertNAorNumber(torrent[quality].leechers);
-  }
-}
-
 function assertSingleTorrent(torrent) {
   expect(torrent)
     .to.be.an('object');
-
-  expect(torrent)
-    .to.have.deep.property('quality')
-    .that.is.a('string');
 
   expect(torrent)
     .to.have.deep.property('_provider')
@@ -495,6 +501,10 @@ function assertSingleTorrent(torrent) {
     .to.have.deep.property('seeders')
     .that.is.a('number')
     .that.is.at.least(0);
+
+  expect(torrent)
+    .to.have.deep.property('metadata')
+    .that.is.a('string');
 
   assertNAorNumber(torrent.seeders);
 

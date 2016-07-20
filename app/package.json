@@ -1,9 +1,18 @@
 {
-    "name": "PopcornTime",
-    "description": "Experimental version of the popcorn time client",
-    "homepage": "https://github.com/amilajack/popcorn-time-desktop",
-    "version": "0.0.1",
-    "author": "Amila Welihinda <amilajack@gmail.com>",
-    "license": "MIT",
-    "main": "./main.js"
+  "name": "PopcornTime",
+  "description": "An experimental PopcornTime client",
+  "homepage": "https://github.com/amilajack/popcorn-time-desktop",
+  "version": "0.0.3",
+  "author": "Amila Welihinda <amilajack@gmail.com>",
+  "license": "MIT",
+  "main": "./main.js",
+  "wcjs-prebuilt": {
+    "runtime": "electron",
+    "runtimeVersion": "v1.2.6",
+    "version": "v0.2.6"
+  },
+  "optionalDependencies": {
+    "wcjs-prebuilt": "^3.0.0",
+    "wcjs-renderer": "^1.0.2"
+  }
 }

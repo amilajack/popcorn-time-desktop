@@ -1,4 +1,5 @@
-import renderer from 'wcjs-renderer';
+import { remote } from 'electron';
+import os from 'os';
 import plyr from 'plyr';
 import $ from 'jquery';
 
@@ -7,28 +8,42 @@ export default class Player {
 
   currentPlayer = 'plyr';
 
-  constructor() {
-    return this;
-  }
+  powerSaveBlockerId = 0;
+
+  intervalId = 0;
+
+  static supportedPlaybackFormats = ['mp4', 'ogg', 'mov', 'webmv'];
+
+  static experimentalPlaybackFormats = ['mkv', 'wmv'];
 
   /**
    * Cleanup all traces of the player UI
    */
   destroy() {
+    clearInterval(this.intervalId);
+
     switch (this.currentPlayer) {
       case 'plyr':
-        document.querySelector('.plyr').plyr.destroy();
+        if (document.querySelector('.plyr')) {
+          if (document.querySelector('.plyr').plyr) {
+            document.querySelector('.plyr').plyr.destroy();
+          }
+        }
+        break;
+      case 'WebChimera':
+        if (document.querySelector('.plyr')) {
+          if (document.querySelector('.plyr').plyr) {
+            document.querySelector('.plyr').plyr.destroy();
+          }
+        }
+        if (this.player) {
+          this.player.close();
+        }
+        remote.powerSaveBlocker.stop(this.powerSaveBlockerId);
         break;
       default:
+        throw new Error('No player available');
     }
-  }
-
-  restart() {
-
-  }
-
-  pause() {
-
   }
 
   /**
@@ -61,9 +76,7 @@ export default class Player {
   }
 
   static isFormatSupported(filename) {
-    if (process.env.NODE_ENV !== 'production') {
-      console.log('filename: ', filename);
-    }
+    console.log('filename: ', filename);
 
     const supportedMimeTypes = ['webm', 'mp4', 'ogg'];
     const supported = supportedMimeTypes
@@ -77,6 +90,7 @@ export default class Player {
 
     const player = plyr.setup({
       autoplay: true,
+      storage: { enabled: false },
       volume: 10
     })[0].plyr;
 
@@ -86,13 +100,18 @@ export default class Player {
   }
 
   initWebChimeraPlayer(streamingUrl, metadata = {}) {
-    console.warn('Source not natively supported. Attempting playback with WebChimera');
+    // HACK: Temporarily prevent linux from using WebChimera
+    //       Waiting on issue 69: https://github.com/RSATom/WebChimera.js/issues/69
+    if (os.type === 'Linux') {
+      return false;
+    }
 
     this.currentPlayer = 'WebChimera';
 
     const player = plyr.setup({
       autoplay: false,
       volume: 0,
+      storage: { enabled: false },
       controls: ['play-large', 'play', 'progress', 'current-time', 'captions', 'fullscreen']
     })[0].plyr;
 
@@ -103,53 +122,83 @@ export default class Player {
     const element = document.createElement('canvas');
     element.style.display = 'none';
 
-    const vlc = require('wcjs-prebuilt').createPlayer(); // eslint-disable-line
+    const wcjsPlayer = require('wcjs-prebuilt'); // eslint-disable-line
+    const renderer = require('wcjs-renderer'); // eslint-disable-line
+
+    const vlc = wcjsPlayer.createPlayer(['-vvv']);
+
     renderer.bind(element, vlc);
 
     const width = $('.container').width();
 
-    document.querySelector('.plyr').addEventListener('loadeddata', () => {
-      document.querySelector('video').style.display = 'none';
-      document.querySelector('.plyr__video-wrapper').appendChild(element);
-      element.style.display = 'initial';
-      $('canvas').width(width);
-    });
+    document.querySelector('video').style.display = 'none';
+    document.querySelector('.plyr__video-wrapper').appendChild(element);
+    element.style.display = 'initial';
+    $('canvas').width(width);
 
     vlc.play(streamingUrl);
 
+    //
+    // Event bindings
+    //
     document.querySelector('.plyr').addEventListener('pause', () => vlc.pause());
     document.querySelector('.plyr').addEventListener('play', () => vlc.play());
+    document.querySelector('.plyr').addEventListener('enterfullscreen',
+      () => $('canvas').width($('body').width())
+    );
+    document.querySelector('.plyr').addEventListener('exitfullscreen',
+      () => $('canvas').width(width)
+    );
+    document.querySelector('.plyr').addEventListener('seeking', () => {
+      vlc.time = player.getCurrentTime() * 1000; // eslint-disable-line
+    });
+    document.querySelector('.plyr').addEventListener('mousemove', () => {
+      $('canvas').css({ cursor: 'initial' });
+    });
 
-    document
-      .querySelector('.plyr')
-      .addEventListener('enterfullscreen', () => $('canvas').width($('body').width()));
-
-    document
-      .querySelector('.plyr')
-      .addEventListener('exitfullscreen', () => $('canvas').width(width));
+    this.intervalId = setInterval(() => {
+      if ($('canvas').is(':hover')) {
+        $('canvas').css({ cursor: 'none' });
+      }
+    }, 5000);
 
     vlc.events.on('Playing', () => {
-      console.log('playing....');
+      console.log('playing...');
       player.play();
+
+      // Prevent display from sleeping
+      if (!remote.powerSaveBlocker.isStarted(this.powerSaveBlockerId)) {
+        this.powerSaveBlockerId = remote.powerSaveBlocker.start('prevent-display-sleep');
+      }
+    });
+
+    vlc.events.on('Buffering', percent => {
+      console.log('buffering...', percent);
+      if (percent === 100) {
+        player.play();
+      } else {
+        player.pause();
+        console.log('pausing...');
+      }
+
+      // Allow the display to sleep
+      remote.powerSaveBlocker.stop(this.powerSaveBlockerId);
+    });
+
+    vlc.events.on('Paused', () => {
+      console.log('paused...');
+
+      // Allow the display to sleep
+      remote.powerSaveBlocker.stop(this.powerSaveBlockerId);
     });
 
     $(window).resize(() => {
-      console.log('resizing....');
+      console.log('resizing...');
       $('canvas').width($('.container').width());
     });
 
-    this.bindSeek(player, vlc);
+    this.player = vlc;
 
     return player;
-  }
-
-  bindSeek(player, vlc) {
-    document.querySelector('.plyr').addEventListener('seeking', () => {
-      console.log('seeking.......');
-      const time = player.getCurrentTime(); // Current time in seconds
-      console.log({ time });
-      vlc.time = 100000; // eslint-disable-line
-      // vlc.time = time; // eslint-disable-line
-    });
   }
 }

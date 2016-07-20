@@ -2,8 +2,7 @@
  * Torrents controller, responsible for playing, stoping, etc
  * Serves as an abstraction layer for peerflix or other torrent streams
  */
-
-import peerflix from 'peerflix';
+import Peerflix from 'peerflix';
 import WebTorrent from 'webtorrent';
 
 
@@ -13,25 +12,76 @@ export default class Torrent {
 
   finished = false;
 
-  start(magnetURI) {
+  start(magnetURI, fn) {
     if (this.inProgress) {
-      throw Error('Torrent already in progress');
+      throw new Error('Torrent already in progress');
     }
 
     console.log('starting torrent...');
     this.inProgress = true;
-    this.engine = peerflix(magnetURI);
+
+    this.engine = new Peerflix(magnetURI);
+
+    this.engine.server.on('listening', () => {
+      console.log(this.engine.files);
+      fn(`http://localhost:${this.engine.server.address().port}/`);
+    });
+
     return this.engine;
   }
 
   /**
-   * @todo: wait on issue: https://github.com/mafintosh/torrent-stream/issues/71
+   * Return a magnetURI that is of filetype .mov, ogg
    */
-  getProgress() {
-    const progress = Math.round(
-      this.engine.swarm.downloaded / this.engine.torrent.length
-    );
-    console.log(progress);
+  static isFormatSupported(magnetURI, supportedPlaybackFormats) {
+    const webTorrent = new WebTorrent();
+
+    return new Promise(resolve => {
+      webTorrent.add(magnetURI, torrent => {
+        const exist = torrent.files.find(file => {
+          for (const format of supportedPlaybackFormats) {
+            if (file.path.includes(`.${format}`)) return true;
+          }
+
+          return false;
+        });
+
+        resolve(!!exist);
+
+        webTorrent.destroy();
+      });
+    });
+  }
+
+  static async getTorrentWithSupportedFormats(torrents, supportedFormats, limit = 5) {
+    try {
+      if (torrents) {
+        return Promise.all(
+          torrents
+            .filter((_torrent, index) => index < limit)
+            .map(
+              _torrent => Torrent.isFormatSupported(
+                _torrent.magnet,
+                supportedFormats
+              )
+            )
+        )
+        .then(
+          res => (
+            res.map((isSupported, index) => ({
+              torrent: torrents[index],
+              isSupported
+            }))
+            .find(torrent => torrent.isSupported === true)
+            .torrent || undefined
+          )
+        );
+      }
+    } catch (err) {
+      throw new Error('No with supported video formats could be found, with limit', limit);
+    }
+
+    throw new Error('No torrents available, cannot find a supported format');
   }
 
   destroy() {
@@ -40,13 +90,6 @@ export default class Torrent {
       this.engine.destroy();
       this.inProgress = false;
     }
-  }
-
-  /**
-   * Return a magnetURI that is of filetype .mov, ogg
-   */
-  isNativelyEncoded(magnetURI) {
-    // WebTorrent.
   }
 
   // pause() {}

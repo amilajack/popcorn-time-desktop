@@ -1,8 +1,12 @@
 /**
  * @param   {string} imdbId
  * @param   {object} extendedDetails
+ * @todo    Removed torrents with duplicated magnets
  */
 /* eslint global-require: 0 */
+import { determineQuality } from './BaseTorrentProvider';
+
+
 export default async function TorrentAdapter(imdbId,
                                               type,
                                               extendedDetails,
@@ -10,10 +14,10 @@ export default async function TorrentAdapter(imdbId,
                                               method = 'all') {
   const providers = [
     require('./YtsTorrentProvider'),
-    // require('./PbTorrentProvider'),
-    require('./PctTorrentProvider'),
-    require('./KatTorrentProvider'),
-    require('./KatShowsTorrentProvider')
+    require('./PbTorrentProvider'),
+    require('./PctTorrentProvider')
+    // require('./KatTorrentProvider'),
+    // require('./KatShowsTorrentProvider')
   ];
 
   const torrentPromises = providers.map(
@@ -23,6 +27,36 @@ export default async function TorrentAdapter(imdbId,
   switch (method) {
     case 'all': {
       const movieProviderResults = await cascade(torrentPromises);
+
+      if (
+        process.env.FLAG_FORCE_STRICT_TORRENT_VALIDATION === 'true' &&
+        type === 'shows'
+      ) {
+        const { formatSeasonEpisodeToString } = require('./BaseTorrentProvider');
+
+        console.warn(
+          'FLAG_FORCE_STRICT_TORRENT_VALIDATION:',
+          'Strict torrent filtering enabled'
+        );
+
+        return selectTorrents(
+          merge(movieProviderResults).filter(
+            result => (
+                result.magnet.toLowerCase().includes(
+                  formatSeasonEpisodeToString(
+                    extendedDetails.season,
+                    extendedDetails.episode
+                  )
+                )
+                &&
+                result.seeders !== 0
+              )
+          ),
+          undefined,
+          returnAll
+        );
+      }
+
       return selectTorrents(merge(movieProviderResults), undefined, returnAll);
     }
     case 'race': {
@@ -49,7 +83,13 @@ function merge(providerResults) {
     }
   }
 
-  return mergedResults;
+  const formattedResults = mergedResults.map(result => (
+    'quality' in result
+      ? result
+      : { ...result, quality: determineQuality(result.magnet, result.metadata, result) })
+  );
+
+  return formattedResults;
 }
 
 /**

@@ -17,6 +17,7 @@ export default class YtsTorrentProvider {
       magnet: constructMagnet(torrent.hash),
       seeders: parseInt(torrent.seeds, 10),
       leechers: 0,
+      metadata: torrent.url + torrent.hash,
       ...getHealth(torrent.seeds, torrent.peers),
       _provider: 'yts'
     };

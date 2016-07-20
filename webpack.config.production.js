@@ -1,6 +1,14 @@
 import webpack from 'webpack';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import baseConfig from './webpack.config.base';
+import fs from 'fs';
+import dotenv from 'dotenv';
+
+
+// Get all the possible flags
+const data = fs.readFileSync('.env.example', { encoding: 'utf8' });
+const buffer = new Buffer(data);
+const flags = Object.keys(dotenv.parse(buffer));
 
 const config = {
   ...baseConfig,
@@ -12,7 +20,7 @@ const config = {
   output: {
     ...baseConfig.output,
 
-    publicPath: './app'
+    publicPath: './app/dist'
   },
 
   module: {
@@ -42,9 +50,10 @@ const config = {
   plugins: [
     ...baseConfig.plugins,
     new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('production')
-    }),
+    new webpack.EnvironmentPlugin([
+      'NODE_ENV',
+      ...flags
+    ]),
     new webpack.optimize.UglifyJsPlugin({
       compressor: {
         screw_ie8: true,
@@ -52,6 +61,12 @@ const config = {
       }
     }),
     new ExtractTextPlugin('main.css', { allChunks: true })
+  ],
+
+  externals: [
+    // put your node 3rd party libraries which can't be built with webpack here
+    // (mysql, mongodb, and so on..)
+    'wcjs-renderer', 'wcjs-prebuilt'
   ],
 
   target: 'electron-renderer'

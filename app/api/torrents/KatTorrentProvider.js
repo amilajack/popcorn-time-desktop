@@ -1,17 +1,32 @@
 import kat from 'kat-api';
 import {
-  determineQuality, getHealth, formatSeasonEpisodeToString
+  getHealth,
+  formatSeasonEpisodeToString
 } from './BaseTorrentProvider';
 
 
 export default class KatTorrentProvider {
 
-  static fetch(imdbId, type, query) {
+  static fetch(query, season, episode) {
+    const formattedDetails = season && episode
+                              ? formatSeasonEpisodeToString(season, episode)
+                              : undefined;
+
     return kat.search({
-      query
+      query,
+      category: season && episode ? 'tv' : 'movies'
     })
     .then(
-      resp => resp.results.map(res => this.formatTorrent(res))
+      resp => (
+        season && episode
+          ? resp.results.filter(
+              res => res.magnet.includes(formattedDetails)
+            )
+          : resp.results
+      )
+    )
+    .then(
+      resp => resp.map(res => this.formatTorrent(res))
     )
     .catch(error => {
       console.log(error);
@@ -21,10 +36,14 @@ export default class KatTorrentProvider {
 
   static formatTorrent(torrent) {
     return {
-      quality: determineQuality(torrent.magnet),
       magnet: torrent.magnet,
       seeders: torrent.seeds,
       leechers: torrent.leechs,
+      metadata: torrent.link +
+                torrent.title +
+                torrent.torrentLink +
+                torrent.guid +
+                torrent.magnet,
       ...getHealth(torrent.seeds, torrent.peers, torrent.leechs),
       _provider: 'kat'
     };
@@ -35,7 +54,7 @@ export default class KatTorrentProvider {
 
     switch (type) {
       case 'movies':
-        return this.fetch(imdbId, type, searchQuery)
+        return this.fetch(searchQuery)
           .catch(error => {
             console.log(error);
             return [];
@@ -44,9 +63,9 @@ export default class KatTorrentProvider {
         const { season, episode } = extendedDetails;
 
         return this.fetch(
-          imdbId,
-          type,
-          `${searchQuery} ${formatSeasonEpisodeToString(season, episode)}`
+          `${searchQuery} ${formatSeasonEpisodeToString(season, episode)}`,
+          season,
+          episode
         )
           .catch(error => {
             console.log(error);
