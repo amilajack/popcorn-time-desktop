@@ -49,7 +49,7 @@ describe('api ->', function testApi() {
       ];
 
       for (const providerConfig of movieProviders) {
-        it(`${providerConfig.name}TorrentProvider should return movie torrents`,
+        it.skip(`${providerConfig.name}TorrentProvider should return movie torrents`,
         async function (done) {
           try {
             this.timeout(40000);
@@ -59,7 +59,7 @@ describe('api ->', function testApi() {
             });
 
             expect(torrents).to.be.an('array');
-            console.log('torrent count: ', torrents.length);
+            console.log(`${providerConfig.name}TorrentProvider torrent count: `, torrents.length);
             expect(torrents).to.have.length.above(
               'minTorrentsCount' in providerConfig
                 ? providerConfig.minTorrentsCount
@@ -115,7 +115,7 @@ describe('api ->', function testApi() {
       };
 
       for (const providerConfig of showTorrentProviders) {
-        it(`${providerConfig.name}TorrentProvider should return show torrents`,
+        it.skip(`${providerConfig.name}TorrentProvider should return show torrents`,
         async function (done) {
           try {
             this.timeout(40000);
@@ -125,7 +125,7 @@ describe('api ->', function testApi() {
             );
 
             expect(torrents).to.be.an('array');
-            console.log('torrent count: ', torrents.length);
+            console.log(`${providerConfig.name}TorrentProvider torrent count: `, torrents.length);
             expect(torrents).to.have.length.above(
               'minTorrentsCount' in providerConfig
                 ? providerConfig.minTorrentsCount

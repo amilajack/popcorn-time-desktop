@@ -15,9 +15,9 @@ export default async function TorrentAdapter(imdbId,
   const providers = [
     require('./YtsTorrentProvider'),
     require('./PbTorrentProvider'),
-    require('./PctTorrentProvider'),
-    require('./KatTorrentProvider'),
-    require('./KatShowsTorrentProvider')
+    require('./PctTorrentProvider')
+    // require('./KatTorrentProvider'),
+    // require('./KatShowsTorrentProvider')
   ];
 
   const torrentPromises = providers.map(
@@ -41,12 +41,16 @@ export default async function TorrentAdapter(imdbId,
 
         return selectTorrents(
           merge(movieProviderResults).filter(
-            result => result.magnet.toLowerCase().includes(
-              formatSeasonEpisodeToString(
-              extendedDetails.season,
-              extendedDetails.episode
+            result => (
+                result.magnet.toLowerCase().includes(
+                  formatSeasonEpisodeToString(
+                    extendedDetails.season,
+                    extendedDetails.episode
+                  )
+                )
+                &&
+                result.seeders !== 0
               )
-            )
           ),
           undefined,
           returnAll

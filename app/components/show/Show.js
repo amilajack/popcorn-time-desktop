@@ -68,7 +68,9 @@ export default class Show extends Component {
           <li><h3>Season overview:</h3></li>
           <li>
             <a>
-              {this.props.seasons.length && this.props.selectedSeason
+              {this.props.seasons.length &&
+                this.props.selectedSeason &&
+                this.props.seasons[this.props.selectedSeason]
                   ? this.props.seasons[this.props.selectedSeason].overview
                   : null}
             </a>
@@ -78,7 +80,9 @@ export default class Show extends Component {
           <li><h3>Episode overview:</h3></li>
           <li>
             <a>
-              {this.props.episodes.length && this.props.selectedSeason
+              {this.props.episodes.length &&
+                this.props.selectedSeason &&
+                this.props.episodes[this.props.selectedEpisode]
                   ? this.props.episodes[this.props.selectedEpisode].overview
                   : null}
             </a>

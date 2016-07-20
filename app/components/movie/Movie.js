@@ -261,8 +261,6 @@ export default class Movie extends Component {
   }
 
   selectShow(type, selectedSeason, selectedEpisode = 1) {
-    console.log(type, selectedSeason, selectedEpisode);
-
     switch (type) {
       case 'episodes':
         this.setState({ selectedSeason });

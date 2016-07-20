@@ -157,7 +157,6 @@ export default class Player {
     });
 
     this.intervalId = setInterval(() => {
-      console.log($('canvas').is(':hover'));
       if ($('canvas').is(':hover')) {
         $('canvas').css({ cursor: 'none' });
       }
