@@ -294,8 +294,7 @@ export default class Movie extends Component {
 
       this.setState({ servingUrl });
 
-      // notie.alert(2, 'Falling back to non-native video codecs', 2);
-      notie.alert(2, this.engine.files[0].path, 2);
+      notie.alert(2, 'Falling back to non-native video codecs', 2);
 
       this.player = this.player.initWebChimeraPlayer(servingUrl, this.state.item);
       this.setState({ usingVideoFallback: true });
@@ -434,7 +433,6 @@ export default class Movie extends Component {
                   episodes={this.state.episodes}
                   selectedSeason={this.state.selectedSeason}
                   selectedEpisode={this.state.selectedEpisode}
-                  overview={this.state.episode.overview}
                 />
                 :
                 null

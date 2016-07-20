@@ -10,6 +10,8 @@ export default class Player {
 
   powerSaveBlockerId = 0;
 
+  intervalId = 0;
+
   static supportedPlaybackFormats = ['mp4', 'ogg', 'mov', 'webmv'];
 
   static experimentalPlaybackFormats = ['mkv', 'wmv'];
@@ -18,7 +20,7 @@ export default class Player {
    * Cleanup all traces of the player UI
    */
   destroy() {
-    clearInterval();
+    clearInterval(this.intervalId);
 
     switch (this.currentPlayer) {
       case 'plyr':
@@ -154,7 +156,7 @@ export default class Player {
       $('canvas').css({ cursor: 'initial' });
     });
 
-    setInterval(() => {
+    this.intervalId = setInterval(() => {
       console.log($('canvas').is(':hover'));
       if ($('canvas').is(':hover')) {
         $('canvas').css({ cursor: 'none' });
@@ -195,8 +197,6 @@ export default class Player {
       console.log('resizing...');
       $('canvas').width($('.container').width());
     });
-
-    this.bindSeek(player, vlc);
 
     this.player = vlc;
 

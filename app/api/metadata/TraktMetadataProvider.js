@@ -60,8 +60,9 @@ export default class TraktMetadataAdapter {
       id: imdbId,
       extended: 'full,images,metadata'
     })
-    .then(res => res.map(season => ({
+    .then(res => res.filter(season => season.aired_episodes !== 0).map(season => ({
       season: season.number + 1,
+      overview: season.overview,
       id: season.ids.imdb,
       images: {
         full: season.images.poster.full,
