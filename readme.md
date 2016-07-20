@@ -30,7 +30,7 @@
 
 ## Installation:
 ```
-git clone https://github.com/popcorn-time-desktop.git
+git clone https://github.com/amilajack/popcorn-time-desktop.git
 cd popcorn-time-desktop
 
 
