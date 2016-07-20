@@ -46,9 +46,15 @@ const config = {
     ...baseConfig.plugins,
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('development')
-    })
+    new webpack.EnvironmentPlugin([
+      'NODE_ENV'
+    ])
+  ],
+
+  externals: [
+    // put your node 3rd party libraries which can't be built with webpack here
+    // (mysql, mongodb, and so on..)
+    'wcjs-renderer', 'wcjs-prebuilt'
   ],
 
   target: 'electron-renderer'

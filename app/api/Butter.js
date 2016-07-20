@@ -7,6 +7,7 @@
 import TorrentAdapter, { getHealth } from './torrents/TorrentAdapter';
 import MetadataAdapter from './metadata/TraktMetadataProvider';
 
+
 export default class Butter {
 
   constructor() {

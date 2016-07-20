@@ -81,11 +81,11 @@ export default class PctTorrentProvider {
     return filterTorrents.length ? filterTorrents[0] : [];
   }
 
-  static formatEpisode(episode) {
+  static formatEpisode({ season, episode, torrents } = episode) {
     return {
-      season: episode.season,
-      episode: episode.episode,
-      torrents: this.formatTorrents(episode.torrents)
+      season,
+      episode,
+      torrents: this.formatTorrents(torrents)
     };
   }
 
@@ -95,6 +95,7 @@ export default class PctTorrentProvider {
       magnet: torrent.url,
       seeders: torrent.seed,
       leechers: 0,
+      metadata: torrent.url,
       ...getHealth(torrent.seed, torrent.peer),
       _provider: 'pct'
     };
@@ -127,7 +128,7 @@ export default class PctTorrentProvider {
             console.log(err);
             return [];
           });
-      case '_shows':
+      case 'shows':
         return this.fetch(imdbId, type, extendedDetails)
           .catch(err => {
             console.log(err);

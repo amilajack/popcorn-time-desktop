@@ -8,14 +8,14 @@ import { convertRuntimeToHours } from './MetadataAdapter';
 
 export default class TraktMetadataAdapter {
 
-  client_id = '647c69e4ed1ad13393bf6edd9d8f9fb6fe9faf405b44320a6b71ab960b4540a2';
+  clientId = '647c69e4ed1ad13393bf6edd9d8f9fb6fe9faf405b44320a6b71ab960b4540a2';
 
-  client_secret = 'f55b0a53c63af683588b47f6de94226b7572a6f83f40bd44c58a7c83fe1f2cb1';
+  clientSecret = 'f55b0a53c63af683588b47f6de94226b7572a6f83f40bd44c58a7c83fe1f2cb1';
 
   constructor() {
     this.trakt = new Trakt({
-      client_id: this.client_id,
-      client_secret: this.client_secret
+      client_id: this.clientId,
+      client_secret: this.clientSecret
     });
   }
 
@@ -60,8 +60,9 @@ export default class TraktMetadataAdapter {
       id: imdbId,
       extended: 'full,images,metadata'
     })
-    .then(res => res.map(season => ({
+    .then(res => res.filter(season => season.aired_episodes !== 0).map(season => ({
       season: season.number + 1,
+      overview: season.overview,
       id: season.ids.imdb,
       images: {
         full: season.images.poster.full,

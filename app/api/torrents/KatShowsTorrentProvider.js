@@ -1,7 +1,8 @@
 /* eslint new-cap: 0 */
 import KatShows from 'kat-shows';
 import {
-  determineQuality, getHealth
+  getHealth,
+  formatSeasonEpisodeToObject
 } from './BaseTorrentProvider';
 
 
@@ -18,7 +19,6 @@ export default class KatShowsTorrentProvider {
     return {
       ...torrent,
       ...getHealth(torrent.seeders, torrent.seeders, torrent.leechers),
-      quality: determineQuality(torrent.magnet),
       _provider: 'kat-shows'
     };
   }
@@ -31,8 +31,9 @@ export default class KatShowsTorrentProvider {
     switch (type) {
       case 'shows': {
         const { season, episode, searchQuery } = extendedDetails;
+        const formattedDetails = formatSeasonEpisodeToObject(season, episode);
 
-        return this.fetch(searchQuery, `0${season}`, `0${episode}`)
+        return this.fetch(searchQuery, formattedDetails.season, formattedDetails.episode)
           .catch(error => {
             console.log(error);
             return [];

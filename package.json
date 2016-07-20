@@ -1,15 +1,15 @@
 {
-  "name": "popcorn-time-experimental",
+  "name": "popcorn-time-desktop",
   "productName": "Popcorn Time",
-  "version": "0.0.1",
-  "description": "Experimental version of the popcorn time client",
+  "version": "0.0.3",
+  "description": "An experimental PopcornTime client",
   "main": "main.js",
   "scripts": {
     "build": "npm run styles && npm run build-main && npm run build-renderer",
-    "build-main": "cross-env NODE_ENV=production node -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.electron.js --progress --profile --colors",
-    "build-renderer": "cross-env NODE_ENV=production node -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.production.js --progress --profile --colors",
-    "dev": "npm run styles && concurrently --kill-others \"npm run hot-server\" \"npm run start-hot\"",
-    "postinstall": "node node_modules/fbjs-scripts/node/check-dev-engines.js package.json",
+    "build-main": "cross-env NODE_ENV=production FLAG_SUPPORT_NON_NATIVE_CODECS_FALLBACK=true FLAG_FORCE_STRICT_TORRENT_VALIDATION=true FLAG_ALLOW_MANUAL_TORRENT_SELECTION=true node -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.electron.js --progress --profile --colors",
+    "build-renderer": "cross-env NODE_ENV=production FLAG_SUPPORT_NON_NATIVE_CODECS_FALLBACK=true FLAG_FORCE_STRICT_TORRENT_VALIDATION=true FLAG_ALLOW_MANUAL_TORRENT_SELECTION=true node -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.production.js --progress --profile --colors",
+    "dev": "NODE_ENV=development npm run styles && concurrently --kill-others \"npm run hot-server\" \"npm run start-hot\"",
+    "postinstall": "node node_modules/fbjs-scripts/node/check-dev-engines.js package.json && cd app && npm i",
     "hot-server": "node -r babel-register server.js",
     "lint": "eslint app test *.js",
     "styles": "gulp",
@@ -23,17 +23,12 @@
     "package-all": "npm run build && build --publish never --mac --win --linux",
     "precommit": "npm run test-all"
   },
-  "wcjs-prebuilt": {
-    "runtime": "electron",
-    "runtimeVersion": "v1.2.6",
-    "version": "v0.2.6"
-  },
   "bin": {
     "electron": "./node_modules/.bin/electron"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/amilajack/popcorn-desktop-experimental.git"
+    "url": "git+https://github.com/amilajack/popcorn-time-desktop.git"
   },
   "author": {
     "name": "Amila Welihinda",
@@ -42,7 +37,7 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/amilajack/popcorn-desktop-experimental/issues"
+    "url": "https://github.com/amilajack/popcorn-time-desktop/issues"
   },
   "keywords": [
     "popcorn-time",
@@ -55,20 +50,30 @@
     "es6"
   ],
   "build": {
-    "appId": "popcorn-time-experimental",
+    "appId": "popcorn-time-desktop",
     "app-category-type": "public.app-category.video",
+    "asar": false,
     "win": {
       "iconUrl": "https://cdn.rawgit.com/amilajack/popcorn-time-desktop/master/app/icons/app.ico"
     }
   },
-  "homepage": "https://github.com/amilajack/popcorn-desktop-experimental#readme",
+  "directories": {
+    "buildResources": "resources",
+    "output": "release"
+  },
+  "wcjs-prebuilt": {
+    "runtime": "electron",
+    "runtimeVersion": "v1.2.6",
+    "version": "v0.2.6"
+  },
+  "homepage": "https://github.com/amilajack/popcorn-time-desktop#readme",
   "devDependencies": {
-    "asar": "^0.11.0",
-    "babel-core": "^6.10.4",
+    "babel-core": "^6.11.4",
     "babel-eslint": "^6.1.2",
     "babel-loader": "^6.2.4",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-dev-expression": "^0.2.1",
+    "babel-plugin-module-alias": "^1.5.0",
     "babel-plugin-transform-remove-console": "^6.8.0",
     "babel-plugin-transform-remove-debugger": "^6.8.0",
     "babel-plugin-transform-runtime": "^6.9.0",
@@ -84,19 +89,19 @@
     "chai": "^3.5.0",
     "co-mocha": "^1.1.2",
     "concurrently": "^2.2.0",
-    "cross-env": "^1.0.8",
+    "cross-env": "^2.0.0",
     "css-loader": "^0.23.1",
     "del": "^2.2.1",
     "devtron": "^1.2.1",
     "dotenv": "^2.0.0",
-    "electron-builder": "^5.11.3",
-    "electron-prebuilt": "^1.2.6",
-    "electron-rebuild": "^1.1.5",
-    "eslint": "^3.0.1",
+    "electron-builder": "^5.14.1",
+    "electron-devtools-installer": "^1.1.5",
+    "electron-prebuilt": "^1.2.7",
+    "eslint": "^3.1.1",
     "eslint-config-airbnb": "^9.0.1",
     "eslint-plugin-immutable": "^1.0.0",
-    "eslint-plugin-import": "^1.10.2",
-    "eslint-plugin-jsx-a11y": "^1.5.5",
+    "eslint-plugin-import": "^1.11.0",
+    "eslint-plugin-jsx-a11y": "^2.0.1",
     "eslint-plugin-react": "^5.2.2",
     "express": "^4.14.0",
     "extract-text-webpack-plugin": "^1.0.1",
@@ -108,27 +113,23 @@
     "gulp-load-plugins": "^1.2.4",
     "gulp-sass": "^2.3.2",
     "gulp-size": "^2.1.0",
-    "husky": "^0.11.4",
+    "husky": "^0.11.5",
     "jsdom": "^9.4.1",
     "json-loader": "^0.5.4",
     "minimist": "^1.2.0",
     "mocha": "^2.5.3",
     "node-libs-browser": "^1.0.0",
-    "node-loader": "^0.5.0",
-    "postcss": "^5.0.21",
     "react-addons-test-utils": "^15.2.1",
     "redux-devtools": "^3.3.1",
     "redux-devtools-dock-monitor": "^1.1.1",
-    "redux-devtools-inspector": "^0.6.1",
+    "redux-devtools-inspector": "^0.7.1",
     "redux-devtools-log-monitor": "^1.0.11",
     "redux-logger": "^2.6.1",
     "run-sequence": "^1.2.2",
     "sinon": "^1.17.4",
+    "source-map-support": "^0.4.2",
     "spectron": "^3.2.6",
     "style-loader": "^0.13.1",
-    "wcjs-prebuilt": "^3.0.0",
-    "wcjs-player": "github:amilajack/wcjs-player",
-    "wcjs-renderer": "^1.0.2",
     "wdio-mocha-framework": "^0.3.5",
     "webpack": "^1.13.1",
     "webpack-dev-middleware": "^1.6.1",
@@ -140,36 +141,41 @@
     "classnames": "^2.2.5",
     "css-modules-require-hook": "^4.0.1",
     "electron-debug": "^1.0.1",
+    "electron-prebuilt": "^1.2.7",
     "electron-squirrel-startup": "^1.0.0",
     "immutable": "^3.8.1",
     "ionicons-temp": "^2.0.0",
     "isomorphic-fetch": "^2.2.1",
     "jquery": "^3.1.0",
     "kat-api": "github:amilajack/kat-api",
-    "kat-shows": "0.0.1",
-    "notie": "^3.2.0",
+    "kat-shows": "0.0.5",
+    "notie": "^3.8.4",
     "peerflix": "^0.35.1",
-    "plyr": "^1.8.7",
+    "plyr": "^1.8.8",
     "react": "^15.2.1",
     "react-dom": "^15.2.1",
     "react-redux": "^4.4.5",
-    "react-router": "^2.5.2",
+    "react-router": "^2.6.0",
     "react-router-redux": "^4.0.5",
     "react-star-rating-component": "^1.0.0",
-    "react-visibility-sensor": "^3.2.1",
+    "react-visibility-sensor": "^3.3.0",
     "redux": "^3.5.2",
     "redux-thunk": "^2.1.0",
-    "source-map-support": "^0.4.1",
-    "thepiratebay": "^1.1.9",
-    "trakt.tv": "^1.4.2",
+    "source-map-support": "^0.4.2",
+    "thepiratebay": "^1.1.11",
+    "trakt.tv": "github:amilajack/trakt.tv",
     "webtorrent": "^0.95.2"
   },
+  "optionalDependencies": {
+    "wcjs-prebuilt": "^3.0.0",
+    "wcjs-renderer": "^1.0.2"
+  },
   "engines": {
-    "node": "5.x || 6.x",
+    "node": "6.x",
     "npm": "3.x"
   },
   "devEngines": {
-    "node": "5.x || 6.x",
+    "node": "6.x",
     "npm": "3.x"
   }
 }

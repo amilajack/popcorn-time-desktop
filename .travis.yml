@@ -6,7 +6,9 @@ language: node_js
 
 node_js:
   - 6
-  - 5
+
+matrix:
+  fast_finish: true
 
 cache:
   directories:
@@ -23,10 +25,12 @@ addons:
 
 install:
   - export CXX="g++-4.8"
+  - npm install -g npm@latest
   - npm install
   - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x16"
   - export DISPLAY=':99.0'
   - Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+  - sudo apt-get install --no-install-recommends -y icnsutils graphicsmagick xz-utils xorriso
 
 before_script:
   - export DISPLAY=:99.0
@@ -36,6 +40,6 @@ before_script:
 script:
   - npm run build
   - npm run package
-  - npm run test
+  # - npm run test # Cannot run until WebChimera support comes to Linux
   - npm run test-e2e
   - npm run lint

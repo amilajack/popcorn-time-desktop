@@ -18,10 +18,13 @@
 //
 // [
 //   {
-//     quality: <string>, 1080p || 720p,
-//     magnet: <string>
-//     seeders: <number>
+//     quality: <number>, | Optional. If not provided, quality will be determined
+//                        | by metadata using hueristics
+//     magnet: <string>,
+//     seeders: <number>,
 //     leechers: <number>
+//     metadata: <string>, | A concanenated string of data about a torrent,
+//                         | used for hueristics
 //     health: <string>, healthy || decent || poor
 //     _provder: <string>
 //   },
