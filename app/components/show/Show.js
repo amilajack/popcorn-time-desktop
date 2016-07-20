@@ -83,7 +83,6 @@ export default class Show extends Component {
                   : null}
             </a>
           </li>
-          <li><a>{this.props.overview}</a></li>
         </ul>
       </div>
     );
