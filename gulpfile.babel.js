@@ -38,9 +38,5 @@ gulp.task('dev', () => {
 });
 
 gulp.task('default', ['clean'], cb => {
-  runSequence(
-    'clean',
-    'styles',
-    cb
-  );
+  runSequence('styles', cb);
 });

@@ -1,5 +1,4 @@
 import { remote } from 'electron';
-import os from 'os';
 import plyr from 'plyr';
 import $ from 'jquery';
 
@@ -12,9 +11,9 @@ export default class Player {
 
   intervalId = 0;
 
-  static supportedPlaybackFormats = ['mp4', 'ogg', 'mov', 'webmv'];
+  static nativePlaybackFormats = ['mp4', 'ogg', 'mov', 'webmv'];
 
-  static experimentalPlaybackFormats = ['mkv', 'wmv'];
+  static experimentalPlaybackFormats = ['mkv', 'wmv', 'avi'];
 
   /**
    * Cleanup all traces of the player UI
@@ -75,14 +74,9 @@ export default class Player {
       : defaultSource;
   }
 
-  static isFormatSupported(filename) {
-    console.log('filename: ', filename);
-
-    const supportedMimeTypes = ['webm', 'mp4', 'ogg'];
-    const supported = supportedMimeTypes
-      .find(type => filename.toLowerCase().includes(type));
-
-    return !!supported;
+  static isFormatSupported(filename, mimeTypes) {
+    return !! mimeTypes
+      .find(mimeType => filename.toLowerCase().includes(mimeType));
   }
 
   initPlyr(streamingUrl, metadata = {}) {
@@ -100,12 +94,6 @@ export default class Player {
   }
 
   initWebChimeraPlayer(streamingUrl, metadata = {}) {
-    // HACK: Temporarily prevent linux from using WebChimera
-    //       Waiting on issue 69: https://github.com/RSATom/WebChimera.js/issues/69
-    if (os.type === 'Linux') {
-      return false;
-    }
-
     this.currentPlayer = 'WebChimera';
 
     const player = plyr.setup({

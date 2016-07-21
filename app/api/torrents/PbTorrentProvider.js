@@ -1,36 +1,35 @@
 /**
  * Pirate Bay torrent provider
  */
-import PirateBay from 'thepiratebay';
+import fetch from 'isomorphic-fetch';
 import {
   getHealth,
   formatSeasonEpisodeToString
 } from './BaseTorrentProvider';
-import fetch from 'isomorphic-fetch';
 
+
+const searchEndpoint = 'https://pirate-bay-endpoint.herokuapp.com/search';
 
 export default class PbTorrentProvider {
 
-  static fetch(searchQuery, category = 200) {
-    return (
-        process.env.NODE_ENV === 'test'
-          ?
-          PirateBay.search(searchQuery, {
-            category,
-            orderBy: 'seeds',
-            sortBy: 'desc'
-          })
-          :
-          fetch(`https://pirate-bay-endpoint.herokuapp.com/search/${encodeURIComponent(searchQuery)}`)
-            .then(res => res.json())
-      )
-      .then(torrents => torrents.map(
-        torrent => this.formatTorrent(torrent)
-      ))
-      .catch(error => {
-        console.log(error);
-        return [];
-      });
+  static fetch(searchQuery) {
+    // HACK: Temporary solution to improve performance by side stepping
+    //       PirateBay's database errors.
+    const searchQueryUrl = `${searchEndpoint}/${searchQuery}`;
+
+    return Promise.race([
+      fetch(searchQueryUrl),
+      fetch(searchQueryUrl),
+      fetch(searchQueryUrl)
+    ])
+    .then(res => res.json())
+    .then(torrents => torrents.map(
+      torrent => this.formatTorrent(torrent)
+    ))
+    .catch(error => {
+      console.log(error);
+      return [];
+    });
   }
 
   static formatTorrent(torrent) {

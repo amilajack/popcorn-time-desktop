@@ -45,7 +45,7 @@ export function determineQuality(magnet, metadata) {
   if (lowerCaseMetadata.includes('avi')) return '720p';
   if (lowerCaseMetadata.includes('mvk')) return '720p';
 
-  console.warn(`magnet: ${magnet}, could not be verified`);
+  console.warn(`${magnet}, could not be verified`);
 
   return '';
 }

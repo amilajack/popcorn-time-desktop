@@ -49,11 +49,12 @@ const config = {
 
   plugins: [
     ...baseConfig.plugins,
-    new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.EnvironmentPlugin([
       'NODE_ENV',
       ...flags
     ]),
+    new webpack.optimize.OccurenceOrderPlugin(),
+    new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin({
       compressor: {
         screw_ie8: true,

@@ -1,8 +1,8 @@
 /**
  * @todo: Filter and sort by options
  */
-import Trakt from 'trakt.tv';
 import fetch from 'isomorphic-fetch';
+import Trakt from 'trakt.tv';
 import { convertRuntimeToHours } from './MetadataAdapter';
 
 

@@ -23,8 +23,4 @@ clone_depth: 1
 test_script:
   - node --version
   - npm --version
-  - npm run build
-  - npm run package
   - npm run test
-  - npm run test-e2e
-  - npm run lint

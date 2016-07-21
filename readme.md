@@ -26,7 +26,7 @@
 
 ## Requirements:
 
-* [Node >= 6](nodejs.org)
+* [Node >= 6](https://nodejs.org)
 * Mac, Linux, Windows
 * For packaging, see [packaging requirements](https://github.com/amilajack/popcorn-time-desktop/wiki/Packaging-Requirements)
 

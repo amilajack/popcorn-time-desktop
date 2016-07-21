@@ -23,8 +23,26 @@ export default class Torrent {
     this.engine = new Peerflix(magnetURI);
 
     this.engine.server.on('listening', () => {
-      console.log(this.engine.files);
-      fn(`http://localhost:${this.engine.server.address().port}/`);
+      const files = this.engine.files.map(({ name, path, length }) => ({
+        name, path, length
+      }));
+
+      const filename = files
+        .map(({ name, path, length }) => ({
+          name, path, length
+        }))
+        .sort((prev, next) => (
+          prev.length === next.length
+            ? 0
+            : (prev.length > next.length ? -1 : 1)
+        ))
+        [0].path;
+
+      fn(
+        `http://localhost:${this.engine.server.address().port}/`,
+        filename,
+        files
+      );
     });
 
     return this.engine;
@@ -33,13 +51,13 @@ export default class Torrent {
   /**
    * Return a magnetURI that is of filetype .mov, ogg
    */
-  static isFormatSupported(magnetURI, supportedPlaybackFormats) {
+  static isFormatSupported(magnetURI, nativePlaybackFormats) {
     const webTorrent = new WebTorrent();
 
     return new Promise(resolve => {
       webTorrent.add(magnetURI, torrent => {
         const exist = torrent.files.find(file => {
-          for (const format of supportedPlaybackFormats) {
+          for (const format of nativePlaybackFormats) {
             if (file.path.includes(`.${format}`)) return true;
           }
 

@@ -16,6 +16,7 @@ import Butter from '../../api/Butter';
 import Torrent from '../../api/Torrent';
 import Player from '../../api/Player';
 import notie from 'notie';
+import os from 'os';
 
 
 export default class Movie extends Component {
@@ -194,8 +195,8 @@ export default class Movie extends Component {
             idealTorrent = await Torrent.getTorrentWithSupportedFormats(
               torrents,
               process.env.NODE_ENV === 'production'
-                ? [...Player.experimentalPlaybackFormats, ...Player.supportedPlaybackFormats]
-                : Player.supportedPlaybackFormats
+                ? [...Player.experimentalPlaybackFormats, ...Player.nativePlaybackFormats]
+                : Player.nativePlaybackFormats
             );
 
             torrent = await this.butter.getTorrent(imdbId, this.props.activeMode, {
@@ -287,24 +288,37 @@ export default class Movie extends Component {
 
     this.setState({ torrentInProgress: true });
 
-    this.engine = this.torrent.start(magnetURI, servingUrl => {
+    this.engine = this.torrent.start(magnetURI, (servingUrl, filename, files) => {
       console.log('serving at:', servingUrl);
 
       this.setState({ servingUrl });
 
-      notie.alert(2, 'Falling back to non-native video codecs', 2);
+      // HACK: Temporarily prevent linux from using WebChimera
+      //       Waiting on issue 69: https://github.com/RSATom/WebChimera.js/issues/69
 
-      this.player = this.player.initWebChimeraPlayer(servingUrl, this.state.item);
-      this.setState({ usingVideoFallback: true });
-      notie.alert(2, 'Falling back to non-native video codecs', 2);
-      console.warn('FLAG_SUPPORT_NON_NATIVE_CODECS_FALLBACK: Using WebChimera');
+      if (Player.isFormatSupported(filename, Player.nativePlaybackFormats)) {
+        this.setState({ usingVideoFallback: false });
+        this.player = this.player.initPlyr(servingUrl, this.state.item);
+      } else if (Player.isFormatSupported(
+          filename,
+          [...Player.nativePlaybackFormats, ...Player.experimentalPlaybackFormats]
+      )) {
+        if (os.type === 'Linux') {
+          notie.alert(2, 'Player does not support Linux at the moment', 2);
+          return console.warn('WebChimera does not support Linux at the moment');
+        }
 
-      // if (!formatIsSupported) {
-      //   notie.alert(3, 'Video format is not supported', 2);
-      //   throw new Error('Video codec not supported');
-      // }
-      // this.setState({ usingVideoFallback: false });
-      // this.player = this.player.initPlyr(servingUrl, this.state.item);
+        console.warn(
+          `FLAG_SUPPORT_NON_NATIVE_CODECS_FALLBACK: Using WebChimera to play ${filename}`
+        );
+        notie.alert(2, 'Falling back to non-native video codecs', 2);
+        this.setState({ usingVideoFallback: true });
+        this.player = this.player.initWebChimeraPlayer(servingUrl, this.state.item);
+      } else {
+        notie.alert(2, 'The format of this video is not playable', 2);
+        console.warn(`Format of filename ${filename} not supported`);
+        console.warn('Files retrieved:', files);
+      }
     });
   }
 
@@ -345,37 +359,38 @@ export default class Movie extends Component {
                   Start Ideal Torrent
                 </button>
               </span>
-              {
-                process.env.FLAG_ALLOW_MANUAL_TORRENT_SELECTION === 'true' ?
-                  <span>
+              {process.env.FLAG_ALLOW_MANUAL_TORRENT_SELECTION === 'true' ?
+                <span>
+                  <button
+                    onClick={this.startTorrent.bind(this, this.state.torrent['1080p'].magnet)}
+                    disabled={!this.state.torrent['1080p'].quality}
+                  >
+                    Start 1080p -- {this.state.torrent['1080p'].seeders} seeders
+                  </button>
+                  <button
+                    onClick={this.startTorrent.bind(this, this.state.torrent['720p'].magnet)}
+                    disabled={!this.state.torrent['720p'].quality}
+                  >
+                    Start 720p -- {this.state.torrent['720p'].seeders} seeders
+                  </button>
+                  {this.props.activeMode === 'shows' ?
                     <button
-                      onClick={this.startTorrent.bind(this, this.state.torrent['1080p'].magnet)}
-                      disabled={!this.state.torrent['1080p'].quality}
+                      onClick={this.startTorrent.bind(this, this.state.torrent['480p'].magnet)}
+                      disabled={!this.state.torrent['480p'].quality}
                     >
-                      Start 1080p -- {this.state.torrent['1080p'].seeders} seeders
+                      Start 480p -- {this.state.torrent['480p'].seeders} seeders
                     </button>
-                    <button
-                      onClick={this.startTorrent.bind(this, this.state.torrent['720p'].magnet)}
-                      disabled={!this.state.torrent['720p'].quality}
-                    >
-                      Start 720p -- {this.state.torrent['720p'].seeders} seeders
-                    </button>
-                    {this.props.activeMode === 'shows' ?
-                      <button
-                        onClick={this.startTorrent.bind(this, this.state.torrent['480p'].magnet)}
-                        disabled={!this.state.torrent['480p'].quality}
-                      >
-                        Start 480p -- {this.state.torrent['480p'].seeders} seeders
-                      </button>
-                      :
-                      null
-                    }
-                  </span>
+                    :
+                    null}
+                </span>
                 :
-                null
-              }
+                null}
               <span>
-                <a><strong>Torrent status: {this.state.idealTorrent.health || ''}</strong></a>
+                <a>
+                  <strong>
+                    Torrent status: {this.state.idealTorrent.health || ''}
+                  </strong>
+                </a>
               </span>
               <h1 id="title">
                 {this.state.item.title}
@@ -384,11 +399,9 @@ export default class Movie extends Component {
                 Year: {this.state.item.year}
               </h5>
               <h6 id="genres">
-                Genres: {
-                          this.state.item.genres
+                Genres: {this.state.item.genres
                             ? this.state.item.genres.map(genre => `${genre}, `)
-                            : null
-                        }
+                            : null}
               </h6>
               <h5 id="runtime">
                 Length: {this.state.item.runtime.full}
@@ -408,21 +421,16 @@ export default class Movie extends Component {
                   <a>{this.state.item.rating}</a>
                 </div>
                 :
-                null
-              }
+                null}
               <h3 style={torrentLoadingStatusStyle}>
-                {
-                  !this.state.servingUrl && this.state.torrentInProgress
+                {!this.state.servingUrl && this.state.torrentInProgress
                     ? 'Loading torrent...'
-                    : null
-                }
+                    : null}
               </h3>
               <h3 style={torrentLoadingStatusStyle}>
-                {
-                  this.state.fetchingTorrents
+                {this.state.fetchingTorrents
                     ? 'Fetching torrents...'
-                    : null
-                }
+                    : null}
               </h3>
               {this.props.activeMode === 'shows' ?
                 <Show
@@ -433,8 +441,7 @@ export default class Movie extends Component {
                   selectedEpisode={this.state.selectedEpisode}
                 />
                 :
-                null
-              }
+                null}
               <div
                 className="plyr"
                 style={opacity}

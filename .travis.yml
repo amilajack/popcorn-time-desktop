@@ -38,8 +38,9 @@ before_script:
   - sleep 3
 
 script:
-  - npm run build
+  - node --version
+  - npm --version
   - npm run package
-  # - npm run test # Cannot run until WebChimera support comes to Linux
+  # - npm run test-api
   - npm run test-e2e
   - npm run lint

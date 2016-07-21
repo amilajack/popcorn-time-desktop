@@ -35,12 +35,12 @@ describe('api ->', function testApi() {
           provider: require(`${torrentBasePath}/PctTorrentProvider`),
           id: 'pct'
         },
-        {
-          name: 'Kat',
-          provider: require(`${torrentBasePath}/KatTorrentProvider`),
-          minTorrentsCount: 5,
-          id: 'kat'
-        },
+        // {
+        //   name: 'Kat',
+        //   provider: require(`${torrentBasePath}/KatTorrentProvider`),
+        //   minTorrentsCount: 5,
+        //   id: 'kat'
+        // },
         {
           name: 'Yts',
           provider: require(`${torrentBasePath}/YtsTorrentProvider`),
@@ -49,7 +49,7 @@ describe('api ->', function testApi() {
       ];
 
       for (const providerConfig of movieProviders) {
-        it.skip(`${providerConfig.name}TorrentProvider should return movie torrents`,
+        it(`${providerConfig.name}TorrentProvider should return movie torrents`,
         async function (done) {
           try {
             this.timeout(40000);
@@ -91,21 +91,21 @@ describe('api ->', function testApi() {
         {
           name: 'PopcornTime',
           provider: require(`${torrentBasePath}/PctTorrentProvider`),
-          minTorrentsCount: -1,
+          minTorrentsCount: 0,
           id: 'pct'
-        },
-        {
-          name: 'Kat',
-          provider: require(`${torrentBasePath}/KatTorrentProvider`),
-          minTorrentsCount: 5,
-          id: 'kat'
-        },
-        {
-          name: 'KatShows',
-          provider: require(`${torrentBasePath}/KatShowsTorrentProvider`),
-          minTorrentsCount: 5,
-          id: 'kat-shows'
         }
+        // {
+        //   name: 'Kat',
+        //   provider: require(`${torrentBasePath}/KatTorrentProvider`),
+        //   minTorrentsCount: 5,
+        //   id: 'kat'
+        // },
+        // {
+        //   name: 'KatShows',
+        //   provider: require(`${torrentBasePath}/KatShowsTorrentProvider`),
+        //   minTorrentsCount: 5,
+        //   id: 'kat-shows'
+        // }
       ];
 
       const extendedDetails = {
@@ -115,7 +115,7 @@ describe('api ->', function testApi() {
       };
 
       for (const providerConfig of showTorrentProviders) {
-        it.skip(`${providerConfig.name}TorrentProvider should return show torrents`,
+        it(`${providerConfig.name}TorrentProvider should return show torrents`,
         async function (done) {
           try {
             this.timeout(40000);
@@ -128,7 +128,7 @@ describe('api ->', function testApi() {
             console.log(`${providerConfig.name}TorrentProvider torrent count: `, torrents.length);
             expect(torrents).to.have.length.above(
               'minTorrentsCount' in providerConfig
-                ? providerConfig.minTorrentsCount
+                ? providerConfig.minTorrentsCount - 1
                 : deafultMinTorrentsCount
             );
 
