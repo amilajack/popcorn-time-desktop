@@ -8,7 +8,7 @@
     "build": "npm run styles && npm run build-main && npm run build-renderer",
     "build-main": "cross-env NODE_ENV=production FLAG_SUPPORT_NON_NATIVE_CODECS_FALLBACK=true FLAG_FORCE_STRICT_TORRENT_VALIDATION=true FLAG_ALLOW_MANUAL_TORRENT_SELECTION=true node -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.electron.js --progress --profile --colors",
     "build-renderer": "cross-env NODE_ENV=production FLAG_SUPPORT_NON_NATIVE_CODECS_FALLBACK=true FLAG_FORCE_STRICT_TORRENT_VALIDATION=true FLAG_ALLOW_MANUAL_TORRENT_SELECTION=true node -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.production.js --progress --profile --colors",
-    "dev": "NODE_ENV=development npm run styles && concurrently --kill-others \"npm run hot-server\" \"npm run start-hot\"",
+    "dev": "cross-env NODE_ENV=development npm run styles && concurrently --kill-others \"npm run hot-server\" \"npm run start-hot\"",
     "postinstall": "node node_modules/fbjs-scripts/node/check-dev-engines.js package.json && cd app && npm i",
     "hot-server": "node -r babel-register server.js",
     "lint": "eslint app test *.js",
