@@ -29,28 +29,19 @@ const config = {
 
     loaders: [
       ...baseConfig.module.loaders,
-
       {
         test: /\.scss$/,
         loader: ExtractTextPlugin.extract(
           'style-loader',
-          'css-loader?sourceMap!postcss-loader?sourceMap!sass-loader?sourceMap'
+          'css-loader?sourceMap!postcss-loader?sourceMap!sass-loader?sourceMap',
+          {
+            publicPath: './'
+          }
         )
       },
-
-      // For global css-modules
-      // {
-      //   test: /^((?!\.global).)*\.css$/,
-      //   loaders: [
-      //     'style-loader',
-      //     'css-loader?modules&sourceMap&importLoaders=1
-      //      &localIdentName=[name]__[local]___[hash:base64:5]'
-      //   ]
-      // }
-
       {
         test: /\.(ttf|eot|svg|woff)/,
-        loader: 'file-loader?name=dist/fonts/[name].[hash:base64].[ext]'
+        loader: 'file-loader?name=/fonts/[name].[ext]'
       }
     ]
   },

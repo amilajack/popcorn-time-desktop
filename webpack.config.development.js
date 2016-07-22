@@ -24,7 +24,6 @@ const config = {
     ...baseConfig.module,
     loaders: [
       ...baseConfig.module.loaders,
-
       {
         test: /\.scss$/,
         loaders: [
@@ -34,19 +33,9 @@ const config = {
           'sass-loader?sourceMap'
         ]
       },
-
-      // For global css-modules
-      // {
-      //   test: /^((?!\.global).)*\.css$/,
-      //   loaders: [
-      //     'style-loader',
-      //     'css-loader?modules&sourceMap&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]'
-      //   ]
-      // }
-
       {
         test: /\.(ttf|eot|svg|woff)/,
-        loader: 'file-loader?name=font/[name][hash:base64].[ext]'
+        loader: 'file-loader'
       }
     ]
   },
@@ -54,6 +43,12 @@ const config = {
   postcss: [
     autoprefixer({ browsers: ['chrome >= 34'] })
   ],
+
+  sassLoader: {
+    includePaths: [
+      './node_modules'
+    ]
+  },
 
   plugins: [
     ...baseConfig.plugins,
