@@ -1,3 +1,7 @@
+/**
+ * @todo: Migrate to https://isohunt.to
+ */
+
 import kat from 'kat-api';
 import {
   getHealth,

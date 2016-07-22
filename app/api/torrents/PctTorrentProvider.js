@@ -48,8 +48,8 @@ export default class PctTorrentProvider {
 
         const show = await request
           .then(res => res.episodes.map(eachEpisode => this.formatEpisode(eachEpisode)))
-          .catch(err => {
-            console.log(err);
+          .catch(error => {
+            console.log(error);
             return [];
           });
 
@@ -124,14 +124,14 @@ export default class PctTorrentProvider {
     switch (type) {
       case 'movies':
         return this.fetch(imdbId, type, extendedDetails)
-          .catch(err => {
-            console.log(err);
+          .catch(error => {
+            console.log(error);
             return [];
           });
       case 'shows':
         return this.fetch(imdbId, type, extendedDetails)
-          .catch(err => {
-            console.log(err);
+          .catch(error => {
+            console.log(error);
             return [];
           });
       default:

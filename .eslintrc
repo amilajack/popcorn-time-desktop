@@ -12,7 +12,7 @@
     "no-nested-ternary": 0,
     "react/prefer-stateless-function": 1,
     "no-underscore-dangle": 0,
-    "import/no-unresolved": [2, { ignore: ['electron'] }],
+    "import/no-unresolved": [2, { "ignore": ["electron"] }],
     "comma-dangle": ["error", "never"],
     "consistent-return": 1,
     "immutable/no-let": 1,
@@ -24,7 +24,9 @@
     "react",
     "immutable"
   ],
-  # "settings": {
-  #   "import/resolver": "webpack"
-  # }
+  "settings": {
+    "webpack": {
+      "config": "webpack.config.eslint.js"
+    }
+  }
 }

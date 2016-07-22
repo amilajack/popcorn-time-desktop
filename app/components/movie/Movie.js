@@ -224,8 +224,8 @@ export default class Movie extends Component {
           '480p': torrent['480p'] || this.defaultTorrent
         }
       });
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
     }
   }
 
@@ -250,8 +250,8 @@ export default class Movie extends Component {
         similarLoading: false,
         isFinished: true
       });
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
     }
   }
 
@@ -307,10 +307,7 @@ export default class Movie extends Component {
           notie.alert(2, 'Player does not support Linux at the moment', 2);
           return console.warn('WebChimera does not support Linux at the moment');
         }
-
-        console.warn(
-          `FLAG_SUPPORT_NON_NATIVE_CODECS_FALLBACK: Using WebChimera to play ${filename}`
-        );
+        console.warn(`Using WebChimera to play ${filename}`);
         notie.alert(2, 'Falling back to non-native video codecs', 2);
         this.setState({ usingVideoFallback: true });
         this.player = this.player.initWebChimeraPlayer(servingUrl, this.state.item);
@@ -359,7 +356,7 @@ export default class Movie extends Component {
                   Start Ideal Torrent
                 </button>
               </span>
-              {process.env.FLAG_ALLOW_MANUAL_TORRENT_SELECTION === 'true' ?
+              {process.env.FLAG_MANUAL_TORRENT_SELECTION === 'true' ?
                 <span>
                   <button
                     onClick={this.startTorrent.bind(this, this.state.torrent['1080p'].magnet)}

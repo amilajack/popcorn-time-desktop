@@ -7,7 +7,7 @@ const AUTO_UPDATE_URL = 'https://popcorn-desktop-release-server.herokuapp.com/up
 export default function initDarwinWin32() {
   // autoUpdater.on(
   //   'error',
-  //   (err) => alert(`Update error: ${err.message}`)
+  //   (error) => alert(`Update error: ${err.message}`)
   // );
   //
   // autoUpdater.on(

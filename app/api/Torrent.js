@@ -95,7 +95,7 @@ export default class Torrent {
           )
         );
       }
-    } catch (err) {
+    } catch (error) {
       throw new Error('No with supported video formats could be found, with limit', limit);
     }
 

@@ -6,17 +6,17 @@ export function determineQuality(magnet, metadata) {
                               : magnet.toLowerCase();
 
   if (
-    process.env.FLAG_ALLOW_UNVERIFIED_TORRENTS === 'true'
+    process.env.FLAG_UNVERIFIED_TORRENTS === 'true'
   ) {
     return '480p';
   }
 
   // Filter videos with 'rendered' subtitles
-  if (
-    process.env.FLAG_ALLOW_SUBTITLED_MOVIES !== 'true' &&
-    hasSubtitles(lowerCaseMetadata)
-  ) {
-    return '480p';
+  if (hasSubtitles(lowerCaseMetadata)) {
+    if (process.env.FLAG_SUBTITLE_EMBEDDED_MOVIES === 'true') {
+      return '480p';
+    }
+    return '';
   }
 
   // Filter non-english languages
@@ -43,7 +43,7 @@ export function determineQuality(magnet, metadata) {
 
   // Non-native codecs
   if (lowerCaseMetadata.includes('avi')) return '720p';
-  if (lowerCaseMetadata.includes('mvk')) return '720p';
+  if (lowerCaseMetadata.includes('mkv')) return '720p';
 
   console.warn(`${magnet}, could not be verified`);
 
@@ -115,4 +115,14 @@ export function hasNonEnglishLanguage(metadata) {
 
 export function hasSubtitles(metadata) {
   return metadata.includes('sub');
+}
+
+export function sortTorrentsBySeeders(torrents) {
+  return torrents.sort((prev, next) => {
+    if (prev.seeders === next.seeders) {
+      return 0;
+    }
+
+    return prev.seeders > next.seeders ? -1 : 1;
+  });
 }

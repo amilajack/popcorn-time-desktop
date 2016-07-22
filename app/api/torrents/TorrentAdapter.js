@@ -4,7 +4,12 @@
  * @todo    Removed torrents with duplicated magnets
  */
 /* eslint global-require: 0 */
-import { determineQuality } from './BaseTorrentProvider';
+import {
+  determineQuality,
+  formatSeasonEpisodeToString,
+  formatSeasonEpisodeToObject,
+  sortTorrentsBySeeders
+} from './BaseTorrentProvider';
 
 
 export default async function TorrentAdapter(imdbId,
@@ -26,44 +31,34 @@ export default async function TorrentAdapter(imdbId,
 
   switch (method) {
     case 'all': {
-      const movieProviderResults = await cascade(torrentPromises);
+      const providerResults = await Promise.all(torrentPromises);
+      const { season, episode } = extendedDetails;
 
-      if (
-        process.env.FLAG_FORCE_STRICT_TORRENT_VALIDATION === 'true' &&
-        type === 'shows'
-      ) {
-        const { formatSeasonEpisodeToString } = require('./BaseTorrentProvider');
-
-        console.warn(
-          'FLAG_FORCE_STRICT_TORRENT_VALIDATION:',
-          'Strict torrent filtering enabled'
-        );
-
+      if (type === 'shows') {
         return selectTorrents(
-          merge(movieProviderResults).filter(
-            result => (
-                result.magnet.toLowerCase().includes(
-                  formatSeasonEpisodeToString(
-                    extendedDetails.season,
-                    extendedDetails.episode
-                  )
-                )
-                &&
-                result.seeders !== 0
-              )
-          ),
+          merge(providerResults)
+            .filter(show => filterShows(show, season, episode)),
           undefined,
           returnAll
         );
       }
 
-      return selectTorrents(merge(movieProviderResults), undefined, returnAll);
+      if (type === 'shows_complete') {
+        return selectTorrents(
+          merge(providerResults)
+            .filter(show => filterShowsComplete(show, season)),
+          undefined,
+          returnAll
+        );
+      }
+
+      return selectTorrents(merge(providerResults), undefined, returnAll);
     }
     case 'race': {
       return Promise.race(torrentPromises);
     }
     default:
-      throw new Error('Invalid type');
+      throw new Error('Invalid query method');
   }
 }
 
@@ -92,6 +87,31 @@ function merge(providerResults) {
   return formattedResults;
 }
 
+export function filterShows(show, season, episode) {
+  return (
+    show.metadata.toLowerCase().includes(
+      formatSeasonEpisodeToString(
+        season,
+        episode
+      )
+    )
+    &&
+    show.seeders !== 0
+  );
+}
+
+export function filterShowsComplete(show, season) {
+  const metadata = show.metadata.toLowerCase();
+
+  return (
+    metadata.includes('complete') ||
+    metadata.includes(`season ${season}`) ||
+    metadata.includes(`s${formatSeasonEpisodeToObject(season).season}`) &&
+    !metadata.includes('e0') &&
+    show.seeders !== 0
+  );
+}
+
 /**
  * Select one 720p and 1080p quality movie from torrent list
  * By default, sort all torrents by seeders
@@ -101,18 +121,13 @@ function merge(providerResults) {
  * @param  {bool}   returnAll
  * @return {object}
  */
-function selectTorrents(torrents, sortMethod = 'seeders', returnAll = false) {
-  const sortedTorrents = torrents
-    .filter(
-      torrent => (torrent.quality !== 'n/a' && torrent.quality !== '')
-    )
-    .sort((prev, next) => {
-      if (prev.seeders === next.seeders) {
-        return 0;
-      }
-
-      return prev.seeders > next.seeders ? -1 : 1;
-    });
+export function selectTorrents(torrents, sortMethod = 'seeders', returnAll = false) {
+  const sortedTorrents = sortTorrentsBySeeders(
+    torrents
+      .filter(
+        torrent => (torrent.quality !== 'n/a' && torrent.quality !== '')
+      )
+  );
 
   if (returnAll) {
     return sortedTorrents;
@@ -123,8 +138,4 @@ function selectTorrents(torrents, sortMethod = 'seeders', returnAll = false) {
     '720p': sortedTorrents.find(torrent => torrent.quality === '720p'),
     '1080p': sortedTorrents.find(torrent => torrent.quality === '1080p')
   };
-}
-
-function cascade(providers) {
-  return Promise.all(providers);
 }

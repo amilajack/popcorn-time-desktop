@@ -28,8 +28,8 @@ describe('e2e', function testApp() {
     try {
       this.app = await app.start();
       done();
-    } catch (err) {
-      done(err);
+    } catch (error) {
+      done(error);
     }
   });
 
@@ -45,8 +45,8 @@ describe('e2e', function testApp() {
         const title = await this.app.client.getTitle();
         expect(title).to.equal('Popcorn Time');
         done();
-      } catch (err) {
-        done(err);
+      } catch (error) {
+        done(error);
       }
     });
   });
@@ -57,8 +57,8 @@ describe('e2e', function testApp() {
         await navigate('');
         await delay(2000);
         done();
-      } catch (err) {
-        done(err);
+      } catch (error) {
+        done(error);
       }
     });
 
@@ -69,8 +69,8 @@ describe('e2e', function testApp() {
         expect(cardListIsDisplayed).to.equal(true);
         expect(cardIsDisplayed).to.equal(true);
         done();
-      } catch (err) {
-        done(err);
+      } catch (error) {
+        done(error);
       }
     });
 
@@ -87,8 +87,8 @@ describe('e2e', function testApp() {
         expect(movieTitles[1]).to.include('Harry Potter');
         expect(movieTitles[2]).to.include('Harry Potter');
         done();
-      } catch (err) {
-        done(err);
+      } catch (error) {
+        done(error);
       }
     });
 
@@ -105,8 +105,8 @@ describe('e2e', function testApp() {
         const [titleText] = await this.app.client.getText('.Movie h1');
         expect(titleText).to.be.a('string');
         done();
-      } catch (err) {
-        done(err);
+      } catch (error) {
+        done(error);
       }
     });
 
@@ -117,8 +117,8 @@ describe('e2e', function testApp() {
         const cardLinks = await this.app.client.getAttribute('.Card a', 'href');
         expect(cardLinks[0]).to.include('item/shows');
         done();
-      } catch (err) {
-        done(err);
+      } catch (error) {
+        done(error);
       }
     });
 
@@ -130,8 +130,8 @@ describe('e2e', function testApp() {
         const secondCardLinks = await this.app.client.getAttribute('.Card a', 'href');
         expect(secondCardLinks.length).to.be.greaterThan(firstCardLinks.length);
         done();
-      } catch (err) {
-        done(err);
+      } catch (error) {
+        done(error);
       }
     });
   });
@@ -144,8 +144,8 @@ describe('e2e', function testApp() {
         await this.app.client.waitForVisible('.Movie');
         await delay(2000);
         done();
-      } catch (err) {
-        done(err);
+      } catch (error) {
+        done(error);
       }
     });
 
@@ -168,8 +168,8 @@ describe('e2e', function testApp() {
         expect(firstTitleText).to.not.equal(secondTitleText);
         expect(firstSummaryText).to.not.equal(secondSummaryText);
         done();
-      } catch (err) {
-        done(err);
+      } catch (error) {
+        done(error);
       }
     });
   });

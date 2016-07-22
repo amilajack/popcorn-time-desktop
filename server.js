@@ -22,9 +22,9 @@ app.use(wdm);
 
 app.use(webpackHotMiddleware(compiler));
 
-const server = app.listen(PORT, 'localhost', err => {
-  if (err) {
-    console.error(err);
+const server = app.listen(PORT, 'localhost', error => {
+  if (error) {
+    console.error(error);
     return;
   }
 

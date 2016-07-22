@@ -4,7 +4,7 @@
  * @todo: Add caching method to resolve from cache before sending request
  */
 
-import TorrentAdapter, { getHealth } from './torrents/TorrentAdapter';
+import TorrentAdapter from './torrents/TorrentAdapter';
 import MetadataAdapter from './metadata/TraktMetadataProvider';
 
 
@@ -54,10 +54,6 @@ export default class Butter {
    */
   getTorrent(imdbId, type, extendedDetails = {}, returnAll) {
     return TorrentAdapter(imdbId, type, extendedDetails, returnAll); // eslint-disable-line new-cap
-  }
-
-  getTorrentHealth(magnet) {
-    return getHealth(magnet);
   }
 
   search(query, page = 1) {
