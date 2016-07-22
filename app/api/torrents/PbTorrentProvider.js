@@ -5,7 +5,7 @@ import fetch from 'isomorphic-fetch';
 import {
   getHealth,
   formatSeasonEpisodeToString,
-  formatSeasonEpisodeToObject
+  constructQueries
 } from './BaseTorrentProvider';
 
 
@@ -38,7 +38,7 @@ export default class PbTorrentProvider {
       magnet: torrent.magnetLink,
       seeders: parseInt(torrent.seeders, 10),
       leechers: parseInt(torrent.leechers, 10),
-      metadata: `${torrent.name}${torrent.magnetLink}${torrent.link}`,
+      metadata: `${torrent.name || ''}${torrent.magnetLink || ''}${torrent.link || ''}`,
       ...getHealth(torrent.seeders),
       _provider: 'pb'
     };
@@ -70,14 +70,8 @@ export default class PbTorrentProvider {
           });
       }
       case 'shows_complete': {
-        const { season, episode } = extendedDetails;
-        const formattedSeasonNumber = `s${formatSeasonEpisodeToObject(season, episode).season}`;
-        const queries = [
-          `${searchQuery} season ${season}`,
-          `${searchQuery} season ${season} complete`,
-          `${searchQuery} ${formattedSeasonNumber} complete`,
-          `${searchQuery} season ${season} ${formattedSeasonNumber} complete`
-        ];
+        const { season } = extendedDetails;
+        const queries = constructQueries(searchQuery, season);
 
         return Promise.all(
           queries.map(query => this.fetch(query))

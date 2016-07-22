@@ -11,7 +11,7 @@ const stylesSource = [
 ];
 
 const autoprefixerSettings = [
-  'chrome >= 34'
+  'chrome >= 50'
 ];
 
 // Clean output directory

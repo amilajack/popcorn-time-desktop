@@ -59,14 +59,14 @@ describe('api ->', function testApi() {
         it(`${providerConfig.name}TorrentProvider should return movie torrents`,
         async function (done) {
           try {
-            this.timeout(40000);
+            this.timeout(10000);
 
             const torrents = await providerConfig.provider.provide('tt0330373', 'movies', {
               searchQuery: 'Harry Potter and the Goblet of Fire'
             });
 
             expect(torrents).to.be.an('array');
-            console.log(`${providerConfig.name}TorrentProvider torrent count: `, torrents.length);
+          console.log(`${providerConfig.name}TorrentProvider torrent count: `, torrents.length);
             expect(torrents).to.have.length.above(providerConfig.minTorrentsCount - 1);
 
             if (torrents.length) {
@@ -104,20 +104,13 @@ describe('api ->', function testApi() {
           minTorrentsCount: 0,
           minSeederCount: 100,
           id: 'pct'
-        }
+        },
         // {
         //   name: 'Kat',
         //   provider: require(`${torrentBasePath}/KatTorrentProvider`),
         //   minTorrentsCount: 5,
         //   minSeederCount: 100,
         //   id: 'kat'
-        // },
-        // {
-        //   name: 'KatShows',
-        //   provider: require(`${torrentBasePath}/KatShowsTorrentProvider`),
-        //   minTorrentsCount: 5,
-        //   minSeederCount: 100,
-        //   id: 'kat-shows'
         // }
       ];
 
@@ -131,7 +124,7 @@ describe('api ->', function testApi() {
         it(`${providerConfig.name}TorrentProvider should return show torrents`,
         async function (done) {
           try {
-            this.timeout(40000);
+            this.timeout(10000);
 
             const torrents = await providerConfig.provider.provide(
               showImdbId, 'shows', extendedDetails
@@ -169,7 +162,14 @@ describe('api ->', function testApi() {
           minTorrentsCount: 20,
           minSeederCount: 700,
           id: 'pb'
-        }
+        },
+        // {
+        //   name: 'Kat',
+        //   provider: require(`${torrentBasePath}/KatTorrentProvider`),
+        //   minTorrentsCount: 1,
+        //   minSeederCount: 100,
+        //   id: 'kat'
+        // }
       ];
 
       const extendedDetails = {
@@ -182,7 +182,7 @@ describe('api ->', function testApi() {
         it(`${providerConfig.name}TorrentProvider should return show torrents`,
         async function (done) {
           try {
-            this.timeout(40000);
+            this.timeout(10000);
 
             const torrents = await providerConfig.provider.provide(
               showImdbId, 'shows_complete', extendedDetails

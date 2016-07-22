@@ -173,19 +173,7 @@ export default class Movie extends Component {
           });
           break;
         case 'shows': {
-          if (process.env.SUPPORTED_PLAYBACK_FILTERING !== 'true') {
-            torrent = await this.butter.getTorrent(imdbId, this.props.activeMode, {
-              season,
-              episode,
-              searchQuery: title
-            });
-
-            idealTorrent = this.getIdealTorrent([
-              torrent['1080p'] || this.defaultTorrent,
-              torrent['720p'] || this.defaultTorrent,
-              torrent['480p'] || this.defaultTorrent
-            ]);
-          } else {
+          if (process.env.FLAG_SUPPORTED_PLAYBACK_FILTERING === 'true') {
             const torrents = await this.butter.getTorrent(imdbId, this.props.activeMode, {
               season,
               episode,
@@ -204,6 +192,31 @@ export default class Movie extends Component {
               episode,
               searchQuery: title
             });
+          } else {
+            if (process.env.FLAG_SEASON_COMPLETE === 'true') {
+              torrent = await this.butter.getTorrent(imdbId, 'shows_complete', {
+                season,
+                searchQuery: title
+              });
+
+              idealTorrent = this.getIdealTorrent([
+                torrent['1080p'] || this.defaultTorrent,
+                torrent['720p'] || this.defaultTorrent,
+                torrent['480p'] || this.defaultTorrent
+              ]);
+            } else {
+              torrent = await this.butter.getTorrent(imdbId, this.props.activeMode, {
+                season,
+                episode,
+                searchQuery: title
+              });
+
+              idealTorrent = this.getIdealTorrent([
+                torrent['1080p'] || this.defaultTorrent,
+                torrent['720p'] || this.defaultTorrent,
+                torrent['480p'] || this.defaultTorrent
+              ]);
+            }
           }
           break;
         }

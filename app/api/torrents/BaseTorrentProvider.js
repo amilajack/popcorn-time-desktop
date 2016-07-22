@@ -1,9 +1,7 @@
 /* eslint prefer-template: 0 */
 
 export function determineQuality(magnet, metadata) {
-  const lowerCaseMetadata = metadata
-                              ? metadata.toLowerCase()
-                              : magnet.toLowerCase();
+  const lowerCaseMetadata = (metadata || magnet).toLowerCase();
 
   if (
     process.env.FLAG_UNVERIFIED_TORRENTS === 'true'
@@ -11,17 +9,16 @@ export function determineQuality(magnet, metadata) {
     return '480p';
   }
 
-  // Filter videos with 'rendered' subtitles
-  if (hasSubtitles(lowerCaseMetadata)) {
-    if (process.env.FLAG_SUBTITLE_EMBEDDED_MOVIES === 'true') {
-      return '480p';
-    }
-    return '';
-  }
-
   // Filter non-english languages
   if (hasNonEnglishLanguage(lowerCaseMetadata)) {
     return '';
+  }
+
+  // Filter videos with 'rendered' subtitles
+  if (hasSubtitles(lowerCaseMetadata)) {
+    return process.env.FLAG_SUBTITLE_EMBEDDED_MOVIES === 'true'
+            ? '480p'
+            : '';
   }
 
   // Most accurate categorization
@@ -41,9 +38,11 @@ export function determineQuality(magnet, metadata) {
   if (lowerCaseMetadata.includes('hdtv')) return '720p';
   if (lowerCaseMetadata.includes('eng')) return '720p';
 
-  // Non-native codecs
-  if (lowerCaseMetadata.includes('avi')) return '720p';
-  if (lowerCaseMetadata.includes('mkv')) return '720p';
+  if (hasNonNativeCodec(lowerCaseMetadata)) {
+    return process.env.FLAG_SUPPORTED_PLAYBACK_FILTERING === 'true'
+            ? '720p'
+            : '';
+  }
 
   console.warn(`${magnet}, could not be verified`);
 
@@ -117,6 +116,13 @@ export function hasSubtitles(metadata) {
   return metadata.includes('sub');
 }
 
+export function hasNonNativeCodec(metadata) {
+  return (
+    metadata.includes('avi') ||
+    metadata.includes('mkv')
+  );
+}
+
 export function sortTorrentsBySeeders(torrents) {
   return torrents.sort((prev, next) => {
     if (prev.seeders === next.seeders) {
@@ -125,4 +131,15 @@ export function sortTorrentsBySeeders(torrents) {
 
     return prev.seeders > next.seeders ? -1 : 1;
   });
+}
+
+export function constructQueries(title, season) {
+  const formattedSeasonNumber = `s${formatSeasonEpisodeToObject(season, 1).season}`;
+
+  return [
+    `${title} season ${season}`,
+    `${title} season ${season} complete`,
+    `${title} ${formattedSeasonNumber} complete`,
+    `${title} season ${season} ${formattedSeasonNumber} complete`
+  ];
 }

@@ -13,7 +13,7 @@ const flags = Object.keys(dotenv.parse(buffer));
 const config = {
   ...baseConfig,
 
-  devtool: 'source-map',
+  devtool: 'cheap-module-source-map',
 
   entry: './app/index',
 

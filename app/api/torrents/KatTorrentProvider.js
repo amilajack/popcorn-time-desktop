@@ -2,52 +2,33 @@
  * @todo: Migrate to https://isohunt.to
  */
 
-import kat from 'kat-api';
+import { search } from 'super-kat';
 import {
   getHealth,
-  formatSeasonEpisodeToString
+  formatSeasonEpisodeToString,
+  constructQueries
 } from './BaseTorrentProvider';
 
 
 export default class KatTorrentProvider {
 
-  static fetch(query, season, episode) {
-    const formattedDetails = season && episode
-                              ? formatSeasonEpisodeToString(season, episode)
-                              : undefined;
-
-    return kat.search({
-      query,
-      category: season && episode ? 'tv' : 'movies'
-    })
-    .then(
-      resp => (
-        season && episode
-          ? resp.results.filter(
-              res => res.magnet.includes(formattedDetails)
-            )
-          : resp.results
+  static fetch(query) {
+    return search(query)
+      .then(
+        resp => resp.map(res => this.formatTorrent(res))
       )
-    )
-    .then(
-      resp => resp.map(res => this.formatTorrent(res))
-    )
-    .catch(error => {
-      console.log(error);
-      return [];
-    });
+      .catch(error => {
+        console.log(error);
+        return [];
+      });
   }
 
   static formatTorrent(torrent) {
     return {
       magnet: torrent.magnet,
-      seeders: torrent.seeds,
-      leechers: torrent.leechs,
-      metadata: torrent.link +
-                torrent.title +
-                torrent.torrentLink +
-                torrent.guid +
-                torrent.magnet,
+      seeders: torrent.seeders,
+      leechers: torrent.leechers,
+      metadata: torrent.title + torrent.magnet,
       ...getHealth(torrent.seeds, torrent.peers, torrent.leechs),
       _provider: 'kat'
     };
@@ -67,14 +48,24 @@ export default class KatTorrentProvider {
         const { season, episode } = extendedDetails;
 
         return this.fetch(
-          `${searchQuery} ${formatSeasonEpisodeToString(season, episode)}`,
-          season,
-          episode
+          `${searchQuery} ${formatSeasonEpisodeToString(season, episode)}`
         )
-          .catch(error => {
-            console.log(error);
-            return [];
-          });
+        .catch(error => {
+          console.log(error);
+          return [];
+        });
+      }
+      case 'shows_complete': {
+        const { season } = extendedDetails;
+        const queries = constructQueries(searchQuery, season);
+
+        return Promise.all(
+          queries.map(query => this.fetch(query))
+        )
+        .catch(error => {
+          console.log(error);
+          return [];
+        });
       }
       default:
         return [];
