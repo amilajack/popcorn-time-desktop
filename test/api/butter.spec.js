@@ -66,7 +66,7 @@ describe('api ->', function testApi() {
             });
 
             expect(torrents).to.be.an('array');
-          console.log(`${providerConfig.name}TorrentProvider torrent count: `, torrents.length);
+            console.log(`${providerConfig.name}TorrentProvider torrent count: `, torrents.length);
             expect(torrents).to.have.length.above(providerConfig.minTorrentsCount - 1);
 
             if (torrents.length) {

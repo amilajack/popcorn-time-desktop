@@ -5,7 +5,7 @@
   "description": "An experimental PopcornTime client",
   "main": "main.js",
   "scripts": {
-    "build": "npm run build-main & npm run build-renderer",
+    "build": "npm run build-main && npm run build-renderer",
     "build-main": "cross-env NODE_ENV=production FLAG_SUPPORT_NON_NATIVE_CODECS_FALLBACK=true FLAG_MANUAL_TORRENT_SELECTION=true node -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.electron.js --progress --profile --colors",
     "build-renderer": "cross-env NODE_ENV=production FLAG_SUPPORT_NON_NATIVE_CODECS_FALLBACK=true FLAG_MANUAL_TORRENT_SELECTION=true node -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.production.js --progress --profile --colors",
     "dev": "cross-env NODE_ENV=development concurrently --kill-others \"npm run hot-server\" \"npm run start-hot\"",
@@ -15,7 +15,7 @@
     "test-api": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 mocha --slow 3000 --timeout 10000 --inline-diffs --async-only --compilers js:babel-register --recursive --require ./test/setup.js test/**/*.spec.js",
     "test-watch": "npm test -- --watch",
     "test-e2e": "cross-env NODE_ENV=test mocha --slow 3000 --timeout 10000 --inline-diffs --compilers js:babel-register --require ./test/setup.js --require co-mocha ./test/e2e.js",
-    "test": "npm run lint & npm run package && npm run test-api && npm run test-e2e",
+    "test": "npm run lint && npm run package && npm run test-api && npm run test-e2e",
     "start": "cross-env NODE_ENV=production electron ./",
     "start-hot": "cross-env HOT=1 NODE_ENV=development electron -r babel-register ./main.development",
     "package": "npm run build && build --publish never",
@@ -96,7 +96,6 @@
     "dotenv": "^2.0.0",
     "electron-builder": "^5.14.2",
     "electron-devtools-installer": "^2.0.0",
-    "electron-prebuilt": "^1.2.8",
     "eslint": "^3.1.1",
     "eslint-config-airbnb": "^9.0.1",
     "eslint-plugin-immutable": "^1.0.0",
@@ -130,9 +129,7 @@
     "webpack": "^1.13.1",
     "webpack-dev-middleware": "^1.6.1",
     "webpack-hot-middleware": "^2.12.1",
-    "why-did-you-update": "^0.0.8"
-  },
-  "dependencies": {
+    "why-did-you-update": "^0.0.8",
     "babel-runtime": "^6.9.2",
     "classnames": "^2.2.5",
     "css-modules-require-hook": "^4.0.1",
