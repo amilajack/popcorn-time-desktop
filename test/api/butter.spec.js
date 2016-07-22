@@ -13,7 +13,6 @@ import { convertRuntimeToHours } from '../../app/api/metadata/MetadataAdapter';
 const imdbId = 'tt0468569';
 const showImdbId = 'tt1475582';
 const defaultMinTorrentsCount = 1;
-const defaultMinSeederCount = 10;
 
 function greaterThanOrEqualTo(first, second) {
   return (first > second || first === second);
@@ -30,24 +29,28 @@ describe('api ->', function testApi() {
           name: 'PirateBay',
           provider: require(`${torrentBasePath}/PbTorrentProvider`),
           minTorrentsCount: 5,
-          minSeederCount: 20,
+          minSeederCount: 100,
           id: 'pb'
         },
         {
           name: 'PopcornTime',
           provider: require(`${torrentBasePath}/PctTorrentProvider`),
+          minTorrentsCount: 0,
+          minSeederCount: 400,
           id: 'pct'
         },
         // {
         //   name: 'Kat',
         //   provider: require(`${torrentBasePath}/KatTorrentProvider`),
         //   minTorrentsCount: 5,
-        //   minSeederCount: 20,
+        //   minSeederCount: 100,
         //   id: 'kat'
         // },
         {
           name: 'Yts',
           provider: require(`${torrentBasePath}/YtsTorrentProvider`),
+          minTorrentsCount: 1,
+          minSeederCount: 200,
           id: 'yts'
         }
       ];
@@ -64,19 +67,13 @@ describe('api ->', function testApi() {
 
             expect(torrents).to.be.an('array');
             console.log(`${providerConfig.name}TorrentProvider torrent count: `, torrents.length);
-            expect(torrents).to.have.length.above(
-              'minTorrentsCount' in providerConfig
-                ? providerConfig.minTorrentsCount
-                : defaultMinTorrentsCount
-            );
+            expect(torrents).to.have.length.above(providerConfig.minTorrentsCount - 1);
 
-            const seederCount = sortTorrentsBySeeders(torrents)[0].seeders;
-
-            expect(seederCount).to.have.length.above(
-              'minTorrentsCount' in providerConfig
-                ? providerConfig.minSeederCount - 1
-                : defaultMinSeederCount
-            );
+            if (torrents.length) {
+              const seederCount = sortTorrentsBySeeders(torrents)[0].seeders;
+              console.log(`${providerConfig.name}TorrentProvider seeder count: `, seederCount);
+              expect(seederCount).to.be.at.least(providerConfig.minSeederCount);
+            }
 
             for (const torrent of torrents) {
               assertSingleTorrent(torrent);
@@ -98,28 +95,28 @@ describe('api ->', function testApi() {
           name: 'PirateBay',
           provider: require(`${torrentBasePath}/PbTorrentProvider`),
           minTorrentsCount: 5,
-          minSeederCount: 20,
+          minSeederCount: 400,
           id: 'pb'
         },
         {
           name: 'PopcornTime',
           provider: require(`${torrentBasePath}/PctTorrentProvider`),
           minTorrentsCount: 0,
-          minSeederCount: 20,
+          minSeederCount: 100,
           id: 'pct'
         }
         // {
         //   name: 'Kat',
         //   provider: require(`${torrentBasePath}/KatTorrentProvider`),
         //   minTorrentsCount: 5,
-        //   minSeederCount: 20,
+        //   minSeederCount: 100,
         //   id: 'kat'
         // },
         // {
         //   name: 'KatShows',
         //   provider: require(`${torrentBasePath}/KatShowsTorrentProvider`),
         //   minTorrentsCount: 5,
-        //   minSeederCount: 20,
+        //   minSeederCount: 100,
         //   id: 'kat-shows'
         // }
       ];
@@ -142,19 +139,13 @@ describe('api ->', function testApi() {
 
             expect(torrents).to.be.an('array');
             console.log(`${providerConfig.name}TorrentProvider torrent count: `, torrents.length);
-            expect(torrents).to.have.length.above(
-              'minTorrentsCount' in providerConfig
-                ? providerConfig.minTorrentsCount - 1
-                : defaultMinTorrentsCount
-            );
+            expect(torrents).to.have.length.above(providerConfig.minTorrentsCount - 1);
 
-            const seederCount = sortTorrentsBySeeders(torrents)[0].seeders;
-
-            expect(seederCount).to.have.length.above(
-              'minTorrentsCount' in providerConfig
-                ? providerConfig.minSeederCount - 1
-                : defaultMinSeederCount
-            );
+            if (torrents.length) {
+              const seederCount = sortTorrentsBySeeders(torrents)[0].seeders;
+              console.log(`${providerConfig.name}TorrentProvider seeder count: `, seederCount);
+              expect(seederCount).to.be.at.least(providerConfig.minSeederCount);
+            }
 
             for (const torrent of torrents) {
               assertSingleTorrent(torrent);
@@ -176,7 +167,7 @@ describe('api ->', function testApi() {
           name: 'PirateBay',
           provider: require(`${torrentBasePath}/PbTorrentProvider`),
           minTorrentsCount: 20,
-          minSeederCount: 500,
+          minSeederCount: 700,
           id: 'pb'
         }
       ];
@@ -199,11 +190,13 @@ describe('api ->', function testApi() {
 
             expect(torrents).to.be.an('array');
             console.log(`${providerConfig.name}TorrentProvider torrent count: `, torrents.length);
-            expect(torrents).to.have.length.above(
-              'minTorrentsCount' in providerConfig
-                ? providerConfig.minTorrentsCount - 1
-                : defaultMinTorrentsCount
-            );
+            expect(torrents).to.have.length.above(providerConfig.minTorrentsCount - 1);
+
+            if (torrents.length) {
+              const seederCount = sortTorrentsBySeeders(torrents)[0].seeders;
+              console.log(`${providerConfig.name}TorrentProvider seeder count: `, seederCount);
+              expect(seederCount).to.be.at.least(providerConfig.minSeederCount);
+            }
 
             for (const torrent of torrents) {
               assertSingleTorrent(torrent);

@@ -40,4 +40,8 @@ before_script:
 script:
   - node --version
   - npm --version
-  - npm run test
+  - npm run build
+  - npm run package
+  # - npm run test # Cannot run until WebChimera support comes to Linux
+  - npm run test-e2e
+  - npm run lint
