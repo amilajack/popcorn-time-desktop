@@ -32,7 +32,7 @@ const config = {
 
       {
         test: /\.scss$/,
-        loader: ExtractTextPlugin.loader(
+        loader: ExtractTextPlugin.extract(
           'style-loader',
           'css-loader?sourceMap!postcss-loader?sourceMap!sass-loader?sourceMap'
         )
@@ -50,7 +50,7 @@ const config = {
 
       {
         test: /\.(ttf|eot|svg|woff)/,
-        loader: 'file-loader?name=font/[name][hash:base64].[ext]'
+        loader: 'file-loader?name=dist/fonts/[name].[hash:base64].[ext]'
       }
     ]
   },
@@ -58,6 +58,12 @@ const config = {
   postcss: [
     autoprefixer({ browsers: ['chrome >= 34'] })
   ],
+
+  sassLoader: {
+    includePaths: [
+      './node_modules'
+    ]
+  },
 
   plugins: [
     ...baseConfig.plugins,
