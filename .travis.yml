@@ -2,13 +2,13 @@ sudo: required
 
 dist: trusty
 
-language: node_js
+language: cpp
 
-node_js:
-  - 6
-
-matrix:
-  fast_finish: true
+env:
+  - export NODE_VERSION="6"
+os:
+  - linux
+  - osx
 
 cache:
   directories:
@@ -22,6 +22,14 @@ addons:
       - g++-4.8
     packages:
       - xvfb
+
+before_install:
+  - git submodule update --init --recursive
+  - git clone https://github.com/creationix/nvm.git ./.nvm
+  - source ./.nvm/nvm.sh
+  - nvm install $NODE_VERSION
+  - nvm use $NODE_VERSION
+  - npm config set python `which python`
 
 install:
   - export CXX="g++-4.8"
@@ -40,6 +48,9 @@ before_script:
 script:
   - npm run build
   - npm run package
+  - if [ $TRAVIS_OS_NAME == "osx" ]; then
+      npm run test
+    fi
   # - npm run test # Cannot run until WebChimera support comes to Linux
   - npm run test-e2e
   - npm run lint
