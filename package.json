@@ -5,9 +5,7 @@
   "description": "An experimental PopcornTime client",
   "main": "main.js",
   "scripts": {
-    "build": "npm run build-main && npm run build-renderer",
-    "build-main": "cross-env NODE_ENV=production FLAG_SUPPORT_NON_NATIVE_CODECS_FALLBACK=true FLAG_MANUAL_TORRENT_SELECTION=true node -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.electron.js --progress --profile --colors",
-    "build-renderer": "cross-env NODE_ENV=production FLAG_SUPPORT_NON_NATIVE_CODECS_FALLBACK=true FLAG_MANUAL_TORRENT_SELECTION=true node -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.production.js --progress --profile --colors",
+    "build": "cross-env NODE_ENV=production FLAG_SUPPORT_NON_NATIVE_CODECS_FALLBACK=true FLAG_MANUAL_TORRENT_SELECTION=true parallel-webpack --config=webpack.config.build.js",
     "dev": "cross-env NODE_ENV=development concurrently --kill-others \"npm run hot-server\" \"npm run start-hot\"",
     "postinstall": "node node_modules/fbjs-scripts/node/check-dev-engines.js package.json && cd app && npm i",
     "hot-server": "node -r babel-register server.js",
@@ -113,6 +111,7 @@
     "mocha": "^2.5.3",
     "node-libs-browser": "^1.0.0",
     "node-sass": "^3.8.0",
+    "parallel-webpack": "^1.5.0",
     "postcss-loader": "^0.9.1",
     "react-addons-test-utils": "^15.2.1",
     "redux-devtools": "^3.3.1",
