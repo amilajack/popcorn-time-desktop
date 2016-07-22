@@ -33,7 +33,7 @@ const config = {
           'postcss-loader?sourceMap',
           'sass-loader?sourceMap'
         ]
-      }
+      },
 
       // For global css-modules
       // {
@@ -43,6 +43,11 @@ const config = {
       //     'css-loader?modules&sourceMap&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]'
       //   ]
       // }
+
+      {
+        test: /\.(ttf|eot|svg|woff)(\?[a-z0-9]+)?$/,
+        loader: 'file-loader?name=font/[name][hash:base64].[ext]'
+      }
     ]
   },
 
