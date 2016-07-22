@@ -41,7 +41,7 @@ const config = {
   },
 
   postcss: [
-    autoprefixer({ browsers: ['chrome >= 34'] })
+    autoprefixer({ browsers: ['chrome >= 50'] })
   ],
 
   sassLoader: {
