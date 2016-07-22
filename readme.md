@@ -32,7 +32,7 @@
 
 ## Installation:
 ```
-git clone https://github.com/amilajack/popcorn-time-desktop.git
+git clone https://github.com/amilajack/popcorn-time-desktop.git --depth 1
 cd popcorn-time-desktop
 
 
@@ -51,7 +51,7 @@ npm run package
 ```
 
 ## Todos:
-See [roadmap](https://github.com/amilajack/popcorn-time-desktop/wiki/Road-Map) for full list
+See the [roadmap](https://github.com/amilajack/popcorn-time-desktop/wiki/Road-Map) for full list
 
 ## Goal:
 
