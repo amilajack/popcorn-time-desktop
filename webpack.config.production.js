@@ -1,6 +1,7 @@
 import webpack from 'webpack';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import baseConfig from './webpack.config.base';
+import autoprefixer from 'autoprefixer';
 import fs from 'fs';
 import dotenv from 'dotenv';
 
@@ -30,22 +31,33 @@ const config = {
       ...baseConfig.module.loaders,
 
       {
-        test: /\.global\.css$/,
-        loader: ExtractTextPlugin.extract(
+        test: /\.scss$/,
+        loader: ExtractTextPlugin.loader(
           'style-loader',
-          'css-loader'
+          'css-loader?sourceMap!postcss-loader?sourceMap!sass-loader?sourceMap'
         )
       },
 
+      // For global css-modules
+      // {
+      //   test: /^((?!\.global).)*\.css$/,
+      //   loaders: [
+      //     'style-loader',
+      //     'css-loader?modules&sourceMap&importLoaders=1
+      //      &localIdentName=[name]__[local]___[hash:base64:5]'
+      //   ]
+      // }
+
       {
-        test: /^((?!\.global).)*\.css$/,
-        loader: ExtractTextPlugin.extract(
-          'style-loader',
-          'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]'
-        )
+        test: /\.(ttf|eot|svg|woff)/,
+        loader: 'file-loader?name=font/[name][hash:base64].[ext]'
       }
     ]
   },
+
+  postcss: [
+    autoprefixer({ browsers: ['chrome >= 34'] })
+  ],
 
   plugins: [
     ...baseConfig.plugins,

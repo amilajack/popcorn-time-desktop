@@ -45,7 +45,7 @@ const config = {
       // }
 
       {
-        test: /\.(ttf|eot|svg|woff)(\?[a-z0-9]+)?$/,
+        test: /\.(ttf|eot|svg|woff)/,
         loader: 'file-loader?name=font/[name][hash:base64].[ext]'
       }
     ]
