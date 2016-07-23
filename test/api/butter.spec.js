@@ -117,7 +117,7 @@ describe('api ->', function testApi() {
       const extendedDetails = {
         searchQuery: 'game of thrones',
         season: 6,
-        episode: 4
+        episode: 6
       };
 
       for (const providerConfig of showTorrentProviders) {
@@ -163,19 +163,19 @@ describe('api ->', function testApi() {
           minSeederCount: 700,
           id: 'pb'
         },
-        // {
-        //   name: 'Kat',
-        //   provider: require(`${torrentBasePath}/KatTorrentProvider`),
-        //   minTorrentsCount: 1,
-        //   minSeederCount: 100,
-        //   id: 'kat'
-        // }
+        {
+          name: 'Kat',
+          provider: require(`${torrentBasePath}/KatTorrentProvider`),
+          minTorrentsCount: 1,
+          minSeederCount: 100,
+          id: 'kat'
+        }
       ];
 
       const extendedDetails = {
         searchQuery: 'game of thrones',
         season: 6,
-        episode: 4
+        episode: 6
       };
 
       for (const providerConfig of showTorrentProviders) {

@@ -14,9 +14,9 @@ export default class KatTorrentProvider {
 
   static fetch(query) {
     return search(query)
-      .then(
-        resp => resp.map(res => this.formatTorrent(res))
-      )
+      .then(torrents => torrents.map(
+        torrent => this.formatTorrent(torrent)
+      ))
       .catch(error => {
         console.log(error);
         return [];
@@ -29,7 +29,7 @@ export default class KatTorrentProvider {
       seeders: torrent.seeders,
       leechers: torrent.leechers,
       metadata: torrent.title + torrent.magnet,
-      ...getHealth(torrent.seeds, torrent.peers, torrent.leechs),
+      ...getHealth(torrent.seeders),
       _provider: 'kat'
     };
   }
@@ -61,6 +61,15 @@ export default class KatTorrentProvider {
 
         return Promise.all(
           queries.map(query => this.fetch(query))
+        )
+        .then(
+          res => res.reduce((previous, current) => (
+            previous.length && current.length
+              ? [...previous, ...current]
+              : previous.length && !current.length
+                  ? previous
+                  : current
+          ))
         )
         .catch(error => {
           console.log(error);
