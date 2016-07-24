@@ -73,7 +73,7 @@
     "babel-loader": "^6.2.4",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-dev-expression": "^0.2.1",
-    "babel-plugin-module-alias": "^1.5.0",
+    "babel-plugin-module-alias": "^1.6.0",
     "babel-plugin-transform-remove-console": "^6.8.0",
     "babel-plugin-transform-remove-debugger": "^6.8.0",
     "babel-plugin-transform-runtime": "^6.9.0",
