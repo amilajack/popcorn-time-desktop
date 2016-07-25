@@ -128,7 +128,7 @@
     "run-sequence": "^1.2.2",
     "sinon": "^1.17.4",
     "source-map-support": "^0.4.2",
-    "spectron": "^3.2.6",
+    "spectron": "^3.3.0",
     "style-loader": "^0.13.1",
     "wdio-mocha-framework": "^0.3.5",
     "webpack": "^1.13.1",
