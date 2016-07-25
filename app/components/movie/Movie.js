@@ -193,7 +193,7 @@ export default class Movie extends Component {
               searchQuery: title
             });
           } else {
-            if (process.env.FLAG_SEASON_COMPLETE === 'true' && false) {
+            if (process.env.FLAG_SEASON_COMPLETE === 'true') {
               torrent = await this.butter.getTorrent(imdbId, 'season_complete', {
                 season,
                 searchQuery: title
@@ -304,11 +304,18 @@ export default class Movie extends Component {
     this.setState({ torrentInProgress: true });
 
     const metadata = {
-      activeMode: this.props.activeMode,
+      activeMode: process.env.FLAG_SEASON_COMPLETE === 'true'
+                    ? 'season_complete'
+                    : this.props.activeMode,
+      season: this.state.selectedSeason,
       episode: this.state.selectedEpisode
     };
 
-    this.torrent.start(magnetURI, metadata, (servingUrl, filename, files) => {
+    const formats = [
+      ...Player.experimentalPlaybackFormats, ...Player.nativePlaybackFormats
+    ];
+
+    this.torrent.start(magnetURI, metadata, formats, (servingUrl, filename, files) => {
       console.log('serving at:', servingUrl);
 
       this.setState({ servingUrl });

@@ -19,53 +19,73 @@ export default class Torrent {
    * @todo: Refactor butter api calls to Movie component. Butter, Player, and
    *        Torrent should work independently of each other
    */
-  start(magnetURI, metadata, cb) {
+  start(magnetURI, metadata, supportedFormats, cb) {
     if (this.inProgress) {
       throw new Error('Torrent already in progress');
     }
 
     console.log('starting torrent...');
     this.inProgress = true;
-    const { title, season, episode } = metadata;
-    console.log(metadata);
+    const { season, episode, activeMode } = metadata;
 
-    if (process.env.FLAG_SEASON_COMPLETE === 'true' && 'episode' in metadata) {
+    if (activeMode === 'season_complete') {
+      console.log('Using season_complete method');
       this.engine = new WebTorrent();
 
       this.engine.add(magnetURI, torrent => {
         const server = torrent.createServer();
         server.listen(port);
+        this.server = server;
 
         let [file] = torrent.files;
+        let torrentIndex;
 
         for (let i = 0; i < torrent.files.length; i++) {
+          const isSupported = !!supportedFormats
+            .find(format => torrent.files[i].name.includes(format));
+
+          console.log(
+            torrent.files[i].name,
+            isSupported,
+            isExactEpisode(torrent.files[i].name, season, episode)
+          );
+
           if (
-            file.length < torrent.files[i].length &&
-            !isExactEpisode(file.path, title, season, episode)
+            isSupported &&
+            isExactEpisode(torrent.files[i].name, season, episode)
           ) {
+            torrentIndex = i;
             file.deselect();
             file = torrent.files[i];
           }
         }
 
-        console.log(file);
+        if (typeof torrentIndex !== 'number') {
+          console.warn('File List', torrent.files.map(_file => _file.name));
+          throw new Error(`No torrent could be selected. Torrent Index: ${torrentIndex}`);
+        }
+
         const files = torrent.files;
         const { name } = file;
         file.select();
 
-        torrent.on('ready', () => {
-          cb(
-            `http://localhost:${port}/0`,
-            name,
-            files
-          );
-        });
+        const buffer = 5 * 1024 * 1024; // 5MB
+        let playerStarted;
 
-        torrent.on('done', () => {
-          console.log('killing...');
-          server.close();
-          this.engine.destroy();
-        });
+
+        const interval = setInterval(() => {
+          console.log(`progress: ${Math.round((torrent.downloaded / file.length) * 100)}%`);
+          if (!playerStarted && torrent.downloaded > buffer) {
+            console.log('ready...');
+            playerStarted = true;
+            cb(
+              `http://localhost:${port}/${torrentIndex}`,
+              name,
+              files
+            );
+            clearInterval(interval);
+          }
+        }, 1000);
       });
     } else {
       this.engine = new Peerflix(magnetURI);
@@ -149,11 +169,24 @@ export default class Torrent {
     throw new Error('No torrents available, cannot find a supported format');
   }
 
-  destroy() {
+  destroy(torrentEngineName) {
+    console.log('Destroyed Torrent...', torrentEngineName);
+
     if (this.inProgress) {
-      console.log('destroyed torrent...');
-      this.engine.remove();
+      switch (torrentEngineName) {
+        case 'webtorrent':
+          console.log('Closing server...');
+          this.server.close();
+          this.server = undefined;
+          break;
+        case 'peerflix':
+          this.engine.remove();
+          break;
+        default:
+          throw new Error('Invalid torrent engine name');
+      }
       this.engine.destroy();
+      this.engine = undefined;
       this.inProgress = false;
     }
   }
