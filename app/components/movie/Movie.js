@@ -45,6 +45,7 @@ export default class Movie extends Component {
     },
     selectedSeason: 1,
     selectedEpisode: 1,
+    isUsingSeasonComplete: false,
     seasons: [],
     season: [],
     episode: {},
@@ -64,7 +65,6 @@ export default class Movie extends Component {
     this.butter = new Butter();
     this.torrent = new Torrent();
     this.player = new Player();
-    this.engine = {};
 
     this.state = this.initialState;
   }
@@ -193,11 +193,13 @@ export default class Movie extends Component {
               searchQuery: title
             });
           } else {
-            if (process.env.FLAG_SEASON_COMPLETE === 'true') {
-              torrent = await this.butter.getTorrent(imdbId, 'shows_complete', {
+            if (process.env.FLAG_SEASON_COMPLETE === 'true' && false) {
+              torrent = await this.butter.getTorrent(imdbId, 'season_complete', {
                 season,
                 searchQuery: title
               });
+
+              this.setState({ isUsingSeasonComplete: false });
 
               idealTorrent = this.getIdealTorrent([
                 torrent['1080p'] || this.defaultTorrent,
@@ -301,7 +303,12 @@ export default class Movie extends Component {
 
     this.setState({ torrentInProgress: true });
 
-    this.engine = this.torrent.start(magnetURI, (servingUrl, filename, files) => {
+    const metadata = {
+      activeMode: this.props.activeMode,
+      episode: this.state.selectedEpisode
+    };
+
+    this.torrent.start(magnetURI, metadata, (servingUrl, filename, files) => {
       console.log('serving at:', servingUrl);
 
       this.setState({ servingUrl });
@@ -312,10 +319,10 @@ export default class Movie extends Component {
       if (Player.isFormatSupported(filename, Player.nativePlaybackFormats)) {
         this.setState({ usingVideoFallback: false });
         this.player = this.player.initPlyr(servingUrl, this.state.item);
-      } else if (Player.isFormatSupported(
-          filename,
-          [...Player.nativePlaybackFormats, ...Player.experimentalPlaybackFormats]
-      )) {
+      } else if (Player.isFormatSupported(filename, [
+        ...Player.nativePlaybackFormats,
+        ...Player.experimentalPlaybackFormats
+      ])) {
         if (os.type === 'Linux') {
           notie.alert(2, 'Player does not support Linux at the moment', 2);
           return console.warn('WebChimera does not support Linux at the moment');

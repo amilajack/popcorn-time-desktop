@@ -20,8 +20,8 @@ export default async function TorrentAdapter(imdbId,
   const providers = [
     require('./YtsTorrentProvider'),
     require('./PbTorrentProvider'),
-    require('./PctTorrentProvider')
-    // require('./KatTorrentProvider'),
+    require('./PctTorrentProvider'),
+    require('./KatTorrentProvider')
     // require('./KatShowsTorrentProvider')
   ];
 
@@ -37,15 +37,17 @@ export default async function TorrentAdapter(imdbId,
       if (type === 'shows') {
         return selectTorrents(
           merge(providerResults)
+            .filter(show => !!show.metadata)
             .filter(show => filterShows(show, season, episode)),
           undefined,
           returnAll
         );
       }
 
-      if (type === 'shows_complete') {
+      if (type === 'season_complete') {
         return selectTorrents(
           merge(providerResults)
+            .filter(show => !!show.metadata)
             .filter(show => filterShowsComplete(show, season)),
           undefined,
           returnAll

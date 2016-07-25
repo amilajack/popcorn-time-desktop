@@ -4,7 +4,10 @@
  */
 import Peerflix from 'peerflix';
 import WebTorrent from 'webtorrent';
+import { isExactEpisode } from './torrents/BaseTorrentProvider';
 
+
+const port = 9090;
 
 export default class Torrent {
 
@@ -12,40 +15,84 @@ export default class Torrent {
 
   finished = false;
 
-  start(magnetURI, fn) {
+  /**
+   * @todo: Refactor butter api calls to Movie component. Butter, Player, and
+   *        Torrent should work independently of each other
+   */
+  start(magnetURI, metadata, cb) {
     if (this.inProgress) {
       throw new Error('Torrent already in progress');
     }
 
     console.log('starting torrent...');
     this.inProgress = true;
+    const { title, season, episode } = metadata;
+    console.log(metadata);
 
-    this.engine = new Peerflix(magnetURI);
+    if (process.env.FLAG_SEASON_COMPLETE === 'true' && 'episode' in metadata) {
+      this.engine = new WebTorrent();
 
-    this.engine.server.on('listening', () => {
-      const files = this.engine.files.map(({ name, path, length }) => ({
-        name, path, length
-      }));
+      this.engine.add(magnetURI, torrent => {
+        const server = torrent.createServer();
+        server.listen(port);
 
-      const filename = files
-        .map(({ name, path, length }) => ({
+        let [file] = torrent.files;
+
+        for (let i = 0; i < torrent.files.length; i++) {
+          if (
+            file.length < torrent.files[i].length &&
+            !isExactEpisode(file.path, title, season, episode)
+          ) {
+            file.deselect();
+            file = torrent.files[i];
+          }
+        }
+
+        console.log(file);
+        const files = torrent.files;
+        const { name } = file;
+        file.select();
+
+        torrent.on('ready', () => {
+          cb(
+            `http://localhost:${port}/0`,
+            name,
+            files
+          );
+        });
+
+        torrent.on('done', () => {
+          console.log('killing...');
+          server.close();
+          this.engine.destroy();
+        });
+      });
+    } else {
+      this.engine = new Peerflix(magnetURI);
+
+      this.engine.server.on('listening', () => {
+        const files = this.engine.files.map(({ name, path, length }) => ({
           name, path, length
-        }))
-        .sort((prev, next) => (
-          prev.length === next.length
-            ? 0
-            : (prev.length > next.length ? -1 : 1)
-        ))
-        [0].path;
+        }));
 
-      fn(
-        `http://localhost:${this.engine.server.address().port}/`,
-        filename,
-        files
-      );
-    });
+        const filename = files
+          .map(({ name, path, length }) => ({
+            name, path, length
+          }))
+          .sort((prev, next) => (
+            prev.length === next.length
+              ? 0
+              : (prev.length > next.length ? -1 : 1)
+          ))
+          [0].path;
 
-    return this.engine;
+        cb(
+          `http://localhost:${this.engine.server.address().port}/`,
+          filename,
+          files
+        );
+      });
+    }
   }
 
   /**
@@ -105,6 +152,7 @@ export default class Torrent {
   destroy() {
     if (this.inProgress) {
       console.log('destroyed torrent...');
+      this.engine.remove();
       this.engine.destroy();
       this.inProgress = false;
     }

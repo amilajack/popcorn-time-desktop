@@ -28,7 +28,7 @@ export default class KatTorrentProvider {
       magnet: torrent.magnet,
       seeders: torrent.seeders,
       leechers: torrent.leechers,
-      metadata: torrent.title + torrent.magnet,
+      metadata: String(torrent.title + torrent.magnet) || String(torrent.magnet),
       ...getHealth(torrent.seeders),
       _provider: 'kat'
     };
@@ -55,7 +55,7 @@ export default class KatTorrentProvider {
           return [];
         });
       }
-      case 'shows_complete': {
+      case 'season_complete': {
         const { season } = extendedDetails;
         const queries = constructQueries(searchQuery, season);
 

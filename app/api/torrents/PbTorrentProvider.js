@@ -38,7 +38,9 @@ export default class PbTorrentProvider {
       magnet: torrent.magnetLink,
       seeders: parseInt(torrent.seeders, 10),
       leechers: parseInt(torrent.leechers, 10),
-      metadata: `${torrent.name || ''}${torrent.magnetLink || ''}${torrent.link || ''}`,
+      metadata: (String(torrent.name) || '') +
+                (String(torrent.magnetLink) || '') +
+                (String(torrent.link) || ''),
       ...getHealth(torrent.seeders),
       _provider: 'pb'
     };
@@ -69,7 +71,7 @@ export default class PbTorrentProvider {
             return [];
           });
       }
-      case 'shows_complete': {
+      case 'season_complete': {
         const { season } = extendedDetails;
         const queries = constructQueries(searchQuery, season);
 

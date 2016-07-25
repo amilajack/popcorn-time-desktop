@@ -185,7 +185,7 @@ describe('api ->', function testApi() {
             this.timeout(10000);
 
             const torrents = await providerConfig.provider.provide(
-              showImdbId, 'shows_complete', extendedDetails
+              showImdbId, 'season_complete', extendedDetails
             );
 
             expect(torrents).to.be.an('array');
@@ -496,9 +496,9 @@ describe('api ->', function testApi() {
           }
         });
 
-        it('should get shows_complete torrents', async done => {
+        it('should get season_complete torrents', async done => {
           try {
-            const torrents = await butterFactory().getTorrent(imdbId, 'shows_complete', {
+            const torrents = await butterFactory().getTorrent(imdbId, 'season_complete', {
               searchQuery: 'game of thrones',
               season: 6
             });
@@ -555,7 +555,7 @@ function assertMovieFormat(movie) {
   assertNAorNumber(movie.runtime.hours);
   assertNAorNumber(movie.runtime.minutes);
 
-  expect(movie).to.have.property('trailer').that.is.a('string');
+  expect(movie.trailer).to.satisfy(s => s === null || typeof s === 'string');
 
   expect(movie).to.have.property('images').that.is.an('object');
   assertImageFormat(movie);
@@ -593,6 +593,10 @@ function assertSingleTorrent(torrent) {
     .to.have.deep.property('seeders')
     .that.is.a('number')
     .that.is.at.least(0);
+
+  if (!torrent.metadata) {
+    console.log(torrent);
+  }
 
   expect(torrent)
     .to.have.deep.property('metadata')
