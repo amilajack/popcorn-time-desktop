@@ -153,6 +153,7 @@
     "redux": "^3.5.2",
     "redux-thunk": "^2.1.0",
     "source-map-support": "^0.4.2",
+    "speedtest-net": "^1.2.7",
     "super-kat": "0.0.3",
     "trakt.tv": "github:amilajack/trakt.tv",
     "webtorrent": "^0.95.2"
