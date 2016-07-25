@@ -113,7 +113,7 @@
     "gulp-load-plugins": "^1.2.4",
     "gulp-sass": "^2.3.2",
     "gulp-size": "^2.1.0",
-    "husky": "^0.11.5",
+    "husky": "^0.11.6",
     "jsdom": "^9.4.1",
     "json-loader": "^0.5.4",
     "minimist": "^1.2.0",
