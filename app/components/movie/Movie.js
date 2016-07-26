@@ -74,8 +74,7 @@ export default class Movie extends Component {
   }
 
   componentWillUnmount() {
-    this.torrent.destroy();
-    this.player.destroy();
+    this.stopTorrent();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -271,7 +270,12 @@ export default class Movie extends Component {
   }
 
   stopTorrent() {
-    this.torrent.destroy();
+    const torrentEngineName = process.env.FLAG_SEASON_COMPLETE === 'true' &&
+                              this.props.activeMode === 'shows'
+                                ? 'webtorrent'
+                                : 'peerflix';
+
+    this.torrent.destroy(torrentEngineName);
     this.player.destroy();
     this.setState({ torrentInProgress: false });
   }
@@ -304,7 +308,8 @@ export default class Movie extends Component {
     this.setState({ torrentInProgress: true });
 
     const metadata = {
-      activeMode: process.env.FLAG_SEASON_COMPLETE === 'true'
+      activeMode: process.env.FLAG_SEASON_COMPLETE === 'true' &&
+                  this.props.activeMode === 'shows'
                     ? 'season_complete'
                     : this.props.activeMode,
       season: this.state.selectedSeason,
