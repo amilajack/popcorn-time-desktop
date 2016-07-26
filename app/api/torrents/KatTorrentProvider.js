@@ -6,7 +6,8 @@ import { search } from 'super-kat';
 import {
   getHealth,
   formatSeasonEpisodeToString,
-  constructQueries
+  constructQueries,
+  handleError
 } from './BaseTorrentProvider';
 
 
@@ -18,7 +19,7 @@ export default class KatTorrentProvider {
         torrent => this.formatTorrent(torrent)
       ))
       .catch(error => {
-        console.log(error);
+        handleError(error);
         return [];
       });
   }
@@ -41,7 +42,7 @@ export default class KatTorrentProvider {
       case 'movies':
         return this.fetch(searchQuery)
           .catch(error => {
-            console.log(error);
+            handleError(error);
             return [];
           });
       case 'shows': {
@@ -51,7 +52,7 @@ export default class KatTorrentProvider {
           `${searchQuery} ${formatSeasonEpisodeToString(season, episode)}`
         )
         .catch(error => {
-          console.log(error);
+          handleError(error);
           return [];
         });
       }
@@ -72,7 +73,7 @@ export default class KatTorrentProvider {
           ))
         )
         .catch(error => {
-          console.log(error);
+          handleError(error);
           return [];
         });
       }

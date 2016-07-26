@@ -5,7 +5,8 @@ import fetch from 'isomorphic-fetch';
 import {
   getHealth,
   formatSeasonEpisodeToString,
-  constructQueries
+  constructQueries,
+  handleError
 } from './BaseTorrentProvider';
 
 
@@ -28,7 +29,7 @@ export default class PbTorrentProvider {
       torrent => this.formatTorrent(torrent)
     ))
     .catch(error => {
-      console.log(error);
+      handleError(error);
       return [];
     });
   }
@@ -57,7 +58,7 @@ export default class PbTorrentProvider {
       case 'movies': {
         return this.fetch(searchQuery)
           .catch(error => {
-            console.log(error);
+            handleError(error);
             return [];
           });
       }
@@ -67,7 +68,7 @@ export default class PbTorrentProvider {
           `${searchQuery} ${formatSeasonEpisodeToString(season, episode)}`
         )
           .catch(error => {
-            console.log(error);
+            handleError(error);
             return [];
           });
       }
@@ -89,7 +90,7 @@ export default class PbTorrentProvider {
           ))
         )
         .catch(error => {
-          console.log(error);
+          handleError(error);
           return [];
         });
       }

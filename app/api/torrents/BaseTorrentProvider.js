@@ -145,3 +145,19 @@ export function constructQueries(title, season) {
     `${title} season ${season} ${formattedSeasonNumber} complete`
   ];
 }
+
+export function getIdealTorrent(torrents) {
+  return torrents.sort((prev, next) => {
+    if (prev.seeders === next.seeders) {
+      return 0;
+    }
+
+    return prev.seeders > next.seeders ? -1 : 1;
+  })[0];
+}
+
+export function handleError(error) {
+  if (process.env.NODE_ENV === 'development') {
+    console.log(error);
+  }
+}

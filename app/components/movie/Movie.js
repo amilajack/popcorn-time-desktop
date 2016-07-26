@@ -12,6 +12,7 @@ import { Link } from 'react-router';
 import Rating from 'react-star-rating-component';
 import CardList from '../card/CardList';
 import Show from '../show/Show';
+import { getIdealTorrent } from '../../api/torrents/BaseTorrentProvider';
 import Butter from '../../api/Butter';
 import Torrent from '../../api/Torrent';
 import Player from '../../api/Player';
@@ -200,7 +201,7 @@ export default class Movie extends Component {
 
               this.setState({ isUsingSeasonComplete: false });
 
-              idealTorrent = this.getIdealTorrent([
+              idealTorrent = getIdealTorrent([
                 torrent['1080p'] || this.defaultTorrent,
                 torrent['720p'] || this.defaultTorrent,
                 torrent['480p'] || this.defaultTorrent
@@ -212,7 +213,7 @@ export default class Movie extends Component {
                 searchQuery: title
               });
 
-              idealTorrent = this.getIdealTorrent([
+              idealTorrent = getIdealTorrent([
                 torrent['1080p'] || this.defaultTorrent,
                 torrent['720p'] || this.defaultTorrent,
                 torrent['480p'] || this.defaultTorrent
@@ -241,16 +242,6 @@ export default class Movie extends Component {
     } catch (error) {
       console.log(error);
     }
-  }
-
-  getIdealTorrent(torrents) {
-    return torrents.sort((prev, next) => {
-      if (prev.seeders === next.seeders) {
-        return 0;
-      }
-
-      return prev.seeders > next.seeders ? -1 : 1;
-    })[0];
   }
 
   async getSimilar(imdbId) {
