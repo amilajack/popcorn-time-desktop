@@ -44,7 +44,9 @@ export function determineQuality(magnet, metadata) {
             : '';
   }
 
-  console.warn(`${magnet}, could not be verified`);
+  if (process.env.NODE_ENV === 'development') {
+    console.warn(`${magnet}, could not be verified`);
+  }
 
   return '';
 }

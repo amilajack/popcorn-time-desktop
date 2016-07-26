@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import Butter from '../../app/api/Butter';
+import MockShows from './butter.mock.js';
 import {
   formatSeasonEpisodeToString,
   formatSeasonEpisodeToObject,
@@ -519,6 +520,34 @@ describe('api ->', function testApi() {
             done(error);
           }
         });
+      });
+
+      describe('Series Tests', () => {
+        for (const show of MockShows) {
+          it('description', async (done) => {
+            try {
+              const torrent = await butterFactory().getTorrent(show.id, 'shows', {
+                season: 1,
+                episode: 1,
+                searchQuery: show.title
+              });
+              expect(torrent).to.be.an('object');
+
+              for (const quality of ['480p', '720p', '1080p']) {
+                if (torrent[quality]) {
+                  assertSingleTorrent(torrent[quality]);
+                  expect(torrent[quality])
+                    .to.have.deep.property('quality')
+                    .that.is.a('string')
+                    .that.equals(quality);
+                }
+              }
+              done();
+            } catch (err) {
+              done(err);
+            }
+          });
+        }
       });
     });
   });
