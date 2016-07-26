@@ -67,17 +67,21 @@ describe('api ->', function testApi() {
             });
 
             expect(torrents).to.be.an('array');
-            console.log(`${providerConfig.name}TorrentProvider torrent count: `, torrents.length);
+            console.log(
+              `\t ${providerConfig.name}TorrentProvider torrent count: `, torrents.length
+            );
             expect(torrents).to.have.length.above(providerConfig.minTorrentsCount - 1);
 
             if (torrents.length) {
               const seederCount = sortTorrentsBySeeders(torrents)[0].seeders;
-              console.log(`${providerConfig.name}TorrentProvider seeder count: `, seederCount);
+              console.log(
+                `\t ${providerConfig.name}TorrentProvider seeder count: `, seederCount
+              );
               expect(seederCount).to.be.at.least(providerConfig.minSeederCount);
             }
 
             for (const torrent of torrents) {
-              assertSingleTorrent(torrent);
+              assertProviderTorrent(torrent);
               expect(torrent).to.have.property('_provider')
                 .that.equals(providerConfig.id);
             }
@@ -132,17 +136,21 @@ describe('api ->', function testApi() {
             );
 
             expect(torrents).to.be.an('array');
-            console.log(`${providerConfig.name}TorrentProvider torrent count: `, torrents.length);
+            console.log(
+              `\t ${providerConfig.name}TorrentProvider torrent count: `, torrents.length
+            );
             expect(torrents).to.have.length.above(providerConfig.minTorrentsCount - 1);
 
             if (torrents.length) {
               const seederCount = sortTorrentsBySeeders(torrents)[0].seeders;
-              console.log(`${providerConfig.name}TorrentProvider seeder count: `, seederCount);
+              console.log(
+                `\t ${providerConfig.name}TorrentProvider seeder count: `, seederCount
+              );
               expect(seederCount).to.be.at.least(providerConfig.minSeederCount);
             }
 
             for (const torrent of torrents) {
-              assertSingleTorrent(torrent);
+              assertProviderTorrent(torrent);
               expect(torrent).to.have.property('_provider')
                 .that.equals(providerConfig.id);
             }
@@ -190,17 +198,21 @@ describe('api ->', function testApi() {
             );
 
             expect(torrents).to.be.an('array');
-            console.log(`${providerConfig.name}TorrentProvider torrent count: `, torrents.length);
+            console.log(
+              `\t ${providerConfig.name}TorrentProvider torrent count: `, torrents.length
+            );
             expect(torrents).to.have.length.above(providerConfig.minTorrentsCount - 1);
 
             if (torrents.length) {
               const seederCount = sortTorrentsBySeeders(torrents)[0].seeders;
-              console.log(`${providerConfig.name}TorrentProvider seeder count: `, seederCount);
+              console.log(
+                `\t ${providerConfig.name}TorrentProvider seeder count: `, seederCount
+              );
               expect(seederCount).to.be.at.least(providerConfig.minSeederCount);
             }
 
             for (const torrent of torrents) {
-              assertSingleTorrent(torrent);
+              assertProviderTorrent(torrent);
               expect(torrent).to.have.property('_provider')
                 .that.equals(providerConfig.id);
             }
@@ -523,31 +535,33 @@ describe('api ->', function testApi() {
       });
 
       describe('Series Tests', () => {
-        for (const show of MockShows) {
-          it('should return valid torrents for top 50 shows', async (done) => {
-            try {
-              const torrent = await butterFactory().getTorrent(show.id, 'shows', {
-                season: 1,
-                episode: 1,
-                searchQuery: show.title
-              });
-              expect(torrent).to.be.an('object');
+        describe('valid torrents for top 50 shows', () => {
+          for (const show of MockShows) {
+            it(`${show.title} Season 1 Episode 1`, async (done) => {
+              try {
+                const torrent = await butterFactory().getTorrent(show.id, 'shows', {
+                  season: 1,
+                  episode: 1,
+                  searchQuery: show.title
+                });
+                expect(torrent).to.be.an('object');
 
-              for (const quality of ['480p', '720p', '1080p']) {
-                if (torrent[quality]) {
-                  assertSingleTorrent(torrent[quality]);
-                  expect(torrent[quality])
-                    .to.have.deep.property('quality')
-                    .that.is.a('string')
-                    .that.equals(quality);
+                for (const quality of ['480p', '720p', '1080p']) {
+                  if (torrent[quality]) {
+                    assertSingleTorrent(torrent[quality]);
+                    expect(torrent[quality])
+                      .to.have.deep.property('quality')
+                      .that.is.a('string')
+                      .that.equals(quality);
+                  }
                 }
+                done();
+              } catch (err) {
+                done(err);
               }
-              done();
-            } catch (err) {
-              done(err);
-            }
-          });
-        }
+            });
+          }
+        });
       });
     });
   });
@@ -623,9 +637,41 @@ function assertSingleTorrent(torrent) {
     .that.is.a('number')
     .that.is.at.least(0);
 
-  if (!torrent.metadata) {
-    console.log(torrent);
-  }
+  expect(torrent)
+    .to.have.deep.property('metadata')
+    .that.is.a('string');
+
+  assertNAorNumber(torrent.seeders);
+
+  expect(torrent)
+    .to.have.deep.property('leechers')
+    .that.is.a('number')
+    .that.is.at.least(0);
+
+  assertNAorNumber(torrent.leechers);
+}
+
+function assertProviderTorrent(torrent) {
+  expect(torrent)
+    .to.be.an('object');
+
+  expect(torrent)
+    .to.have.deep.property('_provider')
+    .that.is.a('string');
+
+  expect(torrent)
+    .to.have.deep.property('magnet')
+    .that.is.a('string');
+
+  expect(torrent)
+    .to.have.deep.property('seeders')
+    .that.is.a('number')
+    .that.is.at.least(0);
+
+  expect(torrent)
+    .to.have.deep.property('leechers')
+    .that.is.a('number')
+    .that.is.at.least(0);
 
   expect(torrent)
     .to.have.deep.property('metadata')

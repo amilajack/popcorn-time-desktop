@@ -1,5 +1,5 @@
 import fetch from 'isomorphic-fetch';
-import { getHealth, handleProviderError } from './BaseTorrentProvider';
+import { handleProviderError } from './BaseTorrentProvider';
 
 
 export default class PctTorrentProvider {
@@ -96,7 +96,6 @@ export default class PctTorrentProvider {
       seeders: torrent.seed,
       leechers: 0,
       metadata: String(torrent.url),
-      ...getHealth(torrent.seed, torrent.peer),
       _provider: 'pct'
     };
   }
@@ -110,9 +109,8 @@ export default class PctTorrentProvider {
       formattedTorrents.push({
         quality: quality === '0' ? '0p' : quality,
         magnet: torrent.url,
-        seeders: torrent.seeds,
-        leechers: 0,
-        ...getHealth(torrent.seeds, torrent.peers, 0),
+        seeders: torrent.seeds || torrent.seed,
+        leechers: torrent.peers || torrent.peer,
         _provider: 'pct'
       });
     }

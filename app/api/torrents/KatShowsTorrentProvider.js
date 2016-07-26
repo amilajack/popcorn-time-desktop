@@ -18,7 +18,6 @@ export default class KatShowsTorrentProvider {
   static formatTorrent(torrent) {
     return {
       ...torrent,
-      ...getHealth(torrent.seeders, torrent.seeders, torrent.leechers),
       _provider: 'kat-shows'
     };
   }

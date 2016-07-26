@@ -8,7 +8,8 @@ import {
   determineQuality,
   formatSeasonEpisodeToString,
   formatSeasonEpisodeToObject,
-  sortTorrentsBySeeders
+  sortTorrentsBySeeders,
+  getHealth
 } from './BaseTorrentProvider';
 
 
@@ -34,27 +35,43 @@ export default async function TorrentAdapter(imdbId,
       const providerResults = await Promise.all(torrentPromises);
       const { season, episode } = extendedDetails;
 
-      if (type === 'shows') {
-        return selectTorrents(
-          merge(providerResults)
-            .filter(show => !!show.metadata)
-            .filter(show => filterShows(show, season, episode)),
-          undefined,
-          returnAll
-        );
+      switch (type) {
+        case 'movies':
+          return selectTorrents(
+            merge(providerResults).map(result => ({
+              ...result,
+              method: 'movies'
+            })),
+            undefined,
+            returnAll
+          );
+        case 'shows':
+          return selectTorrents(
+            merge(providerResults)
+              .filter(show => !!show.metadata)
+              .filter(show => filterShows(show, season, episode))
+              .map(result => ({
+                ...result,
+                method: 'shows'
+              })),
+            undefined,
+            returnAll
+          );
+        case 'season_complete':
+          return selectTorrents(
+            merge(providerResults)
+              .filter(show => !!show.metadata)
+              .filter(show => filterShowsComplete(show, season))
+              .map(result => ({
+                ...result,
+                method: 'season_complete'
+              })),
+            undefined,
+            returnAll
+          );
+        default:
+          throw new Error('Invalid query method');
       }
-
-      if (type === 'season_complete') {
-        return selectTorrents(
-          merge(providerResults)
-            .filter(show => !!show.metadata)
-            .filter(show => filterShowsComplete(show, season)),
-          undefined,
-          returnAll
-        );
-      }
-
-      return selectTorrents(merge(providerResults), undefined, returnAll);
     }
     case 'race': {
       return Promise.race(torrentPromises);
@@ -80,11 +97,13 @@ function merge(providerResults) {
     }
   }
 
-  const formattedResults = mergedResults.map(result => (
-    'quality' in result
-      ? result
-      : { ...result, quality: determineQuality(result.magnet, result.metadata, result) })
-  );
+  const formattedResults = mergedResults.map(result => ({
+    ...result,
+    health: getHealth(result.seeders, result.leechers),
+    quality: 'quality' in result
+                ? result.quality
+                : determineQuality(result.magnet, result.metadata, result)
+  }));
 
   return formattedResults;
 }

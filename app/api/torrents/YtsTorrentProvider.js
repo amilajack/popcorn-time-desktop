@@ -1,5 +1,5 @@
 import fetch from 'isomorphic-fetch';
-import { determineQuality, getHealth } from './BaseTorrentProvider';
+import { determineQuality } from './BaseTorrentProvider';
 
 
 export default class YtsTorrentProvider {
@@ -16,9 +16,8 @@ export default class YtsTorrentProvider {
       quality: determineQuality(torrent.quality),
       magnet: constructMagnet(torrent.hash),
       seeders: parseInt(torrent.seeds, 10),
-      leechers: 0,
+      leechers: parseInt(torrent.peers, 10),
       metadata: (String(torrent.url) + String(torrent.hash)) || String(torrent.hash),
-      ...getHealth(torrent.seeds, torrent.peers),
       _provider: 'yts'
     };
   }

@@ -77,23 +77,23 @@ export function isExactEpisode(title, season, episode) {
   return title.toLowerCase().includes(formatSeasonEpisodeToString(season, episode));
 }
 
-export function getHealth(seeders, peers) {
+export function getHealth(seeders, leechers = 0) {
   let health;
-  const total = (!!seeders && !!peers) ? (seeders + peers) : seeders;
+  const ratio = (seeders && leechers) ? (seeders / leechers) : seeders;
 
-  if (total >= 100) {
-    health = 'healthy';
-  }
-
-  if (total >= 50 && total < 100) {
-    health = 'decent';
-  }
-
-  if (total < 50) {
+  if (seeders < 50) {
     health = 'poor';
   }
 
-  return { health };
+  if (ratio > 1 && seeders >= 50 && seeders < 100) {
+    health = 'decent';
+  }
+
+  if (ratio > 1 && seeders >= 100) {
+    health = 'healthy';
+  }
+
+  return health;
 }
 
 export function hasNonEnglishLanguage(metadata) {

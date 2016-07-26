@@ -46,7 +46,6 @@ export default class Movie extends Component {
     },
     selectedSeason: 1,
     selectedEpisode: 1,
-    isUsingSeasonComplete: false,
     seasons: [],
     season: [],
     episode: {},
@@ -194,17 +193,25 @@ export default class Movie extends Component {
             });
           } else {
             if (process.env.FLAG_SEASON_COMPLETE === 'true') {
-              torrent = await this.butter.getTorrent(imdbId, 'season_complete', {
-                season,
-                searchQuery: title
-              });
-
-              this.setState({ isUsingSeasonComplete: false });
+              const [shows, seasonComplete] = Promise.all([
+                this.butter.getTorrent(imdbId, this.props.activeMode, {
+                  season,
+                  episode,
+                  searchQuery: title
+                }),
+                this.butter.getTorrent(imdbId, 'season_complete', {
+                  season,
+                  searchQuery: title
+                })
+              ]);
 
               idealTorrent = getIdealTorrent([
-                torrent['1080p'] || this.defaultTorrent,
-                torrent['720p'] || this.defaultTorrent,
-                torrent['480p'] || this.defaultTorrent
+                shows['1080p'] || this.defaultTorrent,
+                shows['720p'] || this.defaultTorrent,
+                shows['480p'] || this.defaultTorrent,
+                seasonComplete['1080p'] || this.defaultTorrent,
+                seasonComplete['720p'] || this.defaultTorrent,
+                seasonComplete['480p'] || this.defaultTorrent
               ]);
             } else {
               torrent = await this.butter.getTorrent(imdbId, this.props.activeMode, {

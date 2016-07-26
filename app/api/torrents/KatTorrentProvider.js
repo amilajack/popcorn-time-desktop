@@ -4,7 +4,6 @@
 
 import { search } from 'super-kat';
 import {
-  getHealth,
   formatSeasonEpisodeToString,
   constructQueries,
   handleProviderError
@@ -30,7 +29,6 @@ export default class KatTorrentProvider {
       seeders: torrent.seeders,
       leechers: torrent.leechers,
       metadata: String(torrent.title + torrent.magnet) || String(torrent.magnet),
-      ...getHealth(torrent.seeders),
       _provider: 'kat'
     };
   }

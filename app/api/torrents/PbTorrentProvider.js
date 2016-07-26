@@ -3,7 +3,6 @@
  */
 import fetch from 'isomorphic-fetch';
 import {
-  getHealth,
   formatSeasonEpisodeToString,
   constructQueries,
   handleProviderError
@@ -42,7 +41,6 @@ export default class PbTorrentProvider {
       metadata: (String(torrent.name) || '') +
                 (String(torrent.magnetLink) || '') +
                 (String(torrent.link) || ''),
-      ...getHealth(torrent.seeders),
       _provider: 'pb'
     };
   }
