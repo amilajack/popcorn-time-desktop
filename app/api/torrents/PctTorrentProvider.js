@@ -1,5 +1,5 @@
 import fetch from 'isomorphic-fetch';
-import { getHealth, handleError } from './BaseTorrentProvider';
+import { getHealth, handleProviderError } from './BaseTorrentProvider';
 
 
 export default class PctTorrentProvider {
@@ -49,7 +49,7 @@ export default class PctTorrentProvider {
         const show = await request
           .then(res => res.episodes.map(eachEpisode => this.formatEpisode(eachEpisode)))
           .catch(error => {
-            handleError(error);
+            handleProviderError(error);
             return [];
           });
 
@@ -125,13 +125,13 @@ export default class PctTorrentProvider {
       case 'movies':
         return this.fetch(imdbId, type, extendedDetails)
           .catch(error => {
-            handleError(error);
+            handleProviderError(error);
             return [];
           });
       case 'shows':
         return this.fetch(imdbId, type, extendedDetails)
           .catch(error => {
-            handleError(error);
+            handleProviderError(error);
             return [];
           });
       default:

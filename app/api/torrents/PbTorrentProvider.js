@@ -6,7 +6,7 @@ import {
   getHealth,
   formatSeasonEpisodeToString,
   constructQueries,
-  handleError
+  handleProviderError
 } from './BaseTorrentProvider';
 
 
@@ -29,7 +29,7 @@ export default class PbTorrentProvider {
       torrent => this.formatTorrent(torrent)
     ))
     .catch(error => {
-      handleError(error);
+      handleProviderError(error);
       return [];
     });
   }
@@ -58,7 +58,7 @@ export default class PbTorrentProvider {
       case 'movies': {
         return this.fetch(searchQuery)
           .catch(error => {
-            handleError(error);
+            handleProviderError(error);
             return [];
           });
       }
@@ -68,7 +68,7 @@ export default class PbTorrentProvider {
           `${searchQuery} ${formatSeasonEpisodeToString(season, episode)}`
         )
           .catch(error => {
-            handleError(error);
+            handleProviderError(error);
             return [];
           });
       }
@@ -90,7 +90,7 @@ export default class PbTorrentProvider {
           ))
         )
         .catch(error => {
-          handleError(error);
+          handleProviderError(error);
           return [];
         });
       }

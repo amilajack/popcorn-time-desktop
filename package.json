@@ -13,7 +13,7 @@
     "bench-api": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 mocha --bail --slow 3000 --timeout 20000 --inline-diffs --async-only --compilers js:babel-register --recursive --require ./test/setup.js test/**/*.benchmark.js",
     "test-api": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 mocha --bail --slow 3000 --timeout 10000 --inline-diffs --async-only --compilers js:babel-register --recursive --require ./test/setup.js test/**/*.spec.js",
     "test-watch": "npm test -- --watch",
-    "test-e2e": "cross-env NODE_ENV=test mocha --bail --slow 3000 --timeout 10000 --inline-diffs --compilers js:babel-register --require ./test/setup.js --require co-mocha ./test/e2e.js",
+    "test-e2e": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 mocha --bail --slow 3000 --timeout 10000 --inline-diffs --compilers js:babel-register --require ./test/setup.js --require co-mocha ./test/e2e.js",
     "test": "npm run lint && npm run package && npm run test-api && npm run test-e2e",
     "start": "cross-env NODE_ENV=production electron ./",
     "start-hot": "cross-env HOT=1 NODE_ENV=development electron -r babel-register ./main.development",

@@ -29,68 +29,116 @@ export async function generateMockShows() {
 
 describe('Benchmark Butter Shows: Top 50', () => {
   describe('Season 1', () => {
-    for (const show of shows) {
-      it(`Shows: ${show.title} season 1, episode 1`, async (done) => {
-        try {
-          const torrents = await butter.getTorrent(show.id, 'shows', {
-            season: 1,
-            episode: 1,
-            searchQuery: show.title
-          }, true);
-          console.log('\t Seeder Count: ', torrents.length ? getIdealTorrent(torrents).seeders : 0);
-          done();
-        } catch (err) {
-          done(err);
-        }
+    describe('Show', function testShow() {
+      before(() => {
+        this.torrentCount = 0;
       });
-    }
+      after(() => {
+        console.log(`\t Average Seeder Count: ${this.torrentCount / shows.length}`);
+      });
+      for (const show of shows) {
+        it(`Shows: ${show.title} season 1, episode 1`, async (done) => {
+          try {
+            const torrents = await butter.getTorrent(show.id, 'shows', {
+              season: 1,
+              episode: 1,
+              searchQuery: show.title
+            }, true);
+            const torrentCount = torrents.length ? getIdealTorrent(torrents).seeders : 0;
+            this.torrentCount += torrentCount;
+            console.log(
+              '\t Seeder Count: ', torrentCount
+            );
+            done();
+          } catch (err) {
+            done(err);
+          }
+        });
+      }
+    });
 
-    for (const show of shows) {
-      it(`Season Complete: ${show.title} season 1`, async function (done) {
-        try {
-          const torrents = await butter.getTorrent(show.id, 'season_complete', {
-            season: 1,
-            searchQuery: show.title
-          }, true);
-          console.log('\t Seeder Count: ', torrents.length ? getIdealTorrent(torrents).seeders : 0);
-          done();
-        } catch (err) {
-          done(err);
-        }
+    describe('Show Complete', function testShowComplete() {
+      before(() => {
+        this.torrentCount = 0;
       });
-    }
+      after(() => {
+        console.log(`\t Average Seeder Count: ${this.torrentCount / shows.length}`);
+      });
+      for (const show of shows) {
+        it(`Season Complete: ${show.title} season 1`, async (done) => {
+          try {
+            const torrents = await butter.getTorrent(show.id, 'season_complete', {
+              season: 1,
+              searchQuery: show.title
+            }, true);
+            const torrentCount = torrents.length ? getIdealTorrent(torrents).seeders : 0;
+            this.torrentCount += torrentCount;
+            console.log(
+              '\t Seeder Count: ', torrentCount
+            );
+            done();
+          } catch (err) {
+            done(err);
+          }
+        });
+      }
+    });
   });
 
   describe('Season 2', () => {
-    for (const show of shows) {
-      it(`Shows: ${show.title} season 2, episode 1`, async (done) => {
-        try {
-          const torrents = await butter.getTorrent(show.id, 'shows', {
-            season: 1,
-            episode: 1,
-            searchQuery: show.title
-          }, true);
-          console.log('\t Seeder Count: ', torrents.length ? getIdealTorrent(torrents).seeders : 0);
-          done();
-        } catch (err) {
-          done(err);
-        }
+    describe('Show', function testShow() {
+      before(() => {
+        this.torrentCount = 0;
       });
-    }
+      after(() => {
+        console.log(`\t Average Seeder Count: ${this.torrentCount / shows.length}`);
+      });
+      for (const show of shows) {
+        it(`Shows: ${show.title} season 2, episode 1`, async (done) => {
+          try {
+            const torrents = await butter.getTorrent(show.id, 'shows', {
+              season: 1,
+              episode: 1,
+              searchQuery: show.title
+            }, true);
+            const torrentCount = torrents.length ? getIdealTorrent(torrents).seeders : 0;
+            this.torrentCount += torrentCount;
+            console.log(
+              '\t Seeder Count: ', torrentCount
+            );
+            done();
+          } catch (err) {
+            done(err);
+          }
+        });
+      }
+    });
 
-    for (const show of shows) {
-      it(`Season Complete: ${show.title} season 2`, async function (done) {
-        try {
-          const torrents = await butter.getTorrent(show.id, 'season_complete', {
-            season: 1,
-            searchQuery: show.title
-          }, true);
-          console.log('\t Seeder Count: ', torrents.length ? getIdealTorrent(torrents).seeders : 0);
-          done();
-        } catch (err) {
-          done(err);
-        }
+    describe('Show Complete', function testShowComplete() {
+      before(() => {
+        this.torrentCount = 0;
       });
-    }
+      after(() => {
+        console.log(`\t Average Seeder Count: ${this.torrentCount / shows.length}`);
+      });
+      for (const show of shows) {
+        it(`Season Complete: ${show.title} season 2`, async (done) => {
+          try {
+            const torrents = await butter.getTorrent(show.id, 'season_complete', {
+              season: 1,
+              searchQuery: show.title
+            }, true);
+            const torrentCount = torrents.length ? getIdealTorrent(torrents).seeders : 0;
+            this.torrentCount += torrentCount;
+            console.log(
+              '\t Seeder Count: ', torrentCount
+            );
+            done();
+          } catch (err) {
+            done(err);
+          }
+        });
+      }
+    });
   });
 });

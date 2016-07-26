@@ -524,7 +524,7 @@ describe('api ->', function testApi() {
 
       describe('Series Tests', () => {
         for (const show of MockShows) {
-          it('description', async (done) => {
+          it('should return valid torrents for top 50 shows', async (done) => {
             try {
               const torrent = await butterFactory().getTorrent(show.id, 'shows', {
                 season: 1,

@@ -156,7 +156,7 @@ export function getIdealTorrent(torrents) {
   })[0];
 }
 
-export function handleError(error) {
+export function handleProviderError(error) {
   if (process.env.NODE_ENV === 'development') {
     console.log(error);
   }
