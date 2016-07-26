@@ -126,7 +126,7 @@
     "redux-devtools-log-monitor": "^1.0.11",
     "redux-logger": "^2.6.1",
     "run-sequence": "^1.2.2",
-    "sinon": "^1.17.4",
+    "sinon": "^1.17.5",
     "source-map-support": "^0.4.2",
     "spectron": "^3.2.6",
     "style-loader": "^0.13.1",
