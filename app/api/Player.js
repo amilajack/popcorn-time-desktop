@@ -49,6 +49,8 @@ export default class Player {
    * Reset they player's state
    */
   reset() {
+    clearInterval(this.intervalId);
+
     switch (this.currentPlayer) {
       case 'plyr':
         this.player.restart();
@@ -61,6 +63,8 @@ export default class Player {
   }
 
   constructSource(streamingUrl, metadata) {
+    clearInterval(this.intervalId);
+
     const defaultSource = {
       type: 'video',
       sources: [{

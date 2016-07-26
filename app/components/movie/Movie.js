@@ -33,10 +33,10 @@ export default class Movie extends Component {
   };
 
   defaultTorrent = {
-    default: { quality: '', magnet: '' },
-    '1080p': { quality: '', magnet: '' },
-    '720p': { quality: '', magnet: '' },
-    '480p': { quality: '', magnet: '' }
+    default: { quality: undefined, magnet: undefined, seeders: 0 },
+    '1080p': { quality: undefined, magnet: undefined, seeders: 0 },
+    '720p': { quality: undefined, magnet: undefined, seeders: 0 },
+    '480p': { quality: undefined, magnet: undefined, seeders: 0 }
   };
 
   initialState = {
@@ -193,7 +193,7 @@ export default class Movie extends Component {
             });
           } else {
             if (process.env.FLAG_SEASON_COMPLETE === 'true') {
-              const [shows, seasonComplete] = Promise.all([
+              const [shows, seasonComplete] = await Promise.all([
                 this.butter.getTorrent(imdbId, this.props.activeMode, {
                   season,
                   episode,
@@ -205,6 +205,12 @@ export default class Movie extends Component {
                 })
               ]);
 
+              torrent = {
+                '1080p': getIdealTorrent([shows['1080p'], seasonComplete['1080p']]),
+                '720p': getIdealTorrent([shows['720p'], seasonComplete['720p']]),
+                '480p': getIdealTorrent([shows['480p'], seasonComplete['480p']])
+              };
+
               idealTorrent = getIdealTorrent([
                 shows['1080p'] || this.defaultTorrent,
                 shows['720p'] || this.defaultTorrent,
@@ -213,6 +219,9 @@ export default class Movie extends Component {
                 seasonComplete['720p'] || this.defaultTorrent,
                 seasonComplete['480p'] || this.defaultTorrent
               ]);
+
+              console.log({ torrent });
+              console.log({ idealTorrent });
             } else {
               torrent = await this.butter.getTorrent(imdbId, this.props.activeMode, {
                 season,
@@ -298,7 +307,7 @@ export default class Movie extends Component {
   /**
    * @todo: Abstract 'listening' event to Torrent api
    */
-  async startTorrent(magnetURI) {
+  async startTorrent(magnetURI, activeMode) {
     if (this.state.torrentInProgress) {
       this.stopTorrent();
     }
@@ -306,10 +315,7 @@ export default class Movie extends Component {
     this.setState({ torrentInProgress: true });
 
     const metadata = {
-      activeMode: process.env.FLAG_SEASON_COMPLETE === 'true' &&
-                  this.props.activeMode === 'shows'
-                    ? 'season_complete'
-                    : this.props.activeMode,
+      activeMode,
       season: this.state.selectedSeason,
       episode: this.state.selectedEpisode
     };
@@ -380,7 +386,13 @@ export default class Movie extends Component {
               </Link>
               <span>
                 <button
-                  onClick={this.startTorrent.bind(this, this.state.idealTorrent.magnet)}
+                  onClick={
+                    this.startTorrent.bind(
+                      this,
+                      this.state.idealTorrent.magnet,
+                      this.state.idealTorrent.method
+                    )
+                  }
                   disabled={!this.state.idealTorrent.quality}
                 >
                   Start Ideal Torrent
@@ -389,20 +401,38 @@ export default class Movie extends Component {
               {process.env.FLAG_MANUAL_TORRENT_SELECTION === 'true' ?
                 <span>
                   <button
-                    onClick={this.startTorrent.bind(this, this.state.torrent['1080p'].magnet)}
+                    onClick={
+                      this.startTorrent.bind(
+                        this,
+                        this.state.torrent['1080p'].magnet,
+                        this.state.torrent['1080p'].method
+                      )
+                    }
                     disabled={!this.state.torrent['1080p'].quality}
                   >
                     Start 1080p -- {this.state.torrent['1080p'].seeders} seeders
                   </button>
                   <button
-                    onClick={this.startTorrent.bind(this, this.state.torrent['720p'].magnet)}
+                    onClick={
+                      this.startTorrent.bind(
+                        this,
+                        this.state.torrent['720p'].magnet,
+                        this.state.torrent['720p'].method
+                      )
+                    }
                     disabled={!this.state.torrent['720p'].quality}
                   >
                     Start 720p -- {this.state.torrent['720p'].seeders} seeders
                   </button>
                   {this.props.activeMode === 'shows' ?
                     <button
-                      onClick={this.startTorrent.bind(this, this.state.torrent['480p'].magnet)}
+                      onClick={
+                        this.startTorrent.bind(
+                          this,
+                          this.state.torrent['480p'].magnet,
+                          this.state.torrent['480p'].method
+                        )
+                      }
                       disabled={!this.state.torrent['480p'].quality}
                     >
                       Start 480p -- {this.state.torrent['480p'].seeders} seeders

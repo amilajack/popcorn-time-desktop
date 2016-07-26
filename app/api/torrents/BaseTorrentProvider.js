@@ -79,21 +79,24 @@ export function isExactEpisode(title, season, episode) {
 
 export function getHealth(seeders, leechers = 0) {
   let health;
-  const ratio = (seeders && leechers) ? (seeders / leechers) : seeders;
+  const ratio = (seeders && !!leechers) ? (seeders / leechers) : seeders;
 
   if (seeders < 50) {
     health = 'poor';
+    return health;
   }
 
   if (ratio > 1 && seeders >= 50 && seeders < 100) {
     health = 'decent';
+    return health;
   }
 
   if (ratio > 1 && seeders >= 100) {
     health = 'healthy';
+    return health;
   }
 
-  return health;
+  return 'poor';
 }
 
 export function hasNonEnglishLanguage(metadata) {
@@ -141,19 +144,28 @@ export function constructQueries(title, season) {
   return [
     `${title} season ${season}`,
     `${title} season ${season} complete`,
-    `${title} ${formattedSeasonNumber} complete`,
-    `${title} season ${season} ${formattedSeasonNumber} complete`
+    `${title} season ${formattedSeasonNumber} complete`
   ];
 }
 
 export function getIdealTorrent(torrents) {
-  return torrents.sort((prev, next) => {
-    if (prev.seeders === next.seeders) {
-      return 0;
-    }
+  const idealTorrent = torrents
+    .filter(torrent => !!torrent)
+    .filter(
+      torrent => typeof torrent.seeders === 'number'
+    );
 
-    return prev.seeders > next.seeders ? -1 : 1;
-  })[0];
+  return !!idealTorrent
+    ?
+      idealTorrent.sort((prev, next) => {
+        if (prev.seeders === next.seeders) {
+          return 0;
+        }
+
+        return prev.seeders > next.seeders ? -1 : 1;
+      })[0]
+    :
+      idealTorrent;
 }
 
 export function handleProviderError(error) {

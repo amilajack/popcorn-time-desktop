@@ -18,11 +18,9 @@ export default class PbTorrentProvider {
     //       PirateBay's database errors.
     const searchQueryUrl = `${searchEndpoint}/${searchQuery}`;
 
-    return Promise.race([
-      fetch(searchQueryUrl),
-      fetch(searchQueryUrl),
-      fetch(searchQueryUrl)
-    ])
+    return fetch(
+      searchQueryUrl
+    )
     .then(res => res.json())
     .then(torrents => torrents.map(
       torrent => this.formatTorrent(torrent)
@@ -54,21 +52,23 @@ export default class PbTorrentProvider {
 
     switch (type) {
       case 'movies': {
-        return this.fetch(searchQuery)
-          .catch(error => {
-            handleProviderError(error);
-            return [];
-          });
+        return this.fetch(
+          searchQuery
+        )
+        .catch(error => {
+          handleProviderError(error);
+          return [];
+        });
       }
       case 'shows': {
         const { season, episode } = extendedDetails;
         return this.fetch(
           `${searchQuery} ${formatSeasonEpisodeToString(season, episode)}`
         )
-          .catch(error => {
-            handleProviderError(error);
-            return [];
-          });
+        .catch(error => {
+          handleProviderError(error);
+          return [];
+        });
       }
       case 'season_complete': {
         const { season } = extendedDetails;

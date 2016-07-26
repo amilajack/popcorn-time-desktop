@@ -29,7 +29,7 @@ export default class Torrent {
     const { season, episode, activeMode } = metadata;
 
     if (activeMode === 'season_complete') {
-      console.log('Using season_complete method');
+      console.warn("Using 'season_complete' method");
       this.engine = new WebTorrent();
 
       this.engine.add(magnetURI, torrent => {
