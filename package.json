@@ -149,7 +149,7 @@
     "jquery": "^3.1.0",
     "kat-api": "github:amilajack/kat-api",
     "kat-shows": "0.0.5",
-    "notie": "^3.8.4",
+    "notie": "^3.9.0",
     "peerflix": "^0.35.1",
     "plyr": "^1.8.8",
     "react": "^15.2.1",
