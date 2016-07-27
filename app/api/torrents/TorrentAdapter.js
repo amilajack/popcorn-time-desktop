@@ -9,7 +9,9 @@ import {
   formatSeasonEpisodeToString,
   formatSeasonEpisodeToObject,
   sortTorrentsBySeeders,
-  getHealth
+  getHealth,
+  resolveCache,
+  setCache
 } from './BaseTorrentProvider';
 
 
@@ -17,7 +19,8 @@ export default async function TorrentAdapter(imdbId,
                                               type,
                                               extendedDetails,
                                               returnAll = false,
-                                              method = 'all') {
+                                              method = 'all',
+                                              cache = true) {
   const providers = [
     require('./YtsTorrentProvider'),
     require('./PbTorrentProvider'),
@@ -25,6 +28,12 @@ export default async function TorrentAdapter(imdbId,
     require('./KatTorrentProvider')
     // require('./KatShowsTorrentProvider')
   ];
+
+  const args = JSON.stringify({ extendedDetails, returnAll, method });
+
+  if (resolveCache(args) && cache) {
+    return resolveCache(args);
+  }
 
   const torrentPromises = providers.map(
     provider => provider.provide(imdbId, type, extendedDetails)
@@ -43,7 +52,8 @@ export default async function TorrentAdapter(imdbId,
               method: 'movies'
             })),
             undefined,
-            returnAll
+            returnAll,
+            args
           );
         case 'shows':
           return selectTorrents(
@@ -55,7 +65,8 @@ export default async function TorrentAdapter(imdbId,
                 method: 'shows'
               })),
             undefined,
-            returnAll
+            returnAll,
+            args
           );
         case 'season_complete':
           return selectTorrents(
@@ -67,7 +78,8 @@ export default async function TorrentAdapter(imdbId,
                 method: 'season_complete'
               })),
             undefined,
-            returnAll
+            returnAll,
+            args
           );
         default:
           throw new Error('Invalid query method');
@@ -140,9 +152,10 @@ export function filterShowsComplete(show, season) {
  * @param  {array}  torrents
  * @param  {string} sortMethod
  * @param  {bool}   returnAll
+ * @param  {object} key
  * @return {object}
  */
-export function selectTorrents(torrents, sortMethod = 'seeders', returnAll = false) {
+export function selectTorrents(torrents, sortMethod = 'seeders', returnAll = false, key) {
   const sortedTorrents = sortTorrentsBySeeders(
     torrents
       .filter(
@@ -150,13 +163,15 @@ export function selectTorrents(torrents, sortMethod = 'seeders', returnAll = fal
       )
   );
 
-  if (returnAll) {
-    return sortedTorrents;
-  }
+  const formattedTorrents = returnAll
+    ? sortedTorrents
+    : {
+      '480p': sortedTorrents.find(torrent => torrent.quality === '480p'),
+      '720p': sortedTorrents.find(torrent => torrent.quality === '720p'),
+      '1080p': sortedTorrents.find(torrent => torrent.quality === '1080p')
+    };
 
-  return {
-    '480p': sortedTorrents.find(torrent => torrent.quality === '480p'),
-    '720p': sortedTorrents.find(torrent => torrent.quality === '720p'),
-    '1080p': sortedTorrents.find(torrent => torrent.quality === '1080p')
-  };
+  setCache(key, formattedTorrents);
+
+  return formattedTorrents;
 }

@@ -119,6 +119,7 @@
     "jsdom": "^9.4.1",
     "json-loader": "^0.5.4",
     "kat-shows": "0.0.5",
+    "lru-cache": "^4.0.1",
     "minimist": "^1.2.0",
     "mocha": "^2.5.3",
     "node-libs-browser": "^1.0.0",

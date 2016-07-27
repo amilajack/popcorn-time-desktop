@@ -1,5 +1,12 @@
 /* eslint prefer-template: 0 */
 
+import cache from 'lru-cache';
+
+
+export const providerCache = cache({
+  maxAge: process.env.CONFIG_CACHE_TIMEOUT || 1000 * 60 * 60 // 1 hr
+});
+
 export function determineQuality(magnet, metadata) {
   const lowerCaseMetadata = (metadata || magnet).toLowerCase();
 
@@ -172,4 +179,19 @@ export function handleProviderError(error) {
   if (process.env.NODE_ENV === 'development') {
     console.log(error);
   }
+}
+
+export function resolveCache(key) {
+  return (
+    providerCache.has(key)
+      ? providerCache.get(key)
+      : false
+  );
+}
+
+export function setCache(key, value) {
+  return providerCache.set(
+    key,
+    value
+  );
 }

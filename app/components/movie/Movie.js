@@ -219,9 +219,6 @@ export default class Movie extends Component {
                 seasonComplete['720p'] || this.defaultTorrent,
                 seasonComplete['480p'] || this.defaultTorrent
               ]);
-
-              console.log({ torrent });
-              console.log({ idealTorrent });
             } else {
               torrent = await this.butter.getTorrent(imdbId, this.props.activeMode, {
                 season,
