@@ -47,7 +47,11 @@ export default class Header extends Component {
     return (
       <div className="col-xs-12">
         <nav className="navbar navbar-dark navbar-fixed-top bg-inverse">
-          <a className="navbar-brand">Popcorn Time</a>
+          <a
+            className="navbar-brand"
+            onClick={this.setActiveMode.bind(this, 'movies')}
+            href="#"
+          >Popcorn Time</a>
           <ul className="nav navbar-nav">
             <li
               className={classNames('nav-item', {
