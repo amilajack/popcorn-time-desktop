@@ -5,7 +5,7 @@ import cache from 'lru-cache';
 
 export const providerCache = cache({
   maxAge: process.env.CONFIG_CACHE_TIMEOUT
-            ? parseInt(process.env.CONFIG_CACHE_TIMEOUT, 10)
+            ? parseInt(process.env.CONFIG_CACHE_TIMEOUT, 10) * 1000 * 60 * 60
             : 1000 * 60 * 60 // 1 hr
 });
 
