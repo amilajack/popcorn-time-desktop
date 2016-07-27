@@ -6,7 +6,7 @@
   "main": "main.js",
   "scripts": {
     "build": "cross-env NODE_ENV=production FLAG_SEASON_COMPLETE=true FLAG_MANUAL_TORRENT_SELECTION=true parallel-webpack --config=webpack.config.build.js",
-    "dev": "cross-env NODE_ENV=development API_USE_MOCK_DATA=true FLAG_SEASON_COMPLETE=true concurrently --kill-others \"npm run hot-server\" \"npm run start-hot\"",
+    "dev": "cross-env NODE_ENV=development FLAG_SEASON_COMPLETE=true concurrently --kill-others \"npm run hot-server\" \"npm run start-hot\"",
     "postinstall": "node node_modules/fbjs-scripts/node/check-dev-engines.js package.json && cd app && npm i",
     "hot-server": "node -r babel-register server.js",
     "lint": "eslint app test *.js",
