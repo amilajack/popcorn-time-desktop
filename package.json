@@ -164,7 +164,7 @@
     "source-map-support": "^0.4.2",
     "thepiratebay": "^1.1.11",
     "trakt.tv": "github:amilajack/trakt.tv",
-    "webtorrent": "^0.95.2"
+    "webtorrent": "^0.95.4"
   },
   "optionalDependencies": {
     "wcjs-prebuilt": "^3.0.0",
