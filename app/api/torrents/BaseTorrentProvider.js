@@ -4,7 +4,9 @@ import cache from 'lru-cache';
 
 
 export const providerCache = cache({
-  maxAge: process.env.CONFIG_CACHE_TIMEOUT || 1000 * 60 * 60 // 1 hr
+  maxAge: process.env.CONFIG_CACHE_TIMEOUT
+            ? parseInt(process.env.CONFIG_CACHE_TIMEOUT, 10)
+            : 1000 * 60 * 60 // 1 hr
 });
 
 export function determineQuality(magnet, metadata) {
@@ -153,6 +155,13 @@ export function constructQueries(title, season) {
     `${title} season ${season} complete`,
     `${title} season ${formattedSeasonNumber} complete`
   ];
+}
+
+/**
+ * @param {array} results | A two-dimentional array containing arrays of results
+ */
+export function merge(results) {
+  return results.reduce((previous, current) => [...previous, ...current]);
 }
 
 export function getIdealTorrent(torrents) {

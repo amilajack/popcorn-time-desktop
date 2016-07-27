@@ -11,7 +11,8 @@ import {
   sortTorrentsBySeeders,
   getHealth,
   resolveCache,
-  setCache
+  setCache,
+  merge
 } from './BaseTorrentProvider';
 
 
@@ -47,7 +48,7 @@ export default async function TorrentAdapter(imdbId,
       switch (type) {
         case 'movies':
           return selectTorrents(
-            merge(providerResults).map(result => ({
+            appendAttributes(providerResults).map(result => ({
               ...result,
               method: 'movies'
             })),
@@ -57,7 +58,7 @@ export default async function TorrentAdapter(imdbId,
           );
         case 'shows':
           return selectTorrents(
-            merge(providerResults)
+            appendAttributes(providerResults)
               .filter(show => !!show.metadata)
               .filter(show => filterShows(show, season, episode))
               .map(result => ({
@@ -70,7 +71,7 @@ export default async function TorrentAdapter(imdbId,
           );
         case 'season_complete':
           return selectTorrents(
-            merge(providerResults)
+            appendAttributes(providerResults)
               .filter(show => !!show.metadata)
               .filter(show => filterShowsComplete(show, season))
               .map(result => ({
@@ -100,16 +101,8 @@ export default async function TorrentAdapter(imdbId,
  * @param  {array} providerResults
  * @return {array}
  */
-function merge(providerResults) {
-  const mergedResults = [];
-
-  for (const results of providerResults) {
-    for (const result of results) {
-      mergedResults.push(result);
-    }
-  }
-
-  const formattedResults = mergedResults.map(result => ({
+function appendAttributes(providerResults) {
+  const formattedResults = merge(providerResults).map(result => ({
     ...result,
     health: getHealth(result.seeders, result.leechers),
     quality: 'quality' in result
