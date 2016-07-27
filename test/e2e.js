@@ -14,7 +14,7 @@ const app = new Application({
 
 const delay = time => new Promise(resolve => setTimeout(resolve, time));
 
-describe('e2e', function testApp() {
+describe('screenshot', function testApp() {
   this.retries(3);
 
   // Constructs url similar to file:///Users/john/popcorn-desktop-experimental/app/app.html#/${url}
@@ -121,19 +121,6 @@ describe('e2e', function testApp() {
         done(error);
       }
     });
-
-    it('should paginate items on scroll to bottom of viewport', async done => {
-      try {
-        const firstCardLinks = await this.app.client.getAttribute('.Card a', 'href');
-        await this.app.client.scroll('.Loader');
-        await delay(2000);
-        const secondCardLinks = await this.app.client.getAttribute('.Card a', 'href');
-        expect(secondCardLinks.length).to.be.greaterThan(firstCardLinks.length);
-        done();
-      } catch (error) {
-        done(error);
-      }
-    });
   });
 
   describe('MoviePage', () => {
@@ -143,30 +130,6 @@ describe('e2e', function testApp() {
         await navigate('item/shows/tt0944947');
         await this.app.client.waitForVisible('.Movie');
         await delay(2000);
-        done();
-      } catch (error) {
-        done(error);
-      }
-    });
-
-    it('should navigate to similar cards on click', async done => {
-      try {
-        const [firstTitleText] = await this.app.client.getText('.Movie h1');
-        const [firstSummaryText] = await this.app.client.getText('.Movie h6');
-
-        this.app.client.click('.CardList .Card--overlay:first-child');
-
-        await delay(2000);
-
-        const [secondTitleText] = await this.app.client.getText('.Movie h1');
-        const [secondSummaryText] = await this.app.client.getText('.Movie h6');
-
-        expect(firstTitleText).to.be.a('string');
-        expect(firstSummaryText).to.be.a('string');
-        expect(secondTitleText).to.be.a('string');
-        expect(secondSummaryText).to.be.a('string');
-        expect(firstTitleText).to.not.equal(secondTitleText);
-        expect(firstSummaryText).to.not.equal(secondSummaryText);
         done();
       } catch (error) {
         done(error);

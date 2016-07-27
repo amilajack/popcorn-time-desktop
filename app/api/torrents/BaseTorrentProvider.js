@@ -191,6 +191,21 @@ export function handleProviderError(error) {
 }
 
 export function resolveCache(key) {
+  if (process.env.API_USE_MOCK_DATA === 'true') {
+    const mock = {
+      ...require('../../../test/api/metadata.mock'), // eslint-disable-line global-require
+      ...require('../../../test/api/torrent.mock')   // eslint-disable-line global-require
+    };
+
+    for (const mockKey of Object.keys(mock)) {
+      if (key.includes(`${mockKey}"`) && Object.keys(mock[mockKey]).length) {
+        return mock[mockKey];
+      }
+    }
+
+    console.warn('Fetching from network:', key);
+  }
+
   return (
     providerCache.has(key)
       ? providerCache.get(key)
@@ -199,6 +214,7 @@ export function resolveCache(key) {
 }
 
 export function setCache(key, value) {
+  console.log(key, value);
   return providerCache.set(
     key,
     value

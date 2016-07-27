@@ -17,7 +17,7 @@ function MetadataAdapter() {
   return providers;
 }
 
-function handleRequest(method, args) {
+async function handleRequest(method, args) {
   const key = JSON.stringify(method) + JSON.stringify(args);
 
   if (resolveCache(key)) {
@@ -25,13 +25,27 @@ function handleRequest(method, args) {
     return resolveCache(key);
   }
 
-  const results = MetadataAdapter()
-    .map(provider => provider[method].apply(provider, args));
+  const results = await Promise.all(
+    MetadataAdapter()
+      .map(provider => provider[method].apply(provider, args))
+  );
 
   const mergedResults = merge(results);
   setCache(key, mergedResults);
 
   return mergedResults;
+}
+
+/**
+ * Get list of movies with specific paramaters
+ *
+ * @param {string} query
+ * @param {number} limit
+ * @param {string} genre
+ * @param {string} sortBy
+ */
+export function search(...args) {
+  return handleRequest('search', args);
 }
 
 /**
@@ -53,18 +67,6 @@ export function getMovie(...args) {
  */
 export function getMovies(...args) {
   return handleRequest('getMovies', args);
-}
-
-/**
- * Get list of movies with specific paramaters
- *
- * @param {string} query
- * @param {number} limit
- * @param {string} genre
- * @param {string} sortBy
- */
-export function search(...args) {
-  return handleRequest('search', args);
 }
 
 /**
