@@ -52,6 +52,8 @@ describe('screenshot', function testApp() {
       }
     });
 
+    // app.client.waitUntilWindowLoaded(10000)
+
     it('should display CardList', async done => {
       try {
         const cardListIsDisplayed = await findCardList().isVisible('.CardList');
