@@ -6,11 +6,10 @@ const test = speedTest({
   maxTime: 5000
 });
 
-export default function getSpeed() {
+export function getDownloadSpeed() {
   test.on('data', (data) => {
     console.log('Download Speed:  ${data.speeds.download} Mb/s');
-    console.log('Upload Speed: ${data.speeds.upload} Mb/s');
-    return data; // the whole object for now
+    return data.speeds.download;
   });
   test.on('error', (err) => {
     console.log('Speed test error:');
@@ -18,4 +17,16 @@ export default function getSpeed() {
   });
 }
 
-// setInterval(getSpeed, process.env.REFRESH_RATE || REFRESH_RATE);
+export function getUploadSpeed() {
+  test.on('data', (data) => {
+    console.log('Upload Speed: ${data.speeds.upload} Mb/s');
+    return data.speeds.upload;
+  });
+  test.on('error', (err) => {
+    console.log('Speed test error:');
+    return err;
+  });
+}
+
+// setInterval(getUploadSpeed, process.env.NETWORK_REFRESH_RATE || REFRESH_RATE);
+// setInterval(getDownloadSpeed, process.env.NETWORK_REFRESH_RATE || REFRESH_RATE);
