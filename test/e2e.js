@@ -138,7 +138,6 @@ describe('screenshot', function testApp() {
       }
     });
   });
-  
   describe('Screenshots', () => {
     beforeEach(async done => {
       try {
@@ -153,7 +152,6 @@ describe('screenshot', function testApp() {
         done(error);
       }
     });
-    
     it('should match the control homepage screenshot', async done => {
       try {
         const diff = resemble('./screenshots/page.png')
