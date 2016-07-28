@@ -136,4 +136,37 @@ describe('screenshot', function testApp() {
       }
     });
   });
+  
+  describe('Screenshots', () => {
+    beforeEach(async done => {
+      try {
+        // navigate to homepage (Movie Page)
+        await navigate('');
+        await this.app.client.waitForVisible('.Movie');
+        this.app.browserWindow.capturePage().then(imageBuffer => {
+          fs.writeFile('./screenshots/page.png', imageBuffer);
+        });
+        done();
+      } catch (error) {
+        done(error);
+      }
+    });
+    
+    it('should match the control homepage screenshot', async done => {
+      try {
+        const diff = resemble('./screenshots/page.png')
+          .compareTo('./screenshots/base-homepage.png')
+          .ignoreColors()
+          .onComplete(data => {
+            console.log(data.misMatchPercentage);
+            return data.misMatchPercentage;
+          });
+        await delay(2000);
+        expect(diff).to.equal(100);
+        done();
+      } catch (error) {
+        done(error);
+      }
+    });
+  });
 });
