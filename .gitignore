@@ -47,7 +47,6 @@ app/dist
 app/main.js
 app/main.js.map
 release
-tmp
 
 # Env configuration
 .env
