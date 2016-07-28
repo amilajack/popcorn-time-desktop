@@ -2,6 +2,8 @@
 import { Application } from 'spectron';
 import path from 'path';
 import { expect } from 'chai';
+import resemble from 'resemblejs';
+import fs from 'fs';
 
 
 const app = new Application({
@@ -130,6 +132,37 @@ describe('screenshot', function testApp() {
         await navigate('item/shows/tt0944947');
         await this.app.client.waitForVisible('.Movie');
         await delay(2000);
+        done();
+      } catch (error) {
+        done(error);
+      }
+    });
+  });
+  describe('Screenshots', () => {
+    beforeEach(async done => {
+      try {
+        // navigate to homepage (Movie Page)
+        await navigate('');
+        await this.app.client.waitForVisible('.Movie');
+        this.app.browserWindow.capturePage().then(imageBuffer => {
+          fs.writeFile('./screenshots/page.png', imageBuffer);
+        });
+        done();
+      } catch (error) {
+        done(error);
+      }
+    });
+    it('should match the control homepage screenshot', async done => {
+      try {
+        const diff = resemble('./screenshots/page.png')
+          .compareTo('./screenshots/base-homepage.png')
+          .ignoreColors()
+          .onComplete(data => {
+            console.log(data.misMatchPercentage);
+            return data.misMatchPercentage;
+          });
+        await delay(2000);
+        expect(diff).to.equal(100);
         done();
       } catch (error) {
         done(error);
