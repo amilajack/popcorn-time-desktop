@@ -2,6 +2,8 @@
 import { Application } from 'spectron';
 import path from 'path';
 import { expect } from 'chai';
+import resemble from 'resemblejs';
+import fs from 'fs';
 
 
 const app = new Application({
