@@ -1,7 +1,9 @@
 // A simple test to verify a visible window is opened with a title
-import { Application } from 'spectron';
 import path from 'path';
+import fs from 'fs';
+import { Application } from 'spectron';
 import { expect } from 'chai';
+import resemble from 'resemblejs';
 
 
 const app = new Application({
@@ -14,7 +16,7 @@ const app = new Application({
 
 const delay = time => new Promise(resolve => setTimeout(resolve, time));
 
-describe('e2e', function testApp() {
+describe('screenshot', function testApp() {
   this.retries(3);
 
   // Constructs url similar to file:///Users/john/popcorn-desktop-experimental/app/app.html#/${url}
@@ -39,18 +41,6 @@ describe('e2e', function testApp() {
     }
   });
 
-  describe('main window', () => {
-    it('should open window', async done => {
-      try {
-        const title = await this.app.client.getTitle();
-        expect(title).to.equal('Popcorn Time');
-        done();
-      } catch (error) {
-        done(error);
-      }
-    });
-  });
-
   describe('HomePage', () => {
     beforeEach(async done => {
       try {
@@ -62,12 +52,14 @@ describe('e2e', function testApp() {
       }
     });
 
-    it('should display CardList', async function cardListTest(done) {
+    it('should display CardList', async done => {
       try {
         const cardListIsDisplayed = await findCardList().isVisible('.CardList');
         const cardIsDisplayed = await findCard().isVisible('.CardList');
         expect(cardListIsDisplayed).to.equal(true);
         expect(cardIsDisplayed).to.equal(true);
+        await delay(1000);
+        await handleScreenshot(this.app, 'CardList');
         done();
       } catch (error) {
         done(error);
@@ -102,8 +94,6 @@ describe('e2e', function testApp() {
 
         await delay(2000);
 
-        const [titleText] = await this.app.client.getText('.Movie h1');
-        expect(titleText).to.be.a('string');
         done();
       } catch (error) {
         done(error);
@@ -116,19 +106,6 @@ describe('e2e', function testApp() {
         await delay(2000);
         const cardLinks = await this.app.client.getAttribute('.Card a', 'href');
         expect(cardLinks[0]).to.include('item/shows');
-        done();
-      } catch (error) {
-        done(error);
-      }
-    });
-
-    it('should paginate items on scroll to bottom of viewport', async done => {
-      try {
-        const firstCardLinks = await this.app.client.getAttribute('.Card a', 'href');
-        await this.app.client.scroll('.Loader');
-        await delay(2000);
-        const secondCardLinks = await this.app.client.getAttribute('.Card a', 'href');
-        expect(secondCardLinks.length).to.be.greaterThan(firstCardLinks.length);
         done();
       } catch (error) {
         done(error);
@@ -148,29 +125,54 @@ describe('e2e', function testApp() {
         done(error);
       }
     });
-
-    it('should navigate to similar cards on click', async done => {
-      try {
-        const [firstTitleText] = await this.app.client.getText('.Movie h1');
-        const [firstSummaryText] = await this.app.client.getText('.Movie h6');
-
-        this.app.client.click('.CardList .Card--overlay:first-child');
-
-        await delay(2000);
-
-        const [secondTitleText] = await this.app.client.getText('.Movie h1');
-        const [secondSummaryText] = await this.app.client.getText('.Movie h6');
-
-        expect(firstTitleText).to.be.a('string');
-        expect(firstSummaryText).to.be.a('string');
-        expect(secondTitleText).to.be.a('string');
-        expect(secondSummaryText).to.be.a('string');
-        expect(firstTitleText).to.not.equal(secondTitleText);
-        expect(firstSummaryText).to.not.equal(secondSummaryText);
-        done();
-      } catch (error) {
-        done(error);
-      }
-    });
   });
 });
+
+async function handleScreenshot(_app, filename) {
+  // Check if the file exists
+  const hasExpectationScreenshot = await new Promise(resolve => {
+    fs.access(`./test/screenshots/${filename}`, error => {
+      if (error) {
+        return resolve(false);
+      }
+      return resolve(true);
+    });
+  });
+
+  if (hasExpectationScreenshot) {
+    await compareScreenshot(_app, filename);
+  } else {
+    await capturePage(_app, filename, './test/screenshots');
+    await compareScreenshot(_app, filename);
+  }
+}
+
+function capturePage(_app, filename, basePath) {
+  return _app.browserWindow
+    .capturePage()
+    .then(imageBuffer =>
+      new Promise((resolve, reject) => {
+        fs.writeFile(`${basePath}/${filename}.png`, imageBuffer, error => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve();
+          }
+        });
+      })
+    );
+}
+
+async function compareScreenshot(_app, filename) {
+  console.log(filename);
+  await capturePage(_app, filename, './temp');
+
+  return new Promise(resolve => {
+    resemble(`./temp/${filename}.png`)
+      .compareTo(`./test/screenshots/${filename}.png`)
+      .ignoreColors()
+      .onComplete(data => {
+        resolve(data.misMatchPercentage);
+      });
+  });
+}

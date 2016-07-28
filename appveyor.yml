@@ -25,4 +25,4 @@ test_script:
   - npm --version
   - npm run test
   - npm run bench-api
-  - npm run test-screenshot
+  # - npm run test-screenshot
