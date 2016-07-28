@@ -80,7 +80,7 @@ describe('e2e', function testApp() {
           .setValue('.navbar input', 'harry potter')
           .click('.navbar button');
 
-        await delay(2000); // await search results
+        await this.app.client.waitUntilWindowLoaded(); // await search results();
 
         const movieTitles = await this.app.client.getText('.Card .Card--title');
         expect(movieTitles[0]).to.include('Harry Potter');
@@ -100,7 +100,8 @@ describe('e2e', function testApp() {
           .isVisible('.Movie');
         expect(isVisible).to.equal(true);
 
-        await delay(2000);
+        await delay(1000);
+        await this.app.client.waitUntilWindowLoaded();
 
         const [titleText] = await this.app.client.getText('.Movie h1');
         expect(titleText).to.be.a('string');
@@ -113,7 +114,7 @@ describe('e2e', function testApp() {
     it('should navigate between movies and shows', async done => {
       try {
         await this.app.client.click('.nav-item:nth-child(2) .nav-link');
-        await delay(2000);
+        await this.app.client.waitUntilWindowLoaded();
         const cardLinks = await this.app.client.getAttribute('.Card a', 'href');
         expect(cardLinks[0]).to.include('item/shows');
         done();
@@ -126,7 +127,8 @@ describe('e2e', function testApp() {
       try {
         const firstCardLinks = await this.app.client.getAttribute('.Card a', 'href');
         await this.app.client.scroll('.Loader');
-        await delay(2000);
+        await delay(1000);
+        await this.app.client.waitUntilWindowLoaded();
         const secondCardLinks = await this.app.client.getAttribute('.Card a', 'href');
         expect(secondCardLinks.length).to.be.greaterThan(firstCardLinks.length);
         done();
@@ -141,8 +143,8 @@ describe('e2e', function testApp() {
       try {
         // navigate to Game of thrones
         await navigate('item/shows/tt0944947');
-        await this.app.client.waitForVisible('.Movie');
-        await delay(2000);
+        await delay(1000);
+        await this.app.client.waitUntilWindowLoaded();
         done();
       } catch (error) {
         done(error);
@@ -157,6 +159,7 @@ describe('e2e', function testApp() {
         this.app.client.click('.CardList .Card--overlay:first-child');
 
         await delay(2000);
+        await this.app.client.waitUntilWindowLoaded();
 
         const [secondTitleText] = await this.app.client.getText('.Movie h1');
         const [secondSummaryText] = await this.app.client.getText('.Movie h6');

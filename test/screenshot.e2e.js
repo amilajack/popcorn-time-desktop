@@ -4,6 +4,7 @@ import fs from 'fs';
 import { Application } from 'spectron';
 import { expect } from 'chai';
 import resemble from 'resemblejs';
+import imageDiff from 'image-diff';
 
 
 const app = new Application({
@@ -52,8 +53,6 @@ describe('screenshot', function testApp() {
       }
     });
 
-    // app.client.waitUntilWindowLoaded(10000)
-
     it('should display CardList', async done => {
       try {
         const cardListIsDisplayed = await findCardList().isVisible('.CardList');
@@ -61,7 +60,8 @@ describe('screenshot', function testApp() {
         expect(cardListIsDisplayed).to.equal(true);
         expect(cardIsDisplayed).to.equal(true);
         await delay(1000);
-        await handleScreenshot(this.app, 'CardList');
+        const diff = await handleScreenshot(this.app, 'CardList');
+        expect(diff).to.have.deep.property('percentage').that.equals(0);
         done();
       } catch (error) {
         done(error);
@@ -133,7 +133,7 @@ describe('screenshot', function testApp() {
 async function handleScreenshot(_app, filename) {
   // Check if the file exists
   const hasExpectationScreenshot = await new Promise(resolve => {
-    fs.access(`./test/screenshots/${filename}`, error => {
+    fs.access(`./test/screenshots/${filename}.png`, error => {
       if (error) {
         return resolve(false);
       }
@@ -142,39 +142,37 @@ async function handleScreenshot(_app, filename) {
   });
 
   if (hasExpectationScreenshot) {
-    await compareScreenshot(_app, filename);
-  } else {
-    await capturePage(_app, filename, './test/screenshots');
-    await compareScreenshot(_app, filename);
+    return compareScreenshot(_app, filename);
   }
+
+  console.log('Does not have screenshot');
+  await capturePage(_app, filename, './test/screenshots');
+  return compareScreenshot(_app, filename);
 }
 
-function capturePage(_app, filename, basePath) {
-  return _app.browserWindow
-    .capturePage()
-    .then(imageBuffer =>
-      new Promise((resolve, reject) => {
-        fs.writeFile(`${basePath}/${filename}.png`, imageBuffer, error => {
-          if (error) {
-            reject(error);
-          } else {
-            resolve();
-          }
-        });
-      })
-    );
+async function capturePage(_app, filename, basePath) {
+  await delay(2000);
+
+  app.browserWindow.capturePage().then(imageBuffer => {
+    fs.writeFile(`${basePath}/${filename}.png`, imageBuffer);
+  });
+
+  await delay(8000);
 }
 
 async function compareScreenshot(_app, filename) {
-  console.log(filename);
-  await capturePage(_app, filename, './temp');
+  await capturePage(_app, filename, './tmp');
 
-  return new Promise(resolve => {
-    resemble(`./temp/${filename}.png`)
-      .compareTo(`./test/screenshots/${filename}.png`)
-      .ignoreColors()
-      .onComplete(data => {
-        resolve(data.misMatchPercentage);
-      });
-  });
+  return new Promise((resolve, reject) =>
+    imageDiff.getFullResult({
+      actualImage: `./tmp/${filename}.png`,
+      expectedImage: `./test/screenshots/${filename}.png`,
+      diffImage: './tmp/difference.png',
+    }, (err, result) => {
+      if (err) {
+        return reject(err);
+      }
+      return resolve(result);
+    })
+  );
 }
