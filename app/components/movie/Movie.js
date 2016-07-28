@@ -8,6 +8,7 @@
 /* eslint react/sort-comp: 0 */
 
 import React, { Component, PropTypes } from 'react';
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { Link } from 'react-router';
 import Rating from 'react-star-rating-component';
 import CardList from '../card/CardList';
@@ -66,7 +67,26 @@ export default class Movie extends Component {
     this.torrent = new Torrent();
     this.player = new Player();
 
+    this.toggle = this.toggle.bind(this);
+    this.state = {
+      dropdownOpen: false,
+      currentPlayer: 'WebChimera'
+    };
+
     this.state = this.initialState;
+  }
+
+  /**
+   * Check which players are available on the system
+   */
+  setPlayer(player) {
+    this.setState({ currentPlayer: player });
+  }
+
+  toggle() {
+    this.setState({
+      dropdownOpen: !this.state.dropdownOpen
+    });
   }
 
   componentDidMount() {
@@ -328,26 +348,37 @@ export default class Movie extends Component {
 
       // HACK: Temporarily prevent linux from using WebChimera
       //       Waiting on issue 69: https://github.com/RSATom/WebChimera.js/issues/69
+      //
+      // HACK: Refactor to the Adapter architecture for a more elegant solution
 
-      if (Player.isFormatSupported(filename, Player.nativePlaybackFormats)) {
-        this.setState({ usingVideoFallback: false });
-        this.player = this.player.initPlyr(servingUrl, this.state.item);
-      } else if (Player.isFormatSupported(filename, [
-        ...Player.nativePlaybackFormats,
-        ...Player.experimentalPlaybackFormats
-      ])) {
-        if (os.type === 'Linux') {
-          notie.alert(2, 'Player does not support Linux at the moment', 2);
-          return console.warn('WebChimera does not support Linux at the moment');
-        }
-        console.warn(`Using WebChimera to play ${filename}`);
-        notie.alert(2, 'Falling back to non-native video codecs', 2);
-        this.setState({ usingVideoFallback: true });
-        this.player = this.player.initWebChimeraPlayer(servingUrl, this.state.item);
-      } else {
-        notie.alert(2, 'The format of this video is not playable', 2);
-        console.warn(`Format of filename ${filename} not supported`);
-        console.warn('Files retrieved:', files);
+      switch (this.state.currentPlayer) {
+        case 'VLC':
+          return this.player.initVLC(servingUrl);
+        case 'WebChimera':
+          if (Player.isFormatSupported(filename, Player.nativePlaybackFormats)) {
+            this.setState({ usingVideoFallback: false });
+            this.player = this.player.initPlyr(servingUrl, this.state.item);
+          } else if (Player.isFormatSupported(filename, [
+            ...Player.nativePlaybackFormats,
+            ...Player.experimentalPlaybackFormats
+          ])) {
+            if (os.type === 'Linux') {
+              notie.alert(2, 'Player does not support Linux at the moment', 2);
+              return console.warn('WebChimera does not support Linux at the moment');
+            }
+            console.warn(`Using WebChimera to play ${filename}`);
+            notie.alert(2, 'Falling back to non-native video codecs', 2);
+            this.setState({ usingVideoFallback: true });
+            this.player = this.player.initWebChimeraPlayer(servingUrl, this.state.item);
+          } else {
+            notie.alert(2, 'The format of this video is not playable', 2);
+            console.warn(`Format of filename ${filename} not supported`);
+            console.warn('Files retrieved:', files);
+          }
+          break;
+        default:
+          console.error('Invalid player');
+          break;
       }
     });
   }
@@ -486,6 +517,30 @@ export default class Movie extends Component {
                     ? 'Fetching torrents...'
                     : null}
               </h3>
+
+              <div className="row">
+                <div className="col-xs-12">
+                  <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+                    <DropdownToggle caret>
+                      {this.state.currentPlayer || 'WebChimera'}
+                    </DropdownToggle>
+                    <DropdownMenu>
+                      <DropdownItem header>Select Player</DropdownItem>
+                      <DropdownItem
+                        onClick={this.setPlayer.bind(this, 'WebChimera')}
+                      >
+                        WebChimera
+                      </DropdownItem>
+                      <DropdownItem
+                        onClick={this.setPlayer.bind(this, 'VLC')}
+                      >
+                        VLC
+                      </DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </div>
+              </div>
+
               {this.props.activeMode === 'shows' ?
                 <Show
                   selectShow={this.selectShow.bind(this)}

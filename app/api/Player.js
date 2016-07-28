@@ -1,6 +1,8 @@
 import { remote } from 'electron';
 import plyr from 'plyr';
 import $ from 'jquery';
+import childProcess from 'child_process';
+import vlcCommand from 'vlc-command';
 
 
 export default class Player {
@@ -192,5 +194,25 @@ export default class Player {
     this.player = vlc;
 
     return player;
+  }
+
+  initVLC(servingUrl) {
+    vlcCommand((error, cmd) => {
+      if (error) return console.error('Could not find vlc command path');
+
+      if (process.platform === 'win32') {
+        childProcess.execFile(cmd, [servingUrl], (_error, stdout) => {
+        // childProcess.execFile(cmd, ['--version'], (_error, stdout) => {
+          if (_error) return console.error(_error);
+          console.log(stdout);
+        });
+      } else {
+        childProcess.exec(`${cmd} ${servingUrl}`, (_error, stdout) => {
+        // childProcess.exec(`${cmd} --version`, (_error, stdout) => {
+          if (_error) return console.error(_error);
+          console.log(stdout);
+        });
+      }
+    });
   }
 }
