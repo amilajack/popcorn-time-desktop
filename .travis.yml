@@ -38,10 +38,12 @@ install:
   - export CXX="g++-4.8"
   - npm install -g npm@latest
   - npm install
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x16"; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export DISPLAY=':99.0'; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 & echo "nothing"; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install --no-install-recommends -y icnsutils graphicsmagick xz-utils xorriso; fi
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then
+      "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x16";
+      export DISPLAY=':99.0';
+      Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 & echo "nothing";
+      sudo apt-get install --no-install-recommends -y icnsutils graphicsmagick xz-utils xorriso;
+    fi
 
 before_script:
   - export DISPLAY=:99.0

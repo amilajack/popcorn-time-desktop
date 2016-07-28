@@ -3,7 +3,6 @@ import path from 'path';
 import fs from 'fs';
 import { Application } from 'spectron';
 import { expect } from 'chai';
-import resemble from 'resemblejs';
 import imageDiff from 'image-diff';
 
 

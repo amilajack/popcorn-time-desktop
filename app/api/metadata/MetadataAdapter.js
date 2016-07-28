@@ -21,7 +21,6 @@ async function handleRequest(method, args) {
   const key = JSON.stringify(method) + JSON.stringify(args);
 
   if (resolveCache(key)) {
-    console.log(resolveCache(key));
     return resolveCache(key);
   }
 
