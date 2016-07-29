@@ -151,7 +151,7 @@
     "source-map-support": "^0.4.2",
     "spectron": "^3.3.0",
     "style-loader": "^0.13.1",
-    "super-kat": "0.0.3",
+    "super-kat": "0.0.5",
     "torrent-stream": "^1.0.3",
     "trakt.tv": "github:amilajack/trakt.tv",
     "vlc-command": "^1.1.1",
