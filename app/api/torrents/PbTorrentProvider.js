@@ -9,9 +9,13 @@ import {
 } from './BaseTorrentProvider';
 
 
-const searchEndpoint = 'https://pirate-bay-endpoint.herokuapp.com/search';
+const endpoint = 'https://pirate-bay-endpoint.herokuapp.com';
+
+const searchEndpoint = `${endpoint}/search`;
 
 export default class PbTorrentProvider {
+
+  static providerName = 'PirateBay';
 
   static fetch(searchQuery) {
     // HACK: Temporary solution to improve performance by side stepping
@@ -41,6 +45,10 @@ export default class PbTorrentProvider {
                 (String(torrent.link) || ''),
       _provider: 'pb'
     };
+  }
+
+  static getStatus() {
+    return fetch(endpoint).then(res => res.ok).catch(() => false);
   }
 
   static provide(imdbId, type, extendedDetails = {}) {

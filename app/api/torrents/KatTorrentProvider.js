@@ -10,7 +10,11 @@ import {
 } from './BaseTorrentProvider';
 
 
+const endpoint = 'https://kat.am';
+
 export default class KatTorrentProvider {
+
+  static providerName = 'Kat';
 
   static fetch(query) {
     return search(query)
@@ -31,6 +35,10 @@ export default class KatTorrentProvider {
       metadata: String(torrent.title + torrent.magnet) || String(torrent.magnet),
       _provider: 'kat'
     };
+  }
+
+  static getStatus() {
+    return fetch(endpoint).then(res => res.ok).catch(() => false);
   }
 
   static provide(imdbId, type, extendedDetails = {}) {

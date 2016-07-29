@@ -6,14 +6,34 @@ import {
   formatSeasonEpisodeToObject,
   sortTorrentsBySeeders
 } from '../../app/api/torrents/BaseTorrentProvider';
-import PctTorrentProvider from '../../app/api/torrents/PctTorrentProvider';
 import assert from 'assert';
+import { getStatuses } from '../../app/api/torrents/TorrentAdapter';
 import { convertRuntimeToHours } from '../../app/api/metadata/MetadataAdapter';
 
 
 const imdbId = 'tt0468569';
 const showImdbId = 'tt1475582';
 const defaultMinTorrentsCount = 1;
+
+const torrentBasePath = '../../app/api/torrents';
+const providers = [
+  {
+    name: 'PirateBay',
+    provider: require(`${torrentBasePath}/PbTorrentProvider`)
+  },
+  {
+    name: 'PopcornTime',
+    provider: require(`${torrentBasePath}/PctTorrentProvider`)
+  },
+  {
+    name: 'Kat',
+    provider: require(`${torrentBasePath}/KatTorrentProvider`)
+  },
+  {
+    name: 'Yts',
+    provider: require(`${torrentBasePath}/YtsTorrentProvider`),
+  }
+];
 
 function greaterThanOrEqualTo(first, second) {
   return (first > second || first === second);
@@ -22,9 +42,36 @@ function greaterThanOrEqualTo(first, second) {
 describe('api ->', function testApi() {
   this.retries(3);
 
+  describe('Status', () => {
+    it('should get status of providers', async done => {
+      try {
+        for (const _provider of providers) {
+          expect(await _provider.provider.getStatus()).to.be.a('boolean');
+        }
+        done();
+      } catch (error) {
+        done(error);
+      }
+    });
+
+    it('should get an array of statuses', async done => {
+      try {
+        const statuses = await getStatuses();
+        expect(statuses).to.be.an('array');
+        for (const status of statuses) {
+          expect(status).to.be.an('object');
+          expect(status).to.have.deep.property('providerName').that.is.a('string');
+          expect(status).to.have.deep.property('online').that.is.a('boolean');
+        }
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+  });
+
   describe('Torrent Providers ->', () => {
     describe('Movie ->', () => {
-      const torrentBasePath = '../../app/api/torrents';
       const movieProviders = [
         {
           name: 'PirateBay',
@@ -94,7 +141,6 @@ describe('api ->', function testApi() {
     });
 
     describe('Show ->', () => {
-      const torrentBasePath = '../../app/api/torrents';
       const showTorrentProviders = [
         {
           name: 'PirateBay',
@@ -163,7 +209,6 @@ describe('api ->', function testApi() {
     });
 
     describe('Show Complete ->', () => {
-      const torrentBasePath = '../../app/api/torrents';
       const showTorrentProviders = [
         {
           name: 'PirateBay',
@@ -175,7 +220,7 @@ describe('api ->', function testApi() {
         {
           name: 'Kat',
           provider: require(`${torrentBasePath}/KatTorrentProvider`),
-          minTorrentsCount: 1,
+          minTorrentsCount: 0,
           minSeederCount: 100,
           id: 'kat'
         }
@@ -556,8 +601,8 @@ describe('api ->', function testApi() {
                   }
                 }
                 done();
-              } catch (err) {
-                done(err);
+              } catch (error) {
+                done(error);
               }
             });
           }

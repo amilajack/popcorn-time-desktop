@@ -61,5 +61,5 @@ script:
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then npm run test-api; fi
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then npm run bench-api; fi
   - npm run test-e2e
-  - npm run test-screenshot
+  # - npm run test-screenshot
   - npm run lint

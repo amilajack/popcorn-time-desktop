@@ -2,7 +2,11 @@ import fetch from 'isomorphic-fetch';
 import { handleProviderError } from './BaseTorrentProvider';
 
 
+const endpoint = 'http://api-fetch.website/tv';
+
 export default class PctTorrentProvider {
+
+  static providerName = 'PopcornTime API';
 
   static shows = {};
 
@@ -25,7 +29,7 @@ export default class PctTorrentProvider {
    */
   static async fetch(imdbId, type, extendedDetails) {
     const urlTypeParam = type === 'movies' ? 'movie' : 'show';
-    const request = fetch(`http://api-fetch.website/tv/${urlTypeParam}/${imdbId}`)
+    const request = fetch(`${endpoint}/${urlTypeParam}/${imdbId}`)
       .then(res => res.json());
 
     switch (type) {
@@ -38,12 +42,6 @@ export default class PctTorrentProvider {
           .map(torrent => this.formatMovieTorrent(torrent))
         );
       case 'shows': {
-        /**
-         * @todo: Temporary cache
-         */
-        // if (this.shows[imdbId]) {
-        //   return this.filterTorrents(this.shows[imdbId], season, episode);
-        // }
         const { season, episode } = extendedDetails;
 
         const show = await request
@@ -116,6 +114,10 @@ export default class PctTorrentProvider {
     }
 
     return formattedTorrents;
+  }
+
+  static getStatus() {
+    return fetch(endpoint).then(res => res.ok).catch(() => false);
   }
 
   static provide(imdbId, type, extendedDetails = {}) {

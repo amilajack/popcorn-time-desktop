@@ -16,20 +16,20 @@ import {
 } from './BaseTorrentProvider';
 
 
+const providers = [
+  require('./YtsTorrentProvider'),
+  require('./PbTorrentProvider'),
+  require('./PctTorrentProvider'),
+  require('./KatTorrentProvider')
+  // require('./KatShowsTorrentProvider')
+];
+
 export default async function TorrentAdapter(imdbId,
                                               type,
                                               extendedDetails,
                                               returnAll = false,
                                               method = 'all',
                                               cache = true) {
-  const providers = [
-    require('./YtsTorrentProvider'),
-    require('./PbTorrentProvider'),
-    require('./PctTorrentProvider'),
-    require('./KatTorrentProvider')
-    // require('./KatShowsTorrentProvider')
-  ];
-
   const args = JSON.stringify({ extendedDetails, returnAll, method });
 
   if (resolveCache(args) && cache) {
@@ -136,6 +136,15 @@ export function filterShowsComplete(show, season) {
     !metadata.includes('e0') &&
     show.seeders !== 0
   );
+}
+
+export function getStatuses() {
+  return Promise
+    .all(providers.map(provider => provider.getStatus()))
+    .then(providerStatuses => providerStatuses.map((status, index) => ({
+      providerName: providers[index].providerName,
+      online: status
+    })));
 }
 
 /**

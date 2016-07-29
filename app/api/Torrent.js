@@ -30,7 +30,11 @@ export default class Torrent {
 
     if (activeMode === 'season_complete') {
       console.warn("Using 'season_complete' method");
-      this.engine = new WebTorrent();
+      this.engine = new WebTorrent({
+        maxConns: process.env.MAX_CONNECTIONS
+                    ? parseInt(process.env.MAX_CONNECTIONS, 10)
+                    : 100
+      });
 
       this.engine.add(magnetURI, torrent => {
         const server = torrent.createServer();
@@ -88,7 +92,11 @@ export default class Torrent {
         }, 1000);
       });
     } else {
-      this.engine = new Peerflix(magnetURI);
+      this.engine = new Peerflix(magnetURI, {
+        connections: process.env.MAX_CONNECTIONS
+                      ? parseInt(process.env.MAX_CONNECTIONS, 10)
+                      : 100
+      });
 
       this.engine.server.on('listening', () => {
         const files = this.engine.files.map(({ name, path, length }) => ({
@@ -115,83 +123,20 @@ export default class Torrent {
     }
   }
 
-  /**
-   * Return a magnetURI that is of filetype .mov, ogg
-   */
-  static isFormatSupported(magnetURI, nativePlaybackFormats) {
-    const webTorrent = new WebTorrent();
-
-    return new Promise(resolve => {
-      webTorrent.add(magnetURI, torrent => {
-        const exist = torrent.files.find(file => {
-          for (const format of nativePlaybackFormats) {
-            if (file.path.includes(`.${format}`)) return true;
-          }
-
-          return false;
-        });
-
-        resolve(!!exist);
-
-        webTorrent.destroy();
-      });
-    });
-  }
-
-  static async getTorrentWithSupportedFormats(torrents, supportedFormats, limit = 5) {
-    try {
-      if (torrents) {
-        return Promise.all(
-          torrents
-            .filter((_torrent, index) => index < limit)
-            .map(
-              _torrent => Torrent.isFormatSupported(
-                _torrent.magnet,
-                supportedFormats
-              )
-            )
-        )
-        .then(
-          res => (
-            res.map((isSupported, index) => ({
-              torrent: torrents[index],
-              isSupported
-            }))
-            .find(torrent => torrent.isSupported === true)
-            .torrent || undefined
-          )
-        );
-      }
-    } catch (error) {
-      throw new Error('No with supported video formats could be found, with limit', limit);
-    }
-
-    throw new Error('No torrents available, cannot find a supported format');
-  }
-
   destroy(torrentEngineName) {
     console.log('Destroyed Torrent...', torrentEngineName);
 
     if (this.inProgress) {
-      switch (torrentEngineName) {
-        case 'webtorrent':
-          console.log('Closing server...');
-          this.server.close();
-          this.server = undefined;
-          break;
-        case 'peerflix':
-          this.engine.remove();
-          break;
-        default:
-          throw new Error('Invalid torrent engine name');
+      if (torrentEngineName === 'webtorrent') {
+        console.log('Closing server...');
+        this.server.close();
+        this.server = undefined;
       }
+
+      this.engine.remove();
       this.engine.destroy();
       this.engine = undefined;
       this.inProgress = false;
     }
   }
-
-  // pause() {}
-
-  // resume() {}
 }
