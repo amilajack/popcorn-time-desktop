@@ -11,8 +11,8 @@ import { getStatuses } from '../../app/api/torrents/TorrentAdapter';
 import { convertRuntimeToHours } from '../../app/api/metadata/MetadataAdapter';
 
 
-const imdbId = 'tt0468569';
-const showImdbId = 'tt1475582';
+const imdbId = 'tt0468569'; // The Dark Knight
+const showImdbId = 'tt1475582'; // Sherlock
 const defaultMinTorrentsCount = 1;
 
 const torrentBasePath = '../../app/api/torrents';
@@ -64,8 +64,8 @@ describe('api ->', function testApi() {
           expect(status).to.have.deep.property('online').that.is.a('boolean');
         }
         done();
-      } catch (err) {
-        done(err);
+      } catch (error) {
+        done(error);
       }
     });
   });

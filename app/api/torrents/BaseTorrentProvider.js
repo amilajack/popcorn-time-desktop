@@ -9,6 +9,22 @@ export const providerCache = cache({
             : 1000 * 60 * 60 // 1 hr
 });
 
+/**
+ * Handle a promise and set a timeout
+ */
+export function timeout(promise, time = 5000) {
+  return new Promise((resolve, reject) => {
+    promise.then(res => resolve(res));
+
+    setTimeout(() => {
+      reject('Timeout exceeded');
+    }, process.env.CONFIG_API_TIMEOUT
+        ? parseInt(process.env.CONFIG_API_TIMEOUT, 10)
+        : time
+    );
+  });
+}
+
 export function determineQuality(magnet, metadata) {
   const lowerCaseMetadata = (metadata || magnet).toLowerCase();
 

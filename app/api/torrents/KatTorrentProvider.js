@@ -8,6 +8,7 @@ import {
   constructSeasonQueries,
   constructMovieQueries,
   merge,
+  timeout,
   handleProviderError
 } from './BaseTorrentProvider';
 
@@ -48,8 +49,10 @@ export default class KatTorrentProvider {
 
     switch (type) {
       case 'movies':
-        return Promise.all(
-          constructMovieQueries(searchQuery, imdbId).map(query => this.fetch(query))
+        return timeout(
+          Promise.all(
+            constructMovieQueries(searchQuery, imdbId).map(query => this.fetch(query))
+          )
         )
         // Flatten array of arrays to an array with no empty arrays
         .then(
@@ -74,8 +77,10 @@ export default class KatTorrentProvider {
         const { season } = extendedDetails;
         const queries = constructSeasonQueries(searchQuery, season);
 
-        return Promise.all(
-          queries.map(query => this.fetch(query))
+        return timeout(
+          Promise.all(
+            queries.map(query => this.fetch(query))
+          )
         )
         .then(
           res => res.reduce((previous, current) => (

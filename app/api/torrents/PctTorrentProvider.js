@@ -1,5 +1,8 @@
 import fetch from 'isomorphic-fetch';
-import { handleProviderError } from './BaseTorrentProvider';
+import {
+  handleProviderError,
+  timeout
+} from './BaseTorrentProvider';
 
 
 const endpoint = 'http://api-fetch.website/tv';
@@ -29,8 +32,10 @@ export default class PctTorrentProvider {
    */
   static async fetch(imdbId, type, extendedDetails) {
     const urlTypeParam = type === 'movies' ? 'movie' : 'show';
-    const request = fetch(`${endpoint}/${urlTypeParam}/${imdbId}`)
-      .then(res => res.json());
+    const request = timeout(
+      fetch(`${endpoint}/${urlTypeParam}/${imdbId}`)
+        .then(res => res.json())
+    );
 
     switch (type) {
       case 'movies':

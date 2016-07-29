@@ -31,8 +31,8 @@ export default class Torrent {
     if (activeMode === 'season_complete') {
       console.warn("Using 'season_complete' method");
       this.engine = new WebTorrent({
-        maxConns: process.env.MAX_CONNECTIONS
-                    ? parseInt(process.env.MAX_CONNECTIONS, 10)
+        maxConns: process.env.CONFIG_MAX_CONNECTIONS
+                    ? parseInt(process.env.CONFIG_MAX_CONNECTIONS, 10)
                     : 100
       });
 
@@ -93,8 +93,8 @@ export default class Torrent {
       });
     } else {
       this.engine = new Peerflix(magnetURI, {
-        connections: process.env.MAX_CONNECTIONS
-                      ? parseInt(process.env.MAX_CONNECTIONS, 10)
+        connections: process.env.CONFIG_MAX_CONNECTIONS
+                      ? parseInt(process.env.CONFIG_MAX_CONNECTIONS, 10)
                       : 100
       });
 
@@ -124,9 +124,9 @@ export default class Torrent {
   }
 
   destroy(torrentEngineName) {
-    console.log('Destroyed Torrent...', torrentEngineName);
-
     if (this.inProgress) {
+      console.log('Destroyed Torrent...', torrentEngineName);
+
       if (torrentEngineName === 'webtorrent') {
         console.log('Closing server...');
         this.server.close();

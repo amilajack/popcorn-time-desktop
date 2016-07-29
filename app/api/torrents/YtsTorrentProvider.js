@@ -1,6 +1,7 @@
 import fetch from 'isomorphic-fetch';
 import {
-  determineQuality
+  determineQuality,
+  timeout
 } from './BaseTorrentProvider';
 
 
@@ -8,9 +9,11 @@ export default class YtsTorrentProvider {
 
   static providerName = 'YTS';
 
-  static fetch(query) {
-    return fetch(
-      `https://yts.ag/api/v2/list_movies.json?query_term=${query}&order_by=desc&sort_by=seeds&limit=50`
+  static fetch(imdbId) {
+    return timeout(
+      fetch(
+        `https://yts.ag/api/v2/list_movies.json?query_term=${imdbId}&order_by=desc&sort_by=seeds&limit=50`
+      )
     )
     .then(res => res.json());
   }
@@ -32,12 +35,10 @@ export default class YtsTorrentProvider {
       .catch(() => false);
   }
 
-  static provide(imdbId, type, extendedDetails) {
-    const { searchQuery } = extendedDetails;
-
+  static provide(imdbId, type) {
     switch (type) {
       case 'movies':
-        return this.fetch(imdbId, searchQuery)
+        return this.fetch(imdbId)
           .then(results => {
             if (!results.data.movie_count) return [];
             const torrents = results.data.movies[0].torrents;

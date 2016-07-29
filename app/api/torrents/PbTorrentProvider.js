@@ -7,6 +7,7 @@ import {
   constructSeasonQueries,
   constructMovieQueries,
   merge,
+  timeout,
   handleProviderError
 } from './BaseTorrentProvider';
 
@@ -24,8 +25,8 @@ export default class PbTorrentProvider {
     //       PirateBay's database errors.
     const searchQueryUrl = `${searchEndpoint}/${searchQuery}`;
 
-    return fetch(
-      searchQueryUrl
+    return timeout(
+      fetch(searchQueryUrl)
     )
     .then(res => res.json())
     .then(torrents => torrents.map(
