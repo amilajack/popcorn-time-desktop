@@ -153,7 +153,7 @@
     "peerflix": "^0.35.1",
     "plyr": "^1.8.8",
     "react": "^15.2.1",
-    "react-dom": "^15.2.1",
+    "react-dom": "^15.3.0",
     "react-redux": "^4.4.5",
     "react-router": "^2.6.0",
     "react-router-redux": "^4.0.5",
