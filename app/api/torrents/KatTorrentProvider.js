@@ -5,7 +5,9 @@
 import { search } from 'super-kat';
 import {
   formatSeasonEpisodeToString,
-  constructQueries,
+  constructSeasonQueries,
+  constructMovieQueries,
+  merge,
   handleProviderError
 } from './BaseTorrentProvider';
 
@@ -46,11 +48,17 @@ export default class KatTorrentProvider {
 
     switch (type) {
       case 'movies':
-        return this.fetch(searchQuery)
-          .catch(error => {
-            handleProviderError(error);
-            return [];
-          });
+        return Promise.all(
+          constructMovieQueries(searchQuery, imdbId).map(query => this.fetch(query))
+        )
+        // Flatten array of arrays to an array with no empty arrays
+        .then(
+          res => merge(res).filter(array => array.length !== 0)
+        )
+        .catch(error => {
+          handleProviderError(error);
+          return [];
+        });
       case 'shows': {
         const { season, episode } = extendedDetails;
 
@@ -64,7 +72,7 @@ export default class KatTorrentProvider {
       }
       case 'season_complete': {
         const { season } = extendedDetails;
-        const queries = constructQueries(searchQuery, season);
+        const queries = constructSeasonQueries(searchQuery, season);
 
         return Promise.all(
           queries.map(query => this.fetch(query))

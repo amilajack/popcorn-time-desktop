@@ -147,7 +147,28 @@ export function sortTorrentsBySeeders(torrents) {
   });
 }
 
-export function constructQueries(title, season) {
+export function constructMovieQueries(title, imdbId) {
+  const queries = [
+    title, // default
+    imdbId
+  ];
+
+  return title.includes("'")
+          ? [...queries, title.replace(/'/g,'')] // eslint-disable-line
+          : queries;
+}
+
+export function combineAllQueries(queries) {
+  return Promise.all(
+    queries.map(query => this.fetch(query))
+  )
+  // Flatten array of arrays to an array with no empty arrays
+  .then(
+    res => merge(res).filter(array => array.length !== 0)
+  );
+}
+
+export function constructSeasonQueries(title, season) {
   const formattedSeasonNumber = `s${formatSeasonEpisodeToObject(season, 1).season}`;
 
   return [

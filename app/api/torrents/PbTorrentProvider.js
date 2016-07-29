@@ -4,7 +4,9 @@
 import fetch from 'isomorphic-fetch';
 import {
   formatSeasonEpisodeToString,
-  constructQueries,
+  constructSeasonQueries,
+  constructMovieQueries,
+  merge,
   handleProviderError
 } from './BaseTorrentProvider';
 
@@ -60,8 +62,12 @@ export default class PbTorrentProvider {
 
     switch (type) {
       case 'movies': {
-        return this.fetch(
-          searchQuery
+        return Promise.all(
+          constructMovieQueries(searchQuery, imdbId).map(query => this.fetch(query))
+        )
+        // Flatten array of arrays to an array with no empty arrays
+        .then(
+          res => merge(res).filter(array => array.length !== 0)
         )
         .catch(error => {
           handleProviderError(error);
@@ -80,20 +86,14 @@ export default class PbTorrentProvider {
       }
       case 'season_complete': {
         const { season } = extendedDetails;
-        const queries = constructQueries(searchQuery, season);
+        const queries = constructSeasonQueries(searchQuery, season);
 
         return Promise.all(
           queries.map(query => this.fetch(query))
         )
         // Flatten array of arrays to an array with no empty arrays
         .then(
-          res => res.reduce((previous, current) => (
-            previous.length && current.length
-              ? [...previous, ...current]
-              : previous.length && !current.length
-                  ? previous
-                  : current
-          ))
+          res => merge(res).filter(array => array.length !== 0)
         )
         .catch(error => {
           handleProviderError(error);
