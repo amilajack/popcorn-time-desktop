@@ -30,15 +30,21 @@
 * Mac, Linux, Windows
 * For packaging, see [packaging requirements](https://github.com/amilajack/popcorn-time-desktop/wiki/Packaging-Requirements)
 
+# Getting started:
+- **I am a tester:** Download the latest build from the [releases](https://github.com/amilajack/popcorn-time-desktop/releases) section
+- **I am a developer:** Compile the project with the installation steps below
+
 ## Installation:
 ```
 git clone https://github.com/amilajack/popcorn-time-desktop.git
 cd popcorn-time-desktop
 
-
-# Install all the dependencies
+# Install dependencies
 # Remember to `npm rebuild` if necessary
 npm install
+
+# Create the env config file
+cp .env.example .env
 
 # Dev build
 npm run dev
@@ -51,7 +57,7 @@ npm run package
 ```
 
 ## Todos:
-See [roadmap](https://github.com/amilajack/popcorn-time-desktop/wiki/Road-Map) for full list
+See [roadmap](https://github.com/amilajack/popcorn-time-desktop/wiki/Road-Map-and-Progress) for full list
 
 ## Goal:
 

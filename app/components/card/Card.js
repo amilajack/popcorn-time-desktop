@@ -18,7 +18,8 @@ export default class Card extends Component {
       PropTypes.number,
       PropTypes.string
     ]),
-    type: PropTypes.string.isRequired
+    kind: PropTypes.string.isRequired,
+    baseUrl: PropTypes.string.isRequired
   };
 
   shouldComponentUpdate() {
@@ -35,13 +36,13 @@ export default class Card extends Component {
 
     return (
       <div className="Card">
-        <Link to={`/item/${this.props.type}/${this.props.id}`}>
+        <Link to={`${this.props.baseUrl}/${this.props.id}`}>
           <div className="Card--overlay-container" style={divStyle}>
             <div className="Card--overlay"></div>
           </div>
         </Link>
         <div>
-          <Link className="Card--title" to={`/item/${this.props.type}/${this.props.id}`}>
+          <Link className="Card--title" to={`${this.props.baseUrl}/${this.props.id}`}>
             {this.props.title}
           </Link>
         </div>
@@ -58,14 +59,14 @@ export default class Card extends Component {
             null
           }
         </div>
-        {this.props.type === 'search' ?
+        {this.props.kind === 'search' ?
           <div>
-            {this.props.type}
+            {this.props.kind}
           </div>
           :
           null
         }
-        Kind: {this.props.type}
+        Kind: {this.props.kind}
         <div className="Card--genres">
           {this.props.genres ? this.props.genres[0] : null}
         </div>

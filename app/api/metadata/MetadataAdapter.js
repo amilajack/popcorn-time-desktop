@@ -2,30 +2,38 @@
  * Resolve requests from cache
  */
 
-/* eslint-disable */
+import {
+  merge,
+  resolveCache,
+  setCache
+} from '../torrents/BaseTorrentProvider';
 
-export default function MetadataAapter() {
+
+function MetadataAdapter() {
   const providers = [
-    require('./TraktMetadataProvider')
+    new (require('./TraktMetadataProvider')) // eslint-disable-line global-require
   ];
+
+  return providers;
 }
 
-/**
- * Get details about a specific movie
- *
- * @param {string} imdbId
- */
-function getMovie(imdbId) {}
+async function handleRequest(method, args) {
+  const key = JSON.stringify(method) + JSON.stringify(args);
 
-/**
- * Get list of movies with specific paramaters
- *
- * @param {number} page
- * @param {number} limit
- * @param {string} genre
- * @param {string} sortBy
- */
-function getMovies(page, limit, genre, sortBy) {}
+  if (resolveCache(key)) {
+    return resolveCache(key);
+  }
+
+  const results = await Promise.all(
+    MetadataAdapter()
+      .map(provider => provider[method].apply(provider, args))
+  );
+
+  const mergedResults = merge(results);
+  setCache(key, mergedResults);
+
+  return mergedResults;
+}
 
 /**
  * Get list of movies with specific paramaters
@@ -35,7 +43,30 @@ function getMovies(page, limit, genre, sortBy) {}
  * @param {string} genre
  * @param {string} sortBy
  */
-function search(query, limit, genre, sortBy) {}
+export function search(...args) {
+  return handleRequest('search', args);
+}
+
+/**
+ * Get details about a specific movie
+ *
+ * @param {string} imdbId
+ */
+export function getMovie(...args) {
+  return handleRequest('getMovie', args);
+}
+
+/**
+ * Get list of movies with specific paramaters
+ *
+ * @param {number} page
+ * @param {number} limit
+ * @param {string} genre
+ * @param {string} sortBy
+ */
+export function getMovies(...args) {
+  return handleRequest('getMovies', args);
+}
 
 /**
  * Get list of movies with specific paramaters
@@ -44,7 +75,64 @@ function search(query, limit, genre, sortBy) {}
  * @param {string} type   | movie or show
  * @param {number} limit  | movie or show
  */
-function similar(imdbId, type, limit) {}
+export function getSimilar(...args) {
+  return handleRequest('getSimilar', args);
+}
+
+/**
+ * Get a specific season of a show
+ *
+ * @param {string} imdbId
+ * @param {string} type   | movie or show
+ * @param {number} limit  | movie or show
+ */
+export function getSeason(...args) {
+  return handleRequest('getSeason', args);
+}
+
+/**
+ * Get a list of seasons of a show
+ *
+ * @param {string} imdbId
+ * @param {string} type   | movie or show
+ * @param {number} limit  | movie or show
+ */
+export function getSeasons(...args) {
+  return handleRequest('getSeasons', args);
+}
+
+/**
+ * Get a single episode of a season
+ *
+ * @param {string} imdbId
+ * @param {string} type   | movie or show
+ * @param {number} limit  | movie or show
+ */
+export function getEpisode(...args) {
+  return handleRequest('getEpisode', args);
+}
+
+/**
+ * Get a single show
+ *
+ * @param {string} imdbId
+ * @param {string} type   | movie or show
+ * @param {number} limit  | movie or show
+ */
+export function getShow(...args) {
+  return handleRequest('getShow', args);
+}
+
+/**
+ * Get a list of shows
+ *
+ * @param {string} imdbId
+ * @param {string} type   | movie or show
+ * @param {number} limit  | movie or show
+ */
+export function getShows(...args) {
+  return handleRequest('getShows', args);
+}
 
 /**
  * Convert runtime from minutes to hours
@@ -64,3 +152,8 @@ export function convertRuntimeToHours(runtimeInMinutes) {
     minutes
   };
 }
+
+export default {
+  getMovie, getMovies, getShow, getShows, getSeason, getSeasons, getEpisode,
+  search, getSimilar
+};

@@ -4,13 +4,17 @@
 
 import { search } from 'super-kat';
 import {
-  getHealth,
   formatSeasonEpisodeToString,
-  constructQueries
+  constructQueries,
+  handleProviderError
 } from './BaseTorrentProvider';
 
 
+const endpoint = 'https://kat.am';
+
 export default class KatTorrentProvider {
+
+  static providerName = 'Kat';
 
   static fetch(query) {
     return search(query)
@@ -18,7 +22,7 @@ export default class KatTorrentProvider {
         torrent => this.formatTorrent(torrent)
       ))
       .catch(error => {
-        console.log(error);
+        handleProviderError(error);
         return [];
       });
   }
@@ -28,10 +32,13 @@ export default class KatTorrentProvider {
       magnet: torrent.magnet,
       seeders: torrent.seeders,
       leechers: torrent.leechers,
-      metadata: torrent.title + torrent.magnet,
-      ...getHealth(torrent.seeders),
+      metadata: String(torrent.title + torrent.magnet) || String(torrent.magnet),
       _provider: 'kat'
     };
+  }
+
+  static getStatus() {
+    return fetch(endpoint).then(res => res.ok).catch(() => false);
   }
 
   static provide(imdbId, type, extendedDetails = {}) {
@@ -41,7 +48,7 @@ export default class KatTorrentProvider {
       case 'movies':
         return this.fetch(searchQuery)
           .catch(error => {
-            console.log(error);
+            handleProviderError(error);
             return [];
           });
       case 'shows': {
@@ -51,11 +58,11 @@ export default class KatTorrentProvider {
           `${searchQuery} ${formatSeasonEpisodeToString(season, episode)}`
         )
         .catch(error => {
-          console.log(error);
+          handleProviderError(error);
           return [];
         });
       }
-      case 'shows_complete': {
+      case 'season_complete': {
         const { season } = extendedDetails;
         const queries = constructQueries(searchQuery, season);
 
@@ -72,7 +79,7 @@ export default class KatTorrentProvider {
           ))
         )
         .catch(error => {
-          console.log(error);
+          handleProviderError(error);
           return [];
         });
       }

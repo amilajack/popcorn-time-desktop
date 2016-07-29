@@ -9,6 +9,7 @@
   "rules": {
     "react/jsx-no-bind": 1,
     "no-use-before-define": 0,
+    "new-cap": 1,
     "no-nested-ternary": 0,
     "react/prefer-stateless-function": 1,
     "no-underscore-dangle": 0,
@@ -16,8 +17,9 @@
     "comma-dangle": ["error", "never"],
     "consistent-return": 1,
     "immutable/no-let": 1,
-    "immutable/no-this": 1,
-    "immutable/no-mutation": 1
+    "immutable/no-this": 0,
+    "immutable/no-mutation": 1,
+    "no-console": 0,
   },
   "plugins": [
     "import",

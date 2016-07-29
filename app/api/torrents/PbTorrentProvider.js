@@ -3,32 +3,34 @@
  */
 import fetch from 'isomorphic-fetch';
 import {
-  getHealth,
   formatSeasonEpisodeToString,
-  constructQueries
+  constructQueries,
+  handleProviderError
 } from './BaseTorrentProvider';
 
 
-const searchEndpoint = 'https://pirate-bay-endpoint.herokuapp.com/search';
+const endpoint = 'https://pirate-bay-endpoint.herokuapp.com';
+
+const searchEndpoint = `${endpoint}/search`;
 
 export default class PbTorrentProvider {
+
+  static providerName = 'PirateBay';
 
   static fetch(searchQuery) {
     // HACK: Temporary solution to improve performance by side stepping
     //       PirateBay's database errors.
     const searchQueryUrl = `${searchEndpoint}/${searchQuery}`;
 
-    return Promise.race([
-      fetch(searchQueryUrl),
-      fetch(searchQueryUrl),
-      fetch(searchQueryUrl)
-    ])
+    return fetch(
+      searchQueryUrl
+    )
     .then(res => res.json())
     .then(torrents => torrents.map(
       torrent => this.formatTorrent(torrent)
     ))
     .catch(error => {
-      console.log(error);
+      handleProviderError(error);
       return [];
     });
   }
@@ -38,10 +40,15 @@ export default class PbTorrentProvider {
       magnet: torrent.magnetLink,
       seeders: parseInt(torrent.seeders, 10),
       leechers: parseInt(torrent.leechers, 10),
-      metadata: `${torrent.name || ''}${torrent.magnetLink || ''}${torrent.link || ''}`,
-      ...getHealth(torrent.seeders),
+      metadata: (String(torrent.name) || '') +
+                (String(torrent.magnetLink) || '') +
+                (String(torrent.link) || ''),
       _provider: 'pb'
     };
+  }
+
+  static getStatus() {
+    return fetch(endpoint).then(res => res.ok).catch(() => false);
   }
 
   static provide(imdbId, type, extendedDetails = {}) {
@@ -53,23 +60,25 @@ export default class PbTorrentProvider {
 
     switch (type) {
       case 'movies': {
-        return this.fetch(searchQuery)
-          .catch(error => {
-            console.log(error);
-            return [];
-          });
+        return this.fetch(
+          searchQuery
+        )
+        .catch(error => {
+          handleProviderError(error);
+          return [];
+        });
       }
       case 'shows': {
         const { season, episode } = extendedDetails;
         return this.fetch(
           `${searchQuery} ${formatSeasonEpisodeToString(season, episode)}`
         )
-          .catch(error => {
-            console.log(error);
-            return [];
-          });
+        .catch(error => {
+          handleProviderError(error);
+          return [];
+        });
       }
-      case 'shows_complete': {
+      case 'season_complete': {
         const { season } = extendedDetails;
         const queries = constructQueries(searchQuery, season);
 
@@ -87,7 +96,7 @@ export default class PbTorrentProvider {
           ))
         )
         .catch(error => {
-          console.log(error);
+          handleProviderError(error);
           return [];
         });
       }

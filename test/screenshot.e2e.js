@@ -1,7 +1,9 @@
 // A simple test to verify a visible window is opened with a title
-import { Application } from 'spectron';
 import path from 'path';
+import fs from 'fs';
+import { Application } from 'spectron';
 import { expect } from 'chai';
+import imageDiff from 'image-diff';
 
 
 const app = new Application({
@@ -14,7 +16,7 @@ const app = new Application({
 
 const delay = time => new Promise(resolve => setTimeout(resolve, time));
 
-describe('e2e', function testApp() {
+describe('screenshot', function testApp() {
   this.retries(3);
 
   // Constructs url similar to file:///Users/john/popcorn-desktop-experimental/app/app.html#/${url}
@@ -39,18 +41,6 @@ describe('e2e', function testApp() {
     }
   });
 
-  describe('main window', () => {
-    it('should open window', async done => {
-      try {
-        const title = await this.app.client.getTitle();
-        expect(title).to.equal('Popcorn Time');
-        done();
-      } catch (error) {
-        done(error);
-      }
-    });
-  });
-
   describe('HomePage', () => {
     beforeEach(async done => {
       try {
@@ -62,12 +52,15 @@ describe('e2e', function testApp() {
       }
     });
 
-    it('should display CardList', async function cardListTest(done) {
+    it('should display CardList', async done => {
       try {
         const cardListIsDisplayed = await findCardList().isVisible('.CardList');
         const cardIsDisplayed = await findCard().isVisible('.CardList');
         expect(cardListIsDisplayed).to.equal(true);
         expect(cardIsDisplayed).to.equal(true);
+        await delay(1000);
+        const diff = await handleScreenshot(this.app, 'CardList');
+        expect(diff).to.have.deep.property('percentage').that.equals(0);
         done();
       } catch (error) {
         done(error);
@@ -80,7 +73,7 @@ describe('e2e', function testApp() {
           .setValue('.navbar input', 'harry potter')
           .click('.navbar button');
 
-        await this.app.client.waitUntilWindowLoaded(); // await search results();
+        await delay(2000); // await search results
 
         const movieTitles = await this.app.client.getText('.Card .Card--title');
         expect(movieTitles[0]).to.include('Harry Potter');
@@ -100,11 +93,8 @@ describe('e2e', function testApp() {
           .isVisible('.Movie');
         expect(isVisible).to.equal(true);
 
-        await delay(1000);
-        await this.app.client.waitUntilWindowLoaded();
+        await delay(2000);
 
-        const [titleText] = await this.app.client.getText('.Movie h1');
-        expect(titleText).to.be.a('string');
         done();
       } catch (error) {
         done(error);
@@ -114,23 +104,9 @@ describe('e2e', function testApp() {
     it('should navigate between movies and shows', async done => {
       try {
         await this.app.client.click('.nav-item:nth-child(2) .nav-link');
-        await this.app.client.waitUntilWindowLoaded();
+        await delay(2000);
         const cardLinks = await this.app.client.getAttribute('.Card a', 'href');
         expect(cardLinks[0]).to.include('item/shows');
-        done();
-      } catch (error) {
-        done(error);
-      }
-    });
-
-    it('should paginate items on scroll to bottom of viewport', async done => {
-      try {
-        const firstCardLinks = await this.app.client.getAttribute('.Card a', 'href');
-        await this.app.client.scroll('.Loader');
-        await delay(1000);
-        await this.app.client.waitUntilWindowLoaded();
-        const secondCardLinks = await this.app.client.getAttribute('.Card a', 'href');
-        expect(secondCardLinks.length).to.be.greaterThan(firstCardLinks.length);
         done();
       } catch (error) {
         done(error);
@@ -143,33 +119,8 @@ describe('e2e', function testApp() {
       try {
         // navigate to Game of thrones
         await navigate('item/shows/tt0944947');
-        await delay(1000);
-        await this.app.client.waitUntilWindowLoaded();
-        done();
-      } catch (error) {
-        done(error);
-      }
-    });
-
-    it('should navigate to similar cards on click', async done => {
-      try {
-        const [firstTitleText] = await this.app.client.getText('.Movie h1');
-        const [firstSummaryText] = await this.app.client.getText('.Movie h6');
-
-        this.app.client.click('.CardList .Card--overlay:first-child');
-
+        await this.app.client.waitForVisible('.Movie');
         await delay(2000);
-        await this.app.client.waitUntilWindowLoaded();
-
-        const [secondTitleText] = await this.app.client.getText('.Movie h1');
-        const [secondSummaryText] = await this.app.client.getText('.Movie h6');
-
-        expect(firstTitleText).to.be.a('string');
-        expect(firstSummaryText).to.be.a('string');
-        expect(secondTitleText).to.be.a('string');
-        expect(secondSummaryText).to.be.a('string');
-        expect(firstTitleText).to.not.equal(secondTitleText);
-        expect(firstSummaryText).to.not.equal(secondSummaryText);
         done();
       } catch (error) {
         done(error);
@@ -177,3 +128,50 @@ describe('e2e', function testApp() {
     });
   });
 });
+
+async function handleScreenshot(_app, filename) {
+  // Check if the file exists
+  const hasExpectationScreenshot = await new Promise(resolve => {
+    fs.access(`./test/screenshots/${filename}.png`, error => {
+      if (error) {
+        return resolve(false);
+      }
+      return resolve(true);
+    });
+  });
+
+  if (hasExpectationScreenshot) {
+    return compareScreenshot(_app, filename);
+  }
+
+  console.log('Does not have screenshot');
+  await capturePage(_app, filename, './test/screenshots');
+  return compareScreenshot(_app, filename);
+}
+
+async function capturePage(_app, filename, basePath) {
+  await delay(2000);
+
+  app.browserWindow.capturePage().then(imageBuffer => {
+    fs.writeFile(`${basePath}/${filename}.png`, imageBuffer);
+  });
+
+  await delay(8000);
+}
+
+async function compareScreenshot(_app, filename) {
+  await capturePage(_app, filename, './tmp');
+
+  return new Promise((resolve, reject) =>
+    imageDiff.getFullResult({
+      actualImage: `./tmp/${filename}.png`,
+      expectedImage: `./test/screenshots/${filename}.png`,
+      diffImage: './tmp/difference.png',
+    }, (err, result) => {
+      if (err) {
+        return reject(err);
+      }
+      return resolve(result);
+    })
+  );
+}

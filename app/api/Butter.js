@@ -5,45 +5,41 @@
  */
 
 import TorrentAdapter from './torrents/TorrentAdapter';
-import MetadataAdapter from './metadata/TraktMetadataProvider';
+import MetadataAdapter from './metadata/MetadataAdapter';
 
 
 export default class Butter {
 
-  constructor() {
-    this.metadataAdapter = new MetadataAdapter();
-  }
-
   getMovies(page = 1, limit = 50) {
-    return this.metadataAdapter.getMovies(page, limit);
+    return MetadataAdapter.getMovies(page, limit);
   }
 
   getMovie(imdbId) {
-    return this.metadataAdapter.getMovie(imdbId);
+    return MetadataAdapter.getMovie(imdbId);
   }
 
   getShows(page = 1, limit = 50) {
-    return this.metadataAdapter.getShows(page, limit);
+    return MetadataAdapter.getShows(page, limit);
   }
 
   getShow(imdbId) {
-    return this.metadataAdapter.getShow(imdbId);
+    return MetadataAdapter.getShow(imdbId);
   }
 
   getSeasons(imdbId) {
-    return this.metadataAdapter.getSeasons(imdbId);
+    return MetadataAdapter.getSeasons(imdbId);
   }
 
   getSeason(imdbId, season) {
-    return this.metadataAdapter.getSeason(imdbId, season);
+    return MetadataAdapter.getSeason(imdbId, season);
   }
 
   getEpisode(imdbId, season, episode) {
-    return this.metadataAdapter.getEpisode(imdbId, season, episode);
+    return MetadataAdapter.getEpisode(imdbId, season, episode);
   }
 
   getSimilar(type = 'movies', imdbId) {
-    return this.metadataAdapter.getSimilar(type, imdbId, 5);
+    return MetadataAdapter.getSimilar(type, imdbId, 5);
   }
 
   /**
@@ -57,12 +53,6 @@ export default class Butter {
   }
 
   search(query, page = 1) {
-    return this.metadataAdapter.search(query, page);
+    return MetadataAdapter.search(query, page);
   }
-
-  // getShows(imdbId) {}
-
-  // getShow(imdbId) {}
-
-  // getSimilarShows(imdbId) {}
 }
