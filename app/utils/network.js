@@ -1,9 +1,10 @@
 import speedTest from 'speedtest-net';
 
-export const REFRESH_RATE = 180000; // 3 min
+export const REFRESH_RATE = process.env.NETWORK_REFRESH_RATE || 180000; // 3 min
+const MAX_TIME = process.env.NETWORK_MAX_TIME || 5000;
 
 const test = speedTest({
-  maxTime: 5000
+  maxTime: MAX_TIME
 });
 
 export async function getDownloadSpeed() {
