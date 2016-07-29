@@ -1,17 +1,27 @@
-import { getDownloadSpeed, getUploadSpeed } from '../app/utils/Network';
-import { expect } from 'chai';
+import {
+  expect
+} from 'chai';
+import {
+  getDownloadSpeed,
+  getUploadSpeed
+} from '../app/utils/Network';
 
 
 describe('Network', () => {
   describe('download', () => {
-    it('should respond with the download speed', (done) => {
-      expect(getDownloadSpeed()).to.be.a('number');
+    it('should resolve to a download speed', async done => {
+      const downloadSpeed = getDownloadSpeed();
+      expect(downloadSpeed).to.be.a('promise');
+      expect(await downloadSpeed).to.be.a('number');
       done();
     });
   });
-  describe('upload', () => {
-    it('should respond with the upload speed', (done) => {
-      expect(getUploadSpeed()).to.be.a('number');
+
+  describe('upload ->', () => {
+    it('should resolve to an upload speed', async done => {
+      const uploadSpeed = getUploadSpeed();
+      expect(uploadSpeed).to.be.a('promise');
+      expect(await uploadSpeed).to.be.a('number');
       done();
     });
   });
