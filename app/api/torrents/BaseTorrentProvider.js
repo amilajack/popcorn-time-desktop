@@ -12,12 +12,12 @@ export const providerCache = cache({
 /**
  * Handle a promise and set a timeout
  */
-export function timeout(promise, time = 5000) {
+export function timeout(promise, time = 10000) {
   return new Promise((resolve, reject) => {
     promise.then(res => resolve(res));
 
     setTimeout(() => {
-      reject('Timeout exceeded');
+      reject(new Error('Timeout exceeded'));
     }, process.env.CONFIG_API_TIMEOUT
         ? parseInt(process.env.CONFIG_API_TIMEOUT, 10)
         : time

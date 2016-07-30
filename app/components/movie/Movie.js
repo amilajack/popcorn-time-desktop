@@ -68,12 +68,6 @@ export default class Movie extends Component {
     this.player = new Player();
 
     this.toggle = this.toggle.bind(this);
-    this.state = {
-      dropdownOpen: false,
-      currentPlayer: 'WebChimera'
-    };
-
-    this.state = this.initialState;
   }
 
   /**
@@ -91,6 +85,12 @@ export default class Movie extends Component {
 
   componentDidMount() {
     this.getAllData(this.props.itemId);
+
+    this.setState({
+      ...this.initialState,
+      dropdownOpen: false,
+      currentPlayer: 'Default'
+    });
   }
 
   componentWillUnmount() {
@@ -350,11 +350,12 @@ export default class Movie extends Component {
       //       Waiting on issue 69: https://github.com/RSATom/WebChimera.js/issues/69
       //
       // HACK: Refactor to the Adapter architecture for a more elegant solution
+      console.warn('Invalid', this.state.currentPlayer);
 
       switch (this.state.currentPlayer) {
         case 'VLC':
           return this.player.initVLC(servingUrl);
-        case 'WebChimera':
+        case 'Default':
           if (Player.isFormatSupported(filename, Player.nativePlaybackFormats)) {
             this.setState({ usingVideoFallback: false });
             this.player = this.player.initPlyr(servingUrl, this.state.item);
@@ -522,14 +523,14 @@ export default class Movie extends Component {
                 <div className="col-xs-12">
                   <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
                     <DropdownToggle caret>
-                      {this.state.currentPlayer || 'WebChimera'}
+                      {this.state.currentPlayer || 'Default'}
                     </DropdownToggle>
                     <DropdownMenu>
                       <DropdownItem header>Select Player</DropdownItem>
                       <DropdownItem
-                        onClick={this.setPlayer.bind(this, 'WebChimera')}
+                        onClick={this.setPlayer.bind(this, 'Default')}
                       >
-                        WebChimera
+                        Default
                       </DropdownItem>
                       <DropdownItem
                         onClick={this.setPlayer.bind(this, 'VLC')}
