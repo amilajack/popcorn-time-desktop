@@ -1,17 +1,24 @@
 import { expect } from 'chai';
 import {
   getDownloadSpeed,
-  getUploadSpeed
+  getUploadSpeed,
+  timeout
 } from '../app/utils/Network';
 
 
-describe('Network', () => {
+describe('Network', function testNetwork() {
+  this.slow(timeout + 1000);
+  this.timeout(timeout + 1000000);
+
+  // HACK: The 'speedtest-net' module needs to be rewritten. It fails to resolve
+  //       speeds in a timely manner and ignores any timeout that is givent to it
+
   describe('download', () => {
     it('should resolve to a download speed', async done => {
       try {
         const downloadSpeed = getDownloadSpeed();
         expect(downloadSpeed).to.be.a('promise');
-        expect(await downloadSpeed).to.be.a('number');
+        expect(await getDownloadSpeed()).to.be.a('number');
         done();
       } catch (error) {
         done(error);
@@ -24,7 +31,7 @@ describe('Network', () => {
       try {
         const uploadSpeed = getUploadSpeed();
         expect(uploadSpeed).to.be.a('promise');
-        expect(await uploadSpeed).to.be.a('number');
+        expect(await getUploadSpeed()).to.be.a('number');
         done();
       } catch (error) {
         done(error);
