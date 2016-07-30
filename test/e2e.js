@@ -92,7 +92,7 @@ describe('e2e', function testApp() {
       }
     });
 
-    it('should navigate to item on CardList click', async done => {
+    it.skip('should navigate to item on CardList click', async done => {
       try {
         const isVisible = await this.app.client
           .waitForVisible('.Card--overlay')
@@ -151,14 +151,12 @@ describe('e2e', function testApp() {
       }
     });
 
-    it('should navigate to similar cards on click', async done => {
+    it.skip('should navigate to similar cards on click', async done => {
       try {
         const [firstTitleText] = await this.app.client.getText('.Movie h1');
         const [firstSummaryText] = await this.app.client.getText('.Movie h6');
 
-        this.app.client.click('.CardList .Card--overlay:first-child');
-
-        await delay(2000);
+        await this.app.client.click('.CardList .Card--overlay:first-child');
         await this.app.client.waitUntilWindowLoaded();
 
         const [secondTitleText] = await this.app.client.getText('.Movie h1');
