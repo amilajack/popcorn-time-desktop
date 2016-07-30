@@ -1,5 +1,6 @@
 import speedTest from 'speedtest-net';
 
+
 export const REFRESH_RATE = process.env.CONFIG_NETWORK_REFRESH_RATE || 180000; // 3 min
 const MAX_TIME = process.env.CONFIG_NETWORK_MAX_TIME || 5000;
 
