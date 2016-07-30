@@ -19,7 +19,7 @@
     "immutable/no-let": 1,
     "immutable/no-this": 0,
     "immutable/no-mutation": 1,
-    "no-console": 0,
+    "no-console": 0
   },
   "plugins": [
     "import",

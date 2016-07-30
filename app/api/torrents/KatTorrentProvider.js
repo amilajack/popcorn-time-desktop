@@ -54,24 +54,24 @@ export default class KatTorrentProvider {
             constructMovieQueries(searchQuery, imdbId).map(query => this.fetch(query))
           )
         )
-        // Flatten array of arrays to an array with no empty arrays
-        .then(
-          res => merge(res).filter(array => array.length !== 0)
-        )
-        .catch(error => {
-          handleProviderError(error);
-          return [];
-        });
+          // Flatten array of arrays to an array with no empty arrays
+          .then(
+            res => merge(res).filter(array => array.length !== 0)
+          )
+          .catch(error => {
+            handleProviderError(error);
+            return [];
+          });
       case 'shows': {
         const { season, episode } = extendedDetails;
 
         return this.fetch(
           `${searchQuery} ${formatSeasonEpisodeToString(season, episode)}`
         )
-        .catch(error => {
-          handleProviderError(error);
-          return [];
-        });
+          .catch(error => {
+            handleProviderError(error);
+            return [];
+          });
       }
       case 'season_complete': {
         const { season } = extendedDetails;
@@ -82,19 +82,19 @@ export default class KatTorrentProvider {
             queries.map(query => this.fetch(query))
           )
         )
-        .then(
-          res => res.reduce((previous, current) => (
-            previous.length && current.length
-              ? [...previous, ...current]
-              : previous.length && !current.length
-                  ? previous
-                  : current
-          ))
-        )
-        .catch(error => {
-          handleProviderError(error);
-          return [];
-        });
+          .then(
+            res => res.reduce((previous, current) => (
+              previous.length && current.length
+                ? [...previous, ...current]
+                : previous.length && !current.length
+                    ? previous
+                    : current
+            ))
+          )
+          .catch(error => {
+            handleProviderError(error);
+            return [];
+          });
       }
       default:
         return [];

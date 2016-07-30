@@ -28,14 +28,14 @@ export default class PbTorrentProvider {
     return timeout(
       fetch(searchQueryUrl)
     )
-    .then(res => res.json())
-    .then(torrents => torrents.map(
-      torrent => this.formatTorrent(torrent)
-    ))
-    .catch(error => {
-      handleProviderError(error);
-      return [];
-    });
+      .then(res => res.json())
+      .then(torrents => torrents.map(
+        torrent => this.formatTorrent(torrent)
+      ))
+      .catch(error => {
+        handleProviderError(error);
+        return [];
+      });
   }
 
   static formatTorrent(torrent) {
@@ -66,24 +66,24 @@ export default class PbTorrentProvider {
         return Promise.all(
           constructMovieQueries(searchQuery, imdbId).map(query => this.fetch(query))
         )
-        // Flatten array of arrays to an array with no empty arrays
-        .then(
-          res => merge(res).filter(array => array.length !== 0)
-        )
-        .catch(error => {
-          handleProviderError(error);
-          return [];
-        });
+          // Flatten array of arrays to an array with no empty arrays
+          .then(
+            res => merge(res).filter(array => array.length !== 0)
+          )
+          .catch(error => {
+            handleProviderError(error);
+            return [];
+          });
       }
       case 'shows': {
         const { season, episode } = extendedDetails;
         return this.fetch(
           `${searchQuery} ${formatSeasonEpisodeToString(season, episode)}`
         )
-        .catch(error => {
-          handleProviderError(error);
-          return [];
-        });
+          .catch(error => {
+            handleProviderError(error);
+            return [];
+          });
       }
       case 'season_complete': {
         const { season } = extendedDetails;
@@ -92,14 +92,14 @@ export default class PbTorrentProvider {
         return Promise.all(
           queries.map(query => this.fetch(query))
         )
-        // Flatten array of arrays to an array with no empty arrays
-        .then(
-          res => merge(res).filter(array => array.length !== 0)
-        )
-        .catch(error => {
-          handleProviderError(error);
-          return [];
-        });
+          // Flatten array of arrays to an array with no empty arrays
+          .then(
+            res => merge(res).filter(array => array.length !== 0)
+          )
+          .catch(error => {
+            handleProviderError(error);
+            return [];
+          });
       }
       default:
         return [];

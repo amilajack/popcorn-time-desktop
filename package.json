@@ -152,7 +152,7 @@
     "spectron": "^3.3.0",
     "style-loader": "^0.13.1",
     "super-kat": "0.0.5",
-    "torrent-stream": "^1.0.3",
+    "speedtest-net": "^1.2.7",
     "trakt.tv": "github:amilajack/trakt.tv",
     "vlc-command": "^1.1.1",
     "webpack": "^1.13.1",
