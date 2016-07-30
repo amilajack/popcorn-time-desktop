@@ -178,10 +178,10 @@ export function combineAllQueries(queries) {
   return Promise.all(
     queries.map(query => this.fetch(query))
   )
-  // Flatten array of arrays to an array with no empty arrays
-  .then(
-    res => merge(res).filter(array => array.length !== 0)
-  );
+    // Flatten array of arrays to an array with no empty arrays
+    .then(
+      res => merge(res).filter(array => array.length !== 0)
+    );
 }
 
 export function constructSeasonQueries(title, season) {

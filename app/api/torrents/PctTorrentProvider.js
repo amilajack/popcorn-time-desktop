@@ -44,7 +44,7 @@ export default class PctTorrentProvider {
             { ...movie.torrents.en['1080p'], quality: '1080p' },
             { ...movie.torrents.en['720p'], quality: '720p' }
           ]
-          .map(torrent => this.formatMovieTorrent(torrent))
+            .map(torrent => this.formatMovieTorrent(torrent))
         );
       case 'shows': {
         const { season, episode } = extendedDetails;

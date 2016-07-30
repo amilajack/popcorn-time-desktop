@@ -26,7 +26,7 @@ export default class TraktMetadataAdapter {
       limit,
       extended: 'full,images,metadata'
     })
-    .then(movies => movies.map(movie => formatMetadata(movie, 'movies')));
+      .then(movies => movies.map(movie => formatMetadata(movie, 'movies')));
   }
 
   getMovie(imdbId) {
@@ -34,7 +34,7 @@ export default class TraktMetadataAdapter {
       id: imdbId,
       extended: 'full,images,metadata'
     })
-    .then(movie => formatMetadata(movie, 'movies'));
+      .then(movie => formatMetadata(movie, 'movies'));
   }
 
   getShows(page = 1, limit = 50) {
@@ -44,7 +44,7 @@ export default class TraktMetadataAdapter {
       limit,
       extended: 'full,images,metadata'
     })
-    .then(shows => shows.map(show => formatMetadata(show, 'shows')));
+      .then(shows => shows.map(show => formatMetadata(show, 'shows')));
   }
 
   getShow(imdbId) {
@@ -52,7 +52,7 @@ export default class TraktMetadataAdapter {
       id: imdbId,
       extended: 'full,images,metadata'
     })
-    .then(show => formatMetadata(show, 'shows'));
+      .then(show => formatMetadata(show, 'shows'));
   }
 
   getSeasons(imdbId) {
@@ -60,16 +60,16 @@ export default class TraktMetadataAdapter {
       id: imdbId,
       extended: 'full,images,metadata'
     })
-    .then(res => res.filter(season => season.aired_episodes !== 0).map(season => ({
-      season: season.number + 1,
-      overview: season.overview,
-      id: season.ids.imdb,
-      images: {
-        full: season.images.poster.full,
-        medium: season.images.poster.medium,
-        thumb: season.images.poster.thumb
-      }
-    })));
+      .then(res => res.filter(season => season.aired_episodes !== 0).map(season => ({
+        season: season.number + 1,
+        overview: season.overview,
+        id: season.ids.imdb,
+        images: {
+          full: season.images.poster.full,
+          medium: season.images.poster.medium,
+          thumb: season.images.poster.thumb
+        }
+      })));
   }
 
   getSeason(imdbId, season) {
@@ -78,7 +78,7 @@ export default class TraktMetadataAdapter {
       season,
       extended: 'full,images,metadata'
     })
-    .then(episodes => episodes.map(episode => formatSeason(episode)));
+      .then(episodes => episodes.map(episode => formatSeason(episode)));
   }
 
   getEpisode(imdbId, season, episode) {
@@ -88,7 +88,7 @@ export default class TraktMetadataAdapter {
       episode,
       extended: 'full,images,metadata'
     })
-    .then(res => formatSeason(res));
+      .then(res => formatSeason(res));
   }
 
   /**
@@ -117,7 +117,7 @@ export default class TraktMetadataAdapter {
       limit,
       extended: 'full,images,metadata'
     })
-    .then(movies => movies.map(movie => formatMetadata(movie, type)));
+      .then(movies => movies.map(movie => formatMetadata(movie, type)));
   }
 
   provide() {}

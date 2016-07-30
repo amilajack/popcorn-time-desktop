@@ -95,12 +95,12 @@ describe('e2e', function testApp() {
     it('should navigate to item on CardList click', async done => {
       try {
         const isVisible = await this.app.client
+          .waitForVisible('.Card--overlay')
           .click('.Card--overlay:first-child')
-          .waitForVisible('.Movie')
-          .isVisible('.Movie');
+          .isVisible('.Card--overlay:first-child');
+
         expect(isVisible).to.equal(true);
 
-        await delay(1000);
         await this.app.client.waitUntilWindowLoaded();
 
         const [titleText] = await this.app.client.getText('.Movie h1');

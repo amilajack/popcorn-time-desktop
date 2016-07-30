@@ -86,7 +86,7 @@ export default class Movie extends Component {
   componentDidMount() {
     this.getAllData(this.props.itemId);
 
-    this.setState({
+    this.setState({ // eslint-disable-line
       ...this.initialState,
       dropdownOpen: false,
       currentPlayer: 'Default'

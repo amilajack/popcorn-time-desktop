@@ -15,7 +15,7 @@ export default class YtsTorrentProvider {
         `https://yts.ag/api/v2/list_movies.json?query_term=${imdbId}&order_by=desc&sort_by=seeds&limit=50`
       )
     )
-    .then(res => res.json());
+      .then(res => res.json());
   }
 
   static formatTorrent(torrent) {
