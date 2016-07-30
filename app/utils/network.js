@@ -1,7 +1,7 @@
 import speedTest from 'speedtest-net';
 
-export const REFRESH_RATE = process.env.NETWORK_REFRESH_RATE || 180000; // 3 min
-const MAX_TIME = process.env.NETWORK_MAX_TIME || 5000;
+export const REFRESH_RATE = process.env.CONFIG_NETWORK_REFRESH_RATE || 180000; // 3 min
+const MAX_TIME = process.env.CONFIG_NETWORK_MAX_TIME || 5000;
 
 const test = speedTest({
   maxTime: MAX_TIME
@@ -31,5 +31,6 @@ export async function getUploadSpeed() {
   });
 }
 
-// setInterval(getUploadSpeed, process.env.NETWORK_REFRESH_RATE || REFRESH_RATE);
-// setInterval(getDownloadSpeed, process.env.NETWORK_REFRESH_RATE || REFRESH_RATE);
+// Possible use cases
+// setInterval(getUploadSpeed, REFRESH_RATE);
+// setInterval(getDownloadSpeed, REFRESH_RATE);
