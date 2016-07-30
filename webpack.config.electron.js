@@ -1,5 +1,6 @@
 import webpack from 'webpack';
-import baseConfig from './webpack.config.base';
+import baseConfig, { stats } from './webpack.config.base';
+
 
 export default {
   ...baseConfig,
@@ -13,6 +14,8 @@ export default {
     path: __dirname,
     filename: './app/main.js'
   },
+
+  stats,
 
   plugins: [
     new webpack.optimize.UglifyJsPlugin({

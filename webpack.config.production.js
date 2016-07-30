@@ -1,6 +1,6 @@
 import webpack from 'webpack';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
-import baseConfig from './webpack.config.base';
+import baseConfig, { stats } from './webpack.config.base';
 import autoprefixer from 'autoprefixer';
 import fs from 'fs';
 import dotenv from 'dotenv';
@@ -23,6 +23,8 @@ const config = {
 
     publicPath: './app/dist'
   },
+
+  stats,
 
   module: {
     ...baseConfig.module,
