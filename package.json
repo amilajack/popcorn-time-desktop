@@ -94,7 +94,7 @@
     "del": "^2.2.1",
     "devtron": "^1.2.1",
     "dotenv": "^2.0.0",
-    "electron-builder": "^5.14.1",
+    "electron-builder": "^5.20.0",
     "electron-devtools-installer": "^1.1.5",
     "electron-prebuilt": "^1.2.7",
     "eslint": "^3.1.1",
