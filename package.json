@@ -5,12 +5,13 @@
   "description": "An experimental PopcornTime client",
   "main": "main.js",
   "scripts": {
-    "build": "cross-env NODE_ENV=production FLAG_SEASON_COMPLETE=true FLAG_MANUAL_TORRENT_SELECTION=true parallel-webpack --config=webpack.config.build.js",
-    "dev": "cross-env NODE_ENV=development FLAG_SEASON_COMPLETE=true concurrently --kill-others \"npm run hot-server\" \"npm run start-hot\"",
-    "postinstall": "node node_modules/fbjs-scripts/node/check-dev-engines.js package.json",
-    "hot-server": "node -r babel-register server.js",
-    "lint": "eslint app test *.js",
     "bench-api": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 mocha --bail --slow 3000 --timeout 20000 --inline-diffs --async-only --compilers js:babel-register --recursive --require ./test/setup.js test/**/*.benchmark.js",
+    "build": "cross-env NODE_ENV=production FLAG_SEASON_COMPLETE=true FLAG_MANUAL_TORRENT_SELECTION=true FLAG_MANUAL_TORRENT_SELECTION=true parallel-webpack --config=webpack.config.build.js",
+    "dev": "cross-env NODE_ENV=development FLAG_MANUAL_TORRENT_SELECTION=true FLAG_SEASON_COMPLETE=true concurrently --kill-others \"npm run start-hot-server\" \"npm run start-hot\"",
+    "lint": "eslint app test *.js",
+    "package": "npm run build && build --publish never",
+    "postinstall": "node node_modules/fbjs-scripts/node/check-dev-engines.js package.json",
+    "precommit": "npm run test",
     "test-api": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 mocha --bail --slow 3000 --timeout 10000 --inline-diffs --async-only --compilers js:babel-register --recursive --require ./test/setup.js test/*.spec.js test/**/*.spec.js",
     "test-watch": "npm test -- --watch",
     "test-e2e": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 mocha --slow 3000 --timeout 10000 --inline-diffs --compilers js:babel-register --require ./test/setup.js --require co-mocha ./test/e2e.js",
@@ -18,9 +19,7 @@
     "test": "npm run lint && npm run package && npm run test-api && npm run test-e2e",
     "start": "cross-env NODE_ENV=production electron ./",
     "start-hot": "cross-env HOT=1 NODE_ENV=development electron -r babel-register ./main.development",
-    "package": "npm run build && build --publish never",
-    "package-fast": "build --publish never",
-    "precommit": "npm run test"
+    "start-hot-server": "node -r babel-register server.js"
   },
   "bin": {
     "electron": "./node_modules/.bin/electron"
@@ -153,7 +152,7 @@
     "spectron": "^3.3.0",
     "speedtest-net": "^1.2.7",
     "style-loader": "^0.13.1",
-    "super-kat": "0.0.5",
+    "super-kat": "^0.0.5",
     "trakt.tv": "github:amilajack/trakt.tv",
     "vlc-command": "^1.1.1",
     "webpack": "^1.13.1",
