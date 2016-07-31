@@ -68,6 +68,7 @@ export default class Movie extends Component {
     this.player = new Player();
 
     this.toggle = this.toggle.bind(this);
+    this.state = this.initialState;
   }
 
   /**
@@ -397,7 +398,6 @@ export default class Movie extends Component {
   }
 
   render() {
-    const opacity = { opacity: this.state.metadataLoading ? 0 : 1 };
     const torrentLoadingStatusStyle = { color: 'maroon' };
 
     return (
@@ -554,7 +554,6 @@ export default class Movie extends Component {
                 null}
               <div
                 className="plyr"
-                style={opacity}
                 className={this.state.usingVideoFallback ? 'hidden' : ''}
               >
                 <video controls poster={this.state.item.images.fanart.full} />

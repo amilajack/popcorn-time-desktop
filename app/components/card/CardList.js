@@ -30,14 +30,12 @@ export default class CardList extends Component {
           <div className="CardList">
             {this.props.items.map(item => (
               <Card
-                {...this.props}
                 image={item.images.poster.thumb}
                 title={item.title}
                 id={item.imdbId}
-                baseUrl={`/item/${item.type}`}
                 key={item.imdbId}
                 year={item.year}
-                kind={item.type}
+                type={item.type}
                 rating={item.rating}
                 genres={item.genres}
               />

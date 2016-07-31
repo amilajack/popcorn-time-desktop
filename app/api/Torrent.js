@@ -129,8 +129,10 @@ export default class Torrent {
 
       if (torrentEngineName === 'webtorrent') {
         console.log('Closing server...');
-        this.server.close();
-        this.server = undefined;
+        if (this.server) {
+          this.server.close();
+          this.server = undefined;
+        }
       }
 
       this.engine.remove();

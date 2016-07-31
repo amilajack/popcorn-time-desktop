@@ -59,7 +59,7 @@ script:
   - npm run package
   # Cannot run until WebChimera support comes to Linux
   # - if [ "$TRAVIS_OS_NAME" == "osx" ]; then npm run test-api; fi
-  # - if [ "$TRAVIS_OS_NAME" == "osx" ]; then npm run bench-api; fi
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then npm run bench-api; fi
   - npm run test-e2e
   # - npm run test-screenshot
   - npm run lint
