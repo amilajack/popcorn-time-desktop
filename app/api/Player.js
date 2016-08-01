@@ -77,13 +77,11 @@ export default class Player {
 
       if (process.platform === 'win32') {
         childProcess.execFile(cmd, [servingUrl], (_error, stdout) => {
-        // childProcess.execFile(cmd, ['--version'], (_error, stdout) => {
           if (_error) return console.error(_error);
           console.log(stdout);
         });
       } else {
         childProcess.exec(`${cmd} ${servingUrl}`, (_error, stdout) => {
-        // childProcess.exec(`${cmd} --version`, (_error, stdout) => {
           if (_error) return console.error(_error);
           console.log(stdout);
         });
