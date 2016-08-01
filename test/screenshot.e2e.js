@@ -4,6 +4,7 @@ import fs from 'fs';
 import { Application } from 'spectron';
 import { expect } from 'chai';
 import imageDiff from 'image-diff';
+import gm from 'gm';
 
 
 const app = new Application({
@@ -151,9 +152,14 @@ async function handleScreenshot(_app, filename) {
 
 async function capturePage(_app, filename, basePath) {
   await delay(2000);
+  const imageMagickSubClass = gm.subClass({ imageMagick: true });
 
   app.browserWindow.capturePage().then(imageBuffer => {
-    fs.writeFile(`${basePath}/${filename}.png`, imageBuffer);
+    imageMagickSubClass(imageBuffer)
+      .resize(800)
+      .write(`${basePath}/${filename}.png`, error => {
+        if (!error) console.log('Finished scaling image');
+      });
   });
 
   await delay(8000);
