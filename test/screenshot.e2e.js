@@ -19,6 +19,7 @@ const delay = time => new Promise(resolve => setTimeout(resolve, time));
 
 describe('screenshot', function testApp() {
   this.retries(3);
+  this.slow(5000);
 
   // Constructs url similar to file:///Users/john/popcorn-desktop-experimental/app/app.html#/${url}
   const navigate = url => this.app.client.url(`file://${process.cwd()}/app/app.html#/${url}`);
@@ -59,69 +60,11 @@ describe('screenshot', function testApp() {
         const cardIsDisplayed = await findCard().isVisible('.CardList');
         expect(cardListIsDisplayed).to.equal(true);
         expect(cardIsDisplayed).to.equal(true);
-        await delay(1000);
+
         const diff = await handleScreenshot(this.app, 'CardList');
-        expect(diff).to.have.deep.property('percentage').that.equals(0);
-        done();
-      } catch (error) {
-        done(error);
-      }
-    });
 
-    it('should search items', async done => {
-      try {
-        await this.app.client
-          .setValue('.navbar input', 'harry potter')
-          .click('.navbar button');
-
-        await delay(2000); // await search results
-
-        const movieTitles = await this.app.client.getText('.Card .Card--title');
-        expect(movieTitles[0]).to.include('Harry Potter');
-        expect(movieTitles[1]).to.include('Harry Potter');
-        expect(movieTitles[2]).to.include('Harry Potter');
-        done();
-      } catch (error) {
-        done(error);
-      }
-    });
-
-    it('should navigate to item on CardList click', async done => {
-      try {
-        const isVisible = await this.app.client
-          .click('.Card--overlay:first-child')
-          .waitForVisible('.Movie')
-          .isVisible('.Movie');
-        expect(isVisible).to.equal(true);
-
-        await delay(2000);
-
-        done();
-      } catch (error) {
-        done(error);
-      }
-    });
-
-    it('should navigate between movies and shows', async done => {
-      try {
-        await this.app.client.click('.nav-item:nth-child(2) .nav-link');
-        await delay(2000);
-        const cardLinks = await this.app.client.getAttribute('.Card a', 'href');
-        expect(cardLinks[0]).to.include('item/shows');
-        done();
-      } catch (error) {
-        done(error);
-      }
-    });
-  });
-
-  describe('MoviePage', () => {
-    beforeEach(async done => {
-      try {
-        // navigate to Game of thrones
-        await navigate('item/shows/tt0944947');
-        await this.app.client.waitForVisible('.Movie');
-        await delay(2000);
+        // Allow 10% of pixels to be different
+        expect(diff).to.have.deep.property('percentage').that.is.below(0.1);
         done();
       } catch (error) {
         done(error);
@@ -151,18 +94,14 @@ async function handleScreenshot(_app, filename) {
 }
 
 async function capturePage(_app, filename, basePath) {
-  await delay(2000);
   const imageMagickSubClass = gm.subClass({ imageMagick: true });
 
-  app.browserWindow.capturePage().then(imageBuffer => {
-    imageMagickSubClass(imageBuffer)
-      .resize(800)
-      .write(`${basePath}/${filename}.png`, error => {
-        if (!error) console.log('Finished scaling image');
-      });
-  });
-
-  await delay(8000);
+  const imageBuffer = await app.browserWindow.capturePage();
+  await imageMagickSubClass(imageBuffer)
+    .resize(800)
+    .write(`${basePath}/${filename}.png`, error => {
+      if (error) console.log(error);
+    });
 }
 
 async function compareScreenshot(_app, filename) {
