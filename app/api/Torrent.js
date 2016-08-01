@@ -135,7 +135,7 @@ export default class Torrent {
         }
       }
 
-      this.engine.remove();
+      // this.engine.remove();
       this.engine.destroy();
       this.engine = undefined;
       this.inProgress = false;

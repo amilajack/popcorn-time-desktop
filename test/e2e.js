@@ -81,7 +81,6 @@ describe('e2e', function testApp() {
           .click('.navbar button');
 
         await this.app.client.waitUntilWindowLoaded(); // await search results();
-        await delay(2000);
 
         const movieTitles = await this.app.client.getText('.Card .Card--title');
         expect(movieTitles[0]).to.include('Harry Potter');

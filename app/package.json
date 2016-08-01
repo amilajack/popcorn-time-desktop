@@ -5,14 +5,5 @@
   "version": "0.0.4",
   "author": "Amila Welihinda <amilajack@gmail.com>",
   "license": "MIT",
-  "main": "./main.js",
-  "wcjs-prebuilt": {
-    "runtime": "electron",
-    "runtimeVersion": "v1.2.6",
-    "version": "v0.2.6"
-  },
-  "optionalDependencies": {
-    "wcjs-prebuilt": "^3.0.0",
-    "wcjs-renderer": "^1.0.2"
-  }
+  "main": "./main.js"
 }
