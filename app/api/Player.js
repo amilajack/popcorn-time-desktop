@@ -1,4 +1,3 @@
-import { remote } from 'electron';
 import plyr from 'plyr';
 import childProcess from 'child_process';
 import vlcCommand from 'vlc-command';
@@ -22,27 +21,10 @@ export default class Player {
   destroy() {
     clearInterval(this.intervalId);
 
-    switch (this.currentPlayer) {
-      case 'plyr':
-        if (document.querySelector('.plyr')) {
-          if (document.querySelector('.plyr').plyr) {
-            document.querySelector('.plyr').plyr.destroy();
-          }
-        }
-        break;
-      case 'WebChimera':
-        if (document.querySelector('.plyr')) {
-          if (document.querySelector('.plyr').plyr) {
-            document.querySelector('.plyr').plyr.destroy();
-          }
-        }
-        if (this.player) {
-          this.player.close();
-        }
-        remote.powerSaveBlocker.stop(this.powerSaveBlockerId);
-        break;
-      default:
-        throw new Error('No player available');
+    if (document.querySelector('.plyr')) {
+      if (document.querySelector('.plyr').plyr) {
+        document.querySelector('.plyr').plyr.destroy();
+      }
     }
   }
 
@@ -51,16 +33,7 @@ export default class Player {
    */
   reset() {
     clearInterval(this.intervalId);
-
-    switch (this.currentPlayer) {
-      case 'plyr':
-        this.player.restart();
-        break;
-      case 'WebChimera':
-        this.player.restart();
-        break;
-      default:
-    }
+    this.player.restart();
   }
 
   constructSource(streamingUrl, metadata) {
