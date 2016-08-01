@@ -81,6 +81,7 @@ describe('e2e', function testApp() {
           .click('.navbar button');
 
         await this.app.client.waitUntilWindowLoaded(); // await search results();
+        await delay(2000);
 
         const movieTitles = await this.app.client.getText('.Card .Card--title');
         expect(movieTitles[0]).to.include('Harry Potter');
@@ -127,7 +128,7 @@ describe('e2e', function testApp() {
       try {
         const firstCardLinks = await this.app.client.getAttribute('.Card a', 'href');
         await this.app.client.scroll('.Loader');
-        await delay(1000);
+        await delay(2000);
         await this.app.client.waitUntilWindowLoaded();
         const secondCardLinks = await this.app.client.getAttribute('.Card a', 'href');
         expect(secondCardLinks.length).to.be.greaterThan(firstCardLinks.length);
