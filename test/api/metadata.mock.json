@@ -3564,16 +3564,388 @@
       }
     }
   ],
-  "getSeason": {
-
-  },
-  "getSeasons": {
-
-  },
+  "getSeason": [
+    {
+      "id": "tt1480055",
+      "title": "Winter Is Coming",
+      "season": 1,
+      "episode": 1,
+      "overview": "Ned Stark, Lord of Winterfell learns that his mentor, Jon Arryn, has died and that King Robert is on his way north to offer Ned Arryn’s position as the King’s Hand. Across the Narrow Sea in Pentos, Viserys Targaryen plans to wed his sister Daenerys to the nomadic Dothraki warrior leader, Khal Drogo to forge an alliance to take the throne.",
+      "rating": 4.2,
+      "images": {
+        "full": "https://walter.trakt.us/images/episodes/000/073/640/screenshots/original/dd3fc55725.jpg",
+        "medium": "https://walter.trakt.us/images/episodes/000/073/640/screenshots/medium/dd3fc55725.jpg",
+        "thumb": "https://walter.trakt.us/images/episodes/000/073/640/screenshots/thumb/dd3fc55725.jpg"
+      }
+    },
+    {
+      "id": "tt1668746",
+      "title": "The Kingsroad",
+      "season": 1,
+      "episode": 2,
+      "overview": "Having agreed to become the King’s Hand, Ned leaves Winterfell with daughters Sansa and Arya, while Catelyn stays behind in Winterfell. Jon Snow heads north to join the brotherhood of the Night’s Watch. Tyrion decides to forego the trip south with his family, instead joining Jon in the entourage heading to the Wall. Viserys bides his time in hopes of winning back the throne, while Daenerys focuses her attention on learning how to please her new husband, Drogo.",
+      "rating": 4.2,
+      "images": {
+        "full": "https://walter.trakt.us/images/episodes/000/073/641/screenshots/original/e645d70001.jpg",
+        "medium": "https://walter.trakt.us/images/episodes/000/073/641/screenshots/medium/e645d70001.jpg",
+        "thumb": "https://walter.trakt.us/images/episodes/000/073/641/screenshots/thumb/e645d70001.jpg"
+      }
+    },
+    {
+      "id": "tt1829962",
+      "title": "Lord Snow",
+      "season": 1,
+      "episode": 3,
+      "overview": "Arriving at King’s Landing, Ned is shocked to learn of the Crown’s profligacy from his new advisors. At Castle Black, Jon Snow impresses Tyrion at the expense of greener recruits. Suspecting the Lannisters had a hand in Bran’s fall, Catelyn covertly follows her husband to King’s Landing, where she is intercepted by Petyr Baelish, a.k.a. “Littlefinger,” a shrewd longtime ally and brothel owner. Cersei and Jaime ponder the implications of Bran’s recovery; Arya studies swordsmanship. On the road to Vaes Dothrak, Daenerys finds herself at odds with Viserys.",
+      "rating": 4.1,
+      "images": {
+        "full": "https://walter.trakt.us/images/episodes/000/073/642/screenshots/original/238c3fabbf.jpg",
+        "medium": "https://walter.trakt.us/images/episodes/000/073/642/screenshots/medium/238c3fabbf.jpg",
+        "thumb": "https://walter.trakt.us/images/episodes/000/073/642/screenshots/thumb/238c3fabbf.jpg"
+      }
+    },
+    {
+      "id": "tt1829963",
+      "title": "Cripples, Bastards, and Broken Things",
+      "season": 1,
+      "episode": 4,
+      "overview": "Ned looks for clues to the death of his predecessor, and uncovers one of King Robert’s bastards. Robert and his guests witness a tournament honoring Ned. Jon takes measures to protect Sam from further abuse at Castle Black; a frustrated Viserys clashes with Daenerys in Vaes Dothrak; Sansa imagines her future as a queen, while Arya envisions a far different future. Catelyn rallies her husband’s allies to make a point, while Tyrion finds himself caught in the wrong place at the wrong time.",
+      "rating": 4.2,
+      "images": {
+        "full": "https://walter.trakt.us/images/episodes/000/073/643/screenshots/original/9101c85fa3.jpg",
+        "medium": "https://walter.trakt.us/images/episodes/000/073/643/screenshots/medium/9101c85fa3.jpg",
+        "thumb": "https://walter.trakt.us/images/episodes/000/073/643/screenshots/thumb/9101c85fa3.jpg"
+      }
+    },
+    {
+      "id": "tt1829964",
+      "title": "The Wolf and the Lion",
+      "season": 1,
+      "episode": 5,
+      "overview": "Incensed over news of Daenerys’ alliance with the Dothrakis, Robert orders a preemptive strike on the Targaryens that drives a wedge in his relationship with Ned. A captive Tyrion helps Catelyn, but receives a cold reception at the Eyrie from her sister, Jon Arryn’s widow Lysa. Sansa is charmed by the dashing Ser Loras Tyrell, a.k.a. the Knight of Flowers. Arya overhears a plot against her father.",
+      "rating": 4.2,
+      "images": {
+        "full": "https://walter.trakt.us/images/episodes/000/073/644/screenshots/original/b558214c1e.jpg",
+        "medium": "https://walter.trakt.us/images/episodes/000/073/644/screenshots/medium/b558214c1e.jpg",
+        "thumb": "https://walter.trakt.us/images/episodes/000/073/644/screenshots/thumb/b558214c1e.jpg"
+      }
+    },
+    {
+      "id": "tt1837862",
+      "title": "A Golden Crown",
+      "season": 1,
+      "episode": 6,
+      "overview": "Reinstated as the Hand, Ned sits for the King while Robert is on a hunt. Ned issues a decree that could have long-term consequences throughout the Seven Kingdoms. At the Eyrie, Tyrion confesses to his \"crimes,\" and demands that Lysa give him a trial by combat. Joffrey apologizes to Sansa. Viserys receives his final payment for Daenerys from Drogo.",
+      "rating": 4.3,
+      "images": {
+        "full": "https://walter.trakt.us/images/episodes/000/073/645/screenshots/original/16bb7c5971.jpg",
+        "medium": "https://walter.trakt.us/images/episodes/000/073/645/screenshots/medium/16bb7c5971.jpg",
+        "thumb": "https://walter.trakt.us/images/episodes/000/073/645/screenshots/thumb/16bb7c5971.jpg"
+      }
+    },
+    {
+      "id": "tt1837863",
+      "title": "You Win or You Die",
+      "season": 1,
+      "episode": 7,
+      "overview": "Explaining that the future of the Lannisters is at stake, Tywin presses Jaime to “be the man you were meant to be” as they prepare for battle. Ned confronts Cersei about the secrets that killed Jon Arryn. With the fate of the missing Benjen very much on his mind, Jon takes his Night’s Watch vows, though not with the assignment he coveted. After Ser Jorah saves Daenerys from treachery, an enraged Drogo vows to lead the Dothraki where they’ve never gone before. An injured Robert takes pains to ensure an orderly transition at King’s Landing.",
+      "rating": 4.3,
+      "images": {
+        "full": "https://walter.trakt.us/images/episodes/000/073/646/screenshots/original/08fb5cc0df.jpg",
+        "medium": "https://walter.trakt.us/images/episodes/000/073/646/screenshots/medium/08fb5cc0df.jpg",
+        "thumb": "https://walter.trakt.us/images/episodes/000/073/646/screenshots/thumb/08fb5cc0df.jpg"
+      }
+    },
+    {
+      "id": "tt1837864",
+      "title": "The Pointy End",
+      "season": 1,
+      "episode": 8,
+      "overview": "In the aftermath of Ned's capture, Syrio and Arya face off against Lannister guards, while Cersei manipulates Sansa to her own ends. Robb rallies his father's northern allies against Tywin Lannister and heads south to war. Tyrion forms an uneasy alliance with the hill tribes and reunites with his father. Jon lashes out at Ser Alliser Thorne and battles a mysterious attacker from beyond the Wall. Dany is forced to reconcile her desire to conquer Westeros with Drogo's savagery after the Dothraki raid a peaceful village.",
+      "rating": 4.2,
+      "images": {
+        "full": "https://walter.trakt.us/images/episodes/000/073/647/screenshots/original/5b8bc848d6.jpg",
+        "medium": "https://walter.trakt.us/images/episodes/000/073/647/screenshots/medium/5b8bc848d6.jpg",
+        "thumb": "https://walter.trakt.us/images/episodes/000/073/647/screenshots/thumb/5b8bc848d6.jpg"
+      }
+    },
+    {
+      "id": "tt1851398",
+      "title": "Baelor",
+      "season": 1,
+      "episode": 9,
+      "overview": "With Sansa's life in danger, Ned makes a fateful decision. Catelyn brokers an unsavory deal with the slippery Walder Frey. Tyrion acquires a mistress and is forced by his father to fight on the front lines. Robb wins his first major victory and captures a prized prisoner. Jon is rewarded for his valor and discovers a dark secret about Maester Aemon. As Drogo's wound festers, Dany defies her bloodrider Qotho and puts her trust in the enslaved witch Mirri Maz Duur.",
+      "rating": 4.3,
+      "images": {
+        "full": "https://walter.trakt.us/images/episodes/000/073/648/screenshots/original/2ce99a38f3.jpg",
+        "medium": "https://walter.trakt.us/images/episodes/000/073/648/screenshots/medium/2ce99a38f3.jpg",
+        "thumb": "https://walter.trakt.us/images/episodes/000/073/648/screenshots/thumb/2ce99a38f3.jpg"
+      }
+    },
+    {
+      "id": "tt1851397",
+      "title": "Fire and Blood",
+      "season": 1,
+      "episode": 10,
+      "overview": "As tragic news spreads across the Seven Kingdoms, Bran and Rickon share a prophetic dream, Catelyn interrogates Jamie about her son's fall, and Robb's destiny is forever changed. After a surprising decision by his father, Tyrion heads south. Arya assumes a new identity in an attempt to escape King's Landing, and Sansa is terrorized by Joffrey. At the Wall, Jon is forced to choose between the Night's Watch and the family he left behind. Across the sea, Dany pays a terrible price for her love, but finds new hope.",
+      "rating": 4.4,
+      "images": {
+        "full": "https://walter.trakt.us/images/episodes/000/073/649/screenshots/original/7c9c61c569.jpg",
+        "medium": "https://walter.trakt.us/images/episodes/000/073/649/screenshots/medium/7c9c61c569.jpg",
+        "thumb": "https://walter.trakt.us/images/episodes/000/073/649/screenshots/thumb/7c9c61c569.jpg"
+      }
+    }
+  ],
+  "getSeasons": [
+    {
+      "season": 1,
+      "overview": null,
+      "images": {
+        "full": "https://walter.trakt.us/images/seasons/000/003/962/posters/original/41221f3712.jpg",
+        "medium": "https://walter.trakt.us/images/seasons/000/003/962/posters/medium/41221f3712.jpg",
+        "thumb": "https://walter.trakt.us/images/seasons/000/003/962/posters/thumb/41221f3712.jpg"
+      }
+    },
+    {
+      "season": 2,
+      "overview": "Trouble is brewing in the Seven Kingdoms of Westeros. For the driven inhabitants of this visionary world, control of Westeros' Iron Throne holds the lure of great power. But in a land where the seasons can last a lifetime, winter is coming...and beyond the Great Wall that protects them, an ancient evil has returned. In Season One, the story centers on three primary areas: the Stark and the Lannister families, whose designs on controlling the throne threaten a tenuous peace; the dragon princess Daenerys, heir to the former dynasty, who waits just over the Narrow Sea with her malevolent brother Viserys; and the Great Wall--a massive barrier of ice where a forgotten danger is stirring.",
+      "images": {
+        "full": "https://walter.trakt.us/images/seasons/000/003/963/posters/original/1834978783.jpg",
+        "medium": "https://walter.trakt.us/images/seasons/000/003/963/posters/medium/1834978783.jpg",
+        "thumb": "https://walter.trakt.us/images/seasons/000/003/963/posters/thumb/1834978783.jpg"
+      }
+    },
+    {
+      "season": 3,
+      "overview": "The cold winds of winter are rising in Westeros...war is coming...and five kings continue their savage quest for control of the all-powerful Iron Throne. With winter fast approaching, the coveted Iron Throne is occupied by the cruel Joffrey, counseled by his conniving mother Cersei and uncle Tyrion. But the Lannister hold on the Throne is under assault on many fronts. Meanwhile, a new leader is rising among the wildings outside the Great Wall, adding new perils for Jon Snow and the order of the Night's Watch.",
+      "images": {
+        "full": "https://walter.trakt.us/images/seasons/000/003/964/posters/original/718943d94f.jpg",
+        "medium": "https://walter.trakt.us/images/seasons/000/003/964/posters/medium/718943d94f.jpg",
+        "thumb": "https://walter.trakt.us/images/seasons/000/003/964/posters/thumb/718943d94f.jpg"
+      }
+    },
+    {
+      "season": 4,
+      "overview": "Duplicity and treachery...nobility and honor...conquest and triumph...and, of course, dragons. In Season 3, family and loyalty are the overarching themes as many critical storylines from the first two seasons come to a brutal head. Meanwhile, the Lannisters maintain their hold on King's Landing, though stirrings in the North threaten to alter the balance of power; Robb Stark, King of the North, faces a major calamity as he tries to build on his victories; a massive army of wildlings led by Mance Rayder march for the Wall; and Daenerys Targaryen--reunited with her dragons--attempts to raise an army in her quest for the Iron Throne.",
+      "images": {
+        "full": "https://walter.trakt.us/images/seasons/000/003/965/posters/original/910697a6af.jpg",
+        "medium": "https://walter.trakt.us/images/seasons/000/003/965/posters/medium/910697a6af.jpg",
+        "thumb": "https://walter.trakt.us/images/seasons/000/003/965/posters/thumb/910697a6af.jpg"
+      }
+    },
+    {
+      "season": 5,
+      "overview": "The War of the Five Kings is drawing to a close, but new intrigues and plots are in motion, and the surviving factions must contend with enemies not only outside their ranks, but within.",
+      "images": {
+        "full": "https://walter.trakt.us/images/seasons/000/003/966/posters/original/46cafaec1f.jpg",
+        "medium": "https://walter.trakt.us/images/seasons/000/003/966/posters/medium/46cafaec1f.jpg",
+        "thumb": "https://walter.trakt.us/images/seasons/000/003/966/posters/thumb/46cafaec1f.jpg"
+      }
+    },
+    {
+      "season": 6,
+      "overview": "The War of the Five Kings, once thought to be drawing to a close, is instead entering a new and more chaotic phase. Westeros is on the brink of collapse, and many are seizing what they can while the realm implodes, like a corpse making a feast for crows.",
+      "images": {
+        "full": "https://walter.trakt.us/images/seasons/000/003/967/posters/original/8cbfffe9d4.jpg",
+        "medium": "https://walter.trakt.us/images/seasons/000/003/967/posters/medium/8cbfffe9d4.jpg",
+        "thumb": "https://walter.trakt.us/images/seasons/000/003/967/posters/thumb/8cbfffe9d4.jpg"
+      }
+    },
+    {
+      "season": 7,
+      "overview": "Following the shocking developments at the conclusion of season five, survivors from all parts of Westeros and Essos regroup to press forward, inexorably, towards their uncertain individual fates. Familiar faces will forge new alliances to bolster their strategic chances at survival, while new characters will emerge to challenge the balance of power in the east, west, north and south.",
+      "images": {
+        "full": "https://walter.trakt.us/images/seasons/000/114/727/posters/original/1aa24c1d9c.jpg",
+        "medium": "https://walter.trakt.us/images/seasons/000/114/727/posters/medium/1aa24c1d9c.jpg",
+        "thumb": "https://walter.trakt.us/images/seasons/000/114/727/posters/thumb/1aa24c1d9c.jpg"
+      }
+    }
+  ],
   "getEpisode": {
-
+    "id": "tt1480055",
+    "title": "Winter Is Coming",
+    "season": 1,
+    "episode": 1,
+    "overview": "Ned Stark, Lord of Winterfell learns that his mentor, Jon Arryn, has died and that King Robert is on his way north to offer Ned Arryn’s position as the King’s Hand. Across the Narrow Sea in Pentos, Viserys Targaryen plans to wed his sister Daenerys to the nomadic Dothraki warrior leader, Khal Drogo to forge an alliance to take the throne.",
+    "rating": 4.2,
+    "images": {
+      "full": "https://walter.trakt.us/images/episodes/000/073/640/screenshots/original/dd3fc55725.jpg",
+      "medium": "https://walter.trakt.us/images/episodes/000/073/640/screenshots/medium/dd3fc55725.jpg",
+      "thumb": "https://walter.trakt.us/images/episodes/000/073/640/screenshots/thumb/dd3fc55725.jpg"
+    }
   },
-  "getSimilar":{
-
-  }
+  "getSimilar": [
+    {
+      "title": "Marvel's Agents of S.H.I.E.L.D.",
+      "year": 2013,
+      "imdbId": "tt2364582",
+      "id": "tt2364582",
+      "type": "shows",
+      "summary": "Phil Coulson (Clark Gregg, reprising his role from \"The Avengers\" and \"Iron Man\" ) heads an elite team of fellow agents with the worldwide law-enforcement organization known as SHIELD (Strategic Homeland Intervention Enforcement and Logistics Division), as they investigate strange occurrences around the globe. Its members -- each of whom brings a specialty to the group -- work with Coulson to protect those who cannot protect themselves from extraordinary and inconceivable threats, including a formidable group known as Hydra.",
+      "genres": [
+        "action",
+        "adventure",
+        "drama",
+        "fantasy",
+        "science-fiction"
+      ],
+      "rating": 3.9,
+      "runtime": {
+        "full": "45 minutes",
+        "hours": 0,
+        "minutes": 45
+      },
+      "trailer": "http://youtube.com/watch?v=T3T-evQZiQo",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/001/394/fanarts/original/2cc61c8eea.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/394/fanarts/medium/2cc61c8eea.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/394/fanarts/thumb/2cc61c8eea.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/001/394/posters/original/c4a4211e12.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/394/posters/medium/c4a4211e12.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/394/posters/thumb/c4a4211e12.jpg"
+        }
+      }
+    },
+    {
+      "title": "The Flash",
+      "year": 2014,
+      "imdbId": "tt3107288",
+      "id": "tt3107288",
+      "type": "shows",
+      "summary": "After a particle accelerator causes a freak storm, CSI Investigator Barry Allen is struck by lightning and falls into a coma. Months later he awakens with the power of super speed, granting him the ability to move through Central City like an unseen guardian angel. Though initially excited by his newfound powers, Barry is shocked to discover he is not the only \"meta-human\" who was created in the wake of the accelerator explosion – and not everyone is using their new powers for good. Barry partners with S.T.A.R. Labs and dedicates his life to protect the innocent. For now, only a few close friends and associates know that Barry is literally the fastest man alive, but it won't be long before the world learns what Barry Allen has become... The Flash.",
+      "genres": [
+        "drama",
+        "fantasy",
+        "science-fiction",
+        "action",
+        "adventure"
+      ],
+      "rating": 4.2,
+      "runtime": {
+        "full": "45 minutes",
+        "hours": 0,
+        "minutes": 45
+      },
+      "trailer": "http://youtube.com/watch?v=aZxhA_Jihmw",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/060/300/fanarts/original/df36c9a731.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/060/300/fanarts/medium/df36c9a731.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/060/300/fanarts/thumb/df36c9a731.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/060/300/posters/original/79bd96a4d3.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/060/300/posters/medium/79bd96a4d3.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/060/300/posters/thumb/79bd96a4d3.jpg"
+        }
+      }
+    },
+    {
+      "title": "Firefly",
+      "year": 2002,
+      "imdbId": "tt0303461",
+      "id": "tt0303461",
+      "type": "shows",
+      "summary": "In the far-distant future, Captain Malcolm \"Mal\" Reynolds is a renegade former brown-coat sergeant, now turned smuggler &amp; rogue, who is the commander of a small spacecraft, with a loyal hand-picked crew made up of the first mate, Zoe Warren; the pilot Hoban \"Wash\" Washburn; the gung-ho grunt Jayne Cobb; the engineer Kaylee Frye; the fugitives Dr. Simon Tam and his psychic sister River. Together, they travel the far reaches of space in search of food, money, and anything to live on.",
+      "genres": [
+        "drama",
+        "science-fiction",
+        "adventure",
+        "western",
+        "action",
+        "fantasy"
+      ],
+      "rating": 4.6,
+      "runtime": {
+        "full": "45 minutes",
+        "hours": 0,
+        "minutes": 45
+      },
+      "trailer": null,
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/001/428/fanarts/original/f07e226271.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/428/fanarts/medium/f07e226271.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/428/fanarts/thumb/f07e226271.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/001/428/posters/original/fa1278e235.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/428/posters/medium/fa1278e235.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/428/posters/thumb/fa1278e235.jpg"
+        }
+      }
+    },
+    {
+      "title": "Battlestar Galactica",
+      "year": 2005,
+      "imdbId": "tt0407362",
+      "id": "tt0407362",
+      "type": "shows",
+      "summary": "In a distant part of the universe, a civilization of humans live on planets known as the Twelve Colonies. In the past, the Colonies have been at war with a cybernetic race known as the Cylons. 40 years after the first war the Cylons launch a devastating attack on the Colonies. The only military ship that survived the attack takes up the task of leading a small fugitive fleet of survivors into space in search of a fabled refuge known as Earth.",
+      "genres": [
+        "drama",
+        "action",
+        "adventure",
+        "fantasy",
+        "science-fiction"
+      ],
+      "rating": 4.5,
+      "runtime": {
+        "full": "44 minutes",
+        "hours": 0,
+        "minutes": 44
+      },
+      "trailer": "http://youtube.com/watch?v=q2x14ZhEc9k",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/001/959/fanarts/original/bcad3f0092.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/959/fanarts/medium/bcad3f0092.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/959/fanarts/thumb/bcad3f0092.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/001/959/posters/original/a0dbd3fcf1.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/959/posters/medium/a0dbd3fcf1.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/959/posters/thumb/a0dbd3fcf1.jpg"
+        }
+      }
+    },
+    {
+      "title": "Continuum",
+      "year": 2012,
+      "imdbId": "tt1954347",
+      "id": "tt1954347",
+      "type": "shows",
+      "summary": "Kiera Cameron (Rachel Nichols), a Vancouver City Protective Services officer, is transported from the year 2077 to 2012 when eight ruthless terrorists, known as Liber8, attempt to escape execution through time travel. With the help of 17 year old tech genius Alec Sadler (Erik Knudsen) and VPD officer Carlos Fonnegra (Victor Webster), Kiera must survive in our time period, and capture Liber8 before they can alter the course of history and change the future.",
+      "genres": [
+        "drama",
+        "thriller",
+        "action",
+        "adventure",
+        "fantasy",
+        "science-fiction"
+      ],
+      "rating": 3.9,
+      "runtime": {
+        "full": "45 minutes",
+        "hours": 0,
+        "minutes": 45
+      },
+      "trailer": "http://youtube.com/watch?v=vtz0cLWqH9I",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/042/793/fanarts/original/ac0d3a1813.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/042/793/fanarts/medium/ac0d3a1813.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/042/793/fanarts/thumb/ac0d3a1813.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/042/793/posters/original/bfa74786ff.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/042/793/posters/medium/bfa74786ff.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/042/793/posters/thumb/bfa74786ff.jpg"
+        }
+      }
+    }
+  ]
 }
