@@ -57,10 +57,7 @@ describe('screenshot', function testApp() {
 
     it('should display CardList', async done => {
       try {
-        const diff = await handleScreenshot(this.app, 'CardList');
-        // Allow 10% of pixels to be different
-        console.log('Difference: ', diff);
-        expect(diff).to.have.deep.property('percentage').that.is.below(0.1);
+        await screenshotTest(this.app, 'CardList');
         done();
       } catch (error) {
         done(error);
@@ -81,9 +78,7 @@ describe('screenshot', function testApp() {
 
     it('should display Movie', async done => {
       try {
-        const diff = await handleScreenshot(this.app, 'MoviePage');
-        // Allow 10% of pixels to be different
-        expect(diff).to.have.deep.property('percentage').that.is.below(0.1);
+        await screenshotTest(this.app, 'MoviePage', 0.3);
         done();
       } catch (error) {
         done(error);
@@ -91,6 +86,12 @@ describe('screenshot', function testApp() {
     });
   });
 });
+
+async function screenshotTest(_app, filename, differencePercentage = 0.1) {
+  const diff = await handleScreenshot(_app, filename);
+  // Allow 10% of pixels to be different by default
+  expect(diff).to.have.deep.property('percentage').that.is.below(differencePercentage);
+}
 
 async function handleScreenshot(_app, filename) {
   // Check if the file exists
