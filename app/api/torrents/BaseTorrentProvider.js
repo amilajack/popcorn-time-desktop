@@ -251,6 +251,7 @@ export function resolveCache(key) {
 }
 
 export function setCache(key, value) {
+  console.log(key, value);
   return providerCache.set(
     key,
     value

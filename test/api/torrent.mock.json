@@ -74,5 +74,28 @@
       "health": "healthy",
       "method": "movies"
     }
+  },
+  "Game of Thrones": {
+    "480p": {},
+    "720p": {
+      "magnet": "magnet:?xt=urn:btih:26ac1b54377988acbad5b1bcf50e8c56658c9707&dn=Game+Of+Thrones+%282011%29+Season+1+BluRay+720p+x264+Ganool&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&tr=udp%3A%2F%2Fzer0day.ch%3A1337&tr=udp%3A%2F%2Fopen.demonii.com%3A1337&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Fexodus.desync.com%3A6969",
+      "seeders": 495,
+      "leechers": 151,
+      "metadata": "Game Of Thrones (2011) Season 1 BluRay 720p x264 Ganoolmagnet:?xt=urn:btih:26ac1b54377988acbad5b1bcf50e8c56658c9707&dn=Game+Of+Thrones+%282011%29+Season+1+BluRay+720p+x264+Ganool&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&tr=udp%3A%2F%2Fzer0day.ch%3A1337&tr=udp%3A%2F%2Fopen.demonii.com%3A1337&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Fexodus.desync.com%3A6969https://thepiratebay.se/torrent/8251651/Game_Of_Thrones_(2011)_Season_1_BluRay_720p_x264_Ganool",
+      "_provider": "pb",
+      "health": "healthy",
+      "quality": "720p",
+      "method": "season_complete"
+    },
+    "1080p": {
+      "magnet": "magnet:?xt=urn:btih:481898568766f5194e7d0f244e6f812064f41484&dn=Game+of+Thrones+Complete+S01+Season+1+1080p+BluRay+5.1+-+the.HH&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&tr=udp%3A%2F%2Fzer0day.ch%3A1337&tr=udp%3A%2F%2Fopen.demonii.com%3A1337&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Fexodus.desync.com%3A6969",
+      "seeders": 6,
+      "leechers": 6,
+      "metadata": "Game of Thrones Complete S01 Season 1 1080p BluRay 5.1 - the.HHmagnet:?xt=urn:btih:481898568766f5194e7d0f244e6f812064f41484&dn=Game+of+Thrones+Complete+S01+Season+1+1080p+BluRay+5.1+-+the.HH&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&tr=udp%3A%2F%2Fzer0day.ch%3A1337&tr=udp%3A%2F%2Fopen.demonii.com%3A1337&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Fexodus.desync.com%3A6969https://thepiratebay.se/torrent/12089079/Game_of_Thrones_Complete_S01_Season_1_1080p_BluRay_5.1_-_the.HH",
+      "_provider": "pb",
+      "health": "poor",
+      "quality": "1080p",
+      "method": "season_complete"
+    }
   }
 }

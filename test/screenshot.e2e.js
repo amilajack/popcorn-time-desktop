@@ -1,4 +1,9 @@
-// A simple test to verify a visible window is opened with a title
+/**
+ * Screenshot tests
+ *
+ * This file needs to be separate from e2e because the app needs to be recompiled
+ * separeately with the flag API_USE_MOCK_DATA
+ */
 import path from 'path';
 import fs from 'fs';
 import { Application } from 'spectron';
@@ -23,10 +28,6 @@ describe('screenshot', function testApp() {
 
   // Constructs url similar to file:///Users/john/popcorn-desktop-experimental/app/app.html#/${url}
   const navigate = url => this.app.client.url(`file://${process.cwd()}/app/app.html#/${url}`);
-
-  const findCardList = () => this.app.client.waitForVisible('.CardList');
-  const findCard = () => this.app.client.waitForVisible('.Card');
-  const findMovie = () => this.app.client.waitForVisible('.Movie');
 
   before(async done => {
     try {
@@ -56,13 +57,31 @@ describe('screenshot', function testApp() {
 
     it('should display CardList', async done => {
       try {
-        const cardListIsDisplayed = await findCardList().isVisible('.CardList');
-        const cardIsDisplayed = await findCard().isVisible('.CardList');
-        expect(cardListIsDisplayed).to.equal(true);
-        expect(cardIsDisplayed).to.equal(true);
-
         const diff = await handleScreenshot(this.app, 'CardList');
+        // Allow 10% of pixels to be different
+        console.log('Difference: ', diff);
+        expect(diff).to.have.deep.property('percentage').that.is.below(0.1);
+        done();
+      } catch (error) {
+        done(error);
+      }
+    });
+  });
 
+  describe('MoviePage', () => {
+    beforeEach(async done => {
+      try {
+        await navigate('item/shows/tt0944947');
+        await delay(2000);
+        done();
+      } catch (error) {
+        done(error);
+      }
+    });
+
+    it('should display Movie', async done => {
+      try {
+        const diff = await handleScreenshot(this.app, 'MoviePage');
         // Allow 10% of pixels to be different
         expect(diff).to.have.deep.property('percentage').that.is.below(0.1);
         done();
@@ -105,13 +124,13 @@ async function capturePage(_app, filename, basePath) {
 }
 
 async function compareScreenshot(_app, filename) {
-  await capturePage(_app, filename, './tmp');
+  await capturePage(_app, filename, './.tmp');
 
   return new Promise((resolve, reject) =>
     imageDiff.getFullResult({
-      actualImage: `./tmp/${filename}.png`,
+      actualImage: `./.tmp/${filename}.png`,
       expectedImage: `./test/screenshots/${filename}.png`,
-      diffImage: './tmp/difference.png',
+      diffImage: './.tmp/difference.png',
     }, (err, result) => {
       if (err) {
         return reject(err);

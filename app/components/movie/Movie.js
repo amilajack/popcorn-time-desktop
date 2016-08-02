@@ -193,66 +193,45 @@ export default class Movie extends Component {
           });
           break;
         case 'shows': {
-          if (process.env.FLAG_SUPPORTED_PLAYBACK_FILTERING === 'true') {
-            const torrents = await this.butter.getTorrent(imdbId, this.props.activeMode, {
-              season,
-              episode,
-              searchQuery: title
-            }, true);
+          if (process.env.FLAG_SEASON_COMPLETE === 'true') {
+            const [shows, seasonComplete] = await Promise.all([
+              this.butter.getTorrent(imdbId, this.props.activeMode, {
+                season,
+                episode,
+                searchQuery: title
+              }),
+              this.butter.getTorrent(imdbId, 'season_complete', {
+                season,
+                searchQuery: title
+              })
+            ]);
 
-            idealTorrent = await Torrent.getTorrentWithSupportedFormats(
-              torrents,
-              process.env.NODE_ENV === 'production'
-                ? [...Player.experimentalPlaybackFormats, ...Player.nativePlaybackFormats]
-                : Player.nativePlaybackFormats
-            );
+            torrent = {
+              '1080p': getIdealTorrent([shows['1080p'], seasonComplete['1080p']]),
+              '720p': getIdealTorrent([shows['720p'], seasonComplete['720p']]),
+              '480p': getIdealTorrent([shows['480p'], seasonComplete['480p']])
+            };
 
+            idealTorrent = getIdealTorrent([
+              shows['1080p'] || this.defaultTorrent,
+              shows['720p'] || this.defaultTorrent,
+              shows['480p'] || this.defaultTorrent,
+              seasonComplete['1080p'] || this.defaultTorrent,
+              seasonComplete['720p'] || this.defaultTorrent,
+              seasonComplete['480p'] || this.defaultTorrent
+            ]);
+          } else {
             torrent = await this.butter.getTorrent(imdbId, this.props.activeMode, {
               season,
               episode,
               searchQuery: title
             });
-          } else {
-            if (process.env.FLAG_SEASON_COMPLETE === 'true') {
-              const [shows, seasonComplete] = await Promise.all([
-                this.butter.getTorrent(imdbId, this.props.activeMode, {
-                  season,
-                  episode,
-                  searchQuery: title
-                }),
-                this.butter.getTorrent(imdbId, 'season_complete', {
-                  season,
-                  searchQuery: title
-                })
-              ]);
 
-              torrent = {
-                '1080p': getIdealTorrent([shows['1080p'], seasonComplete['1080p']]),
-                '720p': getIdealTorrent([shows['720p'], seasonComplete['720p']]),
-                '480p': getIdealTorrent([shows['480p'], seasonComplete['480p']])
-              };
-
-              idealTorrent = getIdealTorrent([
-                shows['1080p'] || this.defaultTorrent,
-                shows['720p'] || this.defaultTorrent,
-                shows['480p'] || this.defaultTorrent,
-                seasonComplete['1080p'] || this.defaultTorrent,
-                seasonComplete['720p'] || this.defaultTorrent,
-                seasonComplete['480p'] || this.defaultTorrent
-              ]);
-            } else {
-              torrent = await this.butter.getTorrent(imdbId, this.props.activeMode, {
-                season,
-                episode,
-                searchQuery: title
-              });
-
-              idealTorrent = getIdealTorrent([
-                torrent['1080p'] || this.defaultTorrent,
-                torrent['720p'] || this.defaultTorrent,
-                torrent['480p'] || this.defaultTorrent
-              ]);
-            }
+            idealTorrent = getIdealTorrent([
+              torrent['1080p'] || this.defaultTorrent,
+              torrent['720p'] || this.defaultTorrent,
+              torrent['480p'] || this.defaultTorrent
+            ]);
           }
           break;
         }
