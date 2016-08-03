@@ -18,7 +18,6 @@ import Butter from '../../api/Butter';
 import Torrent, { formatSpeeds } from '../../api/Torrent';
 import Player from '../../api/Player';
 import notie from 'notie';
-import os from 'os';
 
 
 export default class Movie extends Component {
@@ -339,12 +338,6 @@ export default class Movie extends Component {
         console.log('----------------------------------------------------');
       }, 1000);
 
-      // HACK: Temporarily prevent linux from using WebChimera
-      //       Waiting on issue 69: https://github.com/RSATom/WebChimera.js/issues/69
-      //
-      // HACK: Refactor to the Adapter architecture for a more elegant solution
-      console.warn('Invalid', this.state.currentPlayer);
-
       switch (this.state.currentPlayer) {
         case 'VLC':
           return this.player.initVLC(servingUrl);
@@ -356,15 +349,6 @@ export default class Movie extends Component {
             ...Player.nativePlaybackFormats,
             ...Player.experimentalPlaybackFormats
           ])) {
-            if (os.type === 'Linux') {
-              notie.alert(2, 'Player does not support Linux at the moment', 2);
-              return console.warn('WebChimera does not support Linux at the moment');
-            }
-            console.warn(`Using WebChimera to play ${filename}`);
-            notie.alert(2, 'Falling back to non-native video codecs', 2);
-            this.setState({ usingVideoFallback: true });
-            this.player = this.player.initWebChimeraPlayer(servingUrl, this.state.item);
-          } else {
             notie.alert(2, 'The format of this video is not playable', 2);
             console.warn(`Format of filename ${filename} not supported`);
             console.warn('Files retrieved:', files);

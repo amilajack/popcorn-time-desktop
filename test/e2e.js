@@ -127,7 +127,7 @@ describe('e2e', function testApp() {
       try {
         const firstCardLinks = await this.app.client.getAttribute('.Card a', 'href');
         await this.app.client.scroll('.Loader');
-        await delay(1000);
+        await delay(2000);
         await this.app.client.waitUntilWindowLoaded();
         const secondCardLinks = await this.app.client.getAttribute('.Card a', 'href');
         expect(secondCardLinks.length).to.be.greaterThan(firstCardLinks.length);
