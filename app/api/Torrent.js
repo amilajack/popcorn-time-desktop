@@ -32,8 +32,9 @@ export default class Torrent {
     this.inProgress = true;
 
     console.warn(`Using '${activeMode}' method`);
+    const cacheLocation = process.env.CONFIG_CACHE_LOCATION || '/tmp/popcorn-time-desktop';
 
-    this.engine.add(magnetURI, torrent => {
+    this.engine.add(magnetURI, { path: cacheLocation }, torrent => {
       const server = torrent.createServer();
       server.listen(port);
       this.server = server;
@@ -115,7 +116,6 @@ export default class Torrent {
 
       this.clearIntervals();
 
-      // this.engine.remove();
       this.engine.destroy();
       this.engine = undefined;
 

@@ -53,8 +53,9 @@ export default class Player {
   }
 
   static isFormatSupported(filename, mimeTypes) {
-    return !! mimeTypes
-      .find(mimeType => filename.toLowerCase().includes(mimeType));
+    return mimeTypes.find(
+      mimeType => filename.toLowerCase().includes(mimeType)
+    );
   }
 
   initPlyr(streamingUrl, metadata = {}) {

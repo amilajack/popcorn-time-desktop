@@ -8,21 +8,13 @@
 
 ## Features:
 
-**Performance**: Significantly faster than other clients. Everything from scrolling perf. to playing movies is buttery smooth!
+**Modern**: This client was started from scratch and was designed to be performant and customizable
+
+**Performance**: Significantly faster than other clients. Everything from scrolling perf to playing movies is buttery smooth
 
 **Faster Torrents**: New API optimized for fast torrents by querying the from multiple endpoints
 
-**Modern Stack**: ES6, React, Electron, Webpack, and more!
-
-## Stack:
-
-* ES7
-* React 15.0+
-* Redux
-* Sass
-* ImmutableJS
-* Electron 1.0+
-* Webpack
+**Modern Stack**: Electron, React, Webpack, ES7, and more!
 
 ## Requirements:
 
@@ -40,6 +32,7 @@ git clone https://github.com/amilajack/popcorn-time-desktop.git
 cd popcorn-time-desktop
 
 # Install dependencies
+# Have a cup of coffee ☕️ this might take a while
 # Remember to `npm rebuild` if necessary
 npm install
 

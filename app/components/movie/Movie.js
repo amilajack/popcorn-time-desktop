@@ -5,19 +5,17 @@
  * @todo: Refactor to be more adapter-like
  */
 
-/* eslint react/sort-comp: 0 */
-
 import React, { Component, PropTypes } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { Link } from 'react-router';
 import Rating from 'react-star-rating-component';
+import notie from 'notie';
 import CardList from '../card/CardList';
 import Show from '../show/Show';
 import { getIdealTorrent } from '../../api/torrents/BaseTorrentProvider';
 import Butter from '../../api/Butter';
 import Torrent, { formatSpeeds } from '../../api/Torrent';
 import Player from '../../api/Player';
-import notie from 'notie';
 
 
 export default class Movie extends Component {
@@ -336,7 +334,7 @@ export default class Movie extends Component {
         console.log('Peers:', numPeers);
         console.log('Ratio:', ratio);
         console.log('----------------------------------------------------');
-      }, 1000);
+      }, 10000);
 
       switch (this.state.currentPlayer) {
         case 'VLC':
@@ -474,7 +472,7 @@ export default class Movie extends Component {
               {this.state.item.rating ?
                 <div>
                   <Rating
-                    renderStarIcon={() => <span className="ion-android-star"></span>}
+                    renderStarIcon={() => <span className="ion-android-star" />}
                     starColor={'white'}
                     name={'rating'}
                     value={this.state.item.rating}

@@ -208,7 +208,7 @@ export function getIdealTorrent(torrents) {
       torrent => typeof torrent.seeders === 'number'
     );
 
-  return !!idealTorrent
+  return idealTorrent
     ?
       idealTorrent.sort((prev, next) => {
         if (prev.seeders === next.seeders) {
@@ -251,6 +251,9 @@ export function resolveCache(key) {
 }
 
 export function setCache(key, value) {
+  if (process.env.NODE_ENV === 'development') {
+    console.log('Setting cache key', key);
+  }
   return providerCache.set(
     key,
     value

@@ -2,7 +2,7 @@
   "name": "PopcornTime",
   "description": "An experimental PopcornTime client",
   "homepage": "https://github.com/amilajack/popcorn-time-desktop",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "author": "Amila Welihinda <amilajack@gmail.com>",
   "license": "MIT",
   "main": "./main.js"

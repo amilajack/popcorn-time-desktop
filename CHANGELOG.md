@@ -4,6 +4,19 @@
 
 ## Feature
 - Significant improvements in tv shows seeder count
+- Query Season torrents and play individual episodes for increased torrent seeders **(HUGE seeder count win)**
+- Get network speed, download speed, other diagnostic information
+- Get torrent download speed, progress in percentage and mb
+- Filter torrents with low seeder count
+
+## API
+- Set a timeout for `TorrentProvider`'s, should fail and return  if they exceed the timeout
+- Get status of all `Providers` to notify users of endpoint downtime
+- Metadata and Torrent API caching for faster responses
+
+## Dev
+- Screenshot testing
+- Migrated to `webtorrent` from `peerflix`
 
 ## v0.0.3-alpha
 

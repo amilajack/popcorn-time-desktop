@@ -1,5 +1,6 @@
 /* eslint no-console: 0 */
 
+import { exec } from 'child_process';
 import express from 'express';
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
@@ -26,6 +27,15 @@ const server = app.listen(PORT, 'localhost', error => {
     console.error(error);
     return;
   }
+
+  exec('npm run start-hot', (_error, stdout, stderr) => {
+    if (_error) {
+      console.error(`exec error: ${error}`);
+      return;
+    }
+    console.log(`stdout: ${stdout}`);
+    console.log(`stderr: ${stderr}`);
+  });
 
   console.log(`Listening at http://localhost:${PORT}`);
 });
