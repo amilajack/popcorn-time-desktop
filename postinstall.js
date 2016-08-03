@@ -32,6 +32,8 @@ switch (os.type()) {
 
 const zipLocation = `./ffmpeg/${version}-${platform}-${os.arch()}.zip`;
 
+console.log('Replacing ffmpeg...');
+
 extract(zipLocation, { dir: dest }, error => {
   if (error) {
     console.log(error);

@@ -9,7 +9,7 @@
     "build": "cross-env NODE_ENV=production FLAG_SEASON_COMPLETE=true FLAG_MANUAL_TORRENT_SELECTION=true FLAG_MANUAL_TORRENT_SELECTION=true parallel-webpack --config=webpack.config.build.js",
     "dev": "cross-env NODE_ENV=development FLAG_MANUAL_TORRENT_SELECTION=true FLAG_SEASON_COMPLETE=true npm run start-hot-server",
     "lint": "eslint app test *.js",
-    "_postinstall": "node -r babel-register postinstall.js",
+    "postinstall": "node -r babel-register postinstall.js",
     "package": "npm run build && build --publish never",
     "package-all": "npm run build && build --publish never --mac --win --linux",
     "postinstall": "node node_modules/fbjs-scripts/node/check-dev-engines.js package.json",
