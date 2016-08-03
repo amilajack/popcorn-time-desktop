@@ -1,34 +1,39 @@
 /**
  * Pirate Bay torrent provider
  */
-import PirateBay from 'thepiratebay';
-import {
-  getHealth,
-  formatSeasonEpisodeToString
-} from './BaseTorrentProvider';
 import fetch from 'isomorphic-fetch';
+import {
+  formatSeasonEpisodeToString,
+  constructSeasonQueries,
+  constructMovieQueries,
+  merge,
+  timeout,
+  handleProviderError
+} from './BaseTorrentProvider';
 
+
+const endpoint = 'https://pirate-bay-endpoint.herokuapp.com';
+
+const searchEndpoint = `${endpoint}/search`;
 
 export default class PbTorrentProvider {
 
-  static fetch(searchQuery, category = 200) {
-    return (
-        process.env.NODE_ENV === 'test'
-          ?
-          PirateBay.search(searchQuery, {
-            category,
-            orderBy: 'seeds',
-            sortBy: 'desc'
-          })
-          :
-          fetch(`https://pirate-bay-endpoint.herokuapp.com/search/${encodeURIComponent(searchQuery)}`)
-            .then(res => res.json())
-      )
+  static providerName = 'PirateBay';
+
+  static fetch(searchQuery) {
+    // HACK: Temporary solution to improve performance by side stepping
+    //       PirateBay's database errors.
+    const searchQueryUrl = `${searchEndpoint}/${searchQuery}`;
+
+    return timeout(
+      fetch(searchQueryUrl)
+    )
+      .then(res => res.json())
       .then(torrents => torrents.map(
         torrent => this.formatTorrent(torrent)
       ))
       .catch(error => {
-        console.log(error);
+        handleProviderError(error);
         return [];
       });
   }
@@ -38,10 +43,15 @@ export default class PbTorrentProvider {
       magnet: torrent.magnetLink,
       seeders: parseInt(torrent.seeders, 10),
       leechers: parseInt(torrent.leechers, 10),
-      metadata: torrent.name + torrent.magnetLink + torrent.link,
-      ...getHealth(torrent.seeders),
+      metadata: (String(torrent.name) || '') +
+                (String(torrent.magnetLink) || '') +
+                (String(torrent.link) || ''),
       _provider: 'pb'
     };
+  }
+
+  static getStatus() {
+    return fetch(endpoint).then(res => res.ok).catch(() => false);
   }
 
   static provide(imdbId, type, extendedDetails = {}) {
@@ -53,20 +63,41 @@ export default class PbTorrentProvider {
 
     switch (type) {
       case 'movies': {
-        return this.fetch(searchQuery)
-          .catch(err => {
-            console.log(err);
+        return Promise.all(
+          constructMovieQueries(searchQuery, imdbId).map(query => this.fetch(query))
+        )
+          // Flatten array of arrays to an array with no empty arrays
+          .then(
+            res => merge(res).filter(array => array.length !== 0)
+          )
+          .catch(error => {
+            handleProviderError(error);
             return [];
           });
       }
-      // temporarily disable shows because of PirateBay outage issues
       case 'shows': {
         const { season, episode } = extendedDetails;
         return this.fetch(
           `${searchQuery} ${formatSeasonEpisodeToString(season, episode)}`
         )
-          .catch(err => {
-            console.log(err);
+          .catch(error => {
+            handleProviderError(error);
+            return [];
+          });
+      }
+      case 'season_complete': {
+        const { season } = extendedDetails;
+        const queries = constructSeasonQueries(searchQuery, season);
+
+        return Promise.all(
+          queries.map(query => this.fetch(query))
+        )
+          // Flatten array of arrays to an array with no empty arrays
+          .then(
+            res => merge(res).filter(array => array.length !== 0)
+          )
+          .catch(error => {
+            handleProviderError(error);
             return [];
           });
       }

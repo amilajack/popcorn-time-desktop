@@ -1,0 +1,3951 @@
+{
+  "search": [
+    {
+      "title": "Harry Potter and the Deathly Hallows: Part 2",
+      "year": 2011,
+      "imdbId": "tt1201607",
+      "id": "tt1201607",
+      "type": "movies",
+      "summary": "n/a",
+      "genres": [],
+      "rating": "n/a",
+      "runtime": {
+        "full": "n/a",
+        "hours": "n/a",
+        "minutes": "n/a"
+      },
+      "trailer": "n/a",
+      "images": {
+        "fanart": {
+          "full": "http://ia.media-imdb.com/images/M/MV5BMTY2MTk3MDQ1N15BMl5BanBnXkFtZTcwMzI4NzA2NQ@@._V1_SX300.jpg",
+          "medium": "http://ia.media-imdb.com/images/M/MV5BMTY2MTk3MDQ1N15BMl5BanBnXkFtZTcwMzI4NzA2NQ@@._V1_SX300.jpg",
+          "thumb": "http://ia.media-imdb.com/images/M/MV5BMTY2MTk3MDQ1N15BMl5BanBnXkFtZTcwMzI4NzA2NQ@@._V1_SX300.jpg"
+        },
+        "poster": {
+          "full": "http://ia.media-imdb.com/images/M/MV5BMTY2MTk3MDQ1N15BMl5BanBnXkFtZTcwMzI4NzA2NQ@@._V1_SX300.jpg",
+          "medium": "http://ia.media-imdb.com/images/M/MV5BMTY2MTk3MDQ1N15BMl5BanBnXkFtZTcwMzI4NzA2NQ@@._V1_SX300.jpg",
+          "thumb": "http://ia.media-imdb.com/images/M/MV5BMTY2MTk3MDQ1N15BMl5BanBnXkFtZTcwMzI4NzA2NQ@@._V1_SX300.jpg"
+        }
+      }
+    },
+    {
+      "title": "Harry Potter and the Sorcerer's Stone",
+      "year": 2001,
+      "imdbId": "tt0241527",
+      "id": "tt0241527",
+      "type": "movies",
+      "summary": "n/a",
+      "genres": [],
+      "rating": "n/a",
+      "runtime": {
+        "full": "n/a",
+        "hours": "n/a",
+        "minutes": "n/a"
+      },
+      "trailer": "n/a",
+      "images": {
+        "fanart": {
+          "full": "http://ia.media-imdb.com/images/M/MV5BMTYwNTM5NDkzNV5BMl5BanBnXkFtZTYwODQ4MzY5._V1_SX300.jpg",
+          "medium": "http://ia.media-imdb.com/images/M/MV5BMTYwNTM5NDkzNV5BMl5BanBnXkFtZTYwODQ4MzY5._V1_SX300.jpg",
+          "thumb": "http://ia.media-imdb.com/images/M/MV5BMTYwNTM5NDkzNV5BMl5BanBnXkFtZTYwODQ4MzY5._V1_SX300.jpg"
+        },
+        "poster": {
+          "full": "http://ia.media-imdb.com/images/M/MV5BMTYwNTM5NDkzNV5BMl5BanBnXkFtZTYwODQ4MzY5._V1_SX300.jpg",
+          "medium": "http://ia.media-imdb.com/images/M/MV5BMTYwNTM5NDkzNV5BMl5BanBnXkFtZTYwODQ4MzY5._V1_SX300.jpg",
+          "thumb": "http://ia.media-imdb.com/images/M/MV5BMTYwNTM5NDkzNV5BMl5BanBnXkFtZTYwODQ4MzY5._V1_SX300.jpg"
+        }
+      }
+    },
+    {
+      "title": "Harry Potter and the Chamber of Secrets",
+      "year": 2002,
+      "imdbId": "tt0295297",
+      "id": "tt0295297",
+      "type": "movies",
+      "summary": "n/a",
+      "genres": [],
+      "rating": "n/a",
+      "runtime": {
+        "full": "n/a",
+        "hours": "n/a",
+        "minutes": "n/a"
+      },
+      "trailer": "n/a",
+      "images": {
+        "fanart": {
+          "full": "http://ia.media-imdb.com/images/M/MV5BMTcxODgwMDkxNV5BMl5BanBnXkFtZTYwMDk2MDg3._V1_SX300.jpg",
+          "medium": "http://ia.media-imdb.com/images/M/MV5BMTcxODgwMDkxNV5BMl5BanBnXkFtZTYwMDk2MDg3._V1_SX300.jpg",
+          "thumb": "http://ia.media-imdb.com/images/M/MV5BMTcxODgwMDkxNV5BMl5BanBnXkFtZTYwMDk2MDg3._V1_SX300.jpg"
+        },
+        "poster": {
+          "full": "http://ia.media-imdb.com/images/M/MV5BMTcxODgwMDkxNV5BMl5BanBnXkFtZTYwMDk2MDg3._V1_SX300.jpg",
+          "medium": "http://ia.media-imdb.com/images/M/MV5BMTcxODgwMDkxNV5BMl5BanBnXkFtZTYwMDk2MDg3._V1_SX300.jpg",
+          "thumb": "http://ia.media-imdb.com/images/M/MV5BMTcxODgwMDkxNV5BMl5BanBnXkFtZTYwMDk2MDg3._V1_SX300.jpg"
+        }
+      }
+    },
+    {
+      "title": "Harry Potter and the Goblet of Fire",
+      "year": 2005,
+      "imdbId": "tt0330373",
+      "id": "tt0330373",
+      "type": "movies",
+      "summary": "n/a",
+      "genres": [],
+      "rating": "n/a",
+      "runtime": {
+        "full": "n/a",
+        "hours": "n/a",
+        "minutes": "n/a"
+      },
+      "trailer": "n/a",
+      "images": {
+        "fanart": {
+          "full": "http://ia.media-imdb.com/images/M/MV5BMTI1NDMyMjExOF5BMl5BanBnXkFtZTcwOTc4MjQzMQ@@._V1_SX300.jpg",
+          "medium": "http://ia.media-imdb.com/images/M/MV5BMTI1NDMyMjExOF5BMl5BanBnXkFtZTcwOTc4MjQzMQ@@._V1_SX300.jpg",
+          "thumb": "http://ia.media-imdb.com/images/M/MV5BMTI1NDMyMjExOF5BMl5BanBnXkFtZTcwOTc4MjQzMQ@@._V1_SX300.jpg"
+        },
+        "poster": {
+          "full": "http://ia.media-imdb.com/images/M/MV5BMTI1NDMyMjExOF5BMl5BanBnXkFtZTcwOTc4MjQzMQ@@._V1_SX300.jpg",
+          "medium": "http://ia.media-imdb.com/images/M/MV5BMTI1NDMyMjExOF5BMl5BanBnXkFtZTcwOTc4MjQzMQ@@._V1_SX300.jpg",
+          "thumb": "http://ia.media-imdb.com/images/M/MV5BMTI1NDMyMjExOF5BMl5BanBnXkFtZTcwOTc4MjQzMQ@@._V1_SX300.jpg"
+        }
+      }
+    },
+    {
+      "title": "Harry Potter and the Prisoner of Azkaban",
+      "year": 2004,
+      "imdbId": "tt0304141",
+      "id": "tt0304141",
+      "type": "movies",
+      "summary": "n/a",
+      "genres": [],
+      "rating": "n/a",
+      "runtime": {
+        "full": "n/a",
+        "hours": "n/a",
+        "minutes": "n/a"
+      },
+      "trailer": "n/a",
+      "images": {
+        "fanart": {
+          "full": "http://ia.media-imdb.com/images/M/MV5BMTY4NTIwODg0N15BMl5BanBnXkFtZTcwOTc0MjEzMw@@._V1_SX300.jpg",
+          "medium": "http://ia.media-imdb.com/images/M/MV5BMTY4NTIwODg0N15BMl5BanBnXkFtZTcwOTc0MjEzMw@@._V1_SX300.jpg",
+          "thumb": "http://ia.media-imdb.com/images/M/MV5BMTY4NTIwODg0N15BMl5BanBnXkFtZTcwOTc0MjEzMw@@._V1_SX300.jpg"
+        },
+        "poster": {
+          "full": "http://ia.media-imdb.com/images/M/MV5BMTY4NTIwODg0N15BMl5BanBnXkFtZTcwOTc0MjEzMw@@._V1_SX300.jpg",
+          "medium": "http://ia.media-imdb.com/images/M/MV5BMTY4NTIwODg0N15BMl5BanBnXkFtZTcwOTc0MjEzMw@@._V1_SX300.jpg",
+          "thumb": "http://ia.media-imdb.com/images/M/MV5BMTY4NTIwODg0N15BMl5BanBnXkFtZTcwOTc0MjEzMw@@._V1_SX300.jpg"
+        }
+      }
+    },
+    {
+      "title": "Harry Potter and the Order of the Phoenix",
+      "year": 2007,
+      "imdbId": "tt0373889",
+      "id": "tt0373889",
+      "type": "movies",
+      "summary": "n/a",
+      "genres": [],
+      "rating": "n/a",
+      "runtime": {
+        "full": "n/a",
+        "hours": "n/a",
+        "minutes": "n/a"
+      },
+      "trailer": "n/a",
+      "images": {
+        "fanart": {
+          "full": "http://ia.media-imdb.com/images/M/MV5BMTM0NTczMTUzOV5BMl5BanBnXkFtZTYwMzIxNTg3._V1_SX300.jpg",
+          "medium": "http://ia.media-imdb.com/images/M/MV5BMTM0NTczMTUzOV5BMl5BanBnXkFtZTYwMzIxNTg3._V1_SX300.jpg",
+          "thumb": "http://ia.media-imdb.com/images/M/MV5BMTM0NTczMTUzOV5BMl5BanBnXkFtZTYwMzIxNTg3._V1_SX300.jpg"
+        },
+        "poster": {
+          "full": "http://ia.media-imdb.com/images/M/MV5BMTM0NTczMTUzOV5BMl5BanBnXkFtZTYwMzIxNTg3._V1_SX300.jpg",
+          "medium": "http://ia.media-imdb.com/images/M/MV5BMTM0NTczMTUzOV5BMl5BanBnXkFtZTYwMzIxNTg3._V1_SX300.jpg",
+          "thumb": "http://ia.media-imdb.com/images/M/MV5BMTM0NTczMTUzOV5BMl5BanBnXkFtZTYwMzIxNTg3._V1_SX300.jpg"
+        }
+      }
+    },
+    {
+      "title": "Harry Potter and the Deathly Hallows: Part 1",
+      "year": 2010,
+      "imdbId": "tt0926084",
+      "id": "tt0926084",
+      "type": "movies",
+      "summary": "n/a",
+      "genres": [],
+      "rating": "n/a",
+      "runtime": {
+        "full": "n/a",
+        "hours": "n/a",
+        "minutes": "n/a"
+      },
+      "trailer": "n/a",
+      "images": {
+        "fanart": {
+          "full": "http://ia.media-imdb.com/images/M/MV5BMTQ2OTE1Mjk0N15BMl5BanBnXkFtZTcwODE3MDAwNA@@._V1_SX300.jpg",
+          "medium": "http://ia.media-imdb.com/images/M/MV5BMTQ2OTE1Mjk0N15BMl5BanBnXkFtZTcwODE3MDAwNA@@._V1_SX300.jpg",
+          "thumb": "http://ia.media-imdb.com/images/M/MV5BMTQ2OTE1Mjk0N15BMl5BanBnXkFtZTcwODE3MDAwNA@@._V1_SX300.jpg"
+        },
+        "poster": {
+          "full": "http://ia.media-imdb.com/images/M/MV5BMTQ2OTE1Mjk0N15BMl5BanBnXkFtZTcwODE3MDAwNA@@._V1_SX300.jpg",
+          "medium": "http://ia.media-imdb.com/images/M/MV5BMTQ2OTE1Mjk0N15BMl5BanBnXkFtZTcwODE3MDAwNA@@._V1_SX300.jpg",
+          "thumb": "http://ia.media-imdb.com/images/M/MV5BMTQ2OTE1Mjk0N15BMl5BanBnXkFtZTcwODE3MDAwNA@@._V1_SX300.jpg"
+        }
+      }
+    },
+    {
+      "title": "Harry Potter and the Half-Blood Prince",
+      "year": 2009,
+      "imdbId": "tt0417741",
+      "id": "tt0417741",
+      "type": "movies",
+      "summary": "n/a",
+      "genres": [],
+      "rating": "n/a",
+      "runtime": {
+        "full": "n/a",
+        "hours": "n/a",
+        "minutes": "n/a"
+      },
+      "trailer": "n/a",
+      "images": {
+        "fanart": {
+          "full": "http://ia.media-imdb.com/images/M/MV5BNzU3NDg4NTAyNV5BMl5BanBnXkFtZTcwOTg2ODg1Mg@@._V1_SX300.jpg",
+          "medium": "http://ia.media-imdb.com/images/M/MV5BNzU3NDg4NTAyNV5BMl5BanBnXkFtZTcwOTg2ODg1Mg@@._V1_SX300.jpg",
+          "thumb": "http://ia.media-imdb.com/images/M/MV5BNzU3NDg4NTAyNV5BMl5BanBnXkFtZTcwOTg2ODg1Mg@@._V1_SX300.jpg"
+        },
+        "poster": {
+          "full": "http://ia.media-imdb.com/images/M/MV5BNzU3NDg4NTAyNV5BMl5BanBnXkFtZTcwOTg2ODg1Mg@@._V1_SX300.jpg",
+          "medium": "http://ia.media-imdb.com/images/M/MV5BNzU3NDg4NTAyNV5BMl5BanBnXkFtZTcwOTg2ODg1Mg@@._V1_SX300.jpg",
+          "thumb": "http://ia.media-imdb.com/images/M/MV5BNzU3NDg4NTAyNV5BMl5BanBnXkFtZTcwOTg2ODg1Mg@@._V1_SX300.jpg"
+        }
+      }
+    },
+    {
+      "title": "Harry Potter and the Chamber of Secrets",
+      "year": 2002,
+      "imdbId": "tt0304140",
+      "id": "tt0304140",
+      "type": "shows",
+      "summary": "n/a",
+      "genres": [],
+      "rating": "n/a",
+      "runtime": {
+        "full": "n/a",
+        "hours": "n/a",
+        "minutes": "n/a"
+      },
+      "trailer": "n/a",
+      "images": {
+        "fanart": {
+          "full": "http://ia.media-imdb.com/images/M/MV5BNTM4NzQ2NjA4NV5BMl5BanBnXkFtZTgwODAwMjE4MDE@._V1_SX300.jpg",
+          "medium": "http://ia.media-imdb.com/images/M/MV5BNTM4NzQ2NjA4NV5BMl5BanBnXkFtZTgwODAwMjE4MDE@._V1_SX300.jpg",
+          "thumb": "http://ia.media-imdb.com/images/M/MV5BNTM4NzQ2NjA4NV5BMl5BanBnXkFtZTgwODAwMjE4MDE@._V1_SX300.jpg"
+        },
+        "poster": {
+          "full": "http://ia.media-imdb.com/images/M/MV5BNTM4NzQ2NjA4NV5BMl5BanBnXkFtZTgwODAwMjE4MDE@._V1_SX300.jpg",
+          "medium": "http://ia.media-imdb.com/images/M/MV5BNTM4NzQ2NjA4NV5BMl5BanBnXkFtZTgwODAwMjE4MDE@._V1_SX300.jpg",
+          "thumb": "http://ia.media-imdb.com/images/M/MV5BNTM4NzQ2NjA4NV5BMl5BanBnXkFtZTgwODAwMjE4MDE@._V1_SX300.jpg"
+        }
+      }
+    },
+    {
+      "title": "Harry Potter and the Order of the Phoenix",
+      "year": 2007,
+      "imdbId": "tt0944836",
+      "id": "tt0944836",
+      "type": "shows",
+      "summary": "n/a",
+      "genres": [],
+      "rating": "n/a",
+      "runtime": {
+        "full": "n/a",
+        "hours": "n/a",
+        "minutes": "n/a"
+      },
+      "trailer": "n/a",
+      "images": {
+        "fanart": {
+          "full": "http://ia.media-imdb.com/images/M/MV5BN2VhOGI0OTItZjVhMC00MThmLWI5YzEtYTk5ZTFhMjEzOGEzXkEyXkFqcGdeQXVyNzg5OTk2OA@@._V1_SX300.jpg",
+          "medium": "http://ia.media-imdb.com/images/M/MV5BN2VhOGI0OTItZjVhMC00MThmLWI5YzEtYTk5ZTFhMjEzOGEzXkEyXkFqcGdeQXVyNzg5OTk2OA@@._V1_SX300.jpg",
+          "thumb": "http://ia.media-imdb.com/images/M/MV5BN2VhOGI0OTItZjVhMC00MThmLWI5YzEtYTk5ZTFhMjEzOGEzXkEyXkFqcGdeQXVyNzg5OTk2OA@@._V1_SX300.jpg"
+        },
+        "poster": {
+          "full": "http://ia.media-imdb.com/images/M/MV5BN2VhOGI0OTItZjVhMC00MThmLWI5YzEtYTk5ZTFhMjEzOGEzXkEyXkFqcGdeQXVyNzg5OTk2OA@@._V1_SX300.jpg",
+          "medium": "http://ia.media-imdb.com/images/M/MV5BN2VhOGI0OTItZjVhMC00MThmLWI5YzEtYTk5ZTFhMjEzOGEzXkEyXkFqcGdeQXVyNzg5OTk2OA@@._V1_SX300.jpg",
+          "thumb": "http://ia.media-imdb.com/images/M/MV5BN2VhOGI0OTItZjVhMC00MThmLWI5YzEtYTk5ZTFhMjEzOGEzXkEyXkFqcGdeQXVyNzg5OTk2OA@@._V1_SX300.jpg"
+        }
+      }
+    }
+  ],
+  "getMovie": {
+    "title": "The Dark Knight",
+    "year": 2008,
+    "imdbId": "tt0468569",
+    "id": "tt0468569",
+    "type": "movies",
+    "summary": "Batman raises the stakes in his war on crime. With the help of Lt. Jim Gordon and District Attorney Harvey Dent, Batman sets out to dismantle the remaining criminal organizations that plague the streets. The partnership proves to be effective, but they soon find themselves prey to a reign of chaos unleashed by a rising criminal mastermind known to the terrified citizens of Gotham as the Joker.",
+    "genres": [
+      "action",
+      "crime",
+      "drama",
+      "thriller"
+    ],
+    "rating": 4.5,
+    "runtime": {
+      "full": "3 hours 32 minutes",
+      "hours": 3,
+      "minutes": 32
+    },
+    "trailer": "http://youtube.com/watch?v=GVx5K8WfFJY",
+    "images": {
+      "fanart": {
+        "full": "https://walter.trakt.us/images/movies/000/000/120/fanarts/original/f7884a908e.jpg",
+        "medium": "https://walter.trakt.us/images/movies/000/000/120/fanarts/medium/f7884a908e.jpg",
+        "thumb": "https://walter.trakt.us/images/movies/000/000/120/fanarts/thumb/f7884a908e.jpg"
+      },
+      "poster": {
+        "full": "https://walter.trakt.us/images/movies/000/000/120/posters/original/8369bf0d4a.jpg",
+        "medium": "https://walter.trakt.us/images/movies/000/000/120/posters/medium/8369bf0d4a.jpg",
+        "thumb": "https://walter.trakt.us/images/movies/000/000/120/posters/thumb/8369bf0d4a.jpg"
+      }
+    }
+  },
+  "getMovies": [
+    {
+      "title": "The Dark Knight",
+      "year": 2008,
+      "imdbId": "tt0468569",
+      "id": "tt0468569",
+      "type": "movies",
+      "summary": "Batman raises the stakes in his war on crime. With the help of Lt. Jim Gordon and District Attorney Harvey Dent, Batman sets out to dismantle the remaining criminal organizations that plague the streets. The partnership proves to be effective, but they soon find themselves prey to a reign of chaos unleashed by a rising criminal mastermind known to the terrified citizens of Gotham as the Joker.",
+      "genres": [
+        "action",
+        "crime",
+        "drama",
+        "thriller"
+      ],
+      "rating": 4.5,
+      "runtime": {
+        "full": "3 hours 32 minutes",
+        "hours": 3,
+        "minutes": 32
+      },
+      "trailer": "http://youtube.com/watch?v=GVx5K8WfFJY",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/movies/000/000/120/fanarts/original/f7884a908e.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/000/120/fanarts/medium/f7884a908e.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/000/120/fanarts/thumb/f7884a908e.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/movies/000/000/120/posters/original/8369bf0d4a.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/000/120/posters/medium/8369bf0d4a.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/000/120/posters/thumb/8369bf0d4a.jpg"
+        }
+      }
+    },
+    {
+      "title": "Inception",
+      "year": 2010,
+      "imdbId": "tt1375666",
+      "id": "tt1375666",
+      "type": "movies",
+      "summary": "Cobb, a skilled thief who commits corporate espionage by infiltrating the subconscious of his targets is offered a chance to regain his old life as payment for a task considered to be impossible: \"inception\", the implantation of another person's idea into a target's subconscious.",
+      "genres": [
+        "action",
+        "adventure",
+        "mystery",
+        "science-fiction",
+        "thriller"
+      ],
+      "rating": 4.4,
+      "runtime": {
+        "full": "2 hours 28 minutes",
+        "hours": 2,
+        "minutes": 28
+      },
+      "trailer": "http://youtube.com/watch?v=xitHF0IPJSQ",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/movies/000/016/662/fanarts/original/d02c86e1f7.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/016/662/fanarts/medium/d02c86e1f7.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/016/662/fanarts/thumb/d02c86e1f7.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/movies/000/016/662/posters/original/a7f71cbc67.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/016/662/posters/medium/a7f71cbc67.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/016/662/posters/thumb/a7f71cbc67.jpg"
+        }
+      }
+    },
+    {
+      "title": "The Avengers",
+      "year": 2012,
+      "imdbId": "tt0848228",
+      "id": "tt0848228",
+      "type": "movies",
+      "summary": "When an unexpected enemy emerges and threatens global safety and security, Nick Fury, director of the international peacekeeping agency known as S.H.I.E.L.D., finds himself in need of a team to pull the world back from the brink of disaster. Spanning the globe, a daring recruitment effort begins!",
+      "genres": [
+        "action",
+        "adventure",
+        "science-fiction"
+      ],
+      "rating": 4.2,
+      "runtime": {
+        "full": "2 hours 23 minutes",
+        "hours": 2,
+        "minutes": 23
+      },
+      "trailer": "http://youtube.com/watch?v=hIR8Ar-Z4hw",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/movies/000/014/701/fanarts/original/7d93500475.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/014/701/fanarts/medium/7d93500475.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/014/701/fanarts/thumb/7d93500475.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/movies/000/014/701/posters/original/293ce7103a.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/014/701/posters/medium/293ce7103a.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/014/701/posters/thumb/293ce7103a.jpg"
+        }
+      }
+    },
+    {
+      "title": "Deadpool",
+      "year": 2016,
+      "imdbId": "tt1431045",
+      "id": "tt1431045",
+      "type": "movies",
+      "summary": "Based upon Marvel Comics’ most unconventional anti-hero, DEADPOOL tells the origin story of former Special Forces operative turned mercenary Wade Wilson, who after being subjected to a rogue experiment that leaves him with accelerated healing powers, adopts the alter ego Deadpool. Armed with his new abilities and a dark, twisted sense of humor, Deadpool hunts down the man who nearly destroyed his life.",
+      "genres": [
+        "action",
+        "adventure",
+        "comedy",
+        "romance"
+      ],
+      "rating": 4.1,
+      "runtime": {
+        "full": "2 hours 48 minutes",
+        "hours": 2,
+        "minutes": 48
+      },
+      "trailer": "http://youtube.com/watch?v=ONHBaC-pfsk",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/movies/000/190/430/fanarts/original/14af8cdb1a.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/190/430/fanarts/medium/14af8cdb1a.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/190/430/fanarts/thumb/14af8cdb1a.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/movies/000/190/430/posters/original/9a8494f868.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/190/430/posters/medium/9a8494f868.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/190/430/posters/thumb/9a8494f868.jpg"
+        }
+      }
+    },
+    {
+      "title": "Guardians of the Galaxy",
+      "year": 2014,
+      "imdbId": "tt2015381",
+      "id": "tt2015381",
+      "type": "movies",
+      "summary": "Light years from Earth, 26 years after being abducted, Peter Quill finds himself the prime target of a manhunt after discovering an orb wanted by Ronan the Accuser.",
+      "genres": [
+        "adventure",
+        "science-fiction",
+        "action"
+      ],
+      "rating": 4.2,
+      "runtime": {
+        "full": "2 hours 1 minutes",
+        "hours": 2,
+        "minutes": 1
+      },
+      "trailer": "http://youtube.com/watch?v=hETc9X6GkJ4",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/movies/000/082/405/fanarts/original/d2e37f8511.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/082/405/fanarts/medium/d2e37f8511.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/082/405/fanarts/thumb/d2e37f8511.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/movies/000/082/405/posters/original/fb800608fa.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/082/405/posters/medium/fb800608fa.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/082/405/posters/thumb/fb800608fa.jpg"
+        }
+      }
+    },
+    {
+      "title": "The Matrix",
+      "year": 1999,
+      "imdbId": "tt0133093",
+      "id": "tt0133093",
+      "type": "movies",
+      "summary": "Thomas A. Anderson is a man living two lives. By day he is an average computer programmer and by night a malevolent hacker known as Neo, who finds himself targeted by the police when he is contacted by Morpheus, a legendary computer hacker, who reveals the shocking truth about our reality.",
+      "genres": [
+        "action",
+        "adventure",
+        "science-fiction",
+        "thriller"
+      ],
+      "rating": 4.5,
+      "runtime": {
+        "full": "2 hours 16 minutes",
+        "hours": 2,
+        "minutes": 16
+      },
+      "trailer": "http://youtube.com/watch?v=m8e-FF8MsqU",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/movies/000/000/481/fanarts/original/c556867276.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/000/481/fanarts/medium/c556867276.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/000/481/fanarts/thumb/c556867276.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/movies/000/000/481/posters/original/373310d2ee.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/000/481/posters/medium/373310d2ee.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/000/481/posters/thumb/373310d2ee.jpg"
+        }
+      }
+    },
+    {
+      "title": "Fight Club",
+      "year": 1999,
+      "imdbId": "tt0137523",
+      "id": "tt0137523",
+      "type": "movies",
+      "summary": "A ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggression into a shocking new form of therapy. Their concept catches on, with underground \"fight clubs\" forming in every town, until an eccentric gets in the way and ignites an out-of-control spiral toward oblivion.",
+      "genres": [
+        "drama"
+      ],
+      "rating": 4.5,
+      "runtime": {
+        "full": "2 hours 19 minutes",
+        "hours": 2,
+        "minutes": 19
+      },
+      "trailer": "http://youtube.com/watch?v=SUXWAEX2jlg",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/movies/000/000/432/fanarts/original/59a71db512.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/000/432/fanarts/medium/59a71db512.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/000/432/fanarts/thumb/59a71db512.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/movies/000/000/432/posters/original/dc51ab1050.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/000/432/posters/medium/dc51ab1050.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/000/432/posters/thumb/dc51ab1050.jpg"
+        }
+      }
+    },
+    {
+      "title": "Interstellar",
+      "year": 2014,
+      "imdbId": "tt0816692",
+      "id": "tt0816692",
+      "type": "movies",
+      "summary": "Interstellar chronicles the adventures of a group of explorers who make use of a newly discovered wormhole to surpass the limitations on human space travel and conquer the vast distances involved in an interstellar voyage.",
+      "genres": [
+        "science-fiction",
+        "drama",
+        "adventure"
+      ],
+      "rating": 4.2,
+      "runtime": {
+        "full": "3 hours 49 minutes",
+        "hours": 3,
+        "minutes": 49
+      },
+      "trailer": null,
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/movies/000/102/156/fanarts/original/18cbbaf604.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/102/156/fanarts/medium/18cbbaf604.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/102/156/fanarts/thumb/18cbbaf604.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/movies/000/102/156/posters/original/d9cb9de8ed.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/102/156/posters/medium/d9cb9de8ed.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/102/156/posters/thumb/d9cb9de8ed.jpg"
+        }
+      }
+    },
+    {
+      "title": "Avatar",
+      "year": 2009,
+      "imdbId": "tt0499549",
+      "id": "tt0499549",
+      "type": "movies",
+      "summary": "In the 22nd century, a paraplegic Marine is dispatched to the moon Pandora on a unique mission, but becomes torn between following orders and protecting an alien civilization.",
+      "genres": [
+        "action",
+        "adventure",
+        "fantasy",
+        "science-fiction"
+      ],
+      "rating": 3.9,
+      "runtime": {
+        "full": "3 hours 42 minutes",
+        "hours": 3,
+        "minutes": 42
+      },
+      "trailer": "http://youtube.com/watch?v=5MB3Ea6L-gw",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/movies/000/012/269/fanarts/original/47b151155a.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/012/269/fanarts/medium/47b151155a.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/012/269/fanarts/thumb/47b151155a.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/movies/000/012/269/posters/original/86a4ee8a67.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/012/269/posters/medium/86a4ee8a67.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/012/269/posters/thumb/86a4ee8a67.jpg"
+        }
+      }
+    },
+    {
+      "title": "Frozen",
+      "year": 2013,
+      "imdbId": "tt2294629",
+      "id": "tt2294629",
+      "type": "movies",
+      "summary": "Young princess Anna of Arendelle dreams about finding true love at her sister Elsa’s coronation. Fate takes her on a dangerous journey in an attempt to end the eternal winter that has fallen over the kingdom. She's accompanied by ice delivery man Kristoff, his reindeer Sven, and snowman Olaf. On an adventure where she will find out what friendship, courage, family, and true love really means.",
+      "genres": [
+        "adventure",
+        "animation",
+        "family"
+      ],
+      "rating": 3.9,
+      "runtime": {
+        "full": "2 hours 42 minutes",
+        "hours": 2,
+        "minutes": 42
+      },
+      "trailer": "http://youtube.com/watch?v=TbQm5doF_Uc",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/movies/000/077/349/fanarts/original/c6db43f047.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/077/349/fanarts/medium/c6db43f047.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/077/349/fanarts/thumb/c6db43f047.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/movies/000/077/349/posters/original/9d1a3cdcf2.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/077/349/posters/medium/9d1a3cdcf2.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/077/349/posters/thumb/9d1a3cdcf2.jpg"
+        }
+      }
+    },
+    {
+      "title": "Iron Man",
+      "year": 2008,
+      "imdbId": "tt0371746",
+      "id": "tt0371746",
+      "type": "movies",
+      "summary": "Tony Stark. Genius, billionaire, playboy, philanthropist. Son of legendary inventor and weapons contractor Howard Stark. When Tony Stark is assigned to give a weapons presentation to an Iraqi unit led by Lt. Col. James Rhodes, he's given a ride on enemy lines. That ride ends badly when Stark's Humvee that he's riding in is attacked by enemy combatants. He survives - barely - with a chest full of shrapnel and a car battery attached to his heart. In order to survive he comes up with a way to miniaturize the battery and figures out that the battery can power something else. Thus Iron Man is born. He uses the primitive device to escape from the cave in Iraq. Once back home, he then begins work on perfecting the Iron Man suit. But the man who was put in charge of Stark Industries has plans of his own to take over Tony's technology for other matters.",
+      "genres": [
+        "action",
+        "adventure",
+        "science-fiction"
+      ],
+      "rating": 4.1,
+      "runtime": {
+        "full": "2 hours 6 minutes",
+        "hours": 2,
+        "minutes": 6
+      },
+      "trailer": "http://youtube.com/watch?v=KAE5ymVLmZg",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/movies/000/001/157/fanarts/original/85d4154760.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/001/157/fanarts/medium/85d4154760.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/001/157/fanarts/thumb/85d4154760.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/movies/000/001/157/posters/original/17c871a572.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/001/157/posters/medium/17c871a572.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/001/157/posters/thumb/17c871a572.jpg"
+        }
+      }
+    },
+    {
+      "title": "The Dark Knight Rises",
+      "year": 2012,
+      "imdbId": "tt1345836",
+      "id": "tt1345836",
+      "type": "movies",
+      "summary": "Following the death of District Attorney Harvey Dent, Batman assumes responsibility for Dent's crimes to protect the late attorney's reputation and is subsequently hunted by the Gotham City Police Department. Eight years later, Batman encounters the mysterious Selina Kyle and the villainous Bane, a new terrorist leader who overwhelms Gotham's finest. The Dark Knight resurfaces to protect a city that has branded him an enemy.",
+      "genres": [
+        "action",
+        "crime",
+        "drama",
+        "thriller"
+      ],
+      "rating": 4.2,
+      "runtime": {
+        "full": "3 hours 45 minutes",
+        "hours": 3,
+        "minutes": 45
+      },
+      "trailer": "http://youtube.com/watch?v=7gFwvozMHR4",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/movies/000/034/073/fanarts/original/913b21021c.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/034/073/fanarts/medium/913b21021c.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/034/073/fanarts/thumb/913b21021c.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/movies/000/034/073/posters/original/1126a6f77c.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/034/073/posters/medium/1126a6f77c.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/034/073/posters/thumb/1126a6f77c.jpg"
+        }
+      }
+    },
+    {
+      "title": "The Lord of the Rings: The Fellowship of the Ring",
+      "year": 2001,
+      "imdbId": "tt0120737",
+      "id": "tt0120737",
+      "type": "movies",
+      "summary": "Young hobbit Frodo Baggins, after inheriting a mysterious ring from his uncle Bilbo, must leave his home in order to keep it from falling into the hands of its evil creator. Along the way, a fellowship is formed to protect the ringbearer and make sure that the ring arrives at its final destination: Mt. Doom, the only place where it can be destroyed.",
+      "genres": [
+        "action",
+        "adventure",
+        "fantasy"
+      ],
+      "rating": 4.4,
+      "runtime": {
+        "full": "3 hours 58 minutes",
+        "hours": 3,
+        "minutes": 58
+      },
+      "trailer": "http://youtube.com/watch?v=V75dMMIW2B4",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/movies/000/000/088/fanarts/original/2e1c3ce97a.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/000/088/fanarts/medium/2e1c3ce97a.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/000/088/fanarts/thumb/2e1c3ce97a.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/movies/000/000/088/posters/original/fe32ccdaf0.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/000/088/posters/medium/fe32ccdaf0.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/000/088/posters/thumb/fe32ccdaf0.jpg"
+        }
+      }
+    },
+    {
+      "title": "Django Unchained",
+      "year": 2012,
+      "imdbId": "tt1853728",
+      "id": "tt1853728",
+      "type": "movies",
+      "summary": "With the help of a German bounty hunter, a freed slave sets out to rescue his wife from a brutal Mississippi plantation owner.",
+      "genres": [
+        "drama",
+        "western"
+      ],
+      "rating": 4.2,
+      "runtime": {
+        "full": "3 hours 45 minutes",
+        "hours": 3,
+        "minutes": 45
+      },
+      "trailer": "http://youtube.com/watch?v=22kz8C9glCk",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/movies/000/050/131/fanarts/original/1e3e990d1e.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/050/131/fanarts/medium/1e3e990d1e.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/050/131/fanarts/thumb/1e3e990d1e.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/movies/000/050/131/posters/original/591333804f.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/050/131/posters/medium/591333804f.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/050/131/posters/thumb/591333804f.jpg"
+        }
+      }
+    },
+    {
+      "title": "The Martian",
+      "year": 2015,
+      "imdbId": "tt3659388",
+      "id": "tt3659388",
+      "type": "movies",
+      "summary": "During a manned mission to Mars, Astronaut Mark Watney is presumed dead after a fierce storm and left behind by his crew. But Watney has survived and finds himself stranded and alone on the hostile planet. With only meager supplies, he must draw upon his ingenuity, wit and spirit to subsist and find a way to signal to Earth that he is alive.",
+      "genres": [
+        "science-fiction",
+        "adventure",
+        "drama"
+      ],
+      "rating": 4.1,
+      "runtime": {
+        "full": "2 hours 21 minutes",
+        "hours": 2,
+        "minutes": 21
+      },
+      "trailer": "http://youtube.com/watch?v=Ue4PCI0NamI",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/movies/000/183/371/fanarts/original/2097014462.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/183/371/fanarts/medium/2097014462.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/183/371/fanarts/thumb/2097014462.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/movies/000/183/371/posters/original/8767195506.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/183/371/posters/medium/8767195506.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/183/371/posters/thumb/8767195506.jpg"
+        }
+      }
+    },
+    {
+      "title": "Batman Begins",
+      "year": 2005,
+      "imdbId": "tt0372784",
+      "id": "tt0372784",
+      "type": "movies",
+      "summary": "Driven by tragedy, billionaire Bruce Wayne dedicates his life to uncovering and defeating the corruption that plagues his home, Gotham City.  Unable to work within the system, he instead creates a new identity, a symbol of fear for the criminal underworld - The Batman.",
+      "genres": [
+        "action",
+        "crime",
+        "drama"
+      ],
+      "rating": 4.2,
+      "runtime": {
+        "full": "2 hours 20 minutes",
+        "hours": 2,
+        "minutes": 20
+      },
+      "trailer": "http://youtube.com/watch?v=dYYRjVof6TU",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/movies/000/000/228/fanarts/original/f2ddeff0d8.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/000/228/fanarts/medium/f2ddeff0d8.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/000/228/fanarts/thumb/f2ddeff0d8.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/movies/000/000/228/posters/original/0b13139416.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/000/228/posters/medium/0b13139416.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/000/228/posters/thumb/0b13139416.jpg"
+        }
+      }
+    },
+    {
+      "title": "The Lord of the Rings: The Return of the King",
+      "year": 2003,
+      "imdbId": "tt0167260",
+      "id": "tt0167260",
+      "type": "movies",
+      "summary": "Aragorn is revealed as the heir to the ancient kings as he, Gandalf and the other members of the broken fellowship struggle to save Gondor from Sauron's forces. Meanwhile, Frodo and Sam bring the ring closer to the heart of Mordor, the dark lord's realm.",
+      "genres": [
+        "action",
+        "adventure",
+        "fantasy"
+      ],
+      "rating": 4.4,
+      "runtime": {
+        "full": "3 hours 21 minutes",
+        "hours": 3,
+        "minutes": 21
+      },
+      "trailer": "http://youtube.com/watch?v=co9SNfJNDN8",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/movies/000/000/090/fanarts/original/5bdd2371d1.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/000/090/fanarts/medium/5bdd2371d1.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/000/090/fanarts/thumb/5bdd2371d1.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/movies/000/000/090/posters/original/398ac3e64f.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/000/090/posters/medium/398ac3e64f.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/000/090/posters/thumb/398ac3e64f.jpg"
+        }
+      }
+    },
+    {
+      "title": "The Wolf of Wall Street",
+      "year": 2013,
+      "imdbId": "tt0993846",
+      "id": "tt0993846",
+      "type": "movies",
+      "summary": "A New York stockbroker refuses to cooperate in a large securities fraud case involving corruption on Wall Street, corporate banking world and mob infiltration. Based on Jordan Belfort's autobiography.",
+      "genres": [
+        "comedy",
+        "crime",
+        "drama"
+      ],
+      "rating": 4,
+      "runtime": {
+        "full": "3 hours",
+        "hours": 3,
+        "minutes": 0
+      },
+      "trailer": "http://youtube.com/watch?v=iszwuX1AK6A",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/movies/000/075/735/fanarts/original/b597f053a9.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/075/735/fanarts/medium/b597f053a9.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/075/735/fanarts/thumb/b597f053a9.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/movies/000/075/735/posters/original/388b63b780.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/075/735/posters/medium/388b63b780.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/075/735/posters/thumb/388b63b780.jpg"
+        }
+      }
+    },
+    {
+      "title": "Star Wars: The Force Awakens",
+      "year": 2015,
+      "imdbId": "tt2488496",
+      "id": "tt2488496",
+      "type": "movies",
+      "summary": "Thirty years after defeating the Galactic Empire, Han Solo and his allies face a new threat from the evil Kylo Ren and his army of Stormtroopers.",
+      "genres": [
+        "action",
+        "adventure",
+        "fantasy",
+        "science-fiction"
+      ],
+      "rating": 4.1,
+      "runtime": {
+        "full": "2 hours 16 minutes",
+        "hours": 2,
+        "minutes": 16
+      },
+      "trailer": "http://youtube.com/watch?v=sGbxmsDFVnE",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/movies/000/094/024/fanarts/original/a2d0cf2954.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/094/024/fanarts/medium/a2d0cf2954.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/094/024/fanarts/thumb/a2d0cf2954.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/movies/000/094/024/posters/original/281fc2f029.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/094/024/posters/medium/281fc2f029.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/094/024/posters/thumb/281fc2f029.jpg"
+        }
+      }
+    },
+    {
+      "title": "Finding Nemo",
+      "year": 2003,
+      "imdbId": "tt0266543",
+      "id": "tt0266543",
+      "type": "movies",
+      "summary": "A tale which follows the comedic and eventful journeys of two fish, the fretful Marlin and his young son Nemo, who are separated from each other in the Great Barrier Reef when Nemo is unexpectedly taken from his home and thrust into a fish tank in a dentist's office overlooking Sydney Harbor. Buoyed by the companionship of a friendly but forgetful fish named Dory, the overly cautious Marlin embarks on a dangerous trek and finds himself the unlikely hero of an epic journey to rescue his son.",
+      "genres": [
+        "animation",
+        "family"
+      ],
+      "rating": 4.1,
+      "runtime": {
+        "full": "2 hours 40 minutes",
+        "hours": 2,
+        "minutes": 40
+      },
+      "trailer": "http://youtube.com/watch?v=SPHfeNgogVs",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/movies/000/000/008/fanarts/original/1f0bd43758.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/000/008/fanarts/medium/1f0bd43758.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/000/008/fanarts/thumb/1f0bd43758.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/movies/000/000/008/posters/original/ef94aa4141.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/000/008/posters/medium/ef94aa4141.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/000/008/posters/thumb/ef94aa4141.jpg"
+        }
+      }
+    },
+    {
+      "title": "The Lord of the Rings: The Two Towers",
+      "year": 2002,
+      "imdbId": "tt0167261",
+      "id": "tt0167261",
+      "type": "movies",
+      "summary": "Frodo and Sam are trekking to Mordor to destroy the One Ring of Power while Gimli, Legolas and Aragorn search for the orc-captured Merry and Pippin. All along, nefarious wizard Saruman awaits the Fellowship members at the Orthanc Tower in Isengard.",
+      "genres": [
+        "action",
+        "adventure",
+        "fantasy"
+      ],
+      "rating": 4.4,
+      "runtime": {
+        "full": "3 hours 59 minutes",
+        "hours": 3,
+        "minutes": 59
+      },
+      "trailer": null,
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/movies/000/000/089/fanarts/original/1be51ea0f7.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/000/089/fanarts/medium/1be51ea0f7.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/000/089/fanarts/thumb/1be51ea0f7.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/movies/000/000/089/posters/original/815c17ae58.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/000/089/posters/medium/815c17ae58.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/000/089/posters/thumb/815c17ae58.jpg"
+        }
+      }
+    },
+    {
+      "title": "The Hunger Games",
+      "year": 2012,
+      "imdbId": "tt1392170",
+      "id": "tt1392170",
+      "type": "movies",
+      "summary": "Every year in the ruins of what was once North America, the nation of Panem forces each of its twelve districts to send a teenage boy and girl to compete in the Hunger Games.  Part twisted entertainment, part government intimidation tactic, the Hunger Games are a nationally televised event in which “Tributes” must fight with one another until one survivor remains.  Pitted against highly-trained Tributes who have prepared for these Games their entire lives, Katniss is forced to rely upon her sharp instincts as well as the mentorship of drunken former victor Haymitch Abernathy.  If she’s ever to return home to District 12, Katniss must make impossible choices in the arena that weigh survival against humanity and life against love. The world will be watching.",
+      "genres": [
+        "adventure",
+        "fantasy",
+        "science-fiction"
+      ],
+      "rating": 3.8,
+      "runtime": {
+        "full": "2 hours 22 minutes",
+        "hours": 2,
+        "minutes": 22
+      },
+      "trailer": "http://youtube.com/watch?v=mfmrPu43DF8",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/movies/000/051/342/fanarts/original/30a7545d15.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/051/342/fanarts/medium/30a7545d15.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/051/342/fanarts/thumb/30a7545d15.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/movies/000/051/342/posters/original/fdd7c5f3f0.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/051/342/posters/medium/fdd7c5f3f0.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/051/342/posters/thumb/fdd7c5f3f0.jpg"
+        }
+      }
+    },
+    {
+      "title": "Captain America: The Winter Soldier",
+      "year": 2014,
+      "imdbId": "tt1843866",
+      "id": "tt1843866",
+      "type": "movies",
+      "summary": "After the cataclysmic events in New York with The Avengers, Steve Rogers, aka Captain America is living quietly in Washington, D.C. and trying to adjust to the modern world. But when a S.H.I.E.L.D. colleague comes under attack, Steve becomes embroiled in a web of intrigue that threatens to put the world at risk. Joining forces with the Black Widow, Captain America struggles to expose the ever-widening conspiracy while fighting off professional assassins sent to silence him at every turn. When the full scope of the villainous plot is revealed, Captain America and the Black Widow enlist the help of a new ally, the Falcon. However, they soon find themselves up against an unexpected and formidable enemy—the Winter Soldier.",
+      "genres": [
+        "action",
+        "adventure",
+        "science-fiction"
+      ],
+      "rating": 4,
+      "runtime": {
+        "full": "2 hours 16 minutes",
+        "hours": 2,
+        "minutes": 16
+      },
+      "trailer": "http://youtube.com/watch?v=tbayiPxkUMM",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/movies/000/072/297/fanarts/original/98c2cbf873.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/072/297/fanarts/medium/98c2cbf873.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/072/297/fanarts/thumb/98c2cbf873.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/movies/000/072/297/posters/original/563efc9b64.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/072/297/posters/medium/563efc9b64.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/072/297/posters/thumb/563efc9b64.jpg"
+        }
+      }
+    },
+    {
+      "title": "Star Wars",
+      "year": 1977,
+      "imdbId": "tt0076759",
+      "id": "tt0076759",
+      "type": "movies",
+      "summary": "Princess Leia is captured and held hostage by the evil Imperial forces in their effort to take over the galactic Empire. Venturesome Luke Skywalker and dashing captain Han Solo team together with the loveable robot duo R2-D2 and C-3PO to rescue the beautiful princess and restore peace and justice in the Empire.",
+      "genres": [
+        "action",
+        "adventure",
+        "science-fiction"
+      ],
+      "rating": 4.3,
+      "runtime": {
+        "full": "2 hours 1 minutes",
+        "hours": 2,
+        "minutes": 1
+      },
+      "trailer": "http://youtube.com/watch?v=vZ734NWnAHA",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/movies/000/000/007/fanarts/original/4002770294.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/000/007/fanarts/medium/4002770294.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/000/007/fanarts/thumb/4002770294.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/movies/000/000/007/posters/original/a4f84e22e4.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/000/007/posters/medium/a4f84e22e4.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/000/007/posters/thumb/a4f84e22e4.jpg"
+        }
+      }
+    },
+    {
+      "title": "The Hobbit: An Unexpected Journey",
+      "year": 2012,
+      "imdbId": "tt0903624",
+      "id": "tt0903624",
+      "type": "movies",
+      "summary": "Bilbo Baggins, a hobbit enjoying his quiet life, is swept into an epic quest by Gandalf the Grey and thirteen dwarves who seek to reclaim their mountain home from Smaug, the dragon.",
+      "genres": [
+        "action",
+        "adventure",
+        "fantasy"
+      ],
+      "rating": 4,
+      "runtime": {
+        "full": "3 hours 49 minutes",
+        "hours": 3,
+        "minutes": 49
+      },
+      "trailer": null,
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/movies/000/034/097/fanarts/original/c828bb3a35.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/034/097/fanarts/medium/c828bb3a35.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/034/097/fanarts/thumb/c828bb3a35.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/movies/000/034/097/posters/original/6e72c9eacb.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/034/097/posters/medium/6e72c9eacb.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/034/097/posters/thumb/6e72c9eacb.jpg"
+        }
+      }
+    },
+    {
+      "title": "Edge of Tomorrow",
+      "year": 2014,
+      "imdbId": "tt1631867",
+      "id": "tt1631867",
+      "type": "movies",
+      "summary": "Major Bill Cage is an officer who has never seen a day of combat when he is unceremoniously demoted and dropped into combat. Cage is killed within minutes, managing to take an alpha alien down with him. He awakens back at the beginning of the same day and is forced to fight and die again... and again - as physical contact with the alien has thrown him into a time loop.",
+      "genres": [
+        "action",
+        "science-fiction"
+      ],
+      "rating": 4,
+      "runtime": {
+        "full": "2 hours 53 minutes",
+        "hours": 2,
+        "minutes": 53
+      },
+      "trailer": "http://youtube.com/watch?v=yUmSVcttXnI",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/movies/000/092/230/fanarts/original/6031096cea.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/092/230/fanarts/medium/6031096cea.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/092/230/fanarts/thumb/6031096cea.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/movies/000/092/230/posters/original/79bacf0239.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/092/230/posters/medium/79bacf0239.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/092/230/posters/thumb/79bacf0239.jpg"
+        }
+      }
+    },
+    {
+      "title": "Up",
+      "year": 2009,
+      "imdbId": "tt1049413",
+      "id": "tt1049413",
+      "type": "movies",
+      "summary": "After a lifetime of dreaming of traveling the world, 78-year-old homebody Carl flies away on an unbelievable adventure with Russell, an 8-year-old Wilderness Explorer, unexpectedly in tow. Together, the unlikely pair embarks on a thrilling odyssey full of jungle beasts and rough terrain.",
+      "genres": [
+        "adventure",
+        "animation",
+        "comedy",
+        "family"
+      ],
+      "rating": 4.2,
+      "runtime": {
+        "full": "2 hours 36 minutes",
+        "hours": 2,
+        "minutes": 36
+      },
+      "trailer": null,
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/movies/000/008/476/fanarts/original/f39eb61b97.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/008/476/fanarts/medium/f39eb61b97.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/008/476/fanarts/thumb/f39eb61b97.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/movies/000/008/476/posters/original/7cf4d77151.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/008/476/posters/medium/7cf4d77151.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/008/476/posters/thumb/7cf4d77151.jpg"
+        }
+      }
+    },
+    {
+      "title": "Pulp Fiction",
+      "year": 1994,
+      "imdbId": "tt0110912",
+      "id": "tt0110912",
+      "type": "movies",
+      "summary": "A burger-loving hit man, his philosophical partner, a drug-addled gangster's moll and a washed-up boxer converge in this sprawling, comedic crime caper. Their adventures unfurl in three stories that ingeniously trip back and forth in time.",
+      "genres": [
+        "crime",
+        "thriller"
+      ],
+      "rating": 4.4,
+      "runtime": {
+        "full": "3 hours 34 minutes",
+        "hours": 3,
+        "minutes": 34
+      },
+      "trailer": "http://youtube.com/watch?v=s7EdQ4FqbhY",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/movies/000/000/554/fanarts/original/8eccd1cfce.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/000/554/fanarts/medium/8eccd1cfce.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/000/554/fanarts/thumb/8eccd1cfce.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/movies/000/000/554/posters/original/e7bb947dce.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/000/554/posters/medium/e7bb947dce.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/000/554/posters/thumb/e7bb947dce.jpg"
+        }
+      }
+    },
+    {
+      "title": "WALL·E",
+      "year": 2008,
+      "imdbId": "tt0910970",
+      "id": "tt0910970",
+      "type": "movies",
+      "summary": "WALL·E is the last robot left on an Earth that has been overrun with garbage and all humans have fled to outer space. For 700 years he has continued to try and clean up the mess, but has developed some rather interesting human-like qualities. When a ship arrives with a sleek new type of robot, WALL·E thinks he's finally found a friend and stows away on the ship when it leaves.",
+      "genres": [
+        "animation",
+        "family"
+      ],
+      "rating": 4.2,
+      "runtime": {
+        "full": "2 hours 38 minutes",
+        "hours": 2,
+        "minutes": 38
+      },
+      "trailer": null,
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/movies/000/005/853/fanarts/original/0abb604492.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/005/853/fanarts/medium/0abb604492.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/005/853/fanarts/thumb/0abb604492.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/movies/000/005/853/posters/original/fc013ac480.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/005/853/posters/medium/fc013ac480.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/005/853/posters/thumb/fc013ac480.jpg"
+        }
+      }
+    },
+    {
+      "title": "The Hunger Games: Catching Fire",
+      "year": 2013,
+      "imdbId": "tt1951264",
+      "id": "tt1951264",
+      "type": "movies",
+      "summary": "Katniss Everdeen has returned home safe after winning the 74th Annual Hunger Games along with fellow tribute Peeta Mellark. Winning means that they must turn around and leave their family and close friends, embarking on a \"Victor's Tour\" of the districts. Along the way Katniss senses that a rebellion is simmering, but the Capitol is still very much in control as President Snow prepares the 75th Annual Hunger Games (The Quarter Quell) - a competition that could change Panem forever.",
+      "genres": [
+        "action",
+        "adventure",
+        "science-fiction",
+        "thriller"
+      ],
+      "rating": 3.9,
+      "runtime": {
+        "full": "2 hours 26 minutes",
+        "hours": 2,
+        "minutes": 26
+      },
+      "trailer": "http://youtube.com/watch?v=jyPnQw_Lqds",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/movies/000/072/719/fanarts/original/881f96c39a.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/072/719/fanarts/medium/881f96c39a.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/072/719/fanarts/thumb/881f96c39a.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/movies/000/072/719/posters/original/fc3ae9e451.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/072/719/posters/medium/fc3ae9e451.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/072/719/posters/thumb/fc3ae9e451.jpg"
+        }
+      }
+    },
+    {
+      "title": "X-Men: Days of Future Past",
+      "year": 2014,
+      "imdbId": "tt1877832",
+      "id": "tt1877832",
+      "type": "movies",
+      "summary": "The ultimate X-Men ensemble fights a war for the survival of the species across two time periods as they join forces with their younger selves in an epic battle that must change the past – to save our future.",
+      "genres": [
+        "action",
+        "adventure",
+        "fantasy",
+        "science-fiction"
+      ],
+      "rating": 4,
+      "runtime": {
+        "full": "2 hours 11 minutes",
+        "hours": 2,
+        "minutes": 11
+      },
+      "trailer": "http://youtube.com/watch?v=gsjtg7m1MMM",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/movies/000/087/348/fanarts/original/46b86b24a3.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/087/348/fanarts/medium/46b86b24a3.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/087/348/fanarts/thumb/46b86b24a3.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/movies/000/087/348/posters/original/350b14587a.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/087/348/posters/medium/350b14587a.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/087/348/posters/thumb/350b14587a.jpg"
+        }
+      }
+    },
+    {
+      "title": "Forrest Gump",
+      "year": 1994,
+      "imdbId": "tt0109830",
+      "id": "tt0109830",
+      "type": "movies",
+      "summary": "A man with a low IQ has accomplished great things in his life and been present during significant historic events - in each case, far exceeding what anyone imagined he could do. Yet, despite all the things he has attained, his one true love eludes him. 'Forrest Gump' is the story of a man who rose above his challenges, and who proved that determination, courage, and love are more important than ability.",
+      "genres": [
+        "comedy",
+        "drama",
+        "romance"
+      ],
+      "rating": 4.3,
+      "runtime": {
+        "full": "2 hours 22 minutes",
+        "hours": 2,
+        "minutes": 22
+      },
+      "trailer": "http://youtube.com/watch?v=bLvqoHBptjg",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/movies/000/000/009/fanarts/original/96364d5e6d.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/000/009/fanarts/medium/96364d5e6d.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/000/009/fanarts/thumb/96364d5e6d.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/movies/000/000/009/posters/original/0f5cd807a6.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/000/009/posters/medium/0f5cd807a6.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/000/009/posters/thumb/0f5cd807a6.jpg"
+        }
+      }
+    },
+    {
+      "title": "The Empire Strikes Back",
+      "year": 1980,
+      "imdbId": "tt0080684",
+      "id": "tt0080684",
+      "type": "movies",
+      "summary": "The epic saga continues as Luke Skywalker, in hopes of defeating the evil Galactic Empire, learns the ways of the Jedi from aging master Yoda. But Darth Vader is more determined than ever to capture Luke. Meanwhile, rebel leader Princess Leia, cocky Han Solo, Chewbacca, and droids C-3PO and R2-D2 are thrown into various stages of capture, betrayal and despair.",
+      "genres": [
+        "action",
+        "adventure",
+        "science-fiction"
+      ],
+      "rating": 4.4,
+      "runtime": {
+        "full": "2 hours 4 minutes",
+        "hours": 2,
+        "minutes": 4
+      },
+      "trailer": "http://youtube.com/watch?v=-LuGkTtITQE",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/movies/000/001/266/fanarts/original/e6f22a95c4.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/001/266/fanarts/medium/e6f22a95c4.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/001/266/fanarts/thumb/e6f22a95c4.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/movies/000/001/266/posters/original/33004e8ae5.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/001/266/posters/medium/33004e8ae5.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/001/266/posters/thumb/33004e8ae5.jpg"
+        }
+      }
+    },
+    {
+      "title": "Despicable Me",
+      "year": 2010,
+      "imdbId": "tt1323594",
+      "id": "tt1323594",
+      "type": "movies",
+      "summary": "In a happy suburban neighbourhood surrounded by white picket fences with flowering rose bushes, sits a black house with a dead lawn. Unbeknownst to the neighbours, hidden deep beneath this home is a vast secret hideout. Surrounded by an army of tireless, little yellow minions, we discover Gru, planning the biggest heist in the history of the world. He is going to steal the moon (Yes, the moon!) to prove to his Mum that he is better than the other super-villains, especially the new kid on the block, Vector. Gru delights in all things wicked. Armed with his arsenal of shrink rays, freeze guns and battle-ready vehicles for land and air, he vanquishes all who stand in his way. Until the day he encounters the immense will of three little orphaned girls who look at him and see something that no one else has ever seen: a potential dad.",
+      "genres": [
+        "animation",
+        "family",
+        "action"
+      ],
+      "rating": 4,
+      "runtime": {
+        "full": "2 hours 35 minutes",
+        "hours": 2,
+        "minutes": 35
+      },
+      "trailer": "http://youtube.com/watch?v=RXZY_XRjABs",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/movies/000/012/496/fanarts/original/f102096137.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/012/496/fanarts/medium/f102096137.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/012/496/fanarts/thumb/f102096137.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/movies/000/012/496/posters/original/c06014daa4.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/012/496/posters/medium/c06014daa4.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/012/496/posters/thumb/c06014daa4.jpg"
+        }
+      }
+    },
+    {
+      "title": "Back to the Future",
+      "year": 1985,
+      "imdbId": "tt0088763",
+      "id": "tt0088763",
+      "type": "movies",
+      "summary": "Eighties teenager Marty McFly is accidentally sent back in time to 1955, inadvertently disrupting his parents' first meeting and attracting his mother's romantic interest. Marty must repair the damage to history by rekindling his parents' romance and - with the help of his eccentric inventor friend Doc Brown - return to 1985.",
+      "genres": [
+        "adventure",
+        "comedy",
+        "science-fiction",
+        "family"
+      ],
+      "rating": 4.3,
+      "runtime": {
+        "full": "2 hours 56 minutes",
+        "hours": 2,
+        "minutes": 56
+      },
+      "trailer": "http://youtube.com/watch?v=qvsgGtivCgs",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/movies/000/000/074/fanarts/original/8f0e2f8a82.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/000/074/fanarts/medium/8f0e2f8a82.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/000/074/fanarts/thumb/8f0e2f8a82.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/movies/000/000/074/posters/original/307ca57ebc.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/000/074/posters/medium/307ca57ebc.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/000/074/posters/thumb/307ca57ebc.jpg"
+        }
+      }
+    },
+    {
+      "title": "The Shawshank Redemption",
+      "year": 1994,
+      "imdbId": "tt0111161",
+      "id": "tt0111161",
+      "type": "movies",
+      "summary": "Framed in the 1940s for the double murder of his wife and her lover, upstanding banker Andy Dufresne begins a new life at the Shawshank prison, where he puts his accounting skills to work for an amoral warden. During his long stretch in prison, Dufresne comes to be admired by the other inmates -- including an older prisoner named Red -- for his integrity and unquenchable sense of hope.",
+      "genres": [
+        "crime",
+        "drama"
+      ],
+      "rating": 4.6,
+      "runtime": {
+        "full": "2 hours 22 minutes",
+        "hours": 2,
+        "minutes": 22
+      },
+      "trailer": "http://youtube.com/watch?v=WawU4ouldxU",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/movies/000/000/234/fanarts/original/609240b889.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/000/234/fanarts/medium/609240b889.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/000/234/fanarts/thumb/609240b889.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/movies/000/000/234/posters/original/09c5e5bb62.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/000/234/posters/medium/09c5e5bb62.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/000/234/posters/thumb/09c5e5bb62.jpg"
+        }
+      }
+    },
+    {
+      "title": "Mad Max: Fury Road",
+      "year": 2015,
+      "imdbId": "tt1392190",
+      "id": "tt1392190",
+      "type": "movies",
+      "summary": "An apocalyptic story set in the furthest reaches of our planet, in a stark desert landscape where humanity is broken, and most everyone is crazed fighting for the necessities of life. Within this world exist two rebels on the run who just might be able to restore order. There's Max, a man of action and a man of few words, who seeks peace of mind following the loss of his wife and child in the aftermath of the chaos. And Furiosa, a woman of action and a woman who believes her path to survival may be achieved if she can make it across the desert back to her childhood homeland.",
+      "genres": [
+        "action",
+        "adventure",
+        "thriller",
+        "science-fiction"
+      ],
+      "rating": 3.9,
+      "runtime": {
+        "full": "2 hours",
+        "hours": 2,
+        "minutes": 0
+      },
+      "trailer": "http://youtube.com/watch?v=hEJnMQG9ev8",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/movies/000/056/360/fanarts/original/9fa7570f17.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/056/360/fanarts/medium/9fa7570f17.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/056/360/fanarts/thumb/9fa7570f17.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/movies/000/056/360/posters/original/81486c7fea.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/056/360/posters/medium/81486c7fea.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/056/360/posters/thumb/81486c7fea.jpg"
+        }
+      }
+    },
+    {
+      "title": "Iron Man 3",
+      "year": 2013,
+      "imdbId": "tt1300854",
+      "id": "tt1300854",
+      "type": "movies",
+      "summary": "The brash-but-brilliant industrialist Tony Stark faces an enemy whose reach knows no bounds. When Stark finds his personal world destroyed at his enemy’s hands, he embarks on a harrowing quest to find those responsible. This journey, at every turn, will test his mettle. With his back against the wall, Stark is left to survive by his own devices, relying on his ingenuity and instincts to protect those closest to him. As he fights his way back, Stark discovers the answer to the question that has secretly haunted him: does the man make the suit or does the suit make the man?",
+      "genres": [
+        "action",
+        "adventure",
+        "science-fiction"
+      ],
+      "rating": 3.8,
+      "runtime": {
+        "full": "2 hours 10 minutes",
+        "hours": 2,
+        "minutes": 10
+      },
+      "trailer": "http://youtube.com/watch?v=YLorLVa95Xo",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/movies/000/050/134/fanarts/original/e0b0405b38.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/050/134/fanarts/medium/e0b0405b38.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/050/134/fanarts/thumb/e0b0405b38.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/movies/000/050/134/posters/original/001b4eb627.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/050/134/posters/medium/001b4eb627.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/050/134/posters/thumb/001b4eb627.jpg"
+        }
+      }
+    },
+    {
+      "title": "Iron Man 2",
+      "year": 2010,
+      "imdbId": "tt1228705",
+      "id": "tt1228705",
+      "type": "movies",
+      "summary": "With the world now aware of his dual life as the armored superhero Iron Man, billionaire inventor Tony Stark faces pressure from the government, the press, and the public to share his technology with the military. Unwilling to let go of his invention, Stark, along with Pepper Potts, and James \"Rhodey\" Rhodes at his side, must forge new alliances - and confront powerful enemies.",
+      "genres": [
+        "action",
+        "adventure",
+        "science-fiction"
+      ],
+      "rating": 3.8,
+      "runtime": {
+        "full": "2 hours 4 minutes",
+        "hours": 2,
+        "minutes": 4
+      },
+      "trailer": "http://youtube.com/watch?v=BoohRoVA9WQ",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/movies/000/005/355/fanarts/original/f98fc1fb85.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/005/355/fanarts/medium/f98fc1fb85.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/005/355/fanarts/thumb/f98fc1fb85.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/movies/000/005/355/posters/original/91fdba819d.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/005/355/posters/medium/91fdba819d.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/005/355/posters/thumb/91fdba819d.jpg"
+        }
+      }
+    },
+    {
+      "title": "Return of the Jedi",
+      "year": 1983,
+      "imdbId": "tt0086190",
+      "id": "tt0086190",
+      "type": "movies",
+      "summary": "As Rebel leaders map their strategy for an all-out attack on the Emperor's newer, bigger Death Star. Han Solo remains frozen in the cavernous desert fortress of Jabba the Hutt, the most loathsome outlaw in the universe, who is also keeping Princess Leia as a slave girl. Now a master of the Force, Luke Skywalker rescues his friends, but he cannot become a true Jedi Knight until he wages his own crucial battle against Darth Vader, who has sworn to win Luke over to the dark side of the Force.",
+      "genres": [
+        "action",
+        "adventure",
+        "science-fiction"
+      ],
+      "rating": 4.3,
+      "runtime": {
+        "full": "2 hours 15 minutes",
+        "hours": 2,
+        "minutes": 15
+      },
+      "trailer": "http://youtube.com/watch?v=2mqRbh7FJ0Y",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/movies/000/001/267/fanarts/original/57469dd637.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/001/267/fanarts/medium/57469dd637.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/001/267/fanarts/thumb/57469dd637.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/movies/000/001/267/posters/original/80c956258c.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/001/267/posters/medium/80c956258c.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/001/267/posters/thumb/80c956258c.jpg"
+        }
+      }
+    },
+    {
+      "title": "Gravity",
+      "year": 2013,
+      "imdbId": "tt1454468",
+      "id": "tt1454468",
+      "type": "movies",
+      "summary": "Dr. Ryan Stone (Sandra Bullock), a brilliant medical engineer on her first Shuttle mission, with veteran astronaut Matt Kowalsky (George Clooney) in command of his last flight before retiring. But on a seemingly routine spacewalk, disaster strikes. The Shuttle is destroyed, leaving Stone and Kowalsky completely alone-tethered to nothing but each other and spiraling out into the blackness of space. The deafening silence tells them they have lost any link to Earth and any chance for rescue. As fear turns to panic, every gulp of air eats away at what little oxygen is left. But the only way home may be to go further out into the terrifying expance of space…",
+      "genres": [
+        "drama",
+        "science-fiction",
+        "thriller"
+      ],
+      "rating": 3.8,
+      "runtime": {
+        "full": "2 hours 31 minutes",
+        "hours": 2,
+        "minutes": 31
+      },
+      "trailer": "http://youtube.com/watch?v=epHKc6O7LqQ",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/movies/000/034/093/fanarts/original/dc6ce399ab.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/034/093/fanarts/medium/dc6ce399ab.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/034/093/fanarts/thumb/dc6ce399ab.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/movies/000/034/093/posters/original/39d5d9e318.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/034/093/posters/medium/39d5d9e318.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/034/093/posters/thumb/39d5d9e318.jpg"
+        }
+      }
+    },
+    {
+      "title": "Monsters, Inc.",
+      "year": 2001,
+      "imdbId": "tt0198781",
+      "id": "tt0198781",
+      "type": "movies",
+      "summary": "James Sullivan and Mike Wazowski are monsters, they earn their living scaring children and are the best in the business... even though they're more afraid of the children than they are of them. When a child accidentally enters their world, James and Mike suddenly find that kids are not to be afraid of and they uncover a conspiracy that could threaten all children across the world.",
+      "genres": [
+        "animation",
+        "comedy",
+        "fantasy",
+        "family"
+      ],
+      "rating": 4.1,
+      "runtime": {
+        "full": "2 hours 32 minutes",
+        "hours": 2,
+        "minutes": 32
+      },
+      "trailer": "http://youtube.com/watch?v=Ue_SfrHHBAc",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/movies/000/000/464/fanarts/original/b5de8e4df9.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/000/464/fanarts/medium/b5de8e4df9.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/000/464/fanarts/thumb/b5de8e4df9.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/movies/000/000/464/posters/original/16c29c9cef.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/000/464/posters/medium/16c29c9cef.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/000/464/posters/thumb/16c29c9cef.jpg"
+        }
+      }
+    },
+    {
+      "title": "Ant-Man",
+      "year": 2015,
+      "imdbId": "tt0478970",
+      "id": "tt0478970",
+      "type": "movies",
+      "summary": "Armed with the astonishing ability to shrink in scale but increase in strength, con-man Scott Lang must embrace his inner-hero and help his mentor, Dr. Hank Pym, protect the secret behind his spectacular Ant-Man suit from a new generation of towering threats. Against seemingly insurmountable obstacles, Pym and Lang must plan and pull off a heist that will save the world.",
+      "genres": [
+        "action",
+        "science-fiction",
+        "adventure"
+      ],
+      "rating": 3.8,
+      "runtime": {
+        "full": "2 hours 55 minutes",
+        "hours": 2,
+        "minutes": 55
+      },
+      "trailer": "http://youtube.com/watch?v=3QFCVNmnPrQ",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/movies/000/073/582/fanarts/original/2ebdc44580.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/073/582/fanarts/medium/2ebdc44580.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/073/582/fanarts/thumb/2ebdc44580.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/movies/000/073/582/posters/original/b1db8bb8c3.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/073/582/posters/medium/b1db8bb8c3.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/073/582/posters/thumb/b1db8bb8c3.jpg"
+        }
+      }
+    },
+    {
+      "title": "Avengers: Age of Ultron",
+      "year": 2015,
+      "imdbId": "tt2395427",
+      "id": "tt2395427",
+      "type": "movies",
+      "summary": "When Tony Stark tries to jumpstart a dormant peacekeeping program, things go awry and Earth’s Mightiest Heroes are put to the ultimate test as the fate of the planet hangs in the balance. As the villainous Ultron emerges, it is up to The Avengers to stop him from enacting his terrible plans, and soon uneasy alliances and unexpected action pave the way for an epic and unique global adventure.",
+      "genres": [
+        "action",
+        "adventure",
+        "science-fiction"
+      ],
+      "rating": 3.8,
+      "runtime": {
+        "full": "2 hours 21 minutes",
+        "hours": 2,
+        "minutes": 21
+      },
+      "trailer": "http://youtube.com/watch?v=tmeOjFno6Do",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/movies/000/071/938/fanarts/original/ffe37563ca.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/071/938/fanarts/medium/ffe37563ca.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/071/938/fanarts/thumb/ffe37563ca.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/movies/000/071/938/posters/original/de2265af49.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/071/938/posters/medium/de2265af49.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/071/938/posters/thumb/de2265af49.jpg"
+        }
+      }
+    },
+    {
+      "title": "Inside Out",
+      "year": 2015,
+      "imdbId": "tt2096673",
+      "id": "tt2096673",
+      "type": "movies",
+      "summary": "Growing up can be a bumpy road, and it's no exception for Riley, who is uprooted from her Midwest life when her father starts a new job in San Francisco. Like all of us, Riley is guided by her emotions - Joy, Fear, Anger, Disgust and Sadness. The emotions live in Headquarters, the control center inside Riley's mind, where they help advise her through everyday life. As Riley and her emotions struggle to adjust to a new life in San Francisco, turmoil ensues in Headquarters. Although Joy, Riley's main and most important emotion, tries to keep things positive, the emotions conflict on how best to navigate a new city, house and school.",
+      "genres": [
+        "animation",
+        "comedy",
+        "family"
+      ],
+      "rating": 4.1,
+      "runtime": {
+        "full": "2 hours 34 minutes",
+        "hours": 2,
+        "minutes": 34
+      },
+      "trailer": "http://youtube.com/watch?v=_MC3XuMvsDI",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/movies/000/098/998/fanarts/original/dd51480cb4.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/098/998/fanarts/medium/dd51480cb4.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/098/998/fanarts/thumb/dd51480cb4.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/movies/000/098/998/posters/original/09e0ae33aa.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/098/998/posters/medium/09e0ae33aa.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/098/998/posters/thumb/09e0ae33aa.jpg"
+        }
+      }
+    },
+    {
+      "title": "Now You See Me",
+      "year": 2013,
+      "imdbId": "tt1670345",
+      "id": "tt1670345",
+      "type": "movies",
+      "summary": "An FBI agent and an Interpol detective track a team of illusionists who pull off bank heists during their performances and reward their audiences with the money.",
+      "genres": [
+        "crime",
+        "thriller"
+      ],
+      "rating": 3.8,
+      "runtime": {
+        "full": "2 hours 55 minutes",
+        "hours": 2,
+        "minutes": 55
+      },
+      "trailer": "http://youtube.com/watch?v=VXuQDNdbd5E",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/movies/000/055/786/fanarts/original/21d7f06fd5.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/055/786/fanarts/medium/21d7f06fd5.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/055/786/fanarts/thumb/21d7f06fd5.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/movies/000/055/786/posters/original/2e19a20ba3.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/055/786/posters/medium/2e19a20ba3.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/055/786/posters/thumb/2e19a20ba3.jpg"
+        }
+      }
+    },
+    {
+      "title": "Big Hero 6",
+      "year": 2014,
+      "imdbId": "tt2245084",
+      "id": "tt2245084",
+      "type": "movies",
+      "summary": "The special bond that develops between plus-sized inflatable robot Baymax, and prodigy Hiro Hamada, who team up with a group of friends to form a band of high-tech heroes.",
+      "genres": [
+        "action",
+        "animation",
+        "comedy",
+        "adventure",
+        "family"
+      ],
+      "rating": 4.1,
+      "runtime": {
+        "full": "2 hours 42 minutes",
+        "hours": 2,
+        "minutes": 42
+      },
+      "trailer": "http://youtube.com/watch?v=z3biFxZIJOQ",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/movies/000/112/404/fanarts/original/bf3eed7e93.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/112/404/fanarts/medium/bf3eed7e93.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/112/404/fanarts/thumb/bf3eed7e93.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/movies/000/112/404/posters/original/5c9e3c0629.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/112/404/posters/medium/5c9e3c0629.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/112/404/posters/thumb/5c9e3c0629.jpg"
+        }
+      }
+    },
+    {
+      "title": "Jurassic World",
+      "year": 2015,
+      "imdbId": "tt0369610",
+      "id": "tt0369610",
+      "type": "movies",
+      "summary": "Twenty-two years after the events of Jurassic Park, Isla Nublar now features a fully functioning dinosaur theme park, Jurassic World, as originally envisioned by John Hammond.",
+      "genres": [
+        "action",
+        "adventure",
+        "science-fiction",
+        "thriller"
+      ],
+      "rating": 3.6,
+      "runtime": {
+        "full": "2 hours 4 minutes",
+        "hours": 2,
+        "minutes": 4
+      },
+      "trailer": "http://youtube.com/watch?v=RFinNxS5KN4",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/movies/000/091/374/fanarts/original/d6a3959e2e.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/091/374/fanarts/medium/d6a3959e2e.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/091/374/fanarts/thumb/d6a3959e2e.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/movies/000/091/374/posters/original/a889280b4a.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/091/374/posters/medium/a889280b4a.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/091/374/posters/thumb/a889280b4a.jpg"
+        }
+      }
+    },
+    {
+      "title": "Captain America: The First Avenger",
+      "year": 2011,
+      "imdbId": "tt0458339",
+      "id": "tt0458339",
+      "type": "movies",
+      "summary": "Predominantly set during World War II, Steve Rogers is a sickly man from Brooklyn who's transformed into super-soldier Captain America to aid in the war effort. Rogers must stop the Red Skull – Adolf Hitler's ruthless head of weaponry, and the leader of an organization that intends to use a mysterious device of untold powers for world domination.",
+      "genres": [
+        "action",
+        "adventure",
+        "science-fiction"
+      ],
+      "rating": 3.7,
+      "runtime": {
+        "full": "2 hours 4 minutes",
+        "hours": 2,
+        "minutes": 4
+      },
+      "trailer": "http://youtube.com/watch?v=W4DlMggBPvc",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/movies/000/001/170/fanarts/original/c0ad7ea552.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/001/170/fanarts/medium/c0ad7ea552.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/001/170/fanarts/thumb/c0ad7ea552.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/movies/000/001/170/posters/original/bb03e24f5d.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/001/170/posters/medium/bb03e24f5d.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/001/170/posters/thumb/bb03e24f5d.jpg"
+        }
+      }
+    },
+    {
+      "title": "The Hobbit: The Desolation of Smaug",
+      "year": 2013,
+      "imdbId": "tt1170358",
+      "id": "tt1170358",
+      "type": "movies",
+      "summary": "The Dwarves, Bilbo and Gandalf have successfully escaped the Misty Mountains, and Bilbo has gained the One Ring. They all continue their journey to get their gold back from the Dragon, Smaug.",
+      "genres": [
+        "fantasy",
+        "adventure"
+      ],
+      "rating": 4,
+      "runtime": {
+        "full": "3 hours 41 minutes",
+        "hours": 3,
+        "minutes": 41
+      },
+      "trailer": "http://youtube.com/watch?v=mbOEknbi4gQ",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/movies/000/040/808/fanarts/original/e2d0ba6a70.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/040/808/fanarts/medium/e2d0ba6a70.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/040/808/fanarts/thumb/e2d0ba6a70.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/movies/000/040/808/posters/original/fe629953e3.jpg",
+          "medium": "https://walter.trakt.us/images/movies/000/040/808/posters/medium/fe629953e3.jpg",
+          "thumb": "https://walter.trakt.us/images/movies/000/040/808/posters/thumb/fe629953e3.jpg"
+        }
+      }
+    }
+  ],
+  "getShow": {
+    "title": "Game of Thrones",
+    "year": 2011,
+    "imdbId": "tt0944947",
+    "id": "tt0944947",
+    "type": "shows",
+    "summary": "Seven noble families fight for control of the mythical land of Westeros. Friction between the houses leads to full-scale war. All while a very ancient evil awakens in the farthest north. Amidst the war, a neglected military order of misfits, the Night's Watch, is all that stands between the realms of men and the icy horrors beyond.",
+    "genres": [
+      "drama",
+      "fantasy",
+      "science-fiction",
+      "action",
+      "adventure"
+    ],
+    "rating": 4.7,
+    "runtime": {
+      "full": "55 minutes",
+      "hours": 0,
+      "minutes": 55
+    },
+    "trailer": "http://youtube.com/watch?v=BpJYNVhGf1s",
+    "images": {
+      "fanart": {
+        "full": "https://walter.trakt.us/images/shows/000/001/390/fanarts/original/76d5df8aed.jpg",
+        "medium": "https://walter.trakt.us/images/shows/000/001/390/fanarts/medium/76d5df8aed.jpg",
+        "thumb": "https://walter.trakt.us/images/shows/000/001/390/fanarts/thumb/76d5df8aed.jpg"
+      },
+      "poster": {
+        "full": "https://walter.trakt.us/images/shows/000/001/390/posters/original/93df9cd612.jpg",
+        "medium": "https://walter.trakt.us/images/shows/000/001/390/posters/medium/93df9cd612.jpg",
+        "thumb": "https://walter.trakt.us/images/shows/000/001/390/posters/thumb/93df9cd612.jpg"
+      }
+    }
+  },
+  "getShows": [
+    {
+      "title": "Game of Thrones",
+      "year": 2011,
+      "imdbId": "tt0944947",
+      "id": "tt0944947",
+      "type": "shows",
+      "summary": "Seven noble families fight for control of the mythical land of Westeros. Friction between the houses leads to full-scale war. All while a very ancient evil awakens in the farthest north. Amidst the war, a neglected military order of misfits, the Night's Watch, is all that stands between the realms of men and the icy horrors beyond.",
+      "genres": [
+        "drama",
+        "fantasy",
+        "science-fiction",
+        "action",
+        "adventure"
+      ],
+      "rating": 4.7,
+      "runtime": {
+        "full": "55 minutes",
+        "hours": 0,
+        "minutes": 55
+      },
+      "trailer": "http://youtube.com/watch?v=BpJYNVhGf1s",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/001/390/fanarts/original/76d5df8aed.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/390/fanarts/medium/76d5df8aed.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/390/fanarts/thumb/76d5df8aed.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/001/390/posters/original/93df9cd612.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/390/posters/medium/93df9cd612.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/390/posters/thumb/93df9cd612.jpg"
+        }
+      }
+    },
+    {
+      "title": "Breaking Bad",
+      "year": 2008,
+      "imdbId": "tt0903747",
+      "id": "tt0903747",
+      "type": "shows",
+      "summary": "Walter White, a struggling high school chemistry teacher, is diagnosed with advanced lung cancer. He turns to a life of crime, producing and selling methamphetamine accompanied by a former student, Jesse Pinkman, with the aim of securing his family's financial future before he dies.",
+      "genres": [
+        "drama",
+        "crime",
+        "suspense",
+        "thriller"
+      ],
+      "rating": 4.7,
+      "runtime": {
+        "full": "45 minutes",
+        "hours": 0,
+        "minutes": 45
+      },
+      "trailer": null,
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/001/388/fanarts/original/fdbc0cb02d.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/388/fanarts/medium/fdbc0cb02d.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/388/fanarts/thumb/fdbc0cb02d.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/001/388/posters/original/fa39b59954.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/388/posters/medium/fa39b59954.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/388/posters/thumb/fa39b59954.jpg"
+        }
+      }
+    },
+    {
+      "title": "The Big Bang Theory",
+      "year": 2007,
+      "imdbId": "tt0898266",
+      "id": "tt0898266",
+      "type": "shows",
+      "summary": "What happens when hyperintelligent roommates Sheldon and Leonard meet Penny, a free-spirited beauty moving in next door, and realize they know next to nothing about life outside of the lab. Rounding out the crew are the smarmy Wolowitz, who thinks he's as sexy as he is brainy, and Koothrappali, who suffers from an inability to speak in the presence of a woman.",
+      "genres": [
+        "comedy"
+      ],
+      "rating": 4.3,
+      "runtime": {
+        "full": "22 minutes",
+        "hours": 0,
+        "minutes": 22
+      },
+      "trailer": "http://youtube.com/watch?v=3vLXy_w_VKg",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/001/409/fanarts/original/cff0b01ee7.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/409/fanarts/medium/cff0b01ee7.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/409/fanarts/thumb/cff0b01ee7.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/001/409/posters/original/8adfe77938.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/409/posters/medium/8adfe77938.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/409/posters/thumb/8adfe77938.jpg"
+        }
+      }
+    },
+    {
+      "title": "The Walking Dead",
+      "year": 2010,
+      "imdbId": "tt1520211",
+      "id": "tt1520211",
+      "type": "shows",
+      "summary": "The world we knew is gone. An epidemic of apocalyptic proportions has swept the globe causing the dead to rise and feed on the living. In a matter of months society has crumbled. In a world ruled by the dead, we are forced to finally start living. Based on a comic book series of the same name by Robert Kirkman, this AMC project focuses on the world after a zombie apocalypse. The series follows a police officer, Rick Grimes, who wakes up from a coma to find the world ravaged with zombies. Looking for his family, he and a group of survivors attempt to battle against the zombies in order to stay alive.",
+      "genres": [
+        "drama"
+      ],
+      "rating": 4.3,
+      "runtime": {
+        "full": "42 minutes",
+        "hours": 0,
+        "minutes": 42
+      },
+      "trailer": "http://youtube.com/watch?v=R1v0uFms68U",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/001/393/fanarts/original/fc68b3b649.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/393/fanarts/medium/fc68b3b649.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/393/fanarts/thumb/fc68b3b649.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/001/393/posters/original/dec5cd226c.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/393/posters/medium/dec5cd226c.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/393/posters/thumb/dec5cd226c.jpg"
+        }
+      }
+    },
+    {
+      "title": "Dexter",
+      "year": 2006,
+      "imdbId": "tt0773262",
+      "id": "tt0773262",
+      "type": "shows",
+      "summary": "He's smart, he's good looking, and he's got a great sense of humor. He's Dexter Morgan, everyone's favorite serial killer. As a Miami forensics expert, he spends his days solving crimes, &amp; nights committing them. But Dexter lives by a strict code of honor that is both his saving grace and lifelong burden. Torn between his deadly compulsion and his desire for true happiness, Dexter is a man in profound conflict with the world and himself.",
+      "genres": [
+        "drama",
+        "mystery",
+        "crime",
+        "suspense",
+        "thriller"
+      ],
+      "rating": 4.4,
+      "runtime": {
+        "full": "1 hour",
+        "hours": 1,
+        "minutes": 0
+      },
+      "trailer": null,
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/001/396/fanarts/original/3c810f5c41.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/396/fanarts/medium/3c810f5c41.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/396/fanarts/thumb/3c810f5c41.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/001/396/posters/original/af1b16f10c.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/396/posters/medium/af1b16f10c.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/396/posters/thumb/af1b16f10c.jpg"
+        }
+      }
+    },
+    {
+      "title": "How I Met Your Mother",
+      "year": 2005,
+      "imdbId": "tt0460649",
+      "id": "tt0460649",
+      "type": "shows",
+      "summary": "The year is 2030. Ted Mosby is relaying the story of how he met his wife to his daughter and son. The story starts in the year 2005, when then twenty-seven year old architect Ted was spurred on to want to get married after his best friends from his college days at Wesleyan, lawyer Marshall Eriksen, who was his roommate at the time and kindergarten teacher Lily Aldrin, got engaged after nine years of dating each other. Ted's new quest in life was much to the dismay of his womanizing friend, Barney Stinson. But soon after Marshall and Lily's engagement, Ted believed that his life mate was going to be news reporter and aspiring news anchor Robin Scherbatsky, who, despite having had a romantic relationship with her after this time, ended up being who the kids know as their \"Aunt\" Robin. As Ted relays the story to his kids, the constants are that their Uncle Marshall, Aunt Lily, Uncle Barney and Aunt Robin are always in the picture and thus have something to do with how he got together with their mother.",
+      "genres": [
+        "comedy",
+        "drama",
+        "romance"
+      ],
+      "rating": 4.2,
+      "runtime": {
+        "full": "25 minutes",
+        "hours": 0,
+        "minutes": 25
+      },
+      "trailer": null,
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/001/095/fanarts/original/9b11bce83a.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/095/fanarts/medium/9b11bce83a.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/095/fanarts/thumb/9b11bce83a.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/001/095/posters/original/4922cab2bc.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/095/posters/medium/4922cab2bc.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/095/posters/thumb/4922cab2bc.jpg"
+        }
+      }
+    },
+    {
+      "title": "Sherlock",
+      "year": 2010,
+      "imdbId": "tt1475582",
+      "id": "tt1475582",
+      "type": "shows",
+      "summary": "Sherlock is a British television crime drama that presents a contemporary adaptation of Sir Arthur Conan Doyle's Sherlock Holmes detective stories. Created by Steven Moffat and Mark Gatiss, it stars Benedict Cumberbatch as Sherlock Holmes and Martin Freeman as Doctor John Watson.",
+      "genres": [
+        "drama",
+        "crime",
+        "mystery"
+      ],
+      "rating": 4.6,
+      "runtime": {
+        "full": "2 hours 30 minutes",
+        "hours": 2,
+        "minutes": 30
+      },
+      "trailer": "http://youtube.com/watch?v=JP5Dr63TbSU",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/019/792/fanarts/original/605985cad2.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/019/792/fanarts/medium/605985cad2.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/019/792/fanarts/thumb/605985cad2.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/019/792/posters/original/6311e0343c.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/019/792/posters/medium/6311e0343c.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/019/792/posters/thumb/6311e0343c.jpg"
+        }
+      }
+    },
+    {
+      "title": "Arrow",
+      "year": 2012,
+      "imdbId": "tt2193021",
+      "id": "tt2193021",
+      "type": "shows",
+      "summary": "Oliver Queen and his father are lost at sea when their luxury yacht sinks. His father doesn't survive. Oliver survives on an uncharted island for five years learning to fight, but also learning about his father's corruption and unscrupulous business dealings. He returns to civilization a changed man, determined to put things right. He disguises himself with the hood of one of his mysterious island mentors, arms himself with a bow and sets about hunting down the men and women who have corrupted his city.",
+      "genres": [
+        "drama",
+        "mystery",
+        "action",
+        "adventure",
+        "crime",
+        "science-fiction"
+      ],
+      "rating": 4,
+      "runtime": {
+        "full": "45 minutes",
+        "hours": 0,
+        "minutes": 45
+      },
+      "trailer": "http://youtube.com/watch?v=hTv13EjlLNg",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/001/403/fanarts/original/a9f26bb5a4.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/403/fanarts/medium/a9f26bb5a4.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/403/fanarts/thumb/a9f26bb5a4.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/001/403/posters/original/e68cd618e2.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/403/posters/medium/e68cd618e2.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/403/posters/thumb/e68cd618e2.jpg"
+        }
+      }
+    },
+    {
+      "title": "Friends",
+      "year": 1994,
+      "imdbId": "tt0108778",
+      "id": "tt0108778",
+      "type": "shows",
+      "summary": "Six young people, on their own and struggling to survive in the real world, find the companionship, comfort and support they get from each other to be the perfect antidote to the pressures of life.",
+      "genres": [
+        "comedy"
+      ],
+      "rating": 4.5,
+      "runtime": {
+        "full": "25 minutes",
+        "hours": 0,
+        "minutes": 25
+      },
+      "trailer": null,
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/001/657/fanarts/original/729481fa38.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/657/fanarts/medium/729481fa38.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/657/fanarts/thumb/729481fa38.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/001/657/posters/original/1c1fef0e6d.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/657/posters/medium/1c1fef0e6d.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/657/posters/thumb/1c1fef0e6d.jpg"
+        }
+      }
+    },
+    {
+      "title": "Homeland",
+      "year": 2011,
+      "imdbId": "tt1796960",
+      "id": "tt1796960",
+      "type": "shows",
+      "summary": "When Marine Nicolas Brody is hailed as a hero after he returns home from eight years of captivity in Iraq, intelligence officer Carrie Mathison is the only one who suspects that he may have been turned.",
+      "genres": [
+        "drama",
+        "mystery",
+        "thriller",
+        "crime",
+        "suspense"
+      ],
+      "rating": 4.2,
+      "runtime": {
+        "full": "55 minutes",
+        "hours": 0,
+        "minutes": 55
+      },
+      "trailer": "http://youtube.com/watch?v=KyFmS3wRPCQ",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/001/398/fanarts/original/701b0475bf.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/398/fanarts/medium/701b0475bf.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/398/fanarts/thumb/701b0475bf.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/001/398/posters/original/cb506c45bc.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/398/posters/medium/cb506c45bc.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/398/posters/thumb/cb506c45bc.jpg"
+        }
+      }
+    },
+    {
+      "title": "Lost",
+      "year": 2004,
+      "imdbId": "tt0411008",
+      "id": "tt0411008",
+      "type": "shows",
+      "summary": "After their plane, Oceanic Air flight 815, tore apart whilst thousands of miles off course, the survivors find themselves on a mysterious deserted island where they soon find out they are not alone.",
+      "genres": [
+        "drama",
+        "mystery",
+        "adventure",
+        "action"
+      ],
+      "rating": 4.2,
+      "runtime": {
+        "full": "45 minutes",
+        "hours": 0,
+        "minutes": 45
+      },
+      "trailer": "http://youtube.com/watch?v=72kQIIDBIUU",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/004/583/fanarts/original/79e6278444.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/004/583/fanarts/medium/79e6278444.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/004/583/fanarts/thumb/79e6278444.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/004/583/posters/original/0dd5fcd4a2.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/004/583/posters/medium/0dd5fcd4a2.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/004/583/posters/thumb/0dd5fcd4a2.jpg"
+        }
+      }
+    },
+    {
+      "title": "House",
+      "year": 2004,
+      "imdbId": "tt0412142",
+      "id": "tt0412142",
+      "type": "shows",
+      "summary": "Go deeper into the medical mysteries of House, TV's most compelling drama. Hugh Laurie stars as the brilliant but sarcastic Dr. Gregory House, a maverick physician who is devoid of bedside manner. While his behavior can border on antisocial, Dr. House thrives on the challenge of solving the medical puzzles that other doctors give up on. Together with his hand-picked team of young medical experts, he'll do whatever it takes in the race against the clock to solve the case.",
+      "genres": [
+        "comedy",
+        "drama",
+        "mystery"
+      ],
+      "rating": 4.4,
+      "runtime": {
+        "full": "45 minutes",
+        "hours": 0,
+        "minutes": 45
+      },
+      "trailer": null,
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/001/399/fanarts/original/c628f24771.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/399/fanarts/medium/c628f24771.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/399/fanarts/thumb/c628f24771.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/001/399/posters/original/76fae8b69b.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/399/posters/medium/76fae8b69b.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/399/posters/thumb/76fae8b69b.jpg"
+        }
+      }
+    },
+    {
+      "title": "Fringe",
+      "year": 2008,
+      "imdbId": "tt1119644",
+      "id": "tt1119644",
+      "type": "shows",
+      "summary": "The series follows a Federal Bureau of Investigation \"Fringe Division\" team based in Boston. The team uses unorthodox \"fringe\" science and FBI investigative techniques to investigate a series of unexplained, often ghastly occurrences, some of which are related to mysteries surrounding a parallel universe.",
+      "genres": [
+        "drama",
+        "mystery",
+        "crime",
+        "thriller"
+      ],
+      "rating": 4.4,
+      "runtime": {
+        "full": "45 minutes",
+        "hours": 0,
+        "minutes": 45
+      },
+      "trailer": null,
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/001/693/fanarts/original/0c025fb6d2.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/693/fanarts/medium/0c025fb6d2.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/693/fanarts/thumb/0c025fb6d2.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/001/693/posters/original/65e2693804.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/693/posters/medium/65e2693804.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/693/posters/thumb/65e2693804.jpg"
+        }
+      }
+    },
+    {
+      "title": "House of Cards",
+      "year": 2013,
+      "imdbId": "tt1856010",
+      "id": "tt1856010",
+      "type": "shows",
+      "summary": "Ruthless and cunning, Congressman Francis Underwood and his wife Claire stop at nothing to conquer everything. This wicked political drama penetrates the shadowy world of greed, sex and corruption in modern D.C.",
+      "genres": [
+        "drama"
+      ],
+      "rating": 4.5,
+      "runtime": {
+        "full": "50 minutes",
+        "hours": 0,
+        "minutes": 50
+      },
+      "trailer": "http://youtube.com/watch?v=ULwUzF1q5w4",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/001/416/fanarts/original/28b9159c81.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/416/fanarts/medium/28b9159c81.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/416/fanarts/thumb/28b9159c81.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/001/416/posters/original/d157e5bbb2.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/416/posters/medium/d157e5bbb2.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/416/posters/thumb/d157e5bbb2.jpg"
+        }
+      }
+    },
+    {
+      "title": "Suits",
+      "year": 2011,
+      "imdbId": "tt1632701",
+      "id": "tt1632701",
+      "type": "shows",
+      "summary": "Suits follows college drop-out Mike Ross, who accidentally lands a job with one of New York's best legal closers, Harvey Specter. They soon become a winning team with Mike's raw talent and photographic memory, and Mike soon reminds Harvey of why he went into the field of law in the first place.",
+      "genres": [
+        "drama"
+      ],
+      "rating": 4.4,
+      "runtime": {
+        "full": "42 minutes",
+        "hours": 0,
+        "minutes": 42
+      },
+      "trailer": "http://youtube.com/watch?v=SYUQKm2nZNE",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/037/522/fanarts/original/6ecdb75c1c.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/037/522/fanarts/medium/6ecdb75c1c.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/037/522/fanarts/thumb/6ecdb75c1c.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/037/522/posters/original/0e6117705c.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/037/522/posters/medium/0e6117705c.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/037/522/posters/thumb/0e6117705c.jpg"
+        }
+      }
+    },
+    {
+      "title": "Supernatural",
+      "year": 2005,
+      "imdbId": "tt0460681",
+      "id": "tt0460681",
+      "type": "shows",
+      "summary": "Two brothers follow their father's footsteps as \"hunters\" fighting evil supernatural beings of many kinds including monsters, demons, and gods that roam the earth.",
+      "genres": [
+        "drama",
+        "mystery",
+        "fantasy",
+        "science-fiction",
+        "comedy",
+        "horror"
+      ],
+      "rating": 4.3,
+      "runtime": {
+        "full": "45 minutes",
+        "hours": 0,
+        "minutes": 45
+      },
+      "trailer": "http://youtube.com/watch?v=4kmA86_hnbo",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/001/611/fanarts/original/964bc9d5b7.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/611/fanarts/medium/964bc9d5b7.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/611/fanarts/thumb/964bc9d5b7.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/001/611/posters/original/b4d07f40b8.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/611/posters/medium/b4d07f40b8.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/611/posters/thumb/b4d07f40b8.jpg"
+        }
+      }
+    },
+    {
+      "title": "Modern Family",
+      "year": 2009,
+      "imdbId": "tt1442437",
+      "id": "tt1442437",
+      "type": "shows",
+      "summary": "This mockumentary explores the many different types of a modern family through the stories of a gay couple, comprised of Mitchell and Cameron, and their daughter Lily, a straight couple, comprised of Phil and Claire, and their three kids, Haley, Alex, and Luke, and a multi-ethnic couple, which is comprised of Jay and Gloria, and her son Manny.",
+      "genres": [
+        "comedy"
+      ],
+      "rating": 4.3,
+      "runtime": {
+        "full": "25 minutes",
+        "hours": 0,
+        "minutes": 25
+      },
+      "trailer": "http://youtube.com/watch?v=DHyKECa1VaA",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/001/412/fanarts/original/f04803f6e6.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/412/fanarts/medium/f04803f6e6.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/412/fanarts/thumb/f04803f6e6.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/001/412/posters/original/cd7b6fcd28.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/412/posters/medium/cd7b6fcd28.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/412/posters/thumb/cd7b6fcd28.jpg"
+        }
+      }
+    },
+    {
+      "title": "Doctor Who",
+      "year": 2005,
+      "imdbId": "tt0436992",
+      "id": "tt0436992",
+      "type": "shows",
+      "summary": "The Doctor is an alien Time Lord from the planet Gallifrey who travels through all of time and space in his TARDIS. He has a long list of friends and companions who have shared journeys with him. Instead of dying, the Doctor is able to “regenerate” into a new body, taking on a new personality with each regeneration. Twelve actors, plus John Hurt, have played The Doctor thus far.",
+      "genres": [
+        "drama",
+        "action",
+        "adventure",
+        "science-fiction"
+      ],
+      "rating": 4.5,
+      "runtime": {
+        "full": "45 minutes",
+        "hours": 0,
+        "minutes": 45
+      },
+      "trailer": null,
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/056/872/fanarts/original/e37d501a02.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/056/872/fanarts/medium/e37d501a02.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/056/872/fanarts/thumb/e37d501a02.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/056/872/posters/original/8c421e339d.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/056/872/posters/medium/8c421e339d.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/056/872/posters/thumb/8c421e339d.jpg"
+        }
+      }
+    },
+    {
+      "title": "Orange Is the New Black",
+      "year": 2013,
+      "imdbId": "tt2372162",
+      "id": "tt2372162",
+      "type": "shows",
+      "summary": "Piper Chapman is a public relations executive with a career and a fiance when her past suddenly catches up to her. In her mid-30s she is sentenced to spend time in a minimum-security women's prison in Connecticut for her association with a drug runner 10 years earlier. This Netflix original series is based on the book of the same title. Forced to trade power suits for prison orange, Chapman makes her way through the corrections system and adjusts to life behind bars, making friends with the many eccentric, unusual and unexpected people she meets.",
+      "genres": [
+        "comedy",
+        "drama"
+      ],
+      "rating": 4.2,
+      "runtime": {
+        "full": "1 hour",
+        "hours": 1,
+        "minutes": 0
+      },
+      "trailer": "http://youtube.com/watch?v=njy0dFFlpAc",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/001/415/fanarts/original/194f967c76.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/415/fanarts/medium/194f967c76.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/415/fanarts/thumb/194f967c76.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/001/415/posters/original/ed46c0dae5.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/415/posters/medium/ed46c0dae5.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/415/posters/thumb/ed46c0dae5.jpg"
+        }
+      }
+    },
+    {
+      "title": "The Simpsons",
+      "year": 1989,
+      "imdbId": "tt0096697",
+      "id": "tt0096697",
+      "type": "shows",
+      "summary": "Set in Springfield, the average American town, the show focuses on the antics and everyday adventures of the Simpson family; Homer, Marge, Bart, Lisa and Maggie, as well as a virtual cast of thousands. Since the beginning, the series has been a pop culture icon, attracting hundreds of celebrities to guest star. The show has also made name for itself in its fearless satirical take on politics, media and American life in general.",
+      "genres": [
+        "animation",
+        "comedy",
+        "family"
+      ],
+      "rating": 4.3,
+      "runtime": {
+        "full": "25 minutes",
+        "hours": 0,
+        "minutes": 25
+      },
+      "trailer": null,
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/000/455/fanarts/original/a286b2a2c4.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/000/455/fanarts/medium/a286b2a2c4.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/000/455/fanarts/thumb/a286b2a2c4.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/000/455/posters/original/8b737766ea.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/000/455/posters/medium/8b737766ea.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/000/455/posters/thumb/8b737766ea.jpg"
+        }
+      }
+    },
+    {
+      "title": "True Detective",
+      "year": 2014,
+      "imdbId": "tt2356777",
+      "id": "tt2356777",
+      "type": "shows",
+      "summary": "An anthology series in which police investigations unearth the personal and professional secrets of those involved, both within and outside the law.",
+      "genres": [
+        "drama",
+        "crime",
+        "mystery"
+      ],
+      "rating": 4.4,
+      "runtime": {
+        "full": "1 hour",
+        "hours": 1,
+        "minutes": 0
+      },
+      "trailer": "http://youtube.com/watch?v=TXwCoNwBSkQ",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/046/375/fanarts/original/f8c6f152b2.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/046/375/fanarts/medium/f8c6f152b2.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/046/375/fanarts/thumb/f8c6f152b2.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/046/375/posters/original/2cafba378c.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/046/375/posters/medium/2cafba378c.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/046/375/posters/thumb/2cafba378c.jpg"
+        }
+      }
+    },
+    {
+      "title": "Marvel's Agents of S.H.I.E.L.D.",
+      "year": 2013,
+      "imdbId": "tt2364582",
+      "id": "tt2364582",
+      "type": "shows",
+      "summary": "Phil Coulson (Clark Gregg, reprising his role from \"The Avengers\" and \"Iron Man\" ) heads an elite team of fellow agents with the worldwide law-enforcement organization known as SHIELD (Strategic Homeland Intervention Enforcement and Logistics Division), as they investigate strange occurrences around the globe. Its members -- each of whom brings a specialty to the group -- work with Coulson to protect those who cannot protect themselves from extraordinary and inconceivable threats, including a formidable group known as Hydra.",
+      "genres": [
+        "action",
+        "adventure",
+        "drama",
+        "fantasy",
+        "science-fiction"
+      ],
+      "rating": 3.9,
+      "runtime": {
+        "full": "43 minutes",
+        "hours": 0,
+        "minutes": 43
+      },
+      "trailer": "http://youtube.com/watch?v=T3T-evQZiQo",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/001/394/fanarts/original/2cc61c8eea.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/394/fanarts/medium/2cc61c8eea.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/394/fanarts/thumb/2cc61c8eea.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/001/394/posters/original/c4a4211e12.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/394/posters/medium/c4a4211e12.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/394/posters/thumb/c4a4211e12.jpg"
+        }
+      }
+    },
+    {
+      "title": "Community",
+      "year": 2009,
+      "imdbId": "tt1439629",
+      "id": "tt1439629",
+      "type": "shows",
+      "summary": "From Emmy Award-winner Dan Harmon comes \"Community\", a smart comedy series about higher education – and lower expectations. The student body at Greendale Community College is made up of high-school losers, newly divorced housewives, and old people who want to keep their minds active. Within these not-so-hallowed halls, Community focuses on a band of misfits, at the center of which is a fast-talking lawyer whose degree was found to be fake, who form a study group and end up learning a lot more about themselves than they do about their course work.",
+      "genres": [
+        "comedy"
+      ],
+      "rating": 4.3,
+      "runtime": {
+        "full": "25 minutes",
+        "hours": 0,
+        "minutes": 25
+      },
+      "trailer": null,
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/018/265/fanarts/original/9c0a79d9e6.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/018/265/fanarts/medium/9c0a79d9e6.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/018/265/fanarts/thumb/9c0a79d9e6.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/018/265/posters/original/45b7f2b304.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/018/265/posters/medium/45b7f2b304.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/018/265/posters/thumb/45b7f2b304.jpg"
+        }
+      }
+    },
+    {
+      "title": "True Blood",
+      "year": 2008,
+      "imdbId": "tt0844441",
+      "id": "tt0844441",
+      "type": "shows",
+      "summary": "True Blood is based on The Southern Vampire Mysteries series of novels by Charlaine Harris, detailing the co-existence of vampires and humans in Bon Temps, a fictional, small town in northwestern Louisiana. The series centers on the adventures of Sookie Stackhouse (Anna Paquin), a telepathic waitress with an otherworldly quality.",
+      "genres": [
+        "drama"
+      ],
+      "rating": 4,
+      "runtime": {
+        "full": "52 minutes",
+        "hours": 0,
+        "minutes": 52
+      },
+      "trailer": "http://youtube.com/watch?v=hE8wwYzKJOs",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/010/494/fanarts/original/9bd70c73ef.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/010/494/fanarts/medium/9bd70c73ef.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/010/494/fanarts/thumb/9bd70c73ef.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/010/494/posters/original/c32f10af20.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/010/494/posters/medium/c32f10af20.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/010/494/posters/thumb/c32f10af20.jpg"
+        }
+      }
+    },
+    {
+      "title": "American Horror Story",
+      "year": 2011,
+      "imdbId": "tt1844624",
+      "id": "tt1844624",
+      "type": "shows",
+      "summary": "American Horror Story is a horror-drama television franchise created and produced by Ryan Murphy and Brad Falchuk. Described as an anthology series, each season is conceived as a self-contained miniseries, following a disparate set of characters and settings, and a storyline with its own \"beginning, middle and end\".",
+      "genres": [
+        "drama",
+        "horror",
+        "mystery"
+      ],
+      "rating": 4.1,
+      "runtime": {
+        "full": "45 minutes",
+        "hours": 0,
+        "minutes": 45
+      },
+      "trailer": "http://youtube.com/watch?v=9KZr2Vn7CQ",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/001/404/fanarts/original/49caad0936.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/404/fanarts/medium/49caad0936.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/404/fanarts/thumb/49caad0936.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/001/404/posters/original/4c1263bb77.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/404/posters/medium/4c1263bb77.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/404/posters/thumb/4c1263bb77.jpg"
+        }
+      }
+    },
+    {
+      "title": "Person of Interest",
+      "year": 2011,
+      "imdbId": "tt1839578",
+      "id": "tt1839578",
+      "type": "shows",
+      "summary": "John Reese, a presumed dead former CIA agent who is approached by a mysterious billionaire named Harold Finch to prevent violent crimes before they happen by using an advanced surveillance system dubbed \"The Machine\". Their unique brand of vigilante justice attracts the attention of two NYPD officers, Joss Carter and Lionel Fusco, whom Reese uses to his advantage as he investigates persons of interest. Reese and Finch are later aided by Samantha \"Root\" Groves , a highly intelligent computer hacker and contract killer who the Machine later identifies as its \"analog interface\" and Sameen Shaw, a former ISA assassin who unknowingly dealt with the \"relevant\" numbers found by the Machine.",
+      "genres": [
+        "drama",
+        "mystery",
+        "thriller",
+        "action",
+        "adventure"
+      ],
+      "rating": 4.2,
+      "runtime": {
+        "full": "45 minutes",
+        "hours": 0,
+        "minutes": 45
+      },
+      "trailer": "http://youtube.com/watch?v=68xN_BNYhc4",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/001/402/fanarts/original/fee6c0f90f.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/402/fanarts/medium/fee6c0f90f.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/402/fanarts/thumb/fee6c0f90f.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/001/402/posters/original/30a092b479.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/402/posters/medium/30a092b479.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/402/posters/thumb/30a092b479.jpg"
+        }
+      }
+    },
+    {
+      "title": "Firefly",
+      "year": 2002,
+      "imdbId": "tt0303461",
+      "id": "tt0303461",
+      "type": "shows",
+      "summary": "In the far-distant future, Captain Malcolm \"Mal\" Reynolds is a renegade former brown-coat sergeant, now turned smuggler &amp; rogue, who is the commander of a small spacecraft, with a loyal hand-picked crew made up of the first mate, Zoe Warren; the pilot Hoban \"Wash\" Washburn; the gung-ho grunt Jayne Cobb; the engineer Kaylee Frye; the fugitives Dr. Simon Tam and his psychic sister River. Together, they travel the far reaches of space in search of food, money, and anything to live on.",
+      "genres": [
+        "drama",
+        "science-fiction",
+        "adventure",
+        "western",
+        "action",
+        "fantasy"
+      ],
+      "rating": 4.6,
+      "runtime": {
+        "full": "45 minutes",
+        "hours": 0,
+        "minutes": 45
+      },
+      "trailer": null,
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/001/428/fanarts/original/f07e226271.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/428/fanarts/medium/f07e226271.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/428/fanarts/thumb/f07e226271.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/001/428/posters/original/fa1278e235.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/428/posters/medium/fa1278e235.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/428/posters/thumb/fa1278e235.jpg"
+        }
+      }
+    },
+    {
+      "title": "Once Upon a Time",
+      "year": 2011,
+      "imdbId": "tt1843230",
+      "id": "tt1843230",
+      "type": "shows",
+      "summary": "Emma Swan, a 28-year-old bail bonds collector, has always been a fiercely independent person since being abandoned as a baby. Her son Henry, who she gave up for adoption years ago, finds and tries to convince Emma that she is Snow White's missing daughter. Henry shows Emma that in the fairytale, Prince Charming and Snow White sent her away to protect her. Emma doesn't believe him and takes Henry back to Storybrooke...",
+      "genres": [
+        "drama",
+        "mystery",
+        "fantasy"
+      ],
+      "rating": 4,
+      "runtime": {
+        "full": "40 minutes",
+        "hours": 0,
+        "minutes": 40
+      },
+      "trailer": "http://youtube.com/watch?v=Rga4rp4j5TY",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/039/108/fanarts/original/c98fca0aa0.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/039/108/fanarts/medium/c98fca0aa0.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/039/108/fanarts/thumb/c98fca0aa0.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/039/108/posters/original/f31c9e18df.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/039/108/posters/medium/f31c9e18df.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/039/108/posters/thumb/f31c9e18df.jpg"
+        }
+      }
+    },
+    {
+      "title": "The Flash",
+      "year": 2014,
+      "imdbId": "tt3107288",
+      "id": "tt3107288",
+      "type": "shows",
+      "summary": "After a particle accelerator causes a freak storm, CSI Investigator Barry Allen is struck by lightning and falls into a coma. Months later he awakens with the power of super speed, granting him the ability to move through Central City like an unseen guardian angel. Though initially excited by his newfound powers, Barry is shocked to discover he is not the only \"meta-human\" who was created in the wake of the accelerator explosion – and not everyone is using their new powers for good. Barry partners with S.T.A.R. Labs and dedicates his life to protect the innocent. For now, only a few close friends and associates know that Barry is literally the fastest man alive, but it won't be long before the world learns what Barry Allen has become... The Flash.",
+      "genres": [
+        "drama",
+        "fantasy",
+        "science-fiction"
+      ],
+      "rating": 4.2,
+      "runtime": {
+        "full": "44 minutes",
+        "hours": 0,
+        "minutes": 44
+      },
+      "trailer": "http://youtube.com/watch?v=aZxhA_Jihmw",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/060/300/fanarts/original/df36c9a731.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/060/300/fanarts/medium/df36c9a731.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/060/300/fanarts/thumb/df36c9a731.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/060/300/posters/original/79bd96a4d3.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/060/300/posters/medium/79bd96a4d3.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/060/300/posters/thumb/79bd96a4d3.jpg"
+        }
+      }
+    },
+    {
+      "title": "Family Guy",
+      "year": 1999,
+      "imdbId": "tt0182576",
+      "id": "tt0182576",
+      "type": "shows",
+      "summary": "Sick, twisted, politically incorrect and Freakin' Sweet animated series featuring the adventures of the dysfunctional Griffin family. Bumbling Peter and long-suffering Lois have three kids. Stewie (a brilliant but sadistic baby bent on killing his mother and taking over the world), Meg (the oldest, and is the most unpopular girl in town) and Chris (the middle kid, he's not very bright but has a passion for movies). The final member of the family is Brian - a talking dog and much more than a pet, he keeps Stewie in check whilst sipping Martinis and sorting through his own life issues.",
+      "genres": [
+        "animation",
+        "comedy"
+      ],
+      "rating": 4.1,
+      "runtime": {
+        "full": "22 minutes",
+        "hours": 0,
+        "minutes": 22
+      },
+      "trailer": null,
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/001/425/fanarts/original/acc8c9aff4.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/425/fanarts/medium/acc8c9aff4.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/425/fanarts/thumb/acc8c9aff4.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/001/425/posters/original/5a5a4238a6.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/425/posters/medium/5a5a4238a6.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/425/posters/thumb/5a5a4238a6.jpg"
+        }
+      }
+    },
+    {
+      "title": "Vikings",
+      "year": 2013,
+      "imdbId": "tt2306299",
+      "id": "tt2306299",
+      "type": "shows",
+      "summary": "Vikings follows the adventures of Ragnar Lothbrok the greatest hero of his age. The series tells the sagas of Ragnar's band of Viking brothers and his family, as he rises to become King of the Viking tribes. As well as being a fearless warrior, Ragnar embodies the Norse traditions of devotion to the gods, legend has it that he was a direct descendant of Odin, the god of war and warriors.",
+      "genres": [
+        "drama",
+        "action",
+        "adventure"
+      ],
+      "rating": 4.3,
+      "runtime": {
+        "full": "44 minutes",
+        "hours": 0,
+        "minutes": 44
+      },
+      "trailer": "http://youtube.com/watch?v=1j2sXLbzm9U",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/043/973/fanarts/original/eb3a126015.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/043/973/fanarts/medium/eb3a126015.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/043/973/fanarts/thumb/eb3a126015.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/043/973/posters/original/735e733dbc.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/043/973/posters/medium/735e733dbc.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/043/973/posters/thumb/735e733dbc.jpg"
+        }
+      }
+    },
+    {
+      "title": "Prison Break",
+      "year": 2005,
+      "imdbId": "tt0455275",
+      "id": "tt0455275",
+      "type": "shows",
+      "summary": "After getting himself incarcerated in Fox River State Penitentiary to free his wrongly accused brother, Lincoln Burrows, Michael Scofield is now on the loose along with his brother and six other convicts. ",
+      "genres": [
+        "drama",
+        "mystery",
+        "crime",
+        "thriller",
+        "action"
+      ],
+      "rating": 4.2,
+      "runtime": {
+        "full": "45 minutes",
+        "hours": 0,
+        "minutes": 45
+      },
+      "trailer": null,
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/002/274/fanarts/original/909cd89146.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/002/274/fanarts/medium/909cd89146.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/002/274/fanarts/thumb/909cd89146.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/002/274/posters/original/7f5b58486f.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/002/274/posters/medium/7f5b58486f.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/002/274/posters/thumb/7f5b58486f.jpg"
+        }
+      }
+    },
+    {
+      "title": "New Girl",
+      "year": 2011,
+      "imdbId": "tt1826940",
+      "id": "tt1826940",
+      "type": "shows",
+      "summary": "Jessica Day is an offbeat and adorable girl in her late 20s who, after a bad breakup, moves in with three single guys. Goofy, positive, vulnerable and honest to a fault, Jess has faith in people, even when she shouldn't. Although she's dorky and awkward, she's comfortable in her own skin. More prone to friendships with women, she's not used to hanging with the boys--especially at home.",
+      "genres": [
+        "comedy"
+      ],
+      "rating": 3.9,
+      "runtime": {
+        "full": "25 minutes",
+        "hours": 0,
+        "minutes": 25
+      },
+      "trailer": null,
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/001/411/fanarts/original/ec8a6b1de8.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/411/fanarts/medium/ec8a6b1de8.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/411/fanarts/thumb/ec8a6b1de8.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/001/411/posters/original/4acfe3c5cb.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/411/posters/medium/4acfe3c5cb.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/411/posters/thumb/4acfe3c5cb.jpg"
+        }
+      }
+    },
+    {
+      "title": "Futurama",
+      "year": 1999,
+      "imdbId": "tt0149460",
+      "id": "tt0149460",
+      "type": "shows",
+      "summary": "A late 20th-century New York City pizza delivery boy, Philip J. Fry, after being unwittingly cryogenically frozen for one thousand years, finds employment at Planet Express, an interplanetary delivery company in the 31st century.",
+      "genres": [
+        "animation",
+        "comedy",
+        "fantasy",
+        "science-fiction"
+      ],
+      "rating": 4.4,
+      "runtime": {
+        "full": "22 minutes",
+        "hours": 0,
+        "minutes": 22
+      },
+      "trailer": null,
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/000/614/fanarts/original/c437fe689f.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/000/614/fanarts/medium/c437fe689f.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/000/614/fanarts/thumb/c437fe689f.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/000/614/posters/original/a51995389b.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/000/614/posters/medium/a51995389b.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/000/614/posters/thumb/a51995389b.jpg"
+        }
+      }
+    },
+    {
+      "title": "South Park",
+      "year": 1997,
+      "imdbId": "tt0121955",
+      "id": "tt0121955",
+      "type": "shows",
+      "summary": "South Park is an animated series featuring four boys who live in the Colorado town of South Park, which is beset by frequent odd occurrences. The show grew out of a short film that Trey Parker and Matt Stone created called The Spirit of Christmas, and has become an award-winning show that is a unique blend of humor and satire.",
+      "genres": [
+        "animation",
+        "comedy"
+      ],
+      "rating": 4.3,
+      "runtime": {
+        "full": "25 minutes",
+        "hours": 0,
+        "minutes": 25
+      },
+      "trailer": null,
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/002/177/fanarts/original/cb8901fce2.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/002/177/fanarts/medium/cb8901fce2.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/002/177/fanarts/thumb/cb8901fce2.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/002/177/posters/original/9cb5875b93.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/002/177/posters/medium/9cb5875b93.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/002/177/posters/thumb/9cb5875b93.jpg"
+        }
+      }
+    },
+    {
+      "title": "Sons of Anarchy",
+      "year": 2008,
+      "imdbId": "tt1124373",
+      "id": "tt1124373",
+      "type": "shows",
+      "summary": "Sons of Anarchy is an adrenalized drama with darkly comedic undertones that explores a notorious outlaw motorcycle club’s (MC) desire to protect its livelihood while ensuring that their simple, sheltered town of Charming, California remains exactly that, charming. The MC must confront threats from drug dealers, corporate developers, and overzealous law officers. Behind the MC’s familial lifestyle and legally thriving automotive shop is a ruthless and illegal arms business driven by the seduction of money, power, and blood.",
+      "genres": [
+        "drama",
+        "action",
+        "adventure"
+      ],
+      "rating": 4.4,
+      "runtime": {
+        "full": "45 minutes",
+        "hours": 0,
+        "minutes": 45
+      },
+      "trailer": "http://youtube.com/watch?v=Gr9_lvMuYrE",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/001/400/fanarts/original/aea51b3fac.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/400/fanarts/medium/aea51b3fac.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/400/fanarts/thumb/aea51b3fac.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/001/400/posters/original/39874e6199.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/400/posters/medium/39874e6199.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/400/posters/thumb/39874e6199.jpg"
+        }
+      }
+    },
+    {
+      "title": "Battlestar Galactica",
+      "year": 2005,
+      "imdbId": "tt0407362",
+      "id": "tt0407362",
+      "type": "shows",
+      "summary": "In a distant part of the universe, a civilization of humans live on planets known as the Twelve Colonies. In the past, the Colonies have been at war with a cybernetic race known as the Cylons. 40 years after the first war the Cylons launch a devastating attack on the Colonies. The only military ship that survived the attack takes up the task of leading a small fugitive fleet of survivors into space in search of a fabled refuge known as Earth.",
+      "genres": [
+        "drama",
+        "action",
+        "adventure",
+        "fantasy",
+        "science-fiction"
+      ],
+      "rating": 4.5,
+      "runtime": {
+        "full": "44 minutes",
+        "hours": 0,
+        "minutes": 44
+      },
+      "trailer": "http://youtube.com/watch?v=q2x14ZhEc9k",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/001/959/fanarts/original/bcad3f0092.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/959/fanarts/medium/bcad3f0092.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/959/fanarts/thumb/bcad3f0092.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/001/959/posters/original/a0dbd3fcf1.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/959/posters/medium/a0dbd3fcf1.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/959/posters/thumb/a0dbd3fcf1.jpg"
+        }
+      }
+    },
+    {
+      "title": "Hannibal",
+      "year": 2013,
+      "imdbId": "tt2243973",
+      "id": "tt2243973",
+      "type": "shows",
+      "summary": "Both a gift and a curse, Will Graham has the extraordinary ability to think like his prey—he sees what they see, feels what they feel. But while Graham is pursuing an especially troubling, cannibalistic murderer, Special Agent Jack Crawford teams him with a highly respected psychiatrist – a man with a taste for the criminal minded – Dr. Hannibal Lecter.",
+      "genres": [
+        "drama"
+      ],
+      "rating": 4.3,
+      "runtime": {
+        "full": "42 minutes",
+        "hours": 0,
+        "minutes": 42
+      },
+      "trailer": "http://youtube.com/watch?v=2HW9rtFYsEw",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/039/825/fanarts/original/556e001c0f.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/039/825/fanarts/medium/556e001c0f.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/039/825/fanarts/thumb/556e001c0f.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/039/825/posters/original/41fe77db1f.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/039/825/posters/medium/41fe77db1f.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/039/825/posters/thumb/41fe77db1f.jpg"
+        }
+      }
+    },
+    {
+      "title": "The Vampire Diaries",
+      "year": 2009,
+      "imdbId": "tt1405406",
+      "id": "tt1405406",
+      "type": "shows",
+      "summary": "As the school year begins, Elena Gilbert is immediately drawn to a handsome and mysterious new student, Stefan Salvatore. Elena has no way of knowing that Stefan is a vampire struggling to live peacefully among humans, while his brother Damon is the embodiment of vampire violence and brutality.",
+      "genres": [
+        "drama",
+        "fantasy",
+        "horror",
+        "thriller",
+        "romance"
+      ],
+      "rating": 3.9,
+      "runtime": {
+        "full": "43 minutes",
+        "hours": 0,
+        "minutes": 43
+      },
+      "trailer": "http://youtube.com/watch?v=_GWtgdAYHMU",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/018/083/fanarts/original/669c3480ff.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/018/083/fanarts/medium/669c3480ff.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/018/083/fanarts/thumb/669c3480ff.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/018/083/posters/original/9fe4cdd612.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/018/083/posters/medium/9fe4cdd612.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/018/083/posters/thumb/9fe4cdd612.jpg"
+        }
+      }
+    },
+    {
+      "title": "The Blacklist",
+      "year": 2013,
+      "imdbId": "tt2741602",
+      "id": "tt2741602",
+      "type": "shows",
+      "summary": "Raymond \"Red\" Reddington, one of the FBI's most wanted fugitives, surrenders in person at FBI Headquarters in Washington, D.C. He claims that he and the FBI have the same interests: bringing down dangerous criminals and terrorists. In the last two decades, he's made a list of criminals and terrorists that matter the most but the FBI cannot find because it does not know they exist. Reddington calls this \"The Blacklist\".Reddington will co-operate, but insists that he will speak only to Elizabeth Keen, a rookie FBI profiler.",
+      "genres": [
+        "crime",
+        "drama",
+        "mystery",
+        "action"
+      ],
+      "rating": 4.1,
+      "runtime": {
+        "full": "45 minutes",
+        "hours": 0,
+        "minutes": 45
+      },
+      "trailer": "http://youtube.com/watch?v=-WYdUaK54fU",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/046/676/fanarts/original/5e8c4da9d8.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/046/676/fanarts/medium/5e8c4da9d8.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/046/676/fanarts/thumb/5e8c4da9d8.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/046/676/posters/original/47a0145f39.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/046/676/posters/medium/47a0145f39.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/046/676/posters/thumb/47a0145f39.jpg"
+        }
+      }
+    },
+    {
+      "title": "Chuck",
+      "year": 2007,
+      "imdbId": "tt0934814",
+      "id": "tt0934814",
+      "type": "shows",
+      "summary": "This high-concept action comedy follows Chuck Bartowski as the Buy More computer geek turned secret agent. When Chuck unwittingly downloads a database of government information and deadly fighting skills into his head, he becomes the CIA's most vital secret. This sets Chuck on a path to become a full-fledged spy, assisted by the stoic Colonel John Casey; Chuck's best friend, Morgan Grimes; and the CIA's top agent Sarah Walker. With the help of this unlikely team and his unorthodox techniques, Chuck is ready to take Operation Bartowski freelance.",
+      "genres": [
+        "comedy",
+        "drama",
+        "action"
+      ],
+      "rating": 4.2,
+      "runtime": {
+        "full": "43 minutes",
+        "hours": 0,
+        "minutes": 43
+      },
+      "trailer": null,
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/001/395/fanarts/original/3eacbd81ca.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/395/fanarts/medium/3eacbd81ca.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/395/fanarts/thumb/3eacbd81ca.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/001/395/posters/original/446ea0bd1f.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/395/posters/medium/446ea0bd1f.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/395/posters/thumb/446ea0bd1f.jpg"
+        }
+      }
+    },
+    {
+      "title": "Castle",
+      "year": 2009,
+      "imdbId": "tt1219024",
+      "id": "tt1219024",
+      "type": "shows",
+      "summary": "Rick Castle is one of the world's most successful crime authors. But when his rock star lifestyle isn't enough, this bad boy goes looking for new trouble and finds it working with smart, beautiful Detective Kate Beckett. Inspired by her professional record and intrigued by her buttoned-up personality, Castle's found the model for his bold new character whether she likes it or not. Now with the mayor's permission, Castle is helping solve crime with his own twist.",
+      "genres": [
+        "drama",
+        "crime",
+        "comedy"
+      ],
+      "rating": 4.2,
+      "runtime": {
+        "full": "45 minutes",
+        "hours": 0,
+        "minutes": 45
+      },
+      "trailer": null,
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/001/410/fanarts/original/bd2fb2a277.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/410/fanarts/medium/bd2fb2a277.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/410/fanarts/thumb/bd2fb2a277.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/001/410/posters/original/a9901ef05b.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/410/posters/medium/a9901ef05b.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/410/posters/thumb/a9901ef05b.jpg"
+        }
+      }
+    },
+    {
+      "title": "Elementary",
+      "year": 2012,
+      "imdbId": "tt2191671",
+      "id": "tt2191671",
+      "type": "shows",
+      "summary": "Following his fall from grace in London and a stint in rehab, eccentric Sherlock escapes to Manhattan where his wealthy father forces him to live with his worst nightmare – a sober companion, Dr. Watson. A successful surgeon until she lost a patient and her license three years ago, Watson views her current job as another opportunity to help people, as well as paying a penance. Holmes resumes his work as a police consultant in New York City and Watson has no choice but to accompany her irascible new charge on his jobs. But Sherlock finds her medical background helpful, and Watson realizes she has a knack for playing investigator.With the mischievous Sherlock Holmes now running free in New York solving crimes, it’s simple deduction that he’s going to need someone to keep him grounded, and it’s elementary that it’s a job for Watson.",
+      "genres": [
+        "crime",
+        "drama",
+        "mystery"
+      ],
+      "rating": 4,
+      "runtime": {
+        "full": "43 minutes",
+        "hours": 0,
+        "minutes": 43
+      },
+      "trailer": "http://youtube.com/watch?v=ff-XiZzJLxw",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/001/406/fanarts/original/99a1d4777c.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/406/fanarts/medium/99a1d4777c.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/406/fanarts/thumb/99a1d4777c.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/001/406/posters/original/3313129c36.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/406/posters/medium/3313129c36.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/406/posters/thumb/3313129c36.jpg"
+        }
+      }
+    },
+    {
+      "title": "Californication",
+      "year": 2007,
+      "imdbId": "tt0904208",
+      "id": "tt0904208",
+      "type": "shows",
+      "summary": "David Duchovny returns to TV with his Golden Globe-winning portrayal of author Hank Moody in the critically-acclaimed Showtime hit Californication. Author Hank Moody's life is spinning gloriously out of control as he juggles his sex and drug addictions while raising a daughter and trying to win back the love of his life in this edgy new series. ",
+      "genres": [
+        "comedy",
+        "drama"
+      ],
+      "rating": 4.2,
+      "runtime": {
+        "full": "28 minutes",
+        "hours": 0,
+        "minutes": 28
+      },
+      "trailer": null,
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/001/209/fanarts/original/e6a0c4ae2e.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/209/fanarts/medium/e6a0c4ae2e.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/209/fanarts/thumb/e6a0c4ae2e.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/001/209/posters/original/004c1b9788.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/209/posters/medium/004c1b9788.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/209/posters/thumb/004c1b9788.jpg"
+        }
+      }
+    },
+    {
+      "title": "Under the Dome",
+      "year": 2013,
+      "imdbId": "tt1553656",
+      "id": "tt1553656",
+      "type": "shows",
+      "summary": "An invisible and mysterious force field descends upon a small fictional town in the United States, trapping residents inside, cut off from the rest of civilization. The trapped townsfolk must discover the secrets and purpose of the \"dome\" and its origins, while coming to learn more than they ever knew about each other.",
+      "genres": [
+        "drama",
+        "mystery",
+        "fantasy",
+        "science-fiction",
+        "horror"
+      ],
+      "rating": 3.5,
+      "runtime": {
+        "full": "45 minutes",
+        "hours": 0,
+        "minutes": 45
+      },
+      "trailer": null,
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/046/073/fanarts/original/66a7162eb1.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/046/073/fanarts/medium/66a7162eb1.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/046/073/fanarts/thumb/66a7162eb1.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/046/073/posters/original/7a17e4fed4.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/046/073/posters/medium/7a17e4fed4.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/046/073/posters/thumb/7a17e4fed4.jpg"
+        }
+      }
+    },
+    {
+      "title": "The Mentalist",
+      "year": 2008,
+      "imdbId": "tt1196946",
+      "id": "tt1196946",
+      "type": "shows",
+      "summary": "When mentalist Patrick Jane insults a vengeful serial killer, Red John, his loved ones are brutally killed.  Faced with the horrifying consequences of misusing his gift for observation and misdirection, Jane lends his skills to the California Bureau of Investigation, all the while hoping that his connections within the CBI will give him the opportunity to track down and revenge himself upon Red John.",
+      "genres": [
+        "drama",
+        "mystery"
+      ],
+      "rating": 4.1,
+      "runtime": {
+        "full": "43 minutes",
+        "hours": 0,
+        "minutes": 43
+      },
+      "trailer": null,
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/005/882/fanarts/original/be8745cb90.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/005/882/fanarts/medium/be8745cb90.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/005/882/fanarts/thumb/be8745cb90.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/005/882/posters/original/101e2b8ddb.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/005/882/posters/medium/101e2b8ddb.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/005/882/posters/thumb/101e2b8ddb.jpg"
+        }
+      }
+    },
+    {
+      "title": "Heroes",
+      "year": 2006,
+      "imdbId": "tt0813715",
+      "id": "tt0813715",
+      "type": "shows",
+      "summary": "Heroes is a cult serial saga about people all over the world discovering that they have superpowers and trying to deal with how this change affects their lives. Not only are they discovering what having superpowers means to them but also the larger picture of where those powers come from and what they might mean to the rest of the world.",
+      "genres": [
+        "drama",
+        "fantasy",
+        "science-fiction",
+        "thriller"
+      ],
+      "rating": 3.8,
+      "runtime": {
+        "full": "43 minutes",
+        "hours": 0,
+        "minutes": 43
+      },
+      "trailer": null,
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/001/628/fanarts/original/92e4c0733b.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/628/fanarts/medium/92e4c0733b.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/628/fanarts/thumb/92e4c0733b.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/001/628/posters/original/ed2d26885c.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/628/posters/medium/ed2d26885c.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/628/posters/thumb/ed2d26885c.jpg"
+        }
+      }
+    },
+    {
+      "title": "Band of Brothers",
+      "year": 2001,
+      "imdbId": "tt0185906",
+      "id": "tt0185906",
+      "type": "shows",
+      "summary": "The miniseries follows Easy Company, an army unit during World War II, from their initial training at Camp Toccoa to the conclusion of the war. The series is based on the book written by the late Stephen E. Ambrose. Band of Brothers is executive produced by Steven Spielberg and Tom Hanks, the series won 6 Emmy Awards. ",
+      "genres": [
+        "drama",
+        "war"
+      ],
+      "rating": 4.7,
+      "runtime": {
+        "full": "1 hour",
+        "hours": 1,
+        "minutes": 0
+      },
+      "trailer": "http://youtube.com/watch?v=1wlYPlwjGOY",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/004/589/fanarts/original/3e24c4deec.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/004/589/fanarts/medium/3e24c4deec.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/004/589/fanarts/thumb/3e24c4deec.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/004/589/posters/original/9f4cde5d16.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/004/589/posters/medium/9f4cde5d16.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/004/589/posters/thumb/9f4cde5d16.jpg"
+        }
+      }
+    },
+    {
+      "title": "Grey's Anatomy",
+      "year": 2005,
+      "imdbId": "tt0413573",
+      "id": "tt0413573",
+      "type": "shows",
+      "summary": "Meet Meredith Grey, a brilliant first-year surgical intern at Seattle Grace Hospital. Together with her fellow residents-in-training, Meredith navigates her way through the daily traumas and social land mines of the life inside the hospital and out in the real world. Grey's Anatomy is a smart and witty look at young people struggling to be doctors and doctors struggling to be human. ",
+      "genres": [
+        "drama",
+        "romance"
+      ],
+      "rating": 4,
+      "runtime": {
+        "full": "45 minutes",
+        "hours": 0,
+        "minutes": 45
+      },
+      "trailer": "http://youtube.com/watch?v=baRfki0-L2Q",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/001/407/fanarts/original/60a0adba2f.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/407/fanarts/medium/60a0adba2f.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/407/fanarts/thumb/60a0adba2f.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/001/407/posters/original/238fdbb77b.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/407/posters/medium/238fdbb77b.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/407/posters/thumb/238fdbb77b.jpg"
+        }
+      }
+    },
+    {
+      "title": "Parks and Recreation",
+      "year": 2009,
+      "imdbId": "tt1266020",
+      "id": "tt1266020",
+      "type": "shows",
+      "summary": "The series follows Leslie Knope, the deputy head of the Parks and Recreation department in the fictional town of Pawnee, Indiana. Knope takes on a project with a nurse named Ann to turn a construction pit into a park, while trying to mentor a bored college-aged intern. However, Leslie must fight through the bureaucrats, problem neighbors, and developers in order to make her dream a reality, all while with a camera crew recording her every gaff and mishap.",
+      "genres": [
+        "comedy"
+      ],
+      "rating": 4.4,
+      "runtime": {
+        "full": "25 minutes",
+        "hours": 0,
+        "minutes": 25
+      },
+      "trailer": null,
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/008/546/fanarts/original/df3ba1363c.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/008/546/fanarts/medium/df3ba1363c.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/008/546/fanarts/thumb/df3ba1363c.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/008/546/posters/original/0c97c993f5.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/008/546/posters/medium/0c97c993f5.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/008/546/posters/thumb/0c97c993f5.jpg"
+        }
+      }
+    }
+  ],
+  "getSeason": [
+    {
+      "id": "tt1480055",
+      "title": "Winter Is Coming",
+      "season": 1,
+      "episode": 1,
+      "overview": "Ned Stark, Lord of Winterfell learns that his mentor, Jon Arryn, has died and that King Robert is on his way north to offer Ned Arryn’s position as the King’s Hand. Across the Narrow Sea in Pentos, Viserys Targaryen plans to wed his sister Daenerys to the nomadic Dothraki warrior leader, Khal Drogo to forge an alliance to take the throne.",
+      "rating": 4.2,
+      "images": {
+        "full": "https://walter.trakt.us/images/episodes/000/073/640/screenshots/original/dd3fc55725.jpg",
+        "medium": "https://walter.trakt.us/images/episodes/000/073/640/screenshots/medium/dd3fc55725.jpg",
+        "thumb": "https://walter.trakt.us/images/episodes/000/073/640/screenshots/thumb/dd3fc55725.jpg"
+      }
+    },
+    {
+      "id": "tt1668746",
+      "title": "The Kingsroad",
+      "season": 1,
+      "episode": 2,
+      "overview": "Having agreed to become the King’s Hand, Ned leaves Winterfell with daughters Sansa and Arya, while Catelyn stays behind in Winterfell. Jon Snow heads north to join the brotherhood of the Night’s Watch. Tyrion decides to forego the trip south with his family, instead joining Jon in the entourage heading to the Wall. Viserys bides his time in hopes of winning back the throne, while Daenerys focuses her attention on learning how to please her new husband, Drogo.",
+      "rating": 4.2,
+      "images": {
+        "full": "https://walter.trakt.us/images/episodes/000/073/641/screenshots/original/e645d70001.jpg",
+        "medium": "https://walter.trakt.us/images/episodes/000/073/641/screenshots/medium/e645d70001.jpg",
+        "thumb": "https://walter.trakt.us/images/episodes/000/073/641/screenshots/thumb/e645d70001.jpg"
+      }
+    },
+    {
+      "id": "tt1829962",
+      "title": "Lord Snow",
+      "season": 1,
+      "episode": 3,
+      "overview": "Arriving at King’s Landing, Ned is shocked to learn of the Crown’s profligacy from his new advisors. At Castle Black, Jon Snow impresses Tyrion at the expense of greener recruits. Suspecting the Lannisters had a hand in Bran’s fall, Catelyn covertly follows her husband to King’s Landing, where she is intercepted by Petyr Baelish, a.k.a. “Littlefinger,” a shrewd longtime ally and brothel owner. Cersei and Jaime ponder the implications of Bran’s recovery; Arya studies swordsmanship. On the road to Vaes Dothrak, Daenerys finds herself at odds with Viserys.",
+      "rating": 4.1,
+      "images": {
+        "full": "https://walter.trakt.us/images/episodes/000/073/642/screenshots/original/238c3fabbf.jpg",
+        "medium": "https://walter.trakt.us/images/episodes/000/073/642/screenshots/medium/238c3fabbf.jpg",
+        "thumb": "https://walter.trakt.us/images/episodes/000/073/642/screenshots/thumb/238c3fabbf.jpg"
+      }
+    },
+    {
+      "id": "tt1829963",
+      "title": "Cripples, Bastards, and Broken Things",
+      "season": 1,
+      "episode": 4,
+      "overview": "Ned looks for clues to the death of his predecessor, and uncovers one of King Robert’s bastards. Robert and his guests witness a tournament honoring Ned. Jon takes measures to protect Sam from further abuse at Castle Black; a frustrated Viserys clashes with Daenerys in Vaes Dothrak; Sansa imagines her future as a queen, while Arya envisions a far different future. Catelyn rallies her husband’s allies to make a point, while Tyrion finds himself caught in the wrong place at the wrong time.",
+      "rating": 4.2,
+      "images": {
+        "full": "https://walter.trakt.us/images/episodes/000/073/643/screenshots/original/9101c85fa3.jpg",
+        "medium": "https://walter.trakt.us/images/episodes/000/073/643/screenshots/medium/9101c85fa3.jpg",
+        "thumb": "https://walter.trakt.us/images/episodes/000/073/643/screenshots/thumb/9101c85fa3.jpg"
+      }
+    },
+    {
+      "id": "tt1829964",
+      "title": "The Wolf and the Lion",
+      "season": 1,
+      "episode": 5,
+      "overview": "Incensed over news of Daenerys’ alliance with the Dothrakis, Robert orders a preemptive strike on the Targaryens that drives a wedge in his relationship with Ned. A captive Tyrion helps Catelyn, but receives a cold reception at the Eyrie from her sister, Jon Arryn’s widow Lysa. Sansa is charmed by the dashing Ser Loras Tyrell, a.k.a. the Knight of Flowers. Arya overhears a plot against her father.",
+      "rating": 4.2,
+      "images": {
+        "full": "https://walter.trakt.us/images/episodes/000/073/644/screenshots/original/b558214c1e.jpg",
+        "medium": "https://walter.trakt.us/images/episodes/000/073/644/screenshots/medium/b558214c1e.jpg",
+        "thumb": "https://walter.trakt.us/images/episodes/000/073/644/screenshots/thumb/b558214c1e.jpg"
+      }
+    },
+    {
+      "id": "tt1837862",
+      "title": "A Golden Crown",
+      "season": 1,
+      "episode": 6,
+      "overview": "Reinstated as the Hand, Ned sits for the King while Robert is on a hunt. Ned issues a decree that could have long-term consequences throughout the Seven Kingdoms. At the Eyrie, Tyrion confesses to his \"crimes,\" and demands that Lysa give him a trial by combat. Joffrey apologizes to Sansa. Viserys receives his final payment for Daenerys from Drogo.",
+      "rating": 4.3,
+      "images": {
+        "full": "https://walter.trakt.us/images/episodes/000/073/645/screenshots/original/16bb7c5971.jpg",
+        "medium": "https://walter.trakt.us/images/episodes/000/073/645/screenshots/medium/16bb7c5971.jpg",
+        "thumb": "https://walter.trakt.us/images/episodes/000/073/645/screenshots/thumb/16bb7c5971.jpg"
+      }
+    },
+    {
+      "id": "tt1837863",
+      "title": "You Win or You Die",
+      "season": 1,
+      "episode": 7,
+      "overview": "Explaining that the future of the Lannisters is at stake, Tywin presses Jaime to “be the man you were meant to be” as they prepare for battle. Ned confronts Cersei about the secrets that killed Jon Arryn. With the fate of the missing Benjen very much on his mind, Jon takes his Night’s Watch vows, though not with the assignment he coveted. After Ser Jorah saves Daenerys from treachery, an enraged Drogo vows to lead the Dothraki where they’ve never gone before. An injured Robert takes pains to ensure an orderly transition at King’s Landing.",
+      "rating": 4.3,
+      "images": {
+        "full": "https://walter.trakt.us/images/episodes/000/073/646/screenshots/original/08fb5cc0df.jpg",
+        "medium": "https://walter.trakt.us/images/episodes/000/073/646/screenshots/medium/08fb5cc0df.jpg",
+        "thumb": "https://walter.trakt.us/images/episodes/000/073/646/screenshots/thumb/08fb5cc0df.jpg"
+      }
+    },
+    {
+      "id": "tt1837864",
+      "title": "The Pointy End",
+      "season": 1,
+      "episode": 8,
+      "overview": "In the aftermath of Ned's capture, Syrio and Arya face off against Lannister guards, while Cersei manipulates Sansa to her own ends. Robb rallies his father's northern allies against Tywin Lannister and heads south to war. Tyrion forms an uneasy alliance with the hill tribes and reunites with his father. Jon lashes out at Ser Alliser Thorne and battles a mysterious attacker from beyond the Wall. Dany is forced to reconcile her desire to conquer Westeros with Drogo's savagery after the Dothraki raid a peaceful village.",
+      "rating": 4.2,
+      "images": {
+        "full": "https://walter.trakt.us/images/episodes/000/073/647/screenshots/original/5b8bc848d6.jpg",
+        "medium": "https://walter.trakt.us/images/episodes/000/073/647/screenshots/medium/5b8bc848d6.jpg",
+        "thumb": "https://walter.trakt.us/images/episodes/000/073/647/screenshots/thumb/5b8bc848d6.jpg"
+      }
+    },
+    {
+      "id": "tt1851398",
+      "title": "Baelor",
+      "season": 1,
+      "episode": 9,
+      "overview": "With Sansa's life in danger, Ned makes a fateful decision. Catelyn brokers an unsavory deal with the slippery Walder Frey. Tyrion acquires a mistress and is forced by his father to fight on the front lines. Robb wins his first major victory and captures a prized prisoner. Jon is rewarded for his valor and discovers a dark secret about Maester Aemon. As Drogo's wound festers, Dany defies her bloodrider Qotho and puts her trust in the enslaved witch Mirri Maz Duur.",
+      "rating": 4.3,
+      "images": {
+        "full": "https://walter.trakt.us/images/episodes/000/073/648/screenshots/original/2ce99a38f3.jpg",
+        "medium": "https://walter.trakt.us/images/episodes/000/073/648/screenshots/medium/2ce99a38f3.jpg",
+        "thumb": "https://walter.trakt.us/images/episodes/000/073/648/screenshots/thumb/2ce99a38f3.jpg"
+      }
+    },
+    {
+      "id": "tt1851397",
+      "title": "Fire and Blood",
+      "season": 1,
+      "episode": 10,
+      "overview": "As tragic news spreads across the Seven Kingdoms, Bran and Rickon share a prophetic dream, Catelyn interrogates Jamie about her son's fall, and Robb's destiny is forever changed. After a surprising decision by his father, Tyrion heads south. Arya assumes a new identity in an attempt to escape King's Landing, and Sansa is terrorized by Joffrey. At the Wall, Jon is forced to choose between the Night's Watch and the family he left behind. Across the sea, Dany pays a terrible price for her love, but finds new hope.",
+      "rating": 4.4,
+      "images": {
+        "full": "https://walter.trakt.us/images/episodes/000/073/649/screenshots/original/7c9c61c569.jpg",
+        "medium": "https://walter.trakt.us/images/episodes/000/073/649/screenshots/medium/7c9c61c569.jpg",
+        "thumb": "https://walter.trakt.us/images/episodes/000/073/649/screenshots/thumb/7c9c61c569.jpg"
+      }
+    }
+  ],
+  "getSeasons": [
+    {
+      "season": 1,
+      "overview": null,
+      "images": {
+        "full": "https://walter.trakt.us/images/seasons/000/003/962/posters/original/41221f3712.jpg",
+        "medium": "https://walter.trakt.us/images/seasons/000/003/962/posters/medium/41221f3712.jpg",
+        "thumb": "https://walter.trakt.us/images/seasons/000/003/962/posters/thumb/41221f3712.jpg"
+      }
+    },
+    {
+      "season": 2,
+      "overview": "Trouble is brewing in the Seven Kingdoms of Westeros. For the driven inhabitants of this visionary world, control of Westeros' Iron Throne holds the lure of great power. But in a land where the seasons can last a lifetime, winter is coming...and beyond the Great Wall that protects them, an ancient evil has returned. In Season One, the story centers on three primary areas: the Stark and the Lannister families, whose designs on controlling the throne threaten a tenuous peace; the dragon princess Daenerys, heir to the former dynasty, who waits just over the Narrow Sea with her malevolent brother Viserys; and the Great Wall--a massive barrier of ice where a forgotten danger is stirring.",
+      "images": {
+        "full": "https://walter.trakt.us/images/seasons/000/003/963/posters/original/1834978783.jpg",
+        "medium": "https://walter.trakt.us/images/seasons/000/003/963/posters/medium/1834978783.jpg",
+        "thumb": "https://walter.trakt.us/images/seasons/000/003/963/posters/thumb/1834978783.jpg"
+      }
+    },
+    {
+      "season": 3,
+      "overview": "The cold winds of winter are rising in Westeros...war is coming...and five kings continue their savage quest for control of the all-powerful Iron Throne. With winter fast approaching, the coveted Iron Throne is occupied by the cruel Joffrey, counseled by his conniving mother Cersei and uncle Tyrion. But the Lannister hold on the Throne is under assault on many fronts. Meanwhile, a new leader is rising among the wildings outside the Great Wall, adding new perils for Jon Snow and the order of the Night's Watch.",
+      "images": {
+        "full": "https://walter.trakt.us/images/seasons/000/003/964/posters/original/718943d94f.jpg",
+        "medium": "https://walter.trakt.us/images/seasons/000/003/964/posters/medium/718943d94f.jpg",
+        "thumb": "https://walter.trakt.us/images/seasons/000/003/964/posters/thumb/718943d94f.jpg"
+      }
+    },
+    {
+      "season": 4,
+      "overview": "Duplicity and treachery...nobility and honor...conquest and triumph...and, of course, dragons. In Season 3, family and loyalty are the overarching themes as many critical storylines from the first two seasons come to a brutal head. Meanwhile, the Lannisters maintain their hold on King's Landing, though stirrings in the North threaten to alter the balance of power; Robb Stark, King of the North, faces a major calamity as he tries to build on his victories; a massive army of wildlings led by Mance Rayder march for the Wall; and Daenerys Targaryen--reunited with her dragons--attempts to raise an army in her quest for the Iron Throne.",
+      "images": {
+        "full": "https://walter.trakt.us/images/seasons/000/003/965/posters/original/910697a6af.jpg",
+        "medium": "https://walter.trakt.us/images/seasons/000/003/965/posters/medium/910697a6af.jpg",
+        "thumb": "https://walter.trakt.us/images/seasons/000/003/965/posters/thumb/910697a6af.jpg"
+      }
+    },
+    {
+      "season": 5,
+      "overview": "The War of the Five Kings is drawing to a close, but new intrigues and plots are in motion, and the surviving factions must contend with enemies not only outside their ranks, but within.",
+      "images": {
+        "full": "https://walter.trakt.us/images/seasons/000/003/966/posters/original/46cafaec1f.jpg",
+        "medium": "https://walter.trakt.us/images/seasons/000/003/966/posters/medium/46cafaec1f.jpg",
+        "thumb": "https://walter.trakt.us/images/seasons/000/003/966/posters/thumb/46cafaec1f.jpg"
+      }
+    },
+    {
+      "season": 6,
+      "overview": "The War of the Five Kings, once thought to be drawing to a close, is instead entering a new and more chaotic phase. Westeros is on the brink of collapse, and many are seizing what they can while the realm implodes, like a corpse making a feast for crows.",
+      "images": {
+        "full": "https://walter.trakt.us/images/seasons/000/003/967/posters/original/8cbfffe9d4.jpg",
+        "medium": "https://walter.trakt.us/images/seasons/000/003/967/posters/medium/8cbfffe9d4.jpg",
+        "thumb": "https://walter.trakt.us/images/seasons/000/003/967/posters/thumb/8cbfffe9d4.jpg"
+      }
+    },
+    {
+      "season": 7,
+      "overview": "Following the shocking developments at the conclusion of season five, survivors from all parts of Westeros and Essos regroup to press forward, inexorably, towards their uncertain individual fates. Familiar faces will forge new alliances to bolster their strategic chances at survival, while new characters will emerge to challenge the balance of power in the east, west, north and south.",
+      "images": {
+        "full": "https://walter.trakt.us/images/seasons/000/114/727/posters/original/1aa24c1d9c.jpg",
+        "medium": "https://walter.trakt.us/images/seasons/000/114/727/posters/medium/1aa24c1d9c.jpg",
+        "thumb": "https://walter.trakt.us/images/seasons/000/114/727/posters/thumb/1aa24c1d9c.jpg"
+      }
+    }
+  ],
+  "getEpisode": {
+    "id": "tt1480055",
+    "title": "Winter Is Coming",
+    "season": 1,
+    "episode": 1,
+    "overview": "Ned Stark, Lord of Winterfell learns that his mentor, Jon Arryn, has died and that King Robert is on his way north to offer Ned Arryn’s position as the King’s Hand. Across the Narrow Sea in Pentos, Viserys Targaryen plans to wed his sister Daenerys to the nomadic Dothraki warrior leader, Khal Drogo to forge an alliance to take the throne.",
+    "rating": 4.2,
+    "images": {
+      "full": "https://walter.trakt.us/images/episodes/000/073/640/screenshots/original/dd3fc55725.jpg",
+      "medium": "https://walter.trakt.us/images/episodes/000/073/640/screenshots/medium/dd3fc55725.jpg",
+      "thumb": "https://walter.trakt.us/images/episodes/000/073/640/screenshots/thumb/dd3fc55725.jpg"
+    }
+  },
+  "getSimilar": [
+    {
+      "title": "Marvel's Agents of S.H.I.E.L.D.",
+      "year": 2013,
+      "imdbId": "tt2364582",
+      "id": "tt2364582",
+      "type": "shows",
+      "summary": "Phil Coulson (Clark Gregg, reprising his role from \"The Avengers\" and \"Iron Man\" ) heads an elite team of fellow agents with the worldwide law-enforcement organization known as SHIELD (Strategic Homeland Intervention Enforcement and Logistics Division), as they investigate strange occurrences around the globe. Its members -- each of whom brings a specialty to the group -- work with Coulson to protect those who cannot protect themselves from extraordinary and inconceivable threats, including a formidable group known as Hydra.",
+      "genres": [
+        "action",
+        "adventure",
+        "drama",
+        "fantasy",
+        "science-fiction"
+      ],
+      "rating": 3.9,
+      "runtime": {
+        "full": "45 minutes",
+        "hours": 0,
+        "minutes": 45
+      },
+      "trailer": "http://youtube.com/watch?v=T3T-evQZiQo",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/001/394/fanarts/original/2cc61c8eea.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/394/fanarts/medium/2cc61c8eea.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/394/fanarts/thumb/2cc61c8eea.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/001/394/posters/original/c4a4211e12.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/394/posters/medium/c4a4211e12.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/394/posters/thumb/c4a4211e12.jpg"
+        }
+      }
+    },
+    {
+      "title": "The Flash",
+      "year": 2014,
+      "imdbId": "tt3107288",
+      "id": "tt3107288",
+      "type": "shows",
+      "summary": "After a particle accelerator causes a freak storm, CSI Investigator Barry Allen is struck by lightning and falls into a coma. Months later he awakens with the power of super speed, granting him the ability to move through Central City like an unseen guardian angel. Though initially excited by his newfound powers, Barry is shocked to discover he is not the only \"meta-human\" who was created in the wake of the accelerator explosion – and not everyone is using their new powers for good. Barry partners with S.T.A.R. Labs and dedicates his life to protect the innocent. For now, only a few close friends and associates know that Barry is literally the fastest man alive, but it won't be long before the world learns what Barry Allen has become... The Flash.",
+      "genres": [
+        "drama",
+        "fantasy",
+        "science-fiction",
+        "action",
+        "adventure"
+      ],
+      "rating": 4.2,
+      "runtime": {
+        "full": "45 minutes",
+        "hours": 0,
+        "minutes": 45
+      },
+      "trailer": "http://youtube.com/watch?v=aZxhA_Jihmw",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/060/300/fanarts/original/df36c9a731.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/060/300/fanarts/medium/df36c9a731.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/060/300/fanarts/thumb/df36c9a731.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/060/300/posters/original/79bd96a4d3.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/060/300/posters/medium/79bd96a4d3.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/060/300/posters/thumb/79bd96a4d3.jpg"
+        }
+      }
+    },
+    {
+      "title": "Firefly",
+      "year": 2002,
+      "imdbId": "tt0303461",
+      "id": "tt0303461",
+      "type": "shows",
+      "summary": "In the far-distant future, Captain Malcolm \"Mal\" Reynolds is a renegade former brown-coat sergeant, now turned smuggler &amp; rogue, who is the commander of a small spacecraft, with a loyal hand-picked crew made up of the first mate, Zoe Warren; the pilot Hoban \"Wash\" Washburn; the gung-ho grunt Jayne Cobb; the engineer Kaylee Frye; the fugitives Dr. Simon Tam and his psychic sister River. Together, they travel the far reaches of space in search of food, money, and anything to live on.",
+      "genres": [
+        "drama",
+        "science-fiction",
+        "adventure",
+        "western",
+        "action",
+        "fantasy"
+      ],
+      "rating": 4.6,
+      "runtime": {
+        "full": "45 minutes",
+        "hours": 0,
+        "minutes": 45
+      },
+      "trailer": null,
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/001/428/fanarts/original/f07e226271.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/428/fanarts/medium/f07e226271.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/428/fanarts/thumb/f07e226271.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/001/428/posters/original/fa1278e235.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/428/posters/medium/fa1278e235.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/428/posters/thumb/fa1278e235.jpg"
+        }
+      }
+    },
+    {
+      "title": "Battlestar Galactica",
+      "year": 2005,
+      "imdbId": "tt0407362",
+      "id": "tt0407362",
+      "type": "shows",
+      "summary": "In a distant part of the universe, a civilization of humans live on planets known as the Twelve Colonies. In the past, the Colonies have been at war with a cybernetic race known as the Cylons. 40 years after the first war the Cylons launch a devastating attack on the Colonies. The only military ship that survived the attack takes up the task of leading a small fugitive fleet of survivors into space in search of a fabled refuge known as Earth.",
+      "genres": [
+        "drama",
+        "action",
+        "adventure",
+        "fantasy",
+        "science-fiction"
+      ],
+      "rating": 4.5,
+      "runtime": {
+        "full": "44 minutes",
+        "hours": 0,
+        "minutes": 44
+      },
+      "trailer": "http://youtube.com/watch?v=q2x14ZhEc9k",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/001/959/fanarts/original/bcad3f0092.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/959/fanarts/medium/bcad3f0092.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/959/fanarts/thumb/bcad3f0092.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/001/959/posters/original/a0dbd3fcf1.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/001/959/posters/medium/a0dbd3fcf1.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/001/959/posters/thumb/a0dbd3fcf1.jpg"
+        }
+      }
+    },
+    {
+      "title": "Continuum",
+      "year": 2012,
+      "imdbId": "tt1954347",
+      "id": "tt1954347",
+      "type": "shows",
+      "summary": "Kiera Cameron (Rachel Nichols), a Vancouver City Protective Services officer, is transported from the year 2077 to 2012 when eight ruthless terrorists, known as Liber8, attempt to escape execution through time travel. With the help of 17 year old tech genius Alec Sadler (Erik Knudsen) and VPD officer Carlos Fonnegra (Victor Webster), Kiera must survive in our time period, and capture Liber8 before they can alter the course of history and change the future.",
+      "genres": [
+        "drama",
+        "thriller",
+        "action",
+        "adventure",
+        "fantasy",
+        "science-fiction"
+      ],
+      "rating": 3.9,
+      "runtime": {
+        "full": "45 minutes",
+        "hours": 0,
+        "minutes": 45
+      },
+      "trailer": "http://youtube.com/watch?v=vtz0cLWqH9I",
+      "images": {
+        "fanart": {
+          "full": "https://walter.trakt.us/images/shows/000/042/793/fanarts/original/ac0d3a1813.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/042/793/fanarts/medium/ac0d3a1813.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/042/793/fanarts/thumb/ac0d3a1813.jpg"
+        },
+        "poster": {
+          "full": "https://walter.trakt.us/images/shows/000/042/793/posters/original/bfa74786ff.jpg",
+          "medium": "https://walter.trakt.us/images/shows/000/042/793/posters/medium/bfa74786ff.jpg",
+          "thumb": "https://walter.trakt.us/images/shows/000/042/793/posters/thumb/bfa74786ff.jpg"
+        }
+      }
+    }
+  ]
+}

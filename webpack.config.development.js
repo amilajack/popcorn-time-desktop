@@ -1,6 +1,7 @@
 /* eslint max-len: 0 */
 import webpack from 'webpack';
 import baseConfig from './webpack.config.base';
+import autoprefixer from 'autoprefixer';
 
 const config = {
   ...baseConfig,
@@ -23,22 +24,29 @@ const config = {
     ...baseConfig.module,
     loaders: [
       ...baseConfig.module.loaders,
-
       {
-        test: /\.global\.css$/,
+        test: /\.scss$/,
         loaders: [
           'style-loader',
-          'css-loader?sourceMap'
+          'css-loader?sourceMap',
+          'postcss-loader?sourceMap',
+          'sass-loader?sourceMap'
         ]
       },
-
       {
-        test: /^((?!\.global).)*\.css$/,
-        loaders: [
-          'style-loader',
-          'css-loader?modules&sourceMap&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]'
-        ]
+        test: /\.(ttf|eot|svg|woff)/,
+        loader: 'file-loader'
       }
+    ]
+  },
+
+  postcss: [
+    autoprefixer({ browsers: ['chrome >= 50'] })
+  ],
+
+  sassLoader: {
+    includePaths: [
+      './node_modules'
     ]
   },
 

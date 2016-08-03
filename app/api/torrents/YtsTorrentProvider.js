@@ -1,14 +1,21 @@
-import { determineQuality, getHealth } from './BaseTorrentProvider';
 import fetch from 'isomorphic-fetch';
+import {
+  determineQuality,
+  timeout
+} from './BaseTorrentProvider';
 
 
 export default class YtsTorrentProvider {
 
+  static providerName = 'YTS';
+
   static fetch(imdbId) {
-    return fetch(
-      `https://yts.ag/api/v2/list_movies.json?query_term=${imdbId}&order_by=desc&sort_by=seeds&limit=50`
+    return timeout(
+      fetch(
+        `https://yts.ag/api/v2/list_movies.json?query_term=${imdbId}&order_by=desc&sort_by=seeds&limit=50`
+      )
     )
-      .then(response => response.json());
+      .then(res => res.json());
   }
 
   static formatTorrent(torrent) {
@@ -16,11 +23,16 @@ export default class YtsTorrentProvider {
       quality: determineQuality(torrent.quality),
       magnet: constructMagnet(torrent.hash),
       seeders: parseInt(torrent.seeds, 10),
-      leechers: 0,
-      metadata: torrent.url + torrent.hash,
-      ...getHealth(torrent.seeds, torrent.peers),
+      leechers: parseInt(torrent.peers, 10),
+      metadata: (String(torrent.url) + String(torrent.hash)) || String(torrent.hash),
       _provider: 'yts'
     };
+  }
+
+  static getStatus() {
+    return fetch('https://yts.ag/api/v2/list_movies.json')
+      .then(res => res.ok)
+      .catch(() => false);
   }
 
   static provide(imdbId, type) {

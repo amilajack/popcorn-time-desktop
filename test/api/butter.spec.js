@@ -1,17 +1,39 @@
 import { expect } from 'chai';
 import Butter from '../../app/api/Butter';
+import MockShows from './butter.mock.js';
 import {
   formatSeasonEpisodeToString,
-  formatSeasonEpisodeToObject
+  formatSeasonEpisodeToObject,
+  sortTorrentsBySeeders
 } from '../../app/api/torrents/BaseTorrentProvider';
-import PctTorrentProvider from '../../app/api/torrents/PctTorrentProvider';
 import assert from 'assert';
+import { getStatuses } from '../../app/api/torrents/TorrentAdapter';
 import { convertRuntimeToHours } from '../../app/api/metadata/MetadataAdapter';
 
 
-const imdbId = 'tt0468569';
-const showImdbId = 'tt1475582';
-const deafultMinTorrentsCount = 1;
+const imdbId = 'tt0468569'; // The Dark Knight
+const showImdbId = 'tt1475582'; // Sherlock
+const defaultMinTorrentsCount = 1;
+
+const torrentBasePath = '../../app/api/torrents';
+const providers = [
+  {
+    name: 'PirateBay',
+    provider: require(`${torrentBasePath}/PbTorrentProvider`)
+  },
+  {
+    name: 'PopcornTime',
+    provider: require(`${torrentBasePath}/PctTorrentProvider`)
+  },
+  {
+    name: 'Kat',
+    provider: require(`${torrentBasePath}/KatTorrentProvider`)
+  },
+  {
+    name: 'Yts',
+    provider: require(`${torrentBasePath}/YtsTorrentProvider`),
+  }
+];
 
 function greaterThanOrEqualTo(first, second) {
   return (first > second || first === second);
@@ -20,126 +42,228 @@ function greaterThanOrEqualTo(first, second) {
 describe('api ->', function testApi() {
   this.retries(3);
 
+  describe('Status', () => {
+    it('should get status of providers', async done => {
+      try {
+        for (const _provider of providers) {
+          expect(await _provider.provider.getStatus()).to.be.a('boolean');
+        }
+        done();
+      } catch (error) {
+        done(error);
+      }
+    });
+
+    it('should get an array of statuses', async done => {
+      try {
+        const statuses = await getStatuses();
+        expect(statuses).to.be.an('array');
+        for (const status of statuses) {
+          expect(status).to.be.an('object');
+          expect(status).to.have.deep.property('providerName').that.is.a('string');
+          expect(status).to.have.deep.property('online').that.is.a('boolean');
+        }
+        done();
+      } catch (error) {
+        done(error);
+      }
+    });
+  });
+
   describe('Torrent Providers ->', () => {
     describe('Movie ->', () => {
-      const torrentBasePath = '../../app/api/torrents';
       const movieProviders = [
         {
           name: 'PirateBay',
           provider: require(`${torrentBasePath}/PbTorrentProvider`),
           minTorrentsCount: 5,
+          minSeederCount: 100,
           id: 'pb'
         },
         {
           name: 'PopcornTime',
           provider: require(`${torrentBasePath}/PctTorrentProvider`),
+          minTorrentsCount: 0,
+          minSeederCount: 400,
           id: 'pct'
         },
-        {
-          name: 'Kat',
-          provider: require(`${torrentBasePath}/KatTorrentProvider`),
-          minTorrentsCount: 5,
-          id: 'kat'
-        },
+        // {
+        //   name: 'Kat',
+        //   provider: require(`${torrentBasePath}/KatTorrentProvider`),
+        //   minTorrentsCount: 5,
+        //   minSeederCount: 100,
+        //   id: 'kat'
+        // },
         {
           name: 'Yts',
           provider: require(`${torrentBasePath}/YtsTorrentProvider`),
+          minTorrentsCount: 1,
+          minSeederCount: 200,
           id: 'yts'
         }
       ];
 
       for (const providerConfig of movieProviders) {
-        it.skip(`${providerConfig.name}TorrentProvider should return movie torrents`,
+        it(`${providerConfig.name}TorrentProvider should return movie torrents`,
         async function (done) {
           try {
-            this.timeout(40000);
+            this.timeout(10000);
 
             const torrents = await providerConfig.provider.provide('tt0330373', 'movies', {
               searchQuery: 'Harry Potter and the Goblet of Fire'
             });
 
             expect(torrents).to.be.an('array');
-            console.log(`${providerConfig.name}TorrentProvider torrent count: `, torrents.length);
-            expect(torrents).to.have.length.above(
-              'minTorrentsCount' in providerConfig
-                ? providerConfig.minTorrentsCount
-                : deafultMinTorrentsCount
+            console.log(
+              `\t ${providerConfig.name}TorrentProvider torrent count: `, torrents.length
             );
+            expect(torrents).to.have.length.above(providerConfig.minTorrentsCount - 1);
+
+            if (torrents.length) {
+              const seederCount = sortTorrentsBySeeders(torrents)[0].seeders;
+              console.log(
+                `\t ${providerConfig.name}TorrentProvider seeder count: `, seederCount
+              );
+              expect(seederCount).to.be.at.least(providerConfig.minSeederCount);
+            }
 
             for (const torrent of torrents) {
-              assertSingleTorrent(torrent);
+              assertProviderTorrent(torrent);
               expect(torrent).to.have.property('_provider')
                 .that.equals(providerConfig.id);
             }
             done();
-          } catch (err) {
-            done(err);
+          } catch (error) {
+            done(error);
           }
         });
       }
     });
 
     describe('Show ->', () => {
-      const torrentBasePath = '../../app/api/torrents';
       const showTorrentProviders = [
         {
           name: 'PirateBay',
           provider: require(`${torrentBasePath}/PbTorrentProvider`),
           minTorrentsCount: 5,
+          minSeederCount: 400,
           id: 'pb'
         },
         {
           name: 'PopcornTime',
           provider: require(`${torrentBasePath}/PctTorrentProvider`),
-          minTorrentsCount: -1,
+          minTorrentsCount: 0,
+          minSeederCount: 100,
           id: 'pct'
         },
-        {
-          name: 'Kat',
-          provider: require(`${torrentBasePath}/KatTorrentProvider`),
-          minTorrentsCount: 5,
-          id: 'kat'
-        },
-        {
-          name: 'KatShows',
-          provider: require(`${torrentBasePath}/KatShowsTorrentProvider`),
-          minTorrentsCount: 5,
-          id: 'kat-shows'
-        }
+        // {
+        //   name: 'Kat',
+        //   provider: require(`${torrentBasePath}/KatTorrentProvider`),
+        //   minTorrentsCount: 5,
+        //   minSeederCount: 100,
+        //   id: 'kat'
+        // }
       ];
 
       const extendedDetails = {
         searchQuery: 'game of thrones',
         season: 6,
-        episode: 4
+        episode: 6
       };
 
       for (const providerConfig of showTorrentProviders) {
-        it.skip(`${providerConfig.name}TorrentProvider should return show torrents`,
+        it(`${providerConfig.name}TorrentProvider should return show torrents`,
         async function (done) {
           try {
-            this.timeout(40000);
+            this.timeout(10000);
 
             const torrents = await providerConfig.provider.provide(
               showImdbId, 'shows', extendedDetails
             );
 
             expect(torrents).to.be.an('array');
-            console.log(`${providerConfig.name}TorrentProvider torrent count: `, torrents.length);
-            expect(torrents).to.have.length.above(
-              'minTorrentsCount' in providerConfig
-                ? providerConfig.minTorrentsCount
-                : deafultMinTorrentsCount
+            console.log(
+              `\t ${providerConfig.name}TorrentProvider torrent count: `, torrents.length
             );
+            expect(torrents).to.have.length.above(providerConfig.minTorrentsCount - 1);
+
+            if (torrents.length) {
+              const seederCount = sortTorrentsBySeeders(torrents)[0].seeders;
+              console.log(
+                `\t ${providerConfig.name}TorrentProvider seeder count: `, seederCount
+              );
+              expect(seederCount).to.be.at.least(providerConfig.minSeederCount);
+            }
 
             for (const torrent of torrents) {
-              assertSingleTorrent(torrent);
+              assertProviderTorrent(torrent);
               expect(torrent).to.have.property('_provider')
                 .that.equals(providerConfig.id);
             }
             done();
-          } catch (err) {
-            done(err);
+          } catch (error) {
+            done(error);
+          }
+        });
+      }
+    });
+
+    describe('Show Complete ->', () => {
+      const showTorrentProviders = [
+        {
+          name: 'PirateBay',
+          provider: require(`${torrentBasePath}/PbTorrentProvider`),
+          minTorrentsCount: 20,
+          minSeederCount: 700,
+          id: 'pb'
+        },
+        {
+          name: 'Kat',
+          provider: require(`${torrentBasePath}/KatTorrentProvider`),
+          minTorrentsCount: 0,
+          minSeederCount: 100,
+          id: 'kat'
+        }
+      ];
+
+      const extendedDetails = {
+        searchQuery: 'game of thrones',
+        season: 6,
+        episode: 6
+      };
+
+      for (const providerConfig of showTorrentProviders) {
+        it(`${providerConfig.name}TorrentProvider should return show torrents`,
+        async function (done) {
+          try {
+            this.timeout(10000);
+
+            const torrents = await providerConfig.provider.provide(
+              showImdbId, 'season_complete', extendedDetails
+            );
+
+            expect(torrents).to.be.an('array');
+            console.log(
+              `\t ${providerConfig.name}TorrentProvider torrent count: `, torrents.length
+            );
+            expect(torrents).to.have.length.above(providerConfig.minTorrentsCount - 1);
+
+            if (torrents.length) {
+              const seederCount = sortTorrentsBySeeders(torrents)[0].seeders;
+              console.log(
+                `\t ${providerConfig.name}TorrentProvider seeder count: `, seederCount
+              );
+              expect(seederCount).to.be.at.least(providerConfig.minSeederCount);
+            }
+
+            for (const torrent of torrents) {
+              assertProviderTorrent(torrent);
+              expect(torrent).to.have.property('_provider')
+                .that.equals(providerConfig.id);
+            }
+            done();
+          } catch (error) {
+            done(error);
           }
         });
       }
@@ -163,8 +287,8 @@ describe('api ->', function testApi() {
 
             expect(convertRuntimeToHours(60).full).to.equal('1 hour');
             done();
-          } catch (err) {
-            done(err);
+          } catch (error) {
+            done(error);
           }
         });
       });
@@ -181,8 +305,8 @@ describe('api ->', function testApi() {
             expect(formatSeasonEpisodeToObject(5, 10)).to.eql({ season: '05', episode: '10' });
             expect(formatSeasonEpisodeToObject(22, 22)).to.eql({ season: '22', episode: '22' });
             done();
-          } catch (err) {
-            done(err);
+          } catch (error) {
+            done(error);
           }
         });
       });
@@ -195,8 +319,8 @@ describe('api ->', function testApi() {
             expect(movies).to.be.a('array');
             expect(movie).to.be.an('object');
             done();
-          } catch (err) {
-            done(err);
+          } catch (error) {
+            done(error);
           }
         });
 
@@ -206,8 +330,8 @@ describe('api ->', function testApi() {
             const movie = movies[0];
             assertMovieFormat(movie);
             done();
-          } catch (err) {
-            done(err);
+          } catch (error) {
+            done(error);
           }
         });
       });
@@ -218,8 +342,8 @@ describe('api ->', function testApi() {
             const movie = await new Butter().getMovie('tt0417741');
             assertMovieFormat(movie);
             done();
-          } catch (err) {
-            done(err);
+          } catch (error) {
+            done(error);
           }
         });
       });
@@ -232,8 +356,8 @@ describe('api ->', function testApi() {
             expect(shows).to.be.a('array');
             expect(show).to.be.an('object');
             done();
-          } catch (err) {
-            done(err);
+          } catch (error) {
+            done(error);
           }
         });
 
@@ -243,8 +367,8 @@ describe('api ->', function testApi() {
             const show = shows[0];
             assertMovieFormat(show);
             done();
-          } catch (err) {
-            done(err);
+          } catch (error) {
+            done(error);
           }
         });
       });
@@ -255,8 +379,8 @@ describe('api ->', function testApi() {
             const showMetadata = await butterFactory().getShow('tt0944947');
             assertMovieFormat(showMetadata);
             done();
-          } catch (err) {
-            done(err);
+          } catch (error) {
+            done(error);
           }
         });
 
@@ -272,8 +396,8 @@ describe('api ->', function testApi() {
             expect(season).to.have.deep.property('images.medium').that.is.a('string');
             expect(season).to.have.deep.property('images.thumb').that.is.a('string');
             done();
-          } catch (err) {
-            done(err);
+          } catch (error) {
+            done(error);
           }
         });
 
@@ -292,8 +416,8 @@ describe('api ->', function testApi() {
             expect(episode).to.have.deep.property('images.medium').that.is.a('string');
             expect(episode).to.have.deep.property('images.thumb').that.is.a('string');
             done();
-          } catch (err) {
-            done(err);
+          } catch (error) {
+            done(error);
           }
         });
 
@@ -311,8 +435,8 @@ describe('api ->', function testApi() {
             expect(episode).to.have.deep.property('images.medium').that.is.a('string');
             expect(episode).to.have.deep.property('images.thumb').that.is.a('string');
             done();
-          } catch (err) {
-            done(err);
+          } catch (error) {
+            done(error);
           }
         });
       });
@@ -326,8 +450,8 @@ describe('api ->', function testApi() {
             assertMovieFormat(similarMovies[0]);
             // assertMovieFormat(similarShows[0]);
             done();
-          } catch (err) {
-            done(err);
+          } catch (error) {
+            done(error);
           }
         });
       });
@@ -343,8 +467,8 @@ describe('api ->', function testApi() {
             expect(movie).to.be.an('object');
             assertMovieFormat(movie);
             done();
-          } catch (err) {
-            done(err);
+          } catch (error) {
+            done(error);
           }
         });
       });
@@ -366,8 +490,8 @@ describe('api ->', function testApi() {
                 .that.equals(quality);
             }
             done();
-          } catch (err) {
-            done(err);
+          } catch (error) {
+            done(error);
           }
         });
 
@@ -398,8 +522,8 @@ describe('api ->', function testApi() {
             }
 
             done();
-          } catch (err) {
-            done(err);
+          } catch (error) {
+            done(error);
           }
         });
       });
@@ -416,15 +540,71 @@ describe('api ->', function testApi() {
             expect(torrents).to.be.an('object');
 
             for (const quality of ['480p', '720p', '1080p']) {
-              assertSingleTorrent(torrents[quality]);
-              expect(torrents[quality])
-                .to.have.deep.property('quality')
-                .that.is.a('string')
-                .that.equals(quality);
+              if (torrents[quality]) {
+                assertSingleTorrent(torrents[quality]);
+                expect(torrents[quality])
+                  .to.have.deep.property('quality')
+                  .that.is.a('string')
+                  .that.equals(quality);
+              }
             }
             done();
-          } catch (err) {
-            done(err);
+          } catch (error) {
+            done(error);
+          }
+        });
+
+        it('should get season_complete torrents', async done => {
+          try {
+            const torrents = await butterFactory().getTorrent(imdbId, 'season_complete', {
+              searchQuery: 'game of thrones',
+              season: 6
+            });
+
+            expect(torrents).to.be.an('object');
+
+            for (const quality of ['480p', '720p', '1080p']) {
+              if (torrents[quality]) {
+                assertSingleTorrent(torrents[quality]);
+                expect(torrents[quality])
+                  .to.have.deep.property('quality')
+                  .that.is.a('string')
+                  .that.equals(quality);
+              }
+            }
+            done();
+          } catch (error) {
+            done(error);
+          }
+        });
+      });
+
+      describe('Series Tests', () => {
+        describe('valid torrents for top 20 shows', () => {
+          for (const show of MockShows.filter((e, i) => i < 20)) {
+            it(`${show.title} Season 1 Episode 1`, async (done) => {
+              try {
+                const torrent = await butterFactory().getTorrent(show.id, 'shows', {
+                  season: 1,
+                  episode: 1,
+                  searchQuery: show.title
+                });
+                expect(torrent).to.be.an('object');
+
+                for (const quality of ['480p', '720p', '1080p']) {
+                  if (torrent[quality]) {
+                    assertSingleTorrent(torrent[quality]);
+                    expect(torrent[quality])
+                      .to.have.deep.property('quality')
+                      .that.is.a('string')
+                      .that.equals(quality);
+                  }
+                }
+                done();
+              } catch (error) {
+                done(error);
+              }
+            });
           }
         });
       });
@@ -463,7 +643,7 @@ function assertMovieFormat(movie) {
   assertNAorNumber(movie.runtime.hours);
   assertNAorNumber(movie.runtime.minutes);
 
-  expect(movie).to.have.property('trailer').that.is.a('string');
+  expect(movie.trailer).to.satisfy(s => s === null || typeof s === 'string');
 
   expect(movie).to.have.property('images').that.is.an('object');
   assertImageFormat(movie);
@@ -499,6 +679,42 @@ function assertSingleTorrent(torrent) {
 
   expect(torrent)
     .to.have.deep.property('seeders')
+    .that.is.a('number')
+    .that.is.at.least(0);
+
+  expect(torrent)
+    .to.have.deep.property('metadata')
+    .that.is.a('string');
+
+  assertNAorNumber(torrent.seeders);
+
+  expect(torrent)
+    .to.have.deep.property('leechers')
+    .that.is.a('number')
+    .that.is.at.least(0);
+
+  assertNAorNumber(torrent.leechers);
+}
+
+function assertProviderTorrent(torrent) {
+  expect(torrent)
+    .to.be.an('object');
+
+  expect(torrent)
+    .to.have.deep.property('_provider')
+    .that.is.a('string');
+
+  expect(torrent)
+    .to.have.deep.property('magnet')
+    .that.is.a('string');
+
+  expect(torrent)
+    .to.have.deep.property('seeders')
+    .that.is.a('number')
+    .that.is.at.least(0);
+
+  expect(torrent)
+    .to.have.deep.property('leechers')
     .that.is.a('number')
     .that.is.at.least(0);
 

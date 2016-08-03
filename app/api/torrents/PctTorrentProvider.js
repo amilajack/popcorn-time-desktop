@@ -1,8 +1,15 @@
 import fetch from 'isomorphic-fetch';
-import { getHealth } from './BaseTorrentProvider';
+import {
+  handleProviderError,
+  timeout
+} from './BaseTorrentProvider';
 
+
+const endpoint = 'http://api-fetch.website/tv';
 
 export default class PctTorrentProvider {
+
+  static providerName = 'PopcornTime API';
 
   static shows = {};
 
@@ -25,8 +32,10 @@ export default class PctTorrentProvider {
    */
   static async fetch(imdbId, type, extendedDetails) {
     const urlTypeParam = type === 'movies' ? 'movie' : 'show';
-    const request = fetch(`http://api-fetch.website/tv/${urlTypeParam}/${imdbId}`)
-      .then(res => res.json());
+    const request = timeout(
+      fetch(`${endpoint}/${urlTypeParam}/${imdbId}`)
+        .then(res => res.json())
+    );
 
     switch (type) {
       case 'movies':
@@ -35,21 +44,15 @@ export default class PctTorrentProvider {
             { ...movie.torrents.en['1080p'], quality: '1080p' },
             { ...movie.torrents.en['720p'], quality: '720p' }
           ]
-          .map(torrent => this.formatMovieTorrent(torrent))
+            .map(torrent => this.formatMovieTorrent(torrent))
         );
       case 'shows': {
-        /**
-         * @todo: Temporary cache
-         */
-        // if (this.shows[imdbId]) {
-        //   return this.filterTorrents(this.shows[imdbId], season, episode);
-        // }
         const { season, episode } = extendedDetails;
 
         const show = await request
           .then(res => res.episodes.map(eachEpisode => this.formatEpisode(eachEpisode)))
-          .catch(err => {
-            console.log(err);
+          .catch(error => {
+            handleProviderError(error);
             return [];
           });
 
@@ -95,8 +98,7 @@ export default class PctTorrentProvider {
       magnet: torrent.url,
       seeders: torrent.seed,
       leechers: 0,
-      metadata: torrent.url,
-      ...getHealth(torrent.seed, torrent.peer),
+      metadata: String(torrent.url),
       _provider: 'pct'
     };
   }
@@ -110,9 +112,8 @@ export default class PctTorrentProvider {
       formattedTorrents.push({
         quality: quality === '0' ? '0p' : quality,
         magnet: torrent.url,
-        seeders: torrent.seeds,
-        leechers: 0,
-        ...getHealth(torrent.seeds, torrent.peers, 0),
+        seeders: torrent.seeds || torrent.seed,
+        leechers: torrent.peers || torrent.peer,
         _provider: 'pct'
       });
     }
@@ -120,18 +121,22 @@ export default class PctTorrentProvider {
     return formattedTorrents;
   }
 
+  static getStatus() {
+    return fetch(endpoint).then(res => res.ok).catch(() => false);
+  }
+
   static provide(imdbId, type, extendedDetails = {}) {
     switch (type) {
       case 'movies':
         return this.fetch(imdbId, type, extendedDetails)
-          .catch(err => {
-            console.log(err);
+          .catch(error => {
+            handleProviderError(error);
             return [];
           });
       case 'shows':
         return this.fetch(imdbId, type, extendedDetails)
-          .catch(err => {
-            console.log(err);
+          .catch(error => {
+            handleProviderError(error);
             return [];
           });
       default:

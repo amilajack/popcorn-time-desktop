@@ -1,52 +1,47 @@
-import kat from 'kat-api';
+/**
+ * @todo: Migrate to https://isohunt.to
+ */
+
+import { search } from 'super-kat';
 import {
-  getHealth,
-  formatSeasonEpisodeToString
+  formatSeasonEpisodeToString,
+  constructSeasonQueries,
+  constructMovieQueries,
+  merge,
+  timeout,
+  handleProviderError
 } from './BaseTorrentProvider';
 
 
+const endpoint = 'https://kat.am';
+
 export default class KatTorrentProvider {
 
-  static fetch(query, season, episode) {
-    const formattedDetails = season && episode
-                              ? formatSeasonEpisodeToString(season, episode)
-                              : undefined;
+  static providerName = 'Kat';
 
-    return kat.search({
-      query,
-      category: season && episode ? 'tv' : 'movies'
-    })
-    .then(
-      resp => (
-        season && episode
-          ? resp.results.filter(
-              res => res.magnet.includes(formattedDetails)
-            )
-          : resp.results
-      )
-    )
-    .then(
-      resp => resp.map(res => this.formatTorrent(res))
-    )
-    .catch(error => {
-      console.log(error);
-      return [];
-    });
+  static fetch(query) {
+    return search(query)
+      .then(torrents => torrents.map(
+        torrent => this.formatTorrent(torrent)
+      ))
+      .catch(error => {
+        handleProviderError(error);
+        return [];
+      });
   }
 
   static formatTorrent(torrent) {
     return {
       magnet: torrent.magnet,
-      seeders: torrent.seeds,
-      leechers: torrent.leechs,
-      metadata: torrent.link +
-                torrent.title +
-                torrent.torrentLink +
-                torrent.guid +
-                torrent.magnet,
-      ...getHealth(torrent.seeds, torrent.peers, torrent.leechs),
+      seeders: torrent.seeders,
+      leechers: torrent.leechers,
+      metadata: String(torrent.title + torrent.magnet) || String(torrent.magnet),
       _provider: 'kat'
     };
+  }
+
+  static getStatus() {
+    return fetch(endpoint).then(res => res.ok).catch(() => false);
   }
 
   static provide(imdbId, type, extendedDetails = {}) {
@@ -54,21 +49,50 @@ export default class KatTorrentProvider {
 
     switch (type) {
       case 'movies':
-        return this.fetch(searchQuery)
+        return timeout(
+          Promise.all(
+            constructMovieQueries(searchQuery, imdbId).map(query => this.fetch(query))
+          )
+        )
+          // Flatten array of arrays to an array with no empty arrays
+          .then(
+            res => merge(res).filter(array => array.length !== 0)
+          )
           .catch(error => {
-            console.log(error);
+            handleProviderError(error);
             return [];
           });
       case 'shows': {
         const { season, episode } = extendedDetails;
 
         return this.fetch(
-          `${searchQuery} ${formatSeasonEpisodeToString(season, episode)}`,
-          season,
-          episode
+          `${searchQuery} ${formatSeasonEpisodeToString(season, episode)}`
         )
           .catch(error => {
-            console.log(error);
+            handleProviderError(error);
+            return [];
+          });
+      }
+      case 'season_complete': {
+        const { season } = extendedDetails;
+        const queries = constructSeasonQueries(searchQuery, season);
+
+        return timeout(
+          Promise.all(
+            queries.map(query => this.fetch(query))
+          )
+        )
+          .then(
+            res => res.reduce((previous, current) => (
+              previous.length && current.length
+                ? [...previous, ...current]
+                : previous.length && !current.length
+                    ? previous
+                    : current
+            ))
+          )
+          .catch(error => {
+            handleProviderError(error);
             return [];
           });
       }

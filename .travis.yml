@@ -2,10 +2,13 @@ sudo: required
 
 dist: trusty
 
-language: node_js
+language: cpp
 
-node_js:
-  - 6
+env:
+  - export NODE_VERSION="6"
+os:
+  - linux
+  - osx
 
 matrix:
   fast_finish: true
@@ -23,14 +26,26 @@ addons:
     packages:
       - xvfb
 
+before_install:
+  - git submodule update --init --recursive
+  - git clone https://github.com/creationix/nvm.git ./.nvm
+  - source ./.nvm/nvm.sh
+  - nvm install $NODE_VERSION
+  - nvm use $NODE_VERSION
+  - npm config set python `which python`
+
 install:
   - export CXX="g++-4.8"
   - npm install -g npm@latest
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update              ; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install imagemagick ; fi
   - npm install
-  - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x16"
-  - export DISPLAY=':99.0'
-  - Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
-  - sudo apt-get install --no-install-recommends -y icnsutils graphicsmagick xz-utils xorriso
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then
+      "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x16";
+      export DISPLAY=':99.0';
+      Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 & echo "nothing";
+      sudo apt-get install --no-install-recommends -y icnsutils graphicsmagick xz-utils xorriso imagemagick;
+    fi
 
 before_script:
   - export DISPLAY=:99.0
@@ -38,8 +53,13 @@ before_script:
   - sleep 3
 
 script:
+  - node --version
+  - npm --version
   - npm run build
   - npm run package
-  # - npm run test # Cannot run until WebChimera support comes to Linux
+  # Cannot run until WebChimera support comes to Linux
+  # - if [ "$TRAVIS_OS_NAME" == "osx" ]; then npm run test-api; fi
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then npm run bench-api; fi
   - npm run test-e2e
+  - npm run test-screenshot
   - npm run lint

@@ -130,8 +130,8 @@ export default class Home extends Component {
         default:
           throw Error("Mode type not found. This must be 'movies', 'shows', or 'search'");
       }
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
     }
 
     this.state.modes[queryType].page++;
