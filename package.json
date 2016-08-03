@@ -126,7 +126,6 @@
     "node-sass": "^3.8.0",
     "notie": "^3.9.0",
     "parallel-webpack": "^1.5.0",
-    "peerflix": "^0.35.1",
     "plyr": "^1.8.12",
     "postcss-loader": "^0.9.1",
     "progress-bar-webpack-plugin": "^1.8.0",

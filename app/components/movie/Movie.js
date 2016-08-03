@@ -15,7 +15,7 @@ import CardList from '../card/CardList';
 import Show from '../show/Show';
 import { getIdealTorrent } from '../../api/torrents/BaseTorrentProvider';
 import Butter from '../../api/Butter';
-import Torrent from '../../api/Torrent';
+import Torrent, { formatSpeeds } from '../../api/Torrent';
 import Player from '../../api/Player';
 import notie from 'notie';
 import os from 'os';
@@ -281,6 +281,7 @@ export default class Movie extends Component {
 
     this.torrent.destroy(torrentEngineName);
     this.player.destroy();
+    clearInterval(this.torrentInfoInterval);
     this.setState({ torrentInProgress: false });
   }
 
@@ -321,10 +322,22 @@ export default class Movie extends Component {
       ...Player.experimentalPlaybackFormats, ...Player.nativePlaybackFormats
     ];
 
-    this.torrent.start(magnetURI, metadata, formats, (servingUrl, filename, files) => {
+    this.torrent.start(magnetURI, metadata, formats, (servingUrl, filename, files, torrent) => {
       console.log('serving at:', servingUrl);
 
       this.setState({ servingUrl });
+
+      this.torrentInfoInterval = setInterval(() => {
+        const { downloadSpeed, uploadSpeed, progress, numPeers, ratio } = formatSpeeds(torrent);
+        this.setState({ downloadSpeed, uploadSpeed, progress, numPeers, ratio });
+        console.log('----------------------------------------------------');
+        console.log('Download Speed:', downloadSpeed);
+        console.log('Upload Speed:', uploadSpeed);
+        console.log('Progress:', progress);
+        console.log('Peers:', numPeers);
+        console.log('Ratio:', ratio);
+        console.log('----------------------------------------------------');
+      }, 1000);
 
       // HACK: Temporarily prevent linux from using WebChimera
       //       Waiting on issue 69: https://github.com/RSATom/WebChimera.js/issues/69
