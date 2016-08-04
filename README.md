@@ -1,5 +1,9 @@
 ## A experimental popcorn-time client
 
+[status-url]: https://github.com/https://github.com/amilajack/popcorn-time-desktop/pulse
+[status-image]: https://img.shields.io/badge/status-maintained-brightgreen.svg
+
+[![Maintenance Status][status-image]][status-url]
 [![Travis Build branch](https://img.shields.io/travis/amilajack/popcorn-time-desktop/master.svg)](https://travis-ci.org/amilajack/popcorn-time-desktop)
 [![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/071qeglg94au8wr2/branch/master?svg=true)](https://ci.appveyor.com/project/amilajack/popcorn-time-desktop/branch/master)
 [![NPM dependencies](https://img.shields.io/david/amilajack/popcorn-time-desktop.svg)](https://david-dm.org/amilajack/popcorn-time-desktop)
