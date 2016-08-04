@@ -1,6 +1,6 @@
 ## A experimental popcorn-time client
 
-[status-url]: https://github.com/https://github.com/amilajack/popcorn-time-desktop/pulse
+[status-url]: https://github.com/amilajack/popcorn-time-desktop/pulse
 [status-image]: https://img.shields.io/badge/status-maintained-brightgreen.svg
 
 [![Maintenance Status][status-image]][status-url]
