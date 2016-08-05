@@ -50,7 +50,6 @@ export default class Movie extends Component {
     fetchingTorrents: false,
     idealTorrent: this.defaultTorrent,
     torrent: this.defaultTorrent,
-    usingVideoFallback: false,
     similarLoading: false,
     metadataLoading: false,
     torrentInProgress: false,
@@ -66,6 +65,18 @@ export default class Movie extends Component {
 
     this.toggle = this.toggle.bind(this);
     this.state = this.initialState;
+
+    this.butter.getSubtitles(
+      'tt0468569',
+      'The.Dark.Knight.2008.720p.BluRay.x264.YIFY.mp4',
+      undefined,
+      {
+        activeMode: 'movies'
+      }
+    )
+      .then(res => {
+        console.log(res);
+      });
   }
 
   /**
@@ -319,8 +330,9 @@ export default class Movie extends Component {
       ...Player.experimentalPlaybackFormats, ...Player.nativePlaybackFormats
     ];
 
-    this.torrent.start(magnetURI, metadata, formats, (servingUrl, filename, files, torrent) => {
+    this.torrent.start(magnetURI, metadata, formats, async (servingUrl, file, files, torrent) => {
       console.log('serving at:', servingUrl);
+      const filename = file.name;
 
       this.setState({ servingUrl });
 
@@ -341,12 +353,11 @@ export default class Movie extends Component {
           return this.player.initVLC(servingUrl);
         case 'Default':
           if (Player.isFormatSupported(filename, Player.nativePlaybackFormats)) {
-            this.setState({ usingVideoFallback: false });
-            this.player = this.player.initPlyr(servingUrl, this.state.item);
-          } else if (Player.isFormatSupported(filename, [
-            ...Player.nativePlaybackFormats,
-            ...Player.experimentalPlaybackFormats
-          ])) {
+            this.player = this.player.initPlyr(servingUrl, {
+              // ...this.state.item,
+              tracks: subtitles
+            });
+          } else {
             notie.alert(2, 'The format of this video is not playable', 2);
             console.warn(`Format of filename ${filename} not supported`);
             console.warn('Files retrieved:', files);
@@ -526,10 +537,7 @@ export default class Movie extends Component {
                 />
                 :
                 null}
-              <div
-                className="plyr"
-                className={this.state.usingVideoFallback ? 'hidden' : ''}
-              >
+              <div className="plyr">
                 <video controls poster={this.state.item.images.fanart.full} />
               </div>
             </div>

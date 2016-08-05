@@ -1,7 +1,11 @@
 /**
  * Resolve requests from cache
  */
-
+import fs from 'fs';
+import path from 'path';
+import rndm from 'rndm';
+import download from 'download';
+import srt2vtt from 'srt-to-vtt';
 import {
   merge,
   resolveCache,
@@ -43,7 +47,7 @@ async function handleRequest(method, args) {
  * @param {string} genre
  * @param {string} sortBy
  */
-export function search(...args) {
+function search(...args) {
   return handleRequest('search', args);
 }
 
@@ -52,7 +56,7 @@ export function search(...args) {
  *
  * @param {string} imdbId
  */
-export function getMovie(...args) {
+function getMovie(...args) {
   return handleRequest('getMovie', args);
 }
 
@@ -64,7 +68,7 @@ export function getMovie(...args) {
  * @param {string} genre
  * @param {string} sortBy
  */
-export function getMovies(...args) {
+function getMovies(...args) {
   return handleRequest('getMovies', args);
 }
 
@@ -75,7 +79,7 @@ export function getMovies(...args) {
  * @param {string} type   | movie or show
  * @param {number} limit  | movie or show
  */
-export function getSimilar(...args) {
+function getSimilar(...args) {
   return handleRequest('getSimilar', args);
 }
 
@@ -86,7 +90,7 @@ export function getSimilar(...args) {
  * @param {string} type   | movie or show
  * @param {number} limit  | movie or show
  */
-export function getSeason(...args) {
+function getSeason(...args) {
   return handleRequest('getSeason', args);
 }
 
@@ -97,7 +101,7 @@ export function getSeason(...args) {
  * @param {string} type   | movie or show
  * @param {number} limit  | movie or show
  */
-export function getSeasons(...args) {
+function getSeasons(...args) {
   return handleRequest('getSeasons', args);
 }
 
@@ -108,7 +112,7 @@ export function getSeasons(...args) {
  * @param {string} type   | movie or show
  * @param {number} limit  | movie or show
  */
-export function getEpisode(...args) {
+function getEpisode(...args) {
   return handleRequest('getEpisode', args);
 }
 
@@ -119,7 +123,7 @@ export function getEpisode(...args) {
  * @param {string} type   | movie or show
  * @param {number} limit  | movie or show
  */
-export function getShow(...args) {
+function getShow(...args) {
   return handleRequest('getShow', args);
 }
 
@@ -130,8 +134,19 @@ export function getShow(...args) {
  * @param {string} type   | movie or show
  * @param {number} limit  | movie or show
  */
-export function getShows(...args) {
+function getShows(...args) {
   return handleRequest('getShows', args);
+}
+
+/**
+ * Get the subtitles for a movie or show
+ *
+ * @param {string} imdbId
+ * @param {string} filename
+ * @param {object} metadata
+ */
+function getSubtitles(...args) {
+  return handleRequest('getSubtitles', args);
 }
 
 /**
@@ -153,7 +168,30 @@ export function convertRuntimeToHours(runtimeInMinutes) {
   };
 }
 
+export function convertSubtitles(subtitleLink) {
+  const randomString = rndm(16);
+  const basePath = process.env.NODE_ENV === 'development'
+                    ? '/tmp/popcorn-time-desktop'
+                    : os.tmpdir();
+  const input = path.join(basePath, `${randomString}.srt`);
+  const output = path.join(basePath, `${randomString}.vtt`);
+
+  download(subtitleLink)
+  // download(subtitleLink).then(data => {
+  //   console.log(data);
+  //   fs.writeFileSync(path.join(input), data);
+  //
+  //   const srtData = fs.readFileSync(input);
+  //
+  //   srt2vtt(srtData, (err, vttData) => {
+  //     if (err) throw new Error(err);
+  //     fs.writeFileSync(output, vttData);
+  //     resolve(output);
+  //   });
+  // });
+}
+
 export default {
   getMovie, getMovies, getShow, getShows, getSeason, getSeasons, getEpisode,
-  search, getSimilar
+  search, getSimilar, getSubtitles
 };

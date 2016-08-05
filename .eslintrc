@@ -7,20 +7,21 @@
     "node": true
   },
   "rules": {
-    "react/jsx-no-bind": 1,
-    "no-use-before-define": 0,
-    "new-cap": 1,
-    "no-nested-ternary": 0,
-    "react/prefer-stateless-function": 1,
-    "no-underscore-dangle": 0,
-    "import/no-extraneous-dependencies": ["off"],
-    "import/no-unresolved": [2, { "ignore": ["electron"] }],
     "comma-dangle": ["error", "never"],
     "consistent-return": 1,
     "immutable/no-let": 1,
     "immutable/no-this": 0,
     "immutable/no-mutation": 1,
-    "no-console": 0
+    "import/no-extraneous-dependencies": 0,
+    "import/no-unresolved": [2, { "ignore": ["electron"] }],
+    "new-cap": 1,
+    "no-use-before-define": 0,
+    "no-nested-ternary": 0,
+    "no-underscore-dangle": 0,
+    "no-console": 0,
+    "react/jsx-no-bind": 1,
+    'react/jsx-filename-extension': [2, { extensions: ['.js', '.jsx'] }],
+    "react/prefer-stateless-function": 1
   },
   "plugins": [
     "import",

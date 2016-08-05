@@ -16,6 +16,7 @@ import {
 } from './BaseTorrentProvider';
 
 
+
 const providers = [
   require('./YtsTorrentProvider'),
   require('./PbTorrentProvider'),

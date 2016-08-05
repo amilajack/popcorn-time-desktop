@@ -26,7 +26,7 @@ export default class Torrent {
     const { season, episode, activeMode } = metadata;
     const maxConns = process.env.CONFIG_MAX_CONNECTIONS
                       ? parseInt(process.env.CONFIG_MAX_CONNECTIONS, 10)
-                      : 100;
+                      : 20;
 
     this.engine = new WebTorrent({ maxConns });
     this.inProgress = true;
@@ -73,7 +73,6 @@ export default class Torrent {
       }
 
       const files = torrent.files;
-      const { name } = file;
       file.select();
 
       const buffer = 5 * 1024 * 1024; // 5MB
@@ -90,11 +89,10 @@ export default class Torrent {
           playerStarted = true;
           cb(
             `http://localhost:${port}/${torrentIndex}`,
-            name,
+            file,
             files,
             torrent
           );
-          console.warn(this.interval);
           this.clearIntervals();
         }
       }, 1000);

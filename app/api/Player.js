@@ -5,8 +5,6 @@ import vlcCommand from 'vlc-command';
 
 export default class Player {
 
-  currentPlayer = 'plyr';
-
   powerSaveBlockerId = 0;
 
   intervalId = 0;
@@ -44,7 +42,8 @@ export default class Player {
       sources: [{
         src: streamingUrl,
         type: 'video/mp4'
-      }]
+      }],
+      ...metadata
     };
 
     return 'title' in metadata
@@ -59,8 +58,6 @@ export default class Player {
   }
 
   initPlyr(streamingUrl, metadata = {}) {
-    this.currentPlayer = 'plyr';
-
     const player = plyr.setup({
       autoplay: true,
       storage: { enabled: false },

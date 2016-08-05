@@ -609,6 +609,37 @@ describe('api ->', function testApi() {
         });
       });
     });
+
+    describe('Subtitles', () => {
+      describe('Movie', () => {
+        it('should return subtitles', async done => {
+          try {
+            const subtitles = await butter.getSubtitles(imdbId);
+            expect(subtitles).to.be.an('array');
+            for (const subtitle of subtitles) {
+              expect(subtitle).to.be.an('object');
+            }
+            expect
+          } catch (err) {
+            done(err);
+          }
+        });
+      });
+
+      describe('Show', () => {
+        it('should return subtitles', async done => {
+          try {
+            const subtitles = await butter.getSubtitles(showImdbId);
+            expect(subtitles).to.be.an('array');
+            for (const subtitle of subtitles) {
+              expect(subtitle).to.be.an('object')
+            }
+          } catch (err) {
+            done(err);
+          }
+        });
+      });
+    });
   });
 });
 

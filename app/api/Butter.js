@@ -55,4 +55,8 @@ export default class Butter {
   search(query, page = 1) {
     return MetadataAdapter.search(query, page);
   }
+
+  getSubtitles(imdbId, filename, length, metadata) {
+    return MetadataAdapter.getSubtitles(imdbId, filename, length, metadata);
+  }
 }
