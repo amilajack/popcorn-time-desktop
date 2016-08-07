@@ -117,7 +117,7 @@
     "kat-shows": "0.0.5",
     "lru-cache": "^4.0.1",
     "minimist": "^1.2.0",
-    "mocha": "^3.0.0",
+    "mocha": "^2.0.0",
     "node-libs-browser": "^1.0.0",
     "node-sass": "^3.8.0",
     "notie": "^3.9.1",
