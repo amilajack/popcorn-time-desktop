@@ -4,7 +4,8 @@
   "env": {
     "browser": true,
     "mocha": true,
-    "node": true
+    "node": true,
+    "es6": true
   },
   "rules": {
     "generator-star-spacing": [0], # Temporary hack: https://github.com/airbnb/javascript/issues/948
