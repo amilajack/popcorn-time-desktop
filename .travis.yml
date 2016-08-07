@@ -39,7 +39,7 @@ install:
   - npm install -g npm@latest
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update              ; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install imagemagick ; fi
-  - npm install --silent
+  - npm install --quiet
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then
       "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x16";
       export DISPLAY=':99.0';
