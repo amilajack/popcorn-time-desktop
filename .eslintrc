@@ -7,6 +7,7 @@
     "node": true
   },
   "rules": {
+    "generator-star-spacing": [0], # Temporary hack: https://github.com/airbnb/javascript/issues/948
     "react/jsx-no-bind": 1,
     "no-use-before-define": 0,
     "new-cap": 1,

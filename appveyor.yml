@@ -18,7 +18,7 @@ install:
   - set CI=true
   - npm install -g npm@latest
   - set PATH=%APPDATA%\npm;%PATH%
-  - npm install
+  - npm install --silent
 
 test_script:
   - node --version
