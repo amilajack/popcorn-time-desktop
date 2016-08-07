@@ -37,7 +37,7 @@ export default class Card extends Component {
       <div className="Card">
         <Link to={`/item/${this.props.type}/${this.props.id}`}>
           <div className="Card--overlay-container" style={divStyle}>
-            <div className="Card--overlay"></div>
+            <div className="Card--overlay" />
           </div>
         </Link>
         <div>
@@ -48,7 +48,7 @@ export default class Card extends Component {
         <div>
           {this.props.rating !== 'n/a' ?
             <Rating
-              renderStarIcon={() => <span className="ion-android-star"></span>}
+              renderStarIcon={() => <span className="ion-android-star" />}
               starColor={'white'}
               name={'rating'}
               value={this.props.rating}

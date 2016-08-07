@@ -3,7 +3,7 @@ import speedTest from 'speedtest-net';
 
 export const timeout = 30000;
 
-export async function getDownloadSpeed() {
+export function getDownloadSpeed() {
   return new Promise((resolve, reject) => {
     speedTest({ maxTime: timeout })
       .on('downloadspeed', downloadSpeed => {
@@ -15,7 +15,7 @@ export async function getDownloadSpeed() {
   });
 }
 
-export async function getUploadSpeed() {
+export function getUploadSpeed() {
   return new Promise((resolve, reject) => {
     speedTest({ maxTime: timeout })
       .on('uploadspeed', uploadSpeed => {

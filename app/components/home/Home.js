@@ -5,9 +5,9 @@
  */
 
 import React, { Component, PropTypes } from 'react';
+import VisibilitySensor from 'react-visibility-sensor';
 import Butter from '../../api/Butter';
 import CardList from '../card/CardList';
-import VisibilitySensor from 'react-visibility-sensor';
 
 
 export default class Home extends Component {

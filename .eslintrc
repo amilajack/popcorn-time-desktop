@@ -8,7 +8,10 @@
   },
   "rules": {
     "generator-star-spacing": [0], # Temporary hack: https://github.com/airbnb/javascript/issues/948
+    "react/jsx-filename-extension": 0,
+    "react/sort-comp": 0,
     "react/jsx-no-bind": 1,
+    "no-mixed-operators": 0,
     "no-use-before-define": 0,
     "new-cap": 1,
     "no-nested-ternary": 0,
