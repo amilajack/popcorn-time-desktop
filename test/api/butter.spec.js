@@ -1,3 +1,4 @@
+import assert from 'assert';
 import { expect } from 'chai';
 import Butter from '../../app/api/Butter';
 import MockShows from './butter.mock.js';
@@ -6,7 +7,6 @@ import {
   formatSeasonEpisodeToObject,
   sortTorrentsBySeeders
 } from '../../app/api/torrents/BaseTorrentProvider';
-import assert from 'assert';
 import { getStatuses } from '../../app/api/torrents/TorrentAdapter';
 import { convertRuntimeToHours } from '../../app/api/metadata/MetadataAdapter';
 

@@ -21,7 +21,7 @@ import { getIdealTorrent } from '../../app/api/torrents/BaseTorrentProvider';
 
 const butter = new Butter();
 
-export async function generateMockShows() {
+async function generateMockShows() {
   const _shows = await new Butter().getShows();
   const generatedShows = _shows.map(({ id, title }) => ({ id, title }));
   console.log(generatedShows);

@@ -22,9 +22,9 @@ export default class Loader extends Component {
     return (
       <div className="Loader" style={shouldShow}>
         <div className="Loader--container">
-          <div className="Loader--dot"></div>
-          <div className="Loader--dot"></div>
-          <div className="Loader--dot"></div>
+          <div className="Loader--dot" />
+          <div className="Loader--dot" />
+          <div className="Loader--dot" />
         </div>
       </div>
     );

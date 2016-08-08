@@ -1,7 +1,7 @@
 /* eslint max-len: 0 */
 import webpack from 'webpack';
-import baseConfig from './webpack.config.base';
 import autoprefixer from 'autoprefixer';
+import baseConfig from './webpack.config.base';
 
 const config = {
   ...baseConfig,
