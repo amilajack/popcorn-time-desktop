@@ -56,8 +56,9 @@ script:
   - node --version
   - npm --version
   - npm run lint
+  - npm run lint-summary
   - npm run package
   - npm run test-api
   - npm run test-e2e
-  - npm run test-screenshot
+  # - npm run test-screenshot
   - npm run bench-api

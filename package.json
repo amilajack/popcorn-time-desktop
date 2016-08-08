@@ -14,7 +14,7 @@
     "package": "npm run build && build --publish never",
     "package-all": "npm run build && build --publish never --mac --win --linux",
     "precommit": "npm run test",
-    "test": "npm run lint && npm run package && npm run test-api && npm run test-e2e",
+    "test": "npm run lint && npm run lint-summary && npm run package && npm run test-api && npm run test-e2e",
     "test-api": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 mocha --slow 3000 --timeout 10000 --inline-diffs --async-only --compilers js:babel-register --recursive --require ./test/setup.js test/*.spec.js test/**/*.spec.js",
     "test-e2e": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 mocha --bail --slow 3000 --timeout 10000 --inline-diffs --compilers js:babel-register --require ./test/setup.js  ./test/e2e.js",
     "test-screenshot": "cross-env API_USE_MOCK_DATA=true BABEL_DISABLE_CACHE=1 npm run build && mocha --bail --slow 3000 --timeout 20000 --inline-diffs --compilers js:babel-register --require ./test/setup.js  ./test/screenshot.e2e.js",
