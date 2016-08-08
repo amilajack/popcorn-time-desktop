@@ -1,0 +1,13 @@
+{
+  "env": {
+    "mocha": true
+  },
+  "rules": {
+    "global-require": 0,
+    "fp/no-delete": "warn",
+    "fp/no-events": "warn",
+    "fp/no-let": "warn",
+    "fp/no-loops": "warn",
+    "fp/no-mutating-assign": "warn"
+  }
+}

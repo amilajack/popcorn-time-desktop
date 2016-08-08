@@ -89,7 +89,7 @@ describe('screenshot', function testApp() {
   });
 });
 
-async function screenshotTest(_app, filename, differencePercentage = 0.1) {
+async function screenshotTest(_app, filename, differencePercentage = 0.2) {
   const diff = await handleScreenshot(_app, filename);
   // Allow 10% of pixels to be different by default
   expect(diff).to.have.deep.property('percentage').that.is.below(differencePercentage);

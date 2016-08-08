@@ -14,7 +14,7 @@ describe('Network', function testNetwork() {
   //       speeds in a timely manner and ignores any timeout that is givent to it
 
   describe('download', () => {
-    it('should resolve to a download speed', async done => {
+    it.skip('should resolve to a download speed', async done => {
       try {
         const downloadSpeed = getDownloadSpeed();
         expect(downloadSpeed).to.be.a('promise');
@@ -27,7 +27,7 @@ describe('Network', function testNetwork() {
   });
 
   describe('upload ->', () => {
-    it('should resolve to an upload speed', async done => {
+    it.skip('should resolve to an upload speed', async done => {
       try {
         const uploadSpeed = getUploadSpeed();
         expect(uploadSpeed).to.be.a('promise');
