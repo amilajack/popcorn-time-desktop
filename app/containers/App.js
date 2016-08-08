@@ -19,6 +19,7 @@ export default class App extends Component {
 
               return <DevTools />;
             }
+            return false;
           })()
         }
       </div>

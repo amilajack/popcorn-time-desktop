@@ -31,11 +31,13 @@ const server = app.listen(PORT, 'localhost', error => {
     if (_error) {
       return console.error(`exec error: ${error}`);
     }
-    console.log(`stdout: ${stdout}`);
-    console.log(`stderr: ${stderr}`);
+    return [
+      console.log(`stdout: ${stdout}`),
+      console.log(`stderr: ${stderr}`)
+    ];
   });
 
-  console.log(`Listening at http://localhost:${PORT}`);
+  return console.log(`Listening at http://localhost:${PORT}`);
 });
 
 process.on('SIGTERM', () => {

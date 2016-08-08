@@ -79,14 +79,16 @@ export default class Player {
       if (process.platform === 'win32') {
         childProcess.execFile(cmd, [servingUrl], (_error, stdout) => {
           if (_error) return console.error(_error);
-          console.log(stdout);
+          return console.log(stdout);
         });
       } else {
         childProcess.exec(`${cmd} ${servingUrl}`, (_error, stdout) => {
           if (_error) return console.error(_error);
-          console.log(stdout);
+          return console.log(stdout);
         });
       }
+
+      return true;
     });
   }
 }

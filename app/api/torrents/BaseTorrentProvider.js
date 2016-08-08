@@ -103,22 +103,18 @@ export function isExactEpisode(title, season, episode) {
 }
 
 export function getHealth(seeders, leechers = 0) {
-  let health;
   const ratio = (seeders && !!leechers) ? (seeders / leechers) : seeders;
 
   if (seeders < 50) {
-    health = 'poor';
-    return health;
+    return 'poor';
   }
 
   if (ratio > 1 && seeders >= 50 && seeders < 100) {
-    health = 'decent';
-    return health;
+    return 'decent';
   }
 
   if (ratio > 1 && seeders >= 100) {
-    health = 'healthy';
-    return health;
+    return 'healthy';
   }
 
   return 'poor';
@@ -234,13 +230,16 @@ export function resolveCache(key) {
       ...require('../../../test/api/torrent.mock')   // eslint-disable-line global-require
     };
 
-    for (const mockKey of Object.keys(mock)) {
-      if (key.includes(`${mockKey}"`) && Object.keys(mock[mockKey]).length) {
-        return mock[mockKey];
-      }
+    const resolvedCacheItem = Object.keys(mock).find(
+      mockKey => key.includes(`${mockKey}"`) && Object.keys(mock[mockKey]).length
+    );
+
+    if (resolvedCacheItem) {
+      return resolvedCacheItem;
     }
 
     console.warn('Fetching from network:', key);
+    return false;
   }
 
   return (
