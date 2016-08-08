@@ -1,7 +1,7 @@
 import fs from 'fs';
-import webpack from 'webpack';
 import autoprefixer from 'autoprefixer';
 import dotenv from 'dotenv';
+import webpack from 'webpack';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import baseConfig, { stats } from './webpack.config.base';
 

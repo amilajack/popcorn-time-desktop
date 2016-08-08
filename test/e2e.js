@@ -2,10 +2,11 @@
 import { Application } from 'spectron';
 import path from 'path';
 import { expect } from 'chai';
+import electronPrebuilt from 'electron-prebuilt';
 
 
 const app = new Application({
-  path: require('electron-prebuilt'),
+  path: electronPrebuilt,
   args: [
     path.join(__dirname, '..', 'app')
   ],
@@ -22,7 +23,6 @@ describe('e2e', function testApp() {
 
   const findCardList = () => this.app.client.waitForVisible('.CardList');
   const findCard = () => this.app.client.waitForVisible('.Card');
-  const findMovie = () => this.app.client.waitForVisible('.Movie');
 
   before(async done => {
     try {
@@ -37,6 +37,7 @@ describe('e2e', function testApp() {
     if (this.app && this.app.isRunning()) {
       return this.app.stop();
     }
+    return true;
   });
 
   describe('main window', () => {

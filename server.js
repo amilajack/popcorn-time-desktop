@@ -24,14 +24,12 @@ app.use(webpackHotMiddleware(compiler));
 
 const server = app.listen(PORT, 'localhost', error => {
   if (error) {
-    console.error(error);
-    return;
+    return console.error(error);
   }
 
   exec('npm run start-hot', (_error, stdout, stderr) => {
     if (_error) {
-      console.error(`exec error: ${error}`);
-      return;
+      return console.error(`exec error: ${error}`);
     }
     console.log(`stdout: ${stdout}`);
     console.log(`stderr: ${stderr}`);
