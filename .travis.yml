@@ -55,10 +55,9 @@ before_script:
 script:
   - node --version
   - npm --version
-  - npm run build
+  - npm run lint
   - npm run package
   - npm run test-api
-  - npm run bench-api
   - npm run test-e2e
   - npm run test-screenshot
-  - npm run lint
+  - npm run bench-api

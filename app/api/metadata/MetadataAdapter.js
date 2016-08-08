@@ -26,7 +26,7 @@ async function handleRequest(method, args) {
 
   const results = await Promise.all(
     MetadataAdapter()
-      .map(provider => provider[method](provider, args))
+      .map(provider => provider[method].apply(provider, args)) // eslint-disable-line
   );
 
   const mergedResults = merge(results);
