@@ -39,33 +39,37 @@ export default class Torrent {
       server.listen(port);
       this.server = server;
 
-      let [file] = torrent.files;
-      let torrentIndex = 0;
-
-      for (let i = 0; i < torrent.files.length; i++) {
-        const isSupported = !!supportedFormats.find(
-          format => torrent.files[i].name.includes(format)
+      const { file, torrentIndex } = torrent.files.reduce((previous, current, index) => {
+        const formatIsSupported = !!supportedFormats.find(
+          format => current.name.includes(format)
         );
 
         switch (activeMode) {
+          // Check if the current file is the exact episode we're looking for
           case 'season_complete':
-            if (
-              isSupported &&
-              isExactEpisode(torrent.files[i].name, season, episode)
-            ) {
-              torrentIndex = i;
-              file.deselect();
-              file = torrent.files[i];
+            if (formatIsSupported && isExactEpisode(current.name, season, episode)) {
+              previous.file.deselect();
+              return {
+                file: current,
+                torrentIndex: index
+              };
             }
-            break;
+
+            return previous;
+
+          // Check if the current file is greater than the previous file
           default:
-            if (isSupported && torrent.files[i].length > file.length) {
-              torrentIndex = i;
-              file.deselect();
-              file = torrent.files[i];
+            if (formatIsSupported && current.length > previous.file.length) {
+              previous.file.deselect();
+              return {
+                file: current,
+                torrentIndex: index
+              };
             }
+
+            return previous;
         }
-      }
+      }, { file: torrent.files[0], torrentIndex: 0 });
 
       if (typeof torrentIndex !== 'number') {
         console.warn('File List', torrent.files.map(_file => _file.name));
@@ -76,7 +80,6 @@ export default class Torrent {
       file.select();
 
       const buffer = 5 * 1024 * 1024; // 5MB
-      let playerStarted;
 
       torrent.on('done', () => {
         this.inProgress = false;
@@ -84,15 +87,16 @@ export default class Torrent {
       });
 
       this.checkDownloadInterval = setInterval(() => {
-        if (!playerStarted && torrent.downloaded > buffer) {
+        if (torrent.downloaded > buffer) {
           console.log('Ready...');
-          playerStarted = true;
+
           cb(
             `http://localhost:${port}/${torrentIndex}`,
             file,
             files,
             torrent
           );
+
           this.clearIntervals();
         }
       }, 1000);

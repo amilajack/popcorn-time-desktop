@@ -165,18 +165,16 @@ export default class Movie extends Component {
   async getItem(imdbId) {
     this.setState({ metadataLoading: true });
 
-    let item;
-
-    switch (this.props.activeMode) {
-      case 'movies':
-        item = await this.butter.getMovie(imdbId);
-        break;
-      case 'shows':
-        item = await this.butter.getShow(imdbId);
-        break;
-      default:
-        throw new Error('Active mode not found');
-    }
+    const item = await (async () => {
+      switch (this.props.activeMode) {
+        case 'movies':
+          return await this.butter.getMovie(imdbId);
+        case 'shows':
+          return await this.butter.getShow(imdbId);
+        default:
+          throw new Error('Active mode not found');
+      }
+    })();
 
     this.setState({ item, metadataLoading: false });
 
@@ -184,9 +182,6 @@ export default class Movie extends Component {
   }
 
   async getTorrent(imdbId, title, season, episode) {
-    let torrent;
-    let idealTorrent;
-
     this.setState({
       fetchingTorrents: true,
       idealTorrent: this.defaultTorrent,
@@ -194,58 +189,69 @@ export default class Movie extends Component {
     });
 
     try {
-      switch (this.props.activeMode) {
-        case 'movies':
-          idealTorrent = torrent = await this.butter.getTorrent(imdbId, this.props.activeMode, {
-            searchQuery: title
-          });
-          break;
-        case 'shows': {
-          if (process.env.FLAG_SEASON_COMPLETE === 'true') {
-            const [shows, seasonComplete] = await Promise.all([
-              this.butter.getTorrent(imdbId, this.props.activeMode, {
+      const { torrent, idealTorrent } = await (async() => {
+        switch (this.props.activeMode) {
+          case 'movies': {
+            const _torrent = await this.butter.getTorrent(imdbId, this.props.activeMode, {
+              searchQuery: title
+            });
+            return {
+              torrent: _torrent,
+              idealTorrent: _torrent
+            };
+          }
+          case 'shows': {
+            if (process.env.FLAG_SEASON_COMPLETE === 'true') {
+              const [shows, seasonComplete] = await Promise.all([
+                this.butter.getTorrent(imdbId, this.props.activeMode, {
+                  season,
+                  episode,
+                  searchQuery: title
+                }),
+                this.butter.getTorrent(imdbId, 'season_complete', {
+                  season,
+                  searchQuery: title
+                })
+              ]);
+
+              return {
+                torrent: {
+                  '1080p': getIdealTorrent([shows['1080p'], seasonComplete['1080p']]),
+                  '720p': getIdealTorrent([shows['720p'], seasonComplete['720p']]),
+                  '480p': getIdealTorrent([shows['480p'], seasonComplete['480p']])
+                },
+
+                idealTorrent: getIdealTorrent([
+                  shows['1080p'] || this.defaultTorrent,
+                  shows['720p'] || this.defaultTorrent,
+                  shows['480p'] || this.defaultTorrent,
+                  seasonComplete['1080p'] || this.defaultTorrent,
+                  seasonComplete['720p'] || this.defaultTorrent,
+                  seasonComplete['480p'] || this.defaultTorrent
+                ])
+              };
+            }
+
+            return {
+              torrent: await this.butter.getTorrent(imdbId, this.props.activeMode, {
                 season,
                 episode,
                 searchQuery: title
               }),
-              this.butter.getTorrent(imdbId, 'season_complete', {
-                season,
-                searchQuery: title
-              })
-            ]);
 
-            torrent = {
-              '1080p': getIdealTorrent([shows['1080p'], seasonComplete['1080p']]),
-              '720p': getIdealTorrent([shows['720p'], seasonComplete['720p']]),
-              '480p': getIdealTorrent([shows['480p'], seasonComplete['480p']])
+              idealTorrent: getIdealTorrent([
+                torrent['1080p'] || this.defaultTorrent,
+                torrent['720p'] || this.defaultTorrent,
+                torrent['480p'] || this.defaultTorrent
+              ])
             };
-
-            idealTorrent = getIdealTorrent([
-              shows['1080p'] || this.defaultTorrent,
-              shows['720p'] || this.defaultTorrent,
-              shows['480p'] || this.defaultTorrent,
-              seasonComplete['1080p'] || this.defaultTorrent,
-              seasonComplete['720p'] || this.defaultTorrent,
-              seasonComplete['480p'] || this.defaultTorrent
-            ]);
-          } else {
-            torrent = await this.butter.getTorrent(imdbId, this.props.activeMode, {
-              season,
-              episode,
-              searchQuery: title
-            });
-
-            idealTorrent = getIdealTorrent([
-              torrent['1080p'] || this.defaultTorrent,
-              torrent['720p'] || this.defaultTorrent,
-              torrent['480p'] || this.defaultTorrent
-            ]);
           }
-          break;
+          default:
+            throw new Error('Invalid active mode');
         }
-        default:
-          throw new Error('Invalid active mode');
-      }
+      })();
+
+      console.log(torrent, idealTorrent);
 
       if (idealTorrent.quality === 'poor') {
         notie.alert(2, 'Slow torrent, low seeder count', 1);
@@ -367,6 +373,8 @@ export default class Movie extends Component {
           console.error('Invalid player');
           break;
       }
+
+      return torrent;
     });
   }
 

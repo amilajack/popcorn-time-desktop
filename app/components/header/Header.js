@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import Butter from '../../api/Butter';
 import classNames from 'classnames';
+import Butter from '../../api/Butter';
 
 
 export default class Header extends Component {
@@ -50,8 +50,9 @@ export default class Header extends Component {
           <a
             className="navbar-brand"
             onClick={this.setActiveMode.bind(this, 'movies')}
-            href="#"
-          >Popcorn Time</a>
+          >
+            <h4>Popcorn Time</h4>
+          </a>
           <ul className="nav navbar-nav">
             <li
               className={classNames('nav-item', {
@@ -61,7 +62,6 @@ export default class Header extends Component {
               <a
                 className="nav-link"
                 onClick={this.setActiveMode.bind(this, 'movies')}
-                href="#"
               >
                 Movies <span className="sr-only">(current)</span>
               </a>
@@ -74,7 +74,6 @@ export default class Header extends Component {
               <a
                 className="nav-link"
                 onClick={this.setActiveMode.bind(this, 'shows')}
-                href="#"
               >
                 TV Shows
               </a>

@@ -30,7 +30,7 @@ async function handleRequest(method, args) {
 
   const results = await Promise.all(
     MetadataAdapter()
-      .map(provider => provider[method].apply(provider, args))
+      .map(provider => provider[method].apply(provider, args)) // eslint-disable-line
   );
 
   const mergedResults = merge(results);
@@ -192,6 +192,13 @@ export function convertSubtitles(subtitleLink) {
 }
 
 export default {
-  getMovie, getMovies, getShow, getShows, getSeason, getSeasons, getEpisode,
-  search, getSimilar, getSubtitles
+  getMovie,
+  getMovies,
+  getShow,
+  getShows,
+  getSeason,
+  getSeasons,
+  getEpisode,
+  search,
+  getSimilar
 };

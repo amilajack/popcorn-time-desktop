@@ -1,4 +1,4 @@
-/* eslint global-require: 0 */
+/* eslint global-require: 0, fp/no-let: 0, fp/no-loops: 0, fp/no-events: 0 */
 
 import { app, BrowserWindow, Menu, shell, crashReporter } from 'electron';
 

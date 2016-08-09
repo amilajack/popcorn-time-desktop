@@ -1,3 +1,4 @@
+/* eslint global-require: 0, fp/no-loops: 0 */
 import { expect } from 'chai';
 import Butter from '../../app/api/Butter';
 import MockShows from './butter.mock.js';
@@ -6,14 +7,12 @@ import {
   formatSeasonEpisodeToObject,
   sortTorrentsBySeeders
 } from '../../app/api/torrents/BaseTorrentProvider';
-import assert from 'assert';
 import { getStatuses } from '../../app/api/torrents/TorrentAdapter';
 import { convertRuntimeToHours } from '../../app/api/metadata/MetadataAdapter';
 
 
 const imdbId = 'tt0468569'; // The Dark Knight
 const showImdbId = 'tt1475582'; // Sherlock
-const defaultMinTorrentsCount = 1;
 
 const torrentBasePath = '../../app/api/torrents';
 const providers = [
@@ -31,7 +30,7 @@ const providers = [
   },
   {
     name: 'Yts',
-    provider: require(`${torrentBasePath}/YtsTorrentProvider`),
+    provider: require(`${torrentBasePath}/YtsTorrentProvider`)
   }
 ];
 
@@ -105,7 +104,7 @@ describe('api ->', function testApi() {
 
       for (const providerConfig of movieProviders) {
         it(`${providerConfig.name}TorrentProvider should return movie torrents`,
-        async function (done) {
+        async function testTorrentProviders(done) {
           try {
             this.timeout(10000);
 
@@ -155,7 +154,7 @@ describe('api ->', function testApi() {
           minTorrentsCount: 0,
           minSeederCount: 100,
           id: 'pct'
-        },
+        }
         // {
         //   name: 'Kat',
         //   provider: require(`${torrentBasePath}/KatTorrentProvider`),
@@ -173,7 +172,7 @@ describe('api ->', function testApi() {
 
       for (const providerConfig of showTorrentProviders) {
         it(`${providerConfig.name}TorrentProvider should return show torrents`,
-        async function (done) {
+        async function testTorrentProviders(done) {
           try {
             this.timeout(10000);
 
@@ -234,7 +233,7 @@ describe('api ->', function testApi() {
 
       for (const providerConfig of showTorrentProviders) {
         it(`${providerConfig.name}TorrentProvider should return show torrents`,
-        async function (done) {
+        async function testTorrentProviders(done) {
           try {
             this.timeout(10000);
 
@@ -495,13 +494,14 @@ describe('api ->', function testApi() {
           }
         });
 
-        it('should order torrents by seeder count by default', async function(done) {
+        it('should order torrents by seeder count by default',
+        async function testSeederOrder(done) {
           this.timeout(20000);
 
           try {
             // Get all sorted torrents
             const torrents = await butterFactory().getTorrent('tt1375666', 'movies', {
-              searchQuery: 'Inception',
+              searchQuery: 'Inception'
             }, true);
 
             for (const torrent of torrents) {
@@ -649,10 +649,6 @@ function butterFactory() {
 
 function moviesFactory() {
   return new Butter().getMovies(1, 50);
-}
-
-function movieFactory() {
-  return new Butter().getMovie(imdbId);
 }
 
 function assertNAorNumber(variable) {
