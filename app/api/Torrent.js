@@ -44,33 +44,31 @@ export default class Torrent {
           format => current.name.includes(format)
         );
 
-        return (() => {
-          switch (activeMode) {
-            // Check if the current file is the exact episode we're looking for
-            case 'season_complete':
-              if (formatIsSupported && isExactEpisode(current.file.name, season, episode)) {
-                previous.file.deselect();
-                return {
-                  file: current.file,
-                  torrentIndex: index
-                };
-              }
+        switch (activeMode) {
+          // Check if the current file is the exact episode we're looking for
+          case 'season_complete':
+            if (formatIsSupported && isExactEpisode(current.name, season, episode)) {
+              previous.file.deselect();
+              return {
+                file: current,
+                torrentIndex: index
+              };
+            }
 
-              return previous;
+            return previous;
 
-            // Check if the current file is greater than the previous file
-            default:
-              if (formatIsSupported && current.file.length > previous.file.length) {
-                previous.file.deselect();
-                return {
-                  file: current.file,
-                  torrentIndex: index
-                };
-              }
+          // Check if the current file is greater than the previous file
+          default:
+            if (formatIsSupported && current.length > previous.file.length) {
+              previous.file.deselect();
+              return {
+                file: current,
+                torrentIndex: index
+              };
+            }
 
-              return previous;
-          }
-        })();
+            return previous;
+        }
       }, { file: torrent.files[0], torrentIndex: 0 });
 
       if (typeof torrentIndex !== 'number') {
@@ -99,7 +97,7 @@ export default class Torrent {
             files,
             torrent
           );
-          console.warn(this.interval);
+
           this.clearIntervals();
         }
       }, 1000);

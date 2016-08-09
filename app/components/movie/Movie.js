@@ -154,7 +154,7 @@ export default class Movie extends Component {
   async getItem(imdbId) {
     this.setState({ metadataLoading: true });
 
-    const item = (async () => {
+    const item = await (async () => {
       switch (this.props.activeMode) {
         case 'movies':
           return await this.butter.getMovie(imdbId);
@@ -178,7 +178,7 @@ export default class Movie extends Component {
     });
 
     try {
-      const { torrent, idealTorrent } = (async () => {
+      const { torrent, idealTorrent } = await (async() => {
         switch (this.props.activeMode) {
           case 'movies': {
             const _torrent = await this.butter.getTorrent(imdbId, this.props.activeMode, {
@@ -239,6 +239,8 @@ export default class Movie extends Component {
             throw new Error('Invalid active mode');
         }
       })();
+
+      console.log(torrent, idealTorrent);
 
       if (idealTorrent.quality === 'poor') {
         notie.alert(2, 'Slow torrent, low seeder count', 1);
