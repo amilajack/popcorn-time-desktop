@@ -10,10 +10,11 @@ import { Application } from 'spectron';
 import { expect } from 'chai';
 import imageDiff from 'image-diff';
 import gm from 'gm';
+import electronPrebuilt from 'electron-prebuilt';
 
 
 const app = new Application({
-  path: require('electron-prebuilt'),
+  path: electronPrebuilt,
   args: [
     path.join(__dirname, '..', 'app')
   ],
@@ -42,6 +43,7 @@ describe('screenshot', function testApp() {
     if (this.app && this.app.isRunning()) {
       return this.app.stop();
     }
+    return true;
   });
 
   describe('HomePage', () => {
@@ -131,7 +133,7 @@ async function compareScreenshot(_app, filename) {
     imageDiff.getFullResult({
       actualImage: `./.tmp/${filename}.png`,
       expectedImage: `./test/screenshots/${filename}.png`,
-      diffImage: './.tmp/difference.png',
+      diffImage: './.tmp/difference.png'
     }, (err, result) => {
       if (err) {
         return reject(err);

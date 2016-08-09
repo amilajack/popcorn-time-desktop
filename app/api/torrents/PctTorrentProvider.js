@@ -104,21 +104,13 @@ export default class PctTorrentProvider {
   }
 
   static formatTorrents(torrents) {
-    const formattedTorrents = [];
-
-    for (const quality of Object.keys(torrents)) {
-      const torrent = torrents[quality];
-
-      formattedTorrents.push({
-        quality: quality === '0' ? '0p' : quality,
-        magnet: torrent.url,
-        seeders: torrent.seeds || torrent.seed,
-        leechers: torrent.peers || torrent.peer,
-        _provider: 'pct'
-      });
-    }
-
-    return formattedTorrents;
+    return Object.keys(torrents).map(videoQuality => ({
+      quality: videoQuality === '0' ? '0p' : videoQuality,
+      magnet: torrents[videoQuality].url,
+      seeders: torrents[videoQuality].seeds || torrents[videoQuality].seed,
+      leechers: torrents[videoQuality].peers || torrents[videoQuality].peer,
+      _provider: 'pct'
+    }));
   }
 
   static getStatus() {

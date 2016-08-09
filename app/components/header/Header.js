@@ -50,7 +50,9 @@ export default class Header extends Component {
           <a
             className="navbar-brand"
             onClick={this.setActiveMode.bind(this, 'movies')}
-          >Popcorn Time</a>
+          >
+            <h4>Popcorn Time</h4>
+          </a>
           <ul className="nav navbar-nav">
             <li
               className={classNames('nav-item', {
