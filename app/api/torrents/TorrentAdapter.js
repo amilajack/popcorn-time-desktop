@@ -131,6 +131,8 @@ export function filterShowsComplete(show, season) {
 
   return (
     metadata.includes(`${season} complete`) ||
+    metadata.includes(`${season} [complete]`) ||
+    metadata.includes(`${season} - complete`) ||
     metadata.includes(`season ${season}`) ||
     metadata.includes(`s${formatSeasonEpisodeToObject(season).season}`) &&
     !metadata.includes('e0') &&

@@ -1,4 +1,4 @@
-## A experimental popcorn-time client
+## A experimental popcorn time client
 
 [![Travis Build branch](https://img.shields.io/travis/amilajack/popcorn-time-desktop/master.svg)](https://travis-ci.org/amilajack/popcorn-time-desktop)
 [![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/071qeglg94au8wr2/branch/master?svg=true)](https://ci.appveyor.com/project/amilajack/popcorn-time-desktop/branch/master)
