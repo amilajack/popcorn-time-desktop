@@ -44,8 +44,8 @@ describe('Benchmark Butter Shows: Top 50', () => {
               '\t Seeder Count: ', torrentCount
             );
             done();
-          } catch (err) {
-            done(err);
+          } catch (error) {
+            done(error);
           }
         });
       }
@@ -71,8 +71,8 @@ describe('Benchmark Butter Shows: Top 50', () => {
               '\t Seeder Count: ', torrentCount
             );
             done();
-          } catch (err) {
-            done(err);
+          } catch (error) {
+            done(error);
           }
         });
       }
@@ -101,8 +101,8 @@ describe('Benchmark Butter Shows: Top 50', () => {
               '\t Seeder Count: ', torrentCount
             );
             done();
-          } catch (err) {
-            done(err);
+          } catch (error) {
+            done(error);
           }
         });
       }
@@ -128,8 +128,8 @@ describe('Benchmark Butter Shows: Top 50', () => {
               '\t Seeder Count: ', torrentCount
             );
             done();
-          } catch (err) {
-            done(err);
+          } catch (error) {
+            done(error);
           }
         });
       }

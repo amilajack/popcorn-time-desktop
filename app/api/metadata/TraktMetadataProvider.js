@@ -4,10 +4,7 @@
 import fetch from 'isomorphic-fetch';
 import Trakt from 'trakt.tv';
 import OpenSubtitles from 'opensubtitles-api';
-import {
-  convertRuntimeToHours,
-  convertSubtitles
-} from './MetadataAdapter';
+import { convertRuntimeToHours } from './MetadataAdapter';
 
 
 export default class TraktMetadataAdapter {
@@ -133,7 +130,6 @@ export default class TraktMetadataAdapter {
 
   async getSubtitles(imdbId, filename, length, metadata) {
     const { activeMode } = metadata;
-    let subtitles;
 
     const defaultOptions = {
       sublanguageid: 'eng',
@@ -147,18 +143,19 @@ export default class TraktMetadataAdapter {
       imdbid: imdbId
     };
 
-    switch (activeMode) {
-      case 'shows': {
-        const { season, episode } = metadata;
-        subtitles = this.openSubtitles.search({
-          ...defaultOptions,
-          ...{ season, episode }
-        });
-        break;
+    const subtitles = (() => {
+      switch (activeMode) {
+        case 'shows': {
+          const { season, episode } = metadata;
+          return this.openSubtitles.search({
+            ...defaultOptions,
+            ...{ season, episode }
+          });
+        }
+        default:
+          return this.openSubtitles.search(defaultOptions);
       }
-      default:
-        subtitles = this.openSubtitles.search(defaultOptions);
-    }
+    })();
 
     return subtitles.then(
       res => Object
@@ -249,10 +246,6 @@ function roundRating(rating) {
 }
 
 function formatSubtitle(subtitle) {
-  if (subtitle.lang === 'en') {
-    convertSubtitles(subtitle.url);
-  }
-
   return {
     kind: 'captions',
     label: subtitle.langName,

@@ -1,11 +1,6 @@
 /**
  * Resolve requests from cache
  */
-import fs from 'fs';
-import path from 'path';
-import rndm from 'rndm';
-import download from 'download';
-import srt2vtt from 'srt-to-vtt';
 import {
   merge,
   resolveCache,
@@ -168,29 +163,6 @@ export function convertRuntimeToHours(runtimeInMinutes) {
   };
 }
 
-export function convertSubtitles(subtitleLink) {
-  const randomString = rndm(16);
-  const basePath = process.env.NODE_ENV === 'development'
-                    ? '/tmp/popcorn-time-desktop'
-                    : os.tmpdir();
-  const input = path.join(basePath, `${randomString}.srt`);
-  const output = path.join(basePath, `${randomString}.vtt`);
-
-  download(subtitleLink)
-  // download(subtitleLink).then(data => {
-  //   console.log(data);
-  //   fs.writeFileSync(path.join(input), data);
-  //
-  //   const srtData = fs.readFileSync(input);
-  //
-  //   srt2vtt(srtData, (err, vttData) => {
-  //     if (err) throw new Error(err);
-  //     fs.writeFileSync(output, vttData);
-  //     resolve(output);
-  //   });
-  // });
-}
-
 export default {
   getMovie,
   getMovies,
@@ -200,5 +172,6 @@ export default {
   getSeasons,
   getEpisode,
   search,
-  getSimilar
+  getSimilar,
+  getSubtitles
 };

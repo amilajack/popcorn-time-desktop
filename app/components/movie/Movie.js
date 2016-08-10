@@ -15,6 +15,7 @@ import Show from '../show/Show';
 import { getIdealTorrent } from '../../api/torrents/BaseTorrentProvider';
 import Butter from '../../api/Butter';
 import Torrent, { formatSpeeds } from '../../api/Torrent';
+import Subtitle from '../../api/Subtitle';
 import Player from '../../api/Player';
 
 
@@ -62,21 +63,10 @@ export default class Movie extends Component {
     this.butter = new Butter();
     this.torrent = new Torrent();
     this.player = new Player();
+    // this.subtitle = new Subtitle();
 
     this.toggle = this.toggle.bind(this);
     this.state = this.initialState;
-
-    this.butter.getSubtitles(
-      'tt0468569',
-      'The.Dark.Knight.2008.720p.BluRay.x264.YIFY.mp4',
-      undefined,
-      {
-        activeMode: 'movies'
-      }
-    )
-      .then(res => {
-        console.log(res);
-      });
   }
 
   /**
@@ -251,8 +241,6 @@ export default class Movie extends Component {
         }
       })();
 
-      console.log(torrent, idealTorrent);
-
       if (idealTorrent.quality === 'poor') {
         notie.alert(2, 'Slow torrent, low seeder count', 1);
       }
@@ -333,8 +321,21 @@ export default class Movie extends Component {
     };
 
     const formats = [
-      ...Player.experimentalPlaybackFormats, ...Player.nativePlaybackFormats
+      ...Player.experimentalPlaybackFormats,
+      ...Player.nativePlaybackFormats
     ];
+
+    const subtitles = await this.butter.getSubtitles(
+      'tt0468569',
+      'The.Dark.Knight.2008.720p.BluRay.x264.YIFY.mp4',
+      undefined,
+      {
+        activeMode: 'movies',
+        baseUrl: 'http://locahost:1212'
+      }
+    );
+
+    console.info(subtitles[0]);
 
     this.torrent.start(magnetURI, metadata, formats, async (servingUrl, file, files, torrent) => {
       console.log('serving at:', servingUrl);
@@ -358,6 +359,12 @@ export default class Movie extends Component {
         case 'VLC':
           return this.player.initVLC(servingUrl);
         case 'Default':
+          // TODO: Handle subtitle download and vtt convertion only if subtitles enabled
+          //
+          document.querySelector('.plyr').addEventListener('captionsenabled', () => {
+            Subtitle.start(subtitles.find(subtitle => subtitle.default === true));
+          });
+
           if (Player.isFormatSupported(filename, Player.nativePlaybackFormats)) {
             this.player = this.player.initPlyr(servingUrl, {
               // ...this.state.item,

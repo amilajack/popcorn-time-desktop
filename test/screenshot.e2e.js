@@ -134,9 +134,9 @@ async function compareScreenshot(_app, filename) {
       actualImage: `./.tmp/${filename}.png`,
       expectedImage: `./test/screenshots/${filename}.png`,
       diffImage: './.tmp/difference.png'
-    }, (err, result) => {
-      if (err) {
-        return reject(err);
+    }, (error, result) => {
+      if (error) {
+        return reject(error);
       }
       return resolve(result);
     })
