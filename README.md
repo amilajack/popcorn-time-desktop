@@ -1,24 +1,25 @@
 <h1 align="center">
-	<img height="200" width="200" src="resources/background.png" alt="logo" />
-	<br />
-	popcorn time
+  <img height="200" width="200" src="resources/background.png" alt="logo" />
+  <br />
+  Popcorn Time
 </h1>
-<h5 align="center">an experimental popcorn time client.</h5>
+
+<h3 align="center">A Modern and Experimental Popcorn Time Client</h3>
 
 <div align="center">
-  <a href="https://travis-ci.org/amilajack/popcorn-time-desktop">
-    <img src="https://img.shields.io/travis/amilajack/popcorn-time-desktop/master.svg" alt="Travis Build branch" />
+  <a href="https://travis-ci.org/amilajack/popcorn-time-desktop/">
+    <img src="https://img.shields.io/travis/amilajack/popcorn-time-desktop/master.svg?maxAge=3600" alt="Travis Build branch" />
   </a>
   <a href="https://ci.appveyor.com/project/amilajack/popcorn-time-desktop/branch/master">
     <img src="https://ci.appveyor.com/api/projects/status/071qeglg94au8wr2/branch/master?svg=true" alt="AppVeyor Build status" />
   </a>
-    <a href="https://github.com/amilajack/popcorn-time-desktop/">
-    <img src="https://img.shields.io/david/dev/strongloop/express.svg?maxAge=2592000" alt="npm dev dependencies" />
+  <a href="https://github.com/amilajack/popcorn-time-desktop/">
+    <img src="https://img.shields.io/david/dev/strongloop/express.svg?maxAge=3600" alt="npm dev dependencies" />
   </a>
-    <a href="https://gitter.im/amilajack/popcorn-time-desktop?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge">
+  <a href="https://gitter.im/amilajack/popcorn-time-desktop?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge">
     <img src="https://badges.gitter.im/amilajack/popcorn-time-desktop.svg" alt="Gitter" />
   </a>
-    <a href="https://github.com/amilajack/popcorn-time-desktop/pulls">
+  <a href="https://github.com/amilajack/popcorn-time-desktop/pulls">
     <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome" />
   </a>
 </div>
