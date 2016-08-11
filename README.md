@@ -1,10 +1,30 @@
-## A experimental popcorn time client
+<h1 align="center">
+  <img height="200" width="200" src="resources/background.png" alt="logo" />
+  <br />
+  Popcorn Time
+</h1>
 
-[![Travis Build branch](https://img.shields.io/travis/amilajack/popcorn-time-desktop/master.svg)](https://travis-ci.org/amilajack/popcorn-time-desktop)
-[![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/071qeglg94au8wr2/branch/master?svg=true)](https://ci.appveyor.com/project/amilajack/popcorn-time-desktop/branch/master)
-[![NPM dependencies](https://img.shields.io/david/amilajack/popcorn-time-desktop.svg)](https://david-dm.org/amilajack/popcorn-time-desktop)
-[![Join the chat at https://gitter.im/amilajack/popcorn-time-desktop](https://badges.gitter.im/amilajack/popcorn-time-desktop.svg)](https://gitter.im/amilajack/popcorn-time-desktop?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)]()
+<h3 align="center">A Modern and Experimental Popcorn Time Client</h3>
+
+<div align="center">
+  <a href="https://travis-ci.org/amilajack/popcorn-time-desktop/">
+    <img src="https://img.shields.io/travis/amilajack/popcorn-time-desktop/master.svg?maxAge=3600" alt="Travis Build branch" />
+  </a>
+  <a href="https://ci.appveyor.com/project/amilajack/popcorn-time-desktop/branch/master">
+    <img src="https://ci.appveyor.com/api/projects/status/071qeglg94au8wr2/branch/master?svg=true" alt="AppVeyor Build status" />
+  </a>
+  <a href="https://github.com/amilajack/popcorn-time-desktop/">
+    <img src="https://img.shields.io/david/dev/strongloop/express.svg?maxAge=3600" alt="npm dev dependencies" />
+  </a>
+  <a href="https://gitter.im/amilajack/popcorn-time-desktop?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge">
+    <img src="https://badges.gitter.im/amilajack/popcorn-time-desktop.svg" alt="Gitter" />
+  </a>
+  <a href="https://github.com/amilajack/popcorn-time-desktop/pulls">
+    <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome" />
+  </a>
+</div>
+
+<br />
 
 ## Features:
 
@@ -23,11 +43,12 @@
 * For packaging, see [packaging requirements](https://github.com/amilajack/popcorn-time-desktop/wiki/Packaging-Requirements)
 
 # Getting started:
-- **I am a tester:** Download the latest build from the [releases](https://github.com/amilajack/popcorn-time-desktop/releases) section
-- **I am a developer:** Compile the project with the installation steps below
+- **I am a tester:** Download the latest build from the [releases](https://github.com/amilajack/popcorn-time-desktop/releases) section.
+
+- **I am a developer:** Compile the project with the installation steps below.
 
 ## Installation:
-```
+```bash
 git clone https://github.com/amilajack/popcorn-time-desktop.git
 cd popcorn-time-desktop
 
@@ -39,10 +60,10 @@ npm install
 # Create the env config file
 cp .env.example .env
 
-# Dev build
+# Developement build
 npm run dev
 
-# Prod build
+# Production build
 npm run package
 
 # If you hit the 'Failed to load resource' error (found in the console), refresh Electron (CMD/ctrl + R)
@@ -50,9 +71,9 @@ npm run package
 ```
 
 ## Todos:
-See [roadmap](https://github.com/amilajack/popcorn-time-desktop/wiki/Road-Map-and-Progress) for full list
+See the [roadmap](https://github.com/amilajack/popcorn-time-desktop/wiki/Road-Map-and-Progress) for the full list.
 
-## Goal:
+## Goals/Mockups:
 
 ### Movie Page:
 ![Movie page](https://raw.github.com/amilajack/popcorn-time-desktop/master/images/movie-page.jpg)
