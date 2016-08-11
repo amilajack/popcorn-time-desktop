@@ -9,7 +9,7 @@ import {
 } from '../../app/api/torrents/BaseTorrentProvider';
 import { getStatuses } from '../../app/api/torrents/TorrentAdapter';
 import { convertRuntimeToHours } from '../../app/api/metadata/MetadataAdapter';
-import { convertSubtitles } from '../../app/api/Subtitle';
+import { convertSubtitlesFromUrl } from '../../app/api/Subtitle';
 
 
 const imdbId = 'tt0468569'; // The Dark Knight
@@ -633,7 +633,7 @@ describe('api ->', function testApi() {
         describe('SRT to VTT conversion', () => {
           it('should download srt subtitles and convert to vtt', async done => {
             try {
-              const { filename } = await convertSubtitles(this.subtitles[0].src);
+              const { filename } = await convertSubtitlesFromUrl(this.subtitles[0].src);
               expect(filename).to.be.a('string').that.contains('.vtt');
               done();
             } catch (error) {

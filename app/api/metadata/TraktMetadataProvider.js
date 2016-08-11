@@ -250,7 +250,8 @@ function formatSubtitle(subtitle) {
     kind: 'captions',
     label: subtitle.langName,
     srclang: subtitle.lang,
-    src: subtitle.url,
+    src: `http://localhost:3000/subtitles/${encodeURIComponent(subtitle.url)}`,
+    // src: subtitle.url,
     default: subtitle.lang === 'en'
   };
 }

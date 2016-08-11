@@ -10,9 +10,6 @@ import http from 'http';
 
 const port = 1212;
 
-
-console.log('type', process.type);
-
 /**
  * 1. Download srt
  * 2. Convert srt to vtt
@@ -42,10 +39,10 @@ export default class Subtitle {
 
       console.log('writing head');
 
-      const { buffer } = await convertSubtitles(
+      const { buffer } = await convertSubtitlesFromUrl(
         'http://dl.opensubtitles.org/en/download/src-api/vrf-19f00c62/sid-9762j5nq6vsvu4tf83bnhenqu5/filead/1951988772'
       );
-      // const { buffer } = await convertSubtitles(params.srtUrl);
+      // const { buffer } = await convertSubtitlesFromUrl(params.srtUrl);
 
       res.end(buffer);
     })
@@ -67,7 +64,7 @@ export default class Subtitle {
   }
 }
 
-export function convertSubtitles(srtUrl) {
+export function convertSubtitlesFromUrl(srtUrl) {
   const randomString = rndm(16);
   const basePath = os.tmpdir();
 
@@ -78,16 +75,34 @@ export function convertSubtitles(srtUrl) {
     download(srtUrl).then(data => {
       fs.writeFileSync(input, data);
 
-      const srtData = fs.readFileSync(input);
+      const srtBuffer = fs.readFileSync(input);
 
-      srt2vtt(srtData, (error, vttData) => {
+      srt2vtt(srtBuffer, (error, vttBuffer) => {
         if (error) reject(error);
-        fs.writeFileSync(output, vttData);
+        fs.writeFileSync(output, vttBuffer);
 
         resolve({
           filename: output,
-          buffer: vttData
+          buffer: vttBuffer
         });
+      });
+    });
+  });
+}
+
+export function convertSubtitlesFromBuffer(srtBuffer) {
+  const randomString = rndm(16);
+  const basePath = os.tmpdir();
+  const output = path.join(basePath, `${randomString}.vtt`);
+
+  return new Promise((resolve, reject) => {
+    srt2vtt(srtBuffer, (error, vttBuffer) => {
+      if (error) reject(error);
+      fs.writeFileSync(output, vttBuffer);
+
+      resolve({
+        filename: output,
+        buffer: vttBuffer
       });
     });
   });
