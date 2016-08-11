@@ -7,19 +7,19 @@
 <h3 align="center">A Modern and Experimental Popcorn Time Client</h3>
 
 <div align="center">
-  <a href="https://travis-ci.org/amilajack/popcorn-time-desktop/">
+  <a target="_blank" href="https://travis-ci.org/amilajack/popcorn-time-desktop/">
     <img src="https://img.shields.io/travis/amilajack/popcorn-time-desktop/master.svg?maxAge=3600" alt="Travis Build branch" />
   </a>
-  <a href="https://ci.appveyor.com/project/amilajack/popcorn-time-desktop/branch/master">
+  <a target="_blank" href="https://ci.appveyor.com/project/amilajack/popcorn-time-desktop/branch/master">
     <img src="https://ci.appveyor.com/api/projects/status/071qeglg94au8wr2/branch/master?svg=true" alt="AppVeyor Build status" />
   </a>
-  <a href="https://david-dm.org/amilajack/popcorn-time-desktop?type=dev">
+  <a target="_blank" href="https://david-dm.org/amilajack/popcorn-time-desktop?type=dev">
     <img src="https://img.shields.io/david/dev/amilajack/popcorn-time-desktop.svg?maxAge=3600" alt="npm dev dependencies" />
   </a>
-  <a href="https://gitter.im/amilajack/popcorn-time-desktop?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge">
+  <a target="_blank" href="https://gitter.im/amilajack/popcorn-time-desktop?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge">
     <img src="https://badges.gitter.im/amilajack/popcorn-time-desktop.svg" alt="Gitter" />
   </a>
-  <a href="https://github.com/amilajack/popcorn-time-desktop/pulls">
+  <a target="_blank" href="https://github.com/amilajack/popcorn-time-desktop/pulls">
     <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome" />
   </a>
 </div>
