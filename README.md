@@ -1,5 +1,8 @@
-<img align="center" height="200" width="200" src="resources/background.png" alt="logo" />
-<h1 aligh="center">popcorn time</h1>
+<h1 align="center">
+	<img height="200" width="200" src="resources/background.png" alt="logo" />
+	<br />
+	popcorn time
+</h1>
 <h5 align="center">an experimental popcorn time client.</h5>
 
 <div align="center">
