@@ -15,7 +15,11 @@ import Show from '../show/Show';
 import { getIdealTorrent } from '../../api/torrents/BaseTorrentProvider';
 import Butter from '../../api/Butter';
 import Torrent, { formatSpeeds } from '../../api/Torrent';
-import Subtitle from '../../api/Subtitle';
+import {
+  convertFromBuffer,
+  startServer,
+  closeServer
+} from '../../api/Subtitle';
 import Player from '../../api/Player';
 
 
@@ -63,10 +67,11 @@ export default class Movie extends Component {
     this.butter = new Butter();
     this.torrent = new Torrent();
     this.player = new Player();
-    // this.subtitle = new Subtitle();
 
     this.toggle = this.toggle.bind(this);
     this.state = this.initialState;
+
+    this.subtitleServer = startServer();
   }
 
   /**
@@ -94,6 +99,7 @@ export default class Movie extends Component {
 
   componentWillUnmount() {
     this.stopTorrent();
+    closeServer(this.subtitleServer);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -155,12 +161,12 @@ export default class Movie extends Component {
   async getItem(imdbId) {
     this.setState({ metadataLoading: true });
 
-    const item = await (async () => {
+    const item = await (() => {
       switch (this.props.activeMode) {
         case 'movies':
-          return await this.butter.getMovie(imdbId);
+          return this.butter.getMovie(imdbId);
         case 'shows':
-          return await this.butter.getShow(imdbId);
+          return this.butter.getShow(imdbId);
         default:
           throw new Error('Active mode not found');
       }
@@ -305,9 +311,44 @@ export default class Movie extends Component {
   }
 
   /**
-   * @todo: Abstract 'listening' event to Torrent api
+   * 1. Retrieve list of subtitles
+   * 2. If the torrent has subtitles, get the subtitle buffer
+   * 3. Convert the buffer (srt) to vtt, save the file to a tmp dir
+   * 4. Serve the file through http
+   * 5. Override the default subtitle retrieved from the API
    */
-  async startTorrent(magnetURI, activeMode) {
+  async getSubtitles(subtitleTorrentFile, activeMode, item) {
+    // Retrieve list of subtitles
+    const subtitles = await this.butter.getSubtitles(
+      item.imdbId,
+      subtitleTorrentFile.name,
+      subtitleTorrentFile.length,
+      {
+        activeMode
+      }
+    );
+
+    const { filename, port } = await new Promise((resolve, reject) => {
+      subtitleTorrentFile.getBuffer((err, srtSubtitleBuffer) => {
+        if (err) reject(err);
+        // Convert to vtt, get filename
+        resolve(convertFromBuffer(srtSubtitleBuffer));
+      });
+    });
+
+    const mergedResults = subtitles.map(torrent => (
+      torrent.default === true
+        ? {
+          ...torrent,
+          src: `http://localhost:${port}/${filename}`
+        }
+        : torrent
+    ));
+
+    return mergedResults;
+  }
+
+  async startTorrent(magnet, activeMode) {
     if (this.state.torrentInProgress) {
       this.stopTorrent();
     }
@@ -325,23 +366,15 @@ export default class Movie extends Component {
       ...Player.nativePlaybackFormats
     ];
 
-    const subtitles = await this.butter.getSubtitles(
-      'tt0468569',
-      'The.Dark.Knight.2008.720p.BluRay.x264.YIFY.mp4',
-      undefined,
-      {
-        activeMode: 'movies',
-        baseUrl: 'http://locahost:1212'
-      }
-    );
-
-    console.info(subtitles[0]);
-
-    this.torrent.start(magnetURI, metadata, formats, async (servingUrl, file, files, torrent) => {
+    this.torrent.start(magnet, metadata, formats, async (servingUrl, file, files, torrent, sub) => {
       console.log('serving at:', servingUrl);
       const filename = file.name;
 
       this.setState({ servingUrl });
+
+      const subtitles = sub
+                          ? await this.getSubtitles(sub, this.props.activeMode, this.state.item)
+                          : [];
 
       this.torrentInfoInterval = setInterval(() => {
         const { downloadSpeed, uploadSpeed, progress, numPeers, ratio } = formatSpeeds(torrent);
@@ -359,15 +392,8 @@ export default class Movie extends Component {
         case 'VLC':
           return this.player.initVLC(servingUrl);
         case 'Default':
-          // TODO: Handle subtitle download and vtt convertion only if subtitles enabled
-          //
-          document.querySelector('.plyr').addEventListener('captionsenabled', () => {
-            Subtitle.start(subtitles.find(subtitle => subtitle.default === true));
-          });
-
           if (Player.isFormatSupported(filename, Player.nativePlaybackFormats)) {
             this.player = this.player.initPlyr(servingUrl, {
-              // ...this.state.item,
               tracks: subtitles
             });
           } else {
@@ -419,7 +445,8 @@ export default class Movie extends Component {
                     this.startTorrent.bind(
                       this,
                       this.state.idealTorrent.magnet,
-                      this.state.idealTorrent.method
+                      this.state.idealTorrent.method,
+                      this.state.item
                     )
                   }
                   disabled={!this.state.idealTorrent.quality}
@@ -434,7 +461,8 @@ export default class Movie extends Component {
                       this.startTorrent.bind(
                         this,
                         this.state.torrent['1080p'].magnet,
-                        this.state.torrent['1080p'].method
+                        this.state.torrent['1080p'].method,
+                        this.state.item
                       )
                     }
                     disabled={!this.state.torrent['1080p'].quality}
@@ -446,7 +474,8 @@ export default class Movie extends Component {
                       this.startTorrent.bind(
                         this,
                         this.state.torrent['720p'].magnet,
-                        this.state.torrent['720p'].method
+                        this.state.torrent['720p'].method,
+                        this.state.item
                       )
                     }
                     disabled={!this.state.torrent['720p'].quality}
@@ -459,7 +488,8 @@ export default class Movie extends Component {
                         this.startTorrent.bind(
                           this,
                           this.state.torrent['480p'].magnet,
-                          this.state.torrent['480p'].method
+                          this.state.torrent['480p'].method,
+                          this.state.item
                         )
                       }
                       disabled={!this.state.torrent['480p'].quality}
@@ -504,7 +534,7 @@ export default class Movie extends Component {
                     value={this.state.item.rating}
                     editing={false}
                   />
-                  <a>{this.state.item.rating}</a>
+                  <h5>{this.state.item.rating}</h5>
                 </div>
                 :
                 null}

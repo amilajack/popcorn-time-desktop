@@ -14,7 +14,7 @@
 
 **Faster Torrents**: New API optimized for fast torrents by querying the from multiple endpoints
 
-**Modern Stack**: Electron, React, Webpack, ES7, and more!
+**Modern Stack**: Electron, React, Webpack, ES7, Flow, and others
 
 ## Requirements:
 

@@ -7,6 +7,8 @@ import OpenSubtitles from 'opensubtitles-api';
 import { convertRuntimeToHours } from './MetadataAdapter';
 
 
+const subtitlesEndpoint = 'https://popcorn-time-api-server.herokuapp.com/subtitles';
+
 export default class TraktMetadataAdapter {
 
   clientId = '647c69e4ed1ad13393bf6edd9d8f9fb6fe9faf405b44320a6b71ab960b4540a2';
@@ -135,7 +137,7 @@ export default class TraktMetadataAdapter {
       sublanguageid: 'eng',
       // sublanguageid: 'all',
       // hash: '8e245d9679d31e12', // Size + 64bit checksum of the first and last 64k
-      // filesize: length,         // Total size, in bytes.
+      filesize: length,            // Total size, in bytes.
       // filename,                 // The video file name. Better if extension is included.
       // season: '2',
       // episode: '3',
@@ -250,8 +252,7 @@ function formatSubtitle(subtitle) {
     kind: 'captions',
     label: subtitle.langName,
     srclang: subtitle.lang,
-    src: `http://localhost:3000/subtitles/${encodeURIComponent(subtitle.url)}`,
-    // src: subtitle.url,
+    src: `${subtitlesEndpoint}/${encodeURIComponent(subtitle.url)}`,
     default: subtitle.lang === 'en'
   };
 }

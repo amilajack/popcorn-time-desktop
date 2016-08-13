@@ -94,7 +94,8 @@ export default class Torrent {
             `http://localhost:${port}/${torrentIndex}`,
             file,
             files,
-            torrent
+            torrent,
+            files.find(_file => _file.name.includes('.srt'))
           );
 
           this.clearIntervals();
