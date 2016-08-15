@@ -17,8 +17,7 @@ import Butter from '../../api/Butter';
 import Torrent, { formatSpeeds } from '../../api/Torrent';
 import {
   convertFromBuffer,
-  startServer,
-  closeServer
+  startServer
 } from '../../api/Subtitle';
 import Player from '../../api/Player';
 
@@ -99,7 +98,7 @@ export default class Movie extends Component {
 
   componentWillUnmount() {
     this.stopTorrent();
-    closeServer(this.subtitleServer);
+    console.log(this.subtitleServer);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -317,7 +316,7 @@ export default class Movie extends Component {
    * 4. Serve the file through http
    * 5. Override the default subtitle retrieved from the API
    */
-  async getSubtitles(subtitleTorrentFile, activeMode, item) {
+  async getSubtitles(subtitleTorrentFile = {}, activeMode, item) {
     // Retrieve list of subtitles
     const subtitles = await this.butter.getSubtitles(
       item.imdbId,
@@ -328,6 +327,10 @@ export default class Movie extends Component {
       }
     );
 
+    if (!subtitleTorrentFile) {
+      return subtitles;
+    }
+
     const { filename, port } = await new Promise((resolve, reject) => {
       subtitleTorrentFile.getBuffer((err, srtSubtitleBuffer) => {
         if (err) reject(err);
@@ -336,13 +339,14 @@ export default class Movie extends Component {
       });
     });
 
-    const mergedResults = subtitles.map(torrent => (
-      torrent.default === true
+    // Override the default subtitle
+    const mergedResults = subtitles.map(subtitle => (
+      subtitle.default === true
         ? {
-          ...torrent,
+          ...subtitle,
           src: `http://localhost:${port}/${filename}`
         }
-        : torrent
+        : subtitle
     ));
 
     return mergedResults;
@@ -368,13 +372,15 @@ export default class Movie extends Component {
 
     this.torrent.start(magnet, metadata, formats, async (servingUrl, file, files, torrent, sub) => {
       console.log('serving at:', servingUrl);
-      const filename = file.name;
-
       this.setState({ servingUrl });
 
-      const subtitles = sub
+      const filename = file.name;
+      const subtitles = sub && process.env.FLAG_ENG_SUBTITLES === 'true'
                           ? await this.getSubtitles(sub, this.props.activeMode, this.state.item)
                           : [];
+
+      console.log(torrent.files.map(_file => _file.name));
+      console.log(subtitles);
 
       this.torrentInfoInterval = setInterval(() => {
         const { downloadSpeed, uploadSpeed, progress, numPeers, ratio } = formatSpeeds(torrent);

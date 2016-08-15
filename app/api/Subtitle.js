@@ -35,16 +35,14 @@ export function convertFromBuffer(srtBuffer) {
     srt2vtt(srtBuffer, (error, vttBuffer) => {
       if (error) reject(error);
 
-      console.info({ fullPath });
-
-      fs.writeFileSync(fullPath, vttBuffer);
-
-      resolve({
-        filename,
-        basePath,
-        port,
-        fullPath,
-        buffer: vttBuffer
+      fs.writeFile(fullPath, vttBuffer, () => {
+        resolve({
+          filename,
+          basePath,
+          port,
+          fullPath,
+          buffer: vttBuffer
+        });
       });
     });
   });

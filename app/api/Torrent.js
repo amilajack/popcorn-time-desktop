@@ -76,7 +76,7 @@ export default class Torrent {
         throw new Error(`No torrent could be selected. Torrent Index: ${torrentIndex}`);
       }
 
-      const files = torrent.files;
+      const { files } = torrent;
       file.select();
 
       const buffer = 5 * 1024 * 1024; // 5MB
@@ -95,7 +95,7 @@ export default class Torrent {
             file,
             files,
             torrent,
-            files.find(_file => _file.name.includes('.srt'))
+            selectSubtitleFile(files, activeMode, metadata)
           );
 
           this.clearIntervals();
@@ -135,4 +135,25 @@ export function formatSpeeds({ downloadSpeed, uploadSpeed, progress, numPeers, r
     numPeers,
     ratio
   };
+}
+
+/**
+ * Get the subtitle file buffer given an array of files
+ */
+export function selectSubtitleFile(files, activeMode, metadata) {
+  return files.find(file => {
+    const formatIsSupported = file.name.includes('.srt');
+
+    switch (activeMode) {
+      // Check if the current file is the exact episode we're looking for
+      case 'season_complete': {
+        const { season, episode } = metadata;
+        return (formatIsSupported && isExactEpisode(file.name, season, episode));
+      }
+
+      // Check if the current file is greater than the previous file
+      default:
+        return formatIsSupported;
+    }
+  });
 }

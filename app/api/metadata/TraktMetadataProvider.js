@@ -130,17 +130,17 @@ export default class TraktMetadataAdapter {
       .then(movies => movies.map(movie => formatMetadata(movie, type)));
   }
 
-  async getSubtitles(imdbId, filename, length, metadata) {
+  async getSubtitles(imdbId, filename, length, metadata = {}) {
     const { activeMode } = metadata;
 
     const defaultOptions = {
       sublanguageid: 'eng',
-      // sublanguageid: 'all',
-      // hash: '8e245d9679d31e12', // Size + 64bit checksum of the first and last 64k
-      filesize: length,            // Total size, in bytes.
-      // filename,                 // The video file name. Better if extension is included.
-      // season: '2',
-      // episode: '3',
+      // sublanguageid: 'all', // @TODO
+      // hash: '8e245d9679d31e12', // @TODO
+      filesize: length || undefined,
+      filename: filename || undefined,
+      season: metadata.season || undefined,
+      episode: metadata.episode || undefined,
       extensions: ['srt', 'vtt'],
       imdbid: imdbId
     };
