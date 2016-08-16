@@ -32,16 +32,23 @@ export default {
     }, {
       test: /\.json$/,
       loader: 'json-loader'
+    },
+    {
+      test: /\.proto$/,
+      loader: 'proto-loader'
     }]
   },
   output: {
     path: path.join(__dirname, './app/dist'),
-    filename: 'bundle.js',
+    filename: 'renderer.js',
     libraryTarget: 'commonjs2'
   },
   resolve: {
     extensions: ['', '.js', '.jsx', '.json'],
-    packageMains: ['webpack', 'browser', 'web', 'browserify', ['jam', 'main'], 'main']
+    packageMains: ['webpack', 'browser', 'web', 'browserify', ['jam', 'main'], 'main'],
+    alias: {
+      castv2: 'castv2-webpack'
+    }
   },
   plugins: [
     new webpack.IgnorePlugin(/^(README.md)$/),
