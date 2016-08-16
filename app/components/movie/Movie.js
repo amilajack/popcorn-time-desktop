@@ -370,13 +370,22 @@ export default class Movie extends Component {
       ...Player.nativePlaybackFormats
     ];
 
-    this.torrent.start(magnet, metadata, formats, async (servingUrl, file, files, torrent, sub) => {
+    this.torrent.start(magnet, metadata, formats, async (servingUrl,
+                                                          file,
+                                                          files,
+                                                          torrent,
+                                                          subtitle
+                                                        ) => {
       console.log('serving at:', servingUrl);
       this.setState({ servingUrl });
 
       const filename = file.name;
-      const subtitles = sub && process.env.FLAG_ENG_SUBTITLES === 'true'
-                          ? await this.getSubtitles(sub, this.props.activeMode, this.state.item)
+      const subtitles = subtitle && process.env.FLAG_ENG_SUBTITLES === 'true'
+                          ? await this.getSubtitles(
+                              subtitle,
+                              this.props.activeMode,
+                              this.state.item
+                            )
                           : [];
 
       console.log(torrent.files.map(_file => _file.name));
