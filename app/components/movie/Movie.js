@@ -18,6 +18,10 @@ import Torrent, { formatSpeeds } from '../../api/Torrent';
 import Player from '../../api/Player';
 
 
+export function square(n: number): number {
+  return n + { some: 'some' };
+}
+
 export default class Movie extends Component {
 
   static propTypes = {

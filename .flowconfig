@@ -1,0 +1,9 @@
+[ignore]
+.*/node_modules/fbjs/.*
+
+[include]
+./app/*
+
+[libs]
+
+[options]
