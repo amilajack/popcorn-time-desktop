@@ -11,7 +11,7 @@
     "lint": "eslint app test *.js",
     "lint-summary": "eslint-nibble app test *.js",
     "postinstall": "node node_modules/fbjs-scripts/node/check-dev-engines.js package.json",
-    "package": "npm run build && build --publish never",
+    "package": "cp Cast.js ./app/dist && npm run build && build --publish never",
     "package-all": "npm run build && build --publish never --mac --win --linux",
     "precommit": "npm run test",
     "test": "npm run lint && npm run lint-summary && npm run package && npm run test-api && npm run test-e2e",
@@ -51,7 +51,7 @@
   ],
   "build": {
     "appId": "popcorn-time-desktop",
-    "app-category-type": "public.app-category.video",
+    "category": "public.app-category.video",
     "win": {
       "iconUrl": "https://cdn.rawgit.com/amilajack/popcorn-time-desktop/master/app/icons/app.ico"
     }
@@ -82,7 +82,10 @@
     "babel-register": "^6.11.6",
     "babel-runtime": "^6.11.6",
     "bootstrap": "^4.0.0-alpha.3",
+    "castv2-webpack": "^0.1.8",
     "chai": "^3.5.0",
+    "chromecast-player": "0.0.6",
+    "chromecasts": "^1.9.0",
     "classnames": "^2.2.5",
     "cross-env": "^2.0.0",
     "css-loader": "^0.23.1",
@@ -119,6 +122,7 @@
     "lru-cache": "^4.0.1",
     "minimist": "^1.2.0",
     "mocha": "^2.0.0",
+    "network-address": "^1.1.0",
     "node-libs-browser": "^1.0.0",
     "node-sass": "^3.8.0",
     "notie": "^3.9.1",
@@ -126,6 +130,7 @@
     "plyr": "^1.8.12",
     "postcss-loader": "^0.9.1",
     "progress-bar-webpack-plugin": "^1.9.0",
+    "proto-loader": "^0.2.0",
     "react": "^15.3.0",
     "react-addons-test-utils": "^15.3.0",
     "react-addons-transition-group": "^15.3.0",
@@ -156,7 +161,8 @@
     "webpack-dev-middleware": "^1.6.1",
     "webpack-hot-middleware": "^2.12.2",
     "webtorrent": "github:amilajack/webtorrent",
-    "why-did-you-update": "^0.0.8"
+    "why-did-you-update": "^0.0.8",
+    "yargs": "^5.0.0"
   },
   "engines": {
     "node": "6.x",
