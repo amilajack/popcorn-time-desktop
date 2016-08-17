@@ -1,7 +1,6 @@
 /**
  * @param   {string} imdbId
  * @param   {object} extendedDetails
- * @todo    Removed torrents with duplicated magnets
  */
 /* eslint global-require: 0 */
 import {
@@ -97,7 +96,6 @@ export default async function TorrentAdapter(imdbId,
 /**
  * Merge results from providers
  *
- * @todo   Do this functionally (with map, filter, etc)
  * @param  {array} providerResults
  * @return {array}
  */

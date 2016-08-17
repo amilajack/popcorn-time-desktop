@@ -13,23 +13,6 @@ export default class PctTorrentProvider {
 
   static shows = {};
 
-  /**
-   * @todo: this should be properly cached
-   *
-   * Serve as a temporary cache
-   * If not in cache, generate cached response
-   *
-   * shows = {
-   *   imdbId: [
-   *     torrents: <array> | array of formatted torrents
-   *     season: <number>  | season to find
-   *     episode: <number> | episode to find
-   *   }
-   * }
-   * ...
-   *
-   * @return {array} | array of torrents
-   */
   static async fetch(imdbId, type, extendedDetails) {
     const urlTypeParam = type === 'movies' ? 'movie' : 'show';
     const request = timeout(

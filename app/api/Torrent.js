@@ -15,10 +15,6 @@ export default class Torrent {
 
   finished = false;
 
-  /**
-   * @todo: Refactor butter api calls to Movie component. Butter, Player, and
-   *        Torrent should work independently of each other
-   */
   start(magnetURI, metadata, supportedFormats, cb) {
     if (this.inProgress) {
       throw new Error('Torrent already in progress');

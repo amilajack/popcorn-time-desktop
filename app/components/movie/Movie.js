@@ -1,8 +1,5 @@
 /**
  * Movie component that is responsible for playing movie
- *
- * @todo: Remove state mutation, migrate to Redux reducers
- * @todo: Refactor to be more adapter-like
  */
 
 import React, { Component, PropTypes } from 'react';
@@ -145,11 +142,6 @@ export default class Movie extends Component {
 
   /**
    * Get the details of a movie using the butter api
-   *
-   * @todo: remove the temporary loctaion reload once until a way is found to
-   *        correctly configure destroy and reconfigure plyr
-   *
-   * @hack: Possbile solution is to remove the video element on change of movie
    */
   async getItem(imdbId) {
     this.setState({ metadataLoading: true });

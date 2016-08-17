@@ -62,7 +62,6 @@ export default class Player {
     this.currentPlayer = 'plyr';
 
     const player = plyr.setup({
-      storage: { enabled: false },
       volume: 10
     })[0].plyr;
 

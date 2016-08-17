@@ -1,7 +1,3 @@
-/**
- * @todo: Migrate to https://isohunt.to
- */
-
 import { search } from 'super-kat';
 import {
   formatSeasonEpisodeToString,

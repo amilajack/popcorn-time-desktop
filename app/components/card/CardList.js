@@ -1,7 +1,5 @@
 /**
  * A list of thumbnail poster images of items that are rendered on the home page
- *
- * @todo: Extract the rating's divison of 2. This should be done in ButterProvider
  */
 
 import React, { Component, PropTypes } from 'react';
