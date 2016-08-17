@@ -3,6 +3,7 @@
  * Serves as an abstraction layer for peerflix or other torrent streams
  */
 import WebTorrent from 'webtorrent';
+import os from 'os';
 import { isExactEpisode } from './torrents/BaseTorrentProvider';
 
 
@@ -30,9 +31,16 @@ export default class Torrent {
 
     this.engine = new WebTorrent({ maxConns });
     this.inProgress = true;
+    this.magnetURI = magnetURI;
 
-    console.warn(`Using '${activeMode}' method`);
-    const cacheLocation = process.env.CONFIG_CACHE_LOCATION || '/tmp/popcorn-time-desktop';
+    const cacheLocation = (() => {
+      switch (process.env.CONFIG_PERSIST_DOWNLOADS) {
+        case 'true':
+          return process.env.CONFIG_DOWNLOAD_LOCATION || '/tmp/popcorn-time-desktop';
+        default:
+          return os.tmpdir();
+      }
+    })();
 
     this.engine.add(magnetURI, { path: cacheLocation }, torrent => {
       const server = torrent.createServer();
