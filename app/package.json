@@ -5,5 +5,8 @@
   "version": "0.0.5",
   "author": "Amila Welihinda <amilajack@gmail.com>",
   "license": "MIT",
-  "main": "./main.js"
+  "main": "./main.js",
+  "dependencies": {
+    "chromecast-player": "0.0.6"
+  }
 }
