@@ -192,5 +192,5 @@ function formatSeason(season, image = 'screenshot') {
 }
 
 function roundRating(rating) {
-  return Math.round((rating / 2) * 10) / 10;
+  return Math.round(rating * 10) / 10;
 }

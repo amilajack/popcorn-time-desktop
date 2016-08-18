@@ -4,9 +4,9 @@
 import React, { Component, PropTypes } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { Link } from 'react-router';
-import Rating from 'react-star-rating-component';
 import notie from 'notie';
 import CardList from '../card/CardList';
+import Rating from '../card/Rating';
 import Show from '../show/Show';
 import { getIdealTorrent } from '../../api/torrents/BaseTorrentProvider';
 import Butter from '../../api/Butter';
@@ -465,14 +465,7 @@ export default class Movie extends Component {
               </h6>
               {this.state.item.rating ?
                 <div>
-                  <Rating
-                    renderStarIcon={() => <span className="ion-android-star" />}
-                    starColor={'white'}
-                    name={'rating'}
-                    value={this.state.item.rating}
-                    editing={false}
-                  />
-                  <a>{this.state.item.rating}</a>
+                  <Rating rating={this.state.item.rating} />
                 </div>
                 :
                 null}
