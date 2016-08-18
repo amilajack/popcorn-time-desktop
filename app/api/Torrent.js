@@ -1,9 +1,8 @@
 /**
  * Torrents controller, responsible for playing, stoping, etc
- * Serves as an abstraction layer for peerflix or other torrent streams
  */
-import WebTorrent from 'webtorrent';
 import os from 'os';
+import WebTorrent from 'webtorrent';
 import { isExactEpisode } from './torrents/BaseTorrentProvider';
 
 
@@ -80,11 +79,11 @@ export default class Torrent {
         throw new Error(`No torrent could be selected. Torrent Index: ${torrentIndex}`);
       }
 
+      const buffer = 1 * 1024 * 1024; // 1MB
       const files = torrent.files;
       const { name } = file;
-      file.select();
 
-      const buffer = 1 * 1024 * 1024; // 1MB
+      file.select();
 
       torrent.on('done', () => {
         this.inProgress = false;
