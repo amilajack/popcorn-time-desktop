@@ -1,9 +1,15 @@
 [ignore]
 .*/node_modules/fbjs/.*
+.*/node_modules/*
+.*/app/node_modules/*
+.*/app/main.js
+.*/app/dist/.*
+.*/release/.*
 
 [include]
-./app/*
+./app/*.js
 
 [libs]
 
 [options]
+all=true
