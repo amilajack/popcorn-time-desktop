@@ -84,7 +84,7 @@ export default class Torrent {
       const { name } = file;
       file.select();
 
-      const buffer = 5 * 1024 * 1024; // 5MB
+      const buffer = 1 * 1024 * 1024; // 1MB
 
       torrent.on('done', () => {
         this.inProgress = false;

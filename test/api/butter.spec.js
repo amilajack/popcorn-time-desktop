@@ -579,7 +579,7 @@ describe('api ->', function testApi() {
         });
       });
 
-      describe('Series Tests', () => {
+      describe.skip('Series Tests', () => {
         describe('valid torrents for top 20 shows', () => {
           for (const show of MockShows.filter((e, i) => i < 20)) {
             it(`${show.title} Season 1 Episode 1`, async (done) => {
