@@ -1,9 +1,14 @@
 import fetch from 'isomorphic-fetch';
 import {
   determineQuality,
-  timeout
+  timeout,
+  resolveEndpoint
 } from './BaseTorrentProvider';
 
+
+const endpoint = 'https://yts.ag';
+const providerId = 'YTS';
+const resolvedEndpoint = resolveEndpoint(endpoint, providerId);
 
 export default class YtsTorrentProvider {
 
@@ -11,9 +16,11 @@ export default class YtsTorrentProvider {
 
   static fetch(imdbId) {
     return timeout(
-      fetch(
-        `https://yts.ag/api/v2/list_movies.json?query_term=${imdbId}&order_by=desc&sort_by=seeds&limit=50`
-      )
+      fetch([
+        `${resolvedEndpoint}/api/v2/list_movies.json`,
+        `?query_term=${imdbId}`,
+        '&order_by=desc&sort_by=seeds&limit=50'
+      ].join(''))
     )
       .then(res => res.json());
   }
