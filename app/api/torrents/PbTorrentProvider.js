@@ -8,13 +8,14 @@ import {
   constructMovieQueries,
   merge,
   timeout,
-  handleProviderError
+  handleProviderError,
+  resolveEndpoint
 } from './BaseTorrentProvider';
 
 
 const endpoint = 'https://pirate-bay-endpoint.herokuapp.com';
-
-const searchEndpoint = `${endpoint}/search`;
+const providerId = 'PB';
+const resolvedEndpoint = resolveEndpoint(endpoint, providerId);
 
 export default class PbTorrentProvider {
 
@@ -23,7 +24,7 @@ export default class PbTorrentProvider {
   static fetch(searchQuery) {
     // HACK: Temporary solution to improve performance by side stepping
     //       PirateBay's database errors.
-    const searchQueryUrl = `${searchEndpoint}/${searchQuery}`;
+    const searchQueryUrl = `${resolvedEndpoint}/search/${searchQuery}`;
 
     return timeout(
       fetch(searchQueryUrl)
@@ -51,7 +52,7 @@ export default class PbTorrentProvider {
   }
 
   static getStatus() {
-    return fetch(endpoint).then(res => res.ok).catch(() => false);
+    return fetch(resolvedEndpoint).then(res => res.ok).catch(() => false);
   }
 
   static provide(imdbId, type, extendedDetails = {}) {
