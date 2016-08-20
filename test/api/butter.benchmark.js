@@ -24,11 +24,13 @@ const butter = new Butter();
 describe('Benchmark Butter Shows: Top 50', () => {
   describe('Season 1', () => {
     describe('Show', function testShow() {
-      before(() => {
+      before(done => {
         this.torrentCount = 0;
+        done();
       });
-      after(() => {
+      after(done => {
         console.log(`\t Average Seeder Count: ${this.torrentCount / shows.length}`);
+        done();
       });
       for (const show of shows) {
         it(`Shows: ${show.title} season 1, episode 1`, async (done) => {
@@ -52,11 +54,13 @@ describe('Benchmark Butter Shows: Top 50', () => {
     });
 
     describe('Show Complete', function testShowComplete() {
-      before(() => {
+      before(done => {
         this.torrentCount = 0;
+        done();
       });
-      after(() => {
+      after(done => {
         console.log(`\t Average Seeder Count: ${this.torrentCount / shows.length}`);
+        done();
       });
       for (const show of shows) {
         it(`Season Complete: ${show.title} season 1`, async (done) => {
@@ -81,11 +85,13 @@ describe('Benchmark Butter Shows: Top 50', () => {
 
   describe('Season 2', () => {
     describe('Show', function testShow() {
-      before(() => {
+      before(done => {
         this.torrentCount = 0;
+        done();
       });
-      after(() => {
+      after(done => {
         console.log(`\t Average Seeder Count: ${this.torrentCount / shows.length}`);
+        done();
       });
       for (const show of shows) {
         it(`Shows: ${show.title} season 2, episode 1`, async (done) => {
@@ -109,11 +115,13 @@ describe('Benchmark Butter Shows: Top 50', () => {
     });
 
     describe('Show Complete', function testShowComplete() {
-      before(() => {
+      before(done => {
         this.torrentCount = 0;
+        done();
       });
-      after(() => {
+      after(done => {
         console.log(`\t Average Seeder Count: ${this.torrentCount / shows.length}`);
+        done();
       });
       for (const show of shows) {
         it(`Season Complete: ${show.title} season 2`, async (done) => {

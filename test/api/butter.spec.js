@@ -5,7 +5,8 @@ import MockShows from './butter.mock.js';
 import {
   formatSeasonEpisodeToString,
   formatSeasonEpisodeToObject,
-  sortTorrentsBySeeders
+  sortTorrentsBySeeders,
+  resolveEndpoint
 } from '../../app/api/torrents/BaseTorrentProvider';
 import { getStatuses } from '../../app/api/torrents/TorrentAdapter';
 import { convertRuntimeToHours } from '../../app/api/metadata/MetadataAdapter';
@@ -429,7 +430,7 @@ describe('api ->', function testApi() {
             expect(episode).to.have.property('id').that.equals('tt1942613');
             expect(episode).to.have.property('title').that.equals('The Hounds of Baskerville');
             expect(episode).to.have.property('overview').that.is.a('string');
-            expect(episode).to.have.property('rating').that.is.a('number').that.is.within(0, 5);
+            expect(episode).to.have.property('rating').that.is.a('number').that.is.within(0, 10);
             expect(episode).to.have.deep.property('images.full').that.is.a('string');
             expect(episode).to.have.deep.property('images.medium').that.is.a('string');
             expect(episode).to.have.deep.property('images.thumb').that.is.a('string');
@@ -579,7 +580,19 @@ describe('api ->', function testApi() {
         });
       });
 
-      describe('Series Tests', () => {
+      describe('Helpers', () => {
+        it('should return custom endpoint config', done => {
+          try {
+            const resolvedEndpoint = resolveEndpoint('https://some-website.com/search', 'TEST');
+            expect(resolvedEndpoint).to.equal('https://test.org/search');
+            done();
+          } catch (error) {
+            done(error);
+          }
+        });
+      });
+
+      describe.skip('Series Tests', () => {
         describe('valid torrents for top 20 shows', () => {
           for (const show of MockShows.filter((e, i) => i < 20)) {
             it(`${show.title} Season 1 Episode 1`, async (done) => {

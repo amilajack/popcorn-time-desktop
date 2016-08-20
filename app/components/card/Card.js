@@ -4,7 +4,7 @@
 
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
-import Rating from 'react-star-rating-component';
+import Rating from './Rating';
 
 
 export default class Card extends Component {
@@ -47,13 +47,7 @@ export default class Card extends Component {
         </div>
         <div>
           {this.props.rating !== 'n/a' ?
-            <Rating
-              renderStarIcon={() => <span className="ion-android-star" />}
-              starColor={'white'}
-              name={'rating'}
-              value={this.props.rating}
-              editing={false}
-            />
+            <Rating rating={this.props.rating} />
             :
             null
           }

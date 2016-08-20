@@ -1,11 +1,14 @@
 import fetch from 'isomorphic-fetch';
 import {
   handleProviderError,
-  timeout
+  timeout,
+  resolveEndpoint
 } from './BaseTorrentProvider';
 
 
 const endpoint = 'http://api-fetch.website/tv';
+const providerId = 'PCT';
+const resolvedEndpoint = resolveEndpoint(endpoint, providerId);
 
 export default class PctTorrentProvider {
 
@@ -13,27 +16,10 @@ export default class PctTorrentProvider {
 
   static shows = {};
 
-  /**
-   * @todo: this should be properly cached
-   *
-   * Serve as a temporary cache
-   * If not in cache, generate cached response
-   *
-   * shows = {
-   *   imdbId: [
-   *     torrents: <array> | array of formatted torrents
-   *     season: <number>  | season to find
-   *     episode: <number> | episode to find
-   *   }
-   * }
-   * ...
-   *
-   * @return {array} | array of torrents
-   */
   static async fetch(imdbId, type, extendedDetails) {
     const urlTypeParam = type === 'movies' ? 'movie' : 'show';
     const request = timeout(
-      fetch(`${endpoint}/${urlTypeParam}/${imdbId}`)
+      fetch(`${resolvedEndpoint}/${urlTypeParam}/${imdbId}`)
         .then(res => res.json())
     );
 
@@ -114,7 +100,7 @@ export default class PctTorrentProvider {
   }
 
   static getStatus() {
-    return fetch(endpoint).then(res => res.ok).catch(() => false);
+    return fetch(resolvedEndpoint).then(res => res.ok).catch(() => false);
   }
 
   static provide(imdbId, type, extendedDetails = {}) {

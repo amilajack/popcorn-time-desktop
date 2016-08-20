@@ -1,15 +1,14 @@
+import { remote } from 'electron';
 import plyr from 'plyr';
 import childProcess from 'child_process';
 import vlcCommand from 'vlc-command';
 
 
+const { powerSaveBlocker } = remote;
+
 export default class Player {
 
   currentPlayer = 'plyr';
-
-  powerSaveBlockerId = 0;
-
-  intervalId = 0;
 
   static nativePlaybackFormats = ['mp4', 'ogg', 'mov', 'webmv', 'mkv', 'wmv', 'avi'];
 
@@ -19,37 +18,16 @@ export default class Player {
    * Cleanup all traces of the player UI
    */
   destroy() {
-    clearInterval(this.intervalId);
-
-    if (document.querySelector('.plyr')) {
-      if (document.querySelector('.plyr').plyr) {
-        document.querySelector('.plyr').plyr.destroy();
-      }
+    if (this.powerSaveBlockerId) {
+      powerSaveBlocker.stop(this.powerSaveBlockerId);
     }
   }
 
   /**
-   * Reset they player's state
+   * restart they player's state
    */
-  reset() {
-    clearInterval(this.intervalId);
+  restart() {
     this.player.restart();
-  }
-
-  constructSource(streamingUrl, metadata) {
-    clearInterval(this.intervalId);
-
-    const defaultSource = {
-      type: 'video',
-      sources: [{
-        src: streamingUrl,
-        type: 'video/mp4'
-      }]
-    };
-
-    return 'title' in metadata
-      ? { ...defaultSource, title: metadata.title }
-      : defaultSource;
   }
 
   static isFormatSupported(filename, mimeTypes) {
@@ -60,14 +38,24 @@ export default class Player {
 
   initPlyr(streamingUrl, metadata = {}) {
     this.currentPlayer = 'plyr';
+    this.powerSaveBlockerId = powerSaveBlocker.start('prevent-app-suspension');
 
-    const player = plyr.setup({
+    this._player = this._player || plyr.setup({
+      volume: 10,
       autoplay: true,
-      storage: { enabled: false },
-      volume: 10
+      showPosterOnEnd: true
     })[0].plyr;
 
-    player.source(this.constructSource(streamingUrl, metadata));
+    const player = this._player;
+
+    player.source({
+      type: 'video',
+      sources: [{
+        src: streamingUrl,
+        type: 'video/mp4'
+      }]
+    });
+    player.poster(metadata.poster);
 
     return player;
   }
@@ -87,6 +75,8 @@ export default class Player {
           return console.log(stdout);
         });
       }
+
+      this.powerSaveBlockerId = powerSaveBlocker.start('prevent-app-suspension');
 
       return true;
     });

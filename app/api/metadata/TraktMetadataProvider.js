@@ -1,6 +1,3 @@
-/**
- * @todo: Filter and sort by options
- */
 import fetch from 'isomorphic-fetch';
 import Trakt from 'trakt.tv';
 import { convertRuntimeToHours } from './MetadataAdapter';
@@ -91,9 +88,6 @@ export default class TraktMetadataAdapter {
       .then(res => formatSeason(res));
   }
 
-  /**
-   * @todo: migrate from omdbapi to an api that can provide more information
-   */
   search(query, page = 1) {
     if (!query) {
       throw Error('Query paramater required');
@@ -198,5 +192,5 @@ function formatSeason(season, image = 'screenshot') {
 }
 
 function roundRating(rating) {
-  return Math.round((rating / 2) * 10) / 10;
+  return Math.round(rating * 10) / 10;
 }

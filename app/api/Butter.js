@@ -1,7 +1,5 @@
 /**
  * The highest level abstraction layer for querying torrents and metadata
- *
- * @todo: Add caching method to resolve from cache before sending request
  */
 
 import TorrentAdapter from './torrents/TorrentAdapter';

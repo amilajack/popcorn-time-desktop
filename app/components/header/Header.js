@@ -26,8 +26,6 @@ export default class Header extends Component {
 
   /**
    * Set the mode of the movies to be 'search'
-   *
-   * @todo: move setting of search movies to Home component
    */
   setSearchState(searchQuery) {
     this.props.setActiveMode('search', { searchQuery });

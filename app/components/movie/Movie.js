@@ -1,16 +1,12 @@
 /**
  * Movie component that is responsible for playing movie
- *
- * @todo: Remove state mutation, migrate to Redux reducers
- * @todo: Refactor to be more adapter-like
  */
-
 import React, { Component, PropTypes } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { Link } from 'react-router';
-import Rating from 'react-star-rating-component';
 import notie from 'notie';
 import CardList from '../card/CardList';
+import Rating from '../card/Rating';
 import Show from '../show/Show';
 import { getIdealTorrent } from '../../api/torrents/BaseTorrentProvider';
 import Butter from '../../api/Butter';
@@ -54,7 +50,6 @@ export default class Movie extends Component {
     fetchingTorrents: false,
     idealTorrent: this.defaultTorrent,
     torrent: this.defaultTorrent,
-    usingVideoFallback: false,
     similarLoading: false,
     metadataLoading: false,
     torrentInProgress: false,
@@ -100,6 +95,12 @@ export default class Movie extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    this.stopTorrent();
+
+    this.setState({
+      ...this.initialState
+    });
+
     this.getAllData(nextProps.itemId);
   }
 
@@ -149,11 +150,6 @@ export default class Movie extends Component {
 
   /**
    * Get the details of a movie using the butter api
-   *
-   * @todo: remove the temporary loctaion reload once until a way is found to
-   *        correctly configure destroy and reconfigure plyr
-   *
-   * @hack: Possbile solution is to remove the video element on change of movie
    */
   async getItem(imdbId) {
     this.setState({ metadataLoading: true });
@@ -281,15 +277,13 @@ export default class Movie extends Component {
   }
 
   stopTorrent() {
-    const torrentEngineName = process.env.FLAG_SEASON_COMPLETE === 'true' &&
-                              this.props.activeMode === 'shows'
-                                ? 'webtorrent'
-                                : 'peerflix';
-
-    this.torrent.destroy(torrentEngineName);
+    this.torrent.destroy();
     this.player.destroy();
-    clearInterval(this.torrentInfoInterval);
     this.setState({ torrentInProgress: false });
+
+    if (process.env.NODE_ENV === 'development') {
+      clearInterval(this.torrentInfoInterval);
+    }
   }
 
   selectShow(type, selectedSeason, selectedEpisode = 1) {
@@ -309,13 +303,14 @@ export default class Movie extends Component {
     }
   }
 
-  /**
-   * @todo: Abstract 'listening' event to Torrent api
-   */
   async startTorrent(magnetURI, activeMode) {
     if (this.state.torrentInProgress) {
       this.stopTorrent();
     }
+
+    this.setState({
+      servingUrl: undefined
+    });
 
     this.setState({ torrentInProgress: true });
 
@@ -334,25 +329,28 @@ export default class Movie extends Component {
 
       this.setState({ servingUrl });
 
-      this.torrentInfoInterval = setInterval(() => {
-        const { downloadSpeed, uploadSpeed, progress, numPeers, ratio } = formatSpeeds(torrent);
-        this.setState({ downloadSpeed, uploadSpeed, progress, numPeers, ratio });
-        console.log('----------------------------------------------------');
-        console.log('Download Speed:', downloadSpeed);
-        console.log('Upload Speed:', uploadSpeed);
-        console.log('Progress:', progress);
-        console.log('Peers:', numPeers);
-        console.log('Ratio:', ratio);
-        console.log('----------------------------------------------------');
-      }, 10000);
+      if (process.env.NODE_ENV === 'development') {
+        this.torrentInfoInterval = setInterval(() => {
+          const { downloadSpeed, uploadSpeed, progress, numPeers, ratio } = formatSpeeds(torrent);
+          this.setState({ downloadSpeed, uploadSpeed, progress, numPeers, ratio });
+          console.log('----------------------------------------------------');
+          console.log('Download Speed:', downloadSpeed);
+          console.log('Upload Speed:', uploadSpeed);
+          console.log('Progress:', progress);
+          console.log('Peers:', numPeers);
+          console.log('Ratio:', ratio);
+          console.log('----------------------------------------------------');
+        }, 10000);
+      }
 
       switch (this.state.currentPlayer) {
         case 'VLC':
           return this.player.initVLC(servingUrl);
         case 'Default':
           if (Player.isFormatSupported(filename, Player.nativePlaybackFormats)) {
-            this.setState({ usingVideoFallback: false });
-            this.player = this.player.initPlyr(servingUrl, this.state.item);
+            this.player.initPlyr(servingUrl, {
+              poster: this.state.item.images.fanart.full
+            });
           } else if (Player.isFormatSupported(filename, [
             ...Player.nativePlaybackFormats,
             ...Player.experimentalPlaybackFormats
@@ -369,18 +367,6 @@ export default class Movie extends Component {
 
       return torrent;
     });
-  }
-
-  restart() {
-    if (this.player) {
-      this.player.reset();
-    }
-  }
-
-  pause() {
-    if (this.player) {
-      this.player.pause();
-    }
   }
 
   render() {
@@ -483,14 +469,7 @@ export default class Movie extends Component {
               </h6>
               {this.state.item.rating ?
                 <div>
-                  <Rating
-                    renderStarIcon={() => <span className="ion-android-star" />}
-                    starColor={'white'}
-                    name={'rating'}
-                    value={this.state.item.rating}
-                    editing={false}
-                  />
-                  <a>{this.state.item.rating}</a>
+                  <Rating rating={this.state.item.rating} />
                 </div>
                 :
                 null}
@@ -538,10 +517,7 @@ export default class Movie extends Component {
                 />
                 :
                 null}
-              <div
-                className="plyr"
-                className={this.state.usingVideoFallback ? 'hidden' : ''}
-              >
+              <div className="plyr">
                 <video controls poster={this.state.item.images.fanart.full} />
               </div>
             </div>

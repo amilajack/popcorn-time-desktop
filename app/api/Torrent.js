@@ -1,7 +1,7 @@
 /**
  * Torrents controller, responsible for playing, stoping, etc
- * Serves as an abstraction layer for peerflix or other torrent streams
  */
+import os from 'os';
 import WebTorrent from 'webtorrent';
 import { isExactEpisode } from './torrents/BaseTorrentProvider';
 
@@ -14,10 +14,6 @@ export default class Torrent {
 
   finished = false;
 
-  /**
-   * @todo: Refactor butter api calls to Movie component. Butter, Player, and
-   *        Torrent should work independently of each other
-   */
   start(magnetURI, metadata, supportedFormats, cb) {
     if (this.inProgress) {
       throw new Error('Torrent already in progress');
@@ -30,9 +26,16 @@ export default class Torrent {
 
     this.engine = new WebTorrent({ maxConns });
     this.inProgress = true;
+    this.magnetURI = magnetURI;
 
-    console.warn(`Using '${activeMode}' method`);
-    const cacheLocation = process.env.CONFIG_CACHE_LOCATION || '/tmp/popcorn-time-desktop';
+    const cacheLocation = (() => {
+      switch (process.env.CONFIG_PERSIST_DOWNLOADS) {
+        case 'true':
+          return process.env.CONFIG_DOWNLOAD_LOCATION || '/tmp/popcorn-time-desktop';
+        default:
+          return os.tmpdir();
+      }
+    })();
 
     this.engine.add(magnetURI, { path: cacheLocation }, torrent => {
       const server = torrent.createServer();
@@ -76,11 +79,11 @@ export default class Torrent {
         throw new Error(`No torrent could be selected. Torrent Index: ${torrentIndex}`);
       }
 
+      const buffer = 1 * 1024 * 1024; // 1MB
       const files = torrent.files;
       const { name } = file;
-      file.select();
 
-      const buffer = 5 * 1024 * 1024; // 5MB
+      file.select();
 
       torrent.on('done', () => {
         this.inProgress = false;

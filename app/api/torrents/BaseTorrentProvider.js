@@ -1,6 +1,7 @@
 /* eslint prefer-template: 0 */
 
 import cache from 'lru-cache';
+import URL from 'url';
 
 
 export const providerCache = cache({
@@ -195,6 +196,21 @@ export function constructSeasonQueries(title, season) {
  */
 export function merge(results) {
   return results.reduce((previous, current) => [...previous, ...current]);
+}
+
+export function resolveEndpoint(defaultEndpoint, providerId) {
+  const endpointEnvVariable = `CONFIG_ENDPOINT_${providerId}`;
+
+  switch (process.env[endpointEnvVariable]) {
+    case undefined:
+      return defaultEndpoint;
+    default:
+      return URL.format({
+        ...URL.parse(defaultEndpoint),
+        hostname: process.env[endpointEnvVariable],
+        host: process.env[endpointEnvVariable]
+      });
+  }
 }
 
 export function getIdealTorrent(torrents) {
