@@ -45,7 +45,7 @@ export default class Header extends Component {
 
   render() {
     return (
-      <div className="col-xs-12">
+      <div className="col-xs-12 Header">
         <nav className="navbar navbar-dark navbar-fixed-top bg-inverse">
           <a
             className="navbar-brand"
@@ -80,7 +80,7 @@ export default class Header extends Component {
               </a>
             </li>
           </ul>
-          <div className="form-inline pull-xs-right">
+          <div className="search form-inline pull-xs-right">
             <input
               className="form-control"
               value={this.state.searchQuery}
@@ -94,7 +94,7 @@ export default class Header extends Component {
               onClick={this.setSearchState.bind(this, this.state.searchQuery)}
               type="button"
             >
-              Search
+              <span className="ion-search"></span>
             </button>
           </div>
         </nav>

@@ -1,0 +1,32 @@
+// Header
+
+.Header {
+
+	.search {
+		.form-control {
+			transition: width 0.25s;
+			background-color: rgba(255,255,255,0.1);
+			border-radius: 20px;
+			color: #EEE;
+			width: 120px;
+			&:focus {
+				outline: none;
+				border-color:transparent;
+				width: 200px;
+			}
+		}
+
+		.btn {
+			background-color: transparent;
+			border: none;
+			color: rgba(255,255,255,0.1);
+			margin-left: -50px;
+			outline: none;
+			&:active {
+				color: rgba(255,255,255,0.8);
+			}
+		}
+	}
+	
+}
+
