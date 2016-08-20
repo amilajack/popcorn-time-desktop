@@ -34,11 +34,15 @@ describe('e2e', function testApp() {
     }
   });
 
-  after(() => {
-    if (this.app && this.app.isRunning()) {
-      return this.app.stop();
+  after(done => {
+    try {
+      if (this.app && this.app.isRunning()) {
+        return this.app.stop();
+      }
+      done();
+    } catch (error) {
+      done(error);
     }
-    return true;
   });
 
   describe('main window', () => {

@@ -581,7 +581,7 @@ describe('api ->', function testApi() {
       });
 
       describe('Helpers', () => {
-        it('custom endpoint config', done => {
+        it('should return custom endpoint config', done => {
           try {
             const resolvedEndpoint = resolveEndpoint('https://some-website.com/search', 'TEST');
             expect(resolvedEndpoint).to.equal('https://test.org/search');
