@@ -3,7 +3,6 @@
   "extends": "airbnb",
   "env": {
     "browser": true,
-    "mocha": true,
     "node": true,
     "es6": true
   },
@@ -30,18 +29,6 @@
     "import/no-unresolved": [2, { "ignore": ["electron"] }],
     "jsx-filename-extension": 0,
     "new-cap": 0,
-    "mocha/no-exclusive-tests": "error",
-    "mocha/no-skipped-tests": "off",
-    "mocha/no-pending-tests": "error",
-    "mocha/handle-done-callback": "error",
-    "mocha/no-synchronous-tests": "error",
-    "mocha/no-global-tests": "error",
-    "mocha/valid-test-description": "error",
-    "mocha/valid-suite-description": "error",
-    "mocha/no-sibling-hooks": "off",
-    "mocha/no-mocha-arrows": "off",
-    "mocha/no-hooks": "off",
-    "mocha/no-top-level-hooks": "off",
     "no-mixed-operators": 0,
     "no-use-before-define": 0,
     "no-nested-ternary": 0,
@@ -83,7 +70,6 @@
     "fp",
     "flowtype",
     "flowtype-errors",
-    "mocha",
     "react"
   ],
   "settings": {

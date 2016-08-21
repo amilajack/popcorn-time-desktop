@@ -34,14 +34,9 @@ describe('e2e', function testApp() {
     }
   });
 
-  after(done => {
-    try {
-      if (this.app && this.app.isRunning()) {
-        return this.app.stop();
-      }
-      done();
-    } catch (error) {
-      done(error);
+  after(() => {
+    if (this.app && this.app.isRunning()) {
+      return this.app.stop();
     }
   });
 

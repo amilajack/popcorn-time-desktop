@@ -590,6 +590,16 @@ describe('api ->', function testApi() {
             done(error);
           }
         });
+
+        it('should return default for unknown endpoints', done => {
+          try {
+            const resolvedEndpoint = resolveEndpoint('https://some-website.com/search', 'TEST');
+            expect(resolvedEndpoint).to.equal('https://test.org/search');
+            done();
+          } catch (error) {
+            done(error);
+          }
+        });
       });
 
       describe.skip('Series Tests', () => {

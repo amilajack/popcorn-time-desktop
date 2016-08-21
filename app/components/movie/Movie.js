@@ -14,10 +14,6 @@ import Torrent, { formatSpeeds } from '../../api/Torrent';
 import Player from '../../api/Player';
 
 
-export function square(n: number): number {
-  return n + { some: 'some' };
-}
-
 export default class Movie extends Component {
 
   static propTypes = {
@@ -329,19 +325,19 @@ export default class Movie extends Component {
 
       this.setState({ servingUrl });
 
-      if (process.env.NODE_ENV === 'development') {
-        this.torrentInfoInterval = setInterval(() => {
-          const { downloadSpeed, uploadSpeed, progress, numPeers, ratio } = formatSpeeds(torrent);
-          this.setState({ downloadSpeed, uploadSpeed, progress, numPeers, ratio });
-          console.log('----------------------------------------------------');
-          console.log('Download Speed:', downloadSpeed);
-          console.log('Upload Speed:', uploadSpeed);
-          console.log('Progress:', progress);
-          console.log('Peers:', numPeers);
-          console.log('Ratio:', ratio);
-          console.log('----------------------------------------------------');
-        }, 10000);
-      }
+      // if (process.env.NODE_ENV === 'development') {
+      //   this.torrentInfoInterval = setInterval(() => {
+      //     const { downloadSpeed, uploadSpeed, progress, numPeers, ratio } = formatSpeeds(torrent);
+      //     this.setState({ downloadSpeed, uploadSpeed, progress, numPeers, ratio });
+      //     console.log('----------------------------------------------------');
+      //     console.log('Download Speed:', downloadSpeed);
+      //     console.log('Upload Speed:', uploadSpeed);
+      //     console.log('Progress:', progress);
+      //     console.log('Peers:', numPeers);
+      //     console.log('Ratio:', ratio);
+      //     console.log('----------------------------------------------------');
+      //   }, 10000);
+      // }
 
       switch (this.state.currentPlayer) {
         case 'VLC':

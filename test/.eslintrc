@@ -10,29 +10,20 @@
     "fp/no-let": "warn",
     "fp/no-loops": "warn",
     "fp/no-mutating-assign": "warn",
-
-    "flowtype/define-flow-type": 0,
-    "flowtype/require-parameter-type": 0,
-    "flowtype/require-return-type": [
-      0,
-      "always",
-      {
-        "annotateUndefined": "never"
-      }
-    ],
-    "flowtype/space-after-type-colon": [
-      0,
-      "always"
-    ],
-    "flowtype/space-before-type-colon": [
-      0,
-      "never"
-    ],
-    "flowtype/type-id-match": [
-      0,
-      "^([A-Z][a-z0-9]+)+Type$"
-    ],
-    "flowtype/use-flow-type": 0,
-    "flowtype/valid-syntax": 0
-  }
+    "mocha/no-exclusive-tests": "error",
+    "mocha/no-skipped-tests": "off",
+    "mocha/no-pending-tests": "error",
+    "mocha/handle-done-callback": "error",
+    "mocha/no-synchronous-tests": "warn",
+    "mocha/no-global-tests": "error",
+    "mocha/valid-test-description": "error",
+    "mocha/valid-suite-description": "error",
+    "mocha/no-sibling-hooks": "off",
+    "mocha/no-mocha-arrows": "off",
+    "mocha/no-hooks": "off",
+    "mocha/no-top-level-hooks": "off"
+  },
+  "plugins": [
+    "mocha"
+  ]
 }

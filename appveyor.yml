@@ -24,5 +24,6 @@ test_script:
   - node --version
   - npm --version
   - npm run test
+  - npm run package
   - npm run bench-api
   # - npm run test-screenshot
