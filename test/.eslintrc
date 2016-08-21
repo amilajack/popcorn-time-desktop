@@ -9,6 +9,21 @@
     "fp/no-events": "warn",
     "fp/no-let": "warn",
     "fp/no-loops": "warn",
-    "fp/no-mutating-assign": "warn"
-  }
+    "fp/no-mutating-assign": "warn",
+    "mocha/no-exclusive-tests": "error",
+    "mocha/no-skipped-tests": "off",
+    "mocha/no-pending-tests": "error",
+    "mocha/handle-done-callback": "error",
+    "mocha/no-synchronous-tests": "warn",
+    "mocha/no-global-tests": "error",
+    "mocha/valid-test-description": "error",
+    "mocha/valid-suite-description": "error",
+    "mocha/no-sibling-hooks": "off",
+    "mocha/no-mocha-arrows": "off",
+    "mocha/no-hooks": "off",
+    "mocha/no-top-level-hooks": "off"
+  },
+  "plugins": [
+    "mocha"
+  ]
 }

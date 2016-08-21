@@ -10,7 +10,7 @@ import Rating from '../card/Rating';
 import Show from '../show/Show';
 import { getIdealTorrent } from '../../api/torrents/BaseTorrentProvider';
 import Butter from '../../api/Butter';
-import Torrent, { formatSpeeds } from '../../api/Torrent';
+import Torrent from '../../api/Torrent';
 import Player from '../../api/Player';
 
 
@@ -324,20 +324,6 @@ export default class Movie extends Component {
       console.log('serving at:', servingUrl);
 
       this.setState({ servingUrl });
-
-      if (process.env.NODE_ENV === 'development') {
-        this.torrentInfoInterval = setInterval(() => {
-          const { downloadSpeed, uploadSpeed, progress, numPeers, ratio } = formatSpeeds(torrent);
-          this.setState({ downloadSpeed, uploadSpeed, progress, numPeers, ratio });
-          console.log('----------------------------------------------------');
-          console.log('Download Speed:', downloadSpeed);
-          console.log('Upload Speed:', uploadSpeed);
-          console.log('Progress:', progress);
-          console.log('Peers:', numPeers);
-          console.log('Ratio:', ratio);
-          console.log('----------------------------------------------------');
-        }, 10000);
-      }
 
       switch (this.state.currentPlayer) {
         case 'VLC':

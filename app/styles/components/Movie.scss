@@ -1,16 +1,14 @@
 // The entire movie page
 
 .Movie {
+  video {
+    width: 100%;
+  }
 
-	// The torrent video
-	video {
-		width: 100%
-	}
-
-	.Movie--poster-image {
-		width: 100%;
-		position: absolute;
-		top: 0;
-		z-index: -1;
-	}
+  .Movie--poster-image {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    z-index: -1;
+  }
 }

@@ -44,9 +44,11 @@ export default class Player {
       volume: 10,
       autoplay: true,
       showPosterOnEnd: true
-    })[0].plyr;
+    })[0];
 
     const player = this._player;
+
+    console.log(player);
 
     player.source({
       type: 'video',
