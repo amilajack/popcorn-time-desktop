@@ -124,6 +124,7 @@ function formatMetadata(movie = {}, type) {
     imdbId: movie.ids.imdb,
     id: movie.ids.imdb,
     type,
+    certification: movie.certification,
     summary: movie.overview,
     genres: movie.genres,
     rating: movie.rating ? roundRating(movie.rating) : 'n/a',
@@ -151,6 +152,7 @@ function formatMovieSearch(movie) {
     imdbId: movie.imdbID,
     id: movie.imdbID,
     type: movie.Type.includes('movie') ? 'movies' : 'shows',
+    certification: movie.Rated,
     summary: 'n/a',  // omdbapi does not support
     genres: [],
     rating: 'n/a',   // omdbapi does not support

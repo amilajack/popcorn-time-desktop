@@ -1,6 +1,3 @@
-/**
- * @flow
- */
 import React, { Component, PropTypes } from 'react';
 
 

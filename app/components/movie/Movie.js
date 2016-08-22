@@ -100,7 +100,7 @@ export default class Movie extends Component {
     this.getAllData(nextProps.itemId);
   }
 
-  getAllData(itemId) {
+  getAllData(itemId: string) {
     this.setState(this.initialState, () => {
       if (this.props.activeMode === 'shows') {
         this.getShowData(
@@ -116,7 +116,7 @@ export default class Movie extends Component {
     this.getSimilar(itemId);
   }
 
-  async getShowData(type, imdbId, season, episode) {
+  async getShowData(type: string, imdbId: string, season: string, episode: string) {
     switch (type) {
       case 'seasons':
         this.setState({ seasons: [], episodes: [], episode: {} });
@@ -488,6 +488,13 @@ export default class Movie extends Component {
                   </Dropdown>
                 </div>
               </div>
+
+
+              {
+                this.state.item.certification
+                  ? <div className="certification">{this.state.item.certification}</div>
+                  : null
+              }
 
               {this.props.activeMode === 'shows' ?
                 <Show

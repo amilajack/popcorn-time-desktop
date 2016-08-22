@@ -48,8 +48,6 @@ export default class Player {
 
     const player = this._player;
 
-    console.log(player);
-
     player.source({
       type: 'video',
       sources: [{
@@ -57,6 +55,7 @@ export default class Player {
         type: 'video/mp4'
       }]
     });
+
     player.poster(metadata.poster);
 
     return player;
