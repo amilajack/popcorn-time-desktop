@@ -4,7 +4,6 @@ import extract from 'extract-zip';
 
 
 const version = process.env.PREBUILT_FFMPEG_RELEASE || '0.16.0';
-
 const baseDir = path.normalize('./node_modules/electron-prebuilt/dist');
 
 function getUrl() {
