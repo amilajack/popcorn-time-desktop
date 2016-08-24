@@ -22,7 +22,7 @@ export default class Torrent {
     const { season, episode, activeMode } = metadata;
     const maxConns = process.env.CONFIG_MAX_CONNECTIONS
                       ? parseInt(process.env.CONFIG_MAX_CONNECTIONS, 10)
-                      : 100;
+                      : 20;
 
     this.engine = new WebTorrent({ maxConns });
     this.inProgress = true;
@@ -96,9 +96,10 @@ export default class Torrent {
 
           cb(
             `http://localhost:${port}/${torrentIndex}`,
-            name,
+            file,
             files,
-            torrent
+            torrent,
+            selectSubtitleFile(files, activeMode, metadata)
           );
 
           this.clearIntervals();
@@ -138,4 +139,25 @@ export function formatSpeeds({ downloadSpeed, uploadSpeed, progress, numPeers, r
     numPeers,
     ratio
   };
+}
+
+/**
+ * Get the subtitle file buffer given an array of files
+ */
+export function selectSubtitleFile(files, activeMode, metadata) {
+  return files.find(file => {
+    const formatIsSupported = file.name.includes('.srt');
+
+    switch (activeMode) {
+      // Check if the current file is the exact episode we're looking for
+      case 'season_complete': {
+        const { season, episode } = metadata;
+        return (formatIsSupported && isExactEpisode(file.name, season, episode));
+      }
+
+      // Check if the current file is greater than the previous file
+      default:
+        return formatIsSupported;
+    }
+  });
 }

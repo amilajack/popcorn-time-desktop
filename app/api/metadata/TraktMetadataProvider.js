@@ -1,7 +1,10 @@
 import fetch from 'isomorphic-fetch';
 import Trakt from 'trakt.tv';
+import OpenSubtitles from 'opensubtitles-api';
 import { convertRuntimeToHours } from './MetadataAdapter';
 
+
+const subtitlesEndpoint = 'https://popcorn-time-api-server.herokuapp.com/subtitles';
 
 export default class TraktMetadataAdapter {
 
@@ -13,6 +16,13 @@ export default class TraktMetadataAdapter {
     this.trakt = new Trakt({
       client_id: this.clientId,
       client_secret: this.clientSecret
+    });
+
+    this.openSubtitles = new OpenSubtitles({
+      useragent: 'OSTestUserAgent',
+      username: '',
+      password: '',
+      ssl: true
     });
   }
 
@@ -114,6 +124,42 @@ export default class TraktMetadataAdapter {
       .then(movies => movies.map(movie => formatMetadata(movie, type)));
   }
 
+  async getSubtitles(imdbId, filename, length, metadata = {}) {
+    const { activeMode } = metadata;
+
+    const defaultOptions = {
+      sublanguageid: 'eng',
+      // sublanguageid: 'all', // @TODO
+      // hash: '8e245d9679d31e12', // @TODO
+      filesize: length || undefined,
+      filename: filename || undefined,
+      season: metadata.season || undefined,
+      episode: metadata.episode || undefined,
+      extensions: ['srt', 'vtt'],
+      imdbid: imdbId
+    };
+
+    const subtitles = (() => {
+      switch (activeMode) {
+        case 'shows': {
+          const { season, episode } = metadata;
+          return this.openSubtitles.search({
+            ...defaultOptions,
+            ...{ season, episode }
+          });
+        }
+        default:
+          return this.openSubtitles.search(defaultOptions);
+      }
+    })();
+
+    return subtitles.then(
+      res => Object
+              .values(res)
+              .map(subtitle => formatSubtitle(subtitle))
+    );
+  }
+
   provide() {}
 }
 
@@ -195,4 +241,14 @@ function formatSeason(season, image = 'screenshot') {
 
 function roundRating(rating) {
   return Math.round(rating * 10) / 10;
+}
+
+function formatSubtitle(subtitle) {
+  return {
+    kind: 'captions',
+    label: subtitle.langName,
+    srclang: subtitle.lang,
+    src: `${subtitlesEndpoint}/${encodeURIComponent(subtitle.url)}`,
+    default: subtitle.lang === 'en'
+  };
 }

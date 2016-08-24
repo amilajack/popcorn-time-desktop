@@ -602,6 +602,57 @@ describe('api ->', function testApi() {
         });
       });
 
+      describe('Subtitles', function testSubtitles() {
+        this.timeout(30000);
+
+        before(async() => {
+          this.subtitles = await butterFactory().getSubtitles(
+            'tt0468569',
+            'The.Dark.Knight.2008.720p.BluRay.x264.YIFY.mp4',
+            undefined,
+            {
+              activeMode: 'movies'
+            }
+          );
+        });
+
+        describe('Movie', () => {
+          it('should return subtitles', async done => {
+            try {
+              expect(this.subtitles).to.be.an('array');
+
+              for (const subtitle of this.subtitles) {
+                expect(subtitle).to.be.an('object');
+                expect(subtitle).to.have.deep.property('kind').that.is.a('string');
+                expect(subtitle).to.have.deep.property('label').that.is.a('string');
+                expect(subtitle).to.have.deep.property('srclang').that.is.a('string');
+                expect(subtitle).to.have.deep.property('src').that.is.a('string');
+                expect(subtitle).to.have.deep.property('default').that.is.a('boolean');
+              }
+
+              done();
+            } catch (error) {
+              done(error);
+            }
+          });
+        });
+
+        describe('Show', () => {
+          it.skip('should return subtitles', async done => {
+            try {
+              const subtitles = await butterFactory().getSubtitles(showImdbId);
+              expect(subtitles).to.be.an('array');
+              for (const subtitle of subtitles) {
+                expect(subtitle).to.be.an('object');
+              }
+              done();
+            } catch (error) {
+              done(error);
+            }
+          });
+        });
+      });
+
       describe.skip('Series Tests', () => {
         describe('valid torrents for top 20 shows', () => {
           for (const show of MockShows.filter((e, i) => i < 20)) {

@@ -17,6 +17,9 @@ cache:
   directories:
     - node_modules
 
+notifications:
+  email: false
+
 addons:
   apt:
     sources:

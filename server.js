@@ -37,7 +37,7 @@ const server = app.listen(PORT, 'localhost', error => {
     ];
   });
 
-  return console.log(`Listening at http://localhost:${PORT}`);
+  return console.info(`Listening at http://localhost:${PORT}`);
 });
 
 process.on('SIGTERM', () => {

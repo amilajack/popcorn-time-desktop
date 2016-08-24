@@ -1,7 +1,6 @@
 /**
  * Resolve requests from cache
  */
-
 import {
   merge,
   resolveCache,
@@ -135,6 +134,17 @@ function getShows(...args) {
 }
 
 /**
+ * Get the subtitles for a movie or show
+ *
+ * @param {string} imdbId
+ * @param {string} filename
+ * @param {object} metadata
+ */
+function getSubtitles(...args) {
+  return handleRequest('getSubtitles', args);
+}
+
+/**
  * Convert runtime from minutes to hours
  *
  * @param  {number} runtimeInMinutes
@@ -162,5 +172,6 @@ export default {
   getSeasons,
   getEpisode,
   search,
-  getSimilar
+  getSimilar,
+  getSubtitles
 };

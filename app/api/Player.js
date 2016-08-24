@@ -53,7 +53,8 @@ export default class Player {
       sources: [{
         src: streamingUrl,
         type: 'video/mp4'
-      }]
+      }],
+      ...metadata
     });
 
     player.poster(metadata.poster);

@@ -1,4 +1,3 @@
-/* eslint new-cap: 0 */
 import KatShows from 'kat-shows';
 import {
   formatSeasonEpisodeToObject

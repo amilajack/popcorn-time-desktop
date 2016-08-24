@@ -47,10 +47,14 @@ export default class Butter {
    * @param {boolean} returnAll
    */
   getTorrent(imdbId, type, extendedDetails = {}, returnAll) {
-    return TorrentAdapter(imdbId, type, extendedDetails, returnAll); // eslint-disable-line new-cap
+    return TorrentAdapter(imdbId, type, extendedDetails, returnAll);
   }
 
   search(query, page = 1) {
     return MetadataAdapter.search(query, page);
+  }
+
+  getSubtitles(imdbId, filename, length, metadata) {
+    return MetadataAdapter.getSubtitles(imdbId, filename, length, metadata);
   }
 }

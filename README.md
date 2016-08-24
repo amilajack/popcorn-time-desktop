@@ -34,7 +34,7 @@
 
 **Faster Torrents**: New API optimized for fast torrents by querying the from multiple endpoints
 
-**Modern Stack**: Electron, React, Webpack, ES7, and more!
+**Modern Stack**: Electron, React, Webpack, ES7, Flow, and others
 
 ## Requirements:
 
@@ -65,9 +65,6 @@ npm run dev
 
 # Production build
 npm run package
-
-# If you hit the 'Failed to load resource' error (found in the console), refresh Electron (CMD/ctrl + R)
-# This is caused when Electron is trying to fetch the compiled file before it has finished.
 ```
 
 ## Todos:
