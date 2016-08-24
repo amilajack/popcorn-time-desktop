@@ -378,7 +378,7 @@ export default class Movie extends Component {
       this.setState({ servingUrl });
 
       const filename = file.name;
-      const subtitles = subtitle && process.env.FLAG_ENG_SUBTITLES === 'true'
+      const subtitles = subtitle && process.env.FLAG_SUBTITLES === 'true'
                           ? await this.getSubtitles(
                               subtitle,
                               this.props.activeMode,

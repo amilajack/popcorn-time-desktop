@@ -81,7 +81,6 @@ export default class Torrent {
 
       const buffer = 1 * 1024 * 1024; // 1MB
       const files = torrent.files;
-      const { name } = file;
 
       file.select();
 

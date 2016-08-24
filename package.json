@@ -6,8 +6,8 @@
   "main": "main.js",
   "scripts": {
     "bench-api": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 mocha --bail --slow 3000 --timeout 20000 --inline-diffs --async-only --compilers js:babel-register --recursive --require ./test/setup.js test/**/*.benchmark.js",
-    "build": "cross-env NODE_ENV=production FLAG_SEASON_COMPLETE=true FLAG_MANUAL_TORRENT_SELECTION=true FLAG_ENG_SUBTITLES=true parallel-webpack --config=webpack.config.build.js",
-    "dev": "cross-env NODE_ENV=development FLAG_SEASON_COMPLETE=true FLAG_MANUAL_TORRENT_SELECTION=true FLAG_ENG_SUBTITLES=true npm run start-hot-server",
+    "build": "cross-env NODE_ENV=production FLAG_SEASON_COMPLETE=true FLAG_MANUAL_TORRENT_SELECTION=true parallel-webpack --config=webpack.config.build.js",
+    "dev": "cross-env NODE_ENV=development FLAG_SEASON_COMPLETE=true FLAG_MANUAL_TORRENT_SELECTION=true FLAG_SUBTITLES=true npm run start-hot-server",
     "flow": "flow check-contents < app/components/loader/Loader.js --json",
     "lint": "eslint app test *.js && stylelint app/styles/*.scss app/styles/**/*.scss",
     "lint-summary": "eslint-nibble app test *.js",
