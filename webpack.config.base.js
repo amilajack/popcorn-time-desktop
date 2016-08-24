@@ -36,7 +36,7 @@ export default {
   },
   output: {
     path: path.join(__dirname, './app/dist'),
-    filename: 'bundle.js',
+    filename: 'renderer.js',
     libraryTarget: 'commonjs2'
   },
   resolve: {

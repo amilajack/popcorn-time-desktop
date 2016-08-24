@@ -24,8 +24,8 @@
         const port = process.env.PORT || 3000;
 
         script.src = (process.env.HOT)
-          ? `http://localhost:${port}/dist/bundle.js`
-          : './dist/bundle.js';
+          ? `http://localhost:${port}/dist/renderer.js`
+          : './dist/renderer.js';
 
         document.write(script.outerHTML);
       }());
