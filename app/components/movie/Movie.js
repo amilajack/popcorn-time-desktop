@@ -5,6 +5,7 @@ import React, { Component, PropTypes } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { Link } from 'react-router';
 import notie from 'notie';
+import { exec } from 'child_process';
 import CardList from '../card/CardList';
 import Rating from '../card/Rating';
 import Show from '../show/Show';
@@ -389,6 +390,26 @@ export default class Movie extends Component {
       switch (this.state.currentPlayer) {
         case 'VLC':
           return this.player.initVLC(servingUrl);
+        case 'Chromecast': {
+          const { title } = this.state.item;
+          const { full } = this.state.item.images.fanart;
+          const command = [
+            'node ./.tmp/Cast.js',
+            `--url '${servingUrl}'`,
+            `--title '${title}'`,
+            `--image ${full}`
+          ].join(' ');
+
+          return exec(command, (_error, stdout, stderr) => {
+            if (_error) {
+              return console.error(`exec error: ${_error}`);
+            }
+            return [
+              console.log(`stdout: ${stdout}`),
+              console.log(`stderr: ${stderr}`)
+            ];
+          });
+        }
         case 'Default':
           if (Player.isFormatSupported(filename, Player.nativePlaybackFormats)) {
             this.player.initPlyr(servingUrl, {
@@ -549,6 +570,11 @@ export default class Movie extends Component {
                         onClick={this.setPlayer.bind(this, 'VLC')}
                       >
                         VLC
+                      </DropdownItem>
+                      <DropdownItem
+                        onClick={this.setPlayer.bind(this, 'Chromecast')}
+                      >
+                        Chromecast
                       </DropdownItem>
                     </DropdownMenu>
                   </Dropdown>
