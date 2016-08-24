@@ -27,7 +27,7 @@ export default class Card extends Component {
 
   render() {
     const placeholder =
-      '../../images/posterholder.png';
+      'images/posterholder.png';
 
     const divStyle = {
       backgroundImage: `url(${this.props.image !== 'N/A' ? this.props.image : placeholder})`
