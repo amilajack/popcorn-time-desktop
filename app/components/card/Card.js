@@ -36,7 +36,7 @@ export default class Card extends Component {
     return (
       <div className="Card">
         <Link to={`/item/${this.props.type}/${this.props.id}`}>
-          <div className="Card--overlay-container" style={divStyle}>
+          <div className="Card--overlay-container fade-in" style={divStyle}>
             <div className="Card--overlay" />
           </div>
         </Link>
