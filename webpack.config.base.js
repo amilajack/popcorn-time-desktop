@@ -32,10 +32,6 @@ export default {
     }, {
       test: /\.json$/,
       loader: 'json-loader'
-    },
-    {
-      test: /\.proto$/,
-      loader: 'proto-loader'
     }]
   },
   output: {
