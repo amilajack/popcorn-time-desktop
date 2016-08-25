@@ -34,7 +34,7 @@ export default class Card extends Component {
     };
 
     return (
-      <div className="Card fade-in">
+      <div className="Card slidedown">
         <Link to={`/item/${this.props.type}/${this.props.id}`}>
           <div className="Card--overlay-container" style={divStyle}>
             <div className="Card--overlay" />
