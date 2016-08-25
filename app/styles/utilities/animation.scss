@@ -19,7 +19,8 @@
 }
 
 .slidedown {
-  animation: in 1s ease-in, slideDown 1s ease-in, cubic-bezier(0.165, 0.84, 0.44, 1);
+  animation: in 0.75s ease-in, slideDown 1.5s ease-in, cubic-bezier(0.165, 0.84, 0.44, 1);
+  transform: translateZ(0);
 }
 
 .fadein {

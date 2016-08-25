@@ -84,6 +84,7 @@ describe('e2e', function testApp() {
         await this.app.client.waitUntilWindowLoaded(); // await search results();
 
         const movieTitles = await this.app.client.getText('.Card .Card--title');
+        console.log(movieTitles);
         expect(movieTitles[0]).to.include('Harry Potter');
         expect(movieTitles[1]).to.include('Harry Potter');
         expect(movieTitles[2]).to.include('Harry Potter');
