@@ -1,4 +1,3 @@
-/* eslint-disable */
 /**
  * @TODO
  */
@@ -10,7 +9,7 @@ const extratorrentUrl = 'http://extratorrent.cc';
 
 export default class ExtraTorrent {
 
-  fetch(searchQuery) {
+  fetch(searchQuery: string) {
     return fetch(
       `${extratorrentUrl}/search/?search=${encodeURIComponent(searchQuery)}&new=1&x=0&y=0`
     )
@@ -22,7 +21,7 @@ export default class ExtraTorrent {
       });
   }
 
-  format(torrentsText) {
+  format(torrentsText: string) {
     const $ = cheerio.load(torrentsText);
 
     if ($('.tl').find('tr').length > 3) {
