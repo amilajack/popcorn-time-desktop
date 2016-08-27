@@ -30,7 +30,7 @@ export default class Home extends Component {
     infinitePagination: false
   };
 
-  constructor(props) {
+  constructor(props: Object) {
     super(props);
 
     this.butter = new Butter();
@@ -46,7 +46,7 @@ export default class Home extends Component {
     document.addEventListener('scroll', this.initInfinitePagination.bind(this));
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: Object) {
     if (!this.state.modes[nextProps.activeMode].items.length) {
       this.paginate(nextProps.activeMode, nextProps.activeModeOptions);
     } else {
@@ -59,10 +59,9 @@ export default class Home extends Component {
     document.removeEventListener('scroll', this.initInfinitePagination.bind(this));
   }
 
-  async onChange(isVisible) {
+  async onChange(isVisible: boolean) {
     if (isVisible && !this.state.isLoading) {
       await this.paginate(this.props.activeMode);
-      // await this.paginate(this.props.activeMode, this.props.mode.options);
     }
   }
 
@@ -74,7 +73,7 @@ export default class Home extends Component {
    * @param {string} queryType   | 'search', 'movies', 'shows', etc
    * @param {object} queryParams | { searchQuery: 'game of thrones' }
    */
-  async paginate(queryType, queryParams) {
+  async paginate(queryType: string, queryParams) {
     this.setState({
       isLoading: true
     });

@@ -13,7 +13,7 @@ export const providerCache = cache({
 /**
  * Handle a promise and set a timeout
  */
-export function timeout(promise, time = 10000) {
+export function timeout(promise, time: number = 10000) {
   return new Promise((resolve, reject) => {
     promise.then(res => resolve(res));
 
@@ -26,7 +26,7 @@ export function timeout(promise, time = 10000) {
   });
 }
 
-export function determineQuality(magnet, metadata) {
+export function determineQuality(magnet: string, metadata: string) {
   const lowerCaseMetadata = (metadata || magnet).toLowerCase();
 
   if (
@@ -81,7 +81,7 @@ export function determineQuality(magnet, metadata) {
  * @param {number} season
  * @param {number} episode
  */
-export function formatSeasonEpisodeToString(season, episode) {
+export function formatSeasonEpisodeToString(season: number, episode: number) {
   return (
     ('s' + (String(season).length === 1 ? '0' + String(season) : String(season))) +
     ('e' + (String(episode).length === 1 ? '0' + String(episode) : String(episode)))
@@ -92,18 +92,18 @@ export function formatSeasonEpisodeToString(season, episode) {
  * @param {number} season
  * @param {number} episode
  */
-export function formatSeasonEpisodeToObject(season, episode) {
+export function formatSeasonEpisodeToObject(season: number, episode: number) {
   return {
     season: (String(season).length === 1 ? '0' + String(season) : String(season)),
     episode: (String(episode).length === 1 ? '0' + String(episode) : String(episode))
   };
 }
 
-export function isExactEpisode(title, season, episode) {
+export function isExactEpisode(title: string, season: number, episode: number) {
   return title.toLowerCase().includes(formatSeasonEpisodeToString(season, episode));
 }
 
-export function getHealth(seeders, leechers = 0) {
+export function getHealth(seeders: number, leechers: number = 0) {
   const ratio = (seeders && !!leechers) ? (seeders / leechers) : seeders;
 
   if (seeders < 50) {
@@ -121,7 +121,7 @@ export function getHealth(seeders, leechers = 0) {
   return 'poor';
 }
 
-export function hasNonEnglishLanguage(metadata) {
+export function hasNonEnglishLanguage(metadata: string) {
   if (metadata.includes('french')) return true;
   if (metadata.includes('german')) return true;
   if (metadata.includes('greek')) return true;
@@ -139,19 +139,19 @@ export function hasNonEnglishLanguage(metadata) {
   return false;
 }
 
-export function hasSubtitles(metadata) {
+export function hasSubtitles(metadata: string) {
   return metadata.includes('sub');
 }
 
-export function hasNonNativeCodec(metadata) {
+export function hasNonNativeCodec(metadata: string) {
   return (
     metadata.includes('avi') ||
     metadata.includes('mkv')
   );
 }
 
-export function sortTorrentsBySeeders(torrents) {
-  return torrents.sort((prev, next) => {
+export function sortTorrentsBySeeders(torrents: Array<any>) {
+  return torrents.sort((prev: Object, next: Object) => {
     if (prev.seeders === next.seeders) {
       return 0;
     }
@@ -160,7 +160,7 @@ export function sortTorrentsBySeeders(torrents) {
   });
 }
 
-export function constructMovieQueries(title, imdbId) {
+export function constructMovieQueries(title: string, imdbId: string) {
   const queries = [
     title, // default
     imdbId
@@ -171,7 +171,7 @@ export function constructMovieQueries(title, imdbId) {
           : queries;
 }
 
-export function combineAllQueries(queries) {
+export function combineAllQueries(queries: Array<Promise>) {
   return Promise.all(
     queries.map(query => this.fetch(query))
   )
@@ -181,7 +181,7 @@ export function combineAllQueries(queries) {
     );
 }
 
-export function constructSeasonQueries(title, season) {
+export function constructSeasonQueries(title: string, season: number) {
   const formattedSeasonNumber = `s${formatSeasonEpisodeToObject(season, 1).season}`;
 
   return [
@@ -194,11 +194,11 @@ export function constructSeasonQueries(title, season) {
 /**
  * @param {array} results | A two-dimentional array containing arrays of results
  */
-export function merge(results) {
+export function merge(results: Array<any>) {
   return results.reduce((previous, current) => [...previous, ...current]);
 }
 
-export function resolveEndpoint(defaultEndpoint, providerId) {
+export function resolveEndpoint(defaultEndpoint: string, providerId: string) {
   const endpointEnvVariable = `CONFIG_ENDPOINT_${providerId}`;
 
   switch (process.env[endpointEnvVariable]) {
@@ -213,16 +213,16 @@ export function resolveEndpoint(defaultEndpoint, providerId) {
   }
 }
 
-export function getIdealTorrent(torrents) {
+export function getIdealTorrent(torrents: Array<>) {
   const idealTorrent = torrents
     .filter(torrent => !!torrent)
     .filter(
-      torrent => typeof torrent.seeders === 'number'
+      (torrent: Object) => typeof torrent.seeders === 'number'
     );
 
   return idealTorrent
     ?
-      idealTorrent.sort((prev, next) => {
+      idealTorrent.sort((prev: Object, next: Object) => {
         if (prev.seeders === next.seeders) {
           return 0;
         }
@@ -239,7 +239,7 @@ export function handleProviderError(error) {
   }
 }
 
-export function resolveCache(key) {
+export function resolveCache(key: string) {
   if (process.env.API_USE_MOCK_DATA === 'true') {
     const mock = {
       ...require('../../../test/api/metadata.mock'), // eslint-disable-line global-require
@@ -265,7 +265,7 @@ export function resolveCache(key) {
   );
 }
 
-export function setCache(key, value) {
+export function setCache(key: string, value: any) {
   if (process.env.NODE_ENV === 'development') {
     console.log('Setting cache key', key);
   }

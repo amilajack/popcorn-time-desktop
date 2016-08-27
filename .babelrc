@@ -1,10 +1,15 @@
 {
   "presets": ["es2015", "stage-0", "react"],
-  "plugins": ["add-module-exports", "transform-runtime", "syntax-flow", "transform-flow-strip-types"],
+  "plugins": [
+    "add-module-exports",
+    "transform-runtime",
+    "typecheck",
+    "syntax-flow",
+    "transform-flow-strip-types"
+  ],
   "env": {
     "development": {
-      "presets": ["react-hmre"],
-			"plugins": ["typecheck"]
+      "presets": ["react-hmre"]
     },
 		"production": {
 			"presets": ["react-optimize"],

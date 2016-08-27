@@ -26,7 +26,7 @@ export default class TraktMetadataAdapter {
     });
   }
 
-  getMovies(page = 1, limit = 50) {
+  getMovies(page: number = 1, limit: number = 50) {
     return this.trakt.movies.popular({
       paginate: true,
       page,
@@ -36,7 +36,7 @@ export default class TraktMetadataAdapter {
       .then(movies => movies.map(movie => formatMetadata(movie, 'movies')));
   }
 
-  getMovie(imdbId) {
+  getMovie(imdbId: string) {
     return this.trakt.movies.summary({
       id: imdbId,
       extended: 'full,images,metadata'
@@ -44,7 +44,7 @@ export default class TraktMetadataAdapter {
       .then(movie => formatMetadata(movie, 'movies'));
   }
 
-  getShows(page = 1, limit = 50) {
+  getShows(page: number = 1, limit: number = 50) {
     return this.trakt.shows.popular({
       paginate: true,
       page,
@@ -54,7 +54,7 @@ export default class TraktMetadataAdapter {
       .then(shows => shows.map(show => formatMetadata(show, 'shows')));
   }
 
-  getShow(imdbId) {
+  getShow(imdbId: string) {
     return this.trakt.shows.summary({
       id: imdbId,
       extended: 'full,images,metadata'
@@ -62,7 +62,7 @@ export default class TraktMetadataAdapter {
       .then(show => formatMetadata(show, 'shows'));
   }
 
-  getSeasons(imdbId) {
+  getSeasons(imdbId: string) {
     return this.trakt.seasons.summary({
       id: imdbId,
       extended: 'full,images,metadata'
@@ -79,7 +79,7 @@ export default class TraktMetadataAdapter {
       })));
   }
 
-  getSeason(imdbId, season) {
+  getSeason(imdbId: string, season: number) {
     return this.trakt.seasons.season({
       id: imdbId,
       season,
@@ -88,7 +88,7 @@ export default class TraktMetadataAdapter {
       .then(episodes => episodes.map(episode => formatSeason(episode)));
   }
 
-  getEpisode(imdbId, season, episode) {
+  getEpisode(imdbId: string, season: number, episode: number) {
     return this.trakt.episodes.summary({
       id: imdbId,
       season,
@@ -98,7 +98,7 @@ export default class TraktMetadataAdapter {
       .then(res => formatSeason(res));
   }
 
-  search(query, page = 1) {
+  search(query: string, page: number = 1) {
     if (!query) {
       throw Error('Query paramater required');
     }
@@ -115,7 +115,7 @@ export default class TraktMetadataAdapter {
    * @param {string} type   | movie or show
    * @param {string} imdbId | movie or show
    */
-  getSimilar(type = 'movies', imdbId, limit = 5) {
+  getSimilar(type: string = 'movies', imdbId: string, limit: number = 5) {
     return this.trakt[type].related({
       id: imdbId,
       limit,
@@ -124,7 +124,7 @@ export default class TraktMetadataAdapter {
       .then(movies => movies.map(movie => formatMetadata(movie, type)));
   }
 
-  async getSubtitles(imdbId, filename, length, metadata = {}) {
+  async getSubtitles(imdbId: string, filename: string, length: number, metadata: Object = {}) {
     const { activeMode } = metadata;
 
     const defaultOptions = {
@@ -163,7 +163,7 @@ export default class TraktMetadataAdapter {
   provide() {}
 }
 
-function formatMetadata(movie = {}, type) {
+function formatMetadata(movie: Object = {}, type: string) {
   return {
     title: movie.title,
     year: movie.year,
@@ -191,7 +191,7 @@ function formatMetadata(movie = {}, type) {
   };
 }
 
-function formatMovieSearch(movie) {
+function formatMovieSearch(movie: Object) {
   return {
     title: movie.Title,
     year: parseInt(movie.Year, 10),
@@ -223,7 +223,7 @@ function formatMovieSearch(movie) {
   };
 }
 
-function formatSeason(season, image = 'screenshot') {
+function formatSeason(season: Object, image: string = 'screenshot') {
   return {
     id: season.ids.imdb,
     title: season.title,
@@ -239,11 +239,11 @@ function formatSeason(season, image = 'screenshot') {
   };
 }
 
-function roundRating(rating) {
+function roundRating(rating: number) {
   return Math.round(rating * 10) / 10;
 }
 
-function formatSubtitle(subtitle) {
+function formatSubtitle(subtitle: Object) {
   return {
     kind: 'captions',
     label: subtitle.langName,

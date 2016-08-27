@@ -6,21 +6,21 @@ import {
 
 export default class KatShowsTorrentProvider {
 
-  static fetch(showName, season, episode) {
+  static fetch(showName: string, season: number, episode: number) {
     return KatShows(showName, season, episode)
       .then(torrents => torrents.map(
         torrent => this.formatTorrent(torrent))
       );
   }
 
-  static formatTorrent(torrent) {
+  static formatTorrent(torrent: Object) {
     return {
       ...torrent,
       _provider: 'kat-shows'
     };
   }
 
-  static provide(imdbId, type, extendedDetails = {}) {
+  static provide(imdbId: string, type: string, extendedDetails: Object = {}) {
     if (!extendedDetails.searchQuery) {
       return new Promise((resolve) => resolve([]));
     }

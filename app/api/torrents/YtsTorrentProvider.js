@@ -14,7 +14,7 @@ export default class YtsTorrentProvider {
 
   static providerName = 'YTS';
 
-  static fetch(imdbId) {
+  static fetch(imdbId: string) {
     return timeout(
       fetch([
         `${resolvedEndpoint}/api/v2/list_movies.json`,
@@ -25,7 +25,7 @@ export default class YtsTorrentProvider {
       .then(res => res.json());
   }
 
-  static formatTorrent(torrent) {
+  static formatTorrent(torrent: Object) {
     return {
       quality: determineQuality(torrent.quality),
       magnet: constructMagnet(torrent.hash),
@@ -42,7 +42,7 @@ export default class YtsTorrentProvider {
       .catch(() => false);
   }
 
-  static provide(imdbId, type) {
+  static provide(imdbId: string, type: string) {
     switch (type) {
       case 'movies':
         return this.fetch(imdbId)
@@ -57,6 +57,6 @@ export default class YtsTorrentProvider {
   }
 }
 
-function constructMagnet(hash) {
+function constructMagnet(hash: string) {
   return `magnet:?xt=urn:btih:${hash}`;
 }

@@ -10,7 +10,7 @@ export default class Header extends Component {
     activeMode: PropTypes.string.isRequired
   };
 
-  constructor(props) {
+  constructor(props: Object) {
     super(props);
 
     this.butter = new Butter();
@@ -20,18 +20,18 @@ export default class Header extends Component {
     };
   }
 
-  setActiveMode(mode, params = {}) {
+  setActiveMode(mode: string, params: Object = {}) {
     this.props.setActiveMode(mode, params);
   }
 
   /**
    * Set the mode of the movies to be 'search'
    */
-  setSearchState(searchQuery) {
+  setSearchState(searchQuery: string) {
     this.props.setActiveMode('search', { searchQuery });
   }
 
-  handleSearchChange(event) {
+  handleSearchChange(event: Object) {
     this.setState({ searchQuery: event.target.value });
   }
 

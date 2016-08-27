@@ -1,6 +1,8 @@
 // import { PAGINATE_MOVIES } from '../actions/itemListAction';
 
-export default function itemList(state = [], action, items) {
+export default function itemList(state: Array<any> = [],
+                                action: Object,
+                                items: Array<any> = []) {
   switch (action.type) {
     case 'ADD_MOVIES':
       return [...state, ...items];

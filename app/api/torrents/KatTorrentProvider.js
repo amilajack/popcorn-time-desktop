@@ -18,7 +18,7 @@ export default class KatTorrentProvider {
 
   static providerName = 'Kat';
 
-  static fetch(query) {
+  static fetch(query: string) {
     return search(query)
       .then(torrents => torrents.map(
         torrent => this.formatTorrent(torrent)
@@ -29,7 +29,7 @@ export default class KatTorrentProvider {
       });
   }
 
-  static formatTorrent(torrent) {
+  static formatTorrent(torrent: Object) {
     return {
       magnet: torrent.magnet,
       seeders: torrent.seeders,
@@ -43,7 +43,7 @@ export default class KatTorrentProvider {
     return fetch(resolvedEndpoint).then(res => res.ok).catch(() => false);
   }
 
-  static provide(imdbId, type, extendedDetails = {}) {
+  static provide(imdbId: string, type: string, extendedDetails: Object = {}) {
     const { searchQuery } = extendedDetails;
 
     switch (type) {
