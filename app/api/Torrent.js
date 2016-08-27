@@ -143,7 +143,9 @@ export function formatSpeeds({ downloadSpeed, uploadSpeed, progress, numPeers, r
 /**
  * Get the subtitle file buffer given an array of files
  */
-export function selectSubtitleFile(files: Array<string>, activeMode: string, metadata: string) {
+export function selectSubtitleFile(files: Array<string>,
+                                    activeMode: string,
+                                    metadata: string = '') {
   return files.find(file => {
     const formatIsSupported = file.name.includes('.srt');
 

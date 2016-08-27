@@ -22,7 +22,7 @@ export default class KatShowsTorrentProvider {
 
   static provide(imdbId: string, type: string, extendedDetails: Object = {}) {
     if (!extendedDetails.searchQuery) {
-      return new Promise((resolve) => resolve([]));
+      return new Promise(resolve => resolve([]));
     }
 
     switch (type) {

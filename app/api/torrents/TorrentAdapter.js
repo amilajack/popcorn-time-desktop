@@ -102,7 +102,7 @@ export default async function TorrentAdapter(imdbId: string,
 function appendAttributes(providerResults: Array<Object>) {
   const formattedResults = merge(providerResults).map((result: Object) => ({
     ...result,
-    health: getHealth(result.seeders, result.leechers),
+    health: getHealth(result.seeders || 0, result.leechers || 0),
     quality: 'quality' in result
                 ? result.quality
                 : determineQuality(result.magnet, result.metadata, result)
@@ -111,7 +111,7 @@ function appendAttributes(providerResults: Array<Object>) {
   return formattedResults;
 }
 
-export function filterShows(show: string, season: number, episode: number) {
+export function filterShows(show: Object, season: number, episode: number) {
   return (
     show.metadata.toLowerCase().includes(
       formatSeasonEpisodeToString(
