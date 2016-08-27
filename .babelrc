@@ -2,21 +2,25 @@
   "presets": ["es2015", "stage-0", "react"],
   "plugins": [
     "add-module-exports",
-    "transform-runtime",
-    "typecheck",
-    "syntax-flow",
-    "transform-flow-strip-types"
+    "transform-runtime"
   ],
   "env": {
     "development": {
-      "presets": ["react-hmre"]
+      "presets": ["react-hmre"],
+      "plugins": [
+        "typecheck",
+        "syntax-flow",
+        "transform-flow-strip-types"
+      ]
     },
 		"production": {
 			"presets": ["react-optimize"],
 			"plugins": [
 				"babel-plugin-transform-remove-console",
 				"babel-plugin-transform-remove-debugger",
-				"babel-plugin-dev-expression"
+				"babel-plugin-dev-expression",
+        "syntax-flow",
+        "transform-flow-strip-types"
 			]
 		},
     "test": {
@@ -24,7 +28,9 @@
         ["webpack-loaders", { "config": "webpack.config.node.js", "verbose": false }],
 				["babel-plugin-module-alias", [
           { "src": "node_modules/electron-prebuilt" , "expose": "electron" }
-        ]]
+        ]],
+        "syntax-flow",
+        "transform-flow-strip-types"
       ]
     }
   }
