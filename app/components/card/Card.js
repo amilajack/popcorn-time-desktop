@@ -27,14 +27,14 @@ export default class Card extends Component {
 
   render() {
     const placeholder =
-      '../../images/posterholder.png';
+      'images/posterholder.png';
 
     const divStyle = {
       backgroundImage: `url(${this.props.image !== 'N/A' ? this.props.image : placeholder})`
     };
 
     return (
-      <div className="Card">
+      <div className="Card slidedown">
         <Link to={`/item/${this.props.type}/${this.props.id}`}>
           <div className="Card--overlay-container" style={divStyle}>
             <div className="Card--overlay" />
