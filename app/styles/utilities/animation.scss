@@ -1,28 +1,8 @@
-@keyframes slideDown {
-  from {
-    max-height: 0;
-  }
+.fade {
+  opacity: 0;
 
-  to {
-    max-height: 100vh;
-  }
-}
-
-@keyframes in {
-  from {
-    opacity: 0;
-  }
-
-  to {
+  .in {
     opacity: 1;
+    transition: opacity 500ms ease-in;
   }
-}
-
-.slidedown {
-  animation: in 0.75s ease-in, slideDown 1.5s ease-in, cubic-bezier(0.165, 0.84, 0.44, 1);
-  transform: translateZ(0);
-}
-
-.fadein {
-  animation: in 500ms ease-in;
 }
