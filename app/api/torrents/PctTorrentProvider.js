@@ -89,7 +89,7 @@ export default class PctTorrentProvider {
     };
   }
 
-  static formatTorrents(torrents: Array<any>) {
+  static formatTorrents(torrents: Object) {
     return Object.keys(torrents).map(videoQuality => ({
       quality: videoQuality === '0' ? '0p' : videoQuality,
       magnet: torrents[videoQuality].url,

@@ -24,7 +24,7 @@ export default class Show extends Component {
         <div className="col-xs-12 col-md-6">
           <h4>Seasons:</h4>
           <div className="list-group">
-            {this.props.seasons.map((season: number) =>
+            {this.props.seasons.map((season: Object) =>
               <a
                 className={classNames(
                   'list-group-item', { active: season.season === this.props.selectedSeason }
@@ -43,7 +43,7 @@ export default class Show extends Component {
         <div className="col-xs-12 col-md-6">
           <h4>Episodes:</h4>
           <div className="list-group">
-            {this.props.episodes.map((episode: number) =>
+            {this.props.episodes.map((episode: Object) =>
               <a
                 className={classNames(
                   'list-group-item', { active: episode.episode === this.props.selectedEpisode }

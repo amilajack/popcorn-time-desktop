@@ -26,12 +26,10 @@ export function timeout(promise, time: number = 10000) {
   });
 }
 
-export function determineQuality(magnet: string, metadata: string) {
+export function determineQuality(magnet: string, metadata: string = ''): string {
   const lowerCaseMetadata = (metadata || magnet).toLowerCase();
 
-  if (
-    process.env.FLAG_UNVERIFIED_TORRENTS === 'true'
-  ) {
+  if (process.env.FLAG_UNVERIFIED_TORRENTS === 'true') {
     return '480p';
   }
 
@@ -81,7 +79,7 @@ export function determineQuality(magnet: string, metadata: string) {
  * @param {number} season
  * @param {number} episode
  */
-export function formatSeasonEpisodeToString(season: number, episode: number) {
+export function formatSeasonEpisodeToString(season: number, episode: number): string {
   return (
     ('s' + (String(season).length === 1 ? '0' + String(season) : String(season))) +
     ('e' + (String(episode).length === 1 ? '0' + String(episode) : String(episode)))
@@ -92,18 +90,18 @@ export function formatSeasonEpisodeToString(season: number, episode: number) {
  * @param {number} season
  * @param {number} episode
  */
-export function formatSeasonEpisodeToObject(season: number, episode: number) {
+export function formatSeasonEpisodeToObject(season: number, episode: number): Object {
   return {
     season: (String(season).length === 1 ? '0' + String(season) : String(season)),
     episode: (String(episode).length === 1 ? '0' + String(episode) : String(episode))
   };
 }
 
-export function isExactEpisode(title: string, season: number, episode: number) {
+export function isExactEpisode(title: string, season: number, episode: number): boolean {
   return title.toLowerCase().includes(formatSeasonEpisodeToString(season, episode));
 }
 
-export function getHealth(seeders: number, leechers: number = 0) {
+export function getHealth(seeders: number, leechers: number = 0): string {
   const ratio = (seeders && !!leechers) ? (seeders / leechers) : seeders;
 
   if (seeders < 50) {
@@ -121,7 +119,7 @@ export function getHealth(seeders: number, leechers: number = 0) {
   return 'poor';
 }
 
-export function hasNonEnglishLanguage(metadata: string) {
+export function hasNonEnglishLanguage(metadata: string): boolean {
   if (metadata.includes('french')) return true;
   if (metadata.includes('german')) return true;
   if (metadata.includes('greek')) return true;
@@ -139,7 +137,7 @@ export function hasNonEnglishLanguage(metadata: string) {
   return false;
 }
 
-export function hasSubtitles(metadata: string) {
+export function hasSubtitles(metadata: string): boolean {
   return metadata.includes('sub');
 }
 
@@ -160,7 +158,7 @@ export function sortTorrentsBySeeders(torrents: Array<any>) {
   });
 }
 
-export function constructMovieQueries(title: string, imdbId: string) {
+export function constructMovieQueries(title: string, imdbId: string): Array<string> {
   const queries = [
     title, // default
     imdbId
@@ -181,7 +179,7 @@ export function combineAllQueries(queries: Array<Promise>) {
     );
 }
 
-export function constructSeasonQueries(title: string, season: number) {
+export function constructSeasonQueries(title: string, season: number): Array<string> {
   const formattedSeasonNumber = `s${formatSeasonEpisodeToObject(season, 1).season}`;
 
   return [
