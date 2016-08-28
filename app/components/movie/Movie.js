@@ -122,7 +122,7 @@ export default class Movie extends Component {
     this.getSimilar(itemId);
   }
 
-  async getShowData(type: string, imdbId: string, season: string, episode: string) {
+  async getShowData(type: string, imdbId: string, season: number, episode: number) {
     switch (type) {
       case 'seasons':
         this.setState({ seasons: [], episodes: [], episode: {} });
