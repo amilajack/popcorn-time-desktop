@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
 import { routerReducer as routing } from 'react-router-redux';
-import movieList from './movieList';
+import itemList from './itemList';
 
 const rootReducer = combineReducers({
-  movieList,
+  itemList,
   routing
 });
 

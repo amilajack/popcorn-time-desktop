@@ -87,6 +87,21 @@ describe('e2e', function testApp() {
         expect(movieTitles[0]).to.include('Harry Potter');
         expect(movieTitles[1]).to.include('Harry Potter');
         expect(movieTitles[2]).to.include('Harry Potter');
+
+        await delay(2000);
+
+        await this.app.client
+          .setValue('.navbar input', 'lord')
+          .click('.navbar button');
+
+        await delay(2000);
+
+        await this.app.client.waitUntilWindowLoaded(); // await search results();
+
+        const secondMovieTitles = await this.app.client.getText('.Card .Card--title');
+        expect(secondMovieTitles[0]).to.include('The Lord of the Ring');
+        expect(secondMovieTitles[1]).to.include('The Lord of the Ring');
+        expect(secondMovieTitles[2]).to.include('The Lord of the Ring');
         done();
       } catch (error) {
         done(error);

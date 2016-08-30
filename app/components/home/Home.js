@@ -50,7 +50,9 @@ export default class Home extends Component {
     if (!this.state.modes[nextProps.activeMode].items.length) {
       this.paginate(nextProps.activeMode, nextProps.activeModeOptions);
     } else {
-      this.setState({ items: this.state.modes[nextProps.activeMode].items });
+      this.setState({
+        items: this.state.modes[nextProps.activeMode].items
+      });
     }
   }
 
