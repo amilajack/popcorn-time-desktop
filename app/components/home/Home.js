@@ -1,44 +1,25 @@
-/**
- * Home page component that renders CardList and uses VisibilitySensor
- *
- * @todo: Use waitForImages plugin to load background images and fade in on load
- */
-
 import React, { Component, PropTypes } from 'react';
 import VisibilitySensor from 'react-visibility-sensor';
 import Butter from '../../api/Butter';
+import Header from '../header/Header';
 import CardList from '../card/CardList';
 
 
 export default class Home extends Component {
 
   static propTypes = {
+    actions: PropTypes.object.isRequired,
     activeMode: PropTypes.string.isRequired,
-    modes: PropTypes.object.isRequired,
     activeModeOptions: PropTypes.object.isRequired,
+    modes: PropTypes.object.isRequired,
+    items: PropTypes.array.isRequired,
+    isLoading: PropTypes.bool.isRequired,
     infinitePagination: PropTypes.bool.isRequired
-  };
-
-  static defaultProps = {
-    modes: {
-      movies: { page: 1, limit: 50, items: [], options: {} },
-      shows: { page: 1, limit: 50, items: [], options: {} },
-      search: { page: 1, limit: 50, items: [], options: {} }
-    },
-    activeMode: 'movies',
-    activeModeOptions: {},
-    infinitePagination: false
   };
 
   constructor(props) {
     super(props);
-
     this.butter = new Butter();
-    this.state = {
-      modes: { ...this.props.modes },
-      isLoading: false,
-      paginate: true
-    };
   }
 
   componentDidMount() {
@@ -47,12 +28,14 @@ export default class Home extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!this.state.modes[nextProps.activeMode].items.length) {
+    if (
+      JSON.stringify(nextProps.activeModeOptions) !==
+      JSON.stringify(this.props.activeModeOptions)
+    ) {
+      if (nextProps.activeMode === 'search') {
+        this.props.actions.clearItems();
+      }
       this.paginate(nextProps.activeMode, nextProps.activeModeOptions);
-    } else {
-      this.setState({
-        items: this.state.modes[nextProps.activeMode].items
-      });
     }
   }
 
@@ -62,9 +45,8 @@ export default class Home extends Component {
   }
 
   async onChange(isVisible) {
-    if (isVisible && !this.state.isLoading) {
-      await this.paginate(this.props.activeMode);
-      // await this.paginate(this.props.activeMode, this.props.mode.options);
+    if (isVisible && !this.props.isLoading) {
+      await this.paginate(this.props.activeMode, this.props.activeModeOptions);
     }
   }
 
@@ -76,71 +58,31 @@ export default class Home extends Component {
    * @param {string} queryType   | 'search', 'movies', 'shows', etc
    * @param {object} queryParams | { searchQuery: 'game of thrones' }
    */
-  async paginate(queryType, queryParams) {
-    this.setState({
-      isLoading: true
-    });
+  async paginate(queryType, activeModeOptions = {}) {
+    this.props.actions.setLoading(true);
 
-    const { page, limit, items } = this.state.modes[queryType];
+    const { limit, page } = this.props.modes[queryType];
 
-    try {
+    const items = await (async () => {
       switch (queryType) {
         case 'search': {
-          if (queryParams) {
-            if ('searchQuery' in queryParams) {
-              if (
-                queryParams.searchQuery !==
-                this.state.modes[queryType].options.searchQuery
-              ) {
-                this.state.modes[queryType].page = 1;
-                this.state.modes[queryType].options = queryParams;
-
-                this.state.modes[queryType].items = [
-                  ...await this.butter.search(
-                    this.state.modes[queryType].options.searchQuery,
-                    this.state.modes[queryType].page
-                  )
-                ];
-
-                break;
-              }
-            }
-          }
-          const { searchQuery } = this.state.modes[queryType].options;
-
-          this.state.modes[queryType].items = [
-            ...items,
-            ...await this.butter.search(searchQuery, this.state.modes[queryType].page)
-          ];
-          break;
+          return this.butter.search(
+            activeModeOptions.searchQuery, page
+          );
         }
-        case 'movies': {
-          this.state.modes[queryType].items = [
-            ...items,
-            ...await this.butter.getMovies(page, limit)
-          ];
-          break;
-        }
-        case 'shows': {
-          this.state.modes[queryType].items = [
-            ...items,
-            ...await this.butter.getShows(page, limit)
-          ];
-          break;
-        }
+        case 'movies':
+          return this.butter.getMovies(page, limit);
+        case 'shows':
+          return this.butter.getShows(page, limit);
         default:
-          throw Error("Mode type not found. This must be 'movies', 'shows', or 'search'");
+          return this.butter.getMovies(page, limit);
       }
-    } catch (error) {
-      console.log(error);
-    }
+    })();
 
-    this.state.modes[queryType].page++;
+    this.props.actions.paginate(items);
+    this.props.actions.setLoading(false);
 
-    this.setState({
-      isLoading: false,
-      items: this.state.modes[queryType].items
-    });
+    return items;
   }
 
   /**
@@ -149,8 +91,8 @@ export default class Home extends Component {
   initInfinitePagination() {
     if (this.props.infinitePagination) {
       const scrollDimentions = document.querySelector('body').getBoundingClientRect();
-      if (scrollDimentions.bottom < 2000 && !this.state.isLoading) {
-        this.paginate(this.state.page);
+      if (scrollDimentions.bottom < 2000 && !this.props.isLoading) {
+        this.paginate(this.props.activeMode, this.props.activeModeOptions);
       }
     }
   }
@@ -158,14 +100,19 @@ export default class Home extends Component {
   render() {
     return (
       <div>
-        <CardList
-          {...this.props}
-          items={this.state.items}
-          isLoading={this.state.isLoading}
+        <Header
+          activeMode={this.props.activeMode}
+          setActiveMode={this.props.actions.setActiveMode}
         />
-        <VisibilitySensor
-          onChange={this.onChange.bind(this)}
-        />
+        <div>
+          <CardList
+            items={this.props.items}
+            isLoading={this.props.isLoading}
+          />
+          <VisibilitySensor
+            onChange={this.onChange.bind(this)}
+          />
+        </div>
       </div>
     );
   }

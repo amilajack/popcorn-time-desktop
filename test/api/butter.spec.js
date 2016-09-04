@@ -1,21 +1,21 @@
 /* eslint global-require: 0, fp/no-loops: 0 */
 import { expect } from 'chai';
-import Butter from '../../app/api/Butter';
+import Butter from '../../api/Butter';
 import MockShows from './butter.mock.js';
 import {
   formatSeasonEpisodeToString,
   formatSeasonEpisodeToObject,
   sortTorrentsBySeeders,
   resolveEndpoint
-} from '../../app/api/torrents/BaseTorrentProvider';
-import { getStatuses } from '../../app/api/torrents/TorrentAdapter';
-import { convertRuntimeToHours } from '../../app/api/metadata/MetadataAdapter';
+} from '../../api/torrents/BaseTorrentProvider';
+import { getStatuses } from '../../api/torrents/TorrentAdapter';
+import { convertRuntimeToHours } from '../../api/metadata/MetadataAdapter';
 
 
 const imdbId = 'tt0468569'; // The Dark Knight
 const showImdbId = 'tt1475582'; // Sherlock
 
-const torrentBasePath = '../../app/api/torrents';
+const torrentBasePath = '../../api/torrents';
 const providers = [
   {
     name: 'PirateBay',

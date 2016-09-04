@@ -4,13 +4,13 @@
 import React, { Component, PropTypes } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { Link } from 'react-router';
+import { getIdealTorrent } from '../../api/torrents/BaseTorrentProvider';
+import Butter from '../../api/Butter';
+import Torrent from '../../api/Torrent';
 import notie from 'notie';
 import CardList from '../card/CardList';
 import Rating from '../card/Rating';
 import Show from '../show/Show';
-import { getIdealTorrent } from '../../api/torrents/BaseTorrentProvider';
-import Butter from '../../api/Butter';
-import Torrent from '../../api/Torrent';
 import {
   convertFromBuffer,
   startServer

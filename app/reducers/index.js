@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
 import { routerReducer as routing } from 'react-router-redux';
-import itemList from './itemList';
+import homePageReducer from './homePageReducer';
 
 const rootReducer = combineReducers({
-  itemList,
+  homePageReducer,
   routing
 });
 
