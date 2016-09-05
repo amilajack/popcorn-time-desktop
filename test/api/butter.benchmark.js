@@ -14,9 +14,9 @@
  * fast the torrent downloads (kbps). Benchmarks should be run serially in order
  * to allow fair distribution of bandwith to each torrent.
  */
-import Butter from '../../api/Butter';
+import Butter from '../../app/api/Butter';
 import shows from './butter.mock.js';
-import { getIdealTorrent } from '../../api/torrents/BaseTorrentProvider';
+import { getIdealTorrent } from '../../app/api/torrents/BaseTorrentProvider';
 
 
 const butter = new Butter();

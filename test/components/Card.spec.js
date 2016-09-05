@@ -5,7 +5,7 @@ import {
   renderIntoDocument,
   findRenderedDOMComponentWithClass
 } from 'react-addons-test-utils';
-import Card from 'apicomponents/card/Card';
+import Card from '../../app/components/card/Card';
 
 
 function setup(propsOverride) {
