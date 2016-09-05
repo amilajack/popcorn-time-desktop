@@ -41,7 +41,7 @@
     "react/jsx-filename-extension": 0,
     "react/sort-comp": 0,
     "flowtype/define-flow-type": 2,
-    "flowtype/require-parameter-type": 2,
+    # "flowtype/require-parameter-type": 2,
     # "flowtype/require-return-type": [
     #   2,
     #   "always",

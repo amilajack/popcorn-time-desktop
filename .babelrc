@@ -8,8 +8,8 @@
     "development": {
       "presets": ["react-hmre"],
       "plugins": [
-        "typecheck",
         "syntax-flow",
+        "tcomb",
         "transform-flow-strip-types"
       ]
     },

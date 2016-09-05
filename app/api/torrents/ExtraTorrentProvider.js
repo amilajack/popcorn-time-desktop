@@ -3,6 +3,9 @@
  */
 import fetch from 'isomorphic-fetch';
 import cheerio from 'cheerio';
+import {
+  handleProviderError
+} from './BaseTorrentProvider';
 
 
 const extratorrentUrl = 'http://extratorrent.cc';
@@ -56,6 +59,8 @@ export default class ExtraTorrent {
             magnet
           };
         }
+
+        return {};
       });
     }
   }

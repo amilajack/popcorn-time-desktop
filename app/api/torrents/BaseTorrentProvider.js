@@ -211,7 +211,7 @@ export function resolveEndpoint(defaultEndpoint: string, providerId: string) {
   }
 }
 
-export function getIdealTorrent(torrents: Array<>) {
+export function getIdealTorrent(torrents: Array<any>) {
   const idealTorrent = torrents
     .filter(torrent => !!torrent)
     .filter(

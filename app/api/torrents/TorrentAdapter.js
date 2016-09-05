@@ -99,7 +99,7 @@ export default async function TorrentAdapter(imdbId: string,
  * @param  {array} providerResults
  * @return {array}
  */
-function appendAttributes(providerResults: Array<Object>) {
+function appendAttributes(providerResults: Array<any>) {
   const formattedResults = merge(providerResults).map((result: Object) => ({
     ...result,
     health: getHealth(result.seeders || 0, result.leechers || 0),
