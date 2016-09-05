@@ -52,6 +52,10 @@ const config = {
     ]
   },
 
+  resolve: {
+    ...baseConfig.resolve
+  },
+
   plugins: [
     ...baseConfig.plugins,
     new webpack.HotModuleReplacementPlugin(),

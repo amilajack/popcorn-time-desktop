@@ -1,38 +1,32 @@
-import React, { Component } from 'react';
+/**
+ * Home page component that renders CardList and uses VisibilitySensor
+ *
+ * @todo: Use waitForImages plugin to load background images and fade in on load
+ */
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import * as HomeActions from '../actions/homePageActions';
 import Home from '../components/home/Home';
-import Header from '../components/header/Header';
 
 
-export default class HomePage extends Component {
-
-  constructor() {
-    super();
-
-    this.state = {
-      activeMode: 'movies',
-      activeModeOptions: {}
-    };
-  }
-
-  /**
-   * Mode types include search, movies, and shows
-   */
-  setActiveMode(activeMode, activeModeOptions = {}) {
-    this.setState({ activeMode, activeModeOptions });
-  }
-
-  render() {
-    return (
-      <div>
-        <Header
-          activeMode={this.state.activeMode}
-          setActiveMode={this.setActiveMode.bind(this)}
-        />
-        <Home
-          activeMode={this.state.activeMode}
-          activeModeOptions={this.state.activeModeOptions}
-        />
-      </div>
-    );
-  }
+function mapStateToProps(state) {
+  return {
+    activeMode: state.homePageReducer.activeMode,
+    activeModeOptions: state.homePageReducer.activeModeOptions,
+    modes: state.homePageReducer.modes,
+    items: state.homePageReducer.items,
+    isLoading: state.homePageReducer.isLoading,
+    infinitePagination: false
+  };
 }
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(HomeActions, dispatch)
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Home);

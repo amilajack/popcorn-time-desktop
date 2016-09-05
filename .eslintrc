@@ -35,8 +35,9 @@
     "no-underscore-dangle": 0,
     "no-console": 0,
     "no-var": "error",
+    # "react/no-set-state": 2,
     "react/jsx-no-bind": 1,
-    "react/prefer-stateless-function": 1,
+    "react/prefer-stateless-function": 2,
     "react/jsx-filename-extension": 0,
     "react/sort-comp": 0,
 

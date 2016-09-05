@@ -1,7 +1,7 @@
 import React from 'react';
 import { createDevTools } from 'redux-devtools';
-import LogMonitor from 'redux-devtools-log-monitor';
 import DockMonitor from 'redux-devtools-dock-monitor';
+import LogMonitor from 'redux-devtools-inspector';
 // import whyDidYouUpdate from 'why-did-you-update';
 
 // if (process.env.NODE_ENV !== 'production') {
