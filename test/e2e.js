@@ -76,8 +76,6 @@ describe('e2e', function testApp() {
     });
 
     it('should search items', async done => {
-      this.timeout(15000);
-
       try {
         await delay(3000);
         await this.app.client

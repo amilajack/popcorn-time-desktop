@@ -16,7 +16,7 @@ export default class PctTorrentProvider {
 
   static shows = {};
 
-  static async fetch(imdbId, type, extendedDetails) {
+  static async fetch(imdbId: string, type: string, extendedDetails: Object) {
     const urlTypeParam = type === 'movies' ? 'movie' : 'show';
     const request = timeout(
       fetch(`${resolvedEndpoint}/${urlTypeParam}/${imdbId}`)
@@ -59,7 +59,7 @@ export default class PctTorrentProvider {
    * @param {number} | episode
    * @return {array} | Array of torrents
    */
-  static filterTorrents(show, season, episode) {
+  static filterTorrents(show: Array<any>, season: number, episode: number) {
     const filterTorrents = show
       .filter(
         eachEpisode => eachEpisode.season === season &&
@@ -78,7 +78,7 @@ export default class PctTorrentProvider {
     };
   }
 
-  static formatMovieTorrent(torrent) {
+  static formatMovieTorrent(torrent: Object) {
     return {
       quality: torrent.quality,
       magnet: torrent.url,
@@ -89,7 +89,7 @@ export default class PctTorrentProvider {
     };
   }
 
-  static formatTorrents(torrents) {
+  static formatTorrents(torrents: Object) {
     return Object.keys(torrents).map(videoQuality => ({
       quality: videoQuality === '0' ? '0p' : videoQuality,
       magnet: torrents[videoQuality].url,
@@ -103,7 +103,7 @@ export default class PctTorrentProvider {
     return fetch(resolvedEndpoint).then(res => res.ok).catch(() => false);
   }
 
-  static provide(imdbId, type, extendedDetails = {}) {
+  static provide(imdbId: string, type: string, extendedDetails: Object = {}) {
     switch (type) {
       case 'movies':
         return this.fetch(imdbId, type, extendedDetails)

@@ -17,7 +17,7 @@ export default class Home extends Component {
     infinitePagination: PropTypes.bool.isRequired
   };
 
-  constructor(props) {
+  constructor(props: Object) {
     super(props);
     this.butter = new Butter();
   }
@@ -27,7 +27,7 @@ export default class Home extends Component {
     document.addEventListener('scroll', this.initInfinitePagination.bind(this));
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: Object) {
     if (
       JSON.stringify(nextProps.activeModeOptions) !==
       JSON.stringify(this.props.activeModeOptions)
@@ -44,7 +44,7 @@ export default class Home extends Component {
     document.removeEventListener('scroll', this.initInfinitePagination.bind(this));
   }
 
-  async onChange(isVisible) {
+  async onChange(isVisible: boolean) {
     if (isVisible && !this.props.isLoading) {
       await this.paginate(this.props.activeMode, this.props.activeModeOptions);
     }
@@ -58,7 +58,7 @@ export default class Home extends Component {
    * @param {string} queryType   | 'search', 'movies', 'shows', etc
    * @param {object} queryParams | { searchQuery: 'game of thrones' }
    */
-  async paginate(queryType, activeModeOptions = {}) {
+  async paginate(queryType: string, activeModeOptions: Object = {}) {
     this.props.actions.setLoading(true);
 
     const { limit, page } = this.props.modes[queryType];

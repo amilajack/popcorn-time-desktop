@@ -26,7 +26,7 @@ export default class CardList extends Component {
       <div>
         <div className="col-xs-12">
           <div className="CardList">
-            {this.props.items.map(item => (
+            {this.props.items.map((item: Object) => (
               <Card
                 image={item.images.poster.thumb}
                 title={item.title}

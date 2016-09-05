@@ -12,7 +12,7 @@ export default class Header extends Component {
     activeMode: PropTypes.string.isRequired
   };
 
-  constructor(props) {
+  constructor(props: Object) {
     super(props);
 
     this.butter = new Butter();
@@ -25,17 +25,17 @@ export default class Header extends Component {
   /**
    * Set the mode of the movies to be 'search'
    */
-  setSearchState(searchQuery) {
+  setSearchState(searchQuery: string) {
     this.props.setActiveMode('search', { searchQuery });
   }
 
-  handleSearchChange(event) {
+  handleSearchChange(event: Object) {
     this.setState({
       searchQuery: event.target.value
     });
   }
 
-  handleKeyPress(e) {
+  handleKeyPress(e: Object) {
     if (e.key === 'Enter') {
       browserHistory.push('/search');
       this.props.setActiveMode('search', {

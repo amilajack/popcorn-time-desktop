@@ -14,7 +14,7 @@ export default class Torrent {
 
   finished = false;
 
-  start(magnetURI, metadata, supportedFormats, cb) {
+  start(magnetURI: string, metadata: Object, supportedFormats: Array<string>, cb) {
     if (this.inProgress) {
       throw new Error('Torrent already in progress');
     }
@@ -143,7 +143,9 @@ export function formatSpeeds({ downloadSpeed, uploadSpeed, progress, numPeers, r
 /**
  * Get the subtitle file buffer given an array of files
  */
-export function selectSubtitleFile(files, activeMode, metadata) {
+export function selectSubtitleFile(files: Array<string>,
+                                    activeMode: string,
+                                    metadata: string = '') {
   return files.find(file => {
     const formatIsSupported = file.name.includes('.srt');
 
