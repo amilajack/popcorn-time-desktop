@@ -571,22 +571,23 @@ export default class Movie extends Component {
                       >
                         VLC
                       </DropdownItem>
-                      <DropdownItem
-                        onClick={this.setPlayer.bind(this, 'Chromecast')}
-                      >
-                        Chromecast
-                      </DropdownItem>
+                      {process.env.FLAG_CASTING === 'true'
+                        ?
+                        <DropdownItem
+                          onClick={this.setPlayer.bind(this, 'Chromecast')}
+                        >
+                          Chromecast
+                        </DropdownItem>
+                        : null}
                     </DropdownMenu>
                   </Dropdown>
                 </div>
               </div>
 
 
-              {
-                this.state.item.certification
-                  ? <div className="certification">{this.state.item.certification}</div>
-                  : null
-              }
+              {this.state.item.certification
+                ? <div className="certification">{this.state.item.certification}</div>
+                : null}
 
               {this.props.activeMode === 'shows' ?
                 <Show
