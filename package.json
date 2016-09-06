@@ -10,7 +10,7 @@
     "dev": "cross-env NODE_ENV=development FLAG_SEASON_COMPLETE=true FLAG_MANUAL_TORRENT_SELECTION=true FLAG_SUBTITLES=true npm run start-hot-server",
     "flow": "flow check-contents < app/components/loader/Loader.js --json",
     "lint": "eslint --format=node_modules/eslint-formatter-pretty app test *.js && stylelint app/styles/*.scss app/styles/**/*.scss",
-    "lint-summary": "eslint-nibble --format=node_modules/eslint-formatter-pretty app test *.js",
+    "lint-summary": "eslint-nibble app test *.js",
     "lint-styles": "stylelint app/styles/*.scss app/styles/**/*.scss --syntax scss",
     "postinstall": "node node_modules/fbjs-scripts/node/check-dev-engines.js package.json",
     "package": "npm run build && build --publish never",
