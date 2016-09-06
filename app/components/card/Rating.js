@@ -2,7 +2,7 @@ import React from 'react';
 import StarRatingComponent from 'react-star-rating-component';
 
 
-export default function RatingComponent({ rating }) {
+export default function RatingComponent({ rating }: Object) {
   return (
     <div>
       <StarRatingComponent

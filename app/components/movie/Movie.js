@@ -6,12 +6,12 @@ import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap
 import { Link } from 'react-router';
 import notie from 'notie';
 import { exec } from 'child_process';
-import CardList from '../card/CardList';
-import Rating from '../card/Rating';
-import Show from '../show/Show';
 import { getIdealTorrent } from '../../api/torrents/BaseTorrentProvider';
 import Butter from '../../api/Butter';
 import Torrent from '../../api/Torrent';
+import CardList from '../card/CardList';
+import Rating from '../card/Rating';
+import Show from '../show/Show';
 import {
   convertFromBuffer,
   startServer
@@ -21,7 +21,7 @@ import Player from '../../api/Player';
 
 export default class Movie extends Component {
 
-  static propTypes = {
+  static propTypes: Object = {
     itemId: PropTypes.string.isRequired,
     activeMode: PropTypes.string.isRequired
   };
@@ -31,14 +31,14 @@ export default class Movie extends Component {
     activeMode: 'movies'
   };
 
-  defaultTorrent = {
+  defaultTorrent: Object = {
     default: { quality: undefined, magnet: undefined, seeders: 0 },
     '1080p': { quality: undefined, magnet: undefined, seeders: 0 },
     '720p': { quality: undefined, magnet: undefined, seeders: 0 },
     '480p': { quality: undefined, magnet: undefined, seeders: 0 }
   };
 
-  initialState = {
+  initialState: Object = {
     item: {
       images: { fanart: '' },
       runtime: {}
@@ -57,7 +57,7 @@ export default class Movie extends Component {
     torrentProgress: 0
   };
 
-  constructor(props) {
+  constructor(props: Object) {
     super(props);
 
     this.butter = new Butter();
@@ -73,7 +73,7 @@ export default class Movie extends Component {
   /**
    * Check which players are available on the system
    */
-  setPlayer(player) {
+  setPlayer(player: string) {
     this.setState({ currentPlayer: player });
   }
 
@@ -97,7 +97,7 @@ export default class Movie extends Component {
     this.stopTorrent();
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: Object) {
     this.stopTorrent();
 
     this.setState({
@@ -116,14 +116,14 @@ export default class Movie extends Component {
       }
     });
 
-    this.getItem(itemId).then(item => {
+    this.getItem(itemId).then((item: Object) => {
       this.getTorrent(itemId, item.title, 1, 1);
     });
 
     this.getSimilar(itemId);
   }
 
-  async getShowData(type: string, imdbId: string, season: string, episode: string) {
+  async getShowData(type: string, imdbId: string, season: number, episode: number) {
     switch (type) {
       case 'seasons':
         this.setState({ seasons: [], episodes: [], episode: {} });
@@ -154,7 +154,7 @@ export default class Movie extends Component {
   /**
    * Get the details of a movie using the butter api
    */
-  async getItem(imdbId) {
+  async getItem(imdbId: string) {
     this.setState({ metadataLoading: true });
 
     const item = await (() => {
@@ -173,7 +173,7 @@ export default class Movie extends Component {
     return item;
   }
 
-  async getTorrent(imdbId, title, season, episode) {
+  async getTorrent(imdbId: string, title: string, season: number, episode: number) {
     this.setState({
       fetchingTorrents: true,
       idealTorrent: this.defaultTorrent,
@@ -261,7 +261,7 @@ export default class Movie extends Component {
     }
   }
 
-  async getSimilar(imdbId) {
+  async getSimilar(imdbId: string) {
     this.setState({ similarLoading: true });
 
     try {
@@ -287,7 +287,7 @@ export default class Movie extends Component {
     }
   }
 
-  selectShow(type, selectedSeason, selectedEpisode = 1) {
+  selectShow(type: string, selectedSeason: number, selectedEpisode: number = 1) {
     switch (type) {
       case 'episodes':
         this.setState({ selectedSeason });
@@ -311,7 +311,7 @@ export default class Movie extends Component {
    * 4. Serve the file through http
    * 5. Override the default subtitle retrieved from the API
    */
-  async getSubtitles(subtitleTorrentFile = {}, activeMode, item) {
+  async getSubtitles(subtitleTorrentFile: Object = {}, activeMode: string, item: Object) {
     // Retrieve list of subtitles
     const subtitles = await this.butter.getSubtitles(
       item.imdbId,
@@ -335,7 +335,7 @@ export default class Movie extends Component {
     });
 
     // Override the default subtitle
-    const mergedResults = subtitles.map(subtitle => (
+    const mergedResults = subtitles.map((subtitle: Object) => (
       subtitle.default === true
         ? {
           ...subtitle,
@@ -347,7 +347,7 @@ export default class Movie extends Component {
     return mergedResults;
   }
 
-  async startTorrent(magnet, activeMode) {
+  async startTorrent(magnet: string, activeMode: string) {
     if (this.state.torrentInProgress) {
       this.stopTorrent();
     }
@@ -369,11 +369,11 @@ export default class Movie extends Component {
       ...Player.nativePlaybackFormats
     ];
 
-    this.torrent.start(magnet, metadata, formats, async (servingUrl,
-                                                          file,
-                                                          files,
-                                                          torrent,
-                                                          subtitle
+    this.torrent.start(magnet, metadata, formats, async (servingUrl: string,
+                                                          file: string,
+                                                          files: string,
+                                                          torrent: string,
+                                                          subtitle: string
                                                         ) => {
       console.log('serving at:', servingUrl);
       this.setState({ servingUrl });
@@ -527,7 +527,7 @@ export default class Movie extends Component {
               </h5>
               <h6 id="genres">
                 Genres: {this.state.item.genres
-                            ? this.state.item.genres.map(genre => `${genre}, `)
+                            ? this.state.item.genres.map((genre: string) => `${genre}, `)
                             : null}
               </h6>
               <h5 id="runtime">

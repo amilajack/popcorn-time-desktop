@@ -1,4 +1,6 @@
+/* eslint react/no-set-state: 0 */
 import React, { Component, PropTypes } from 'react';
+import { browserHistory } from 'react-router';
 import classNames from 'classnames';
 import Butter from '../../api/Butter';
 
@@ -10,7 +12,7 @@ export default class Header extends Component {
     activeMode: PropTypes.string.isRequired
   };
 
-  constructor(props) {
+  constructor(props: Object) {
     super(props);
 
     this.butter = new Butter();
@@ -20,24 +22,25 @@ export default class Header extends Component {
     };
   }
 
-  setActiveMode(mode, params = {}) {
-    this.props.setActiveMode(mode, params);
-  }
-
   /**
    * Set the mode of the movies to be 'search'
    */
-  setSearchState(searchQuery) {
+  setSearchState(searchQuery: string) {
     this.props.setActiveMode('search', { searchQuery });
   }
 
-  handleSearchChange(event) {
-    this.setState({ searchQuery: event.target.value });
+  handleSearchChange(event: Object) {
+    this.setState({
+      searchQuery: event.target.value
+    });
   }
 
-  handleKeyPress(e) {
+  handleKeyPress(e: Object) {
     if (e.key === 'Enter') {
-      this.props.setActiveMode('search', { searchQuery: this.state.searchQuery });
+      browserHistory.push('/search');
+      this.props.setActiveMode('search', {
+        searchQuery: this.state.searchQuery
+      });
     }
   }
 
@@ -47,7 +50,7 @@ export default class Header extends Component {
         <nav className="navbar navbar-dark navbar-fixed-top bg-inverse">
           <a
             className="navbar-brand"
-            onClick={this.setActiveMode.bind(this, 'movies')}
+            onClick={this.props.setActiveMode.bind(this, 'movies')}
           >
             <h4>Popcorn Time</h4>
           </a>
@@ -59,7 +62,7 @@ export default class Header extends Component {
             >
               <a
                 className="nav-link"
-                onClick={this.setActiveMode.bind(this, 'movies')}
+                onClick={this.props.setActiveMode.bind(this, 'movies')}
               >
                 Movies <span className="sr-only">(current)</span>
               </a>
@@ -71,7 +74,7 @@ export default class Header extends Component {
             >
               <a
                 className="nav-link"
-                onClick={this.setActiveMode.bind(this, 'shows')}
+                onClick={this.props.setActiveMode.bind(this, 'shows')}
               >
                 TV Shows
               </a>

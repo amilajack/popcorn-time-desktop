@@ -77,16 +77,30 @@ describe('e2e', function testApp() {
 
     it('should search items', async done => {
       try {
+        await delay(3000);
         await this.app.client
           .setValue('.navbar input', 'harry potter')
           .click('.navbar button');
 
         await this.app.client.waitUntilWindowLoaded(); // await search results();
+        await delay(3000);
 
         const movieTitles = await this.app.client.getText('.Card .Card--title');
         expect(movieTitles[0]).to.include('Harry Potter');
         expect(movieTitles[1]).to.include('Harry Potter');
         expect(movieTitles[2]).to.include('Harry Potter');
+
+        await this.app.client
+          .setValue('.navbar input', 'Lord of the Rings')
+          .click('.navbar button');
+
+        await this.app.client.waitUntilWindowLoaded(); // await search results();
+        await delay(3000);
+
+        const secondMovieTitles = await this.app.client.getText('.Card .Card--title');
+        expect(secondMovieTitles[0]).to.include('Lord');
+        expect(secondMovieTitles[1]).to.include('Lord');
+        expect(secondMovieTitles[2]).to.include('Lord');
         done();
       } catch (error) {
         done(error);
@@ -119,6 +133,7 @@ describe('e2e', function testApp() {
         }
         await this.app.client.click('.nav-item:nth-child(2) .nav-link');
         await this.app.client.waitUntilWindowLoaded();
+        await delay(2000);
         const cardLinks = await this.app.client.getAttribute('.Card a', 'href');
         expect(cardLinks[0]).to.include('item/shows');
         done();

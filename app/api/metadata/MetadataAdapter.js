@@ -16,7 +16,7 @@ function MetadataAdapter() {
   return providers;
 }
 
-async function handleRequest(method, args) {
+async function handleRequest(method: string, args) {
   const key = JSON.stringify(method) + JSON.stringify(args);
 
   if (resolveCache(key)) {
@@ -150,7 +150,7 @@ function getSubtitles(...args) {
  * @param  {number} runtimeInMinutes
  * @return {object}
  */
-export function convertRuntimeToHours(runtimeInMinutes) {
+export function convertRuntimeToHours(runtimeInMinutes: number) {
   const hours = runtimeInMinutes >= 60 ? Math.round(runtimeInMinutes / 60) : 0;
   const minutes = runtimeInMinutes % 60;
 

@@ -72,11 +72,11 @@ See the [roadmap](https://github.com/amilajack/popcorn-time-desktop/wiki/Road-Ma
 
 ## Goals/Mockups:
 
+### Home Page:
+![Home Page](https://github.com/amilajack/popcorn-time-desktop-design/raw/master/Desktop.jpg)
+
 ### Movie Page:
 ![Movie page](https://raw.github.com/amilajack/popcorn-time-desktop/master/images/movie-page.jpg)
 
 ### TV Show Page:
 ![Show page](https://raw.github.com/amilajack/popcorn-time-desktop/master/images/show-page.jpg)
-
-### Home Page:
-![Home page](https://raw.github.com/amilajack/popcorn-time-desktop/master/images/home.png)
