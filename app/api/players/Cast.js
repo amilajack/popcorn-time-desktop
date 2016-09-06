@@ -1,6 +1,4 @@
-/* eslint-disable */
-const chromecasts = require('chromecasts');
-const network = require('network-address')
+const network = require('network-address');
 const { argv } = require('yargs');
 const cast = require('chromecast-player');
 
