@@ -105,7 +105,7 @@
     "eslint-formatter-pretty": "^0.3.1",
     "eslint-import-resolver-webpack": "^0.5.1",
     "eslint-nibble-ignore": "^3.0.0",
-    "eslint-plugin-flowtype": "^2.15.0",
+    "eslint-plugin-flowtype": "^2.16.0",
     "eslint-plugin-flowtype-errors": "^1.0.9",
     "eslint-plugin-fp": "^2.2.0",
     "eslint-plugin-import": "^1.14.0",
@@ -129,10 +129,11 @@
     "kat-shows": "0.0.5",
     "lru-cache": "^4.0.1",
     "minimist": "^1.2.0",
-    "mocha": "^2.0.2",
+    "mkdirp": "^0.5.1",
+    "mocha": "^3.0.2",
     "network-address": "^1.1.0",
     "node-libs-browser": "^1.0.0",
-    "node-sass": "^3.9.0",
+    "node-sass": "^3.9.3",
     "notie": "^3.9.2",
     "opensubtitles-api": "^3.2.0",
     "parallel-webpack": "^1.5.0",
@@ -148,7 +149,7 @@
     "react-router-redux": "^4.0.5",
     "react-star-rating-component": "^1.0.0",
     "react-visibility-sensor": "^3.4.0",
-    "reactstrap": "^2.6.1",
+    "reactstrap": "^3.0.0",
     "redux": "^3.6.0",
     "redux-devtools": "^3.3.1",
     "redux-devtools-dock-monitor": "^1.1.1",
@@ -157,7 +158,7 @@
     "redux-logger": "^2.6.1",
     "redux-thunk": "^2.1.0",
     "rndm": "^1.2.0",
-    "sass-loader": "^4.0.1",
+    "sass-loader": "^4.0.2",
     "sinon": "^1.17.5",
     "source-map-support": "^0.4.2",
     "spectron": "^3.3.0",
@@ -186,7 +187,7 @@
     "npm": "3.x"
   },
   "optionalDependencies": {
-    "chromecast-player": "0.0.6",
+    "chromecast-player": "0.2.3",
     "castv2-webpack": "^0.1.10"
   }
 }
