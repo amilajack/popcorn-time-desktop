@@ -8,7 +8,6 @@ import { connect } from 'react-redux';
 import * as HomeActions from '../actions/homePageActions';
 import Home from '../components/home/Home';
 
-
 function mapStateToProps(state) {
   return {
     activeMode: state.homePageReducer.activeMode,

@@ -1,14 +1,15 @@
-import React, { Component } from 'react';
-import Card from '../card/Card';
-
+import React, { Component } from "react";
+import Card from "../card/Card";
 
 export default class Page extends Component {
   render() {
+    const {items} = this.state;
+
     return (
       <div>
-        {this.state.items.map((item: Object, index: number) => (
+        {items.map((item:Object, index:number) => (
           <Card className="Card" key={index}>
-            <img role="presentation" src={item.images.poster} />
+            <img role="presentation" src={item.images.poster}/>
           </Card>
         ))}
       </div>

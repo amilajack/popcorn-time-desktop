@@ -19,19 +19,19 @@ export default class Show extends Component {
   };
 
   render() {
+    const {seasons, selectedSeason, episodes, selectedEpisode, selectShow} = this.props;
+
     return (
       <div className="row">
         <div className="col-xs-12 col-md-6">
           <h4>Seasons:</h4>
           <div className="list-group">
-            {this.props.seasons.map((season: Object) =>
+            {seasons.map((season: Object) =>
               <a
                 className={classNames(
-                  'list-group-item', { active: season.season === this.props.selectedSeason }
+                  'list-group-item', { active: season.season === selectedSeason }
                 )}
-                onClick={
-                  this.props.selectShow.bind(this, 'episodes', season.season)
-                }
+                onClick={() => selectShow('episodes', season.season)}
                 key={season.season}
               >
                 Season {season.season}
@@ -43,15 +43,14 @@ export default class Show extends Component {
         <div className="col-xs-12 col-md-6">
           <h4>Episodes:</h4>
           <div className="list-group">
-            {this.props.episodes.map((episode: Object) =>
+            {episodes.map((episode: Object) =>
               <a
                 className={classNames(
-                  'list-group-item', { active: episode.episode === this.props.selectedEpisode }
+                  'list-group-item', { active: episode.episode === selectedEpisode }
                 )}
-                onClick={this.props.selectShow.bind(
-                  this,
+                onClick={() => selectShow(
                   'episode',
-                  this.props.selectedSeason,
+                  selectedSeason,
                   episode.episode
                 )}
                 key={episode.episode}
@@ -66,10 +65,10 @@ export default class Show extends Component {
           <li><h3>Season overview:</h3></li>
           <li>
             <a>
-              {this.props.seasons.length &&
-                this.props.selectedSeason &&
-                this.props.seasons[this.props.selectedSeason]
-                  ? this.props.seasons[this.props.selectedSeason].overview
+              {seasons.length &&
+                selectedSeason &&
+                seasons[selectedSeason]
+                  ? seasons[selectedSeason].overview
                   : null}
             </a>
           </li>
@@ -78,10 +77,10 @@ export default class Show extends Component {
           <li><h3>Episode overview:</h3></li>
           <li>
             <a>
-              {this.props.episodes.length &&
-                this.props.selectedSeason &&
-                this.props.episodes[this.props.selectedEpisode]
-                  ? this.props.episodes[this.props.selectedEpisode].overview
+              {episodes.length &&
+                selectedSeason &&
+                episodes[selectedEpisode]
+                  ? episodes[selectedEpisode].overview
                   : null}
             </a>
           </li>

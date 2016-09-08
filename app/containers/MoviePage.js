@@ -13,11 +13,13 @@ export default class MoviePage extends Component {
   };
 
   render() {
+    const {params} = this.props;
+
     return (
       <div>
         <Movie
-          itemId={this.props.params.itemId}
-          activeMode={this.props.params.activeMode}
+          itemId={params.itemId}
+          activeMode={params.activeMode}
         />
       </div>
     );

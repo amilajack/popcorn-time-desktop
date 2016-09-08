@@ -1,18 +1,17 @@
 /* eslint react/no-set-state: 0 */
-import React, { Component, PropTypes } from 'react';
-import { browserHistory } from 'react-router';
-import classNames from 'classnames';
-import Butter from '../../api/Butter';
-
+import React, { Component, PropTypes } from "react";
+import { browserHistory } from "react-router";
+import classNames from "classnames";
+import Butter from "../../api/Butter";
 
 export default class Header extends Component {
 
   static propTypes = {
     setActiveMode: PropTypes.func.isRequired,
-    activeMode: PropTypes.string.isRequired
+    activeMode   : PropTypes.string.isRequired
   };
 
-  constructor(props: Object) {
+  constructor(props:Object) {
     super(props);
 
     this.butter = new Butter();
@@ -20,22 +19,26 @@ export default class Header extends Component {
     this.state = {
       searchQuery: ''
     };
+
+    this.handleKeyPress     = this.handleKeyPress.bind(this);
+    this.handleSearchChange = this.handleSearchChange.bind(this);
+    this.setSearchState     = this.setSearchState.bind(this);
   }
 
   /**
    * Set the mode of the movies to be 'search'
    */
-  setSearchState(searchQuery: string) {
-    this.props.setActiveMode('search', { searchQuery });
+  setSearchState(searchQuery:string) {
+    this.props.setActiveMode('search', {searchQuery});
   }
 
-  handleSearchChange(event: Object) {
+  handleSearchChange(event:Object) {
     this.setState({
       searchQuery: event.target.value
     });
   }
 
-  handleKeyPress(e: Object) {
+  handleKeyPress(e:Object) {
     if (e.key === 'Enter') {
       browserHistory.push('/search');
       this.props.setActiveMode('search', {
@@ -45,36 +48,39 @@ export default class Header extends Component {
   }
 
   render() {
+    const {activeMode, setActiveMode}  = this.props;
+    const {searchQuery} = this.state;
+
     return (
       <div className="col-xs-12">
         <nav className="navbar navbar-dark navbar-fixed-top bg-inverse">
           <a
             className="navbar-brand"
-            onClick={this.props.setActiveMode.bind(this, 'movies')}
+            onClick={() => setActiveMode( 'movies')}
           >
             <h4>Popcorn Time</h4>
           </a>
           <ul className="nav navbar-nav">
             <li
               className={classNames('nav-item', {
-                active: this.props.activeMode === 'movies'
+                active: activeMode === 'movies'
               })}
             >
               <a
                 className="nav-link"
-                onClick={this.props.setActiveMode.bind(this, 'movies')}
+                onClick={() => setActiveMode( 'movies')}
               >
                 Movies <span className="sr-only">(current)</span>
               </a>
             </li>
             <li
               className={classNames('nav-item', {
-                active: this.props.activeMode === 'shows'
+                active: activeMode === 'shows'
               })}
             >
               <a
                 className="nav-link"
-                onClick={this.props.setActiveMode.bind(this, 'shows')}
+                onClick={() => setActiveMode('shows')}
               >
                 TV Shows
               </a>
@@ -83,15 +89,15 @@ export default class Header extends Component {
           <div className="form-inline pull-xs-right">
             <input
               className="form-control"
-              value={this.state.searchQuery}
-              onKeyPress={this.handleKeyPress.bind(this)}
-              onChange={this.handleSearchChange.bind(this)}
+              value={searchQuery}
+              onKeyPress={this.handleKeyPress}
+              onChange={this.handleSearchChange}
               type="text"
               placeholder="Search"
             />
             <button
               className="btn btn-success-outline"
-              onClick={this.setSearchState.bind(this, this.state.searchQuery)}
+              onClick={() => this.setSearchState(searchQuery)}
               type="button"
             >
               Search

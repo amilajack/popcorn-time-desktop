@@ -1,11 +1,9 @@
 /**
  * Card in the CardList component
  */
-
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import Rating from './Rating';
-
 
 export default class Card extends Component {
 
@@ -26,42 +24,43 @@ export default class Card extends Component {
   }
 
   render() {
-    const placeholder =
-      '../../images/posterholder.png';
+    const {image, type, id, rating, genres, title} = this.props;
+
+    const placeholder = '../../images/posterholder.png';
 
     const divStyle = {
-      backgroundImage: `url(${this.props.image !== 'N/A' ? this.props.image : placeholder})`
+      backgroundImage: `url(${image !== 'N/A' ? image : placeholder})`
     };
 
     return (
       <div className="Card">
-        <Link to={`/item/${this.props.type}/${this.props.id}`}>
+        <Link to={`/item/${type}/${id}`}>
           <div className="Card--overlay-container" style={divStyle}>
             <div className="Card--overlay" />
           </div>
         </Link>
         <div>
-          <Link className="Card--title" to={`/item/${this.props.type}/${this.props.id}`}>
-            {this.props.title}
+          <Link className="Card--title" to={`/item/${type}/${id}`}>
+            {title}
           </Link>
         </div>
         <div>
-          {this.props.rating !== 'n/a' ?
-            <Rating rating={this.props.rating} />
+          {rating !== 'n/a' ?
+            <Rating rating={rating} />
             :
             null
           }
         </div>
-        {this.props.type === 'search' ?
+        {type === 'search' ?
           <div>
-            {this.props.type}
+            {type}
           </div>
           :
           null
         }
-        Kind: {this.props.type}
+        Kind: {type}
         <div className="Card--genres">
-          {this.props.genres ? this.props.genres[0] : null}
+          {genres ? genres[0] : null}
         </div>
       </div>
     );
