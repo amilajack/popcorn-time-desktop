@@ -188,7 +188,6 @@
   },
   "optionalDependencies": {
     "chromecast-player": "0.2.3",
-    "castv2-webpack": "^0.1.10",
-    "eslint-plugin-fp": "^2.2.0"
+    "castv2-webpack": "^0.1.10"
   }
 }

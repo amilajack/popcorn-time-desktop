@@ -13,7 +13,9 @@ export default class Card extends Component {
     image: PropTypes.string,
     id: PropTypes.string,
     genres: PropTypes.array,
-    rating: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    rating: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.string]),
     type: PropTypes.string.isRequired
   };
 
