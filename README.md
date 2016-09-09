@@ -57,8 +57,9 @@ cd popcorn-time-desktop
 # Remember to `npm rebuild` if necessary
 npm install
 
-# Create the env config file
-cp .env.example .env
+# Customize Build
+# Feel free to enable flags and configs in the `.env` file
+vi .env
 
 # Developement build
 npm run dev
