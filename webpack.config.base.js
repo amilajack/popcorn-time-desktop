@@ -42,9 +42,9 @@ export default {
   resolve: {
     extensions: ['', '.js', '.jsx', '.json'],
     packageMains: ['webpack', 'browser', 'web', 'browserify', ['jam', 'main'], 'main'],
-    root: [
-      path.resolve('./app')
-    ]
+    alias: {
+      castv2: 'castv2-webpack'
+    }
   },
   plugins: [
     new webpack.IgnorePlugin(/^(README.md)$/),

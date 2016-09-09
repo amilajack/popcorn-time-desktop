@@ -5,6 +5,7 @@ import React, { Component, PropTypes } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { Link } from 'react-router';
 import notie from 'notie';
+import { exec } from 'child_process';
 import { getIdealTorrent } from '../../api/torrents/BaseTorrentProvider';
 import Butter from '../../api/Butter';
 import Torrent from '../../api/Torrent';
@@ -389,6 +390,26 @@ export default class Movie extends Component {
       switch (this.state.currentPlayer) {
         case 'VLC':
           return this.player.initVLC(servingUrl);
+        case 'Chromecast': {
+          const { title } = this.state.item;
+          const { full } = this.state.item.images.fanart;
+          const command = [
+            'node ./.tmp/Cast.js',
+            `--url '${servingUrl}'`,
+            `--title '${title}'`,
+            `--image ${full}`
+          ].join(' ');
+
+          return exec(command, (_error, stdout, stderr) => {
+            if (_error) {
+              return console.error(`exec error: ${_error}`);
+            }
+            return [
+              console.log(`stdout: ${stdout}`),
+              console.log(`stderr: ${stderr}`)
+            ];
+          });
+        }
         case 'Default':
           if (Player.isFormatSupported(filename, Player.nativePlaybackFormats)) {
             this.player.initPlyr(servingUrl, {
@@ -550,17 +571,23 @@ export default class Movie extends Component {
                       >
                         VLC
                       </DropdownItem>
+                      {process.env.FLAG_CASTING === 'true'
+                        ?
+                        <DropdownItem
+                          onClick={this.setPlayer.bind(this, 'Chromecast')}
+                        >
+                          Chromecast
+                        </DropdownItem>
+                        : null}
                     </DropdownMenu>
                   </Dropdown>
                 </div>
               </div>
 
 
-              {
-                this.state.item.certification
-                  ? <div className="certification">{this.state.item.certification}</div>
-                  : null
-              }
+              {this.state.item.certification
+                ? <div className="certification">{this.state.item.certification}</div>
+                : null}
 
               {this.props.activeMode === 'shows' ?
                 <Show
