@@ -130,7 +130,7 @@
     "lru-cache": "^4.0.1",
     "minimist": "^1.2.0",
     "mkdirp": "^0.5.1",
-    "mocha": "^3.0.2",
+    "mocha": "^2.0.2",
     "network-address": "^1.1.0",
     "node-libs-browser": "^1.0.0",
     "node-sass": "^3.9.3",

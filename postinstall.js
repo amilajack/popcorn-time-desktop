@@ -10,32 +10,32 @@ const version = process.env.PREBUILT_FFMPEG_RELEASE || '0.16.0';
 const baseDir = path.normalize('./node_modules/electron-prebuilt/dist');
 
 function setupCasting() {
-  if (os.type() === 'Windows_NT') {
-    mkdirp('./app/dist/.tmp', err => {
-      if (err) console.error(err);
-      else console.log('Created "./app/dist/.tmp" dir!');
+  switch (os.type()) {
+    case 'Windows_NT':
+      mkdirp('./app/dist/.tmp', err => {
+        if (err) console.error(err);
+        else console.log('Created "./app/dist/.tmp" dir!');
 
-      fs
-        .createReadStream('./app/api/players/Cast.js')
-        .pipe(fs.createWriteStream('./.tmp/Cast.js'))
-        .pipe(fs.createWriteStream('./app/dist/.tmp/Cast.js'));
-    });
+        fs
+          .createReadStream('./app/api/players/Cast.js')
+          .pipe(fs.createWriteStream('./.tmp/Cast.js'))
+          .pipe(fs.createWriteStream('./app/dist/.tmp/Cast.js'));
+      });
+      return true;
 
-    return true;
+    default:
+      execSync([
+        'mkdir -p ./app/dist/.tmp &&',
+        'command cp ./app/api/players/Cast.js ./.tmp/Cast.js &&',
+        'command cp ./app/api/players/Cast.js ./app/dist/.tmp/Cast.js'
+      ].join(' '));
+
+      execSync([
+        'cp ./node_modules/castv2-webpack/lib/*.proto ./app/dist/.tmp/ &&',
+        'cp ./node_modules/castv2-webpack/lib/*.proto ./.tmp/'
+      ].join(' '));
+      return true;
   }
-
-  execSync([
-    'mkdir -p ./app/dist/.tmp &&',
-    'command cp ./app/api/players/Cast.js ./.tmp/Cast.js &&',
-    'command cp ./app/api/players/Cast.js ./app/dist/.tmp/Cast.js'
-  ].join(' '));
-
-  execSync([
-    'cp ./node_modules/castv2-webpack/lib/*.proto ./app/dist/.tmp/ &&',
-    'cp ./node_modules/castv2-webpack/lib/*.proto ./.tmp/'
-  ].join(' '));
-
-  return true;
 }
 
 function getUrl() {
