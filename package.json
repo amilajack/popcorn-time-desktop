@@ -105,7 +105,7 @@
     "eslint-formatter-pretty": "^0.3.1",
     "eslint-import-resolver-webpack": "^0.5.1",
     "eslint-nibble-ignore": "^3.0.0",
-    "eslint-plugin-flowtype": "^2.11.4",
+    "eslint-plugin-flowtype": "^2.16.0",
     "eslint-plugin-flowtype-errors": "^1.0.9",
     "eslint-plugin-fp": "^2.2.0",
     "eslint-plugin-import": "^1.14.0",
@@ -182,5 +182,8 @@
   "devEngines": {
     "node": "6.x",
     "npm": "3.x"
+  },
+  "dependencies": {
+    "eslint-plugin-fp": "^2.2.0"
   }
 }

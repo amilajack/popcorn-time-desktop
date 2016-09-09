@@ -13,7 +13,7 @@ export default class MoviePage extends Component {
   };
 
   render() {
-    const {params} = this.props;
+    const { params } = this.props;
 
     return (
       <div>

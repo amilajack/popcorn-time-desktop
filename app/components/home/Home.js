@@ -1,22 +1,23 @@
-import React, { Component, PropTypes } from "react";
-import VisibilitySensor from "react-visibility-sensor";
-import Butter from "../../api/Butter";
-import Header from "../header/Header";
-import CardList from "../card/CardList";
+import React, { Component, PropTypes } from 'react';
+import VisibilitySensor from 'react-visibility-sensor';
+import Butter from '../../api/Butter';
+import Header from '../header/Header';
+import CardList from '../card/CardList';
+
 
 export default class Home extends Component {
 
   static propTypes = {
-    actions           : PropTypes.object.isRequired,
-    activeMode        : PropTypes.string.isRequired,
-    activeModeOptions : PropTypes.object.isRequired,
-    modes             : PropTypes.object.isRequired,
-    items             : PropTypes.array.isRequired,
-    isLoading         : PropTypes.bool.isRequired,
+    actions: PropTypes.object.isRequired,
+    activeMode: PropTypes.string.isRequired,
+    activeModeOptions: PropTypes.object.isRequired,
+    modes: PropTypes.object.isRequired,
+    items: PropTypes.array.isRequired,
+    isLoading: PropTypes.bool.isRequired,
     infinitePagination: PropTypes.bool.isRequired
   };
 
-  constructor(props:Object) {
+  constructor(props: Object) {
     super(props);
 
     this.butter = new Butter();
@@ -29,7 +30,7 @@ export default class Home extends Component {
     document.addEventListener('scroll', this.initInfinitePagination.bind(this));
   }
 
-  componentWillReceiveProps(nextProps:Object) {
+  componentWillReceiveProps(nextProps: Object) {
     if (
       JSON.stringify(nextProps.activeModeOptions) !==
       JSON.stringify(this.props.activeModeOptions)
@@ -46,7 +47,7 @@ export default class Home extends Component {
     document.removeEventListener('scroll', this.initInfinitePagination.bind(this));
   }
 
-  async onChange(isVisible:boolean) {
+  async onChange(isVisible: boolean) {
     if (isVisible && !this.props.isLoading) {
       await this.paginate(this.props.activeMode, this.props.activeModeOptions);
     }
@@ -60,10 +61,10 @@ export default class Home extends Component {
    * @param {string} queryType   | 'search', 'movies', 'shows', etc
    * @param {object} queryParams | { searchQuery: 'game of thrones' }
    */
-  async paginate(queryType:string, activeModeOptions:Object = {}) {
+  async paginate(queryType: string, activeModeOptions: Object = {}) {
     this.props.actions.setLoading(true);
 
-    const {limit, page} = this.props.modes[queryType];
+    const { limit, page } = this.props.modes[queryType];
 
     const items = await (async() => {
       switch (queryType) {
@@ -100,7 +101,7 @@ export default class Home extends Component {
   }
 
   render() {
-    const {activeMode, actions, items, isLoading} = this.props;
+    const { activeMode, actions, items, isLoading } = this.props;
     return (
       <div>
         <Header

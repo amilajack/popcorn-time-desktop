@@ -1,5 +1,6 @@
 /* eslint global-require: 0 */
-import React, { Component, PropTypes } from "react";
+import React, { Component, PropTypes } from 'react';
+
 
 export default class App extends Component {
   static propTypes = {
@@ -7,7 +8,7 @@ export default class App extends Component {
   };
 
   render() {
-    const {children} = this.props;
+    const { children } = this.props;
 
     return (
       <div>

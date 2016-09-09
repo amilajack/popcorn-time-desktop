@@ -19,45 +19,33 @@ export default class Show extends Component {
   };
 
   render() {
-    const {seasons, selectedSeason, episodes, selectedEpisode, selectShow} = this.props;
+    const { seasons, selectedSeason, episodes, selectedEpisode, selectShow } = this.props;
 
     return (
       <div className="row">
         <div className="col-xs-12 col-md-6">
           <h4>Seasons:</h4>
           <div className="list-group">
-            {seasons.map((season: Object) =>
-              <a
-                className={classNames(
-                  'list-group-item', { active: season.season === selectedSeason }
-                )}
-                onClick={() => selectShow('episodes', season.season)}
-                key={season.season}
-              >
-                Season {season.season}
-              </a>
-            )}
+            {seasons.map((season: Object) => <a
+              className={classNames('list-group-item', { active: season.season === selectedSeason })}
+              onClick={() => selectShow('episodes', season.season)}
+              key={season.season}
+            >
+              Season {season.season}
+            </a>)}
           </div>
         </div>
 
         <div className="col-xs-12 col-md-6">
           <h4>Episodes:</h4>
           <div className="list-group">
-            {episodes.map((episode: Object) =>
-              <a
-                className={classNames(
-                  'list-group-item', { active: episode.episode === selectedEpisode }
-                )}
-                onClick={() => selectShow(
-                  'episode',
-                  selectedSeason,
-                  episode.episode
-                )}
-                key={episode.episode}
-              >
-                Ep {episode.episode}. {episode.title}
-              </a>
-            )}
+            {episodes.map((episode: Object) => <a
+              className={classNames('list-group-item', { active: episode.episode === selectedEpisode })}
+              onClick={() => selectShow('episode', selectedSeason, episode.episode)}
+              key={episode.episode}
+            >
+              Ep {episode.episode}. {episode.title}
+            </a>)}
           </div>
         </div>
 
@@ -65,11 +53,7 @@ export default class Show extends Component {
           <li><h3>Season overview:</h3></li>
           <li>
             <a>
-              {seasons.length &&
-                selectedSeason &&
-                seasons[selectedSeason]
-                  ? seasons[selectedSeason].overview
-                  : null}
+              {seasons.length && selectedSeason && seasons[selectedSeason] ? seasons[selectedSeason].overview : null}
             </a>
           </li>
         </ul>
@@ -77,11 +61,7 @@ export default class Show extends Component {
           <li><h3>Episode overview:</h3></li>
           <li>
             <a>
-              {episodes.length &&
-                selectedSeason &&
-                episodes[selectedEpisode]
-                  ? episodes[selectedEpisode].overview
-                  : null}
+              {episodes.length && selectedSeason && episodes[selectedEpisode] ? episodes[selectedEpisode].overview : null}
             </a>
           </li>
         </ul>

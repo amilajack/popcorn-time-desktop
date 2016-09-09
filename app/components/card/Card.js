@@ -5,6 +5,7 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import Rating from './Rating';
 
+
 export default class Card extends Component {
 
   static propTypes = {
@@ -12,10 +13,7 @@ export default class Card extends Component {
     image: PropTypes.string,
     id: PropTypes.string,
     genres: PropTypes.array,
-    rating: PropTypes.oneOfType([
-      PropTypes.number,
-      PropTypes.string
-    ]),
+    rating: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     type: PropTypes.string.isRequired
   };
 
@@ -24,7 +22,7 @@ export default class Card extends Component {
   }
 
   render() {
-    const {image, type, id, rating, genres, title} = this.props;
+    const { image, type, id, rating, genres, title } = this.props;
 
     const placeholder = '../../images/posterholder.png';
 
@@ -45,18 +43,12 @@ export default class Card extends Component {
           </Link>
         </div>
         <div>
-          {rating !== 'n/a' ?
-            <Rating rating={rating} />
-            :
-            null
+          {rating !== 'n/a' ? <Rating rating={rating} /> : null
           }
         </div>
-        {type === 'search' ?
-          <div>
-            {type}
-          </div>
-          :
-          null
+        {type === 'search' ? <div>
+          {type}
+        </div> : null
         }
         Kind: {type}
         <div className="Card--genres">
