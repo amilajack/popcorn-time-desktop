@@ -2,49 +2,51 @@ import os from 'os';
 import path from 'path';
 import fs from 'fs';
 import mkdirp from 'mkdirp';
-import { execSync } from 'child_process';
 import extract from 'extract-zip';
 
 
 const version = process.env.PREBUILT_FFMPEG_RELEASE || '0.16.0';
 const baseDir = path.normalize('./node_modules/electron-prebuilt/dist');
 
-function setupCasting() {
-  switch (os.type()) {
-    case 'Windows_NT':
-      // TODO: Use this installation method on linux and mac as well
-      mkdirp('./app/dist/.tmp', err => {
-        if (err) console.error(err);
-        else console.log('Created "./app/dist/.tmp" dir!');
+function setupCasting(): boolean {
+  mkdirp('./app/dist/.tmp', err => {
+    if (err) console.error(err);
+    else console.log('--> Creating "./app/dist/.tmp" dir...');
 
-        fs.writeFileSync(
-          path.join(__dirname, './.tmp/Cast.js'),
-          fs.readFileSync(path.join(__dirname, './app/api/players/Cast.js'))
-        );
+    _copy('./app/api/players/Cast.js', './.tmp/Cast.js');
+    _copy('./app/api/players/Cast.js', './app/dist/.tmp/Cast.js');
+  });
 
-        fs.writeFileSync(
-          path.join(__dirname, './app/dist/.tmp/Cast.js'),
-          fs.readFileSync(path.join(__dirname, './app/api/players/Cast.js'))
-        );
-      });
-      return true;
+  return true;
+}
 
-    default:
-      execSync([
-        'mkdir -p ./app/dist/.tmp &&',
-        'command cp ./app/api/players/Cast.js ./.tmp/Cast.js &&',
-        'command cp ./app/api/players/Cast.js ./app/dist/.tmp/Cast.js'
-      ].join(' '));
-
-      execSync([
-        'cp ./node_modules/castv2-webpack/lib/*.proto ./app/dist/.tmp/ &&',
-        'cp ./node_modules/castv2-webpack/lib/*.proto ./.tmp/'
-      ].join(' '));
-      return true;
+function addEnvFile(): boolean {
+  // Check if it exists
+  try {
+    fs.accessSync(path.join(__dirname, '.env'));
+    console.log('--> Using existing .env file...');
+    return true;
+  } catch (e) {
+    console.log('--> Creating ".env" file...');
+    _copy('.env.example', '.env');
+    return true;
   }
 }
 
-function getUrl() {
+function setupFFMPEG() {
+  const { platform, dest } = _getUrl();
+  const zipLocation = `./ffmpeg/${version}-${platform}-${os.arch()}.zip`;
+
+  console.log('--> Replacing ffmpeg...');
+
+  extract(zipLocation, { dir: dest }, error => {
+    if (error) {
+      console.log(error);
+    }
+  });
+}
+
+function _getUrl(): Object {
   switch (os.type()) {
     case 'Darwin':
       return {
@@ -72,15 +74,20 @@ function getUrl() {
   }
 }
 
-const { platform, dest } = getUrl();
-const zipLocation = `./ffmpeg/${version}-${platform}-${os.arch()}.zip`;
+function _copy(filepath: string, dest: string): boolean {
+  try {
+    fs.accessSync(path.join(__dirname, filepath));
+    return true;
+  } catch (e) {
+    fs.writeFileSync(
+      path.join(__dirname, dest),
+      fs.readFileSync(path.join(__dirname, filepath))
+    );
 
-console.log('Replacing ffmpeg...');
-
-extract(zipLocation, { dir: dest }, error => {
-  if (error) {
-    console.log(error);
+    return true;
   }
-});
+}
 
 setupCasting();
+setupFFMPEG();
+addEnvFile();
