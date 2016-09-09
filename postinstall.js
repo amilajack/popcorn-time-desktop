@@ -17,9 +17,9 @@ function setupCasting() {
         else console.log('Created "./app/dist/.tmp" dir!');
 
         fs
-          .createReadStream('./app/api/players/Cast.js')
-          .pipe(fs.createWriteStream('./.tmp/Cast.js'))
-          .pipe(fs.createWriteStream('./app/dist/.tmp/Cast.js'));
+          .createReadStream(path.normalize('./app/api/players/Cast.js'))
+          .pipe(fs.createWriteStream(path.normalize('./.tmp/Cast.js')))
+          .pipe(fs.createWriteStream(path.normalize('./app/dist/.tmp/Cast.js')));
       });
       return true;
 
