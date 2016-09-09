@@ -434,7 +434,9 @@ export default class Movie extends Component {
 
   render() {
     const {
-      item, idealTorrent, torrent, servingUrl, torrentInProgress, fetchingTorrents, dropdownOpen, currentPlayer, seasons, selectedSeason, episodes, selectedEpisode, similarItems, similarLoading, isFinished
+      item, idealTorrent, torrent, servingUrl, torrentInProgress,
+      fetchingTorrents, dropdownOpen, currentPlayer, seasons, selectedSeason,
+      episodes, selectedEpisode, similarItems, similarLoading, isFinished
     } = this.state;
 
     const { activeMode } = this.props;
@@ -462,27 +464,51 @@ export default class Movie extends Component {
                   Start Ideal Torrent
                 </button>
               </span>
-              {process.env.FLAG_MANUAL_TORRENT_SELECTION === 'true' ?
-               <span>
-                  <button
-                    onClick={() => this.startTorrent(torrent['1080p'].magnet, torrent['1080p'].method)}
-                    disabled={!torrent['1080p'].quality}
-                  >
-                    Start 1080p -- {torrent['1080p'].seeders} seeders
-                  </button>
-                  <button
-                    onClick={() => this.startTorrent(torrent['720p'].magnet, torrent['720p'].method)}
-                    disabled={!torrent['720p'].quality}
-                  >
-                    Start 720p -- {torrent['720p'].seeders} seeders
-                  </button>
-                {activeMode === 'shows' ? <button
-                  onClick={() => this.startTorrent(torrent['480p'].magnet, torrent['480p'].method)}
-                  disabled={!torrent['480p'].quality}
-                >
-                  Start 480p -- {torrent['480p'].seeders} seeders
-                </button> : null}
-                </span> : null}
+              {(() => {
+                if (process.env.FLAG_MANUAL_TORRENT_SELECTION === 'true') {
+                  return (
+                    <span>
+                      <button
+                        onClick={() => this.startTorrent(
+                          torrent['1080p'].magnet,
+                          torrent['1080p'].method
+                        )}
+                        disabled={!torrent['1080p'].quality}
+                      >
+                        Start 1080p -- {torrent['1080p'].seeders} seeders
+                      </button>
+                      <button
+                        onClick={() => this.startTorrent(
+                          torrent['720p'].magnet,
+                          torrent['720p'].method
+                        )}
+                        disabled={!torrent['720p'].quality}
+                      >
+                        Start 720p -- {torrent['720p'].seeders} seeders
+                      </button>
+                            {(() => {
+                              if (activeMode === 'shows') {
+                                return (
+                                  <button
+                                    onClick={() => this.startTorrent(
+                                      torrent['480p'].magnet,
+                                      torrent['480p'].method
+                                    )}
+                                    disabled={!torrent['480p'].quality}
+                                  >
+                                    Start 480p -- {torrent['480p'].seeders} seeders
+                                  </button>
+                                );
+                              }
+
+                              return null;
+                            })()}
+                    </span>
+                  );
+                }
+
+                return null;
+              })()}
               <span>
                 <a>
                   <strong>

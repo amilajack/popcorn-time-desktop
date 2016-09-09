@@ -27,7 +27,9 @@ export default class Show extends Component {
           <h4>Seasons:</h4>
           <div className="list-group">
             {seasons.map((season: Object) => <a
-              className={classNames('list-group-item', { active: season.season === selectedSeason })}
+              className={classNames('list-group-item', {
+                active: season.season === selectedSeason
+              })}
               onClick={() => selectShow('episodes', season.season)}
               key={season.season}
             >
@@ -40,7 +42,9 @@ export default class Show extends Component {
           <h4>Episodes:</h4>
           <div className="list-group">
             {episodes.map((episode: Object) => <a
-              className={classNames('list-group-item', { active: episode.episode === selectedEpisode })}
+              className={classNames('list-group-item', {
+                active: episode.episode === selectedEpisode
+              })}
               onClick={() => selectShow('episode', selectedSeason, episode.episode)}
               key={episode.episode}
             >
@@ -53,7 +57,11 @@ export default class Show extends Component {
           <li><h3>Season overview:</h3></li>
           <li>
             <a>
-              {seasons.length && selectedSeason && seasons[selectedSeason] ? seasons[selectedSeason].overview : null}
+              {seasons.length
+               && selectedSeason
+               && seasons[selectedSeason]
+                ? seasons[selectedSeason].overview
+                : null}
             </a>
           </li>
         </ul>
@@ -61,7 +69,11 @@ export default class Show extends Component {
           <li><h3>Episode overview:</h3></li>
           <li>
             <a>
-              {episodes.length && selectedSeason && episodes[selectedEpisode] ? episodes[selectedEpisode].overview : null}
+              {episodes.length
+               && selectedSeason
+               && episodes[selectedEpisode]
+                ? episodes[selectedEpisode].overview
+                : null}
             </a>
           </li>
         </ul>
