@@ -466,7 +466,10 @@ export default class Movie extends Component {
               </Link>
               <span>
                 <button
-                  onClick={() => this.startTorrent(idealTorrent.magnet, idealTorrent.method)}
+                  onClick={() => this.startTorrent(
+                    idealTorrent.magnet,
+                    idealTorrent.method
+                  )}
                   disabled={!idealTorrent.quality}
                 >
                   Start Ideal Torrent
