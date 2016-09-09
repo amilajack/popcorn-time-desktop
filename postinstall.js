@@ -12,14 +12,20 @@ const baseDir = path.normalize('./node_modules/electron-prebuilt/dist');
 function setupCasting() {
   switch (os.type()) {
     case 'Windows_NT':
+      // TODO: Use this installation method on linux and mac as well
       mkdirp('./app/dist/.tmp', err => {
         if (err) console.error(err);
         else console.log('Created "./app/dist/.tmp" dir!');
 
-        fs
-          .createReadStream(path.normalize('./app/api/players/Cast.js'))
-          .pipe(fs.createWriteStream(path.normalize('./.tmp/Cast.js')))
-          .pipe(fs.createWriteStream(path.normalize('./app/dist/.tmp/Cast.js')));
+        fs.writeFileSync(
+          path.join(__dirname, './.tmp/Cast.js'),
+          fs.readFileSync(path.join(__dirname, './app/api/players/Cast.js'))
+        );
+
+        fs.writeFileSync(
+          path.join(__dirname, './app/dist/.tmp/Cast.js'),
+          fs.readFileSync(path.join(__dirname, './app/api/players/Cast.js'))
+        );
       });
       return true;
 
