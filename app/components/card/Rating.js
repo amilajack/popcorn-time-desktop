@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import StarRatingComponent from 'react-star-rating-component';
 
 
@@ -30,7 +30,10 @@ export default function RatingComponent({ rating }: Object) {
 }
 
 RatingComponent.propTypes = {
-  rating: React.PropTypes.number.isRequired
+  rating: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string
+  ])
 };
 
 RatingComponent.defaultProps = {

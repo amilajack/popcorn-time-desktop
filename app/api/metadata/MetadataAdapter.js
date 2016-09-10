@@ -10,7 +10,7 @@ import {
 
 function MetadataAdapter() {
   const providers = [
-    new (require('./TraktMetadataProvider')) // eslint-disable-line global-require
+    new (require('./TraktMetadataProvider')) // eslint-disable-line
   ];
 
   return providers;

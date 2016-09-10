@@ -21,16 +21,6 @@ import Player from '../../api/Player';
 
 export default class Movie extends Component {
 
-  static propTypes: Object = {
-    itemId: PropTypes.string.isRequired,
-    activeMode: PropTypes.string.isRequired
-  };
-
-  static defaultProps = {
-    itemId: '',
-    activeMode: 'movies'
-  };
-
   defaultTorrent: Object = {
     default: { quality: undefined, magnet: undefined, seeders: 0 },
     '1080p': { quality: undefined, magnet: undefined, seeders: 0 },
@@ -617,3 +607,13 @@ export default class Movie extends Component {
     );
   }
 }
+
+Movie.propTypes = {
+  itemId: PropTypes.string.isRequired,
+  activeMode: PropTypes.string.isRequired
+};
+
+Movie.defaultProps = {
+  itemId: '',
+  activeMode: 'movies'
+};

@@ -7,11 +7,6 @@ import Butter from '../../api/Butter';
 
 export default class Header extends Component {
 
-  static propTypes = {
-    setActiveMode: PropTypes.func.isRequired,
-    activeMode: PropTypes.string.isRequired
-  };
-
   constructor(props: Object) {
     super(props);
 
@@ -52,7 +47,7 @@ export default class Header extends Component {
             className="navbar-brand"
             onClick={this.props.setActiveMode.bind(this, 'movies')}
           >
-            <h4>Popcorn Time</h4>
+            Popcorn Time
           </a>
           <ul className="nav navbar-nav">
             <li
@@ -111,3 +106,8 @@ export default class Header extends Component {
     );
   }
 }
+
+Header.propTypes = {
+  setActiveMode: PropTypes.func.isRequired,
+  activeMode: PropTypes.string.isRequired
+};
