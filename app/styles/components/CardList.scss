@@ -56,9 +56,18 @@
       height: 100%;
       border-radius: 10px;
     }
+  }
+}
 
-    .dv-star-rating-star {
-      margin: 0;
-    }
+.dv-star-rating-star {
+  margin: 0;
+
+  .ion-android-star-half,
+  .ion-android-star {
+    color: white;
+  }
+
+  .ion-android-star.ion-android-star-no {
+    color: black;
   }
 }

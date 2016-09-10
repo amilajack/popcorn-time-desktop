@@ -1,7 +1,6 @@
 /**
  * A list of thumbnail poster images of items that are rendered on the home page
  */
-
 import React, { Component, PropTypes } from 'react';
 import Card from './Card';
 import Loader from '../loader/Loader';

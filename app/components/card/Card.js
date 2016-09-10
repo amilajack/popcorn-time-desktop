@@ -1,7 +1,6 @@
 /**
  * Card in the CardList component
  */
-
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import Rating from './Rating';
