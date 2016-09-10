@@ -1,6 +1,7 @@
 import fetch from 'isomorphic-fetch';
 import Trakt from 'trakt.tv';
 import OpenSubtitles from 'opensubtitles-api';
+import { set, get } from '../../utils/Config';
 import { convertRuntimeToHours } from './MetadataAdapter';
 
 
@@ -122,6 +123,41 @@ export default class TraktMetadataAdapter {
       extended: 'full,images,metadata'
     })
       .then(movies => movies.map(movie => formatMetadata(movie, type)));
+  }
+
+  /**
+   * Temporarily store the 'favorites', 'recentlyWatched', 'watchList' items
+   * in config file. The cache can't be used because this data needs to be
+   * persisted.
+   */
+  _updateConfig(type: string, method: string, metadata: Object) {
+    const property = `${type}.items`;
+
+    switch (method) {
+      case 'set':
+        return set(property, get(property).push(metadata));
+      case 'get':
+        return get(property);
+      case 'remove':
+        return set(
+          property,
+          get(property).filter(item => item.id !== metadata.key)
+        );
+      default:
+        return set(property, get(property).push(metadata));
+    }
+  }
+
+  favorites(...args) {
+    this._updateConfig('favorites', args);
+  }
+
+  recentlyWatched(...args) {
+    this._updateConfig('recentlyWatched', args);
+  }
+
+  watchList(...args) {
+    this._updateConfig('watchList', args);
   }
 
   async getSubtitles(imdbId: string, filename: string, length: number, metadata: Object = {}) {

@@ -145,6 +145,36 @@ function getSubtitles(...args) {
 }
 
 /**
+ * Handle actions for favorites: addition, deletion, list all
+ *
+ * @param {string} method | Ex. 'set', 'get', 'remove'
+ * @param {object} metadata | Required only for `set` and `remove`
+ */
+function favorites(...args) {
+  return handleRequest('favorites', args);
+}
+
+/**
+ * Handle actions for watchList: addition, deletion, list all
+ *
+ * @param {string} method | Ex. 'set', 'get', 'remove'
+ * @param {object} metadata | Required only for `set` and `remove`
+ */
+function watchList(...args) {
+  return handleRequest('watchList', args);
+}
+
+/**
+ * Handle actions for recentlyWatched: addition, deletion, list all
+ *
+ * @param {string} method | Ex. 'set', 'get', 'remove'
+ * @param {object} metadata | Required only for `set` and `remove`
+ */
+function recentlyWatched(...args) {
+  return handleRequest('recentlyWatched', args);
+}
+
+/**
  * Convert runtime from minutes to hours
  *
  * @param  {number} runtimeInMinutes
@@ -173,5 +203,8 @@ export default {
   getEpisode,
   search,
   getSimilar,
-  getSubtitles
+  getSubtitles,
+  favorites,
+  watchList,
+  recentlyWatched
 };

@@ -116,11 +116,11 @@ export default class Movie extends Component {
       }
     });
 
-    this.getItem(itemId).then((item: Object) => {
-      this.getTorrent(itemId, item.title, 1, 1);
-    });
-
-    this.getSimilar(itemId);
+    return Promise.all([
+      this.getItem(itemId)
+        .then((item: Object) => this.getTorrent(itemId, item.title, 1, 1)),
+      this.getSimilar(itemId)
+    ]);
   }
 
   async getShowData(type: string, imdbId: string, season: number, episode: number) {
@@ -181,7 +181,7 @@ export default class Movie extends Component {
     });
 
     try {
-      const { torrent, idealTorrent } = await (async() => {
+      const { torrent, idealTorrent } = await (async () => {
         switch (this.props.activeMode) {
           case 'movies': {
             const _torrent = await this.butter.getTorrent(imdbId, this.props.activeMode, {

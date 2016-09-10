@@ -68,6 +68,9 @@ npm run dev
 npm run package
 ```
 
+## Contributing:
+Please see the [contributing guide](https://github.com/amilajack/popcorn-time-desktop/blob/master/CONTRIBUTING.md)
+
 ## Todos:
 See the [roadmap](https://github.com/amilajack/popcorn-time-desktop/wiki/Road-Map-and-Progress) for the full list.
 

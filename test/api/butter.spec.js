@@ -605,7 +605,7 @@ describe('api ->', function testApi() {
       describe('Subtitles', function testSubtitles() {
         this.timeout(30000);
 
-        before(async() => {
+        before(async () => {
           this.subtitles = await butterFactory().getSubtitles(
             'tt0468569',
             'The.Dark.Knight.2008.720p.BluRay.x264.YIFY.mp4',
