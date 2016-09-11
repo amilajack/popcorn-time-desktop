@@ -21,20 +21,16 @@ import { getIdealTorrent } from '../../app/api/torrents/BaseTorrentProvider';
 
 const butter = new Butter();
 
-export async function generateMockShows() {
-  const _shows = await new Butter().getShows();
-  const generatedShows = _shows.map(({ id, title }) => ({ id, title }));
-  console.log(generatedShows);
-}
-
 describe('Benchmark Butter Shows: Top 50', () => {
   describe('Season 1', () => {
     describe('Show', function testShow() {
-      before(() => {
+      before(done => {
         this.torrentCount = 0;
+        done();
       });
-      after(() => {
+      after(done => {
         console.log(`\t Average Seeder Count: ${this.torrentCount / shows.length}`);
+        done();
       });
       for (const show of shows) {
         it(`Shows: ${show.title} season 1, episode 1`, async (done) => {
@@ -50,19 +46,21 @@ describe('Benchmark Butter Shows: Top 50', () => {
               '\t Seeder Count: ', torrentCount
             );
             done();
-          } catch (err) {
-            done(err);
+          } catch (error) {
+            done(error);
           }
         });
       }
     });
 
     describe('Show Complete', function testShowComplete() {
-      before(() => {
+      before(done => {
         this.torrentCount = 0;
+        done();
       });
-      after(() => {
+      after(done => {
         console.log(`\t Average Seeder Count: ${this.torrentCount / shows.length}`);
+        done();
       });
       for (const show of shows) {
         it(`Season Complete: ${show.title} season 1`, async (done) => {
@@ -77,8 +75,8 @@ describe('Benchmark Butter Shows: Top 50', () => {
               '\t Seeder Count: ', torrentCount
             );
             done();
-          } catch (err) {
-            done(err);
+          } catch (error) {
+            done(error);
           }
         });
       }
@@ -87,11 +85,13 @@ describe('Benchmark Butter Shows: Top 50', () => {
 
   describe('Season 2', () => {
     describe('Show', function testShow() {
-      before(() => {
+      before(done => {
         this.torrentCount = 0;
+        done();
       });
-      after(() => {
+      after(done => {
         console.log(`\t Average Seeder Count: ${this.torrentCount / shows.length}`);
+        done();
       });
       for (const show of shows) {
         it(`Shows: ${show.title} season 2, episode 1`, async (done) => {
@@ -107,19 +107,21 @@ describe('Benchmark Butter Shows: Top 50', () => {
               '\t Seeder Count: ', torrentCount
             );
             done();
-          } catch (err) {
-            done(err);
+          } catch (error) {
+            done(error);
           }
         });
       }
     });
 
     describe('Show Complete', function testShowComplete() {
-      before(() => {
+      before(done => {
         this.torrentCount = 0;
+        done();
       });
-      after(() => {
+      after(done => {
         console.log(`\t Average Seeder Count: ${this.torrentCount / shows.length}`);
+        done();
       });
       for (const show of shows) {
         it(`Season Complete: ${show.title} season 2`, async (done) => {
@@ -134,8 +136,8 @@ describe('Benchmark Butter Shows: Top 50', () => {
               '\t Seeder Count: ', torrentCount
             );
             done();
-          } catch (err) {
-            done(err);
+          } catch (error) {
+            done(error);
           }
         });
       }

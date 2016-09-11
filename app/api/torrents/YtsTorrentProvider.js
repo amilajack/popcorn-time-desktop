@@ -1,24 +1,31 @@
 import fetch from 'isomorphic-fetch';
 import {
   determineQuality,
-  timeout
+  timeout,
+  resolveEndpoint
 } from './BaseTorrentProvider';
 
+
+const endpoint = 'https://yts.ag';
+const providerId = 'YTS';
+const resolvedEndpoint = resolveEndpoint(endpoint, providerId);
 
 export default class YtsTorrentProvider {
 
   static providerName = 'YTS';
 
-  static fetch(imdbId) {
+  static fetch(imdbId: string) {
     return timeout(
-      fetch(
-        `https://yts.ag/api/v2/list_movies.json?query_term=${imdbId}&order_by=desc&sort_by=seeds&limit=50`
-      )
+      fetch([
+        `${resolvedEndpoint}/api/v2/list_movies.json`,
+        `?query_term=${imdbId}`,
+        '&order_by=desc&sort_by=seeds&limit=50'
+      ].join(''))
     )
       .then(res => res.json());
   }
 
-  static formatTorrent(torrent) {
+  static formatTorrent(torrent: Object) {
     return {
       quality: determineQuality(torrent.quality),
       magnet: constructMagnet(torrent.hash),
@@ -35,7 +42,7 @@ export default class YtsTorrentProvider {
       .catch(() => false);
   }
 
-  static provide(imdbId, type) {
+  static provide(imdbId: string, type: string) {
     switch (type) {
       case 'movies':
         return this.fetch(imdbId)
@@ -50,6 +57,6 @@ export default class YtsTorrentProvider {
   }
 }
 
-function constructMagnet(hash) {
+function constructMagnet(hash: string) {
   return `magnet:?xt=urn:btih:${hash}`;
 }

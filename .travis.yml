@@ -6,6 +6,7 @@ language: cpp
 
 env:
   - export NODE_VERSION="6"
+
 os:
   - linux
   - osx
@@ -16,6 +17,9 @@ matrix:
 cache:
   directories:
     - node_modules
+
+notifications:
+  email: false
 
 addons:
   apt:
@@ -36,10 +40,10 @@ before_install:
 
 install:
   - export CXX="g++-4.8"
-  - npm install -g npm@latest
+  - npm install -g npm@latest --loglevel=warn
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update              ; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install imagemagick ; fi
-  - npm install
+  - npm install --loglevel=warn
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then
       "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x16";
       export DISPLAY=':99.0';
@@ -55,11 +59,7 @@ before_script:
 script:
   - node --version
   - npm --version
-  - npm run build
+  - npm run test
   - npm run package
-  # Cannot run until WebChimera support comes to Linux
-  # - if [ "$TRAVIS_OS_NAME" == "osx" ]; then npm run test-api; fi
-  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then npm run bench-api; fi
-  - npm run test-e2e
-  - npm run test-screenshot
-  - npm run lint
+  - npm run bench-api
+  # - npm run test-screenshot

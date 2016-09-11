@@ -1,8 +1,8 @@
 .fade {
-	opacity: 0;
+  opacity: 0;
 
-	.in {
-		opacity: 1;
-  	transition: opacity 500ms ease-in;
-	}
+  .in {
+    opacity: 1;
+    transition: opacity 500ms ease-in;
+  }
 }

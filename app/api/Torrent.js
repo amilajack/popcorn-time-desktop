@@ -1,7 +1,7 @@
 /**
  * Torrents controller, responsible for playing, stoping, etc
- * Serves as an abstraction layer for peerflix or other torrent streams
  */
+import os from 'os';
 import WebTorrent from 'webtorrent';
 import { isExactEpisode } from './torrents/BaseTorrentProvider';
 
@@ -14,11 +14,7 @@ export default class Torrent {
 
   finished = false;
 
-  /**
-   * @todo: Refactor butter api calls to Movie component. Butter, Player, and
-   *        Torrent should work independently of each other
-   */
-  start(magnetURI, metadata, supportedFormats, cb) {
+  start(magnetURI: string, metadata: Object, supportedFormats: Array<string>, cb) {
     if (this.inProgress) {
       throw new Error('Torrent already in progress');
     }
@@ -26,57 +22,67 @@ export default class Torrent {
     const { season, episode, activeMode } = metadata;
     const maxConns = process.env.CONFIG_MAX_CONNECTIONS
                       ? parseInt(process.env.CONFIG_MAX_CONNECTIONS, 10)
-                      : 100;
+                      : 20;
 
     this.engine = new WebTorrent({ maxConns });
     this.inProgress = true;
+    this.magnetURI = magnetURI;
 
-    console.warn(`Using '${activeMode}' method`);
+    const cacheLocation = (() => {
+      switch (process.env.CONFIG_PERSIST_DOWNLOADS) {
+        case 'true':
+          return process.env.CONFIG_DOWNLOAD_LOCATION || '/tmp/popcorn-time-desktop';
+        default:
+          return os.tmpdir();
+      }
+    })();
 
-    this.engine.add(magnetURI, torrent => {
+    this.engine.add(magnetURI, { path: cacheLocation }, torrent => {
       const server = torrent.createServer();
       server.listen(port);
       this.server = server;
 
-      let [file] = torrent.files;
-      let torrentIndex = 0;
-
-      for (let i = 0; i < torrent.files.length; i++) {
-        const isSupported = !!supportedFormats.find(
-          format => torrent.files[i].name.includes(format)
+      const { file, torrentIndex } = torrent.files.reduce((previous, current, index) => {
+        const formatIsSupported = !!supportedFormats.find(
+          format => current.name.includes(format)
         );
 
         switch (activeMode) {
+          // Check if the current file is the exact episode we're looking for
           case 'season_complete':
-            if (
-              isSupported &&
-              isExactEpisode(torrent.files[i].name, season, episode)
-            ) {
-              torrentIndex = i;
-              file.deselect();
-              file = torrent.files[i];
+            if (formatIsSupported && isExactEpisode(current.name, season, episode)) {
+              previous.file.deselect();
+              return {
+                file: current,
+                torrentIndex: index
+              };
             }
-            break;
+
+            return previous;
+
+          // Check if the current file is greater than the previous file
           default:
-            if (isSupported && torrent.files[i].length > file.length) {
-              torrentIndex = i;
-              file.deselect();
-              file = torrent.files[i];
+            if (formatIsSupported && current.length > previous.file.length) {
+              previous.file.deselect();
+              return {
+                file: current,
+                torrentIndex: index
+              };
             }
+
+            return previous;
         }
-      }
+      }, { file: torrent.files[0], torrentIndex: 0 });
 
       if (typeof torrentIndex !== 'number') {
         console.warn('File List', torrent.files.map(_file => _file.name));
         throw new Error(`No torrent could be selected. Torrent Index: ${torrentIndex}`);
       }
 
+      const buffer = 1 * 1024 * 1024; // 1MB
       const files = torrent.files;
-      const { name } = file;
-      file.select();
 
-      const buffer = 5 * 1024 * 1024; // 5MB
-      let playerStarted;
+      file.select();
 
       torrent.on('done', () => {
         this.inProgress = false;
@@ -84,16 +90,17 @@ export default class Torrent {
       });
 
       this.checkDownloadInterval = setInterval(() => {
-        if (!playerStarted && torrent.downloaded > buffer) {
+        if (torrent.downloaded > buffer) {
           console.log('Ready...');
-          playerStarted = true;
+
           cb(
             `http://localhost:${port}/${torrentIndex}`,
-            name,
+            file,
             files,
-            torrent
+            torrent,
+            selectSubtitleFile(files, activeMode, metadata)
           );
-          console.warn(this.interval);
+
           this.clearIntervals();
         }
       }, 1000);
@@ -115,7 +122,6 @@ export default class Torrent {
 
       this.clearIntervals();
 
-      // this.engine.remove();
       this.engine.destroy();
       this.engine = undefined;
 
@@ -132,4 +138,27 @@ export function formatSpeeds({ downloadSpeed, uploadSpeed, progress, numPeers, r
     numPeers,
     ratio
   };
+}
+
+/**
+ * Get the subtitle file buffer given an array of files
+ */
+export function selectSubtitleFile(files: Array<string>,
+                                    activeMode: string,
+                                    metadata: string = '') {
+  return files.find(file => {
+    const formatIsSupported = file.name.includes('.srt');
+
+    switch (activeMode) {
+      // Check if the current file is the exact episode we're looking for
+      case 'season_complete': {
+        const { season, episode } = metadata;
+        return (formatIsSupported && isExactEpisode(file.name, season, episode));
+      }
+
+      // Check if the current file is greater than the previous file
+      default:
+        return formatIsSupported;
+    }
+  });
 }

@@ -1,7 +1,6 @@
 /**
  * Resolve requests from cache
  */
-
 import {
   merge,
   resolveCache,
@@ -11,13 +10,13 @@ import {
 
 function MetadataAdapter() {
   const providers = [
-    new (require('./TraktMetadataProvider')) // eslint-disable-line global-require
+    new (require('./TraktMetadataProvider')) // eslint-disable-line
   ];
 
   return providers;
 }
 
-async function handleRequest(method, args) {
+async function handleRequest(method: string, args) {
   const key = JSON.stringify(method) + JSON.stringify(args);
 
   if (resolveCache(key)) {
@@ -26,7 +25,7 @@ async function handleRequest(method, args) {
 
   const results = await Promise.all(
     MetadataAdapter()
-      .map(provider => provider[method].apply(provider, args))
+      .map(provider => provider[method].apply(provider, args)) // eslint-disable-line
   );
 
   const mergedResults = merge(results);
@@ -43,7 +42,7 @@ async function handleRequest(method, args) {
  * @param {string} genre
  * @param {string} sortBy
  */
-export function search(...args) {
+function search(...args) {
   return handleRequest('search', args);
 }
 
@@ -52,7 +51,7 @@ export function search(...args) {
  *
  * @param {string} imdbId
  */
-export function getMovie(...args) {
+function getMovie(...args) {
   return handleRequest('getMovie', args);
 }
 
@@ -64,7 +63,7 @@ export function getMovie(...args) {
  * @param {string} genre
  * @param {string} sortBy
  */
-export function getMovies(...args) {
+function getMovies(...args) {
   return handleRequest('getMovies', args);
 }
 
@@ -75,7 +74,7 @@ export function getMovies(...args) {
  * @param {string} type   | movie or show
  * @param {number} limit  | movie or show
  */
-export function getSimilar(...args) {
+function getSimilar(...args) {
   return handleRequest('getSimilar', args);
 }
 
@@ -86,7 +85,7 @@ export function getSimilar(...args) {
  * @param {string} type   | movie or show
  * @param {number} limit  | movie or show
  */
-export function getSeason(...args) {
+function getSeason(...args) {
   return handleRequest('getSeason', args);
 }
 
@@ -97,7 +96,7 @@ export function getSeason(...args) {
  * @param {string} type   | movie or show
  * @param {number} limit  | movie or show
  */
-export function getSeasons(...args) {
+function getSeasons(...args) {
   return handleRequest('getSeasons', args);
 }
 
@@ -108,7 +107,7 @@ export function getSeasons(...args) {
  * @param {string} type   | movie or show
  * @param {number} limit  | movie or show
  */
-export function getEpisode(...args) {
+function getEpisode(...args) {
   return handleRequest('getEpisode', args);
 }
 
@@ -119,7 +118,7 @@ export function getEpisode(...args) {
  * @param {string} type   | movie or show
  * @param {number} limit  | movie or show
  */
-export function getShow(...args) {
+function getShow(...args) {
   return handleRequest('getShow', args);
 }
 
@@ -130,8 +129,52 @@ export function getShow(...args) {
  * @param {string} type   | movie or show
  * @param {number} limit  | movie or show
  */
-export function getShows(...args) {
+function getShows(...args) {
   return handleRequest('getShows', args);
+}
+
+/**
+ * Get the subtitles for a movie or show
+ *
+ * @param {string} imdbId
+ * @param {string} filename
+ * @param {object} metadata
+ */
+function getSubtitles(...args) {
+  return handleRequest('getSubtitles', args);
+}
+
+/**
+ * Handle actions for favorites: addition, deletion, list all
+ *
+ * @param {string} method | Ex. 'set', 'get', 'remove'
+ * @param {object} metadata | Required only for `set` and `remove`
+ * @param {object} metadata | 'id', Required only remove
+ */
+function favorites(...args) {
+  return handleRequest('favorites', args);
+}
+
+/**
+ * Handle actions for watchList: addition, deletion, list all
+ *
+ * @param {string} method | Ex. 'set', 'get', 'remove'
+ * @param {object} metadata | Required only for `set` and `remove`
+ * @param {object} metadata | 'id', Required only remove
+ */
+function watchList(...args) {
+  return handleRequest('watchList', args);
+}
+
+/**
+ * Handle actions for recentlyWatched: addition, deletion, list all
+ *
+ * @param {string} method | Ex. 'set', 'get', 'remove'
+ * @param {object} metadata | Required only for `set` and `remove`
+ * @param {object} metadata | 'id', Required only remove
+ */
+function recentlyWatched(...args) {
+  return handleRequest('recentlyWatched', args);
 }
 
 /**
@@ -140,7 +183,7 @@ export function getShows(...args) {
  * @param  {number} runtimeInMinutes
  * @return {object}
  */
-export function convertRuntimeToHours(runtimeInMinutes) {
+export function convertRuntimeToHours(runtimeInMinutes: number) {
   const hours = runtimeInMinutes >= 60 ? Math.round(runtimeInMinutes / 60) : 0;
   const minutes = runtimeInMinutes % 60;
 
@@ -154,6 +197,17 @@ export function convertRuntimeToHours(runtimeInMinutes) {
 }
 
 export default {
-  getMovie, getMovies, getShow, getShows, getSeason, getSeasons, getEpisode,
-  search, getSimilar
+  getMovie,
+  getMovies,
+  getShow,
+  getShows,
+  getSeason,
+  getSeasons,
+  getEpisode,
+  search,
+  getSimilar,
+  getSubtitles,
+  favorites,
+  watchList,
+  recentlyWatched
 };

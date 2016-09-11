@@ -1,11 +1,14 @@
 import fetch from 'isomorphic-fetch';
 import {
   handleProviderError,
-  timeout
+  timeout,
+  resolveEndpoint
 } from './BaseTorrentProvider';
 
 
 const endpoint = 'http://api-fetch.website/tv';
+const providerId = 'PCT';
+const resolvedEndpoint = resolveEndpoint(endpoint, providerId);
 
 export default class PctTorrentProvider {
 
@@ -13,27 +16,10 @@ export default class PctTorrentProvider {
 
   static shows = {};
 
-  /**
-   * @todo: this should be properly cached
-   *
-   * Serve as a temporary cache
-   * If not in cache, generate cached response
-   *
-   * shows = {
-   *   imdbId: [
-   *     torrents: <array> | array of formatted torrents
-   *     season: <number>  | season to find
-   *     episode: <number> | episode to find
-   *   }
-   * }
-   * ...
-   *
-   * @return {array} | array of torrents
-   */
-  static async fetch(imdbId, type, extendedDetails) {
+  static async fetch(imdbId: string, type: string, extendedDetails: Object) {
     const urlTypeParam = type === 'movies' ? 'movie' : 'show';
     const request = timeout(
-      fetch(`${endpoint}/${urlTypeParam}/${imdbId}`)
+      fetch(`${resolvedEndpoint}/${urlTypeParam}/${imdbId}`)
         .then(res => res.json())
     );
 
@@ -73,7 +59,7 @@ export default class PctTorrentProvider {
    * @param {number} | episode
    * @return {array} | Array of torrents
    */
-  static filterTorrents(show, season, episode) {
+  static filterTorrents(show: Array<any>, season: number, episode: number) {
     const filterTorrents = show
       .filter(
         eachEpisode => eachEpisode.season === season &&
@@ -92,7 +78,7 @@ export default class PctTorrentProvider {
     };
   }
 
-  static formatMovieTorrent(torrent) {
+  static formatMovieTorrent(torrent: Object) {
     return {
       quality: torrent.quality,
       magnet: torrent.url,
@@ -103,29 +89,21 @@ export default class PctTorrentProvider {
     };
   }
 
-  static formatTorrents(torrents) {
-    const formattedTorrents = [];
-
-    for (const quality of Object.keys(torrents)) {
-      const torrent = torrents[quality];
-
-      formattedTorrents.push({
-        quality: quality === '0' ? '0p' : quality,
-        magnet: torrent.url,
-        seeders: torrent.seeds || torrent.seed,
-        leechers: torrent.peers || torrent.peer,
-        _provider: 'pct'
-      });
-    }
-
-    return formattedTorrents;
+  static formatTorrents(torrents: Object) {
+    return Object.keys(torrents).map(videoQuality => ({
+      quality: videoQuality === '0' ? '0p' : videoQuality,
+      magnet: torrents[videoQuality].url,
+      seeders: torrents[videoQuality].seeds || torrents[videoQuality].seed,
+      leechers: torrents[videoQuality].peers || torrents[videoQuality].peer,
+      _provider: 'pct'
+    }));
   }
 
   static getStatus() {
-    return fetch(endpoint).then(res => res.ok).catch(() => false);
+    return fetch(resolvedEndpoint).then(res => res.ok).catch(() => false);
   }
 
-  static provide(imdbId, type, extendedDetails = {}) {
+  static provide(imdbId: string, type: string, extendedDetails: Object = {}) {
     switch (type) {
       case 'movies':
         return this.fetch(imdbId, type, extendedDetails)

@@ -1,10 +1,11 @@
-/**
- * @todo: Filter and sort by options
- */
 import fetch from 'isomorphic-fetch';
 import Trakt from 'trakt.tv';
+import OpenSubtitles from 'opensubtitles-api';
+import { set, get } from '../../utils/Config';
 import { convertRuntimeToHours } from './MetadataAdapter';
 
+
+const subtitlesEndpoint = 'https://popcorn-time-api-server.herokuapp.com/subtitles';
 
 export default class TraktMetadataAdapter {
 
@@ -17,9 +18,16 @@ export default class TraktMetadataAdapter {
       client_id: this.clientId,
       client_secret: this.clientSecret
     });
+
+    this.openSubtitles = new OpenSubtitles({
+      useragent: 'OSTestUserAgent',
+      username: '',
+      password: '',
+      ssl: true
+    });
   }
 
-  getMovies(page = 1, limit = 50) {
+  getMovies(page: number = 1, limit: number = 50) {
     return this.trakt.movies.popular({
       paginate: true,
       page,
@@ -29,7 +37,7 @@ export default class TraktMetadataAdapter {
       .then(movies => movies.map(movie => formatMetadata(movie, 'movies')));
   }
 
-  getMovie(imdbId) {
+  getMovie(imdbId: string) {
     return this.trakt.movies.summary({
       id: imdbId,
       extended: 'full,images,metadata'
@@ -37,7 +45,7 @@ export default class TraktMetadataAdapter {
       .then(movie => formatMetadata(movie, 'movies'));
   }
 
-  getShows(page = 1, limit = 50) {
+  getShows(page: number = 1, limit: number = 50) {
     return this.trakt.shows.popular({
       paginate: true,
       page,
@@ -47,7 +55,7 @@ export default class TraktMetadataAdapter {
       .then(shows => shows.map(show => formatMetadata(show, 'shows')));
   }
 
-  getShow(imdbId) {
+  getShow(imdbId: string) {
     return this.trakt.shows.summary({
       id: imdbId,
       extended: 'full,images,metadata'
@@ -55,7 +63,7 @@ export default class TraktMetadataAdapter {
       .then(show => formatMetadata(show, 'shows'));
   }
 
-  getSeasons(imdbId) {
+  getSeasons(imdbId: string) {
     return this.trakt.seasons.summary({
       id: imdbId,
       extended: 'full,images,metadata'
@@ -72,7 +80,7 @@ export default class TraktMetadataAdapter {
       })));
   }
 
-  getSeason(imdbId, season) {
+  getSeason(imdbId: string, season: number) {
     return this.trakt.seasons.season({
       id: imdbId,
       season,
@@ -81,7 +89,7 @@ export default class TraktMetadataAdapter {
       .then(episodes => episodes.map(episode => formatSeason(episode)));
   }
 
-  getEpisode(imdbId, season, episode) {
+  getEpisode(imdbId: string, season: number, episode: number) {
     return this.trakt.episodes.summary({
       id: imdbId,
       season,
@@ -91,10 +99,7 @@ export default class TraktMetadataAdapter {
       .then(res => formatSeason(res));
   }
 
-  /**
-   * @todo: migrate from omdbapi to an api that can provide more information
-   */
-  search(query, page = 1) {
+  search(query: string, page: number = 1) {
     if (!query) {
       throw Error('Query paramater required');
     }
@@ -111,7 +116,7 @@ export default class TraktMetadataAdapter {
    * @param {string} type   | movie or show
    * @param {string} imdbId | movie or show
    */
-  getSimilar(type = 'movies', imdbId, limit = 5) {
+  getSimilar(type: string = 'movies', imdbId: string, limit: number = 5) {
     return this.trakt[type].related({
       id: imdbId,
       limit,
@@ -120,16 +125,88 @@ export default class TraktMetadataAdapter {
       .then(movies => movies.map(movie => formatMetadata(movie, type)));
   }
 
+  /**
+   * Temporarily store the 'favorites', 'recentlyWatched', 'watchList' items
+   * in config file. The cache can't be used because this data needs to be
+   * persisted.
+   */
+  _updateConfig(type: string, method: string, metadata: Object) {
+    const property = `${type}`;
+
+    switch (method) {
+      case 'set':
+        set(property, [...(get(property) || []), metadata]);
+        return get(property);
+      case 'get':
+        return get(property);
+      case 'remove': {
+        const items = [...(get(property) || []).filter(item => item.id !== metadata.id)];
+        return set(property, items);
+      }
+      default:
+        return set(property, [...(get(property) || []), metadata]);
+    }
+  }
+
+  favorites(...args) {
+    return this._updateConfig('favorites', ...args);
+  }
+
+  recentlyWatched(...args) {
+    return this._updateConfig('recentlyWatched', ...args);
+  }
+
+  watchList(...args) {
+    return this._updateConfig('watchList', ...args);
+  }
+
+  async getSubtitles(imdbId: string, filename: string, length: number, metadata: Object = {}) {
+    const { activeMode } = metadata;
+
+    const defaultOptions = {
+      sublanguageid: 'eng',
+      // sublanguageid: 'all', // @TODO
+      // hash: '8e245d9679d31e12', // @TODO
+      filesize: length || undefined,
+      filename: filename || undefined,
+      season: metadata.season || undefined,
+      episode: metadata.episode || undefined,
+      extensions: ['srt', 'vtt'],
+      imdbid: imdbId
+    };
+
+    const subtitles = (() => {
+      switch (activeMode) {
+        case 'shows': {
+          const { season, episode } = metadata;
+          return this.openSubtitles.search({
+            ...defaultOptions,
+            ...{ season, episode }
+          });
+        }
+        default:
+          return this.openSubtitles.search(defaultOptions);
+      }
+    })();
+
+    return subtitles.then(
+      res => Object
+              .values(res)
+              .map(subtitle => formatSubtitle(subtitle))
+    );
+  }
+
   provide() {}
 }
 
-function formatMetadata(movie = {}, type) {
+function formatMetadata(movie: Object = {}, type: string) {
   return {
     title: movie.title,
     year: movie.year,
     imdbId: movie.ids.imdb,
     id: movie.ids.imdb,
     type,
+    certification: movie.certification,
     summary: movie.overview,
     genres: movie.genres,
     rating: movie.rating ? roundRating(movie.rating) : 'n/a',
@@ -150,13 +227,14 @@ function formatMetadata(movie = {}, type) {
   };
 }
 
-function formatMovieSearch(movie) {
+function formatMovieSearch(movie: Object) {
   return {
     title: movie.Title,
     year: parseInt(movie.Year, 10),
     imdbId: movie.imdbID,
     id: movie.imdbID,
     type: movie.Type.includes('movie') ? 'movies' : 'shows',
+    certification: movie.Rated,
     summary: 'n/a',  // omdbapi does not support
     genres: [],
     rating: 'n/a',   // omdbapi does not support
@@ -181,7 +259,7 @@ function formatMovieSearch(movie) {
   };
 }
 
-function formatSeason(season, image = 'screenshot') {
+function formatSeason(season: Object, image: string = 'screenshot') {
   return {
     id: season.ids.imdb,
     title: season.title,
@@ -197,6 +275,16 @@ function formatSeason(season, image = 'screenshot') {
   };
 }
 
-function roundRating(rating) {
-  return Math.round((rating / 2) * 10) / 10;
+function roundRating(rating: number) {
+  return Math.round(rating * 10) / 10;
+}
+
+function formatSubtitle(subtitle: Object) {
+  return {
+    kind: 'captions',
+    label: subtitle.langName,
+    srclang: subtitle.lang,
+    src: `${subtitlesEndpoint}/${encodeURIComponent(subtitle.url)}`,
+    default: subtitle.lang === 'en'
+  };
 }

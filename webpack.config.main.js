@@ -17,6 +17,10 @@ export default {
 
   stats,
 
+  resolve: {
+    ...baseConfig.resolve
+  },
+
   plugins: [
     new webpack.optimize.UglifyJsPlugin({
       compressor: {

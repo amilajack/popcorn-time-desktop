@@ -14,7 +14,7 @@ export const stats = {
   reasons: false,
   children: false,
   source: false,
-  errors: false,
+  errors: true,
   errorDetails: false,
   warnings: false,
   publicPath: false
@@ -36,12 +36,15 @@ export default {
   },
   output: {
     path: path.join(__dirname, './app/dist'),
-    filename: 'bundle.js',
+    filename: 'renderer.js',
     libraryTarget: 'commonjs2'
   },
   resolve: {
     extensions: ['', '.js', '.jsx', '.json'],
-    packageMains: ['webpack', 'browser', 'web', 'browserify', ['jam', 'main'], 'main']
+    packageMains: ['webpack', 'browser', 'web', 'browserify', ['jam', 'main'], 'main'],
+    alias: {
+      castv2: 'castv2-webpack'
+    }
   },
   plugins: [
     new webpack.IgnorePlugin(/^(README.md)$/),
@@ -50,6 +53,5 @@ export default {
   externals: [
     // put your node 3rd party libraries which can't be built with webpack here
     // (mysql, mongodb, and so on..)
-    'wcjs-renderer', 'wcjs-prebuilt'
   ]
 };

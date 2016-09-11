@@ -1,5 +1,6 @@
 /* eslint no-console: 0 */
 
+import { exec } from 'child_process';
 import express from 'express';
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
@@ -10,7 +11,7 @@ import { stats } from './webpack.config.base.js';
 
 const app = express();
 const compiler = webpack(config);
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 const wdm = webpackDevMiddleware(compiler, {
   publicPath: config.output.publicPath,
@@ -23,11 +24,20 @@ app.use(webpackHotMiddleware(compiler));
 
 const server = app.listen(PORT, 'localhost', error => {
   if (error) {
-    console.error(error);
-    return;
+    return console.error(error);
   }
 
-  console.log(`Listening at http://localhost:${PORT}`);
+  exec('npm run start-hot', (_error, stdout, stderr) => {
+    if (_error) {
+      return console.error(`exec error: ${error}`);
+    }
+    return [
+      console.log(`stdout: ${stdout}`),
+      console.log(`stderr: ${stderr}`)
+    ];
+  });
+
+  return console.info(`Listening at http://localhost:${PORT}`);
 });
 
 process.on('SIGTERM', () => {

@@ -1,9 +1,9 @@
+import fs from 'fs';
+import autoprefixer from 'autoprefixer';
+import dotenv from 'dotenv';
 import webpack from 'webpack';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import baseConfig, { stats } from './webpack.config.base';
-import autoprefixer from 'autoprefixer';
-import fs from 'fs';
-import dotenv from 'dotenv';
 
 
 // Get all the possible flags
@@ -58,6 +58,10 @@ const config = {
     ]
   },
 
+  resolve: {
+    ...baseConfig.resolve
+  },
+
   plugins: [
     ...baseConfig.plugins,
     new webpack.EnvironmentPlugin([
@@ -78,7 +82,6 @@ const config = {
   externals: [
     // put your node 3rd party libraries which can't be built with webpack here
     // (mysql, mongodb, and so on..)
-    'wcjs-renderer', 'wcjs-prebuilt'
   ],
 
   target: 'electron-renderer'

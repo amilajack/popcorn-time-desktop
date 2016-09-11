@@ -1,20 +1,24 @@
 // The entire movie page
 
 .Movie {
+  video {
+    width: 100%;
+  }
 
-	// The torrent video
-	video {
-		width: 100%
-	}
+  .certification {
+    font-family: arial, sans-serif;
+    border: 1px solid rgb(119, 119, 119);
+    box-sizing: border-box;
+    color: rgb(119, 119, 119);
+    display: inline-block;
+    margin: 5px;
+    padding: 3px 9px;
+  }
 
-	.Movie--poster-image {
-		width: 100%;
-		position: absolute;
-		top: 0;
-		z-index: -1;
-	}
-
-	.webchimeras {
-		height: 410px;
-	}
+  .Movie--poster-image {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    z-index: -1;
+  }
 }
