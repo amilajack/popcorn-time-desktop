@@ -149,6 +149,7 @@ function getSubtitles(...args) {
  *
  * @param {string} method | Ex. 'set', 'get', 'remove'
  * @param {object} metadata | Required only for `set` and `remove`
+ * @param {object} metadata | 'id', Required only remove
  */
 function favorites(...args) {
   return handleRequest('favorites', args);
@@ -159,6 +160,7 @@ function favorites(...args) {
  *
  * @param {string} method | Ex. 'set', 'get', 'remove'
  * @param {object} metadata | Required only for `set` and `remove`
+ * @param {object} metadata | 'id', Required only remove
  */
 function watchList(...args) {
   return handleRequest('watchList', args);
@@ -169,6 +171,7 @@ function watchList(...args) {
  *
  * @param {string} method | Ex. 'set', 'get', 'remove'
  * @param {object} metadata | Required only for `set` and `remove`
+ * @param {object} metadata | 'id', Required only remove
  */
 function recentlyWatched(...args) {
   return handleRequest('recentlyWatched', args);

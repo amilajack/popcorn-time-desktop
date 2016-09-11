@@ -135,29 +135,29 @@ export default class TraktMetadataAdapter {
 
     switch (method) {
       case 'set':
-        return set(property, get(property).push(metadata));
+        return set(property, [...(get(property) || []), metadata]);
       case 'get':
         return get(property);
       case 'remove':
         return set(
           property,
-          get(property).filter(item => item.id !== metadata.key)
+          [...(get(property) || []).filter(item => item.id !== metadata.id)]
         );
       default:
-        return set(property, get(property).push(metadata));
+        return set(property, [...(get(property) || []), metadata]);
     }
   }
 
   favorites(...args) {
-    this._updateConfig('favorites', args);
+    return this._updateConfig('favorites', ...args);
   }
 
   recentlyWatched(...args) {
-    this._updateConfig('recentlyWatched', args);
+    return this._updateConfig('recentlyWatched', ...args);
   }
 
   watchList(...args) {
-    this._updateConfig('watchList', args);
+    return this._updateConfig('watchList', ...args);
   }
 
   async getSubtitles(imdbId: string, filename: string, length: number, metadata: Object = {}) {

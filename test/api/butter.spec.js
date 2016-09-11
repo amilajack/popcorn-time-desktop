@@ -10,6 +10,7 @@ import {
 } from '../../app/api/torrents/BaseTorrentProvider';
 import { getStatuses } from '../../app/api/torrents/TorrentAdapter';
 import { convertRuntimeToHours } from '../../app/api/metadata/MetadataAdapter';
+import { set, get, clear } from '../../app/utils/Config';
 
 
 const imdbId = 'tt0468569'; // The Dark Knight
@@ -66,6 +67,80 @@ describe('api ->', function testApi() {
         done();
       } catch (error) {
         done(error);
+      }
+    });
+  });
+
+  describe('Utils', () => {
+    it('should set, get, list cache', done => {
+      try {
+        clear();
+
+        expect(get('__test__')).to.equal(undefined);
+
+        set('__test__', 'some_value');
+        expect(get('__test__')).to.equal('some_value');
+
+        set('__test__', { testingValue: 'someTestingValue' });
+        expect(get('__test__')).to.eql({ testingValue: 'someTestingValue' });
+
+        set('__test__', [{ some: 'who' }]);
+        set('__test__', []);
+        expect(get('__test__')).to.eql([]);
+
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+  });
+
+  describe('Config', () => {
+    it('should add favorites, recentlyWatched, watchList', async done => {
+      try {
+        for (const type of ['favorites', 'watchList', 'recentlyWatched']) {
+          clear();
+
+          const res = {
+            who: 'moo',
+            id: 'who'
+          };
+
+          const butter = butterFactory();
+          await butter[type]('set', res);
+
+          expect(await butter[type]('get')).to.eql([res]);
+
+          // @TODO: Removing items does not work at the moment
+          // await butter[type]('remove');
+          // expect(await butter[type]('get')).to.eql([]);
+        }
+
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+
+    it('should add favorites, recentlyWatched, watchList', async done => {
+      try {
+        for (const type of ['favorites', 'watchList', 'recentlyWatched']) {
+          clear();
+
+          const res = {
+            who: 'moo',
+            id: 'who'
+          };
+
+          const butter = butterFactory();
+          await butter[type]('set', res);
+
+          expect(await butter[type]('get')).to.eql([res]);
+        }
+
+        done();
+      } catch (err) {
+        done(err);
       }
     });
   });

@@ -29,3 +29,7 @@ export function get(key: string) {
 export function remove(key: string) {
   return config.delete(key);
 }
+
+export function clear() {
+  return config.clear();
+}

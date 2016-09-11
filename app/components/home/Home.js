@@ -42,8 +42,8 @@ export default class Home extends Component {
 
   /**
    * Return movies and finished status without mutation
-   * @todo: Migrate this to redux
-   * @todo: Determine if query has reached last page
+   * @TODO: Migrate this to redux
+   * @TODO: Determine if query has reached last page
    *
    * @param {string} queryType   | 'search', 'movies', 'shows', etc
    * @param {object} queryParams | { searchQuery: 'game of thrones' }

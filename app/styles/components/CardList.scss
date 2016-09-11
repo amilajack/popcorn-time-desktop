@@ -60,14 +60,5 @@
 }
 
 .dv-star-rating-star {
-  margin: 0;
-
-  .ion-android-star-half,
-  .ion-android-star {
-    color: white;
-  }
-
-  .ion-android-star.ion-android-star-no {
-    color: black;
-  }
+  margin: 1px;
 }
