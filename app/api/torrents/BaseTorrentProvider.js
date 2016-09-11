@@ -15,7 +15,7 @@ export const providerCache = cache({
  */
 export function timeout(promise, time: number = 10000) {
   return new Promise((resolve, reject) => {
-    promise.then(res => resolve(res));
+    promise.then(res => resolve(res)).catch(err => console.log(err));
 
     setTimeout(() => {
       reject(new Error('Timeout exceeded'));

@@ -10,7 +10,7 @@ import {
 
 function MetadataAdapter() {
   const providers = [
-    new (require('./TraktMetadataProvider')) // eslint-disable-line global-require
+    new (require('./TraktMetadataProvider')) // eslint-disable-line
   ];
 
   return providers;
@@ -145,6 +145,39 @@ function getSubtitles(...args) {
 }
 
 /**
+ * Handle actions for favorites: addition, deletion, list all
+ *
+ * @param {string} method | Ex. 'set', 'get', 'remove'
+ * @param {object} metadata | Required only for `set` and `remove`
+ * @param {object} metadata | 'id', Required only remove
+ */
+function favorites(...args) {
+  return handleRequest('favorites', args);
+}
+
+/**
+ * Handle actions for watchList: addition, deletion, list all
+ *
+ * @param {string} method | Ex. 'set', 'get', 'remove'
+ * @param {object} metadata | Required only for `set` and `remove`
+ * @param {object} metadata | 'id', Required only remove
+ */
+function watchList(...args) {
+  return handleRequest('watchList', args);
+}
+
+/**
+ * Handle actions for recentlyWatched: addition, deletion, list all
+ *
+ * @param {string} method | Ex. 'set', 'get', 'remove'
+ * @param {object} metadata | Required only for `set` and `remove`
+ * @param {object} metadata | 'id', Required only remove
+ */
+function recentlyWatched(...args) {
+  return handleRequest('recentlyWatched', args);
+}
+
+/**
  * Convert runtime from minutes to hours
  *
  * @param  {number} runtimeInMinutes
@@ -173,5 +206,8 @@ export default {
   getEpisode,
   search,
   getSimilar,
-  getSubtitles
+  getSubtitles,
+  favorites,
+  watchList,
+  recentlyWatched
 };

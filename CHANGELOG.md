@@ -1,20 +1,41 @@
 # PopcornTime Experimental Version History
 
+## v0.0.5-alpha
+
+### API
+- CC support (opensubtitles, etc), SubtitleAdapter
+- Favorites, Watch List, Recently Watched
+
+### Dev
+- Drop Webchimera support, migrate to native
+- Add initial Flow support
+- Add initial Redux support
+
+### Feature
+- Embedded subtitle support, **behind flag**
+- Support external playback methods, **behind flag**
+- Save preferences/App State to `~/.popcorn-time-desktop/{config, cache}.json`
+- Downloaded content persistence
+- Custom endpoint configuration
+
+### Perf
+- Infinite scrolling performance improvements
+
 ## v0.0.4-alpha
 
-## Feature
+### Feature
 - Significant improvements in tv shows seeder count
 - Query Season torrents and play individual episodes for increased torrent seeders **(HUGE seeder count win)**
 - Get network speed, download speed, other diagnostic information
 - Get torrent download speed, progress in percentage and mb
 - Filter torrents with low seeder count
 
-## API
+### API
 - Set a timeout for `TorrentProvider`'s, should fail and return  if they exceed the timeout
 - Get status of all `Providers` to notify users of endpoint downtime
 - Metadata and Torrent API caching for faster responses
 
-## Dev
+### Dev
 - Screenshot testing
 - Migrated to `webtorrent` from `peerflix`
 

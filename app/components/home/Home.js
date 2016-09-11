@@ -7,16 +7,6 @@ import CardList from '../card/CardList';
 
 export default class Home extends Component {
 
-  static propTypes = {
-    actions: PropTypes.object.isRequired,
-    activeMode: PropTypes.string.isRequired,
-    activeModeOptions: PropTypes.object.isRequired,
-    modes: PropTypes.object.isRequired,
-    items: PropTypes.array.isRequired,
-    isLoading: PropTypes.bool.isRequired,
-    infinitePagination: PropTypes.bool.isRequired
-  };
-
   constructor(props: Object) {
     super(props);
     this.butter = new Butter();
@@ -52,14 +42,18 @@ export default class Home extends Component {
 
   /**
    * Return movies and finished status without mutation
-   * @todo: Migrate this to redux
-   * @todo: Determine if query has reached last page
+   * @TODO: Migrate this to redux
+   * @TODO: Determine if query has reached last page
    *
    * @param {string} queryType   | 'search', 'movies', 'shows', etc
    * @param {object} queryParams | { searchQuery: 'game of thrones' }
    */
   async paginate(queryType: string, activeModeOptions: Object = {}) {
     this.props.actions.setLoading(true);
+
+    // HACK: This is a temporary solution.
+    // Waiting on: https://github.com/yannickcr/eslint-plugin-react/issues/818
+    /* eslint react/prop-types: 0 */
 
     const { limit, page } = this.props.modes[queryType];
 
@@ -117,3 +111,47 @@ export default class Home extends Component {
     );
   }
 }
+
+Home.propTypes = {
+  actions: PropTypes.shape({
+    setActiveMode: PropTypes.func.isRequired,
+    paginate: PropTypes.func.isRequired,
+    clearItems: PropTypes.func.isRequired,
+    setLoading: PropTypes.func.isRequired,
+    setCurrentPlayer: PropTypes.func.isRequired
+  }).isRequired,
+  activeMode: PropTypes.string.isRequired,
+  activeModeOptions: PropTypes.shape({
+    searchQuery: PropTypes.string
+  }).isRequired,
+  modes: PropTypes.shape({
+    movies: PropTypes.shape({
+      page: PropTypes.number.isRequired,
+      limit: PropTypes.number.isRequired,
+      items: PropTypes.arrayOf(PropTypes.shape({
+        title: PropTypes.string.isRequired,
+        id: PropTypes.string.isRequired,
+        year: PropTypes.number.isRequired,
+        type: PropTypes.string.isRequired,
+        rating: PropTypes.oneOfType([
+          PropTypes.number,
+          PropTypes.string
+        ]),
+        genres: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired
+      }).isRequired)
+    })
+  }).isRequired,
+  items: PropTypes.arrayOf(PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
+    year: PropTypes.number.isRequired,
+    type: PropTypes.string.isRequired,
+    rating: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.string
+    ]),
+    genres: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired
+  })).isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  infinitePagination: PropTypes.bool.isRequired
+};

@@ -21,16 +21,6 @@ import Player from '../../api/Player';
 
 export default class Movie extends Component {
 
-  static propTypes: Object = {
-    itemId: PropTypes.string.isRequired,
-    activeMode: PropTypes.string.isRequired
-  };
-
-  static defaultProps = {
-    itemId: '',
-    activeMode: 'movies'
-  };
-
   defaultTorrent: Object = {
     default: { quality: undefined, magnet: undefined, seeders: 0 },
     '1080p': { quality: undefined, magnet: undefined, seeders: 0 },
@@ -116,11 +106,11 @@ export default class Movie extends Component {
       }
     });
 
-    this.getItem(itemId).then((item: Object) => {
-      this.getTorrent(itemId, item.title, 1, 1);
-    });
-
-    this.getSimilar(itemId);
+    return Promise.all([
+      this.getItem(itemId)
+        .then((item: Object) => this.getTorrent(itemId, item.title, 1, 1)),
+      this.getSimilar(itemId)
+    ]);
   }
 
   async getShowData(type: string, imdbId: string, season: number, episode: number) {
@@ -181,7 +171,7 @@ export default class Movie extends Component {
     });
 
     try {
-      const { torrent, idealTorrent } = await (async() => {
+      const { torrent, idealTorrent } = await (async () => {
         switch (this.props.activeMode) {
           case 'movies': {
             const _torrent = await this.butter.getTorrent(imdbId, this.props.activeMode, {
@@ -617,3 +607,13 @@ export default class Movie extends Component {
     );
   }
 }
+
+Movie.propTypes = {
+  itemId: PropTypes.string.isRequired,
+  activeMode: PropTypes.string.isRequired
+};
+
+Movie.defaultProps = {
+  itemId: '',
+  activeMode: 'movies'
+};
