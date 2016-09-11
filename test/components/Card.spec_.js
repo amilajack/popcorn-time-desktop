@@ -1,12 +1,9 @@
 /* eslint no-unused-expressions: 0 */
 import { expect } from 'chai';
-import { spy } from 'sinon';
 import React from 'react';
 import {
   renderIntoDocument,
-  scryRenderedDOMComponentsWithTag,
-  findRenderedDOMComponentWithClass,
-  Simulate
+  findRenderedDOMComponentWithClass
 } from 'react-addons-test-utils';
 import Card from '../../app/components/card/Card';
 
@@ -23,6 +20,7 @@ function setup(propsOverride) {
   }, propsOverride);
 
   const component = renderIntoDocument(<Card {...props} />);
+
   return {
     component,
     title: findRenderedDOMComponentWithClass(component, 'Card--title'),
@@ -38,7 +36,7 @@ describe('Card Component', () => {
   });
 
   it('should have movie genres', (done) => {
-    const { title, genres } = setup();
+    const { genres } = setup();
     expect(genres.textContent).to.equal('action');
     done();
   });

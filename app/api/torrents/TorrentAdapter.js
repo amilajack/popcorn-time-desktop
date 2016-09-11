@@ -1,7 +1,6 @@
 /**
  * @param   {string} imdbId
  * @param   {object} extendedDetails
- * @todo    Removed torrents with duplicated magnets
  */
 /* eslint global-require: 0 */
 import {
@@ -24,12 +23,12 @@ const providers = [
   // require('./KatShowsTorrentProvider')
 ];
 
-export default async function TorrentAdapter(imdbId,
-                                              type,
-                                              extendedDetails,
-                                              returnAll = false,
-                                              method = 'all',
-                                              cache = true) {
+export default async function TorrentAdapter(imdbId: string,
+                                              type: string,
+                                              extendedDetails: Object,
+                                              returnAll: boolean = false,
+                                              method: string = 'all',
+                                              cache: boolean = true) {
   const args = JSON.stringify({ extendedDetails, returnAll, method });
 
   if (resolveCache(args) && cache) {
@@ -48,7 +47,7 @@ export default async function TorrentAdapter(imdbId,
       switch (type) {
         case 'movies':
           return selectTorrents(
-            appendAttributes(providerResults).map(result => ({
+            appendAttributes(providerResults).map((result: Object) => ({
               ...result,
               method: 'movies'
             })),
@@ -97,14 +96,13 @@ export default async function TorrentAdapter(imdbId,
 /**
  * Merge results from providers
  *
- * @todo   Do this functionally (with map, filter, etc)
  * @param  {array} providerResults
  * @return {array}
  */
-function appendAttributes(providerResults) {
-  const formattedResults = merge(providerResults).map(result => ({
+function appendAttributes(providerResults: Array<any>) {
+  const formattedResults = merge(providerResults).map((result: Object) => ({
     ...result,
-    health: getHealth(result.seeders, result.leechers),
+    health: getHealth(result.seeders || 0, result.leechers || 0),
     quality: 'quality' in result
                 ? result.quality
                 : determineQuality(result.magnet, result.metadata, result)
@@ -113,7 +111,7 @@ function appendAttributes(providerResults) {
   return formattedResults;
 }
 
-export function filterShows(show, season, episode) {
+export function filterShows(show: Object, season: number, episode: number) {
   return (
     show.metadata.toLowerCase().includes(
       formatSeasonEpisodeToString(
@@ -126,11 +124,13 @@ export function filterShows(show, season, episode) {
   );
 }
 
-export function filterShowsComplete(show, season) {
+export function filterShowsComplete(show: Object, season: number) {
   const metadata = show.metadata.toLowerCase();
 
   return (
     metadata.includes(`${season} complete`) ||
+    metadata.includes(`${season} [complete]`) ||
+    metadata.includes(`${season} - complete`) ||
     metadata.includes(`season ${season}`) ||
     metadata.includes(`s${formatSeasonEpisodeToObject(season).season}`) &&
     !metadata.includes('e0') &&
@@ -157,20 +157,23 @@ export function getStatuses() {
  * @param  {object} key
  * @return {object}
  */
-export function selectTorrents(torrents, sortMethod = 'seeders', returnAll = false, key) {
+export function selectTorrents(torrents: Array<any>,
+                                sortMethod: string = 'seeders',
+                                returnAll: boolean = false,
+                                key: string) {
   const sortedTorrents = sortTorrentsBySeeders(
     torrents
       .filter(
-        torrent => (torrent.quality !== 'n/a' && torrent.quality !== '')
+        (torrent: Object) => (torrent.quality !== 'n/a' && torrent.quality !== '')
       )
   );
 
   const formattedTorrents = returnAll
     ? sortedTorrents
     : {
-      '480p': sortedTorrents.find(torrent => torrent.quality === '480p'),
-      '720p': sortedTorrents.find(torrent => torrent.quality === '720p'),
-      '1080p': sortedTorrents.find(torrent => torrent.quality === '1080p')
+      '480p': sortedTorrents.find((torrent: Object) => torrent.quality === '480p'),
+      '720p': sortedTorrents.find((torrent: Object) => torrent.quality === '720p'),
+      '1080p': sortedTorrents.find((torrent: Object) => torrent.quality === '1080p')
     };
 
   setCache(key, formattedTorrents);

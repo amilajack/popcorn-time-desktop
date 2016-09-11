@@ -2,27 +2,27 @@
 //  Bootstrap variables override
 //
 
+// Base
 $body-bg: #252525;
 $gray-dark: black;
 $gray: #303030;
 $brand-primary: white;
+$enable-rounded: false;
+$enable-hover-media-query: true;
 
+// Components
 $component-active-bg: gray;
-
 $container-max-widths: (
   sm: 576px,
   md: 720px,
   lg: 1440px,
   xl: 1540px
 ) !default;
-
 $headings-color: white;
-
-$enable-rounded: false;
-$enable-hover-media-query: true;
-
 $navbar-dark-color: #252525;
 
+// Fonts
+$font-family-base: "Avenir Next", Avenir, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, sans-serif;
 
 //
 // Notie variables override

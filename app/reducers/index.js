@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
 import { routerReducer as routing } from 'react-router-redux';
-import movieList from './movieList';
+import homePageReducer from './homePageReducer';
 
 const rootReducer = combineReducers({
-  movieList,
+  homePageReducer,
   routing
 });
 

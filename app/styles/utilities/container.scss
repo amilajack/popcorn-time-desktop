@@ -1,5 +1,5 @@
 .container-fluid {
-	padding: 0;
+  padding: 0;
 }
 
 ::-webkit-scrollbar-corner {
@@ -7,12 +7,12 @@
 }
 
 ::-webkit-scrollbar {
-	z-index: 0;
+  z-index: 0;
   width: 8px;
   height: 8px;
 }
 
 ::-webkit-scrollbar-thumb {
   -webkit-border-radius: 2px;
-  background: rgba(150, 150, 150, .33);
+  background: rgba(150, 150, 150, 0.33);
 }

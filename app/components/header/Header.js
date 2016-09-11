@@ -1,16 +1,13 @@
+/* eslint react/no-set-state: 0 */
 import React, { Component, PropTypes } from 'react';
-import Butter from '../../api/Butter';
+import { browserHistory } from 'react-router';
 import classNames from 'classnames';
+import Butter from '../../api/Butter';
 
 
 export default class Header extends Component {
 
-  static propTypes = {
-    setActiveMode: PropTypes.func.isRequired,
-    activeMode: PropTypes.string.isRequired
-  };
-
-  constructor(props) {
+  constructor(props: Object) {
     super(props);
 
     this.butter = new Butter();
@@ -20,26 +17,25 @@ export default class Header extends Component {
     };
   }
 
-  setActiveMode(mode, params = {}) {
-    this.props.setActiveMode(mode, params);
-  }
-
   /**
    * Set the mode of the movies to be 'search'
-   *
-   * @todo: move setting of search movies to Home component
    */
-  setSearchState(searchQuery) {
+  setSearchState(searchQuery: string) {
     this.props.setActiveMode('search', { searchQuery });
   }
 
-  handleSearchChange(event) {
-    this.setState({ searchQuery: event.target.value });
+  handleSearchChange(event: Object) {
+    this.setState({
+      searchQuery: event.target.value
+    });
   }
 
-  handleKeyPress(e) {
+  handleKeyPress(e: Object) {
     if (e.key === 'Enter') {
-      this.props.setActiveMode('search', { searchQuery: this.state.searchQuery });
+      browserHistory.push('/search');
+      this.props.setActiveMode('search', {
+        searchQuery: this.state.searchQuery
+      });
     }
   }
 
@@ -49,9 +45,10 @@ export default class Header extends Component {
         <nav className="navbar navbar-dark navbar-fixed-top bg-inverse">
           <a
             className="navbar-brand"
-            onClick={this.setActiveMode.bind(this, 'movies')}
-            href="#"
-          >Popcorn Time</a>
+            onClick={this.props.setActiveMode.bind(this, 'movies')}
+          >
+            Popcorn Time
+          </a>
           <ul className="nav navbar-nav">
             <li
               className={classNames('nav-item', {
@@ -60,8 +57,7 @@ export default class Header extends Component {
             >
               <a
                 className="nav-link"
-                onClick={this.setActiveMode.bind(this, 'movies')}
-                href="#"
+                onClick={this.props.setActiveMode.bind(this, 'movies')}
               >
                 Movies <span className="sr-only">(current)</span>
               </a>
@@ -73,8 +69,7 @@ export default class Header extends Component {
             >
               <a
                 className="nav-link"
-                onClick={this.setActiveMode.bind(this, 'shows')}
-                href="#"
+                onClick={this.props.setActiveMode.bind(this, 'shows')}
               >
                 TV Shows
               </a>
@@ -111,3 +106,8 @@ export default class Header extends Component {
     );
   }
 }
+
+Header.propTypes = {
+  setActiveMode: PropTypes.func.isRequired,
+  activeMode: PropTypes.string.isRequired
+};

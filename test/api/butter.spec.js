@@ -1,19 +1,20 @@
+/* eslint global-require: 0, fp/no-loops: 0 */
 import { expect } from 'chai';
 import Butter from '../../app/api/Butter';
 import MockShows from './butter.mock.js';
 import {
   formatSeasonEpisodeToString,
   formatSeasonEpisodeToObject,
-  sortTorrentsBySeeders
+  sortTorrentsBySeeders,
+  resolveEndpoint
 } from '../../app/api/torrents/BaseTorrentProvider';
-import assert from 'assert';
 import { getStatuses } from '../../app/api/torrents/TorrentAdapter';
 import { convertRuntimeToHours } from '../../app/api/metadata/MetadataAdapter';
+import { set, get, clear } from '../../app/utils/Config';
 
 
 const imdbId = 'tt0468569'; // The Dark Knight
 const showImdbId = 'tt1475582'; // Sherlock
-const defaultMinTorrentsCount = 1;
 
 const torrentBasePath = '../../app/api/torrents';
 const providers = [
@@ -31,7 +32,7 @@ const providers = [
   },
   {
     name: 'Yts',
-    provider: require(`${torrentBasePath}/YtsTorrentProvider`),
+    provider: require(`${torrentBasePath}/YtsTorrentProvider`)
   }
 ];
 
@@ -66,6 +67,79 @@ describe('api ->', function testApi() {
         done();
       } catch (error) {
         done(error);
+      }
+    });
+  });
+
+  describe('Utils', () => {
+    it('should set, get, list cache', done => {
+      try {
+        clear();
+
+        expect(get('__test__')).to.equal(undefined);
+
+        set('__test__', 'some_value');
+        expect(get('__test__')).to.equal('some_value');
+
+        set('__test__', { testingValue: 'someTestingValue' });
+        expect(get('__test__')).to.eql({ testingValue: 'someTestingValue' });
+
+        set('__test__', [{ some: 'who' }]);
+        set('__test__', []);
+        expect(get('__test__')).to.eql([]);
+
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+  });
+
+  describe('Config', () => {
+    it('should add favorites, recentlyWatched, watchList', async done => {
+      try {
+        for (const type of ['favorites', 'watchList', 'recentlyWatched']) {
+          clear();
+
+          const res = {
+            who: 'moo',
+            id: 'who'
+          };
+
+          const butter = butterFactory();
+
+          // Test addition
+          expect(await butter[type]('set', res)).to.eql([res]);
+          expect(await butter[type]('get', res)).to.eql([res]);
+
+          // Test addition of multiple elements
+          expect(await butter[type]('set', {
+            ...res,
+            id: 'lee'
+          }))
+          .to.eql([res, {
+            ...res,
+            id: 'lee'
+          }]);
+          expect(await butter[type]('get'))
+            .to.eql([res, {
+              ...res,
+              id: 'lee'
+            }]);
+
+          // @TODO: Test removal of elements. Currently, this fails without an
+          //        obvious reason
+          //
+          // expect(await butter[type]('remove', {
+          //   id: 'lee'
+          // }))
+          // .to.eql([res]);
+          // expect(await butter[type]('get')).to.eql([res]);
+        }
+
+        done();
+      } catch (err) {
+        done(err);
       }
     });
   });
@@ -105,7 +179,7 @@ describe('api ->', function testApi() {
 
       for (const providerConfig of movieProviders) {
         it(`${providerConfig.name}TorrentProvider should return movie torrents`,
-        async function (done) {
+        async function testTorrentProviders(done) {
           try {
             this.timeout(10000);
 
@@ -155,7 +229,7 @@ describe('api ->', function testApi() {
           minTorrentsCount: 0,
           minSeederCount: 100,
           id: 'pct'
-        },
+        }
         // {
         //   name: 'Kat',
         //   provider: require(`${torrentBasePath}/KatTorrentProvider`),
@@ -173,7 +247,7 @@ describe('api ->', function testApi() {
 
       for (const providerConfig of showTorrentProviders) {
         it(`${providerConfig.name}TorrentProvider should return show torrents`,
-        async function (done) {
+        async function testTorrentProviders(done) {
           try {
             this.timeout(10000);
 
@@ -234,7 +308,7 @@ describe('api ->', function testApi() {
 
       for (const providerConfig of showTorrentProviders) {
         it(`${providerConfig.name}TorrentProvider should return show torrents`,
-        async function (done) {
+        async function testTorrentProviders(done) {
           try {
             this.timeout(10000);
 
@@ -430,7 +504,7 @@ describe('api ->', function testApi() {
             expect(episode).to.have.property('id').that.equals('tt1942613');
             expect(episode).to.have.property('title').that.equals('The Hounds of Baskerville');
             expect(episode).to.have.property('overview').that.is.a('string');
-            expect(episode).to.have.property('rating').that.is.a('number').that.is.within(0, 5);
+            expect(episode).to.have.property('rating').that.is.a('number').that.is.within(0, 10);
             expect(episode).to.have.deep.property('images.full').that.is.a('string');
             expect(episode).to.have.deep.property('images.medium').that.is.a('string');
             expect(episode).to.have.deep.property('images.thumb').that.is.a('string');
@@ -495,13 +569,14 @@ describe('api ->', function testApi() {
           }
         });
 
-        it('should order torrents by seeder count by default', async function(done) {
+        it('should order torrents by seeder count by default',
+        async function testSeederOrder(done) {
           this.timeout(20000);
 
           try {
             // Get all sorted torrents
             const torrents = await butterFactory().getTorrent('tt1375666', 'movies', {
-              searchQuery: 'Inception',
+              searchQuery: 'Inception'
             }, true);
 
             for (const torrent of torrents) {
@@ -579,7 +654,80 @@ describe('api ->', function testApi() {
         });
       });
 
-      describe('Series Tests', () => {
+      describe('Helpers', () => {
+        it('should return custom endpoint config', done => {
+          try {
+            const resolvedEndpoint = resolveEndpoint('https://some-website.com/search', 'TEST');
+            expect(resolvedEndpoint).to.equal('https://test.org/search');
+            done();
+          } catch (error) {
+            done(error);
+          }
+        });
+
+        it('should return default for unknown endpoints', done => {
+          try {
+            const resolvedEndpoint = resolveEndpoint('https://some-website.com/search', 'TEST');
+            expect(resolvedEndpoint).to.equal('https://test.org/search');
+            done();
+          } catch (error) {
+            done(error);
+          }
+        });
+      });
+
+      describe('Subtitles', function testSubtitles() {
+        this.timeout(30000);
+
+        before(async () => {
+          this.subtitles = await butterFactory().getSubtitles(
+            'tt0468569',
+            'The.Dark.Knight.2008.720p.BluRay.x264.YIFY.mp4',
+            undefined,
+            {
+              activeMode: 'movies'
+            }
+          );
+        });
+
+        describe('Movie', () => {
+          it('should return subtitles', async done => {
+            try {
+              expect(this.subtitles).to.be.an('array');
+
+              for (const subtitle of this.subtitles) {
+                expect(subtitle).to.be.an('object');
+                expect(subtitle).to.have.deep.property('kind').that.is.a('string');
+                expect(subtitle).to.have.deep.property('label').that.is.a('string');
+                expect(subtitle).to.have.deep.property('srclang').that.is.a('string');
+                expect(subtitle).to.have.deep.property('src').that.is.a('string');
+                expect(subtitle).to.have.deep.property('default').that.is.a('boolean');
+              }
+
+              done();
+            } catch (error) {
+              done(error);
+            }
+          });
+        });
+
+        describe('Show', () => {
+          it.skip('should return subtitles', async done => {
+            try {
+              const subtitles = await butterFactory().getSubtitles(showImdbId);
+              expect(subtitles).to.be.an('array');
+              for (const subtitle of subtitles) {
+                expect(subtitle).to.be.an('object');
+              }
+              done();
+            } catch (error) {
+              done(error);
+            }
+          });
+        });
+      });
+
+      describe.skip('Series Tests', () => {
         describe('valid torrents for top 20 shows', () => {
           for (const show of MockShows.filter((e, i) => i < 20)) {
             it(`${show.title} Season 1 Episode 1`, async (done) => {
@@ -618,10 +766,6 @@ function butterFactory() {
 
 function moviesFactory() {
   return new Butter().getMovies(1, 50);
-}
-
-function movieFactory() {
-  return new Butter().getMovie(imdbId);
 }
 
 function assertNAorNumber(variable) {

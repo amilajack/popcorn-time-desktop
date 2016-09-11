@@ -1,75 +1,61 @@
 /**
  * Card in the CardList component
  */
-
-import React, { Component, PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
-import Rating from 'react-star-rating-component';
+import Rating from './Rating';
 
 
-export default class Card extends Component {
+export default function Card({ type, image, id, rating, title, genres }) {
+  const placeholder =
+    '../../images/posterholder.png';
 
-  static propTypes = {
-    title: PropTypes.string.isRequired,
-    image: PropTypes.string,
-    id: PropTypes.string,
-    genres: PropTypes.array,
-    rating: PropTypes.oneOfType([
-      PropTypes.number,
-      PropTypes.string
-    ]),
-    type: PropTypes.string.isRequired
+  const divStyle = {
+    backgroundImage: `url(${image !== 'N/A' ? image : placeholder})`
   };
 
-  shouldComponentUpdate() {
-    return false;
-  }
-
-  render() {
-    const placeholder =
-      '../../images/posterholder.png';
-
-    const divStyle = {
-      backgroundImage: `url(${this.props.image !== 'N/A' ? this.props.image : placeholder})`
-    };
-
-    return (
-      <div className="Card">
-        <Link to={`/item/${this.props.type}/${this.props.id}`}>
-          <div className="Card--overlay-container" style={divStyle}>
-            <div className="Card--overlay"></div>
-          </div>
+  return (
+    <div className="Card">
+      <Link to={`/item/${type}/${id}`}>
+        <div className="Card--overlay-container" style={divStyle}>
+          <div className="Card--overlay" />
+        </div>
+      </Link>
+      <div>
+        <Link className="Card--title" to={`/item/${type}/${id}`}>
+          {title}
         </Link>
-        <div>
-          <Link className="Card--title" to={`/item/${this.props.type}/${this.props.id}`}>
-            {this.props.title}
-          </Link>
-        </div>
-        <div>
-          {this.props.rating !== 'n/a' ?
-            <Rating
-              renderStarIcon={() => <span className="ion-android-star"></span>}
-              starColor={'white'}
-              name={'rating'}
-              value={this.props.rating}
-              editing={false}
-            />
-            :
-            null
-          }
-        </div>
-        {this.props.type === 'search' ?
-          <div>
-            {this.props.type}
-          </div>
+      </div>
+      <div>
+        {rating !== 'n/a' ?
+          <Rating rating={rating} />
           :
           null
         }
-        Kind: {this.props.type}
-        <div className="Card--genres">
-          {this.props.genres ? this.props.genres[0] : null}
-        </div>
       </div>
-    );
-  }
+      {type === 'search' ?
+        <div>
+          {type}
+        </div>
+        :
+        null
+      }
+      Kind: {type}
+      <div className="Card--genres">
+        {genres ? genres[0] : null}
+      </div>
+    </div>
+  );
 }
+
+Card.propTypes = {
+  title: PropTypes.string.isRequired,
+  image: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+  genres: PropTypes.arrayOf(PropTypes.string).isRequired,
+  rating: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string
+  ]).isRequired,
+  type: PropTypes.string.isRequired
+};
