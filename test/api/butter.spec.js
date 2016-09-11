@@ -107,35 +107,34 @@ describe('api ->', function testApi() {
           };
 
           const butter = butterFactory();
-          await butter[type]('set', res);
 
-          expect(await butter[type]('get')).to.eql([res]);
+          // Test addition
+          expect(await butter[type]('set', res)).to.eql([res]);
+          expect(await butter[type]('get', res)).to.eql([res]);
 
-          // @TODO: Removing items does not work at the moment
-          // await butter[type]('remove');
-          // expect(await butter[type]('get')).to.eql([]);
-        }
+          // Test addition of multiple elements
+          expect(await butter[type]('set', {
+            ...res,
+            id: 'lee'
+          }))
+          .to.eql([res, {
+            ...res,
+            id: 'lee'
+          }]);
+          expect(await butter[type]('get'))
+            .to.eql([res, {
+              ...res,
+              id: 'lee'
+            }]);
 
-        done();
-      } catch (err) {
-        done(err);
-      }
-    });
-
-    it('should add favorites, recentlyWatched, watchList', async done => {
-      try {
-        for (const type of ['favorites', 'watchList', 'recentlyWatched']) {
-          clear();
-
-          const res = {
-            who: 'moo',
-            id: 'who'
-          };
-
-          const butter = butterFactory();
-          await butter[type]('set', res);
-
-          expect(await butter[type]('get')).to.eql([res]);
+          // @TODO: Test removal of elements. Currently, this fails without an
+          //        obvious reason
+          //
+          // expect(await butter[type]('remove', {
+          //   id: 'lee'
+          // }))
+          // .to.eql([res]);
+          // expect(await butter[type]('get')).to.eql([res]);
         }
 
         done();

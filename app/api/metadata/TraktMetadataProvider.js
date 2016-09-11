@@ -131,18 +131,18 @@ export default class TraktMetadataAdapter {
    * persisted.
    */
   _updateConfig(type: string, method: string, metadata: Object) {
-    const property = `${type}.items`;
+    const property = `${type}`;
 
     switch (method) {
       case 'set':
-        return set(property, [...(get(property) || []), metadata]);
+        set(property, [...(get(property) || []), metadata]);
+        return get(property);
       case 'get':
         return get(property);
-      case 'remove':
-        return set(
-          property,
-          [...(get(property) || []).filter(item => item.id !== metadata.id)]
-        );
+      case 'remove': {
+        const items = [...(get(property) || []).filter(item => item.id !== metadata.id)];
+        return set(property, items);
+      }
       default:
         return set(property, [...(get(property) || []), metadata]);
     }
