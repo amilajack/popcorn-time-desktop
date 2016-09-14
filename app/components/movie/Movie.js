@@ -536,8 +536,8 @@ export default class Movie extends Component {
               </h6>
               {item.rating
                 ? <div>
-                    <Rating rating={item.rating} />
-                  </div>
+                  <Rating rating={item.rating} />
+                </div>
                 : null}
               <h3 style={torrentLoadingStatusStyle}>
                 {!servingUrl && torrentInProgress
