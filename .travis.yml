@@ -6,6 +6,7 @@ language: cpp
 
 env:
   - export NODE_VERSION="6"
+
 os:
   - linux
   - osx

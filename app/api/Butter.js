@@ -1,7 +1,6 @@
 /**
  * The highest level abstraction layer for querying torrents and metadata
  */
-
 import TorrentAdapter from './torrents/TorrentAdapter';
 import MetadataAdapter from './metadata/MetadataAdapter';
 
@@ -59,5 +58,17 @@ export default class Butter {
 
   getSubtitles(imdbId: string, filename: string, length: number, metadata: Object) {
     return MetadataAdapter.getSubtitles(imdbId, filename, length, metadata);
+  }
+
+  favorites(method: string, metadata: Object) {
+    return MetadataAdapter.favorites(method, metadata);
+  }
+
+  recentlyWatched(method: string, metadata: Object) {
+    return MetadataAdapter.recentlyWatched(method, metadata);
+  }
+
+  watchList(method: string, metadata: Object) {
+    return MetadataAdapter.watchList(method, metadata);
   }
 }

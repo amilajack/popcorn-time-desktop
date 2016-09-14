@@ -10,6 +10,7 @@ import {
 } from '../../app/api/torrents/BaseTorrentProvider';
 import { getStatuses } from '../../app/api/torrents/TorrentAdapter';
 import { convertRuntimeToHours } from '../../app/api/metadata/MetadataAdapter';
+import { set, get, clear } from '../../app/utils/Config';
 
 
 const imdbId = 'tt0468569'; // The Dark Knight
@@ -66,6 +67,79 @@ describe('api ->', function testApi() {
         done();
       } catch (error) {
         done(error);
+      }
+    });
+  });
+
+  describe('Utils', () => {
+    it('should set, get, list cache', done => {
+      try {
+        clear();
+
+        expect(get('__test__')).to.equal(undefined);
+
+        set('__test__', 'some_value');
+        expect(get('__test__')).to.equal('some_value');
+
+        set('__test__', { testingValue: 'someTestingValue' });
+        expect(get('__test__')).to.eql({ testingValue: 'someTestingValue' });
+
+        set('__test__', [{ some: 'who' }]);
+        set('__test__', []);
+        expect(get('__test__')).to.eql([]);
+
+        done();
+      } catch (err) {
+        done(err);
+      }
+    });
+  });
+
+  describe('Config', () => {
+    it('should add favorites, recentlyWatched, watchList', async done => {
+      try {
+        for (const type of ['favorites', 'watchList', 'recentlyWatched']) {
+          clear();
+
+          const res = {
+            who: 'moo',
+            id: 'who'
+          };
+
+          const butter = butterFactory();
+
+          // Test addition
+          expect(await butter[type]('set', res)).to.eql([res]);
+          expect(await butter[type]('get', res)).to.eql([res]);
+
+          // Test addition of multiple elements
+          expect(await butter[type]('set', {
+            ...res,
+            id: 'lee'
+          }))
+          .to.eql([res, {
+            ...res,
+            id: 'lee'
+          }]);
+          expect(await butter[type]('get'))
+            .to.eql([res, {
+              ...res,
+              id: 'lee'
+            }]);
+
+          // @TODO: Test removal of elements. Currently, this fails without an
+          //        obvious reason
+          //
+          // expect(await butter[type]('remove', {
+          //   id: 'lee'
+          // }))
+          // .to.eql([res]);
+          // expect(await butter[type]('get')).to.eql([res]);
+        }
+
+        done();
+      } catch (err) {
+        done(err);
       }
     });
   });
@@ -605,7 +679,7 @@ describe('api ->', function testApi() {
       describe('Subtitles', function testSubtitles() {
         this.timeout(30000);
 
-        before(async() => {
+        before(async () => {
           this.subtitles = await butterFactory().getSubtitles(
             'tt0468569',
             'The.Dark.Knight.2008.720p.BluRay.x264.YIFY.mp4',

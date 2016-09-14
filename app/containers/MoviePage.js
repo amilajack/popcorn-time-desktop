@@ -1,27 +1,26 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 import Movie from '../components/movie/Movie';
 
 
-export default class MoviePage extends Component {
-
-  static propTypes = {
-    params: PropTypes.object.isRequired
-  };
-
-  static defaultProps = {
-    params: {}
-  };
-
-  render() {
-    const { params } = this.props;
-
-    return (
-      <div>
-        <Movie
-          itemId={params.itemId}
-          activeMode={params.activeMode}
-        />
-      </div>
-    );
-  }
+export default function MoviePage({ params }) {
+  return (
+    <div>
+      <Movie
+        itemId={params.itemId}
+        activeMode={params.activeMode}
+      />
+    </div>
+  );
 }
+
+
+MoviePage.propTypes = {
+  params: PropTypes.shape({
+    itemId: PropTypes.string.isRequired,
+    activeMode: PropTypes.string.isRequired
+  }).isRequired
+};
+
+MoviePage.defaultProps = {
+  params: {}
+};

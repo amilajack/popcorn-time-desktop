@@ -26,16 +26,6 @@ import Player from '../../api/Player';
 
 export default class Movie extends Component {
 
-  static propTypes: Object = {
-    itemId: PropTypes.string.isRequired,
-    activeMode: PropTypes.string.isRequired
-  };
-
-  static defaultProps = {
-    itemId: '',
-    activeMode: 'movies'
-  };
-
   defaultTorrent: Object = {
     default: { quality: undefined, magnet: undefined, seeders: 0 },
     '1080p': { quality: undefined, magnet: undefined, seeders: 0 },
@@ -125,11 +115,11 @@ export default class Movie extends Component {
       }
     });
 
-    this.getItem(itemId).then((item: Object) => {
-      this.getTorrent(itemId, item.title, 1, 1);
-    });
-
-    this.getSimilar(itemId);
+    return Promise.all([
+      this.getItem(itemId)
+        .then((item: Object) => this.getTorrent(itemId, item.title, 1, 1)),
+      this.getSimilar(itemId)
+    ]);
   }
 
   async getShowData(type: string, imdbId: string, season: number, episode: number) {
@@ -190,7 +180,7 @@ export default class Movie extends Component {
     });
 
     try {
-      const { torrent, idealTorrent } = await (async() => {
+      const { torrent, idealTorrent } = await (async () => {
         switch (this.props.activeMode) {
           case 'movies': {
             const _torrent = await this.butter.getTorrent(imdbId, this.props.activeMode, {
@@ -534,7 +524,9 @@ export default class Movie extends Component {
                 Year: {item.year}
               </h5>
               <h6 id="genres">
-                Genres: {item.genres ? item.genres.map((genre: string) => `${genre}, `) : null}
+                Genres: {item.genres
+                ? item.genres.map((genre: string) => `${genre}, `)
+                : null}
               </h6>
               <h5 id="runtime">
                 Length: {item.runtime.full}
@@ -542,14 +534,20 @@ export default class Movie extends Component {
               <h6 id="summary">
                 {item.summary}
               </h6>
-              {item.rating ? <div>
-                <Rating rating={item.rating} />
-              </div> : null}
+              {item.rating
+                ? <div>
+                    <Rating rating={item.rating} />
+                  </div>
+                : null}
               <h3 style={torrentLoadingStatusStyle}>
-                {!servingUrl && torrentInProgress ? 'Loading torrent...' : null}
+                {!servingUrl && torrentInProgress
+                  ? 'Loading torrent...'
+                  : null}
               </h3>
               <h3 style={torrentLoadingStatusStyle}>
-                {fetchingTorrents ? 'Fetching torrents...' : null}
+                {fetchingTorrents
+                  ? 'Fetching torrents...'
+                  : null}
               </h3>
 
               <div className="row">
@@ -584,8 +582,8 @@ export default class Movie extends Component {
               </div>
 
 
-              {this.state.item.certification
-                ? <div className="certification">{this.state.item.certification}</div>
+              {item.certification
+                ? <div className="certification">{item.certification}</div>
                 : null}
 
               {activeMode === 'shows' ? <Show
@@ -613,3 +611,13 @@ export default class Movie extends Component {
     );
   }
 }
+
+Movie.propTypes = {
+  itemId: PropTypes.string.isRequired,
+  activeMode: PropTypes.string.isRequired
+};
+
+Movie.defaultProps = {
+  itemId: '',
+  activeMode: 'movies'
+};

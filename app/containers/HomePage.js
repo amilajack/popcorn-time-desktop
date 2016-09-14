@@ -1,7 +1,7 @@
 /**
  * Home page component that renders CardList and uses VisibilitySensor
  *
- * @todo: Use waitForImages plugin to load background images and fade in on load
+ * @TODO: Use waitForImages plugin to load background images and fade in on load
  */
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
