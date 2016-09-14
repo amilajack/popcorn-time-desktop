@@ -13,9 +13,7 @@ export default function Show({ seasons, selectShow, selectedSeason, episodes, se
               className={classNames(
                 'list-group-item', { active: season.season === selectedSeason }
               )}
-              onClick={
-                selectShow.bind(this, 'episodes', season.season)
-              }
+              onClick={() => selectShow('episodes', season.season)}
               key={season.season}
             >
               Season {season.season}

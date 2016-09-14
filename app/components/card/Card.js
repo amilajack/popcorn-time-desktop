@@ -1,6 +1,7 @@
 /**
  * Card in the CardList component
  */
+import React, { Component, PropTypes } from 'react';
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import Rating from './Rating';
@@ -47,15 +48,3 @@ export default function Card({ type, image, id, rating, title, genres }) {
     </div>
   );
 }
-
-Card.propTypes = {
-  title: PropTypes.string.isRequired,
-  image: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
-  genres: PropTypes.arrayOf(PropTypes.string).isRequired,
-  rating: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string
-  ]).isRequired,
-  type: PropTypes.string.isRequired
-};
