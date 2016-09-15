@@ -15,6 +15,10 @@ export default class Header extends Component {
     this.state = {
       searchQuery: ''
     };
+
+    this.handleKeyPress = this.handleKeyPress.bind(this);
+    this.handleSearchChange = this.handleSearchChange.bind(this);
+    this.setSearchState = this.setSearchState.bind(this);
   }
 
   /**
@@ -40,36 +44,39 @@ export default class Header extends Component {
   }
 
   render() {
+    const { activeMode, setActiveMode } = this.props;
+    const { searchQuery } = this.state;
+
     return (
       <div className="col-xs-12">
         <nav className="navbar navbar-dark navbar-fixed-top bg-inverse">
           <a
             className="navbar-brand"
-            onClick={this.props.setActiveMode.bind(this, 'movies')}
+            onClick={() => setActiveMode('movies')}
           >
             Popcorn Time
           </a>
           <ul className="nav navbar-nav">
             <li
               className={classNames('nav-item', {
-                active: this.props.activeMode === 'movies'
+                active: activeMode === 'movies'
               })}
             >
               <a
                 className="nav-link"
-                onClick={this.props.setActiveMode.bind(this, 'movies')}
+                onClick={() => setActiveMode('movies')}
               >
                 Movies <span className="sr-only">(current)</span>
               </a>
             </li>
             <li
               className={classNames('nav-item', {
-                active: this.props.activeMode === 'shows'
+                active: activeMode === 'shows'
               })}
             >
               <a
                 className="nav-link"
-                onClick={this.props.setActiveMode.bind(this, 'shows')}
+                onClick={() => setActiveMode('shows')}
               >
                 TV Shows
               </a>
@@ -78,15 +85,15 @@ export default class Header extends Component {
           <div className="form-inline pull-xs-right">
             <input
               className="form-control"
-              value={this.state.searchQuery}
-              onKeyPress={this.handleKeyPress.bind(this)}
-              onChange={this.handleSearchChange.bind(this)}
+              value={searchQuery}
+              onKeyPress={this.handleKeyPress}
+              onChange={this.handleSearchChange}
               type="text"
               placeholder="Search"
             />
             <button
               className="btn btn-success-outline"
-              onClick={this.setSearchState.bind(this, this.state.searchQuery)}
+              onClick={() => this.setSearchState(searchQuery)}
               type="button"
             >
               Search

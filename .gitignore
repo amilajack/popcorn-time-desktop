@@ -50,3 +50,6 @@ release
 
 # Env configuration
 .env
+
+# Editor
+.idea

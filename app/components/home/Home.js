@@ -9,7 +9,10 @@ export default class Home extends Component {
 
   constructor(props: Object) {
     super(props);
+
     this.butter = new Butter();
+
+    this.onChange = this.onChange.bind(this);
   }
 
   componentDidMount() {
@@ -57,7 +60,7 @@ export default class Home extends Component {
 
     const { limit, page } = this.props.modes[queryType];
 
-    const items = await (async () => {
+    const items = await (async() => {
       switch (queryType) {
         case 'search': {
           return this.butter.search(
@@ -92,19 +95,20 @@ export default class Home extends Component {
   }
 
   render() {
+    const { activeMode, actions, items, isLoading } = this.props;
     return (
       <div>
         <Header
-          activeMode={this.props.activeMode}
-          setActiveMode={this.props.actions.setActiveMode}
+          activeMode={activeMode}
+          setActiveMode={actions.setActiveMode}
         />
         <div>
           <CardList
-            items={this.props.items}
-            isLoading={this.props.isLoading}
+            items={items}
+            isLoading={isLoading}
           />
           <VisibilitySensor
-            onChange={this.onChange.bind(this)}
+            onChange={this.onChange}
           />
         </div>
       </div>
