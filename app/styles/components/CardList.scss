@@ -27,6 +27,10 @@
       text-overflow: ellipsis;
     }
 
+    .Card--genres {
+      text-transform: capitalize;
+    }
+
     .Card--overlay {
       opacity: 0;
       position: absolute;

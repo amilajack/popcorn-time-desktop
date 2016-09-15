@@ -2,14 +2,29 @@
 This project has **VERY** strict eslint rules. Adding eslint support to your text-editor will make contributing a lot easier.
 
 ### Atom
+Recommended Development Packages:
+* https://atom.io/packages/linter
 * https://atom.io/packages/linter-eslint
 * https://atom.io/packages/linter-eslint
 * https://atom.io/packages/language-babel
 
 ### Sublime
+Recommended Development Packages:
 * https://github.com/SublimeLinter/SublimeLinter3
 * https://github.com/roadhump/SublimeLinter-eslint
 * https://github.com/babel/babel-sublime
+
+## FAQ
+ * `CALL_AND_RETRY_LAST Allocation failed`: If your node process's heap runs out of memory (`CALL_AND_RETRY_LAST Allocation failed - JavaScript heap out of memory`), kill close the electron app and restart the electron process. A proper solution hasn't been found for this yet.
+ * Build Fails: If your build fails, make sure you're using the latest node and npm versions and try running the following steps:
+   ```console
+   npm cache clean
+   rm -rf node_modules
+   npm i
+   npm rb
+   ```
+  If you have cloned this project and haven't pulled changes incrementally, delete the entire project directory and start from scratch
+  If that fails, try [reinstalling xcode](https://github.com/chentsulin/electron-react-boilerplate/issues/383#issuecomment-246428151)
 
 ## Development Tooling
 The Redux devtools are hidden by default and can be shown with `ctrl + h`
@@ -29,6 +44,3 @@ The Redux devtools are hidden by default and can be shown with `ctrl + h`
 * React
  * Use Higher Order Components when possible
  * Avoid `setState` as much as possible! Use **Redux** to update the state.
-
-## FAQ
- * If your node process's heap runs out of memory (`CALL_AND_RETRY_LAST Allocation failed - JavaScript heap out of memory`), kill close the electron app and restart the electron process. A proper solution hasn't been found for this yet.

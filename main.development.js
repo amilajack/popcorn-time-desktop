@@ -52,6 +52,7 @@ let mainWindow = null;
       width: 1024,
       height: 728,
       backgroundColor: '#252525',
+      // titleBarStyle: 'hidden-inset',
       webPreferences: {
         darkTheme: true,
         'web-preferences': { 'web-security': false },

@@ -16,7 +16,8 @@
 - Support external playback methods, **behind flag**
 - Save preferences/App State to `~/.popcorn-time-desktop/{config, cache}.json`
 - Downloaded content persistence
-- Custom endpoint configuration
+- Custom endpoint configuration (using env variables)
+- Half-star ratings
 
 ### Perf
 - Infinite scrolling performance improvements

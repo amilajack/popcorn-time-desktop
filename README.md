@@ -34,7 +34,7 @@
 
 **Faster Torrents**: New API optimized for fast torrents by querying the from multiple endpoints
 
-**Modern Stack**: Electron, React, Webpack, ES7, Flow, and others
+**Modern Stack**: Electron, React, Redux, Webpack, ES7, Flow, and others
 
 ## Requirements:
 
@@ -81,6 +81,3 @@ See the [roadmap](https://github.com/amilajack/popcorn-time-desktop/wiki/Road-Ma
 
 ### Movie Page:
 ![Movie page](https://raw.github.com/amilajack/popcorn-time-desktop/master/images/movie-page.jpg)
-
-### TV Show Page:
-![Show page](https://raw.github.com/amilajack/popcorn-time-desktop/master/images/show-page.jpg)

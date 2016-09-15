@@ -35,12 +35,11 @@ export default function Card({ type, image, id, rating, title, genres }) {
       </div>
       {type === 'search' ?
         <div>
-          {type}
+          Kind: {type}
         </div>
         :
         null
       }
-      Kind: {type}
       <div className="Card--genres">
         {genres ? genres[0] : null}
       </div>
