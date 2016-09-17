@@ -49,7 +49,7 @@ let mainWindow = null;
 
     mainWindow = new BrowserWindow({
       show: false,
-      width: 1024,
+      width: 1224,
       height: 728,
       backgroundColor: '#252525',
       // titleBarStyle: 'hidden-inset',

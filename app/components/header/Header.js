@@ -82,22 +82,20 @@ export default class Header extends Component {
               </a>
             </li>
           </ul>
-          <div className="form-inline pull-xs-right">
-            <input
-              className="form-control"
-              value={searchQuery}
-              onKeyPress={this.handleKeyPress}
-              onChange={this.handleSearchChange}
-              type="text"
-              placeholder="Search"
-            />
-            <button
-              className="btn btn-success-outline"
-              onClick={() => this.setSearchState(searchQuery)}
-              type="button"
-            >
-              Search
-            </button>
+          <div className="pull-xs-right">
+            <div className="input-group">
+              <span className="input-group-addon" id="basic-addon1">
+                <i className="ion-ios-search-strong" />
+              </span>
+              <input
+                className="form-control"
+                value={searchQuery}
+                onKeyPress={this.handleKeyPress}
+                onChange={this.handleSearchChange}
+                type="text"
+                placeholder="Search"
+              />
+            </div>
           </div>
         </nav>
         {/* // HACK: Add spacing from top of page */}

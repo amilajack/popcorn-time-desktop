@@ -6,7 +6,7 @@ import { Link } from 'react-router';
 import Rating from './Rating';
 
 
-export default function Card({ type, image, id, rating, title, genres }) {
+export default function Card({ type, image, id, rating, title }) {
   const placeholder =
     '../../images/posterholder.png';
 
@@ -21,27 +21,18 @@ export default function Card({ type, image, id, rating, title, genres }) {
           <div className="Card--overlay" />
         </div>
       </Link>
-      <div>
+      <div className="Card--descrption">
         <Link className="Card--title" to={`/item/${type}/${id}`}>
           {title}
         </Link>
-      </div>
-      <div>
-        {rating !== 'n/a' ?
-          <Rating rating={rating} />
-          :
-          null
-        }
-      </div>
-      {type === 'search' ?
         <div>
-          Kind: {type}
+          {rating !== 'n/a'
+            ? <Rating rating={rating} />
+            : null}
         </div>
-        :
-        null
-      }
-      <div className="Card--genres">
-        {genres ? genres[0] : null}
+        {type === 'search'
+          ? <div>Kind: {type}</div>
+          : null}
       </div>
     </div>
   );

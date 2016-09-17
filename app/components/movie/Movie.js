@@ -599,8 +599,8 @@ export default class Movie extends Component {
             </div>
           </div>
           <div className="col-xs-12">
-            <h3 className="text-center">Similar</h3>
             <CardList
+              title={'similar'}
               items={similarItems}
               metadataLoading={similarLoading}
               isFinished={isFinished}

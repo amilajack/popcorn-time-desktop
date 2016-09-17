@@ -9,7 +9,7 @@
       "presets": ["react-hmre"],
       "plugins": [
         "syntax-flow",
-        "tcomb",
+        /*"tcomb",*/
         "transform-flow-strip-types"
       ]
     },

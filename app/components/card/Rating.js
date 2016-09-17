@@ -9,7 +9,7 @@ export default function RatingComponent({ rating }: Object) {
         renderStarIconHalf={() => <span className="ion-android-star-half" />}
         renderStarIcon={() => <span className="ion-android-star" />}
         name={'rating'}
-        starColor={'white'}
+        starColor={'#848484'}
         value={rating / 2}
         editing={false}
       />
