@@ -4,6 +4,7 @@
 
 .CardList--header {
   text-transform: capitalize;
+  margin: 30px 0;
 }
 
 .CardList {
@@ -77,4 +78,13 @@
 .dv-star-rating-star {
   margin-right: 6px;
   color: $card-list-color;
+}
+
+.plyr {
+  // position: absolute;
+  // top: 0;
+  // width: 100%;
+  // z-index: -1;
+  // right: 0;
+  // left: 0;
 }

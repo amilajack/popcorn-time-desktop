@@ -35,7 +35,10 @@ export default class Movie extends Component {
 
   initialState: Object = {
     item: {
-      images: { fanart: '' },
+      images: {
+        fanart: {},
+        poster: {}
+      },
       runtime: {}
     },
     selectedSeason: 1,
@@ -409,7 +412,7 @@ export default class Movie extends Component {
         case 'Default':
           if (Player.isFormatSupported(filename, Player.nativePlaybackFormats)) {
             this.player.initPlyr(servingUrl, {
-              poster: this.state.item.images.fanart.full,
+              poster: this.state.item.images.fanart.thumb,
               tracks: subtitles
             });
           } else if (Player.isFormatSupported(filename, [
@@ -441,19 +444,58 @@ export default class Movie extends Component {
 
     const torrentLoadingStatusStyle = { color: 'maroon' };
 
+    const itemBackgroundUrl = {
+      backgroundImage: `url(${item.images.fanart.thumb})`
+    };
+
     return (
-      <div className="container">
+      <div className="container-fluid Item">
+        <Link to="/">
+          <button
+            className="btn btn-info ion-android-arrow-back"
+            onClick={() => this.stopTorrent()}
+          >
+            Back
+          </button>
+        </Link>
         <div className="row">
-          <div className="col-xs-12">
-            <div className="Movie">
-              <Link to="/">
-                <button
-                  className="btn btn-info ion-android-arrow-back"
-                  onClick={() => this.stopTorrent()}
-                >
-                  Back
-                </button>
-              </Link>
+          <div className="col-xs-12 Item--background" style={itemBackgroundUrl}>
+            <div className="col-xs-6 Item--image">
+              <img height="350px" role="presentation" src={item.images.poster.thumb} />
+            </div>
+            <div className="Movie col-xs-6">
+              <span>
+                <a>
+                  <strong>
+                    Torrent status: {idealTorrent.health || 'poor'}
+                  </strong>
+                </a>
+              </span>
+              <h1 id="title">
+                {item.title}
+              </h1>
+              <span id="runtime">
+                <h6>
+                  {item.runtime.hours ? `${item.runtime.hours} hrs ` : ''}
+                  {item.runtime.minutes ? `${item.runtime.minutes} min` : ''}
+                </h6>
+              </span>
+              <span id="genres">
+                {item.genres
+                  ? <h6>{item.genres.join(', ')}</h6>
+                  : null}
+              </span>
+              <h6 id="summary">
+                {item.summary}
+              </h6>
+              {item.rating
+                ? <div>
+                  <Rating starColor={'white'} rating={item.rating} />
+                </div>
+                : null}
+              <h5>
+                {item.year}
+              </h5>
               <span>
                 <button
                   onClick={() => this.startTorrent(
@@ -487,58 +529,29 @@ export default class Movie extends Component {
                       >
                         Start 720p -- {torrent['720p'].seeders} seeders
                       </button>
-                            {(() => {
-                              if (activeMode === 'shows') {
-                                return (
-                                  <button
-                                    onClick={() => this.startTorrent(
-                                      torrent['480p'].magnet,
-                                      torrent['480p'].method
-                                    )}
-                                    disabled={!torrent['480p'].quality}
-                                  >
-                                    Start 480p -- {torrent['480p'].seeders} seeders
-                                  </button>
-                                );
-                              }
+                        {(() => {
+                          if (activeMode === 'shows') {
+                            return (
+                              <button
+                                onClick={() => this.startTorrent(
+                                  torrent['480p'].magnet,
+                                  torrent['480p'].method
+                                )}
+                                disabled={!torrent['480p'].quality}
+                              >
+                                Start 480p -- {torrent['480p'].seeders} seeders
+                              </button>
+                            );
+                          }
 
-                              return null;
-                            })()}
+                          return null;
+                        })()}
                     </span>
                   );
                 }
 
                 return null;
               })()}
-              <span>
-                <a>
-                  <strong>
-                    Torrent status: {idealTorrent.health || ''}
-                  </strong>
-                </a>
-              </span>
-              <h1 id="title">
-                {item.title}
-              </h1>
-              <h5>
-                Year: {item.year}
-              </h5>
-              <h6 id="genres">
-                Genres: {item.genres
-                ? item.genres.map((genre: string) => `${genre}, `)
-                : null}
-              </h6>
-              <h5 id="runtime">
-                Length: {item.runtime.full}
-              </h5>
-              <h6 id="summary">
-                {item.summary}
-              </h6>
-              {item.rating
-                ? <div>
-                  <Rating rating={item.rating} />
-                </div>
-                : null}
               <h3 style={torrentLoadingStatusStyle}>
                 {!servingUrl && torrentInProgress
                   ? 'Loading torrent...'
@@ -586,18 +599,22 @@ export default class Movie extends Component {
                 ? <div className="certification">{item.certification}</div>
                 : null}
 
-              {activeMode === 'shows' ? <Show
-                selectShow={this.selectShow}
-                seasons={seasons}
-                episodes={episodes}
-                selectedSeason={selectedSeason}
-                selectedEpisode={selectedEpisode}
-              /> : null}
-              <div className="plyr">
-                <video controls poster={item.images.fanart.full} />
-              </div>
+              {/* <div className="plyr">
+                <video controls poster={item.images.fanart.thumb} />
+              </div> */}
             </div>
+
+            <div className="Item--overlay" />
           </div>
+
+          {activeMode === 'shows' ? <Show
+            selectShow={this.selectShow}
+            seasons={seasons}
+            episodes={episodes}
+            selectedSeason={selectedSeason}
+            selectedEpisode={selectedEpisode}
+          /> : null}
+
           <div className="col-xs-12">
             <CardList
               title={'similar'}

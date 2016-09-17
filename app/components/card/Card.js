@@ -6,7 +6,7 @@ import { Link } from 'react-router';
 import Rating from './Rating';
 
 
-export default function Card({ type, image, id, rating, title }) {
+export default function Card({ type, image, id, rating, title, starColor }) {
   const placeholder =
     '../../images/posterholder.png';
 
@@ -27,7 +27,7 @@ export default function Card({ type, image, id, rating, title }) {
         </Link>
         <div>
           {rating !== 'n/a'
-            ? <Rating rating={rating} />
+            ? <Rating starColor={starColor} rating={rating} />
             : null}
         </div>
         {type === 'search'
@@ -40,6 +40,7 @@ export default function Card({ type, image, id, rating, title }) {
 
 Card.propTypes = {
   title: PropTypes.string.isRequired,
+  starColor: PropTypes.string,
   image: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   genres: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -48,4 +49,8 @@ Card.propTypes = {
     PropTypes.string
   ]).isRequired,
   type: PropTypes.string.isRequired
+};
+
+Card.defaultProps = {
+  starColor: '#848484'
 };

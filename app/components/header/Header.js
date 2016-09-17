@@ -50,12 +50,6 @@ export default class Header extends Component {
     return (
       <div className="col-xs-12">
         <nav className="navbar navbar-dark navbar-fixed-top bg-inverse">
-          <a
-            className="navbar-brand"
-            onClick={() => setActiveMode('movies')}
-          >
-            Popcorn Time
-          </a>
           <ul className="nav navbar-nav">
             <li
               className={classNames('nav-item', {

@@ -246,14 +246,14 @@ function formatMovieSearch(movie: Object) {
     trailer: 'n/a',  // omdbapi does not support
     images: {
       fanart: {
-        full: movie.Poster,
-        medium: movie.Poster,
-        thumb: movie.Poster
+        full: movie.Poster || '',
+        medium: movie.Poster || '',
+        thumb: movie.Poster || ''
       },
       poster: {
-        full: movie.Poster,
-        medium: movie.Poster,
-        thumb: movie.Poster
+        full: movie.Poster || '',
+        medium: movie.Poster || '',
+        thumb: movie.Poster || ''
       }
     }
   };

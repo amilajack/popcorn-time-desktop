@@ -10,7 +10,7 @@ export default function CardList({ items, isLoading, isFinished, title }) {
   return (
     <div className="row">
       <div className="col-xs-12">
-        <h5 className="CardList--header">{title || ''}</h5>
+        <h4 className="CardList--header">{title || ''}</h4>
         <div className="CardList">
           {items.map((item: Object) => (
             <Card
@@ -53,5 +53,6 @@ CardList.propTypes = {
 CardList.defaultProps = {
   items: [],
   isLoading: false,
-  isFinished: false
+  isFinished: false,
+  starColor: '#848484'
 };
