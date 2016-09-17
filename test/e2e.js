@@ -17,7 +17,7 @@ const app = new Application({
 const delay = time => new Promise(resolve => setTimeout(resolve, time));
 
 describe('e2e', function testApp() {
-  this.retries(3);
+  this.retries(2);
 
   // Constructs url similar to file:///Users/john/popcorn-desktop-experimental/app/app.html#/${url}
   const navigate = url => this.app.client.url(`file://${process.cwd()}/app/app.html#/${url}`);
@@ -77,10 +77,9 @@ describe('e2e', function testApp() {
 
     it('should search items', async done => {
       try {
-        await delay(3000);
         await this.app.client
           .setValue('.navbar input', 'harry potter')
-          .click('.navbar button');
+          .keys('Enter');
 
         await this.app.client.waitUntilWindowLoaded(); // await search results();
         await delay(3000);
@@ -92,7 +91,7 @@ describe('e2e', function testApp() {
 
         await this.app.client
           .setValue('.navbar input', 'Lord of the Rings')
-          .click('.navbar button');
+          .keys('Enter');
 
         await this.app.client.waitUntilWindowLoaded(); // await search results();
         await delay(3000);
