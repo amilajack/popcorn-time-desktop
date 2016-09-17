@@ -22,6 +22,7 @@ export default {
   },
 
   plugins: [
+    ...baseConfig.plugins,
     new webpack.optimize.UglifyJsPlugin({
       compressor: {
         warnings: false
