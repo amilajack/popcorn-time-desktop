@@ -44,6 +44,15 @@ $navbar-dark-color: #848484;
 
 // Fonts
 $font-family-base: "Avenir Next", Avenir, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, sans-serif;
+$headings-font-weight: 400;
+
+.row-margin {
+  margin: 20px 0;
+}
+
+#summary {
+  line-height: 2rem;
+}
 
 //
 // Custom Components

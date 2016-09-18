@@ -24,7 +24,7 @@
     "test-watch": "npm test -- --watch",
     "start": "cross-env NODE_ENV=production electron ./",
     "start-hot": "cross-env HOT=1 NODE_ENV=development electron -r babel-register ./main.development",
-    "start-hot-server": "node -r babel-register server.js"
+    "start-hot-server": "node --max_old_space_size=4096 -r babel-register server.js"
   },
   "bin": {
     "electron": "./node_modules/.bin/electron"
