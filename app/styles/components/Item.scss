@@ -1,0 +1,32 @@
+.Item {
+  position: relative;
+
+  .Item--background {
+    background-color: black;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    min-height: 600px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .Item--overlay {
+    height: 100%;
+    width: 100%;
+    opacity: 0.5;
+    background: black;
+    position: absolute;
+  }
+
+  .Item--image {
+    display: flex;
+    justify-content: center;
+    z-index: 10;
+
+    img {
+      box-shadow: rgba(0, 0, 0, 0.6) 0 6px 16px 4px;
+    }
+  }
+}

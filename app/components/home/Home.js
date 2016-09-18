@@ -97,12 +97,12 @@ export default class Home extends Component {
   render() {
     const { activeMode, actions, items, isLoading } = this.props;
     return (
-      <div>
+      <div className="row">
         <Header
           activeMode={activeMode}
           setActiveMode={actions.setActiveMode}
         />
-        <div>
+        <div className="col-xs-12">
           <CardList
             items={items}
             isLoading={isLoading}

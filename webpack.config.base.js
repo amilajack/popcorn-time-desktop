@@ -1,6 +1,6 @@
 import path from 'path';
 import webpack from 'webpack';
-import ProgressBarPlugin from 'progress-bar-webpack-plugin';
+import HappyPack from 'happypack';
 
 
 export const stats = {
@@ -21,17 +21,19 @@ export const stats = {
 };
 
 export default {
+  cache: true,
+
   module: {
     loaders: [{
       test: /\.jsx?$/,
-      loader: 'babel-loader',
+      loader: 'happypack/loader?id=babel',
       exclude: /node_modules/
     }, {
       test: /\.node$/,
-      loader: 'node-loader'
+      loader: 'happypack/loader?id=node'
     }, {
       test: /\.json$/,
-      loader: 'json-loader'
+      loader: 'happypack/loader?id=json'
     }]
   },
   output: {
@@ -48,7 +50,21 @@ export default {
   },
   plugins: [
     new webpack.IgnorePlugin(/^(README.md)$/),
-    new ProgressBarPlugin()
+    new HappyPack({
+      id: 'babel',
+      threads: 4,
+      loaders: ['babel-loader']
+    }),
+    new HappyPack({
+      id: 'node',
+      threads: 4,
+      loaders: ['node-loader']
+    }),
+    new HappyPack({
+      id: 'json',
+      threads: 4,
+      loaders: ['json-loader']
+    })
   ],
   externals: [
     // put your node 3rd party libraries which can't be built with webpack here

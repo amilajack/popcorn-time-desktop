@@ -676,7 +676,7 @@ describe('api ->', function testApi() {
         });
       });
 
-      describe('Subtitles', function testSubtitles() {
+      describe.skip('Subtitles', function testSubtitles() {
         this.timeout(30000);
 
         before(async () => {
