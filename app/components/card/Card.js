@@ -10,15 +10,18 @@ export default function Card({ type, image, id, rating, title, starColor }) {
   const placeholder =
     '../../images/posterholder.png';
 
-  const divStyle = {
+  const backgroundImageStyle = {
     backgroundImage: `url(${image !== 'N/A' ? image : placeholder})`
   };
 
   return (
     <div className="Card">
       <Link to={`/item/${type}/${id}`}>
-        <div className="Card--overlay-container" style={divStyle}>
-          <div className="Card--overlay" />
+        <div className="Card--overlay-container first">
+          <div
+            className="Card--overlay-container hidden"
+            style={backgroundImageStyle}
+          />
         </div>
       </Link>
       <div className="Card--descrption">
