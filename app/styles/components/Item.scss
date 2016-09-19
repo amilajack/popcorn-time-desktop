@@ -1,12 +1,34 @@
 .Item {
   position: relative;
 
+  &.active {
+    .Item--background * {
+      opacity: 0;
+    }
+
+    .plyr {
+      opacity: 1;
+      z-index: 100;
+      width: 100%;
+    }
+  }
+
+  .plyr {
+    position: absolute;
+    z-index: -100;
+    min-height: 500px;
+    opacity: 0;
+    opacity: 1;
+    height: 500px;
+    overflow: hidden;
+  }
+
   .Item--background {
-    background-color: black;
+    background-color: #373737;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-    min-height: 600px;
+    min-height: 500px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -24,9 +46,11 @@
     display: flex;
     justify-content: center;
     z-index: 10;
+    border: 0px solid transparent;
 
     img {
       box-shadow: rgba(0, 0, 0, 0.6) 0 6px 16px 4px;
+      background: gray;
     }
   }
 }

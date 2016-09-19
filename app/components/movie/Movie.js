@@ -9,6 +9,7 @@ import {
   DropdownItem
 } from 'reactstrap';
 import { Link } from 'react-router';
+import classNames from 'classnames';
 import notie from 'notie';
 import { exec } from 'child_process';
 import { getIdealTorrent } from '../../api/torrents/BaseTorrentProvider';
@@ -23,6 +24,8 @@ import {
 } from '../../api/Subtitle';
 import Player from '../../api/Player';
 
+
+const SUMMARY_CHAR_LIMIT = 300;
 
 export default class Movie extends Component {
 
@@ -46,6 +49,7 @@ export default class Movie extends Component {
     seasons: [],
     season: [],
     episode: {},
+    isActive: false,
     fetchingTorrents: false,
     idealTorrent: this.defaultTorrent,
     torrent: this.defaultTorrent,
@@ -346,6 +350,12 @@ export default class Movie extends Component {
     return mergedResults;
   }
 
+  toggleActive() {
+    this.setState({
+      isActive: !this.state.isActive
+    });
+  }
+
   async startTorrent(magnet: string, activeMode: string) {
     if (this.state.torrentInProgress) {
       this.stopTorrent();
@@ -437,7 +447,7 @@ export default class Movie extends Component {
     const {
       item, idealTorrent, torrent, servingUrl, torrentInProgress,
       fetchingTorrents, dropdownOpen, currentPlayer, seasons, selectedSeason,
-      episodes, selectedEpisode, similarItems, similarLoading, isFinished
+      episodes, selectedEpisode, similarItems, similarLoading, isFinished, isActive
     } = this.state;
 
     const { activeMode } = this.props;
@@ -466,39 +476,66 @@ export default class Movie extends Component {
     };
 
     return (
-      <div className="container-fluid Item">
+      <div
+        className={classNames('container-fluid', 'Item', {
+          active: isActive
+        })}
+      >
         <Link to="/">
           <button
-            className="btn btn-info ion-android-arrow-back"
+            className="btn btn-back"
             onClick={() => this.stopTorrent()}
           >
             Back
           </button>
         </Link>
         <div className="row">
-          <div className="col-xs-12 Item--background" style={itemBackgroundUrl}>
+
+          <div className="plyr col-xs-12">
+            <video controls poster={item.images.fanart.full} />
+          </div>
+
+          <div
+            className="col-xs-12 Item--background"
+            style={itemBackgroundUrl}
+          >
+
             <div className="col-xs-6 Item--image">
-              <img height="350px" role="presentation" src={item.images.poster.thumb} />
+              <img
+                height="350px"
+                width="233px"
+                role="presentation"
+                src={item.images.poster.thumb}
+                onClick={() => this.toggleActive()}
+              />
             </div>
+
             <div className="Movie col-xs-6">
               <h1 className="row-margin" id="title">
                 {item.title}
               </h1>
-              <span className="row-margin" id="runtime">
-                <h6>
-                  {item.runtime.hours ? `${item.runtime.hours} hrs ` : ''}
-                  {item.runtime.minutes ? `${item.runtime.minutes} min` : ''}
-                </h6>
-              </span>
-              <span className="row-margin" id="genres">
-                {item.genres
-                  ? <h6>{item.genres.join(', ')}</h6>
-                  : null}
-              </span>
+              <div className="row">
+                <span className="col-xs-3" id="runtime">
+                  <h6>
+                    {item.runtime.hours ? `${item.runtime.hours} hrs ` : ''}
+                    {item.runtime.minutes ? `${item.runtime.minutes} min` : ''}
+                  </h6>
+                </span>
+                <span className="col-xs-9" id="genres">
+                  {item.genres
+                    ? <h6>{item.genres.join(', ')}</h6>
+                    : null}
+                </span>
+              </div>
+              {/* HACK: Prefer a CSS solution to this, using text-overflow: ellipse */}
               <h6 className="row-margin" id="summary">
-                {item.summary}
+                {item.summary
+                  ? item.summary.length > SUMMARY_CHAR_LIMIT
+                      ? `${item.summary.slice(0, SUMMARY_CHAR_LIMIT)}...`
+                      : item.summary
+                  : ''}
               </h6>
-              <div className="row row-margin">
+              <div className="row row-margin row-flex-center">
                 <div className="col-xs-4">
                   {item.rating
                     ? <Rating
@@ -508,27 +545,21 @@ export default class Movie extends Component {
                     />
                     : null}
                 </div>
-                <div className="col-xs-6">
+                <div className="col-xs-1">
                   <h6>{item.year}</h6>
                 </div>
-              </div>
-              <div className="row row-margin">
-                <div className="col-xs-2">
+
+                <div className="col-xs-3">
                   {item.certification
                     ? <div className="certification">{item.certification}</div>
                     : null}
                 </div>
 
-                <div className="col-xs-6 Movie--status-container">
+                <div className="col-xs-3 Movie--status-container">
                   <i className="ion-magnet" />
                   <div className="Movie--status" style={statusColorStyle} />
-                  <h6>{idealTorrent.health || 'decent'}</h6>
                 </div>
               </div>
-
-              {/* <div className="plyr">
-                <video controls poster={item.images.fanart.thumb} />
-              </div> */}
             </div>
 
             <div className="Item--overlay" />
@@ -601,7 +632,6 @@ export default class Movie extends Component {
               ? 'Fetching torrents...'
               : null}
           </h3>
-
           <div className="row">
             <div className="col-xs-12">
               <Dropdown isOpen={dropdownOpen} toggle={this.toggle}>
@@ -632,6 +662,9 @@ export default class Movie extends Component {
               </Dropdown>
             </div>
           </div>
+          <button className="btn btn-info" onClick={() => this.toggleActive()}>
+            Toggle Hover Playback Active
+          </button>
 
           {activeMode === 'shows' ? <Show
             selectShow={this.selectShow}
@@ -644,6 +677,7 @@ export default class Movie extends Component {
           <div className="col-xs-12">
             <CardList
               title={'similar'}
+              limit={4}
               items={similarItems}
               metadataLoading={similarLoading}
               isFinished={isFinished}

@@ -38,6 +38,11 @@ export default function itemList(state = defaultState, action) {
     case 'CLEAR_ITEMS':
       return {
         ...state,
+        items: []
+      };
+    case 'CLEAR_ALL_ITEMS':
+      return {
+        ...state,
         items: [],
         modes: {
           ...state.modes,

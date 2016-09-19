@@ -19,6 +19,12 @@ export function clearItems() {
   };
 }
 
+export function clearAllItems() {
+  return {
+    type: 'CLEAR_ALL_ITEMS'
+  };
+}
+
 export function setLoading(isLoading) {
   return {
     type: 'SET_LOADING',

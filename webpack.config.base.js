@@ -1,6 +1,5 @@
 import path from 'path';
 import webpack from 'webpack';
-import HappyPack from 'happypack';
 
 
 export const stats = {
@@ -21,19 +20,17 @@ export const stats = {
 };
 
 export default {
-  cache: true,
-
   module: {
     loaders: [{
       test: /\.jsx?$/,
-      loader: 'happypack/loader?id=babel',
+      loader: 'babel-loader',
       exclude: /node_modules/
     }, {
       test: /\.node$/,
-      loader: 'happypack/loader?id=node'
+      loader: 'node-loader'
     }, {
       test: /\.json$/,
-      loader: 'happypack/loader?id=json'
+      loader: 'json-loader'
     }]
   },
   output: {
@@ -49,22 +46,7 @@ export default {
     }
   },
   plugins: [
-    new webpack.IgnorePlugin(/^(README.md)$/),
-    new HappyPack({
-      id: 'babel',
-      threads: 4,
-      loaders: ['babel-loader']
-    }),
-    new HappyPack({
-      id: 'node',
-      threads: 4,
-      loaders: ['node-loader']
-    }),
-    new HappyPack({
-      id: 'json',
-      threads: 4,
-      loaders: ['json-loader']
-    })
+    new webpack.IgnorePlugin(/^(README.md)$/)
   ],
   externals: [
     // put your node 3rd party libraries which can't be built with webpack here

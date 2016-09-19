@@ -26,7 +26,7 @@ export default class Home extends Component {
       JSON.stringify(this.props.activeModeOptions)
     ) {
       if (nextProps.activeMode === 'search') {
-        this.props.actions.clearItems();
+        this.props.actions.clearAllItems();
       }
       this.paginate(nextProps.activeMode, nextProps.activeModeOptions);
     }
@@ -120,7 +120,7 @@ Home.propTypes = {
   actions: PropTypes.shape({
     setActiveMode: PropTypes.func.isRequired,
     paginate: PropTypes.func.isRequired,
-    clearItems: PropTypes.func.isRequired,
+    clearAllItems: PropTypes.func.isRequired,
     setLoading: PropTypes.func.isRequired,
     setCurrentPlayer: PropTypes.func.isRequired
   }).isRequired,

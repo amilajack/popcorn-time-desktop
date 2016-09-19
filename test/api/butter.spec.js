@@ -40,7 +40,7 @@ function greaterThanOrEqualTo(first, second) {
   return (first > second || first === second);
 }
 
-describe('api ->', function testApi() {
+describe('API ->', function testApi() {
   this.retries(3);
 
   describe('Status', () => {

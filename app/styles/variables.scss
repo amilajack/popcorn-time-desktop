@@ -26,6 +26,7 @@ $container-max-widths: (
   xl: 1200px
 );
 
+// Input
 $input-bg: rgb(53, 53, 53);
 $input-border-color: rgb(53, 53, 53);
 $input-group-addon-bg: rgb(53, 53, 53);
@@ -54,6 +55,18 @@ $headings-font-weight: 400;
   line-height: 2rem;
 }
 
+::selection {
+  background: black;
+  color: white;
+}
+
+.btn-back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+}
+
 //
 // Custom Components
 //
@@ -61,11 +74,10 @@ $headings-font-weight: 400;
 // Card list
 $card-list-color: #848484;
 
-// Notie variables override
+// Notie
 $notie-font-size-big: 18px;
 $notie-font-size-small: 18px;
 
 // Plyr
-// Colors
-$plyr-color-main: white;
+$plyr-color-main: gray;
 $plyr-tooltip-radius: 0;
