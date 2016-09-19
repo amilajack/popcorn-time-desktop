@@ -17,7 +17,6 @@
     position: absolute;
     z-index: -100;
     min-height: 500px;
-    opacity: 0;
     opacity: 1;
     height: 500px;
     overflow: hidden;
@@ -46,7 +45,7 @@
     display: flex;
     justify-content: center;
     z-index: 10;
-    border: 0px solid transparent;
+    border: 0 solid transparent;
 
     img {
       box-shadow: rgba(0, 0, 0, 0.6) 0 6px 16px 4px;
