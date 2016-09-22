@@ -599,23 +599,23 @@ export default class Movie extends Component {
                   >
                     Start 720p -- {torrent['720p'].seeders} seeders
                   </button>
-                    {(() => {
-                      if (activeMode === 'shows') {
-                        return (
-                          <button
-                            onClick={() => this.startTorrent(
-                              torrent['480p'].magnet,
-                              torrent['480p'].method
-                            )}
-                            disabled={!torrent['480p'].quality}
-                          >
-                            Start 480p -- {torrent['480p'].seeders} seeders
-                          </button>
-                        );
-                      }
+                  {(() => {
+                    if (activeMode === 'shows') {
+                      return (
+                        <button
+                          onClick={() => this.startTorrent(
+                            torrent['480p'].magnet,
+                            torrent['480p'].method
+                          )}
+                          disabled={!torrent['480p'].quality}
+                        >
+                          Start 480p -- {torrent['480p'].seeders} seeders
+                        </button>
+                      );
+                    }
 
-                      return null;
-                    })()}
+                    return null;
+                  })()}
                 </span>
               );
             }
