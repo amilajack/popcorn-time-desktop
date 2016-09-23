@@ -6,15 +6,17 @@
       opacity: 0;
     }
 
-    .plyr {
+    > .row > .plyr {
       opacity: 1;
       z-index: 100;
       width: 100%;
     }
   }
 
-  .plyr {
+  > .row > .plyr {
     position: absolute;
+    left: 0;
+    right: 0;
     z-index: -100;
     min-height: 500px;
     opacity: 1;
