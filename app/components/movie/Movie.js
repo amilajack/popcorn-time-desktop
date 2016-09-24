@@ -49,7 +49,8 @@ export default class Movie extends Component {
     seasons: [],
     season: [],
     episode: {},
-    isActive: false,
+    currentPlayer: 'Default',
+    playbackIsActive: false,
     fetchingTorrents: false,
     idealTorrent: this.defaultTorrent,
     torrent: this.defaultTorrent,
@@ -68,8 +69,8 @@ export default class Movie extends Component {
 
     this.toggle = this.toggle.bind(this);
     this.setPlayer = this.setPlayer.bind(this);
-    this.stopTorrent = this.stopTorrent.bind(this);
-    this.startTorrent = this.startTorrent.bind(this);
+    this.stopPlayback = this.stopPlayback.bind(this);
+    this.startPlayback = this.startPlayback.bind(this);
     this.selectShow = this.selectShow.bind(this);
     this.state = this.initialState;
 
@@ -91,6 +92,8 @@ export default class Movie extends Component {
 
   componentDidMount() {
     this.getAllData(this.props.itemId);
+    this.stopPlayback();
+    this.player.destroy();
 
     this.setState({ // eslint-disable-line
       ...this.initialState,
@@ -100,11 +103,12 @@ export default class Movie extends Component {
   }
 
   componentWillUnmount() {
-    this.stopTorrent();
+    this.stopPlayback();
+    this.player.destroy();
   }
 
   componentWillReceiveProps(nextProps: Object) {
-    this.stopTorrent();
+    this.stopPlayback();
 
     this.setState({
       ...this.initialState
@@ -283,9 +287,9 @@ export default class Movie extends Component {
     }
   }
 
-  stopTorrent() {
-    this.torrent.destroy();
+  stopPlayback() {
     this.player.destroy();
+    this.torrent.destroy();
     this.setState({ torrentInProgress: false });
 
     if (process.env.NODE_ENV === 'development') {
@@ -352,20 +356,19 @@ export default class Movie extends Component {
 
   toggleActive() {
     this.setState({
-      isActive: !this.state.isActive
+      playbackIsActive: !this.state.playbackIsActive
     });
   }
 
-  async startTorrent(magnet: string, activeMode: string) {
+  async startPlayback(magnet: string, activeMode: string) {
     if (this.state.torrentInProgress) {
-      this.stopTorrent();
+      this.stopPlayback();
     }
 
     this.setState({
-      servingUrl: undefined
+      servingUrl: undefined,
+      torrentInProgress: true
     });
-
-    this.setState({ torrentInProgress: true });
 
     const metadata = {
       activeMode,
@@ -385,7 +388,11 @@ export default class Movie extends Component {
                                                           subtitle: string
                                                         ) => {
       console.log('serving at:', servingUrl);
-      this.setState({ servingUrl });
+
+      this.setState({
+        servingUrl,
+        playbackIsActive: true
+      });
 
       const filename = file.name;
       const subtitles = subtitle && process.env.FLAG_SUBTITLES === 'true'
@@ -447,7 +454,7 @@ export default class Movie extends Component {
     const {
       item, idealTorrent, torrent, servingUrl, torrentInProgress,
       fetchingTorrents, dropdownOpen, currentPlayer, seasons, selectedSeason,
-      episodes, selectedEpisode, similarItems, similarLoading, isFinished, isActive
+      episodes, selectedEpisode, similarItems, similarLoading, isFinished, playbackIsActive
     } = this.state;
 
     const { activeMode } = this.props;
@@ -478,13 +485,13 @@ export default class Movie extends Component {
     return (
       <div
         className={classNames('container-fluid', 'Item', {
-          active: isActive
+          active: playbackIsActive
         })}
       >
         <Link to="/">
           <button
             className="btn btn-back"
-            onClick={() => this.stopTorrent()}
+            onClick={() => this.stopPlayback()}
           >
             Back
           </button>
@@ -568,7 +575,7 @@ export default class Movie extends Component {
           {/* Torrent Selection */}
           <span>
             <button
-              onClick={() => this.startTorrent(
+              onClick={() => this.startPlayback(
                 idealTorrent.magnet,
                 idealTorrent.method
               )}
@@ -582,7 +589,7 @@ export default class Movie extends Component {
               return (
                 <span>
                   <button
-                    onClick={() => this.startTorrent(
+                    onClick={() => this.startPlayback(
                       torrent['1080p'].magnet,
                       torrent['1080p'].method
                     )}
@@ -591,7 +598,7 @@ export default class Movie extends Component {
                     Start 1080p -- {torrent['1080p'].seeders} seeders
                   </button>
                   <button
-                    onClick={() => this.startTorrent(
+                    onClick={() => this.startPlayback(
                       torrent['720p'].magnet,
                       torrent['720p'].method
                     )}
@@ -603,7 +610,7 @@ export default class Movie extends Component {
                     if (activeMode === 'shows') {
                       return (
                         <button
-                          onClick={() => this.startTorrent(
+                          onClick={() => this.startPlayback(
                             torrent['480p'].magnet,
                             torrent['480p'].method
                           )}

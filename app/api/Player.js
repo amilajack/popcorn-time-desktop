@@ -21,6 +21,9 @@ export default class Player {
     if (this.powerSaveBlockerId) {
       powerSaveBlocker.stop(this.powerSaveBlockerId);
     }
+    if (this._player) {
+      this._player.destroy();
+    }
   }
 
   /**
@@ -37,10 +40,11 @@ export default class Player {
   }
 
   initPlyr(streamingUrl, metadata = {}) {
+    console.info('Initializing plyr...');
     this.currentPlayer = 'plyr';
     this.powerSaveBlockerId = powerSaveBlocker.start('prevent-app-suspension');
 
-    this._player = this._player || plyr.setup({
+    this._player = plyr.setup({
       volume: 10,
       autoplay: true,
       showPosterOnEnd: true
