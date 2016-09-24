@@ -1,15 +1,19 @@
 ## Setup:
 This project has **VERY** strict eslint rules. Adding eslint support to your text-editor will make contributing a lot easier.
 
+## Editor Configuration
 ### Atom
-* https://atom.io/packages/linter
-* https://atom.io/packages/linter-eslint
-* https://atom.io/packages/language-babel
+```bash
+apm install linter linter-eslint language-babel
+```
 
 ### Sublime
 * https://github.com/SublimeLinter/SublimeLinter3
 * https://github.com/roadhump/SublimeLinter-eslint
 * https://github.com/babel/babel-sublime
+
+### Others
+http://eslint.org/docs/user-guide/integrations#editors
 
 ## Development Tooling
 The Redux devtools are hidden by default and can be shown with `ctrl + h`
