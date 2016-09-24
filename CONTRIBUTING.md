@@ -2,7 +2,7 @@
 This project has **VERY** strict eslint rules. Adding eslint support to your text-editor will make contributing a lot easier.
 
 ### Atom
-* https://atom.io/packages/linter-eslint
+* https://atom.io/packages/linter
 * https://atom.io/packages/linter-eslint
 * https://atom.io/packages/language-babel
 
