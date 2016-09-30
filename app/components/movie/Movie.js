@@ -1,5 +1,6 @@
 /**
  * Movie component that is responsible for playing movie
+ * @flow
  */
 import React, { Component, PropTypes } from 'react';
 import {

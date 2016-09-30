@@ -1,3 +1,13 @@
+/**
+ * @flow
+ */
+
+function s(x): number {
+  return x * 'x'
+}
+
+s('3');
+
 export function setActiveMode(activeMode, activeModeOptions = {}) {
   return {
     type: 'SET_ACTIVE_MODE',

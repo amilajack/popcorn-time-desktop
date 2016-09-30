@@ -1,5 +1,7 @@
 /* eslint prefer-template: 0 */
-
+/**
+ * @flow
+ */
 import cache from 'lru-cache';
 import URL from 'url';
 

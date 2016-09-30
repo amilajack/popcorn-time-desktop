@@ -33,13 +33,13 @@ export default class Player {
     this.player.restart();
   }
 
-  static isFormatSupported(filename, mimeTypes) {
+  static isFormatSupported(filename: string, mimeTypes: Array<string>) {
     return mimeTypes.find(
       mimeType => filename.toLowerCase().includes(mimeType)
     );
   }
 
-  initPlyr(streamingUrl, metadata = {}) {
+  initPlyr(streamingUrl: string, metadata: Object = {}) {
     console.info('Initializing plyr...');
     this.currentPlayer = 'plyr';
     this.powerSaveBlockerId = powerSaveBlocker.start('prevent-app-suspension');
@@ -66,7 +66,7 @@ export default class Player {
     return player;
   }
 
-  initVLC(servingUrl) {
+  initVLC(servingUrl: string) {
     vlcCommand((error, cmd) => {
       if (error) return console.error('Could not find vlc command path');
 

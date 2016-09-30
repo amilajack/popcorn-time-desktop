@@ -1,4 +1,5 @@
 /**
+ * @flow
  * @param   {string} imdbId
  * @param   {object} extendedDetails
  */
