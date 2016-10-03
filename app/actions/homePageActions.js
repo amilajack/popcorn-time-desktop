@@ -1,14 +1,7 @@
 /**
  * @flow
  */
-
-function s(x): number {
-  return x * 'x'
-}
-
-s('3');
-
-export function setActiveMode(activeMode, activeModeOptions = {}) {
+export function setActiveMode(activeMode: string, activeModeOptions: Object = {}) {
   return {
     type: 'SET_ACTIVE_MODE',
     activeMode,
@@ -16,7 +9,7 @@ export function setActiveMode(activeMode, activeModeOptions = {}) {
   };
 }
 
-export function paginate(items) {
+export function paginate(items: Array<Object>) {
   return {
     type: 'PAGINATE',
     items
@@ -35,14 +28,14 @@ export function clearAllItems() {
   };
 }
 
-export function setLoading(isLoading) {
+export function setLoading(isLoading: boolean) {
   return {
     type: 'SET_LOADING',
     isLoading
   };
 }
 
-export function setCurrentPlayer(player) {
+export function setCurrentPlayer(player: string) {
   return {
     type: 'SET_CURRENT_PLAYER',
     player

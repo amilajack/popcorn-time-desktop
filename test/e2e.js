@@ -63,7 +63,7 @@ describe('e2e', function testApp() {
       }
     });
 
-    it('should display CardList', async function cardListTest(done) {
+    it('should display CardList', async done => {
       try {
         const cardListIsDisplayed = await findCardList().isVisible('.CardList');
         const cardIsDisplayed = await findCard().isVisible('.CardList');

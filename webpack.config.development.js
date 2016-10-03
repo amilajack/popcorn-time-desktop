@@ -1,6 +1,7 @@
 /* eslint max-len: 0 */
 import webpack from 'webpack';
 import autoprefixer from 'autoprefixer';
+import formatter from 'eslint-formatter-pretty';
 import baseConfig from './webpack.config.base';
 
 const port = process.env.PORT || 3000;
@@ -22,10 +23,19 @@ const config = {
     publicPath: `http://localhost:${port}/dist/`
   },
 
+  eslint: {
+    formatter
+  },
+
   module: {
     ...baseConfig.module,
     loaders: [
       ...baseConfig.module.loaders,
+      // {
+      //   test: /\.js$/,
+      //   loader: 'eslint-loader',
+      //   exclude: /node_modules/
+      // },
       {
         test: /\.scss$/,
         loaders: [

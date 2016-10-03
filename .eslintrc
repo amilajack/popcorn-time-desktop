@@ -27,6 +27,7 @@
     # "fp/no-unused-expression": "error", # TODO: In progress
     "generator-star-spacing": [0],        # HACK: https://github.com/airbnb/javascript/issues/948
     "import/no-extraneous-dependencies": ["off"],
+    "import/extensions": 0,
     "import/no-unresolved": [2, { "ignore": ["electron"] }],
     "jsx-filename-extension": 0,
     "jsx-a11y/no-static-element-interactions": 0,

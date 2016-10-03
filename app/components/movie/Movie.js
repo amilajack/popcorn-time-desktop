@@ -1,6 +1,5 @@
 /**
  * Movie component that is responsible for playing movie
- * @flow
  */
 import React, { Component, PropTypes } from 'react';
 import {
@@ -347,9 +346,9 @@ export default class Movie extends Component {
 
     // Override the default subtitle
     const mergedResults = subtitles.map((subtitle: Object) => (
-      subtitle.default === true ? {
-        ...subtitle, src: `http://localhost:${port}/${filename}`
-      } : subtitle
+      subtitle.default === true
+        ? { ...subtitle, src: `http://localhost:${port}/${filename}` }
+        : subtitle
     ));
 
     return mergedResults;

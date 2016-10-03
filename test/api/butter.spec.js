@@ -1,7 +1,7 @@
-/* eslint global-require: 0, fp/no-loops: 0 */
+/* eslint global-require: 0, fp/no-loops: 0, import/no-dynamic-require: 0 */
 import { expect } from 'chai';
 import Butter from '../../app/api/Butter';
-import MockShows from './butter.mock.js';
+import MockShows from './butter.mock';
 import {
   formatSeasonEpisodeToString,
   formatSeasonEpisodeToObject,

@@ -1,4 +1,3 @@
-/* eslint prefer-template: 0 */
 /**
  * @flow
  */
@@ -15,7 +14,7 @@ export const providerCache = cache({
 /**
  * Handle a promise and set a timeout
  */
-export function timeout(promise, time: number = 10000) {
+export function timeout(promise: Promise<any>, time: number = 10000) {
   return new Promise((resolve, reject) => {
     promise.then(res => resolve(res)).catch(err => console.log(err));
 
@@ -171,7 +170,7 @@ export function constructMovieQueries(title: string, imdbId: string): Array<stri
           : queries;
 }
 
-export function combineAllQueries(queries: Array<Promise>) {
+export function combineAllQueries(queries: Array<Promise<Object>>) {
   return Promise.all(
     queries.map(query => this.fetch(query))
   )
@@ -195,6 +194,7 @@ export function constructSeasonQueries(title: string, season: number): Array<str
  * @param {array} results | A two-dimentional array containing arrays of results
  */
 export function merge(results: Array<any>) {
+  console.log(results);
   return results.reduce((previous, current) => [...previous, ...current]);
 }
 
@@ -233,7 +233,7 @@ export function getIdealTorrent(torrents: Array<any>) {
       idealTorrent;
 }
 
-export function handleProviderError(error) {
+export function handleProviderError(error: Error) {
   if (process.env.NODE_ENV === 'development') {
     console.log(error);
   }
