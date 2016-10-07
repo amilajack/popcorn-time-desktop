@@ -42,7 +42,7 @@
 * Mac, Linux, Windows
 * For packaging, see [packaging requirements](https://github.com/amilajack/popcorn-time-desktop/wiki/Packaging-Requirements)
 
-# Getting started:
+## Getting started:
 - **I am a tester:** Download the latest build from the [releases](https://github.com/amilajack/popcorn-time-desktop/releases) section.
 
 - **I am a developer:** Compile the project with the installation steps below.
