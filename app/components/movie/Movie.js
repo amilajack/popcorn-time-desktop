@@ -216,7 +216,11 @@ export default class Movie extends Component {
             });
             return {
               torrent: _torrent,
-              idealTorrent: _torrent
+              idealTorrent: getIdealTorrent([
+                _torrent['1080p'],
+                _torrent['720p'],
+                _torrent['480p']
+              ])
             };
           }
           case 'shows': {
@@ -239,14 +243,13 @@ export default class Movie extends Component {
                   '720p': getIdealTorrent([shows['720p'], seasonComplete['720p']]),
                   '480p': getIdealTorrent([shows['480p'], seasonComplete['480p']])
                 },
-
                 idealTorrent: getIdealTorrent([
-                  shows['1080p'] || this.defaultTorrent,
-                  shows['720p'] || this.defaultTorrent,
-                  shows['480p'] || this.defaultTorrent,
-                  seasonComplete['1080p'] || this.defaultTorrent,
-                  seasonComplete['720p'] || this.defaultTorrent,
-                  seasonComplete['480p'] || this.defaultTorrent
+                  shows['1080p'],
+                  shows['720p'],
+                  shows['480p'],
+                  seasonComplete['1080p'],
+                  seasonComplete['720p'],
+                  seasonComplete['480p']
                 ])
               };
             }
@@ -257,7 +260,6 @@ export default class Movie extends Component {
                 episode,
                 searchQuery: title
               }),
-
               idealTorrent: getIdealTorrent([
                 torrent['1080p'] || this.defaultTorrent,
                 torrent['720p'] || this.defaultTorrent,
@@ -596,7 +598,7 @@ export default class Movie extends Component {
                 idealTorrent.magnet,
                 idealTorrent.method
               )}
-              disabled={!idealTorrent.quality}
+              disabled={!idealTorrent.magnet}
             >
               Start Ideal Torrent
             </button>

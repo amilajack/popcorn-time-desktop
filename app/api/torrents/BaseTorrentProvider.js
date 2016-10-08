@@ -209,24 +209,27 @@ export function resolveEndpoint(defaultEndpoint: string, providerId: string) {
   }
 }
 
-export function getIdealTorrent(torrents: Array<any>) {
+export function getIdealTorrent(torrents: Array<any>): Object {
   const idealTorrent = torrents
     .filter(torrent => !!torrent)
-    .filter(
-      (torrent: Object) => typeof torrent.seeders === 'number'
+    .filter(torrent =>
+      !!torrent &&
+      !!torrent.magnet &&
+      typeof torrent.seeders === 'number'
     );
 
-  return idealTorrent
-    ?
-      idealTorrent.sort((prev: Object, next: Object) => {
-        if (prev.seeders === next.seeders) {
-          return 0;
-        }
+  const _ = idealTorrent.sort((prev: Object, next: Object) => {
+    if (prev.seeders === next.seeders) {
+      return 0;
+    }
 
-        return prev.seeders > next.seeders ? -1 : 1;
-      })[0]
-    :
-      idealTorrent;
+    return prev.seeders > next.seeders ? -1 : 1;
+  })[0];
+
+
+  console.log(_);
+
+  return _;
 }
 
 export function handleProviderError(error: Error) {
