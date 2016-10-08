@@ -1,5 +1,6 @@
 /**
- * Movie component that is responsible for playing movie
+ * Movie component that is responsible for playing movies
+ * @flow
  */
 import React, { Component, PropTypes } from 'react';
 import {
@@ -28,6 +29,22 @@ import Player from '../../api/Player';
 const SUMMARY_CHAR_LIMIT = 300;
 
 export default class Movie extends Component {
+
+  butter: Butter;
+
+  torrent: Torrent;
+
+  player: Player;
+
+  toggle: Function;
+
+  setPlayer: Function;
+
+  stopPlayback: Function;
+
+  startPlayback: Function;
+
+  selectShow: Function;
 
   defaultTorrent: Object = {
     default: { quality: undefined, magnet: undefined, seeders: 0 },
@@ -382,12 +399,12 @@ export default class Movie extends Component {
     ];
 
     this.torrent.start(magnet, metadata, formats, async (servingUrl: string,
-                                                          file: string,
+                                                          file: Object,
                                                           files: string,
                                                           torrent: string,
                                                           subtitle: string
                                                         ) => {
-      console.log('serving at:', servingUrl);
+      console.log(`serving at: ${servingUrl}`);
 
       this.setState({
         servingUrl,

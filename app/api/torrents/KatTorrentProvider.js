@@ -1,3 +1,4 @@
+// @flow
 import { search } from 'super-kat';
 import {
   formatSeasonEpisodeToString,
@@ -20,9 +21,11 @@ export default class KatTorrentProvider {
 
   static fetch(query: string) {
     return search(query)
-      .then(torrents => torrents.map(
-        torrent => this.formatTorrent(torrent)
-      ))
+      .then(torrents =>
+        torrents
+          .map(torrent => this.formatTorrent(torrent))
+          .filter(torrent => !!torrent.magnet)
+      )
       .catch(error => {
         handleProviderError(error);
         return [];

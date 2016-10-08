@@ -1,3 +1,4 @@
+// @flow
 import React, { Component, PropTypes } from 'react';
 import VisibilitySensor from 'react-visibility-sensor';
 import Butter from '../../api/Butter';
@@ -7,11 +8,15 @@ import CardList from '../card/CardList';
 
 export default class Home extends Component {
 
+  butter: Butter;
+
+  _didMount: boolean;
+
+  onChange: () => void;
+
   constructor(props: Object) {
     super(props);
-
     this.butter = new Butter();
-
     this.onChange = this.onChange.bind(this);
   }
 

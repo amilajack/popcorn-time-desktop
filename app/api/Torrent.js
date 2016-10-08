@@ -1,5 +1,6 @@
 /**
  * Torrents controller, responsible for playing, stoping, etc
+ * @flow
  */
 import os from 'os';
 import WebTorrent from 'webtorrent';
@@ -10,9 +11,17 @@ const port = 9090;
 
 export default class Torrent {
 
-  inProgress = false;
+  inProgress: boolean = false;
 
-  finished = false;
+  finished: boolean = false;
+
+  checkDownloadInterval: number;
+
+  engine: WebTorrent;
+
+  magnetURI: string;
+
+  server: Object;
 
   start(magnetURI: string, metadata: Object, supportedFormats: Array<string>, cb) {
     if (this.inProgress) {
@@ -28,7 +37,7 @@ export default class Torrent {
     this.inProgress = true;
     this.magnetURI = magnetURI;
 
-    const cacheLocation = (() => {
+    const cacheLocation = ((): string => {
       switch (process.env.CONFIG_PERSIST_DOWNLOADS) {
         case 'true':
           return process.env.CONFIG_DOWNLOAD_LOCATION || '/tmp/popcorn-time-desktop';
@@ -117,7 +126,7 @@ export default class Torrent {
 
       if (this.server) {
         this.server.close();
-        this.server = undefined;
+        this.server = {};
       }
 
       this.clearIntervals();
@@ -130,7 +139,8 @@ export default class Torrent {
   }
 }
 
-export function formatSpeeds({ downloadSpeed, uploadSpeed, progress, numPeers, ratio }) {
+export function formatSpeeds({ downloadSpeed, uploadSpeed, progress, numPeers, ratio }: Object)
+                                                                      : Object {
   return {
     downloadSpeed: downloadSpeed / 1000000,
     uploadSpeed: uploadSpeed / 1000000,
@@ -143,9 +153,10 @@ export function formatSpeeds({ downloadSpeed, uploadSpeed, progress, numPeers, r
 /**
  * Get the subtitle file buffer given an array of files
  */
-export function selectSubtitleFile(files: Array<string>,
+export function selectSubtitleFile(files: Array<Object> = [],
                                     activeMode: string,
-                                    metadata: string = '') {
+                                    metadata: Object = {})
+                                    : Object | boolean {
   return files.find(file => {
     const formatIsSupported = file.name.includes('.srt');
 
@@ -160,5 +171,5 @@ export function selectSubtitleFile(files: Array<string>,
       default:
         return formatIsSupported;
     }
-  });
+  }) || false;
 }

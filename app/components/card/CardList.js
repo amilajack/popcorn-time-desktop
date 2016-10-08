@@ -1,5 +1,6 @@
 /**
  * A list of thumbnail poster images of items that are rendered on the home page
+ * @flow
  */
 import React, { PropTypes } from 'react';
 import Card from './Card';

@@ -1,5 +1,6 @@
 /**
  * Card in the CardList component
+ * @flow
  */
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';

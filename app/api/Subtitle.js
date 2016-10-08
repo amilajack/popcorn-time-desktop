@@ -1,3 +1,4 @@
+// @flow
 import express from 'express';
 import path from 'path';
 import os from 'os';
@@ -12,7 +13,7 @@ export const port = process.env.SUBTITLES_PORT || 4000;
 /**
  * Serve the file through http
  */
-export function startServer() {
+export function startServer(): express {
   const server = express();
   server.use(express.static(basePath));
   server.listen(port);
@@ -22,17 +23,17 @@ export function startServer() {
   return server;
 }
 
-export function closeServer(server) {
+export function closeServer(server: express): express {
   return server.close();
 }
 
-export function convertFromBuffer(srtBuffer) {
+export function convertFromBuffer(srtBuffer: Buffer): Promise<Object> {
   const randomString = rndm(16);
   const filename = `${randomString}.vtt`;
   const fullPath = path.join(basePath, filename);
 
-  return new Promise((resolve, reject) => {
-    srt2vtt(srtBuffer, (error, vttBuffer) => {
+  return new Promise((resolve: Function, reject: Function) => {
+    srt2vtt(srtBuffer, (error: Error, vttBuffer: Buffer) => {
       if (error) reject(error);
 
       fs.writeFile(fullPath, vttBuffer, () => {

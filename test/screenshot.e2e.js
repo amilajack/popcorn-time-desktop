@@ -10,7 +10,7 @@ import { Application } from 'spectron';
 import { expect } from 'chai';
 import imageDiff from 'image-diff';
 import gm from 'gm';
-import electronPrebuilt from 'electron-prebuilt';
+import electronPrebuilt from 'electron';
 
 
 const app = new Application({

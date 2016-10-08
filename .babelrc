@@ -27,7 +27,7 @@
       "plugins": [
         ["webpack-loaders", { "config": "webpack.config.mocha.js", "verbose": false }],
 				["babel-plugin-module-alias", [
-          { "src": "node_modules/electron-prebuilt" , "expose": "electron" }
+          { "src": "node_modules/electron" , "expose": "electron" }
         ]],
         "syntax-flow",
         "transform-flow-strip-types"

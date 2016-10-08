@@ -1,3 +1,4 @@
+// @flow
 import { remote } from 'electron';
 import plyr from 'plyr';
 import childProcess from 'child_process';
@@ -9,6 +10,10 @@ const { powerSaveBlocker } = remote;
 export default class Player {
 
   currentPlayer = 'plyr';
+
+  powerSaveBlockerId: number;
+
+  _player: plyr;
 
   static nativePlaybackFormats = ['mp4', 'ogg', 'mov', 'webmv', 'mkv', 'wmv', 'avi'];
 
@@ -30,16 +35,16 @@ export default class Player {
    * restart they player's state
    */
   restart() {
-    this.player.restart();
+    this._player.restart();
   }
 
-  static isFormatSupported(filename: string, mimeTypes: Array<string>) {
-    return mimeTypes.find(
+  static isFormatSupported(filename: string, mimeTypes: Array<string>): boolean {
+    return !!mimeTypes.find(
       mimeType => filename.toLowerCase().includes(mimeType)
     );
   }
 
-  initPlyr(streamingUrl: string, metadata: Object = {}) {
+  initPlyr(streamingUrl: string, metadata: Object = {}): plyr {
     console.info('Initializing plyr...');
     this.currentPlayer = 'plyr';
     this.powerSaveBlockerId = powerSaveBlocker.start('prevent-app-suspension');
@@ -67,7 +72,7 @@ export default class Player {
   }
 
   initVLC(servingUrl: string) {
-    vlcCommand((error, cmd) => {
+    vlcCommand((error, cmd: string) => {
       if (error) return console.error('Could not find vlc command path');
 
       if (process.platform === 'win32') {

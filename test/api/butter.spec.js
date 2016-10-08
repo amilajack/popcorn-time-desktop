@@ -158,7 +158,7 @@ describe('API ->', function testApi() {
           name: 'PopcornTime',
           provider: require(`${torrentBasePath}/PctTorrentProvider`),
           minTorrentsCount: 0,
-          minSeederCount: 400,
+          minSeederCount: 300,
           id: 'pct'
         },
         // {
@@ -220,7 +220,7 @@ describe('API ->', function testApi() {
           name: 'PirateBay',
           provider: require(`${torrentBasePath}/PbTorrentProvider`),
           minTorrentsCount: 5,
-          minSeederCount: 400,
+          minSeederCount: 300,
           id: 'pb'
         },
         {
@@ -288,7 +288,7 @@ describe('API ->', function testApi() {
           name: 'PirateBay',
           provider: require(`${torrentBasePath}/PbTorrentProvider`),
           minTorrentsCount: 20,
-          minSeederCount: 700,
+          minSeederCount: 500,
           id: 'pb'
         },
         {
@@ -389,9 +389,11 @@ describe('API ->', function testApi() {
         it('should return array of objects', async done => {
           try {
             const movies = await moviesFactory();
-            const movie = movies[0];
-            expect(movies).to.be.a('array');
-            expect(movie).to.be.an('object');
+
+            for (const movie of movies) {
+              expect(movies).to.be.a('array');
+              expect(movie).to.be.an('object');
+            }
             done();
           } catch (error) {
             done(error);
@@ -401,8 +403,10 @@ describe('API ->', function testApi() {
         it('should have movies that have necessary properties', async done => {
           try {
             const movies = await moviesFactory();
-            const movie = movies[0];
-            assertMovieFormat(movie);
+
+            for (const movie of movies) {
+              assertMovieFormat(movie);
+            }
             done();
           } catch (error) {
             done(error);
@@ -426,9 +430,11 @@ describe('API ->', function testApi() {
         it('should return array of objects', async done => {
           try {
             const shows = await butterFactory().getShows();
-            const show = shows[0];
-            expect(shows).to.be.a('array');
-            expect(show).to.be.an('object');
+
+            for (const show of shows) {
+              expect(shows).to.be.a('array');
+              expect(show).to.be.an('object');
+            }
             done();
           } catch (error) {
             done(error);
@@ -438,8 +444,10 @@ describe('API ->', function testApi() {
         it('should have movies that have necessary properties', async done => {
           try {
             const shows = await butterFactory().getShows();
-            const show = shows[0];
-            assertMovieFormat(show);
+
+            for (const show of shows) {
+              assertMovieFormat(show);
+            }
             done();
           } catch (error) {
             done(error);
@@ -463,7 +471,8 @@ describe('API ->', function testApi() {
             const seasons = await butterFactory().getSeasons('tt1475582');
             expect(seasons).to.be.an('array');
 
-            const season = seasons[0];
+            const [season] = seasons;
+
             expect(season).to.be.an('object');
             expect(season).to.have.property('season').that.equals(1);
             expect(season).to.have.deep.property('images.full').that.is.a('string');
@@ -480,7 +489,8 @@ describe('API ->', function testApi() {
             const episodes = await butterFactory().getSeason('game-of-thrones', 1);
             expect(episodes).to.be.an('array');
 
-            const episode = episodes[0];
+            const [episode] = episodes;
+
             expect(episode).to.be.an('object');
             expect(episode).to.have.property('season').that.equals(1);
             expect(episode).to.have.property('episode').that.equals(1);
@@ -519,10 +529,10 @@ describe('API ->', function testApi() {
         it('should get similar movies and shows in correct format', async done => {
           try {
             const similarMovies = await butterFactory().getSimilar('movies', imdbId);
-            // const similarShows = await butterFactory().getSimilar('shows', showImdbId);
 
-            assertMovieFormat(similarMovies[0]);
-            // assertMovieFormat(similarShows[0]);
+            for (const similarMovie of similarMovies) {
+              assertMovieFormat(similarMovie);
+            }
             done();
           } catch (error) {
             done(error);
@@ -537,9 +547,11 @@ describe('API ->', function testApi() {
               'Harry Potter and the Goblet of Fire', 'movies'
             );
             expect(searchResults).to.be.a('array');
-            const movie = searchResults[0];
-            expect(movie).to.be.an('object');
-            assertMovieFormat(movie);
+
+            for (const movie of searchResults) {
+              expect(movie).to.be.an('object');
+              assertMovieFormat(movie);
+            }
             done();
           } catch (error) {
             done(error);
@@ -774,6 +786,7 @@ function assertNAorNumber(variable) {
 }
 
 function assertMovieFormat(movie) {
+  expect(movie).to.be.an('object');
   expect(movie).to.have.property('title').that.is.a('string');
   expect(movie).to.have.property('year').that.is.a('number');
   expect(movie).to.have.property('id').that.is.a('string');

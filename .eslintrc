@@ -18,7 +18,7 @@
     "fp/no-let": "error",
     "fp/no-loops": "error",
     "fp/no-mutating-assign": "error",
-    "flowtype-errors/show-errors": 2,
+    "flowtype-errors/show-errors": 1,
     # "fp/no-mutation": "error",          # TODO: In progress
     # "fp/no-nil": "error",               # TODO: In progress
     # "fp/no-proxy": "error",             # TODO: In progress

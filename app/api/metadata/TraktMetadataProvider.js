@@ -1,3 +1,4 @@
+// @flow
 import fetch from 'isomorphic-fetch';
 import Trakt from 'trakt.tv';
 import OpenSubtitles from 'opensubtitles-api';
@@ -13,6 +14,10 @@ export default class TraktMetadataAdapter {
 
   clientSecret = 'f55b0a53c63af683588b47f6de94226b7572a6f83f40bd44c58a7c83fe1f2cb1';
 
+  trakt: Trakt;
+
+  openSubtitles: OpenSubtitles;
+
   constructor() {
     this.trakt = new Trakt({
       client_id: this.clientId,
@@ -27,7 +32,7 @@ export default class TraktMetadataAdapter {
     });
   }
 
-  getMovies(page: number = 1, limit: number = 50) {
+  getMovies(page: number = 1, limit: number = 50): Promise<Object> {
     return this.trakt.movies.popular({
       paginate: true,
       page,
@@ -37,7 +42,7 @@ export default class TraktMetadataAdapter {
       .then(movies => movies.map(movie => formatMetadata(movie, 'movies')));
   }
 
-  getMovie(imdbId: string) {
+  getMovie(imdbId: string): Object {
     return this.trakt.movies.summary({
       id: imdbId,
       extended: 'full,images,metadata'
@@ -45,7 +50,7 @@ export default class TraktMetadataAdapter {
       .then(movie => formatMetadata(movie, 'movies'));
   }
 
-  getShows(page: number = 1, limit: number = 50) {
+  getShows(page: number = 1, limit: number = 50): Promise<Object> {
     return this.trakt.shows.popular({
       paginate: true,
       page,
@@ -55,7 +60,7 @@ export default class TraktMetadataAdapter {
       .then(shows => shows.map(show => formatMetadata(show, 'shows')));
   }
 
-  getShow(imdbId: string) {
+  getShow(imdbId: string): Object {
     return this.trakt.shows.summary({
       id: imdbId,
       extended: 'full,images,metadata'
@@ -63,7 +68,7 @@ export default class TraktMetadataAdapter {
       .then(show => formatMetadata(show, 'shows'));
   }
 
-  getSeasons(imdbId: string) {
+  getSeasons(imdbId: string): Array<Object> {
     return this.trakt.seasons.summary({
       id: imdbId,
       extended: 'full,images,metadata'
@@ -80,7 +85,7 @@ export default class TraktMetadataAdapter {
       })));
   }
 
-  getSeason(imdbId: string, season: number) {
+  getSeason(imdbId: string, season: number): Object {
     return this.trakt.seasons.season({
       id: imdbId,
       season,
@@ -89,7 +94,7 @@ export default class TraktMetadataAdapter {
       .then(episodes => episodes.map(episode => formatSeason(episode)));
   }
 
-  getEpisode(imdbId: string, season: number, episode: number) {
+  getEpisode(imdbId: string, season: number, episode: number): Object {
     return this.trakt.episodes.summary({
       id: imdbId,
       season,
@@ -99,7 +104,7 @@ export default class TraktMetadataAdapter {
       .then(res => formatSeason(res));
   }
 
-  search(query: string, page: number = 1) {
+  search(query: string, page: number = 1): Array<Object> {
     if (!query) {
       throw Error('Query paramater required');
     }
@@ -116,7 +121,7 @@ export default class TraktMetadataAdapter {
    * @param {string} type   | movie or show
    * @param {string} imdbId | movie or show
    */
-  getSimilar(type: string = 'movies', imdbId: string, limit: number = 5) {
+  getSimilar(type: string = 'movies', imdbId: string, limit: number = 5): Array<Object> {
     return this.trakt[type].related({
       id: imdbId,
       limit,
@@ -148,19 +153,21 @@ export default class TraktMetadataAdapter {
     }
   }
 
-  favorites(...args) {
+  favorites(...args: Array<any>) {
     return this._updateConfig('favorites', ...args);
   }
 
-  recentlyWatched(...args) {
+  recentlyWatched(...args: Array<any>) {
     return this._updateConfig('recentlyWatched', ...args);
   }
 
-  watchList(...args) {
+  watchList(...args: Array<any>) {
     return this._updateConfig('watchList', ...args);
   }
 
-  async getSubtitles(imdbId: string, filename: string, length: number, metadata: Object = {}) {
+  async getSubtitles(imdbId: string, filename: string, length: number,
+                                                        metadata: Object = {})
+                                                        : Promise<Object> {
     const { activeMode } = metadata;
 
     const defaultOptions = {
@@ -175,7 +182,7 @@ export default class TraktMetadataAdapter {
       imdbid: imdbId
     };
 
-    const subtitles = (() => {
+    const subtitles = ((): Promise<Object> => {
       switch (activeMode) {
         case 'shows': {
           const { season, episode } = metadata;
@@ -199,7 +206,7 @@ export default class TraktMetadataAdapter {
   provide() {}
 }
 
-function formatMetadata(movie: Object = {}, type: string) {
+function formatMetadata(movie: Object = {}, type: string): Object {
   return {
     title: movie.title,
     year: movie.year,
@@ -227,7 +234,7 @@ function formatMetadata(movie: Object = {}, type: string) {
   };
 }
 
-function formatMovieSearch(movie: Object) {
+function formatMovieSearch(movie: Object): Object {
   return {
     title: movie.Title,
     year: parseInt(movie.Year, 10),
@@ -259,7 +266,7 @@ function formatMovieSearch(movie: Object) {
   };
 }
 
-function formatSeason(season: Object, image: string = 'screenshot') {
+function formatSeason(season: Object, image: string = 'screenshot'): Object {
   return {
     id: season.ids.imdb,
     title: season.title,
@@ -275,11 +282,11 @@ function formatSeason(season: Object, image: string = 'screenshot') {
   };
 }
 
-function roundRating(rating: number) {
+function roundRating(rating: number): number {
   return Math.round(rating * 10) / 10;
 }
 
-function formatSubtitle(subtitle: Object) {
+function formatSubtitle(subtitle: Object): Object {
   return {
     kind: 'captions',
     label: subtitle.langName,

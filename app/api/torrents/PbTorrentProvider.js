@@ -1,5 +1,6 @@
 /**
  * Pirate Bay torrent provider
+ * @flow
  */
 import fetch from 'isomorphic-fetch';
 import {
@@ -21,7 +22,7 @@ export default class PbTorrentProvider {
 
   static providerName = 'PirateBay';
 
-  static fetch(searchQuery: string) {
+  static fetch(searchQuery: string): Promise<Object | Array<Object>> {
     // HACK: Temporary solution to improve performance by side stepping
     //       PirateBay's database errors.
     const searchQueryUrl = `${resolvedEndpoint}/search/${searchQuery}`;
@@ -39,7 +40,7 @@ export default class PbTorrentProvider {
       });
   }
 
-  static formatTorrent(torrent: Object) {
+  static formatTorrent(torrent: Object): Object {
     return {
       magnet: torrent.magnetLink,
       seeders: parseInt(torrent.seeders, 10),
@@ -51,7 +52,7 @@ export default class PbTorrentProvider {
     };
   }
 
-  static getStatus() {
+  static getStatus(): Promise<boolean> {
     return fetch(resolvedEndpoint).then(res => res.ok).catch(() => false);
   }
 
