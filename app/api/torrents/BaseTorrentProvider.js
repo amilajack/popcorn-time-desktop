@@ -218,18 +218,13 @@ export function getIdealTorrent(torrents: Array<any>): Object {
       typeof torrent.seeders === 'number'
     );
 
-  const _ = idealTorrent.sort((prev: Object, next: Object) => {
+  return idealTorrent.sort((prev: Object, next: Object) => {
     if (prev.seeders === next.seeders) {
       return 0;
     }
 
     return prev.seeders > next.seeders ? -1 : 1;
   })[0];
-
-
-  console.log(_);
-
-  return _;
 }
 
 export function handleProviderError(error: Error) {
