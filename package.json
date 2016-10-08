@@ -164,6 +164,7 @@
     "redux-thunk": "^2.1.0",
     "rndm": "^1.2.0",
     "sass-loader": "^4.0.2",
+    "semver": "^5.3.0",
     "sinon": "^1.17.6",
     "source-map-support": "^0.4.3",
     "spectron": "^3.4.0",

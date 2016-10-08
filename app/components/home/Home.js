@@ -1,10 +1,33 @@
 // @flow
 import React, { Component, PropTypes } from 'react';
 import VisibilitySensor from 'react-visibility-sensor';
+// import { shell } from 'electron';
+// import notie from 'notie';
 import Butter from '../../api/Butter';
 import Header from '../header/Header';
 import CardList from '../card/CardList';
+// import CheckUpdate from '../../utils/CheckUpdate';
 
+
+// HACK: This is a temporary way of checking running a check only once. There
+//       needs to be a better way of solving this. Ideally, it could be registered
+//       as a startup task.
+//
+// setTimeout(() => {
+//   requestIdleCallback(() => {
+//     CheckUpdate().then(res =>
+//       (res === true
+//         ? notie.confirm('Update Available! 😁', 'Sure!', 'Nahh', () => {
+//           shell.openExternal(
+//             process.env.APP_DOWNLOAD_URL ||
+//             'https://github.com/amilajack/popcorn-time-desktop/releases'
+//           );
+//         })
+//         : console.info('Using latest semver! 😁'))
+//     )
+//     .catch(res => console.log(res));
+//   });
+// }, 3000);
 
 export default class Home extends Component {
 
