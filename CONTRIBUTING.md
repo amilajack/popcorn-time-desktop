@@ -3,17 +3,10 @@ This project has **VERY** strict eslint rules. Adding eslint support to your tex
 
 ## Editor Configuration
 ### Atom
-<<<<<<< HEAD
 Recommended Development Packages:
-* https://atom.io/packages/linter
-* https://atom.io/packages/linter-eslint
-* https://atom.io/packages/linter-eslint
-* https://atom.io/packages/language-babel
-=======
 ```bash
 apm install linter linter-eslint language-babel
 ```
->>>>>>> master
 
 ### Sublime
 Recommended Development Packages:
@@ -21,7 +14,6 @@ Recommended Development Packages:
 * https://github.com/roadhump/SublimeLinter-eslint
 * https://github.com/babel/babel-sublime
 
-<<<<<<< HEAD
 ## FAQ
  * `CALL_AND_RETRY_LAST Allocation failed`: If your node process's heap runs out of memory (`CALL_AND_RETRY_LAST Allocation failed - JavaScript heap out of memory`), kill close the electron app and restart the electron process. A proper solution hasn't been found for this yet.
  * Build Fails: If your build fails, make sure you're using the latest node and npm versions and try running the following steps:
