@@ -83,12 +83,6 @@ export default class Movie extends Component {
     this.butter = new Butter();
     this.torrent = new Torrent();
     this.player = new Player();
-
-    this.toggle = this.toggle.bind(this);
-    this.setPlayer = this.setPlayer.bind(this);
-    this.stopPlayback = this.stopPlayback.bind(this);
-    this.startPlayback = this.startPlayback.bind(this);
-    this.selectShow = this.selectShow.bind(this);
     this.state = this.initialState;
 
     this.subtitleServer = startServer();
@@ -407,11 +401,7 @@ export default class Movie extends Component {
                                                           subtitle: string
                                                         ) => {
       console.log(`serving at: ${servingUrl}`);
-
-      this.setState({
-        servingUrl,
-        playbackIsActive: true
-      });
+      this.setState({ servingUrl });
 
       const filename = file.name;
       const subtitles = subtitle && process.env.FLAG_SUBTITLES === 'true'
@@ -437,7 +427,7 @@ export default class Movie extends Component {
 
           return exec(command, (_error, stdout, stderr) => {
             if (_error) {
-              return console.error(`exec error: ${_error}`);
+              return console.error(`Chromecast Exec Error: ${_error}`);
             }
             return [
               console.log(`stdout: ${stdout}`),
@@ -451,6 +441,7 @@ export default class Movie extends Component {
               poster: this.state.item.images.fanart.thumb,
               tracks: subtitles
             });
+            this.toggleActive();
           } else if (Player.isFormatSupported(filename, [
             ...Player.nativePlaybackFormats,
             ...Player.experimentalPlaybackFormats

@@ -45,7 +45,7 @@
     "promise/no-native": 0,
     # "react/no-set-state": 2,            # TODO: In progress
     "react/no-unused-prop-types": 0,
-    "react/jsx-no-bind": 1,               # TODO: In progress
+    "react/jsx-no-bind": 2,
     "react/prefer-stateless-function": 2,
     "react/jsx-filename-extension": 0,
     "react/sort-comp": 0,

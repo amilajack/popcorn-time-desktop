@@ -34,8 +34,8 @@ export default class Header extends Component {
     });
   }
 
-  handleKeyPress(e: Object) {
-    if (e.key === 'Enter') {
+  handleKeyPress(event: Object) {
+    if (event.key === 'Enter') {
       browserHistory.push('/search');
       this.props.setActiveMode('search', {
         searchQuery: this.state.searchQuery

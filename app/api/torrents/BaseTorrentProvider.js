@@ -263,7 +263,7 @@ export function resolveCache(key: string): boolean | Object {
 
 export function setCache(key: string, value: any) {
   if (process.env.NODE_ENV === 'development') {
-    console.log('Setting cache key', key);
+    console.info('Setting cache key:', key);
   }
   return providerCache.set(
     key,
