@@ -1,3 +1,6 @@
+## Pull Requests
+The branch to be PR'd against depends on what the feature is. If the PR is adding functionality that is related to the current release, it should be made towards the latest `release-x.x.x` branch. Otherwise, it should be made towards `dev-master`.
+
 ## Setup:
 This project has **VERY** strict eslint rules. Adding eslint support to your text-editor will make contributing a lot easier.
 
@@ -21,7 +24,7 @@ The Redux devtools are hidden by default and can be shown with `ctrl + h`
 ## Dependencies
 * All dependencies are `devDependencies`.
 
-## Code Conventions:
+## Code Conventions
 * Code style:
  * Imports must have at least two lines after them
  * All function declarations and expressions must include parameter type annotations. Callbacks should not be annotated
