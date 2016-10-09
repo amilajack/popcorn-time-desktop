@@ -9,7 +9,7 @@
     "build": "cross-env NODE_ENV=production FLAG_SEASON_COMPLETE=true FLAG_MANUAL_TORRENT_SELECTION=true node -r babel-register ./node_modules/webpack/bin/webpack --config=webpack.config.build.js",
     "dev": "cross-env NODE_ENV=development FLAG_SEASON_COMPLETE=true FLAG_MANUAL_TORRENT_SELECTION=true FLAG_SUBTITLES=false npm run start-hot-server",
     "flow": "flow",
-    "lint": "eslint --format=node_modules/eslint-formatter-pretty app test *.js && stylelint app/styles/*.scss app/styles/**/*.scss",
+    "lint": "eslint --cache --ignore-path .gitignore --format=node_modules/eslint-formatter-pretty app test *.js && stylelint app/styles/*.scss app/styles/**/*.scss",
     "lint-summary": "eslint-nibble app test *.js",
     "lint-styles": "stylelint app/styles/*.scss app/styles/**/*.scss --syntax scss",
     "optimize": "optimize-js ./app/dist/renderer.js > ./app/dist/renderer.js && optimize-js ./app/main.js > ./app/main.js",

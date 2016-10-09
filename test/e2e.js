@@ -156,7 +156,7 @@ describe('e2e', function testApp() {
     });
   });
 
-  describe('MoviePage', () => {
+  describe('ItemPage', () => {
     beforeEach(async done => {
       try {
         // navigate to Game of thrones

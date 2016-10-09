@@ -457,6 +457,8 @@ export default class Movie extends Component {
       }
 
       return torrent;
+    }, downloaded => {
+      console.log('DOWNLOADING', downloaded);
     });
   }
 

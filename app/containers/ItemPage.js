@@ -1,11 +1,11 @@
 import React, { PropTypes } from 'react';
-import Movie from '../components/movie/Movie';
+import Item from '../components/item/Item';
 
 
-export default function MoviePage({ params }) {
+export default function ItemPage({ params }) {
   return (
     <div>
-      <Movie
+      <Item
         itemId={params.itemId}
         activeMode={params.activeMode}
       />
@@ -13,14 +13,13 @@ export default function MoviePage({ params }) {
   );
 }
 
-
-MoviePage.propTypes = {
+ItemPage.propTypes = {
   params: PropTypes.shape({
     itemId: PropTypes.string.isRequired,
     activeMode: PropTypes.string.isRequired
   }).isRequired
 };
 
-MoviePage.defaultProps = {
+ItemPage.defaultProps = {
   params: {}
 };
