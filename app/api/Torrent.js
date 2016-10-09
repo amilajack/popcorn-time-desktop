@@ -2,12 +2,10 @@
  * Torrents controller, responsible for playing, stoping, etc
  * @flow
  */
+import detect from 'detect-port';
 import os from 'os';
 import WebTorrent from 'webtorrent';
 import { isExactEpisode } from './torrents/BaseTorrentProvider';
-
-
-const port = 9090;
 
 export default class Torrent {
 
@@ -22,6 +20,8 @@ export default class Torrent {
   magnetURI: string;
 
   server: Object;
+
+  port: number = 9090;
 
   start(magnetURI: string, metadata: Object, supportedFormats: Array<string>, cb) {
     if (this.inProgress) {
@@ -48,8 +48,21 @@ export default class Torrent {
 
     this.engine.add(magnetURI, { path: cacheLocation }, torrent => {
       const server = torrent.createServer();
-      server.listen(port);
-      this.server = server;
+      const thisRef = this;
+
+      detect(this.port).then((_port) => {
+        if (thisRef.port !== _port) {
+          console.error(`Port ${thisRef.port} is already in use. Using ${_port} instead.`);
+        }
+
+        thisRef.port = _port;
+        server.listen(thisRef.port);
+        thisRef.server = server;
+        return;
+      }).catch((err) => {
+        console.error(`Error occured while trying to find a free port. Error : ${err}`);
+      });
+
 
       const { file, torrentIndex } = torrent.files.reduce((previous, current, index) => {
         const formatIsSupported = !!supportedFormats.find(
@@ -103,7 +116,7 @@ export default class Torrent {
           console.log('Ready...');
 
           cb(
-            `http://localhost:${port}/${torrentIndex}`,
+            `http://localhost:${this.port}/${torrentIndex}`,
             file,
             files,
             torrent,
