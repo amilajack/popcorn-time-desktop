@@ -1,12 +1,12 @@
 ## Setup:
 This project has **VERY** strict eslint rules. Adding eslint support to your text-editor will make contributing a lot easier.
 
+## Editor Configuration
 ### Atom
 Recommended Development Packages:
-* https://atom.io/packages/linter
-* https://atom.io/packages/linter-eslint
-* https://atom.io/packages/linter-eslint
-* https://atom.io/packages/language-babel
+```bash
+apm install linter linter-eslint language-babel
+```
 
 ### Sublime
 Recommended Development Packages:
@@ -25,6 +25,10 @@ Recommended Development Packages:
    ```
   If you have cloned this project and haven't pulled changes incrementally, delete the entire project directory and start from scratch
   If that fails, try [reinstalling xcode](https://github.com/chentsulin/electron-react-boilerplate/issues/383#issuecomment-246428151)
+=======
+### Others
+http://eslint.org/docs/user-guide/integrations#editors
+>>>>>>> master
 
 ## Development Tooling
 The Redux devtools are hidden by default and can be shown with `ctrl + h`

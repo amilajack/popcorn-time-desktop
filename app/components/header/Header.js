@@ -34,8 +34,8 @@ export default class Header extends Component {
     });
   }
 
-  handleKeyPress(e: Object) {
-    if (e.key === 'Enter') {
+  handleKeyPress(event: Object) {
+    if (event.key === 'Enter') {
       browserHistory.push('/search');
       this.props.setActiveMode('search', {
         searchQuery: this.state.searchQuery
@@ -48,67 +48,61 @@ export default class Header extends Component {
     const { searchQuery } = this.state;
 
     return (
-      <div className="col-xs-12">
-        <nav className="navbar navbar-dark navbar-fixed-top bg-inverse">
-          <a
-            className="navbar-brand"
-            onClick={() => setActiveMode('movies')}
-          >
-            Popcorn Time
-          </a>
-          <ul className="nav navbar-nav">
-            <li
-              className={classNames('nav-item', {
-                active: activeMode === 'movies'
-              })}
-            >
-              <a
-                className="nav-link"
-                onClick={() => setActiveMode('movies')}
+      <div className="row">
+        <div className="col-xs-12">
+          <nav className="navbar navbar-dark navbar-fixed-top bg-inverse">
+            <ul className="nav navbar-nav">
+              <li
+                className={classNames('nav-item', {
+                  active: activeMode === 'movies'
+                })}
               >
-                Movies <span className="sr-only">(current)</span>
-              </a>
-            </li>
-            <li
-              className={classNames('nav-item', {
-                active: activeMode === 'shows'
-              })}
-            >
-              <a
-                className="nav-link"
-                onClick={() => setActiveMode('shows')}
+                <a
+                  className="nav-link"
+                  onClick={() => setActiveMode('movies')}
+                >
+                  Movies <span className="sr-only">(current)</span>
+                </a>
+              </li>
+              <li
+                className={classNames('nav-item', {
+                  active: activeMode === 'shows'
+                })}
               >
-                TV Shows
+                <a
+                  className="nav-link"
+                  onClick={() => setActiveMode('shows')}
+                >
+                  TV Shows
+                </a>
+              </li>
+            </ul>
+            <div className="pull-xs-right">
+              <div className="input-group">
+                <span className="input-group-addon" id="basic-addon1">
+                  <i className="ion-ios-search-strong" />
+                </span>
+                <input
+                  className="form-control"
+                  value={searchQuery}
+                  onKeyPress={this.handleKeyPress}
+                  onChange={this.handleSearchChange}
+                  type="text"
+                  placeholder="Search"
+                />
+              </div>
+            </div>
+          </nav>
+          {/* // HACK: Add spacing from top of page */}
+          <nav className="navbar hidden navbar-dark bg-inverse">
+            <div className="nav navbar-nav">
+              <a className="nav-item nav-link active">
+                Popcorn Time
+                <span className="sr-only">(current)</span>
               </a>
-            </li>
-          </ul>
-          <div className="form-inline pull-xs-right">
-            <input
-              className="form-control"
-              value={searchQuery}
-              onKeyPress={this.handleKeyPress}
-              onChange={this.handleSearchChange}
-              type="text"
-              placeholder="Search"
-            />
-            <button
-              className="btn btn-success-outline"
-              onClick={() => this.setSearchState(searchQuery)}
-              type="button"
-            >
-              Search
-            </button>
-          </div>
-        </nav>
-        {/* // HACK: Add spacing from top of page */}
-        <nav className="navbar hidden navbar-dark bg-inverse">
-          <div className="nav navbar-nav">
-            <a className="nav-item nav-link active">
-              Popcorn Time
-              <span className="sr-only">(current)</span>
-            </a>
-          </div>
-        </nav>
+            </div>
+          </nav>
+        </div>
       </div>
     );
   }

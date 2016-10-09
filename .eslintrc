@@ -18,7 +18,7 @@
     "fp/no-let": "error",
     "fp/no-loops": "error",
     "fp/no-mutating-assign": "error",
-    "flowtype-errors/show-errors": 2,
+    "flowtype-errors/show-errors": 1,
     # "fp/no-mutation": "error",          # TODO: In progress
     # "fp/no-nil": "error",               # TODO: In progress
     # "fp/no-proxy": "error",             # TODO: In progress
@@ -27,6 +27,7 @@
     # "fp/no-unused-expression": "error", # TODO: In progress
     "generator-star-spacing": [0],        # HACK: https://github.com/airbnb/javascript/issues/948
     "import/no-extraneous-dependencies": ["off"],
+    "import/extensions": 0,
     "import/no-unresolved": [2, { "ignore": ["electron"] }],
     "jsx-filename-extension": 0,
     "jsx-a11y/no-static-element-interactions": 0,
@@ -44,7 +45,7 @@
     "promise/no-native": 0,
     # "react/no-set-state": 2,            # TODO: In progress
     "react/no-unused-prop-types": 0,
-    "react/jsx-no-bind": 1,               # TODO: In progress
+    "react/jsx-no-bind": 2,
     "react/prefer-stateless-function": 2,
     "react/jsx-filename-extension": 0,
     "react/sort-comp": 0,

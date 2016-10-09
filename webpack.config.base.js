@@ -1,6 +1,5 @@
 import path from 'path';
 import webpack from 'webpack';
-import ProgressBarPlugin from 'progress-bar-webpack-plugin';
 
 
 export const stats = {
@@ -47,8 +46,7 @@ export default {
     }
   },
   plugins: [
-    new webpack.IgnorePlugin(/^(README.md)$/),
-    new ProgressBarPlugin()
+    new webpack.IgnorePlugin(/^(README.md)$/)
   ],
   externals: [
     // put your node 3rd party libraries which can't be built with webpack here

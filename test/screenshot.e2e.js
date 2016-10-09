@@ -10,7 +10,7 @@ import { Application } from 'spectron';
 import { expect } from 'chai';
 import imageDiff from 'image-diff';
 import gm from 'gm';
-import electronPrebuilt from 'electron-prebuilt';
+import electronPrebuilt from 'electron';
 
 
 const app = new Application({
@@ -71,7 +71,7 @@ describe('screenshot', function testApp() {
     });
   });
 
-  describe('MoviePage', () => {
+  describe('ItemPage', () => {
     beforeEach(async done => {
       try {
         await navigate('item/shows/tt0944947');
@@ -84,7 +84,7 @@ describe('screenshot', function testApp() {
 
     it('should display Movie', async done => {
       try {
-        await screenshotTest(this.app, 'MoviePage', 0.3);
+        await screenshotTest(this.app, 'ItemPage', 0.3);
         done();
       } catch (error) {
         done(error);

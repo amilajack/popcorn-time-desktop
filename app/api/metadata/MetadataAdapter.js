@@ -1,5 +1,6 @@
 /**
  * Resolve requests from cache
+ * @flow
  */
 import {
   merge,
@@ -8,19 +9,17 @@ import {
 } from '../torrents/BaseTorrentProvider';
 
 
-function MetadataAdapter() {
-  const providers = [
+function MetadataAdapter(): Array<Object> {
+  return [
     new (require('./TraktMetadataProvider')) // eslint-disable-line
   ];
-
-  return providers;
 }
 
-async function handleRequest(method: string, args) {
+async function handleRequest(method: string, args: Array<string>): Promise<any> {
   const key = JSON.stringify(method) + JSON.stringify(args);
 
   if (resolveCache(key)) {
-    return resolveCache(key);
+    return Promise.resolve(resolveCache(key));
   }
 
   const results = await Promise.all(
@@ -42,7 +41,7 @@ async function handleRequest(method: string, args) {
  * @param {string} genre
  * @param {string} sortBy
  */
-function search(...args) {
+function search(...args: Array<string>): Promise<Array<Object>> {
   return handleRequest('search', args);
 }
 
@@ -51,7 +50,7 @@ function search(...args) {
  *
  * @param {string} imdbId
  */
-function getMovie(...args) {
+function getMovie(...args: Array<string>): Promise<Array<Object>> {
   return handleRequest('getMovie', args);
 }
 
@@ -63,7 +62,7 @@ function getMovie(...args) {
  * @param {string} genre
  * @param {string} sortBy
  */
-function getMovies(...args) {
+function getMovies(...args: Array<string>): Promise<Array<Object>> {
   return handleRequest('getMovies', args);
 }
 
@@ -74,7 +73,7 @@ function getMovies(...args) {
  * @param {string} type   | movie or show
  * @param {number} limit  | movie or show
  */
-function getSimilar(...args) {
+function getSimilar(...args: Array<string>): Promise<Array<Object>> {
   return handleRequest('getSimilar', args);
 }
 
@@ -85,7 +84,7 @@ function getSimilar(...args) {
  * @param {string} type   | movie or show
  * @param {number} limit  | movie or show
  */
-function getSeason(...args) {
+function getSeason(...args: Array<string>): Promise<Object> {
   return handleRequest('getSeason', args);
 }
 
@@ -96,7 +95,7 @@ function getSeason(...args) {
  * @param {string} type   | movie or show
  * @param {number} limit  | movie or show
  */
-function getSeasons(...args) {
+function getSeasons(...args: Array<string>): Promise<Array<Object>> {
   return handleRequest('getSeasons', args);
 }
 
@@ -107,7 +106,7 @@ function getSeasons(...args) {
  * @param {string} type   | movie or show
  * @param {number} limit  | movie or show
  */
-function getEpisode(...args) {
+function getEpisode(...args: Array<string>): Promise<Object> {
   return handleRequest('getEpisode', args);
 }
 
@@ -118,7 +117,7 @@ function getEpisode(...args) {
  * @param {string} type   | movie or show
  * @param {number} limit  | movie or show
  */
-function getShow(...args) {
+function getShow(...args: Array<string>): Promise<Object> {
   return handleRequest('getShow', args);
 }
 
@@ -129,7 +128,7 @@ function getShow(...args) {
  * @param {string} type   | movie or show
  * @param {number} limit  | movie or show
  */
-function getShows(...args) {
+function getShows(...args: Array<string>): Promise<Array<Object>> {
   return handleRequest('getShows', args);
 }
 
@@ -140,7 +139,7 @@ function getShows(...args) {
  * @param {string} filename
  * @param {object} metadata
  */
-function getSubtitles(...args) {
+function getSubtitles(...args: Array<string>): Promise<Array<Object>> {
   return handleRequest('getSubtitles', args);
 }
 
@@ -151,7 +150,7 @@ function getSubtitles(...args) {
  * @param {object} metadata | Required only for `set` and `remove`
  * @param {object} metadata | 'id', Required only remove
  */
-function favorites(...args) {
+function favorites(...args: Array<string>): Promise<Array<Object>> {
   return handleRequest('favorites', args);
 }
 
@@ -162,7 +161,7 @@ function favorites(...args) {
  * @param {object} metadata | Required only for `set` and `remove`
  * @param {object} metadata | 'id', Required only remove
  */
-function watchList(...args) {
+function watchList(...args: Array<string>): Promise<Array<Object>> {
   return handleRequest('watchList', args);
 }
 
@@ -173,7 +172,7 @@ function watchList(...args) {
  * @param {object} metadata | Required only for `set` and `remove`
  * @param {object} metadata | 'id', Required only remove
  */
-function recentlyWatched(...args) {
+function recentlyWatched(...args: Array<any>): Promise<Array<Object>> {
   return handleRequest('recentlyWatched', args);
 }
 
@@ -183,7 +182,7 @@ function recentlyWatched(...args) {
  * @param  {number} runtimeInMinutes
  * @return {object}
  */
-export function convertRuntimeToHours(runtimeInMinutes: number) {
+export function convertRuntimeToHours(runtimeInMinutes: number): Object {
   const hours = runtimeInMinutes >= 60 ? Math.round(runtimeInMinutes / 60) : 0;
   const minutes = runtimeInMinutes % 60;
 

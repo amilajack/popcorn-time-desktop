@@ -1,19 +1,21 @@
 /**
  * A list of thumbnail poster images of items that are rendered on the home page
+ * @flow
  */
 import React, { PropTypes } from 'react';
 import Card from './Card';
 import Loader from '../loader/Loader';
 
 
-export default function CardList({ items, isLoading, isFinished }) {
+export default function CardList({ items, isLoading, isFinished, title, limit }) {
   return (
-    <div>
+    <div className="row">
       <div className="col-xs-12">
+        <h4 className="CardList--header">{title || ''}</h4>
         <div className="CardList">
-          {items.map((item: Object) => (
+          {(limit ? (items.filter((e, i) => (i < limit))) : items).map((item: Object) => (
             <Card
-              image={item.images.poster.thumb}
+              image={item.images.fanart.thumb}
               title={item.title}
               id={item.imdbId}
               key={item.imdbId}
@@ -33,6 +35,8 @@ export default function CardList({ items, isLoading, isFinished }) {
 }
 
 CardList.propTypes = {
+  title: PropTypes.string,
+  limit: PropTypes.number,
   items: PropTypes.arrayOf(PropTypes.shape({
     title: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
@@ -51,5 +55,6 @@ CardList.propTypes = {
 CardList.defaultProps = {
   items: [],
   isLoading: false,
-  isFinished: false
+  isFinished: false,
+  starColor: '#848484'
 };

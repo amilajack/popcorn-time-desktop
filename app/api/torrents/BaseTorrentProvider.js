@@ -1,5 +1,5 @@
 /* eslint prefer-template: 0 */
-
+// @flow
 import cache from 'lru-cache';
 import URL from 'url';
 
@@ -10,10 +10,18 @@ export const providerCache = cache({
             : 1000 * 60 * 60 // 1 hr
 });
 
+interface BaseTorrentProvider {
+  getStatus(): Promise<boolean>;
+  fetch(showName: string, season: number, episode: number): Promise<Object>;
+  provide(
+    imdbId: string, type: string, extendedDetails: Object
+  ) : Promise<Array<Object>> | Array<any>;
+}
+
 /**
  * Handle a promise and set a timeout
  */
-export function timeout(promise, time: number = 10000) {
+export function timeout(promise: Promise<any>, time: number = 10000): Promise<any> {
   return new Promise((resolve, reject) => {
     promise.then(res => resolve(res)).catch(err => console.log(err));
 
@@ -90,7 +98,7 @@ export function formatSeasonEpisodeToString(season: number, episode: number): st
  * @param {number} season
  * @param {number} episode
  */
-export function formatSeasonEpisodeToObject(season: number, episode: number): Object {
+export function formatSeasonEpisodeToObject(season: number, episode: ? number): Object {
   return {
     season: (String(season).length === 1 ? '0' + String(season) : String(season)),
     episode: (String(episode).length === 1 ? '0' + String(episode) : String(episode))
@@ -141,14 +149,14 @@ export function hasSubtitles(metadata: string): boolean {
   return metadata.includes('sub');
 }
 
-export function hasNonNativeCodec(metadata: string) {
+export function hasNonNativeCodec(metadata: string): boolean {
   return (
     metadata.includes('avi') ||
     metadata.includes('mkv')
   );
 }
 
-export function sortTorrentsBySeeders(torrents: Array<any>) {
+export function sortTorrentsBySeeders(torrents: Array<any>): Array<any> {
   return torrents.sort((prev: Object, next: Object) => {
     if (prev.seeders === next.seeders) {
       return 0;
@@ -167,16 +175,6 @@ export function constructMovieQueries(title: string, imdbId: string): Array<stri
   return title.includes("'")
           ? [...queries, title.replace(/'/g,'')] // eslint-disable-line
           : queries;
-}
-
-export function combineAllQueries(queries: Array<Promise>) {
-  return Promise.all(
-    queries.map(query => this.fetch(query))
-  )
-    // Flatten array of arrays to an array with no empty arrays
-    .then(
-      res => merge(res).filter(array => array.length !== 0)
-    );
 }
 
 export function constructSeasonQueries(title: string, season: number): Array<string> {
@@ -211,33 +209,31 @@ export function resolveEndpoint(defaultEndpoint: string, providerId: string) {
   }
 }
 
-export function getIdealTorrent(torrents: Array<any>) {
+export function getIdealTorrent(torrents: Array<any>): Object {
   const idealTorrent = torrents
     .filter(torrent => !!torrent)
-    .filter(
-      (torrent: Object) => typeof torrent.seeders === 'number'
+    .filter(torrent =>
+      !!torrent &&
+      !!torrent.magnet &&
+      typeof torrent.seeders === 'number'
     );
 
-  return idealTorrent
-    ?
-      idealTorrent.sort((prev: Object, next: Object) => {
-        if (prev.seeders === next.seeders) {
-          return 0;
-        }
+  return idealTorrent.sort((prev: Object, next: Object) => {
+    if (prev.seeders === next.seeders) {
+      return 0;
+    }
 
-        return prev.seeders > next.seeders ? -1 : 1;
-      })[0]
-    :
-      idealTorrent;
+    return prev.seeders > next.seeders ? -1 : 1;
+  })[0];
 }
 
-export function handleProviderError(error) {
+export function handleProviderError(error: Error) {
   if (process.env.NODE_ENV === 'development') {
     console.log(error);
   }
 }
 
-export function resolveCache(key: string) {
+export function resolveCache(key: string): boolean | Object {
   if (process.env.API_USE_MOCK_DATA === 'true') {
     const mock = {
       ...require('../../../test/api/metadata.mock'), // eslint-disable-line global-require
@@ -245,7 +241,8 @@ export function resolveCache(key: string) {
     };
 
     const resolvedCacheItem = Object.keys(mock).find(
-      mockKey => key.includes(`${mockKey}"`) && Object.keys(mock[mockKey]).length
+      (mockKey: string): boolean => key.includes(`${mockKey}"`) &&
+      !!Object.keys(mock[mockKey]).length
     );
 
     if (resolvedCacheItem) {
@@ -253,6 +250,7 @@ export function resolveCache(key: string) {
     }
 
     console.warn('Fetching from network:', key);
+
     return false;
   }
 
@@ -265,7 +263,7 @@ export function resolveCache(key: string) {
 
 export function setCache(key: string, value: any) {
   if (process.env.NODE_ENV === 'development') {
-    console.log('Setting cache key', key);
+    console.info('Setting cache key:', key);
   }
   return providerCache.set(
     key,

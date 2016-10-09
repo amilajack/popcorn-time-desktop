@@ -4,7 +4,16 @@ import {
   getUploadSpeed,
   timeout
 } from '../app/utils/Network';
+import { isNewerSemvar } from '../app/utils/CheckUpdate';
 
+
+describe('CheckUpdate', () => {
+  it('should compare semvers', (done) => {
+    expect(isNewerSemvar('v0.0.6-alpha', '0.0.7')).to.equal(false);
+    expect(isNewerSemvar('v0.0.7', '0.0.6')).to.equal(true);
+    done();
+  });
+});
 
 describe('Network', function testNetwork() {
   this.slow(timeout + 1000);

@@ -61,5 +61,5 @@ script:
   - npm --version
   - npm run test
   - npm run package
-  - npm run bench-api
+  # - npm run bench-api
   # - npm run test-screenshot

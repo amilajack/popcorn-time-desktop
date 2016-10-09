@@ -1,4 +1,5 @@
 /**
+ * @flow
  * @param   {string} imdbId
  * @param   {object} extendedDetails
  */
@@ -28,7 +29,8 @@ export default async function TorrentAdapter(imdbId: string,
                                               extendedDetails: Object,
                                               returnAll: boolean = false,
                                               method: string = 'all',
-                                              cache: boolean = true) {
+                                              cache: boolean = true)
+                                              : Promise<any> {
   const args = JSON.stringify({ extendedDetails, returnAll, method });
 
   if (resolveCache(args) && cache) {
@@ -99,7 +101,7 @@ export default async function TorrentAdapter(imdbId: string,
  * @param  {array} providerResults
  * @return {array}
  */
-function appendAttributes(providerResults: Array<any>) {
+function appendAttributes(providerResults: Array<any>): Array<Object> {
   const formattedResults = merge(providerResults).map((result: Object) => ({
     ...result,
     health: getHealth(result.seeders || 0, result.leechers || 0),
@@ -118,9 +120,9 @@ export function filterShows(show: Object, season: number, episode: number) {
         season,
         episode
       )
-    )
-    &&
-    show.seeders !== 0
+    ) &&
+    show.seeders !== 0 &&
+    show.magnet
   );
 }
 
@@ -134,7 +136,8 @@ export function filterShowsComplete(show: Object, season: number) {
     metadata.includes(`season ${season}`) ||
     metadata.includes(`s${formatSeasonEpisodeToObject(season).season}`) &&
     !metadata.includes('e0') &&
-    show.seeders !== 0
+    show.seeders !== 0 &&
+    show.magnet
   );
 }
 
@@ -162,10 +165,11 @@ export function selectTorrents(torrents: Array<any>,
                                 returnAll: boolean = false,
                                 key: string) {
   const sortedTorrents = sortTorrentsBySeeders(
-    torrents
-      .filter(
-        (torrent: Object) => (torrent.quality !== 'n/a' && torrent.quality !== '')
-      )
+    torrents.filter((torrent: Object) =>
+      torrent.quality !== 'n/a' &&
+      torrent.quality !== '' &&
+      !!torrent.magnet
+    )
   );
 
   const formattedTorrents = returnAll

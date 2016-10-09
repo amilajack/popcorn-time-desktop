@@ -1,3 +1,4 @@
+// @flow
 import { remote } from 'electron';
 import plyr from 'plyr';
 import childProcess from 'child_process';
@@ -10,6 +11,10 @@ export default class Player {
 
   currentPlayer = 'plyr';
 
+  powerSaveBlockerId: number;
+
+  _player: plyr;
+
   static nativePlaybackFormats = ['mp4', 'ogg', 'mov', 'webmv', 'mkv', 'wmv', 'avi'];
 
   static experimentalPlaybackFormats = [];
@@ -21,26 +26,30 @@ export default class Player {
     if (this.powerSaveBlockerId) {
       powerSaveBlocker.stop(this.powerSaveBlockerId);
     }
+    if (this._player) {
+      this._player.destroy();
+    }
   }
 
   /**
    * restart they player's state
    */
   restart() {
-    this.player.restart();
+    this._player.restart();
   }
 
-  static isFormatSupported(filename, mimeTypes) {
-    return mimeTypes.find(
+  static isFormatSupported(filename: string, mimeTypes: Array<string>): boolean {
+    return !!mimeTypes.find(
       mimeType => filename.toLowerCase().includes(mimeType)
     );
   }
 
-  initPlyr(streamingUrl, metadata = {}) {
+  initPlyr(streamingUrl: string, metadata: Object = {}): plyr {
+    console.info('Initializing plyr...');
     this.currentPlayer = 'plyr';
     this.powerSaveBlockerId = powerSaveBlocker.start('prevent-app-suspension');
 
-    this._player = this._player || plyr.setup({
+    this._player = plyr.setup({
       volume: 10,
       autoplay: true,
       showPosterOnEnd: true
@@ -62,8 +71,8 @@ export default class Player {
     return player;
   }
 
-  initVLC(servingUrl) {
-    vlcCommand((error, cmd) => {
+  initVLC(servingUrl: string) {
+    vlcCommand((error, cmd: string) => {
       if (error) return console.error('Could not find vlc command path');
 
       if (process.platform === 'win32') {

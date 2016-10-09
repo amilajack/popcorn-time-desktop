@@ -1,17 +1,45 @@
+// @flow
 import React, { Component, PropTypes } from 'react';
 import VisibilitySensor from 'react-visibility-sensor';
+// import { shell } from 'electron';
+// import notie from 'notie';
 import Butter from '../../api/Butter';
 import Header from '../header/Header';
 import CardList from '../card/CardList';
+// import CheckUpdate from '../../utils/CheckUpdate';
 
+
+// HACK: This is a temporary way of checking running a check only once. There
+//       needs to be a better way of solving this. Ideally, it could be registered
+//       as a startup task.
+//
+// setTimeout(() => {
+//   requestIdleCallback(() => {
+//     CheckUpdate().then(res =>
+//       (res === true
+//         ? notie.confirm('Update Available! 😁', 'Sure!', 'Nahh', () => {
+//           shell.openExternal(
+//             process.env.APP_DOWNLOAD_URL ||
+//             'https://github.com/amilajack/popcorn-time-desktop/releases'
+//           );
+//         })
+//         : console.info('Using latest semver! 😁'))
+//     )
+//     .catch(res => console.log(res));
+//   });
+// }, 3000);
 
 export default class Home extends Component {
 
+  butter: Butter;
+
+  _didMount: boolean;
+
+  onChange: () => void;
+
   constructor(props: Object) {
     super(props);
-
     this.butter = new Butter();
-
     this.onChange = this.onChange.bind(this);
   }
 
@@ -26,7 +54,7 @@ export default class Home extends Component {
       JSON.stringify(this.props.activeModeOptions)
     ) {
       if (nextProps.activeMode === 'search') {
-        this.props.actions.clearItems();
+        this.props.actions.clearAllItems();
       }
       this.paginate(nextProps.activeMode, nextProps.activeModeOptions);
     }
@@ -97,12 +125,12 @@ export default class Home extends Component {
   render() {
     const { activeMode, actions, items, isLoading } = this.props;
     return (
-      <div>
+      <div className="row">
         <Header
           activeMode={activeMode}
           setActiveMode={actions.setActiveMode}
         />
-        <div>
+        <div className="col-xs-12">
           <CardList
             items={items}
             isLoading={isLoading}
@@ -120,7 +148,7 @@ Home.propTypes = {
   actions: PropTypes.shape({
     setActiveMode: PropTypes.func.isRequired,
     paginate: PropTypes.func.isRequired,
-    clearItems: PropTypes.func.isRequired,
+    clearAllItems: PropTypes.func.isRequired,
     setLoading: PropTypes.func.isRequired,
     setCurrentPlayer: PropTypes.func.isRequired
   }).isRequired,

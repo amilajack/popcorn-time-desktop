@@ -11,7 +11,7 @@ const defaultState = {
   items: []
 };
 
-export default function itemList(state = defaultState, action) {
+export default function itemList(state: Object = defaultState, action: Object) {
   switch (action.type) {
 
     // Add the items. This should be done after getting the paginated results
@@ -36,6 +36,11 @@ export default function itemList(state = defaultState, action) {
         activeModeOptions: action.activeModeOptions
       };
     case 'CLEAR_ITEMS':
+      return {
+        ...state,
+        items: []
+      };
+    case 'CLEAR_ALL_ITEMS':
       return {
         ...state,
         items: [],

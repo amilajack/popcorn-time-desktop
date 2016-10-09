@@ -1,4 +1,5 @@
 /* eslint global-require: 0 */
+// @flow
 import React, { Component, PropTypes } from 'react';
 
 

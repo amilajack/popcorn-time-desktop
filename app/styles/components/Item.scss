@@ -1,0 +1,57 @@
+.Item {
+  position: relative;
+
+  &.active {
+    .Item--background * {
+      opacity: 0;
+    }
+
+    > .row > .plyr {
+      opacity: 1;
+      z-index: 100;
+      width: 100%;
+    }
+  }
+
+  > .row > .plyr {
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: -100;
+    min-height: 500px;
+    opacity: 1;
+    height: 500px;
+    overflow: hidden;
+  }
+
+  .Item--background {
+    background-color: #373737;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    min-height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .Item--overlay {
+    height: 100%;
+    width: 100%;
+    opacity: 0.5;
+    background: black;
+    position: absolute;
+  }
+
+  .Item--image {
+    display: flex;
+    justify-content: center;
+    z-index: 10;
+    border: 0 solid transparent;
+
+    img {
+      box-shadow: rgba(0, 0, 0, 0.6) 0 6px 16px 4px;
+      background: gray;
+    }
+  }
+}

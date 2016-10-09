@@ -1,3 +1,4 @@
+// @flow
 import KatShows from 'kat-shows';
 import {
   formatSeasonEpisodeToObject

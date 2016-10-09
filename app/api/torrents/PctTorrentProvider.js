@@ -1,3 +1,4 @@
+// @flow
 import fetch from 'isomorphic-fetch';
 import {
   handleProviderError,
@@ -70,7 +71,7 @@ export default class PctTorrentProvider {
     return filterTorrents.length ? filterTorrents[0] : [];
   }
 
-  static formatEpisode({ season, episode, torrents } = episode) {
+  static formatEpisode({ season, episode, torrents }: Object) {
     return {
       season,
       episode,

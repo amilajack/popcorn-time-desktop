@@ -1,3 +1,4 @@
+// @flow
 import fetch from 'isomorphic-fetch';
 import {
   determineQuality,
@@ -14,7 +15,7 @@ export default class YtsTorrentProvider {
 
   static providerName = 'YTS';
 
-  static fetch(imdbId: string) {
+  static fetch(imdbId: string): Promise<Object> {
     return timeout(
       fetch([
         `${resolvedEndpoint}/api/v2/list_movies.json`,
@@ -25,7 +26,7 @@ export default class YtsTorrentProvider {
       .then(res => res.json());
   }
 
-  static formatTorrent(torrent: Object) {
+  static formatTorrent(torrent: Object): Object {
     return {
       quality: determineQuality(torrent.quality),
       magnet: constructMagnet(torrent.hash),
@@ -36,13 +37,13 @@ export default class YtsTorrentProvider {
     };
   }
 
-  static getStatus() {
+  static getStatus(): Promise<boolean> {
     return fetch('https://yts.ag/api/v2/list_movies.json')
-      .then(res => res.ok)
+      .then(res => !!res.ok)
       .catch(() => false);
   }
 
-  static provide(imdbId: string, type: string) {
+  static provide(imdbId: string, type: string): Promise<Array<Object>> | Array<Object> {
     switch (type) {
       case 'movies':
         return this.fetch(imdbId)
@@ -57,6 +58,6 @@ export default class YtsTorrentProvider {
   }
 }
 
-function constructMagnet(hash: string) {
+function constructMagnet(hash: string): string {
   return `magnet:?xt=urn:btih:${hash}`;
 }

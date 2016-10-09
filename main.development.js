@@ -1,5 +1,4 @@
 /* eslint global-require: 0, fp/no-let: 0, fp/no-loops: 0, fp/no-events: 0 */
-
 import { app, BrowserWindow, Menu, shell, crashReporter } from 'electron';
 
 
@@ -49,7 +48,7 @@ let mainWindow = null;
 
     mainWindow = new BrowserWindow({
       show: false,
-      width: 1024,
+      width: 1224,
       height: 728,
       backgroundColor: '#252525',
       // titleBarStyle: 'hidden-inset',

@@ -1,15 +1,11 @@
 [ignore]
 .*/node_modules/fbjs/.*
-.*/node_modules/*
-.*/app/node_modules/*
 .*/app/main.js
 .*/app/dist/.*
 .*/release/.*
 .*/git/.*
 
 [include]
-./app/*.js
-./node_modules/
 
 [libs]
 
