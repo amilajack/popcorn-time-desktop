@@ -10,7 +10,8 @@
 
 * App Version:
 * Operating System:
-* Node Version
+* Node Version:
+* npm version
 
 #### Errors
 <!-- These are commonly found in the console -->
