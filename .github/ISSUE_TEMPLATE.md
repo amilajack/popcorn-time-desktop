@@ -6,7 +6,7 @@
 <!-- What did you expect to happen? -->
 <!-- What actually happened? -->
 
-#### Browser Information
+#### System Configuration
 <!-- Describe your workspace in which you are having issues-->
 
 * App Version:
