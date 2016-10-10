@@ -5,9 +5,6 @@
 import React, { PropTypes, Component } from 'react';
 import { exec } from 'process';
 import notie from 'notie';
-// import { bindActionCreators } from 'redux';
-// import { connect } from 'react-redux';
-// import * as ItemActions from '../actions/itemPageActions';
 import Item from '../components/item/Item';
 import { getIdealTorrent } from '../api/torrents/BaseTorrentProvider';
 import Butter from '../api/Butter';
@@ -114,6 +111,8 @@ export default class ItemPage extends Component {
   }
 
   componentWillReceiveProps(nextProps: Object) {
+    window.scrollTo(0, 0);
+
     this.stopPlayback();
 
     this.setState({
@@ -133,7 +132,8 @@ export default class ItemPage extends Component {
     });
 
     return Promise.all([
-      this.getItem(itemId)
+      this
+        .getItem(itemId)
         .then((item: Object) => this.getTorrent(itemId, item.title, 1, 1)),
       this.getSimilar(itemId)
     ]);
