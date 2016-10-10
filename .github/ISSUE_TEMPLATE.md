@@ -2,8 +2,9 @@
 <!-- Whats this issue about? -->
 
 #### Issue Description
-<!-- Describe below when the issue happens and how to reproduce it -->
-
+<!-- What did you do? -->
+<!-- What did you expect to happen? -->
+<!-- What actually happened? -->
 
 #### Browser Information
 <!-- Describe your workspace in which you are having issues-->
