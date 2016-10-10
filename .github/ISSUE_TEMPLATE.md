@@ -1,10 +1,11 @@
 ## Issue Name
 <!-- Whats this issue about? -->
 
-#### Issue Description
-<!-- What did you do? -->
-<!-- What did you expect to happen? -->
-<!-- What actually happened? -->
+### What did you do?
+
+### What did you expect to happen?
+
+### What actually happened?
 
 #### System Configuration
 <!-- Describe your workspace in which you are having issues-->
