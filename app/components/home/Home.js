@@ -169,7 +169,9 @@ Home.propTypes = {
           PropTypes.number,
           PropTypes.string
         ]),
-        genres: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired
+        genres: PropTypes.arrayOf(
+          PropTypes.string.isRequired
+        ).isRequired
       }).isRequired)
     })
   }).isRequired,
@@ -182,7 +184,9 @@ Home.propTypes = {
       PropTypes.number,
       PropTypes.string
     ]),
-    genres: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired
+    genres: PropTypes.arrayOf(
+      PropTypes.string.isRequired
+    ).isRequired
   })).isRequired,
   isLoading: PropTypes.bool.isRequired,
   infinitePagination: PropTypes.bool.isRequired
