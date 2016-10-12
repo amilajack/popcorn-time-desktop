@@ -241,8 +241,7 @@ export default function Item(props: Object) {
                   VLC
                 </DropdownItem>
                 {process.env.FLAG_CASTING === 'true'
-                  ?
-                  <DropdownItem
+                  ? <DropdownItem
                     onClick={setPlayer('Chromecast')}
                   >
                     Chromecast
@@ -255,7 +254,6 @@ export default function Item(props: Object) {
         <button className="btn btn-info" onClick={() => toggleActive()}>
           Toggle Hover Playback Active
         </button>
-
         {activeMode === 'shows'
           ? <Show
             selectShow={selectShow}
