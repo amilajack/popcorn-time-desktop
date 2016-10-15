@@ -7,16 +7,19 @@ This project has **VERY** strict eslint rules. Adding eslint support to your tex
 ## Editor Configuration
 ### Atom
 ```bash
-apm install linter linter-eslint language-babel
+apm install editorconfig es6-javascript javascript-snippets linter linter-eslint language-babel
 ```
 
 ### Sublime
+* https://github.com/sindresorhus/editorconfig-sublime#readme
 * https://github.com/SublimeLinter/SublimeLinter3
 * https://github.com/roadhump/SublimeLinter-eslint
 * https://github.com/babel/babel-sublime
 
 ### Others
-http://eslint.org/docs/user-guide/integrations#editors
+* [Editorconfig](http://editorconfig.org/#download)
+* [ESLint](http://eslint.org/docs/user-guide/integrations#editors)
+* Babel Syntax Plugin
 
 ## Development Tooling
 The Redux devtools are hidden by default and can be shown with `ctrl + h`
