@@ -8,6 +8,7 @@ export function setActiveMode(activeMode: string, activeModeOptions: Object = {}
 }
 
 export function paginate(items: Array<Object>) {
+  console.log('DISPATCHING..............');
   return {
     type: 'PAGINATE',
     items
