@@ -5,6 +5,9 @@ environment:
 matrix:
   fast_finish: true
 
+cache:
+  - node_modules
+
 build: off
 
 version: '{build}'
@@ -22,7 +25,6 @@ install:
 
 test_script:
   - node --version
-  - npm --version
   - npm run test
   - npm run package
   # - npm run bench-api

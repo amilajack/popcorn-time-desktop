@@ -2,7 +2,9 @@
 import React, { PropTypes } from 'react';
 
 
-export default function Loader({ isLoading, isFinished }) {
+type LoaderType = { isLoading: boolean, isFinished: boolean };
+
+export default function Loader({ isLoading, isFinished }: LoaderType) {
   const shouldShow = {
     opacity: isLoading ? 1 : 0,
     display: isFinished ? 'none' : 'initial'

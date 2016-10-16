@@ -35,7 +35,7 @@
     "test": {
       "plugins": [
         ["webpack-loaders", { "config": "webpack.config.mocha.js", "verbose": false }],
-				["babel-plugin-module-alias", [
+				["babel-plugin-module-resolver", [
           { "src": "node_modules/electron" , "expose": "electron" }
         ]],
         "syntax-flow",

@@ -45,6 +45,7 @@ app/node_modules
 dist
 app/dist
 app/main.js
+.eslintcache
 app/main.js.map
 release
 
