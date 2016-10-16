@@ -18,7 +18,7 @@ export default function CardList({ items, isLoading, isFinished, title, limit })
               image={item.images.fanart.thumb}
               title={item.title}
               id={item.imdbId}
-              key={item.imdbId + Math.random()}
+              key={item.imdbId}
               year={item.year}
               type={item.type}
               rating={item.rating}

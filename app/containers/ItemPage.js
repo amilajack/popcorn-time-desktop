@@ -94,8 +94,6 @@ export default class ItemPage extends Component {
   }
 
   componentDidMount() {
-    window.scrollTo(0, 0);
-
     this.getAllData(this.props.params.itemId);
     this.stopPlayback();
     this.player.destroy();

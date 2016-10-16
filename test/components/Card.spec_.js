@@ -15,13 +15,10 @@ function setup(propsOverride) {
     genres: ['action', 'comedy'],
     rating: 4.5,
     kind: 'shows',
-    baseUrl: '/item/shows',
-    type: 'movie'
+    baseUrl: '/item/shows'
   }, propsOverride);
 
   const component = renderIntoDocument(<Card {...props} />);
-
-  console.log(component);
 
   return {
     component,

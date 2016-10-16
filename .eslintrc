@@ -12,36 +12,13 @@
     "comma-dangle": ["error", "never"],
     "consistent-return": 2,
     "func-names": 2,
-    "flowtype/define-flow-type": 2,
-    # "flowtype/require-parameter-type": 2,
-    # "flowtype/require-return-type": [   # TODO: In progress
-    #   2,
-    #   "always",
-    #   {
-    #     "annotateUndefined": "never"
-    #   }
-    # ],
-    "flowtype/space-after-type-colon": [
-      2,
-      "always"
-    ],
-    "flowtype/space-before-type-colon": [
-      2,
-      "never"
-    ],
-    "flowtype/type-id-match": [
-      2,
-      "^([A-Z][a-z0-9]+)+Type$"
-    ],
-    "flowtype/use-flow-type": 2,
-    "flowtype/valid-syntax": 2,
-    "flowtype-errors/show-errors": 1,
     # "fp/no-class": "error",             # TODO: In progress
     "fp/no-delete": "error",
     "fp/no-events": "error",
     "fp/no-let": "error",
     "fp/no-loops": "error",
     "fp/no-mutating-assign": "error",
+    "flowtype-errors/show-errors": 1,
     # "fp/no-mutation": "error",          # TODO: In progress
     # "fp/no-nil": "error",               # TODO: In progress
     # "fp/no-proxy": "error",             # TODO: In progress
@@ -66,12 +43,35 @@
     "promise/always-return": 2,
     "promise/catch-or-return": 2,
     "promise/no-native": 0,
-    "react/no-set-state": 2,            # TODO: In progress
+    # "react/no-set-state": 2,            # TODO: In progress
     "react/no-unused-prop-types": 0,
     "react/jsx-no-bind": 2,
     "react/prefer-stateless-function": 2,
     "react/jsx-filename-extension": 0,
-    "react/sort-comp": 0
+    "react/sort-comp": 0,
+    "flowtype/define-flow-type": 2,
+    # "flowtype/require-parameter-type": 2,
+    # "flowtype/require-return-type": [   # TODO: In progress
+    #   2,
+    #   "always",
+    #   {
+    #     "annotateUndefined": "never"
+    #   }
+    # ],
+    "flowtype/space-after-type-colon": [
+      2,
+      "always"
+    ],
+    "flowtype/space-before-type-colon": [
+      2,
+      "never"
+    ],
+    "flowtype/type-id-match": [
+      2,
+      "^([A-Z][a-z0-9]+)+Type$"
+    ],
+    "flowtype/use-flow-type": 2,
+    "flowtype/valid-syntax": 2
   },
   "plugins": [
     "import",

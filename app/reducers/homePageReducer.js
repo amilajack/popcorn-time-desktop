@@ -1,4 +1,4 @@
-export const defaultState = {
+const defaultState = {
   activeMode: 'movies',
   activeModeOptions: {},
   modes: {
