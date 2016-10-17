@@ -670,8 +670,7 @@ export default class Movie extends Component {
                     VLC
                   </DropdownItem>
                   {process.env.FLAG_CASTING === 'true'
-                    ?
-                    <DropdownItem
+                    ? <DropdownItem
                       onClick={this.setPlayer('Chromecast')}
                     >
                       Chromecast
