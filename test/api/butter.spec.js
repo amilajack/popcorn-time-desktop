@@ -158,7 +158,7 @@ describe('API ->', function testApi() {
           name: 'PopcornTime',
           provider: require(`${torrentBasePath}/PctTorrentProvider`),
           minTorrentsCount: 0,
-          minSeederCount: 200,
+          minSeederCount: 300,
           id: 'pct'
         },
         // {
@@ -220,7 +220,7 @@ describe('API ->', function testApi() {
           name: 'PirateBay',
           provider: require(`${torrentBasePath}/PbTorrentProvider`),
           minTorrentsCount: 5,
-          minSeederCount: 200,
+          minSeederCount: 300,
           id: 'pb'
         },
         {

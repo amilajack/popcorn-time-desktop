@@ -41,7 +41,7 @@ async function handleRequest(method: string, args: Array<string>): Promise<any> 
  * @param {string} genre
  * @param {string} sortBy
  */
-function search(...args: Array<any>): Promise<Array<Object>> {
+function search(...args: Array<string>): Promise<Array<Object>> {
   return handleRequest('search', args);
 }
 
@@ -50,7 +50,7 @@ function search(...args: Array<any>): Promise<Array<Object>> {
  *
  * @param {string} imdbId
  */
-function getMovie(...args: Array<any>): Promise<Array<Object>> {
+function getMovie(...args: Array<string>): Promise<Array<Object>> {
   return handleRequest('getMovie', args);
 }
 
@@ -62,7 +62,7 @@ function getMovie(...args: Array<any>): Promise<Array<Object>> {
  * @param {string} genre
  * @param {string} sortBy
  */
-function getMovies(...args: Array<any>): Promise<Array<Object>> {
+function getMovies(...args: Array<string>): Promise<Array<Object>> {
   return handleRequest('getMovies', args);
 }
 
@@ -73,7 +73,7 @@ function getMovies(...args: Array<any>): Promise<Array<Object>> {
  * @param {string} type   | movie or show
  * @param {number} limit  | movie or show
  */
-function getSimilar(...args: Array<any>): Promise<Array<Object>> {
+function getSimilar(...args: Array<string>): Promise<Array<Object>> {
   return handleRequest('getSimilar', args);
 }
 
@@ -84,7 +84,7 @@ function getSimilar(...args: Array<any>): Promise<Array<Object>> {
  * @param {string} type   | movie or show
  * @param {number} limit  | movie or show
  */
-function getSeason(...args: Array<any>): Promise<Object> {
+function getSeason(...args: Array<string>): Promise<Object> {
   return handleRequest('getSeason', args);
 }
 
@@ -95,7 +95,7 @@ function getSeason(...args: Array<any>): Promise<Object> {
  * @param {string} type   | movie or show
  * @param {number} limit  | movie or show
  */
-function getSeasons(...args: Array<any>): Promise<Array<Object>> {
+function getSeasons(...args: Array<string>): Promise<Array<Object>> {
   return handleRequest('getSeasons', args);
 }
 
@@ -106,7 +106,7 @@ function getSeasons(...args: Array<any>): Promise<Array<Object>> {
  * @param {string} type   | movie or show
  * @param {number} limit  | movie or show
  */
-function getEpisode(...args: Array<any>): Promise<Object> {
+function getEpisode(...args: Array<string>): Promise<Object> {
   return handleRequest('getEpisode', args);
 }
 
@@ -117,7 +117,7 @@ function getEpisode(...args: Array<any>): Promise<Object> {
  * @param {string} type   | movie or show
  * @param {number} limit  | movie or show
  */
-function getShow(...args: Array<any>): Promise<Object> {
+function getShow(...args: Array<string>): Promise<Object> {
   return handleRequest('getShow', args);
 }
 
@@ -128,7 +128,7 @@ function getShow(...args: Array<any>): Promise<Object> {
  * @param {string} type   | movie or show
  * @param {number} limit  | movie or show
  */
-function getShows(...args: Array<any>): Promise<Array<Object>> {
+function getShows(...args: Array<string>): Promise<Array<Object>> {
   return handleRequest('getShows', args);
 }
 
@@ -139,7 +139,7 @@ function getShows(...args: Array<any>): Promise<Array<Object>> {
  * @param {string} filename
  * @param {object} metadata
  */
-function getSubtitles(...args: Array<any>): Promise<Array<Object>> {
+function getSubtitles(...args: Array<string>): Promise<Array<Object>> {
   return handleRequest('getSubtitles', args);
 }
 
@@ -150,7 +150,7 @@ function getSubtitles(...args: Array<any>): Promise<Array<Object>> {
  * @param {object} metadata | Required only for `set` and `remove`
  * @param {object} metadata | 'id', Required only remove
  */
-function favorites(...args: Array<any>): Promise<Array<Object>> {
+function favorites(...args: Array<string>): Promise<Array<Object>> {
   return handleRequest('favorites', args);
 }
 
@@ -161,7 +161,7 @@ function favorites(...args: Array<any>): Promise<Array<Object>> {
  * @param {object} metadata | Required only for `set` and `remove`
  * @param {object} metadata | 'id', Required only remove
  */
-function watchList(...args: Array<any>): Promise<Array<Object>> {
+function watchList(...args: Array<string>): Promise<Array<Object>> {
   return handleRequest('watchList', args);
 }
 

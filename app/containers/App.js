@@ -1,14 +1,28 @@
 /* eslint global-require: 0 */
 // @flow
-import React, { PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
 
 
-export default function App({ children }) {
-  return (
-    <div>
-      {children}
-    </div>
-  );
+export default class App extends Component {
+  render() {
+    const { children } = this.props;
+
+    return (
+      <div>
+        {children}
+        {
+          (() => {
+            if (process.env.NODE_ENV !== 'production') {
+              const DevTools = require('./DevTools');
+
+              return <DevTools />;
+            }
+            return false;
+          })()
+        }
+      </div>
+    );
+  }
 }
 
 App.propTypes = {

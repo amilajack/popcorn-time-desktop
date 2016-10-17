@@ -9,8 +9,8 @@ import Rating from './Rating';
 
 export default function Card({ type, image, id, rating, title, starColor }) {
   const placeholder = process.env.NODE_ENV === 'production'
-                        ? './images/posterholder.png'
-                        : './app/images/posterholder.png';
+    ? './images/posterholder.png'
+    : './app/images/posterholder.png';
 
   const backgroundImageStyle = {
     backgroundImage: `url(${image.toLowerCase() !== 'n/a' ? image : placeholder})`
