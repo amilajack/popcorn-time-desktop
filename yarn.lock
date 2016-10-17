@@ -349,7 +349,7 @@ atob@~1.1.0:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/atob/-/atob-1.1.3.tgz#95f13629b12c3a51a5d215abdce2aa9f32f80773"
 
-autoprefixer@^6.0.0, autoprefixer@^6.3.1, autoprefixer@^6.5.0:
+autoprefixer@^6.0.0, autoprefixer@^6.3.1, autoprefixer@^6.5.1:
   version "6.5.1"
   resolved "https://registry.yarnpkg.com/autoprefixer/-/autoprefixer-6.5.1.tgz#ae759a5221e709f3da17c2d656230e67c43cbb75"
   dependencies:
@@ -644,7 +644,7 @@ babel-plugin-syntax-trailing-function-commas@^6.13.0, babel-plugin-syntax-traili
   version "6.13.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-syntax-trailing-function-commas/-/babel-plugin-syntax-trailing-function-commas-6.13.0.tgz#2b84b7d53dd744f94ff1fad7669406274b23f541"
 
-babel-plugin-tcomb@^0.3.18:
+babel-plugin-tcomb@^0.3.19:
   version "0.3.19"
   resolved "https://registry.yarnpkg.com/babel-plugin-tcomb/-/babel-plugin-tcomb-0.3.19.tgz#d1cdd45ccdd6f0478b107012ac6bdcc4be971537"
   dependencies:
@@ -1023,9 +1023,9 @@ babel-polyfill@^6.16.0:
     core-js "^2.4.0"
     regenerator-runtime "^0.9.5"
 
-babel-preset-env@0.0.4:
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/babel-preset-env/-/babel-preset-env-0.0.4.tgz#92443d18c882406588ad218fc585d7706a0bf32b"
+babel-preset-env@0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/babel-preset-env/-/babel-preset-env-0.0.6.tgz#cda63a020069098fad12272a7a447a7c5bafb3c8"
   dependencies:
     babel-plugin-check-es2015-constants "^6.3.13"
     babel-plugin-syntax-trailing-function-commas "^6.13.0"
@@ -1054,6 +1054,7 @@ babel-preset-env@0.0.4:
     babel-plugin-transform-es2015-unicode-regex "^6.3.13"
     babel-plugin-transform-exponentiation-operator "^6.8.0"
     babel-plugin-transform-regenerator "^6.6.0"
+    browserslist "^1.4.0"
 
 babel-preset-es2015@^6.3.13:
   version "6.16.0"
@@ -1515,7 +1516,7 @@ browserify-zlib@~0.1.4:
   dependencies:
     pako "~0.2.0"
 
-browserslist@^1.1.1, browserslist@^1.1.3, browserslist@~1.4.0:
+browserslist@^1.1.1, browserslist@^1.1.3, browserslist@^1.4.0, browserslist@~1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/browserslist/-/browserslist-1.4.0.tgz#9cfdcf5384d9158f5b70da2aa00b30e8ff019049"
   dependencies:
@@ -2073,7 +2074,7 @@ core-util-is@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
 
-cosmiconfig@^2.0.0:
+cosmiconfig@^2.0.0, cosmiconfig@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/cosmiconfig/-/cosmiconfig-2.1.0.tgz#26e384a2055ea4e087050e5e08d53eb4eac8f86e"
   dependencies:
@@ -2146,7 +2147,7 @@ create-torrent@^3.24.5:
     simple-sha1 "^2.0.0"
     xtend "^4.0.1"
 
-cross-env@^3.1.1:
+cross-env@^3.1.3:
   version "3.1.3"
   resolved "https://registry.yarnpkg.com/cross-env/-/cross-env-3.1.3.tgz#58cd8231808f50089708b091f7dd37275a8e8154"
   dependencies:
@@ -2762,9 +2763,9 @@ ejs@^2.3.1:
   version "2.5.2"
   resolved "https://registry.yarnpkg.com/ejs/-/ejs-2.5.2.tgz#21444ba09386f0c65b6eafb96a3d51bcb3be80d1"
 
-electron-builder@^7.11.4:
-  version "7.13.1"
-  resolved "https://registry.yarnpkg.com/electron-builder/-/electron-builder-7.13.1.tgz#10d34c088cf02d3363c3a4894bac247346740a65"
+electron-builder@^7.14.0:
+  version "7.14.1"
+  resolved "https://registry.yarnpkg.com/electron-builder/-/electron-builder-7.14.1.tgz#9722a2366d1b8cadbc25c68aefc4bec88eb3f92b"
   dependencies:
     "7zip-bin" "^2.0.3"
     ansi-escapes "^1.4.0"
@@ -2795,7 +2796,7 @@ electron-builder@^7.11.4:
     read-installed "^4.0.3"
     sanitize-filename "^1.6.1"
     semver "^5.3.0"
-    source-map-support "^0.4.3"
+    source-map-support "^0.4.4"
     tunnel-agent "^0.4.3"
     update-notifier "^1.0.2"
     uuid-1345 "^0.99.6"
@@ -3104,7 +3105,7 @@ eslint-config-airbnb@^12.0.0:
   dependencies:
     eslint-config-airbnb-base "^8.0.0"
 
-eslint-formatter-pretty@^1.0.1:
+eslint-formatter-pretty@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/eslint-formatter-pretty/-/eslint-formatter-pretty-1.1.0.tgz#ab4d06da02fed8c13ae9f0dc540a433ef7ed6f5e"
   dependencies:
@@ -3147,9 +3148,9 @@ eslint-import-resolver-webpack@^0.6.0:
     resolve "^1.1.7"
     semver "^5.3.0"
 
-eslint-loader@^1.5.0:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/eslint-loader/-/eslint-loader-1.5.0.tgz#824b7c9911a633fc1260f863c6ea571224d10412"
+eslint-loader@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/eslint-loader/-/eslint-loader-1.6.0.tgz#38f9a1e6c602a4f1f3f3516289726e5d26e6e165"
   dependencies:
     find-cache-dir "^0.1.1"
     loader-utils "^0.2.7"
@@ -3174,9 +3175,9 @@ eslint-nibble-ignore@^3.0.0:
     inquirer "^1.1.2"
     optionator "^0.8.0"
 
-eslint-plugin-flowtype-errors@1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-flowtype-errors/-/eslint-plugin-flowtype-errors-1.4.0.tgz#d79f563c4a9b81506a55bad7ae9aa3429a14ffd7"
+eslint-plugin-flowtype-errors@1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-flowtype-errors/-/eslint-plugin-flowtype-errors-1.4.1.tgz#87cdd60d034a16055cda7dbf75321e90e1b7bb4d"
   dependencies:
     babel-plugin-transform-runtime "^6.15.0"
     flow-bin "^0.33.0"
@@ -3198,7 +3199,7 @@ eslint-plugin-fp@^2.2.0:
     lodash "^4.13.1"
     req-all "^0.1.0"
 
-eslint-plugin-import@^2.0.0:
+eslint-plugin-import@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/eslint-plugin-import/-/eslint-plugin-import-2.0.1.tgz#dcfe96357d476b3f822570d42c29bec66f5d9c5c"
   dependencies:
@@ -3213,7 +3214,7 @@ eslint-plugin-import@^2.0.0:
     minimatch "^3.0.3"
     pkg-up "^1.0.0"
 
-eslint-plugin-jsx-a11y@^2.2.2:
+eslint-plugin-jsx-a11y@^2.2.3:
   version "2.2.3"
   resolved "https://registry.yarnpkg.com/eslint-plugin-jsx-a11y/-/eslint-plugin-jsx-a11y-2.2.3.tgz#4e35cb71b8a7db702ac415c806eb8e8d9ea6c65d"
   dependencies:
@@ -3221,7 +3222,7 @@ eslint-plugin-jsx-a11y@^2.2.2:
     jsx-ast-utils "^1.0.0"
     object-assign "^4.0.1"
 
-eslint-plugin-mocha@^4.6.0:
+eslint-plugin-mocha@^4.7.0:
   version "4.7.0"
   resolved "https://registry.yarnpkg.com/eslint-plugin-mocha/-/eslint-plugin-mocha-4.7.0.tgz#69262362f4ec69ae5849908824f325b8d465e7f3"
   dependencies:
@@ -3231,7 +3232,7 @@ eslint-plugin-promise@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/eslint-plugin-promise/-/eslint-plugin-promise-3.0.0.tgz#1528635d0160f3484e425cce2169cb74cec0186a"
 
-eslint-plugin-react@^6.3.0:
+eslint-plugin-react@^6.4.1:
   version "6.4.1"
   resolved "https://registry.yarnpkg.com/eslint-plugin-react/-/eslint-plugin-react-6.4.1.tgz#7d1aade747db15892f71eee1fea4addf97bcfa2b"
   dependencies:
@@ -3252,7 +3253,7 @@ eslint-summary@^1.0.0:
     chalk "^1.0.0"
     text-table "^0.2.0"
 
-eslint@^3.0.0, eslint@^3.7.1:
+eslint@^3.0.0, eslint@^3.8.0:
   version "3.8.0"
   resolved "https://registry.yarnpkg.com/eslint/-/eslint-3.8.0.tgz#4fbbf6833d66654860c23a099c47a0f086de34b7"
   dependencies:
@@ -4222,7 +4223,7 @@ humanize-plus@^1.8.1:
   version "1.8.2"
   resolved "https://registry.yarnpkg.com/humanize-plus/-/humanize-plus-1.8.2.tgz#a65b34459ad6367adbb3707a82a3c9f916167030"
 
-husky@^0.11.8:
+husky@^0.11.9:
   version "0.11.9"
   resolved "https://registry.yarnpkg.com/husky/-/husky-0.11.9.tgz#28cd1dc16bffdca1d4d93592814e5f3c327b38ee"
   dependencies:
@@ -4725,7 +4726,7 @@ jsdom@^7.0.2:
     whatwg-url-compat "~0.6.5"
     xml-name-validator ">= 2.0.1 < 3.0.0"
 
-jsdom@^9.6.0:
+jsdom@^9.8.0:
   version "9.8.0"
   resolved "https://registry.yarnpkg.com/jsdom/-/jsdom-9.8.0.tgz#8766594cf994549d8a809cf6dca0246aceef9305"
   dependencies:
@@ -5415,7 +5416,7 @@ mkdirp@0.5.0:
   dependencies:
     minimist "0.0.8"
 
-mocha@^2.1.0:
+mocha@^2.1.2:
   version "2.5.3"
   resolved "https://registry.yarnpkg.com/mocha/-/mocha-2.5.3.tgz#161be5bdeb496771eb9b35745050b622b5aefc58"
   dependencies:
@@ -6199,12 +6200,37 @@ postcss-less@^0.14.0:
   dependencies:
     postcss "^5.0.21"
 
-postcss-loader@^0.13.0:
-  version "0.13.0"
-  resolved "https://registry.yarnpkg.com/postcss-loader/-/postcss-loader-0.13.0.tgz#72fdaf0d29444df77d3751ce4e69dc40bc99ed85"
+postcss-load-config@^1.0.0-rc:
+  version "1.0.0-rc"
+  resolved "https://registry.yarnpkg.com/postcss-load-config/-/postcss-load-config-1.0.0-rc.tgz#8aed0d0fb94afe2c1ab0ba2ca69da3af5079e2cc"
   dependencies:
-    loader-utils "^0.2.15"
-    postcss "^5.2.0"
+    cosmiconfig "^2.1.0"
+    object-assign "^4.1.0"
+    postcss-load-options "^1.0.2"
+    postcss-load-plugins "^2.0.0-rc"
+
+postcss-load-options@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/postcss-load-options/-/postcss-load-options-1.0.2.tgz#b99eb5759a588f4b2dd8b6471c6985f72060e7b0"
+  dependencies:
+    cosmiconfig "^2.1.0"
+    object-assign "^4.1.0"
+
+postcss-load-plugins@^2.0.0-rc:
+  version "2.0.0-rc"
+  resolved "https://registry.yarnpkg.com/postcss-load-plugins/-/postcss-load-plugins-2.0.0-rc.tgz#21242fb78de4d3d8eac9d1fef3863b8b794aa522"
+  dependencies:
+    cosmiconfig "^2.1.0"
+    object-assign "^4.1.0"
+
+postcss-loader@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/postcss-loader/-/postcss-loader-1.0.0.tgz#e3b65d0c8596c1658f79d7db2d291310748d5d2a"
+  dependencies:
+    loader-utils "^0.2.16"
+    object-assign "^4.1.0"
+    postcss "^5.2.4"
+    postcss-load-config "^1.0.0-rc"
 
 postcss-media-query-parser@^0.2.0:
   version "0.2.1"
@@ -6679,7 +6705,7 @@ react@^15.3.1, react@^15.3.2:
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
 
-reactstrap@^3.4.0:
+reactstrap@^3.4.1:
   version "3.4.1"
   resolved "https://registry.yarnpkg.com/reactstrap/-/reactstrap-3.4.1.tgz#8fed2d58f63f487729d46d186d54103b9128d5bf"
   dependencies:
@@ -7411,7 +7437,7 @@ source-map-resolve@^0.3.0:
     source-map-url "~0.3.0"
     urix "~0.1.0"
 
-source-map-support@^0.4.2, source-map-support@^0.4.3:
+source-map-support@^0.4.2, source-map-support@^0.4.4:
   version "0.4.4"
   resolved "https://registry.yarnpkg.com/source-map-support/-/source-map-support-0.4.4.tgz#0df5765a05a560c91bc8f8641cf79f2affc0322e"
   dependencies:
@@ -7717,7 +7743,7 @@ stylelint-config-standard@^13.0.2:
   version "13.0.2"
   resolved "https://registry.yarnpkg.com/stylelint-config-standard/-/stylelint-config-standard-13.0.2.tgz#721e090c53b6e59f70f63d6a9fce026c9120671e"
 
-stylelint@^7.3.1:
+stylelint@^7.4.2:
   version "7.4.2"
   resolved "https://registry.yarnpkg.com/stylelint/-/stylelint-7.4.2.tgz#b4ea1d71b2950d9a0b408877594f7d1ecb2b992e"
   dependencies:
@@ -8481,7 +8507,7 @@ webpack-dashboard@^0.2.0:
     socket.io-client "^1.4.8"
     webpack "^1.13.1"
 
-webpack-dev-middleware@^1.8.3:
+webpack-dev-middleware@^1.8.4:
   version "1.8.4"
   resolved "https://registry.yarnpkg.com/webpack-dev-middleware/-/webpack-dev-middleware-1.8.4.tgz#e8765c9122887ce9e3abd4cc9c3eb31b61e0948d"
   dependencies:
@@ -8490,7 +8516,7 @@ webpack-dev-middleware@^1.8.3:
     path-is-absolute "^1.0.0"
     range-parser "^1.0.3"
 
-webpack-hot-middleware@^2.12.2:
+webpack-hot-middleware@^2.13.0:
   version "2.13.0"
   resolved "https://registry.yarnpkg.com/webpack-hot-middleware/-/webpack-hot-middleware-2.13.0.tgz#aee39c058ff130a5916e2c5a762513241c87064f"
   dependencies:
@@ -8813,7 +8839,7 @@ yargs@^4.7.1, yargs@^4.8.1:
     y18n "^3.2.1"
     yargs-parser "^2.4.1"
 
-yargs@^6.0.0:
+yargs@^6.0.0, yargs@^6.2.0:
   version "6.2.0"
   resolved "https://registry.yarnpkg.com/yargs/-/yargs-6.2.0.tgz#9001048953def85495a2ce1dcfa690b7ab060fd1"
   dependencies:
