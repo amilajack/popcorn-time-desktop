@@ -106,19 +106,20 @@ describe('e2e', function testApp() {
       }
     });
 
-    it.skip('should navigate to item on CardList click', async done => {
+    it('should navigate to item on CardList click', async done => {
       try {
-        const isVisible = await this.app.client
-          .waitForVisible('.Card--overlay')
-          .click('.Card--overlay:first-child')
-          .isVisible('.Card--overlay:first-child');
-
-        expect(isVisible).to.equal(true);
+        await this.app.client
+          .waitForVisible('.CardList')
+          .click('.Card');
 
         await this.app.client.waitUntilWindowLoaded();
+        await delay(2000);
 
-        const [titleText] = await this.app.client.getText('.Movie h1');
+        const [titleText] = await this.app.client.getText('#title');
+        const [summaryText] = await this.app.client.getText('#summary');
         expect(titleText).to.be.a('string');
+        expect(summaryText).to.be.a('string');
+
         done();
       } catch (error) {
         done(error);
@@ -169,16 +170,17 @@ describe('e2e', function testApp() {
       }
     });
 
-    it.skip('should navigate to similar cards on click', async done => {
+    it('should navigate to similar cards on click', async done => {
       try {
-        const [firstTitleText] = await this.app.client.getText('.Movie h1');
-        const [firstSummaryText] = await this.app.client.getText('.Movie h6');
+        const [firstTitleText] = await this.app.client.getText('#title');
+        const [firstSummaryText] = await this.app.client.getText('#summary');
 
         await this.app.client.click('.CardList .Card--overlay:first-child');
         await this.app.client.waitUntilWindowLoaded();
+        await delay(2000);
 
-        const [secondTitleText] = await this.app.client.getText('.Movie h1');
-        const [secondSummaryText] = await this.app.client.getText('.Movie h6');
+        const [secondTitleText] = await this.app.client.getText('#title');
+        const [secondSummaryText] = await this.app.client.getText('#summary');
 
         expect(firstTitleText).to.be.a('string');
         expect(firstSummaryText).to.be.a('string');
