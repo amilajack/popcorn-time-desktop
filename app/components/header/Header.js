@@ -15,10 +15,6 @@ export default class Header extends Component {
     this.state = {
       searchQuery: ''
     };
-
-    this.handleKeyPress = this.handleKeyPress.bind(this);
-    this.handleSearchChange = this.handleSearchChange.bind(this);
-    this.setSearchState = this.setSearchState.bind(this);
   }
 
   /**
@@ -85,8 +81,8 @@ export default class Header extends Component {
                 <input
                   className="form-control"
                   value={searchQuery}
-                  onKeyPress={this.handleKeyPress}
-                  onChange={this.handleSearchChange}
+                  onKeyPress={event => this.handleKeyPress(event)}
+                  onChange={event => this.handleSearchChange(event)}
                   type="text"
                   placeholder="Search"
                 />
