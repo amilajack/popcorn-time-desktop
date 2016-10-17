@@ -1,5 +1,9 @@
+/**
+ * @flow
+ * @param   {string} imdbId
+ * @param   {object} extendedDetails
+ */
 /* eslint global-require: 0 */
-// @flow
 import {
   determineQuality,
   formatSeasonEpisodeToString,

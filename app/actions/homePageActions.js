@@ -1,4 +1,6 @@
-// @flow
+/**
+ * @flow
+ */
 export function setActiveMode(activeMode: string, activeModeOptions: Object = {}) {
   return {
     type: 'SET_ACTIVE_MODE',
