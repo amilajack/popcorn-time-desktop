@@ -7,7 +7,7 @@ This project has **VERY** strict eslint rules. Adding eslint support to your tex
 ## Editor Configuration
 ### Atom
 ```bash
-apm install editorconfig es6-javascript javascript-snippets linter linter-eslint language-babel
+apm install editorconfig es6-javascript javascript-snippets linter linter-eslint language-babel autocomplete-flow
 ```
 
 ### Sublime
