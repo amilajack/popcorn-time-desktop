@@ -16,7 +16,7 @@ matrix:
 
 cache:
   directories:
-    - node_modules
+    - $HOME/.yarn-cache
 
 notifications:
   email: false
@@ -31,6 +31,11 @@ addons:
       - xvfb
 
 before_install:
+  - curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+  - sudo apt-key adv --keyserver pgp.mit.edu --recv D101F7899D41F3C3
+  - echo "deb http://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+  - sudo apt-get update -qq
+  - sudo apt-get install -y -qq yarn
   - git submodule update --init --recursive
   - git clone https://github.com/creationix/nvm.git ./.nvm
   - source ./.nvm/nvm.sh
@@ -40,10 +45,9 @@ before_install:
 
 install:
   - export CXX="g++-4.8"
-  - npm install -g npm@latest --loglevel=warn
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update              ; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install imagemagick ; fi
-  - npm install --loglevel=warn
+  - yarn
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then
       "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x16";
       export DISPLAY=':99.0';
@@ -58,8 +62,8 @@ before_script:
 
 script:
   - node --version
-  - npm --version
-  - npm run test
-  - npm run package
-  - npm run bench-api
-  # - npm run test-screenshot
+  - yarn --version
+  - yarn run test
+  - yarn run package
+  - yarn run bench-api
+  # - yarn run test-screenshot
