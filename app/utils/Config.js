@@ -1,5 +1,6 @@
 /**
  * Check if config file exists
+ * @flow
  *
  * If it doesn't, create it and initialize it with the fields:
  * 'favorites', 'watchList', 'recentlyWatched'
@@ -18,7 +19,7 @@ export default function setupConfig() {
 
 const config = setupConfig();
 
-export function set(key: string, value) {
+export function set(key: string, value: any) {
   return config.set(key, value);
 }
 
