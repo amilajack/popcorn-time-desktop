@@ -210,7 +210,7 @@
     "npm": "3.x"
   },
   "devEngines": {
-    "node": "6.x",
+    "node": "6.x || 7.x",
     "npm": "3.x"
   },
   "optionalDependencies": {
