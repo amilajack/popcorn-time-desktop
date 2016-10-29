@@ -11,7 +11,7 @@ import {
 } from './BaseTorrentProvider';
 
 
-const endpoint = 'https://kat.am';
+const endpoint = 'https://katproxy.al';
 const providerId = 'KAT';
 const resolvedEndpoint = resolveEndpoint(endpoint, providerId);
 

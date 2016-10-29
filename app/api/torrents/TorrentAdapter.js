@@ -29,8 +29,7 @@ export default async function TorrentAdapter(imdbId: string,
                                               extendedDetails: Object,
                                               returnAll: boolean = false,
                                               method: string = 'all',
-                                              cache: boolean = true)
-                                              : Promise<any> {
+                                              cache: boolean = true): Promise<any> {
   const args = JSON.stringify({ extendedDetails, returnAll, method });
 
   if (resolveCache(args) && cache) {
