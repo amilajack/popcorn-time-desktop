@@ -139,8 +139,11 @@ export default class Torrent {
   }
 }
 
-export function formatSpeeds({ downloadSpeed, uploadSpeed, progress, numPeers, ratio }: Object)
-                                                                      : Object {
+export function formatSpeeds({ downloadSpeed,
+                                uploadSpeed,
+                                progress,
+                                numPeers,
+                                ratio }: Object): Object {
   return {
     downloadSpeed: downloadSpeed / 1000000,
     uploadSpeed: uploadSpeed / 1000000,
@@ -155,8 +158,7 @@ export function formatSpeeds({ downloadSpeed, uploadSpeed, progress, numPeers, r
  */
 export function selectSubtitleFile(files: Array<Object> = [],
                                     activeMode: string,
-                                    metadata: Object = {})
-                                    : Object | boolean {
+                                    metadata: Object = {}): Object | boolean {
   return files.find(file => {
     const formatIsSupported = file.name.includes('.srt');
 

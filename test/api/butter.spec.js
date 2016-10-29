@@ -18,10 +18,10 @@ const showImdbId = 'tt1475582'; // Sherlock
 
 const torrentBasePath = '../../app/api/torrents';
 const providers = [
-  {
-    name: 'PirateBay',
-    provider: require(`${torrentBasePath}/PbTorrentProvider`)
-  },
+  // {
+  //   name: 'PirateBay',
+  //   provider: require(`${torrentBasePath}/PbTorrentProvider`)
+  // },
   {
     name: 'PopcornTime',
     provider: require(`${torrentBasePath}/PctTorrentProvider`)
@@ -147,13 +147,13 @@ describe('API ->', function testApi() {
   describe('Torrent Providers ->', () => {
     describe('Movie ->', () => {
       const movieProviders = [
-        {
-          name: 'PirateBay',
-          provider: require(`${torrentBasePath}/PbTorrentProvider`),
-          minTorrentsCount: 5,
-          minSeederCount: 100,
-          id: 'pb'
-        },
+        // {
+        //   name: 'PirateBay',
+        //   provider: require(`${torrentBasePath}/PbTorrentProvider`),
+        //   minTorrentsCount: 5,
+        //   minSeederCount: 100,
+        //   id: 'pb'
+        // },
         {
           name: 'PopcornTime',
           provider: require(`${torrentBasePath}/PctTorrentProvider`),
@@ -216,13 +216,13 @@ describe('API ->', function testApi() {
 
     describe('Show ->', () => {
       const showTorrentProviders = [
-        {
-          name: 'PirateBay',
-          provider: require(`${torrentBasePath}/PbTorrentProvider`),
-          minTorrentsCount: 5,
-          minSeederCount: 300,
-          id: 'pb'
-        },
+        // {
+        //   name: 'PirateBay',
+        //   provider: require(`${torrentBasePath}/PbTorrentProvider`),
+        //   minTorrentsCount: 5,
+        //   minSeederCount: 300,
+        //   id: 'pb'
+        // },
         {
           name: 'PopcornTime',
           provider: require(`${torrentBasePath}/PctTorrentProvider`),
@@ -284,13 +284,13 @@ describe('API ->', function testApi() {
 
     describe('Show Complete ->', () => {
       const showTorrentProviders = [
-        {
-          name: 'PirateBay',
-          provider: require(`${torrentBasePath}/PbTorrentProvider`),
-          minTorrentsCount: 20,
-          minSeederCount: 500,
-          id: 'pb'
-        },
+        // {
+        //   name: 'PirateBay',
+        //   provider: require(`${torrentBasePath}/PbTorrentProvider`),
+        //   minTorrentsCount: 20,
+        //   minSeederCount: 500,
+        //   id: 'pb'
+        // },
         {
           name: 'Kat',
           provider: require(`${torrentBasePath}/KatTorrentProvider`),
