@@ -205,7 +205,7 @@
     "why-did-you-update": "^0.0.8",
     "yargs": "^6.2.0"
   },
-  "engines": {
+  "devEngines": {
     "node": ">=6.x",
     "npm": ">=3.x"
   },
