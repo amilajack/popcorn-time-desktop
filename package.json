@@ -205,13 +205,9 @@
     "why-did-you-update": "^0.0.8",
     "yargs": "^6.2.0"
   },
-  "engines": {
-    "node": "6.x",
-    "npm": "3.x"
-  },
   "devEngines": {
-    "node": "6.x || 7.x",
-    "npm": "3.x"
+    "node": ">=6.x",
+    "npm": ">=3.x"
   },
   "optionalDependencies": {
     "chromecast-player": "0.2.3",
