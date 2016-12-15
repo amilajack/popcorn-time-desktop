@@ -24,12 +24,13 @@ const providers = [
   // require('./KatShowsTorrentProvider')
 ];
 
-export default async function TorrentAdapter(imdbId: string,
-                                              type: string,
-                                              extendedDetails: Object,
-                                              returnAll: boolean = false,
-                                              method: string = 'all',
-                                              cache: boolean = true): Promise<any> {
+export default async function TorrentAdapter(
+  imdbId: string,
+  type: string,
+  extendedDetails: Object,
+  returnAll: boolean = false,
+  method: string = 'all',
+  cache: boolean = true): Promise<any> {
   const args = JSON.stringify({ extendedDetails, returnAll, method });
 
   if (resolveCache(args) && cache) {
@@ -159,10 +160,11 @@ export function getStatuses() {
  * @param  {object} key
  * @return {object}
  */
-export function selectTorrents(torrents: Array<any>,
-                                sortMethod: string = 'seeders',
-                                returnAll: boolean = false,
-                                key: string) {
+export function selectTorrents(
+  torrents: Array<any>,
+  sortMethod: string = 'seeders',
+  returnAll: boolean = false,
+  key: string) {
   const sortedTorrents = sortTorrentsBySeeders(
     torrents.filter((torrent: Object) =>
       torrent.quality !== 'n/a' &&
