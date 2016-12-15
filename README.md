@@ -28,24 +28,25 @@
 
 ## Features:
 
-**Modern**: This client was started from scratch and was designed to be performant and customizable
+**Modern**: This client was started from scratch and was designed to be performant and customizable.
 
-**Performance**: Significantly faster than other clients. Everything from scrolling perf to playing movies is buttery smooth
+**Performance**: Significantly faster than other clients. Everything from scrolling perf to playing movies is buttery smooth.
 
-**Faster Torrents**: New API optimized for fast torrents by querying the from multiple endpoints
+**Faster Torrents**: New API optimized for fast torrents by querying the from multiple endpoints.
 
-**Modern Stack**: Electron, React, Webpack, ES7, Flow, and others
+**Modern Stack**: Electron, React, Webpack, ES7, Flow, and others.
 
 ## Requirements:
 
-* [Node >= 6](https://nodejs.org)
-* Mac, Linux, Windows
+* [node >= 6](https://nodejs.org)
+* [yarn](https://yarnpkg.com)
+* macOS, Linux, or Windows
 * For packaging, see [packaging requirements](https://github.com/amilajack/popcorn-time-desktop/wiki/Packaging-Requirements)
 
 ## Getting started:
-- **I am a tester:** Download the latest build from the [releases](https://github.com/amilajack/popcorn-time-desktop/releases) section.
+- **Tester:** Download the latest build from the [releases](https://github.com/amilajack/popcorn-time-desktop/releases) section.
 
-- **I am a developer:** Compile the project with the installation steps below.
+- **Developer:** Follow the steps down below:
 
 ## Installation:
 ```bash
@@ -54,22 +55,23 @@ cd popcorn-time-desktop
 
 # Install dependencies
 # Have a cup of coffee ☕️ this might take a while
-# Remember to `npm rebuild` if necessary
-npm install
+# Remember to `yarn rebuild` if necessary
+yarn
 
 # Customize Build
 # Feel free to enable flags and configs in the `.env` file
+cp .env.example .env
 vi .env
 
 # Developement build
-npm run dev
+yarn run dev
 
 # Production build
-npm run package
+yarn run package
 ```
 
 ## Contributing:
-Please see the [contributing guide](https://github.com/amilajack/popcorn-time-desktop/blob/master/CONTRIBUTING.md)
+Please see the [contributing guide](https://github.com/amilajack/popcorn-time-desktop/blob/master/CONTRIBUTING.md) or the [first-timer PR List](https://github.com/amilajack/popcorn-time-desktop/issues/183)
 
 ## Todos:
 See the [roadmap](https://github.com/amilajack/popcorn-time-desktop/wiki/Road-Map-and-Progress) for the full list.
