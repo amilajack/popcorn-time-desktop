@@ -22,6 +22,7 @@
     "mocha/no-mocha-arrows": "off",
     "mocha/no-hooks": "off",
     "mocha/no-top-level-hooks": "off",
+    "no-restricted-syntax": 0,
     "flowtype/define-flow-type": 0,
     "flowtype/require-parameter-type": 0,
     "flowtype/require-return-type": [
