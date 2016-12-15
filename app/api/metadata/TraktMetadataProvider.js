@@ -165,10 +165,11 @@ export default class TraktMetadataAdapter {
     return this._updateConfig('watchList', ...args);
   }
 
-  async getSubtitles(imdbId: string,
-                      filename: string,
-                      length: number,
-                      metadata: Object = {}): Promise<Object> {
+  async getSubtitles(
+    imdbId: string,
+    filename: string,
+    length: number,
+    metadata: Object = {}): Promise<Object> {
     const { activeMode } = metadata;
 
     const defaultOptions = {

@@ -88,7 +88,7 @@ export default class Home extends Component {
 
     const { limit, page } = this.props.modes[queryType];
 
-    const items = await (async() => {
+    const items = await (async () => {
       switch (queryType) {
         case 'search': {
           return this.butter.search(
