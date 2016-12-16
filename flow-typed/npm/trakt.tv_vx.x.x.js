@@ -1,3 +1,4 @@
+
 // flow-typed signature: 56ffc131a93489440b5d49d8c51cc216
 // flow-typed version: <<STUB>>/trakt.tv_vgithub:amilajack/trakt.tv/flow_v0.37.0
 
@@ -8,8 +9,8 @@
  *
  * Fill this stub out by replacing all the `any` types.
  *
- * Once filled out, we encourage you to share your work with the 
- * community by sending a pull request to: 
+ * Once filled out, we encourage you to share your work with the
+ * community by sending a pull request to:
  * https://github.com/flowtype/flow-typed
  */
 

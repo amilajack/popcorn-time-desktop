@@ -194,7 +194,7 @@
     "stylelint-config-standard": "^15.0.0",
     "super-kat": "^0.1.0",
     "tcomb": "^3.2.15",
-    "trakt.tv": "github:amilajack/trakt.tv",
+    "trakt.tv": "^2.2.0",
     "vlc-command": "^1.1.1",
     "webpack": "^1.14.0",
     "webpack-dashboard": "^0.2.0",
@@ -209,7 +209,7 @@
     "npm": ">=3.x"
   },
   "optionalDependencies": {
-    "chromecast-player": "0.2.3",
-    "castv2-webpack": "^0.1.10"
+    "castv2-webpack": "^0.1.10",
+    "chromecast-player": "0.2.3"
   }
 }
