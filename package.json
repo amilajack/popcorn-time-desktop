@@ -5,7 +5,7 @@
   "description": "An experimental PopcornTime client",
   "main": "main.js",
   "scripts": {
-    "bench-api": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 mocha --bail --slow 3000 --timeout 20000 --inline-diffs --async-only --compilers js:babel-register --recursive --require ./test/setup.js test/**/*.benchmark.js",
+    "bench-api": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 jest test/**/*.benchmark.js",
     "build": "cross-env NODE_ENV=production FLAG_SEASON_COMPLETE=true FLAG_MANUAL_TORRENT_SELECTION=true npm run build-main && npm run build-renderer",
     "build-dll": "cross-env NODE_ENV=development node --trace-warnings -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.renderer.dev.dll.js --progress --profile --colors",
     "build-main": "cross-env NODE_ENV=production node --trace-warnings -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.main.prod.js --progress --profile --colors",
@@ -20,9 +20,9 @@
     "package-all": "npm run build && build --publish never --mac --win --linux",
     "postinstall": "npm run build && npm run build-dll && node node_modules/fbjs-scripts/node/check-dev-engines.js package.json && node -r babel-register postinstall.js",
     "test": "npm run lint && npm run lint-styles && npm run lint-summary && npm run build && npm run test-api && npm run test-e2e",
-    "test-api": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 CONFIG_ENDPOINT_TEST=test.org mocha --slow 3000 --timeout 15000 --inline-diffs --async-only --compilers js:babel-register --recursive --require ./test/setup.js test/*.spec.js test/**/*.spec.js",
-    "test-e2e": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 mocha --bail --slow 3000 --timeout 15000 --inline-diffs --compilers js:babel-register --require ./test/setup.js  ./test/e2e.js",
-    "test-screenshot": "cross-env API_USE_MOCK_DATA=true BABEL_DISABLE_CACHE=1 npm run build && mocha --bail --slow 3000 --timeout 20000 --inline-diffs --compilers js:babel-register --require ./test/setup.js  ./test/screenshot.e2e.js",
+    "test-api": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 CONFIG_ENDPOINT_TEST=test.org jest test/*.spec.js test/**/*.spec.js",
+    "test-e2e": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 jest ./test/e2e.js",
+    "test-screenshot": "cross-env API_USE_MOCK_DATA=true BABEL_DISABLE_CACHE=1 npm run build && jest ./test/screenshot.e2e.js",
     "test-watch": "npm test -- --watch",
     "prestart": "npm run build",
     "start": "cross-env NODE_ENV=production electron ./",
@@ -79,6 +79,22 @@
         "deb",
         "AppImage"
       ]
+    }
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/internals/mocks/fileMock.js",
+      "\\.(css|less|sass|scss)$": "identity-obj-proxy"
+    },
+    "moduleFileExtensions": [
+      "js"
+    ],
+    "moduleDirectories": [
+      "node_modules",
+      "app/node_modules"
+    ],
+    "transform": {
+      "^.+\\.js$": "babel-jest"
     }
   },
   "directories": {
@@ -138,8 +154,8 @@
     "eslint-plugin-flowtype-errors": "3.3.0",
     "eslint-plugin-fp": "2.3.0",
     "eslint-plugin-import": "2.3.0",
+    "eslint-plugin-jest": "^20.0.3",
     "eslint-plugin-jsx-a11y": "5.0.3",
-    "eslint-plugin-mocha": "4.9.0",
     "eslint-plugin-promise": "3.5.0",
     "eslint-plugin-react": "7.0.1",
     "express": "4.15.3",
@@ -154,12 +170,12 @@
     "image-diff": "1.6.3",
     "immutable": "3.8.1",
     "ionicons-temp": "2.0.0",
+    "jest-cli": "^20.0.4",
     "jsdom": "11.0.0",
     "json-loader": "0.5.4",
     "lru-cache": "4.1.0",
     "minimist": "1.2.0",
     "mkdirp": "0.5.1",
-    "mocha": "3.4.2",
     "node-libs-browser": "2.0.0",
     "node-loader": "0.6.0",
     "node-sass": "4.5.3",
