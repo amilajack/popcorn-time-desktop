@@ -1,16 +1,17 @@
-/* eslint global-require: 0 */
 // @flow
-import React, { PropTypes } from 'react';
+import React, { Component } from 'react';
+import type { Children } from 'react';
 
+export default class App extends Component {
+  props: {
+    children: Children
+  };
 
-export default function App({ children }) {
-  return (
-    <div>
-      {children}
-    </div>
-  );
+  render() {
+    return (
+      <div>
+        {this.props.children}
+      </div>
+    );
+  }
 }
-
-App.propTypes = {
-  children: PropTypes.element.isRequired
-};
