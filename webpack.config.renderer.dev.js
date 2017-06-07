@@ -239,9 +239,10 @@ export default merge.smart(baseConfig, {
     },
     setup() {
       if (process.env.START_HOT) {
+        console.log('Starting main process...')
         spawn(
           'npm',
-          ['run', 'start-hot-renderer'],
+          ['run', 'start-main-dev'],
           { shell: true, env: process.env, stdio: 'inherit' }
         )
         .on('close', code => process.exit(code))

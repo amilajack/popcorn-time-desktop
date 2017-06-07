@@ -10,7 +10,7 @@ import Loader from '../loader/Loader';
 export default function CardList({ items, isLoading, isFinished, title, limit }) {
   return (
     <div className="row">
-      <div className="col-xs-12">
+      <div className="col-sm-12">
         <h4 className="CardList--header">{title || ''}</h4>
         <div className="CardList">
           {(limit ? (items.filter((e, i) => (i < limit))) : items).map((item: Object) => (
@@ -27,7 +27,7 @@ export default function CardList({ items, isLoading, isFinished, title, limit })
           ))}
         </div>
       </div>
-      <div className="col-xs-12">
+      <div className="col-sm-12">
         <Loader isLoading={isLoading} isFinished={isFinished} />
       </div>
     </div>

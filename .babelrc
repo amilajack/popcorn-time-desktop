@@ -7,7 +7,11 @@
     "stage-0",
     "react"
   ],
-  "plugins": ["add-module-exports", "dynamic-import-webpack"],
+  "plugins": [
+    "add-module-exports",
+    "dynamic-import-webpack",
+    "transform-decorators-legacy"
+  ],
   "env": {
     "production": {
       "presets": ["react-optimize"],
@@ -17,11 +21,11 @@
       "plugins": [
         "transform-class-properties",
         "transform-es2015-classes",
-        "react-hot-loader/babel",
-        ["flow-runtime", {
-          "assert": true,
-          "annotate": true
-        }]
+        "react-hot-loader/babel"
+        // ["flow-runtime", {
+        //   "assert": true,
+        //   "annotate": true
+        // }]
       ]
     }
   }

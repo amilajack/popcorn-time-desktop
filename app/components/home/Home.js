@@ -130,7 +130,7 @@ export default class Home extends Component {
           activeMode={activeMode}
           setActiveMode={actions.setActiveMode}
         />
-        <div className="col-xs-12">
+        <div className="col-sm-12">
           <CardList
             items={items}
             isLoading={isLoading}

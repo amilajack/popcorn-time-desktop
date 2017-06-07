@@ -1,14 +1,15 @@
 import React from 'react';
-import { Route, IndexRoute } from 'react-router';
+import { Switch, Route } from 'react-router';
 import App from './containers/App';
 import HomePage from './containers/HomePage';
 import ItemPage from './containers/ItemPage';
 
-
-export default (
-  <Route path="/" component={App}>
-    <IndexRoute component={HomePage} />
-    <Route path="item/:activeMode" component={HomePage} />
-    <Route path="item/:activeMode/:itemId" component={ItemPage} />
-  </Route>
+export default () => (
+  <App>
+    <Switch>
+      <Route path="item/:activeMode" component={HomePage} />
+      <Route path="item/:activeMode/:itemId" component={ItemPage} />
+      <Route path="/" component={HomePage} />
+    </Switch>
+  </App>
 );

@@ -6,7 +6,7 @@ import classNames from 'classnames';
 export default function Show({ seasons, selectShow, selectedSeason, episodes, selectedEpisode }) {
   return (
     <div className="row">
-      <div className="col-xs-12 col-md-6">
+      <div className="col-sm-12 col-md-6">
         <h4>Seasons:</h4>
         <div className="list-group">
           {seasons.map((season: Object) =>
@@ -23,7 +23,7 @@ export default function Show({ seasons, selectShow, selectedSeason, episodes, se
         </div>
       </div>
 
-      <div className="col-xs-12 col-md-6">
+      <div className="col-sm-12 col-md-6">
         <h4>Episodes:</h4>
         <div className="list-group">
           {episodes.map((episode: Object) =>
