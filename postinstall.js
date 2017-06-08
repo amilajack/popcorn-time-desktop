@@ -6,15 +6,14 @@ import extract from 'extract-zip';
 
 
 const version = process.env.PREBUILT_FFMPEG_RELEASE || '0.16.0';
-const baseDir = path.join(
-  __dirname,
-  path.normalize('./node_modules/electron/dist')
-);
+const baseDir = path.join(__dirname, 'node_modules', 'electron', 'dist');
 
 function setupCasting(): boolean {
-  mkdirp('./app/dist/.tmp', err => {
+  const tmpPath = path.join(__dirname, 'app', 'dist', '.tmp')
+
+  mkdirp(tmpPath, err => {
     if (err) console.error(err);
-    else console.log('--> Creating "./app/dist/.tmp" dir...');
+    else console.log(`--> Creating "${path.join('app', 'dist', '.tmp')}" dir...`);
 
     _copy('./app/api/players/Cast.js', './.tmp/Cast.js');
     _copy('./app/api/players/Cast.js', './app/dist/.tmp/Cast.js');
@@ -38,7 +37,11 @@ function addEnvFile(): boolean {
 
 function setupFFMPEG() {
   const { platform, dest } = _getUrl();
-  const zipLocation = `./ffmpeg/${version}-${platform}-${os.arch()}.zip`;
+  const zipLocation = path.join(
+    __dirname,
+    'ffmpeg'
+    `${version}-${platform}-${os.arch()}.zip`
+  );
 
   console.log('--> Replacing ffmpeg...');
 
@@ -56,7 +59,11 @@ function _getUrl(): { platform: string, dest: string } {
         platform: 'osx',
         dest: path.join(
           baseDir,
-          '/Electron.app/Contents/Frameworks/Electron Framework.framework/Libraries',
+          'Electron.app',
+          'Contents',
+          'Frameworks',
+          'Electron Framework.framework',
+          'Libraries',
         )
       };
     case 'Windows_NT':
