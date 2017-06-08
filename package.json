@@ -27,7 +27,7 @@
     "prestart": "npm run build",
     "start": "cross-env NODE_ENV=production electron ./",
     "start-main-dev": "cross-env HOT=1 NODE_ENV=development electron -r babel-register -r babel-polyfill ./app/main.dev",
-    "start-renderer-dev": "cross-env NODE_ENV=development node --trace-warnings -r babel-register ./node_modules/webpack-dev-server/bin/webpack-dev-server --config webpack.config.renderer.dev.js"
+    "start-renderer-dev": "cross-env NODE_ENV=development HOT=1 node --trace-warnings -r babel-register ./node_modules/webpack-dev-server/bin/webpack-dev-server --config webpack.config.renderer.dev.js"
   },
   "repository": {
     "type": "git",
@@ -87,7 +87,8 @@
       "\\.(css|less|sass|scss)$": "identity-obj-proxy"
     },
     "moduleFileExtensions": [
-      "js", "json"
+      "js",
+      "json"
     ],
     "moduleDirectories": [
       "node_modules",
@@ -177,9 +178,9 @@
     "mkdirp": "0.5.1",
     "node-libs-browser": "2.0.0",
     "node-loader": "0.6.0",
-    "node-sass": "4.5.3",
+    "node-sass": "^4.5.3",
     "postcss-loader": "2.0.5",
-    "sass-loader": "6.0.5",
+    "sass-loader": "^6.0.5",
     "sinon": "2.3.2",
     "source-map-support": "0.4.15",
     "spectron": "3.6.4",
@@ -188,9 +189,8 @@
     "stylelint-config-standard": "16.0.0",
     "tcomb": "3.2.20",
     "url-loader": "0.5.8",
-    "webpack": "2.6.1",
+    "webpack": "^2.6.1",
     "webpack-bundle-analyzer": "2.8.2",
-    "webpack-dashboard": "0.4.0",
     "webpack-dev-middleware": "1.10.2",
     "webpack-dev-server": "2.4.5",
     "webpack-hot-middleware": "2.18.0",
@@ -198,7 +198,7 @@
     "why-did-you-update": "0.0.8"
   },
   "dependencies": {
-    "bootstrap": "4.0.0-alpha.3",
+    "bootstrap": "^4.0.0-alpha.2",
     "isomorphic-fetch": "2.2.1",
     "network-address": "1.1.2",
     "notie": "4.3.1",
@@ -209,7 +209,7 @@
     "react-addons-test-utils": "15.5.1",
     "react-addons-transition-group": "15.5.2",
     "react-dom": "15.5.4",
-    "react-hot-loader": "3.0.0-beta.6",
+    "react-hot-loader": "3.0.0-beta.7",
     "react-redux": "5.0.5",
     "react-router": "4.1.1",
     "react-router-redux": "5.0.0-alpha.6",
