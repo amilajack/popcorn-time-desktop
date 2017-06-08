@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import React from 'react';
 import {
   renderIntoDocument,
@@ -6,17 +5,20 @@ import {
 } from 'react-addons-test-utils';
 import Card from '../../app/components/card/Card';
 
-
 function setup(propsOverride) {
-  const props = Object.assign({}, {
-    image: 'test_image_url',
-    title: 'Test movie',
-    id: '248245',
-    genres: ['action', 'comedy'],
-    rating: 4.5,
-    kind: 'shows',
-    baseUrl: '/item/shows'
-  }, propsOverride);
+  const props = Object.assign(
+    {},
+    {
+      image: 'test_image_url',
+      title: 'Test movie',
+      id: '248245',
+      genres: ['action', 'comedy'],
+      rating: 4.5,
+      kind: 'shows',
+      baseUrl: '/item/shows'
+    },
+    propsOverride
+  );
 
   const component = renderIntoDocument(<Card {...props} />);
 
@@ -28,15 +30,15 @@ function setup(propsOverride) {
 }
 
 describe('Card Component', () => {
-  it('should have movie title', (done) => {
+  it('should have movie title', done => {
     const { title } = setup();
-    expect(title.textContent).to.equal('Test movie');
+    expect(title.textContent).toBe('Test movie');
     done();
   });
 
-  it('should have movie genres', (done) => {
+  it('should have movie genres', done => {
     const { genres } = setup();
-    expect(genres.textContent).to.equal('action');
+    expect(genres.textContent).toBe('action');
     done();
   });
 });

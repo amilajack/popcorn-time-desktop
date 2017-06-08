@@ -2,7 +2,7 @@
   "parser": "babel-eslint",
   "extends": [
     "airbnb",
-    # "plugin:fp/recommended",
+    "plugin:fp/recommended",
     "plugin:flowtype/recommended",
     "plugin:jest/recommended"
   ],
@@ -12,50 +12,49 @@
     "es6": true
   },
   "rules": {
-    "arrow-parens": 0,
-    "class-methods-use-this": 0,          # HACK: Classes will be replaced by pure fn's
+    "arrow-parens": "off",
+    "class-methods-use-this": "off",
     "comma-dangle": ["error", "never"],
-    "consistent-return": 2,
-    "func-names": 2,
-    # "fp/no-class": "error",             # TODO: In progress
+    "consistent-return": "error",
+    "func-names": "error",
+    # "fp/no-class": "error",                 # TODO: In progress
     "fp/no-delete": "error",
     "fp/no-events": "error",
     "fp/no-let": "error",
     "fp/no-loops": "error",
     "fp/no-mutating-assign": "error",
-    "flowtype-errors/show-errors": 1,
-    # "fp/no-mutation": "error",          # TODO: In progress
-    # "fp/no-nil": "error",               # TODO: In progress
-    # "fp/no-proxy": "error",             # TODO: In progress
-    # "fp/no-this": "error",              # TODO: In progress
-    # "fp/no-throw": "error",             # TODO: In progress
-    # "fp/no-unused-expression": "error", # TODO: In progress
-    "generator-star-spacing": [0],        # HACK: https://github.com/airbnb/javascript/issues/948
+    "flowtype-errors/show-errors": "warn",
+    # "fp/no-mutation": "error",              # TODO: In progress
+    # "fp/no-nil": "error",                   # TODO: In progress
+    # "fp/no-proxy": "error",                 # TODO: In progress
+    # "fp/no-this": "error",                  # TODO: In progress
+    # "fp/no-throw": "error",                 # TODO: In progress
+    # "fp/no-unused-expression": "error",     # TODO: In progress
     "import/no-extraneous-dependencies": ["off"],
-    "import/extensions": 0,
+    "import/extensions": "off,
     "import/no-unresolved": [2, { "ignore": ["electron"] }],
-    "jsx-filename-extension": 0,
-    "jsx-a11y/no-static-element-interactions": 0,
-    "new-cap": 0,
+    "jsx-filename-extension": "off,
+    "jsx-a11y/no-static-element-interactions": "off,
+    "new-cap": "off,
     "no-implicit-coercion": "error",
-    "no-mixed-operators": 0,
-    "no-use-before-define": 0,
-    "no-nested-ternary": 0,
-    "no-underscore-dangle": 0,
-    "no-console": 0,
+    "no-mixed-operators": "off,
+    "no-use-before-define": "off,
+    "no-nested-ternary": "off,
+    "no-underscore-dangle": "off,
+    "no-console": "off,
     "no-var": "error",
-    "promise/param-names": 2,
-    "promise/always-return": 2,
-    "promise/catch-or-return": 2,
-    "promise/no-native": 0,
-    # "react/no-set-state": 2,            # TODO: In progress
-    "react/no-unused-prop-types": 0,
-    "react/jsx-no-bind": 2,
-    "react/prefer-stateless-function": 2,
-    "react/jsx-filename-extension": 0,
-    "react/sort-comp": 0,
-    "flowtype/define-flow-type": 2,
-    # "flowtype/require-parameter-type": 2,
+    "promise/param-names": "error",
+    "promise/always-return": "error",
+    "promise/catch-or-return": "error",
+    "promise/no-native": "off,
+    # "react/no-set-state": "error",            # TODO: In progress
+    "react/no-unused-prop-types": "off,
+    "react/jsx-no-bind": "error",
+    "react/prefer-stateless-function": "error",
+    "react/jsx-filename-extension": "off,
+    "react/sort-comp": "off,
+    "flowtype/define-flow-type": "error",
+    # "flowtype/require-parameter-type": "error",
     # "flowtype/require-return-type": [   # TODO: In progress
     #   2,
     #   "always",
@@ -75,8 +74,8 @@
       2,
       "^([A-Z][a-z0-9]+)+Type$"
     ],
-    "flowtype/use-flow-type": 2,
-    "flowtype/valid-syntax": 2
+    "flowtype/use-flow-type": "error",
+    "flowtype/valid-syntax": "error"
   },
   "plugins": [
     "import",
