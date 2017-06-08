@@ -6,7 +6,10 @@ import extract from 'extract-zip';
 
 
 const version = process.env.PREBUILT_FFMPEG_RELEASE || '0.16.0';
-const baseDir = path.normalize('./node_modules/electron/dist');
+const baseDir = path.join(
+  __dirname,
+  path.normalize('./node_modules/electron/dist')
+);
 
 function setupCasting(): boolean {
   mkdirp('./app/dist/.tmp', err => {
@@ -46,7 +49,7 @@ function setupFFMPEG() {
   });
 }
 
-function _getUrl(): Object {
+function _getUrl(): { platform: string, dest: string } {
   switch (os.type()) {
     case 'Darwin':
       return {
