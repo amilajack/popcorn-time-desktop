@@ -33,6 +33,8 @@ const providers = [
   }
 ];
 
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+
 function greaterThanOrEqualTo(first, second) {
   return first > second || first === second;
 }
@@ -445,9 +447,7 @@ describe('API', () => {
           expect(episode).toHaveProperty('season').toEqual(1);
           expect(episode).toHaveProperty('episode').toEqual(1);
           expect(episode).toHaveProperty('id').toEqual('tt1480055');
-          expect(episode)
-            .toHaveProperty('title')
-            .toEqual('Winter Is Coming');
+          expect(episode).toHaveProperty('title').toEqual('Winter Is Coming');
           expect(typeof episode).toBe('string');
           expect(typeof episode).toBe('string');
           expect(typeof episode).toBe('string');
@@ -459,8 +459,7 @@ describe('API', () => {
           expect(episode).toHaveProperty('season').toEqual(2);
           expect(episode).toHaveProperty('episode').toEqual(2);
           expect(episode).toHaveProperty('id').toEqual('tt1942613');
-          expect(episode)
-            .toHaveProperty('title')
+          expect(episode).toHaveProperty('title');
           expect(episode.title).toEqual('The Hounds of Baskerville');
           expect(typeof episode).toBe('string');
           expect(episode)
@@ -568,9 +567,7 @@ describe('API', () => {
           for (const quality of ['480p', '720p', '1080p']) {
             if (torrents[quality]) {
               assertSingleTorrent(torrents[quality]);
-              expect(typeof torrents[quality])
-                .toBe('string')
-                .toEqual(quality);
+              expect(typeof torrents[quality]).toBe('string').toEqual(quality);
             }
           }
         });
@@ -590,9 +587,7 @@ describe('API', () => {
           for (const quality of ['480p', '720p', '1080p']) {
             if (torrents[quality]) {
               assertSingleTorrent(torrents[quality]);
-              expect(typeof torrents[quality])
-                .toBe('string')
-                .toEqual(quality);
+              expect(typeof torrents[quality]).toBe('string').toEqual(quality);
             }
           }
         });
@@ -659,7 +654,7 @@ describe('API', () => {
       describe.skip('Series Tests', () => {
         describe('valid torrents for top 20 shows', () => {
           for (const show of MockShows.filter((e, i) => i < 20)) {
-            it(`${show.title} Season 1 Episode 1`, async done => {
+            it(`${show.title} Season 1 Episode 1`, async () => {
               const torrent = await butterFactory().getTorrent(
                 show.id,
                 'shows',

@@ -1,7 +1,4 @@
-import {
-  getDownloadSpeed,
-  getUploadSpeed
-} from '../app/utils/Network';
+import { getDownloadSpeed, getUploadSpeed } from '../app/utils/Network';
 import { isNewerSemvar } from '../app/utils/CheckUpdate';
 
 describe('CheckUpdate', () => {

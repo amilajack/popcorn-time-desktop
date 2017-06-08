@@ -30,15 +30,13 @@ function setup(propsOverride) {
 }
 
 describe('Card Component', () => {
-  it('should have movie title', done => {
+  it('should have movie title', () => {
     const { title } = setup();
     expect(title.textContent).toBe('Test movie');
-    done();
   });
 
-  it('should have movie genres', done => {
+  it('should have movie genres', () => {
     const { genres } = setup();
     expect(genres.textContent).toBe('action');
-    done();
   });
 });
