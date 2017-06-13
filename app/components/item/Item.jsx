@@ -16,9 +16,9 @@ import { exec } from 'child_process';
 import { getIdealTorrent } from '../../api/torrents/BaseTorrentProvider';
 import Butter from '../../api/Butter';
 import Torrent from '../../api/Torrent';
-import CardList from '../card/CardList';
-import Rating from '../card/Rating';
-import Show from '../show/Show';
+import CardList from '../card/CardList.jsx';
+import Rating from '../card/Rating.jsx';
+import Show from '../show/Show.jsx';
 import {
   convertFromBuffer,
   startServer

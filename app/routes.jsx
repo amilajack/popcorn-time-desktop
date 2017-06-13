@@ -1,8 +1,8 @@
 import React from 'react';
 import { Switch, Route } from 'react-router';
-import App from './containers/App';
-import HomePage from './containers/HomePage';
-import ItemPage from './containers/ItemPage';
+import App from './containers/App.jsx';
+import HomePage from './containers/HomePage.jsx';
+import ItemPage from './containers/ItemPage.jsx';
 
 export default () => (
   <App>

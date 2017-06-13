@@ -36,6 +36,7 @@
     "promise/avoid-new": "off"
   },
   "settings": {
+    "import/extensions": [".jsx", ".js"],
     "webpack": {
       "config": "webpack.config.eslint.js"
     }

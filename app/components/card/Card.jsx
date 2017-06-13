@@ -4,7 +4,7 @@
  */
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
-import Rating from './Rating';
+import Rating from './Rating.jsx';
 
 
 export default function Card({ type, image, id, rating, title, starColor }) {

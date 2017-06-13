@@ -1,5 +1,6 @@
 /**
  * @TODO
+ * @flow
  */
 import fetch from 'isomorphic-fetch';
 import cheerio from 'cheerio';

@@ -3,7 +3,7 @@ import {
   renderIntoDocument,
   findRenderedDOMComponentWithClass
 } from 'react-addons-test-utils';
-import Card from '../../app/components/card/Card';
+import Card from '../../app/components/card/Card.jsx';
 
 function setup(propsOverride) {
   const props = Object.assign(

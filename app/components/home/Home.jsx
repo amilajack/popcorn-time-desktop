@@ -4,8 +4,8 @@ import VisibilitySensor from 'react-visibility-sensor';
 // import { shell } from 'electron';
 // import notie from 'notie';
 import Butter from '../../api/Butter';
-import Header from '../header/Header';
-import CardList from '../card/CardList';
+import Header from '../header/Header.jsx';
+import CardList from '../card/CardList.jsx';
 // import CheckUpdate from '../../utils/CheckUpdate';
 
 

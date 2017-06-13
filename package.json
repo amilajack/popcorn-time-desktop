@@ -13,7 +13,7 @@
     "dev": "cross-env NODE_ENV=development FLAG_SEASON_COMPLETE=true FLAG_MANUAL_TORRENT_SELECTION=true FLAG_SUBTITLES=false START_HOT=1 npm run start-renderer-dev",
     "flow": "flow",
     "flow-typed": "flow-typed install",
-    "lint": "eslint --cache --format=node_modules/eslint-formatter-pretty .",
+    "lint": "eslint --ext .jsx,.js --cache --format=node_modules/eslint-formatter-pretty .",
     "lint-styles": "stylelint app/styles/*.scss app/styles/**/*.scss --syntax scss",
     "lint-summary": "eslint-nibble app test *.js",
     "package": "npm run postinstall && npm run build && build --publish never",

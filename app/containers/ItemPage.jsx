@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import Item from '../components/item/Item';
+import Item from '../components/item/Item.jsx';
 
 
 export default function ItemPage({ params }) {
