@@ -1,5 +1,5 @@
-/* eslint prefer-template: 0 */
 // @flow
+/* eslint prefer-template: 0 */
 import cache from 'lru-cache';
 import URL from 'url';
 
@@ -10,8 +10,8 @@ export const providerCache = cache({
             : 1000 * 60 * 60 // 1 hr
 });
 
-interface BaseTorrentProvider {
-  getStatus(): Promise<boolean>;
+export interface BaseTorrentProvider {
+  getStatus(): Promise<bool>;
   fetch(showName: string, season: number, episode: number): Promise<Object>;
   provide(
     imdbId: string, type: string, extendedDetails: Object
@@ -105,7 +105,7 @@ export function formatSeasonEpisodeToObject(season: number, episode: ? number): 
   };
 }
 
-export function isExactEpisode(title: string, season: number, episode: number): boolean {
+export function isExactEpisode(title: string, season: number, episode: number): bool {
   return title.toLowerCase().includes(formatSeasonEpisodeToString(season, episode));
 }
 
@@ -127,7 +127,7 @@ export function getHealth(seeders: number, leechers: number = 0): string {
   return 'poor';
 }
 
-export function hasNonEnglishLanguage(metadata: string): boolean {
+export function hasNonEnglishLanguage(metadata: string): bool {
   if (metadata.includes('french')) return true;
   if (metadata.includes('german')) return true;
   if (metadata.includes('greek')) return true;
@@ -145,11 +145,11 @@ export function hasNonEnglishLanguage(metadata: string): boolean {
   return false;
 }
 
-export function hasSubtitles(metadata: string): boolean {
+export function hasSubtitles(metadata: string): bool {
   return metadata.includes('sub');
 }
 
-export function hasNonNativeCodec(metadata: string): boolean {
+export function hasNonNativeCodec(metadata: string): bool {
   return (
     metadata.includes('avi') ||
     metadata.includes('mkv')
@@ -233,7 +233,7 @@ export function handleProviderError(error: Error) {
   }
 }
 
-export function resolveCache(key: string): boolean | Object {
+export function resolveCache(key: string): bool | Object {
   if (process.env.API_USE_MOCK_DATA === 'true') {
     const mock = {
       ...require('../../../test/api/metadata.mock'), // eslint-disable-line global-require
@@ -241,7 +241,7 @@ export function resolveCache(key: string): boolean | Object {
     };
 
     const resolvedCacheItem = Object.keys(mock).find(
-      (mockKey: string): boolean => key.includes(`${mockKey}"`) &&
+      (mockKey: string): bool => key.includes(`${mockKey}"`) &&
       !!Object.keys(mock[mockKey]).length
     );
 

@@ -52,7 +52,7 @@ export default class PbTorrentProvider {
     };
   }
 
-  static getStatus(): Promise<boolean> {
+  static getStatus(): Promise<bool> {
     return fetch(resolvedEndpoint).then(res => res.ok).catch(() => false);
   }
 

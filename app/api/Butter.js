@@ -49,7 +49,7 @@ export default class Butter {
   getTorrent(imdbId: string,
     type: string,
     extendedDetails: Object = {},
-    returnAll: boolean = false) {
+    returnAll: bool = false) {
     return TorrentAdapter(imdbId, type, extendedDetails, returnAll);
   }
 

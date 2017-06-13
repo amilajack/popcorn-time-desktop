@@ -113,7 +113,7 @@ describe('e2e', function testApp() {
         '.Card a',
         'href'
       );
-      expect(secondCardLinks.length).to.be.greaterThan(firstCardLinks.length);
+      expect(secondCardLinks.length).toBeGreaterThan(firstCardLinks.length);
     });
   });
 

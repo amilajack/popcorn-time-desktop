@@ -38,7 +38,7 @@ export default class Player {
     this._player.restart();
   }
 
-  static isFormatSupported(filename: string, mimeTypes: Array<string>): boolean {
+  static isFormatSupported(filename: string, mimeTypes: Array<string>): bool {
     return !!mimeTypes.find(
       mimeType => filename.toLowerCase().includes(mimeType)
     );

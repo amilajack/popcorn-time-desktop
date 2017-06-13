@@ -10,7 +10,7 @@ export default function Show({ seasons, selectShow, selectedSeason, episodes, se
         <h4>Seasons:</h4>
         <div className="list-group">
           {seasons.map((season: Object) =>
-            <a
+            (<a
               className={classNames(
                 'list-group-item', { active: season.season === selectedSeason }
               )}
@@ -18,7 +18,7 @@ export default function Show({ seasons, selectShow, selectedSeason, episodes, se
               key={season.season}
             >
               Season {season.season}
-            </a>
+            </a>)
           )}
         </div>
       </div>
@@ -27,7 +27,7 @@ export default function Show({ seasons, selectShow, selectedSeason, episodes, se
         <h4>Episodes:</h4>
         <div className="list-group">
           {episodes.map((episode: Object) =>
-            <a
+            (<a
               className={classNames(
                 'list-group-item', { active: episode.episode === selectedEpisode }
               )}
@@ -35,7 +35,7 @@ export default function Show({ seasons, selectShow, selectedSeason, episodes, se
               key={episode.episode}
             >
               Ep {episode.episode}. {episode.title}
-            </a>
+            </a>)
           )}
         </div>
       </div>

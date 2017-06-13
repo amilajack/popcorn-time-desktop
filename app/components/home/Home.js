@@ -33,7 +33,7 @@ export default class Home extends Component {
 
   butter: Butter;
 
-  _didMount: boolean;
+  _didMount: bool;
 
   onChange: () => void;
 
@@ -65,7 +65,7 @@ export default class Home extends Component {
     document.removeEventListener('scroll', this.initInfinitePagination.bind(this));
   }
 
-  async onChange(isVisible: boolean) {
+  async onChange(isVisible: bool) {
     if (isVisible && !this.props.isLoading) {
       await this.paginate(this.props.activeMode, this.props.activeModeOptions);
     }

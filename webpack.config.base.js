@@ -36,7 +36,7 @@ export default {
     extensions: ['.js', '.jsx', '.json'],
     modules: [
       path.join(__dirname, 'app'),
-      'node_modules',
+      'node_modules'
     ],
     alias: {
       castv2: 'castv2-webpack'
@@ -44,6 +44,6 @@ export default {
   },
 
   plugins: [
-    new webpack.NamedModulesPlugin(),
-  ],
+    new webpack.NamedModulesPlugin()
+  ]
 };

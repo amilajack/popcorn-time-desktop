@@ -28,9 +28,9 @@ export default async function TorrentAdapter(
   imdbId: string,
   type: string,
   extendedDetails: Object,
-  returnAll: boolean = false,
+  returnAll: bool = false,
   method: string = 'all',
-  cache: boolean = true): Promise<any> {
+  cache: bool = true): Promise<any> {
   const args = JSON.stringify({ extendedDetails, returnAll, method });
 
   if (resolveCache(args) && cache) {
@@ -163,7 +163,7 @@ export function getStatuses() {
 export function selectTorrents(
   torrents: Array<any>,
   sortMethod: string = 'seeders',
-  returnAll: boolean = false,
+  returnAll: bool = false,
   key: string) {
   const sortedTorrents = sortTorrentsBySeeders(
     torrents.filter((torrent: Object) =>

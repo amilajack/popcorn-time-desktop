@@ -11,9 +11,9 @@ const port = 9090;
 
 export default class Torrent {
 
-  inProgress: boolean = false;
+  inProgress: bool = false;
 
-  finished: boolean = false;
+  finished: bool = false;
 
   checkDownloadInterval: number;
 
@@ -158,7 +158,7 @@ export function formatSpeeds({ downloadSpeed,
  */
 export function selectSubtitleFile(files: Array<Object> = [],
   activeMode: string,
-  metadata: Object = {}): Object | boolean {
+  metadata: Object = {}): Object | bool {
   return files.find(file => {
     const formatIsSupported = file.name.includes('.srt');
 

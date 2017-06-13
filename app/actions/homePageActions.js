@@ -28,7 +28,7 @@ export function clearAllItems() {
   };
 }
 
-export function setLoading(isLoading: boolean) {
+export function setLoading(isLoading: bool) {
   return {
     type: 'SET_LOADING',
     isLoading

@@ -89,14 +89,14 @@ export default class Header extends Component {
           </div>
         </nav>
         {/* // HACK: Add spacing from top of page */}
-          <nav className="navbar hidden navbar-dark bg-inverse">
-            <div className="nav navbar-nav">
-              <a className="nav-item nav-link active">
+        <nav className="navbar hidden navbar-dark bg-inverse">
+          <div className="nav navbar-nav">
+            <a className="nav-item nav-link active">
                 Popcorn Time
                 <span className="sr-only">(current)</span>
-              </a>
-            </div>
-          </nav>
+            </a>
+          </div>
+        </nav>
       </div>
     );
   }

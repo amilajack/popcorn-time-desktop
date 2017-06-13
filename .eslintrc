@@ -1,10 +1,7 @@
 {
-  "parser": "babel-eslint",
   "extends": [
     "airbnb",
-    "plugin:fp/recommended",
-    "plugin:flowtype/recommended",
-    "plugin:jest/recommended"
+    "bliss"
   ],
   "env": {
     "browser": true,
@@ -12,85 +9,35 @@
     "es6": true
   },
   "rules": {
-    "arrow-parens": "off",
     "class-methods-use-this": "off",
-    "comma-dangle": ["error", "never"],
-    "consistent-return": "error",
-    "func-names": "error",
-    # "fp/no-class": "error",                 # TODO: In progress
-    "fp/no-delete": "error",
-    "fp/no-events": "error",
-    "fp/no-let": "error",
-    "fp/no-loops": "error",
-    "fp/no-mutating-assign": "error",
-    "flowtype-errors/show-errors": "warn",
-    # "fp/no-mutation": "error",              # TODO: In progress
-    # "fp/no-nil": "error",                   # TODO: In progress
-    # "fp/no-proxy": "error",                 # TODO: In progress
-    # "fp/no-this": "error",                  # TODO: In progress
-    # "fp/no-throw": "error",                 # TODO: In progress
-    # "fp/no-unused-expression": "error",     # TODO: In progress
-    "import/no-extraneous-dependencies": ["off"],
-    "import/extensions": "off,
-    "import/no-unresolved": [2, { "ignore": ["electron"] }],
-    "jsx-filename-extension": "off,
-    "jsx-a11y/no-static-element-interactions": "off,
-    "new-cap": "off,
-    "no-implicit-coercion": "error",
-    "no-mixed-operators": "off,
-    "no-use-before-define": "off,
-    "no-nested-ternary": "off,
-    "no-underscore-dangle": "off,
-    "no-console": "off,
-    "no-var": "error",
-    "promise/param-names": "error",
-    "promise/always-return": "error",
-    "promise/catch-or-return": "error",
-    "promise/no-native": "off,
-    # "react/no-set-state": "error",            # TODO: In progress
-    "react/no-unused-prop-types": "off,
-    "react/jsx-no-bind": "error",
-    "react/prefer-stateless-function": "error",
-    "react/jsx-filename-extension": "off,
-    "react/sort-comp": "off,
-    "flowtype/define-flow-type": "error",
-    # "flowtype/require-parameter-type": "error",
-    # "flowtype/require-return-type": [   # TODO: In progress
-    #   2,
-    #   "always",
-    #   {
-    #     "annotateUndefined": "never"
-    #   }
-    # ],
-    "flowtype/space-after-type-colon": [
-      2,
-      "always"
-    ],
-    "flowtype/space-before-type-colon": [
-      2,
-      "never"
-    ],
-    "flowtype/type-id-match": [
-      2,
-      "^([A-Z][a-z0-9]+)+Type$"
-    ],
-    "flowtype/use-flow-type": "error",
-    "flowtype/valid-syntax": "error"
+    "fp/no-arguments": "off",
+    "fp/no-class": "off",
+    "fp/no-delete": "off",
+    "fp/no-events": "off",
+    "fp/no-get-set": "off",
+    "fp/no-let": "off",
+    "fp/no-loops": "off",
+    "fp/no-mutating-assign": "off",
+    "fp/no-mutating-methods": "off",
+    "fp/no-mutation": "off",
+    "fp/no-nil": "off",
+    "fp/no-proxy": "off",
+    "fp/no-rest-parameters": "off",
+    "fp/no-this": "off",
+    "fp/no-throw": "off",
+    "fp/no-unused-expression": "off",
+    "fp/no-valueof-field": "off",
+    "import/no-extraneous-dependencies": "off",
+    "no-var": "off",
+    "no-let": "off",
+    "no-plusplus": "off",
+    "no-use-before-define": "off",
+    "no-console": "off",
+    "promise/avoid-new": "off"
   },
-  "plugins": [
-    "import",
-    "fp",
-    "promise",
-    "flowtype",
-    "flowtype-errors",
-    "react"
-  ],
   "settings": {
     "webpack": {
       "config": "webpack.config.eslint.js"
-    },
-    "flowtype": {
-      "onlyFilesWithFlowAnnotation": false
     }
   }
 }
