@@ -37,7 +37,7 @@ export default class YtsTorrentProvider {
     };
   }
 
-  static getStatus(): Promise<boolean> {
+  static getStatus(): Promise<bool> {
     return fetch('https://yts.ag/api/v2/list_movies.json')
       .then(res => !!res.ok)
       .catch(() => false);

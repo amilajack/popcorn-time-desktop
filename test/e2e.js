@@ -2,196 +2,146 @@
 import path from 'path';
 import os from 'os';
 import { Application } from 'spectron';
-import { expect } from 'chai';
 import electronPrebuilt from 'electron';
-
 
 const app = new Application({
   path: electronPrebuilt,
-  args: [
-    path.join(__dirname, '..', 'app')
-  ],
+  args: [path.join(__dirname, '..', 'app')],
   waitTimeout: 2000
 });
 
 const delay = time => new Promise(resolve => setTimeout(resolve, time));
 
 describe('e2e', function testApp() {
-  this.retries(2);
-
   // Constructs url similar to file:///Users/john/popcorn-desktop-experimental/app/app.html#/${url}
-  const navigate = url => this.app.client.url(`file://${process.cwd()}/app/app.html#/${url}`);
+  const navigate = url =>
+    this.app.client.url(`file://${process.cwd()}/app/app.html#/${url}`);
 
   const findCardList = () => this.app.client.waitForVisible('.CardList');
   const findCard = () => this.app.client.waitForVisible('.Card');
 
-  before(async done => {
-    try {
-      this.app = await app.start();
-      done();
-    } catch (error) {
-      done(error);
-    }
+  beforeAll(async () => {
+    this.app = await app.start();
   });
 
-  after(() => {
+  afterAll(() => {
     if (this.app && this.app.isRunning()) {
-      return this.app.stop();
+      this.app.stop();
     }
   });
 
   describe('main window', () => {
-    it('should open window', async done => {
-      try {
-        const title = await this.app.client.getTitle();
-        expect(title).to.equal('Popcorn Time');
-        done();
-      } catch (error) {
-        done(error);
-      }
+    it('should open window', async () => {
+      const title = await this.app.client.getTitle();
+      expect(title).toBe('Popcorn Time');
     });
   });
 
   describe('HomePage', () => {
-    beforeEach(async done => {
-      try {
-        await navigate('');
-        await delay(2000);
-        done();
-      } catch (error) {
-        done(error);
-      }
+    beforeEach(async () => {
+      await navigate('');
+      await delay(2000);
     });
 
-    it('should display CardList', async done => {
-      try {
-        const cardListIsDisplayed = await findCardList().isVisible('.CardList');
-        const cardIsDisplayed = await findCard().isVisible('.CardList');
-        expect(cardListIsDisplayed).to.equal(true);
-        expect(cardIsDisplayed).to.equal(true);
-        done();
-      } catch (error) {
-        done(error);
-      }
+    it('should display CardList', async () => {
+      const cardListIsDisplayed = await findCardList().isVisible('.CardList');
+      const cardIsDisplayed = await findCard().isVisible('.CardList');
+      expect(cardListIsDisplayed).toBe(true);
+      expect(cardIsDisplayed).toBe(true);
     });
 
-    it('should search items', async done => {
-      try {
-        await this.app.client
-          .setValue('.navbar input', 'harry potter')
-          .keys('Enter');
+    it('should search items', async () => {
+      await this.app.client
+        .setValue('.navbar input', 'harry potter')
+        .keys('Enter');
 
-        await this.app.client.waitUntilWindowLoaded(); // await search results();
-        await delay(3000);
+      await this.app.client.waitUntilWindowLoaded(); // await search results();
+      await delay(3000);
 
-        const movieTitles = await this.app.client.getText('.Card .Card--title');
-        expect(movieTitles[0]).to.include('Harry Potter');
-        expect(movieTitles[1]).to.include('Harry Potter');
-        expect(movieTitles[2]).to.include('Harry Potter');
+      const movieTitles = await this.app.client.getText('.Card .Card--title');
+      expect(movieTitles[0]).toContain('Harry Potter');
+      expect(movieTitles[1]).toContain('Harry Potter');
+      expect(movieTitles[2]).toContain('Harry Potter');
 
-        await this.app.client
-          .setValue('.navbar input', 'Lord of the Rings')
-          .keys('Enter');
+      await this.app.client
+        .setValue('.navbar input', 'Lord of the Rings')
+        .keys('Enter');
 
-        await this.app.client.waitUntilWindowLoaded(); // await search results();
-        await delay(3000);
+      await this.app.client.waitUntilWindowLoaded(); // await search results();
+      await delay(3000);
 
-        const secondMovieTitles = await this.app.client.getText('.Card .Card--title');
-        expect(secondMovieTitles[0]).to.include('Lord');
-        expect(secondMovieTitles[1]).to.include('Lord');
-        expect(secondMovieTitles[2]).to.include('Lord');
-        done();
-      } catch (error) {
-        done(error);
-      }
+      const secondMovieTitles = await this.app.client.getText(
+        '.Card .Card--title'
+      );
+      expect(secondMovieTitles[0]).toContain('Lord');
+      expect(secondMovieTitles[1]).toContain('Lord');
+      expect(secondMovieTitles[2]).toContain('Lord');
     });
 
-    it('should navigate to item on CardList click', async done => {
-      try {
-        await this.app.client
-          .waitForVisible('.CardList')
-          .click('.Card');
+    it('should navigate to item on CardList click', async () => {
+      await this.app.client.waitForVisible('.CardList').click('.Card');
 
-        await this.app.client.waitUntilWindowLoaded();
-        await delay(2000);
+      await this.app.client.waitUntilWindowLoaded();
+      await delay(2000);
 
-        const [titleText] = await this.app.client.getText('#title');
-        const [summaryText] = await this.app.client.getText('#summary');
-        expect(titleText).to.be.a('string');
-        expect(summaryText).to.be.a('string');
-
-        done();
-      } catch (error) {
-        done(error);
-      }
+      const [titleText] = await this.app.client.getText('#title');
+      const [summaryText] = await this.app.client.getText('#summary');
+      expect(typeof titleText).toBe('string');
+      expect(typeof summaryText).toBe('string');
     });
 
-    it('should navigate between movies and shows', async done => {
-      try {
-        if (os.type() === 'Windows_NT') {
-          return done(); // HACK: Temporary workaround for skipping on windows
-        }
-        await this.app.client.click('.nav-item:nth-child(2) .nav-link');
-        await this.app.client.waitUntilWindowLoaded();
-        await delay(2000);
-        const cardLinks = await this.app.client.getAttribute('.Card a', 'href');
-        expect(cardLinks[0]).to.include('item/shows');
-        done();
-      } catch (error) {
-        done(error);
+    it('should navigate between movies and shows', async () => {
+      if (os.type() === 'Windows_NT') {
+        return; // HACK: Temporary workaround for skipping on windows
       }
+      await this.app.client.click('.nav-item:nth-child(2) .nav-link');
+      await this.app.client.waitUntilWindowLoaded();
+      await delay(2000);
+      const cardLinks = await this.app.client.getAttribute('.Card a', 'href');
+      expect(cardLinks[0]).toContain('item/shows');
     });
 
-    it('should paginate items on scroll to bottom of viewport', async done => {
-      try {
-        const firstCardLinks = await this.app.client.getAttribute('.Card a', 'href');
-        await this.app.client.scroll('.Loader');
-        await delay(2000);
-        await this.app.client.waitUntilWindowLoaded();
-        const secondCardLinks = await this.app.client.getAttribute('.Card a', 'href');
-        expect(secondCardLinks.length).to.be.greaterThan(firstCardLinks.length);
-        done();
-      } catch (error) {
-        done(error);
-      }
+    it('should paginate items on scroll to bottom of viewport', async () => {
+      const firstCardLinks = await this.app.client.getAttribute(
+        '.Card a',
+        'href'
+      );
+      await this.app.client.scroll('.Loader');
+      await delay(2000);
+      await this.app.client.waitUntilWindowLoaded();
+      const secondCardLinks = await this.app.client.getAttribute(
+        '.Card a',
+        'href'
+      );
+      expect(secondCardLinks.length).toBeGreaterThan(firstCardLinks.length);
     });
   });
 
   describe('ItemPage', () => {
-    beforeEach(async done => {
-      try {
-        // navigate to Game of thrones
-        await navigate('item/shows/tt0944947');
-        await delay(1000);
-        await this.app.client.waitUntilWindowLoaded();
-        done();
-      } catch (error) {
-        done(error);
-      }
+    beforeEach(async () => {
+      // navigate to Game of thrones
+      await navigate('item/shows/tt0944947');
+      await delay(1000);
+      await this.app.client.waitUntilWindowLoaded();
     });
 
-    it('should navigate to similar cards on click', async done => {
-      try {
-        const [firstTitleText] = await this.app.client.getText('#title');
-        const [firstSummaryText] = await this.app.client.getText('#summary');
+    it('should navigate to similar cards on click', async () => {
+      const [firstTitleText] = await this.app.client.getText('#title');
+      const [firstSummaryText] = await this.app.client.getText('#summary');
 
-        await this.app.client.click('.CardList .Card--overlay:first-child');
-        await this.app.client.waitUntilWindowLoaded();
-        await delay(2000);
+      await this.app.client.click('.CardList .Card--overlay:first-child');
+      await this.app.client.waitUntilWindowLoaded();
+      await delay(2000);
 
-        const [secondTitleText] = await this.app.client.getText('#title');
-        const [secondSummaryText] = await this.app.client.getText('#summary');
+      const [secondTitleText] = await this.app.client.getText('#title');
+      const [secondSummaryText] = await this.app.client.getText('#summary');
 
-        expect(firstTitleText).to.be.a('string');
-        expect(firstSummaryText).to.be.a('string');
-        expect(secondTitleText).to.be.a('string');
-        expect(secondSummaryText).to.be.a('string');
-        expect(firstTitleText).to.not.equal(secondTitleText);
-        expect(firstSummaryText).to.not.equal(secondSummaryText);
-        done();
-      } catch (error) {
-        done(error);
-      }
+      expect(typeof firstTitleText).toBe('string');
+      expect(typeof firstSummaryText).toBe('string');
+      expect(typeof secondTitleText).toBe('string');
+      expect(typeof secondSummaryText).toBe('string');
+      expect(firstTitleText).not.toBe(secondTitleText);
+      expect(firstSummaryText).not.toBe(secondSummaryText);
     });
   });
 });

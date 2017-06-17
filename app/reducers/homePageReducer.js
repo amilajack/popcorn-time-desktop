@@ -1,3 +1,4 @@
+// @flow
 const defaultState = {
   activeMode: 'movies',
   activeModeOptions: {},

@@ -7,11 +7,12 @@ import {
   resolveCache,
   setCache
 } from '../torrents/BaseTorrentProvider';
+import TraktMetadataProvider from './TraktMetadataProvider';
 
 
 function MetadataAdapter(): Array<Object> {
   return [
-    new (require('./TraktMetadataProvider')) // eslint-disable-line
+    new TraktMetadataProvider()
   ];
 }
 

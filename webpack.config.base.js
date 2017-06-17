@@ -1,55 +1,49 @@
+/**
+ * Base webpack config used across other specific configs
+ */
+
 import path from 'path';
 import webpack from 'webpack';
-
-
-export const stats = {
-  colors: true,
-  hash: false,
-  version: false,
-  timings: false,
-  assets: false,
-  chunks: false,
-  modules: false,
-  reasons: false,
-  children: false,
-  source: false,
-  errors: true,
-  errorDetails: false,
-  warnings: false,
-  publicPath: false
-};
+import { dependencies as externals } from './app/package.json';
 
 export default {
+  externals: Object.keys(externals || {}),
+
   module: {
-    loaders: [{
+    rules: [{
       test: /\.jsx?$/,
-      loader: 'babel-loader',
-      exclude: /node_modules/
-    }, {
-      test: /\.node$/,
-      loader: 'node-loader'
-    }, {
-      test: /\.json$/,
-      loader: 'json-loader'
+      exclude: /node_modules/,
+      use: {
+        loader: 'babel-loader',
+        options: {
+          cacheDirectory: true
+        }
+      }
     }]
   },
+
   output: {
-    path: path.join(__dirname, './app/dist'),
-    filename: 'renderer.js',
+    path: path.join(__dirname, 'app'),
+    filename: 'bundle.js',
+    // https://github.com/webpack/webpack/issues/1114
     libraryTarget: 'commonjs2'
   },
+
+  /**
+   * Determine the array of extensions that should be used to resolve modules.
+   */
   resolve: {
-    extensions: ['', '.js', '.jsx', '.json'],
-    packageMains: ['webpack', 'browser', 'web', 'browserify', ['jam', 'main'], 'main'],
+    extensions: ['.js', '.jsx', '.json'],
+    modules: [
+      path.join(__dirname, 'app'),
+      'node_modules'
+    ],
     alias: {
       castv2: 'castv2-webpack'
     }
   },
+
   plugins: [
-    new webpack.IgnorePlugin(/^(README.md)$/)
-  ],
-  externals: [
-    // put your node 3rd party libraries which can't be built with webpack here
-    // (mysql, mongodb, and so on..)
+    new webpack.NamedModulesPlugin()
   ]
 };

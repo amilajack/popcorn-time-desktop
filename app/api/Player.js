@@ -13,7 +13,10 @@ export default class Player {
 
   powerSaveBlockerId: number;
 
-  _player: plyr;
+  /**
+   * @private
+   */
+  player: plyr;
 
   static nativePlaybackFormats = ['mp4', 'ogg', 'mov', 'webmv', 'mkv', 'wmv', 'avi'];
 
@@ -26,8 +29,8 @@ export default class Player {
     if (this.powerSaveBlockerId) {
       powerSaveBlocker.stop(this.powerSaveBlockerId);
     }
-    if (this._player) {
-      this._player.destroy();
+    if (this.player) {
+      this.player.destroy();
     }
   }
 
@@ -35,10 +38,10 @@ export default class Player {
    * restart they player's state
    */
   restart() {
-    this._player.restart();
+    this.player.restart();
   }
 
-  static isFormatSupported(filename: string, mimeTypes: Array<string>): boolean {
+  static isFormatSupported(filename: string, mimeTypes: Array<string>): bool {
     return !!mimeTypes.find(
       mimeType => filename.toLowerCase().includes(mimeType)
     );
@@ -49,13 +52,13 @@ export default class Player {
     this.currentPlayer = 'plyr';
     this.powerSaveBlockerId = powerSaveBlocker.start('prevent-app-suspension');
 
-    this._player = plyr.setup({
+    this.player = plyr.setup({
       volume: 10,
       autoplay: true,
       showPosterOnEnd: true
     })[0];
 
-    const player = this._player;
+    const player = this.player;
 
     player.source({
       type: 'video',

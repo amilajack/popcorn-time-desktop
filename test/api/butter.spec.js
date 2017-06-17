@@ -1,5 +1,3 @@
-/* eslint global-require: 0, fp/no-loops: 0, import/no-dynamic-require: 0 */
-import { expect } from 'chai';
 import Butter from '../../app/api/Butter';
 import MockShows from './butter.mock';
 import {
@@ -11,7 +9,6 @@ import {
 import { getStatuses } from '../../app/api/torrents/TorrentAdapter';
 import { convertRuntimeToHours } from '../../app/api/metadata/MetadataAdapter';
 import { set, get, clear } from '../../app/utils/Config';
-
 
 const imdbId = 'tt0468569'; // The Dark Knight
 const showImdbId = 'tt1475582'; // Sherlock
@@ -36,116 +33,100 @@ const providers = [
   }
 ];
 
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+
 function greaterThanOrEqualTo(first, second) {
-  return (first > second || first === second);
+  return first > second || first === second;
 }
 
-describe('API ->', function testApi() {
-  this.retries(3);
-
+describe('API', () => {
   describe('Status', () => {
-    it('should get status of providers', async done => {
-      try {
-        for (const _provider of providers) {
-          expect(await _provider.provider.getStatus()).to.be.a('boolean');
-        }
-        done();
-      } catch (error) {
-        done(error);
+    it('should get status of providers', async () => {
+      for (const _provider of providers) {
+        expect(typeof await _provider.provider.getStatus()).toBe('boolean');
       }
     });
 
-    it('should get an array of statuses', async done => {
-      try {
-        const statuses = await getStatuses();
-        expect(statuses).to.be.an('array');
-        for (const status of statuses) {
-          expect(status).to.be.an('object');
-          expect(status).to.have.deep.property('providerName').that.is.a('string');
-          expect(status).to.have.deep.property('online').that.is.a('boolean');
-        }
-        done();
-      } catch (error) {
-        done(error);
+    it('should get an array of statuses', async () => {
+      const statuses = await getStatuses();
+      expect(typeof statuses).toBe('array');
+      for (const status of statuses) {
+        expect(typeof status).toBe('object');
+        expect(typeof status).toBe('string');
+        expect(typeof status).toBe('boolean');
       }
     });
   });
 
   describe('Utils', () => {
-    it('should set, get, list cache', done => {
-      try {
-        clear();
+    it('should set, get, list cache', () => {
+      clear();
 
-        expect(get('__test__')).to.equal(undefined);
+      expect(get('__test__')).toBe(undefined);
 
-        set('__test__', 'some_value');
-        expect(get('__test__')).to.equal('some_value');
+      set('__test__', 'some_value');
+      expect(get('__test__')).toBe('some_value');
 
-        set('__test__', { testingValue: 'someTestingValue' });
-        expect(get('__test__')).to.eql({ testingValue: 'someTestingValue' });
+      set('__test__', { testingValue: 'someTestingValue' });
+      expect(get('__test__')).toEqual({ testingValue: 'someTestingValue' });
 
-        set('__test__', [{ some: 'who' }]);
-        set('__test__', []);
-        expect(get('__test__')).to.eql([]);
-
-        done();
-      } catch (err) {
-        done(err);
-      }
+      set('__test__', [{ some: 'who' }]);
+      set('__test__', []);
+      expect(get('__test__')).toEqual([]);
     });
   });
 
   describe('Config', () => {
-    it('should add favorites, recentlyWatched, watchList', async done => {
-      try {
-        for (const type of ['favorites', 'watchList', 'recentlyWatched']) {
-          clear();
+    it('should add favorites, recentlyWatched, watchList', async () => {
+      for (const type of ['favorites', 'watchList', 'recentlyWatched']) {
+        clear();
 
-          const res = {
-            who: 'moo',
-            id: 'who'
-          };
+        const res = {
+          who: 'moo',
+          id: 'who'
+        };
 
-          const butter = butterFactory();
+        const butter = butterFactory();
 
-          // Test addition
-          expect(await butter[type]('set', res)).to.eql([res]);
-          expect(await butter[type]('get', res)).to.eql([res]);
+        // Test addition
+        expect(await butter[type]('set', res)).toEqual([res]);
+        expect(await butter[type]('get', res)).toEqual([res]);
 
-          // Test addition of multiple elements
-          expect(await butter[type]('set', {
+        // Test addition of multiple elements
+        expect(
+          await butter[type]('set', {
             ...res,
             id: 'lee'
-          }))
-          .to.eql([res, {
+          })
+        ).toEqual([
+          res,
+          {
             ...res,
             id: 'lee'
-          }]);
-          expect(await butter[type]('get'))
-            .to.eql([res, {
-              ...res,
-              id: 'lee'
-            }]);
+          }
+        ]);
+        expect(await butter[type]('get')).toEqual([
+          res,
+          {
+            ...res,
+            id: 'lee'
+          }
+        ]);
 
-          // @TODO: Test removal of elements. Currently, this fails without an
-          //        obvious reason
-          //
-          // expect(await butter[type]('remove', {
-          //   id: 'lee'
-          // }))
-          // .to.eql([res]);
-          // expect(await butter[type]('get')).to.eql([res]);
-        }
-
-        done();
-      } catch (err) {
-        done(err);
+        // @TODO: Test removal of elements. Currently, this fails without an
+        //        obvious reason
+        //
+        // expect(await butter[type]('remove', {
+        //   id: 'lee'
+        // }))
+        // .to.eql([res]);
+        // expect(await butter[type]('get')).to.eql([res]);
       }
     });
   });
 
-  describe('Torrent Providers ->', () => {
-    describe('Movie ->', () => {
+  describe('Torrent Providers', () => {
+    describe('Movie', () => {
       const movieProviders = [
         // {
         //   name: 'PirateBay',
@@ -178,43 +159,46 @@ describe('API ->', function testApi() {
       ];
 
       for (const providerConfig of movieProviders) {
-        it(`${providerConfig.name}TorrentProvider should return movie torrents`,
-        async function testTorrentProviders(done) {
-          try {
-            this.timeout(10000);
-
-            const torrents = await providerConfig.provider.provide('tt0330373', 'movies', {
+        it(`${providerConfig.name}TorrentProvider should return movie torrents`, async () => {
+          const torrents = await providerConfig.provider.provide(
+            'tt0330373',
+            'movies',
+            {
               searchQuery: 'Harry Potter and the Goblet of Fire'
-            });
+            }
+          );
 
-            expect(torrents).to.be.an('array');
+          expect(typeof torrents).toBe('array');
+          console.log(
+            `\t ${providerConfig.name}TorrentProvider torrent count: `,
+            torrents.length
+          );
+          expect(torrents.length).toBeGreaterThan(
+            providerConfig.minTorrentsCount - 1
+          );
+
+          if (torrents.length) {
+            const seederCount = sortTorrentsBySeeders(torrents)[0].seeders;
             console.log(
-              `\t ${providerConfig.name}TorrentProvider torrent count: `, torrents.length
+              `\t ${providerConfig.name}TorrentProvider seeder count: `,
+              seederCount
             );
-            expect(torrents).to.have.length.above(providerConfig.minTorrentsCount - 1);
+            expect(seederCount).toBeGreaterThanOrEqual(
+              providerConfig.minSeederCount
+            );
+          }
 
-            if (torrents.length) {
-              const seederCount = sortTorrentsBySeeders(torrents)[0].seeders;
-              console.log(
-                `\t ${providerConfig.name}TorrentProvider seeder count: `, seederCount
-              );
-              expect(seederCount).to.be.at.least(providerConfig.minSeederCount);
-            }
-
-            for (const torrent of torrents) {
-              assertProviderTorrent(torrent);
-              expect(torrent).to.have.property('_provider')
-                .that.equals(providerConfig.id);
-            }
-            done();
-          } catch (error) {
-            done(error);
+          for (const torrent of torrents) {
+            assertProviderTorrent(torrent);
+            expect(torrent)
+              .toHaveProperty('_provider')
+              .toEqual(providerConfig.id);
           }
         });
       }
     });
 
-    describe('Show ->', () => {
+    describe('Show', () => {
       const showTorrentProviders = [
         // {
         //   name: 'PirateBay',
@@ -246,43 +230,44 @@ describe('API ->', function testApi() {
       };
 
       for (const providerConfig of showTorrentProviders) {
-        it(`${providerConfig.name}TorrentProvider should return show torrents`,
-        async function testTorrentProviders(done) {
-          try {
-            this.timeout(10000);
+        it(`${providerConfig.name}TorrentProvider should return show torrents`, async () => {
+          const torrents = await providerConfig.provider.provide(
+            showImdbId,
+            'shows',
+            extendedDetails
+          );
 
-            const torrents = await providerConfig.provider.provide(
-              showImdbId, 'shows', extendedDetails
-            );
+          expect(typeof torrents).toBe('array');
+          console.log(
+            `\t ${providerConfig.name}TorrentProvider torrent count: `,
+            torrents.length
+          );
+          expect(torrents.length).toBeGreaterThan(
+            providerConfig.minTorrentsCount - 1
+          );
 
-            expect(torrents).to.be.an('array');
+          if (torrents.length) {
+            const seederCount = sortTorrentsBySeeders(torrents)[0].seeders;
             console.log(
-              `\t ${providerConfig.name}TorrentProvider torrent count: `, torrents.length
+              `\t ${providerConfig.name}TorrentProvider seeder count: `,
+              seederCount
             );
-            expect(torrents).to.have.length.above(providerConfig.minTorrentsCount - 1);
+            expect(seederCount).toBeGreaterThanOrEqual(
+              providerConfig.minSeederCount
+            );
+          }
 
-            if (torrents.length) {
-              const seederCount = sortTorrentsBySeeders(torrents)[0].seeders;
-              console.log(
-                `\t ${providerConfig.name}TorrentProvider seeder count: `, seederCount
-              );
-              expect(seederCount).to.be.at.least(providerConfig.minSeederCount);
-            }
-
-            for (const torrent of torrents) {
-              assertProviderTorrent(torrent);
-              expect(torrent).to.have.property('_provider')
-                .that.equals(providerConfig.id);
-            }
-            done();
-          } catch (error) {
-            done(error);
+          for (const torrent of torrents) {
+            assertProviderTorrent(torrent);
+            expect(torrent)
+              .toHaveProperty('_provider')
+              .toEqual(providerConfig.id);
           }
         });
       }
     });
 
-    describe('Show Complete ->', () => {
+    describe('Show Complete', () => {
       const showTorrentProviders = [
         // {
         //   name: 'PirateBay',
@@ -307,389 +292,327 @@ describe('API ->', function testApi() {
       };
 
       for (const providerConfig of showTorrentProviders) {
-        it(`${providerConfig.name}TorrentProvider should return show torrents`,
-        async function testTorrentProviders(done) {
-          try {
-            this.timeout(10000);
+        it(`${providerConfig.name}TorrentProvider should return show torrents`, async () => {
+          const torrents = await providerConfig.provider.provide(
+            showImdbId,
+            'season_complete',
+            extendedDetails
+          );
 
-            const torrents = await providerConfig.provider.provide(
-              showImdbId, 'season_complete', extendedDetails
-            );
+          expect(typeof torrents).toBe('array');
+          console.log(
+            `\t ${providerConfig.name}TorrentProvider torrent count: `,
+            torrents.length
+          );
+          expect(torrents.length).toBeGreaterThan(
+            providerConfig.minTorrentsCount - 1
+          );
 
-            expect(torrents).to.be.an('array');
+          if (torrents.length) {
+            const seederCount = sortTorrentsBySeeders(torrents)[0].seeders;
             console.log(
-              `\t ${providerConfig.name}TorrentProvider torrent count: `, torrents.length
+              `\t ${providerConfig.name}TorrentProvider seeder count: `,
+              seederCount
             );
-            expect(torrents).to.have.length.above(providerConfig.minTorrentsCount - 1);
+            expect(seederCount).toBeGreaterThanOrEqual(
+              providerConfig.minSeederCount
+            );
+          }
 
-            if (torrents.length) {
-              const seederCount = sortTorrentsBySeeders(torrents)[0].seeders;
-              console.log(
-                `\t ${providerConfig.name}TorrentProvider seeder count: `, seederCount
-              );
-              expect(seederCount).to.be.at.least(providerConfig.minSeederCount);
-            }
-
-            for (const torrent of torrents) {
-              assertProviderTorrent(torrent);
-              expect(torrent).to.have.property('_provider')
-                .that.equals(providerConfig.id);
-            }
-            done();
-          } catch (error) {
-            done(error);
+          for (const torrent of torrents) {
+            assertProviderTorrent(torrent);
+            expect(torrent)
+              .toHaveProperty('_provider')
+              .toEqual(providerConfig.id);
           }
         });
       }
     });
   });
 
-  describe('Butter ->', () => {
-    describe('metadata ->', () => {
-      describe('time format ->', () => {
-        it('should convert time from minutes to hours', done => {
-          try {
-            expect(convertRuntimeToHours(64).full).to.equal('1 hour 4 minutes');
-            expect(convertRuntimeToHours(20).full).to.equal('20 minutes');
-            expect(convertRuntimeToHours(64).hours).to.equal(1);
-            expect(convertRuntimeToHours(64).minutes).to.equal(4);
+  describe('Butter', () => {
+    describe('metadata', () => {
+      describe('time format', () => {
+        it('should convert time from minutes to hours', () => {
+          expect(convertRuntimeToHours(64).full).toBe('1 hour 4 minutes');
+          expect(convertRuntimeToHours(20).full).toBe('20 minutes');
+          expect(convertRuntimeToHours(64).hours).toBe(1);
+          expect(convertRuntimeToHours(64).minutes).toBe(4);
 
-            expect(convertRuntimeToHours(126).full).to.equal('2 hours 6 minutes');
-            expect(convertRuntimeToHours(56).full).to.equal('56 minutes');
-            expect(convertRuntimeToHours(126).hours).to.equal(2);
-            expect(convertRuntimeToHours(126).minutes).to.equal(6);
+          expect(convertRuntimeToHours(126).full).toBe('2 hours 6 minutes');
+          expect(convertRuntimeToHours(56).full).toBe('56 minutes');
+          expect(convertRuntimeToHours(126).hours).toBe(2);
+          expect(convertRuntimeToHours(126).minutes).toBe(6);
 
-            expect(convertRuntimeToHours(60).full).to.equal('1 hour');
-            done();
-          } catch (error) {
-            done(error);
-          }
+          expect(convertRuntimeToHours(60).full).toBe('1 hour');
         });
       });
 
-      describe('format episode and season ->', () => {
-        it('should format correctly', done => {
-          try {
-            expect(formatSeasonEpisodeToString(1, 4)).to.equal('s01e04');
-            expect(formatSeasonEpisodeToString(20, 40)).to.equal('s20e40');
-            expect(formatSeasonEpisodeToString(5, 10)).to.equal('s05e10');
-            expect(formatSeasonEpisodeToString(22, 22)).to.equal('s22e22');
+      describe('format episode and season', () => {
+        it('should format correctly', () => {
+          expect(formatSeasonEpisodeToString(1, 4)).toBe('s01e04');
+          expect(formatSeasonEpisodeToString(20, 40)).toBe('s20e40');
+          expect(formatSeasonEpisodeToString(5, 10)).toBe('s05e10');
+          expect(formatSeasonEpisodeToString(22, 22)).toBe('s22e22');
 
-            expect(formatSeasonEpisodeToObject(1, 4)).to.eql({ season: '01', episode: '04' });
-            expect(formatSeasonEpisodeToObject(5, 10)).to.eql({ season: '05', episode: '10' });
-            expect(formatSeasonEpisodeToObject(22, 22)).to.eql({ season: '22', episode: '22' });
-            done();
-          } catch (error) {
-            done(error);
-          }
+          expect(formatSeasonEpisodeToObject(1, 4)).toEqual({
+            season: '01',
+            episode: '04'
+          });
+          expect(formatSeasonEpisodeToObject(5, 10)).toEqual({
+            season: '05',
+            episode: '10'
+          });
+          expect(formatSeasonEpisodeToObject(22, 22)).toEqual({
+            season: '22',
+            episode: '22'
+          });
         });
       });
 
-      describe('movies ->', () => {
-        it('should return array of objects', async done => {
-          try {
-            const movies = await moviesFactory();
+      describe('movies', () => {
+        it('should return array of objects', async () => {
+          const movies = await moviesFactory();
 
-            for (const movie of movies) {
-              expect(movies).to.be.a('array');
-              expect(movie).to.be.an('object');
-            }
-            done();
-          } catch (error) {
-            done(error);
+          for (const movie of movies) {
+            expect(typeof movies).toBe('array');
+            expect(typeof movie).toBe('object');
           }
         });
 
-        it('should have movies that have necessary properties', async done => {
-          try {
-            const movies = await moviesFactory();
+        it('should have movies that have necessary properties', async () => {
+          const movies = await moviesFactory();
 
-            for (const movie of movies) {
-              assertMovieFormat(movie);
-            }
-            done();
-          } catch (error) {
-            done(error);
-          }
-        });
-      });
-
-      describe('movie ->', () => {
-        it('should have necessary properties', async done => {
-          try {
-            const movie = await new Butter().getMovie('tt0417741');
+          for (const movie of movies) {
             assertMovieFormat(movie);
-            done();
-          } catch (error) {
-            done(error);
           }
         });
       });
 
-      describe('shows ->', () => {
-        it('should return array of objects', async done => {
-          try {
-            const shows = await butterFactory().getShows();
+      describe('movie', () => {
+        it('should have necessary properties', async () => {
+          const movie = await new Butter().getMovie('tt0417741');
+          assertMovieFormat(movie);
+        });
+      });
 
-            for (const show of shows) {
-              expect(shows).to.be.a('array');
-              expect(show).to.be.an('object');
-            }
-            done();
-          } catch (error) {
-            done(error);
+      describe('shows', () => {
+        it('should return array of objects', async () => {
+          const shows = await butterFactory().getShows();
+
+          for (const show of shows) {
+            expect(typeof shows).toBe('array');
+            expect(typeof show).toBe('object');
           }
         });
 
-        it('should have movies that have necessary properties', async done => {
-          try {
-            const shows = await butterFactory().getShows();
+        it('should have movies that have necessary properties', async () => {
+          const shows = await butterFactory().getShows();
 
-            for (const show of shows) {
-              assertMovieFormat(show);
-            }
-            done();
-          } catch (error) {
-            done(error);
+          for (const show of shows) {
+            assertMovieFormat(show);
           }
         });
       });
 
-      describe('show ->', () => {
-        it('should get show metadata', async done => {
-          try {
-            const showMetadata = await butterFactory().getShow('tt0944947');
-            assertMovieFormat(showMetadata);
-            done();
-          } catch (error) {
-            done(error);
-          }
+      describe('show', () => {
+        it('should get show metadata', async () => {
+          const showMetadata = await butterFactory().getShow('tt0944947');
+          assertMovieFormat(showMetadata);
         });
 
-        it('should get seasons', async done => {
-          try {
-            const seasons = await butterFactory().getSeasons('tt1475582');
-            expect(seasons).to.be.an('array');
+        it('should get seasons', async () => {
+          const seasons = await butterFactory().getSeasons('tt1475582');
+          expect(typeof seasons).toBe('array');
 
-            const [season] = seasons;
+          const [season] = seasons;
 
-            expect(season).to.be.an('object');
-            expect(season).to.have.property('season').that.equals(1);
-            expect(season).to.have.deep.property('images.full').that.is.a('string');
-            expect(season).to.have.deep.property('images.medium').that.is.a('string');
-            expect(season).to.have.deep.property('images.thumb').that.is.a('string');
-            done();
-          } catch (error) {
-            done(error);
-          }
+          expect(typeof season).toBe('object');
+          expect(season).toHaveProperty('season').toEqual(1);
+          expect(typeof season).toBe('string');
+          expect(typeof season).toBe('string');
+          expect(typeof season).toBe('string');
         });
 
-        it('should get season', async done => {
-          try {
-            const episodes = await butterFactory().getSeason('game-of-thrones', 1);
-            expect(episodes).to.be.an('array');
+        it('should get season', async () => {
+          const episodes = await butterFactory().getSeason(
+            'game-of-thrones',
+            1
+          );
+          expect(typeof episodes).toBe('array');
 
-            const [episode] = episodes;
+          const [episode] = episodes;
 
-            expect(episode).to.be.an('object');
-            expect(episode).to.have.property('season').that.equals(1);
-            expect(episode).to.have.property('episode').that.equals(1);
-            expect(episode).to.have.property('id').that.equals('tt1480055');
-            expect(episode).to.have.property('title').that.equals('Winter Is Coming');
-            expect(episode).to.have.deep.property('images.full').that.is.a('string');
-            expect(episode).to.have.deep.property('images.medium').that.is.a('string');
-            expect(episode).to.have.deep.property('images.thumb').that.is.a('string');
-            done();
-          } catch (error) {
-            done(error);
-          }
+          expect(typeof episode).toBe('object');
+          expect(episode).toHaveProperty('season').toEqual(1);
+          expect(episode).toHaveProperty('episode').toEqual(1);
+          expect(episode).toHaveProperty('id').toEqual('tt1480055');
+          expect(episode).toHaveProperty('title').toEqual('Winter Is Coming');
+          expect(typeof episode).toBe('string');
+          expect(typeof episode).toBe('string');
+          expect(typeof episode).toBe('string');
         });
 
-        it('should get episode', async done => {
-          try {
-            const episode = await butterFactory().getEpisode('tt1475582', 2, 2);
-            expect(episode).to.be.an('object');
-            expect(episode).to.have.property('season').that.equals(2);
-            expect(episode).to.have.property('episode').that.equals(2);
-            expect(episode).to.have.property('id').that.equals('tt1942613');
-            expect(episode).to.have.property('title').that.equals('The Hounds of Baskerville');
-            expect(episode).to.have.property('overview').that.is.a('string');
-            expect(episode).to.have.property('rating').that.is.a('number').that.is.within(0, 10);
-            expect(episode).to.have.deep.property('images.full').that.is.a('string');
-            expect(episode).to.have.deep.property('images.medium').that.is.a('string');
-            expect(episode).to.have.deep.property('images.thumb').that.is.a('string');
-            done();
-          } catch (error) {
-            done(error);
+        it('should get episode', async () => {
+          const episode = await butterFactory().getEpisode('tt1475582', 2, 2);
+          expect(typeof episode).toBe('object');
+          expect(episode).toHaveProperty('season').toEqual(2);
+          expect(episode).toHaveProperty('episode').toEqual(2);
+          expect(episode).toHaveProperty('id').toEqual('tt1942613');
+          expect(episode).toHaveProperty('title');
+          expect(episode.title).toEqual('The Hounds of Baskerville');
+          expect(typeof episode).toBe('string');
+          expect(episode)
+            .toHaveProperty('rating')
+            .that.is.a('number')
+            .toBeLessThanOrEqual(0);
+          expect(episode)
+            .toHaveProperty('rating')
+            .that.is.a('number')
+            .toBeGreaterThanOrEqual(10);
+          expect(typeof episode).toBe('string');
+          expect(typeof episode).toBe('string');
+          expect(typeof episode).toBe('string');
+        });
+      });
+
+      describe('similar', () => {
+        it('should get similar movies and shows in correct format', async () => {
+          const similarMovies = await butterFactory().getSimilar(
+            'movies',
+            imdbId
+          );
+
+          for (const similarMovie of similarMovies) {
+            assertMovieFormat(similarMovie);
           }
         });
       });
 
-      describe('similar ->', () => {
-        it('should get similar movies and shows in correct format', async done => {
-          try {
-            const similarMovies = await butterFactory().getSimilar('movies', imdbId);
+      describe('search', () => {
+        it('should search movies in correct format', async () => {
+          const searchResults = await butterFactory().search(
+            'Harry Potter and the Goblet of Fire',
+            'movies'
+          );
+          expect(typeof searchResults).toBe('array');
 
-            for (const similarMovie of similarMovies) {
-              assertMovieFormat(similarMovie);
-            }
-            done();
-          } catch (error) {
-            done(error);
-          }
-        });
-      });
-
-      describe('search ->', () => {
-        it('should search movies in correct format', async done => {
-          try {
-            const searchResults = await butterFactory().search(
-              'Harry Potter and the Goblet of Fire', 'movies'
-            );
-            expect(searchResults).to.be.a('array');
-
-            for (const movie of searchResults) {
-              expect(movie).to.be.an('object');
-              assertMovieFormat(movie);
-            }
-            done();
-          } catch (error) {
-            done(error);
+          for (const movie of searchResults) {
+            expect(typeof movie).toBe('object');
+            assertMovieFormat(movie);
           }
         });
       });
     });
 
-    describe('torrents ->', () => {
-      describe('movie torrents ->', () => {
-        it('should get torrents and their magnets of 720p and 1080p', async done => {
-          try {
-            const torrent = await butterFactory().getTorrent(imdbId, 'movies', {
-              searchQuery: 'the dark knight'
-            });
+    describe('torrents', () => {
+      describe('movie torrents', () => {
+        it('should get torrents and their magnets of 720p and 1080p', async () => {
+          const torrent = await butterFactory().getTorrent(imdbId, 'movies', {
+            searchQuery: 'the dark knight'
+          });
 
-            for (const quality of ['720p', '1080p']) {
-              assertSingleTorrent(torrent[quality]);
-              expect(torrent[quality])
-                .to.have.deep.property('quality')
-                .that.is.a('string')
-                .that.equals(quality);
-            }
-            done();
-          } catch (error) {
-            done(error);
+          for (const quality of ['720p', '1080p']) {
+            assertSingleTorrent(torrent[quality]);
+            expect(typeof torrent[quality]).toBe('string').toEqual(quality);
           }
         });
 
-        it('should order torrents by seeder count by default',
-        async function testSeederOrder(done) {
-          this.timeout(20000);
+        it('should order torrents by seeder count by default', async () => {
+          // this.timeout(20000);
 
-          try {
-            // Get all sorted torrents
-            const torrents = await butterFactory().getTorrent('tt1375666', 'movies', {
+          // Get all sorted torrents
+          const torrents = await butterFactory().getTorrent(
+            'tt1375666',
+            'movies',
+            {
               searchQuery: 'Inception'
-            }, true);
+            },
+            true
+          );
 
-            for (const torrent of torrents) {
-              assertSingleTorrent(torrent);
-            }
+          for (const torrent of torrents) {
+            assertSingleTorrent(torrent);
+          }
 
-            if (torrents.length >= 4) {
-              greaterThanOrEqualTo(torrents[0].seeders, torrents[1].seeders);
-              greaterThanOrEqualTo(torrents[1].seeders, torrents[2].seeders);
-              greaterThanOrEqualTo(torrents[2].seeders, torrents[3].seeders);
-            }
+          if (torrents.length >= 4) {
+            greaterThanOrEqualTo(torrents[0].seeders, torrents[1].seeders);
+            greaterThanOrEqualTo(torrents[1].seeders, torrents[2].seeders);
+            greaterThanOrEqualTo(torrents[2].seeders, torrents[3].seeders);
+          }
 
-            if (torrents.length > 1) {
-              greaterThanOrEqualTo(
-                torrents[0].seeders,
-                torrents[torrents.length - 1].seeders
-              );
-            }
-
-            done();
-          } catch (error) {
-            done(error);
+          if (torrents.length > 1) {
+            greaterThanOrEqualTo(
+              torrents[0].seeders,
+              torrents[torrents.length - 1].seeders
+            );
           }
         });
       });
 
-      describe('show torrents ->', () => {
-        it('should get show torrent by imdbId', async done => {
-          try {
-            const torrents = await butterFactory().getTorrent('tt0944947', 'shows', {
+      describe('show torrents', () => {
+        it('should get show torrent by imdbId', async () => {
+          const torrents = await butterFactory().getTorrent(
+            'tt0944947',
+            'shows',
+            {
               season: 2,
               episode: 2,
               searchQuery: 'game of thrones'
-            });
-
-            expect(torrents).to.be.an('object');
-
-            for (const quality of ['480p', '720p', '1080p']) {
-              if (torrents[quality]) {
-                assertSingleTorrent(torrents[quality]);
-                expect(torrents[quality])
-                  .to.have.deep.property('quality')
-                  .that.is.a('string')
-                  .that.equals(quality);
-              }
             }
-            done();
-          } catch (error) {
-            done(error);
+          );
+
+          expect(typeof torrents).toBe('object');
+
+          for (const quality of ['480p', '720p', '1080p']) {
+            if (torrents[quality]) {
+              assertSingleTorrent(torrents[quality]);
+              expect(typeof torrents[quality]).toBe('string').toEqual(quality);
+            }
           }
         });
 
-        it('should get season_complete torrents', async done => {
-          try {
-            const torrents = await butterFactory().getTorrent(imdbId, 'season_complete', {
+        it('should get season_complete torrents', async () => {
+          const torrents = await butterFactory().getTorrent(
+            imdbId,
+            'season_complete',
+            {
               searchQuery: 'game of thrones',
               season: 6
-            });
-
-            expect(torrents).to.be.an('object');
-
-            for (const quality of ['480p', '720p', '1080p']) {
-              if (torrents[quality]) {
-                assertSingleTorrent(torrents[quality]);
-                expect(torrents[quality])
-                  .to.have.deep.property('quality')
-                  .that.is.a('string')
-                  .that.equals(quality);
-              }
             }
-            done();
-          } catch (error) {
-            done(error);
+          );
+
+          expect(typeof torrents).toBe('object');
+
+          for (const quality of ['480p', '720p', '1080p']) {
+            if (torrents[quality]) {
+              assertSingleTorrent(torrents[quality]);
+              expect(typeof torrents[quality]).toBe('string').toEqual(quality);
+            }
           }
         });
       });
 
       describe('Helpers', () => {
-        it('should return custom endpoint config', done => {
-          try {
-            const resolvedEndpoint = resolveEndpoint('https://some-website.com/search', 'TEST');
-            expect(resolvedEndpoint).to.equal('https://test.org/search');
-            done();
-          } catch (error) {
-            done(error);
-          }
+        it('should return custom endpoint config', () => {
+          const resolvedEndpoint = resolveEndpoint(
+            'https://some-website.com/search',
+            'TEST'
+          );
+          expect(resolvedEndpoint).toBe('https://test.org/search');
         });
 
-        it('should return default for unknown endpoints', done => {
-          try {
-            const resolvedEndpoint = resolveEndpoint('https://some-website.com/search', 'TEST');
-            expect(resolvedEndpoint).to.equal('https://test.org/search');
-            done();
-          } catch (error) {
-            done(error);
-          }
+        it('should return default for unknown endpoints', () => {
+          const resolvedEndpoint = resolveEndpoint(
+            'https://some-website.com/search',
+            'TEST'
+          );
+          expect(resolvedEndpoint).toBe('https://test.org/search');
         });
       });
 
       describe.skip('Subtitles', function testSubtitles() {
-        this.timeout(30000);
+        // this.timeout(30000);
 
         before(async () => {
           this.subtitles = await butterFactory().getSubtitles(
@@ -703,37 +626,26 @@ describe('API ->', function testApi() {
         });
 
         describe('Movie', () => {
-          it('should return subtitles', async done => {
-            try {
-              expect(this.subtitles).to.be.an('array');
+          it('should return subtitles', async () => {
+            expect(typeof this.subtitles).toBe('array');
 
-              for (const subtitle of this.subtitles) {
-                expect(subtitle).to.be.an('object');
-                expect(subtitle).to.have.deep.property('kind').that.is.a('string');
-                expect(subtitle).to.have.deep.property('label').that.is.a('string');
-                expect(subtitle).to.have.deep.property('srclang').that.is.a('string');
-                expect(subtitle).to.have.deep.property('src').that.is.a('string');
-                expect(subtitle).to.have.deep.property('default').that.is.a('boolean');
-              }
-
-              done();
-            } catch (error) {
-              done(error);
+            for (const subtitle of this.subtitles) {
+              expect(typeof subtitle).toBe('object');
+              expect(typeof subtitle).toBe('string');
+              expect(typeof subtitle).toBe('string');
+              expect(typeof subtitle).toBe('string');
+              expect(typeof subtitle).toBe('string');
+              expect(typeof subtitle).toBe('boolean');
             }
           });
         });
 
         describe('Show', () => {
-          it.skip('should return subtitles', async done => {
-            try {
-              const subtitles = await butterFactory().getSubtitles(showImdbId);
-              expect(subtitles).to.be.an('array');
-              for (const subtitle of subtitles) {
-                expect(subtitle).to.be.an('object');
-              }
-              done();
-            } catch (error) {
-              done(error);
+          it.skip('should return subtitles', async () => {
+            const subtitles = await butterFactory().getSubtitles(showImdbId);
+            expect(typeof subtitles).toBe('array');
+            for (const subtitle of subtitles) {
+              expect(typeof subtitle).toBe('object');
             }
           });
         });
@@ -742,27 +654,25 @@ describe('API ->', function testApi() {
       describe.skip('Series Tests', () => {
         describe('valid torrents for top 20 shows', () => {
           for (const show of MockShows.filter((e, i) => i < 20)) {
-            it(`${show.title} Season 1 Episode 1`, async (done) => {
-              try {
-                const torrent = await butterFactory().getTorrent(show.id, 'shows', {
+            it(`${show.title} Season 1 Episode 1`, async () => {
+              const torrent = await butterFactory().getTorrent(
+                show.id,
+                'shows',
+                {
                   season: 1,
                   episode: 1,
                   searchQuery: show.title
-                });
-                expect(torrent).to.be.an('object');
-
-                for (const quality of ['480p', '720p', '1080p']) {
-                  if (torrent[quality]) {
-                    assertSingleTorrent(torrent[quality]);
-                    expect(torrent[quality])
-                      .to.have.deep.property('quality')
-                      .that.is.a('string')
-                      .that.equals(quality);
-                  }
                 }
-                done();
-              } catch (error) {
-                done(error);
+              );
+              expect(typeof torrent).toBe('object');
+
+              for (const quality of ['480p', '720p', '1080p']) {
+                if (torrent[quality]) {
+                  assertSingleTorrent(torrent[quality]);
+                  expect(typeof torrent[quality])
+                    .toBe('string')
+                    .toEqual(quality);
+                }
               }
             });
           }
@@ -782,109 +692,94 @@ function moviesFactory() {
 
 function assertNAorNumber(variable) {
   const assertion = variable === 'n/a' || typeof variable === 'number';
-  expect(assertion).to.be.true;  // eslint-disable-line no-unused-expressions
+  expect(assertion).toBe(true); // eslint-disable-line no-unused-expressions
 }
 
 function assertMovieFormat(movie) {
-  expect(movie).to.be.an('object');
-  expect(movie).to.have.property('title').that.is.a('string');
-  expect(movie).to.have.property('year').that.is.a('number');
-  expect(movie).to.have.property('id').that.is.a('string');
-  expect(movie).to.have.property('imdbId').that.is.a('string');
-  expect(movie).to.have.property('summary').that.is.a('string');
-  expect(movie).to.have.property('genres').that.is.an('array');
+  expect(typeof movie).toBe('object');
+  expect(typeof movie).toBe('string');
+  expect(typeof movie).toBe('number');
+  expect(typeof movie).toBe('string');
+  expect(typeof movie).toBe('string');
+  expect(typeof movie).toBe('string');
+  expect(typeof movie).toBe('array');
   assertNAorNumber(movie.rating);
 
-  expect(movie).to.have.property('runtime').that.is.an('object');
-  expect(movie).to.have.deep.property('runtime.full').that.is.a('string');
+  expect(typeof movie).toBe('object');
+  expect(typeof movie).toBe('string');
   assertNAorNumber(movie.runtime.hours);
   assertNAorNumber(movie.runtime.minutes);
 
   expect(movie.trailer).to.satisfy(s => s === null || typeof s === 'string');
 
-  expect(movie).to.have.property('images').that.is.an('object');
+  expect(typeof movie).toBe('object');
   assertImageFormat(movie);
 }
 
 function assertImageFormat(item) {
-  expect(item).to.have.deep.property('images.poster').that.is.an('object');
-  expect(item).to.have.deep.property('images.fanart').that.is.an('object');
-  expect(item).to.have.deep.property('images.poster.full').that.is.a('string');
-  expect(item).to.have.deep.property('images.poster.medium').that.is.a('string');
-  expect(item).to.have.deep.property('images.poster.thumb').that.is.a('string');
-  expect(item).to.have.deep.property('images.fanart.full').that.is.a('string');
-  expect(item).to.have.deep.property('images.fanart.medium').that.is.a('string');
-  expect(item).to.have.deep.property('images.fanart.thumb').that.is.a('string');
+  expect(typeof item).toBe('object');
+  expect(typeof item).toBe('object');
+  expect(typeof item).toBe('string');
+  expect(typeof item).toBe('string');
+  expect(typeof item).toBe('string');
+  expect(typeof item).toBe('string');
+  expect(typeof item).toBe('string');
+  expect(typeof item).toBe('string');
 }
 
 function assertSingleTorrent(torrent) {
-  expect(torrent)
-    .to.be.an('object');
+  expect(typeof torrent).toBe('object');
 
-  expect(torrent)
-    .to.have.deep.property('_provider')
-    .that.is.a('string');
+  expect(typeof torrent).toBe('string');
 
-  expect(torrent)
-    .to.have.deep.property('magnet')
-    .that.is.a('string');
+  expect(typeof torrent).toBe('string');
 
-  expect(torrent)
-    .to.have.deep.property('health')
-    .that.is.a('string')
+  expect(typeof torrent)
+    .toBe('string')
     .that.oneOf(['healthy', 'decent', 'poor']);
 
   expect(torrent)
-    .to.have.deep.property('seeders')
+    .toHaveProperty('seeders')
     .that.is.a('number')
-    .that.is.at.least(0);
+    .toBeGreaterThanOrEqual(0);
 
-  expect(torrent)
-    .to.have.deep.property('metadata')
-    .that.is.a('string');
+  expect(typeof torrent).toBe('string');
 
   assertNAorNumber(torrent.seeders);
 
   expect(torrent)
-    .to.have.deep.property('leechers')
+    .toHaveProperty('leechers')
     .that.is.a('number')
-    .that.is.at.least(0);
+    .toBeGreaterThanOrEqual(0);
 
   assertNAorNumber(torrent.leechers);
 }
 
 function assertProviderTorrent(torrent) {
-  expect(torrent)
-    .to.be.an('object');
+  expect(typeof torrent).toBe('object');
+
+  expect(typeof torrent).toBe('string');
+
+  expect(typeof torrent).toBe('string');
 
   expect(torrent)
-    .to.have.deep.property('_provider')
-    .that.is.a('string');
-
-  expect(torrent)
-    .to.have.deep.property('magnet')
-    .that.is.a('string');
-
-  expect(torrent)
-    .to.have.deep.property('seeders')
+    .toHaveProperty('seeders')
     .that.is.a('number')
-    .that.is.at.least(0);
+    .toBeGreaterThanOrEqual(0);
 
   expect(torrent)
-    .to.have.deep.property('leechers')
+    .toHaveProperty('leechers')
     .that.is.a('number')
-    .that.is.at.least(0);
+    .toBeGreaterThanOrEqual(0);
 
-  expect(torrent)
-    .to.have.deep.property('metadata')
-    .that.is.a('string');
+  expect(typeof torrent).toBe('string');
 
   assertNAorNumber(torrent.seeders);
 
   expect(torrent)
-    .to.have.deep.property('leechers')
+    .toHaveProperty('leechers')
     .that.is.a('number')
-    .that.is.at.least(0);
+    .toBeGreaterThanOrEqual(0);
 
   assertNAorNumber(torrent.leechers);
 }

@@ -18,7 +18,6 @@ import Butter from '../../app/api/Butter';
 import shows from './butter.mock.js';
 import { getIdealTorrent } from '../../app/api/torrents/BaseTorrentProvider';
 
-
 const butter = new Butter();
 
 describe('Benchmark Butter Shows: Top 50', () => {
@@ -29,22 +28,29 @@ describe('Benchmark Butter Shows: Top 50', () => {
         done();
       });
       after(done => {
-        console.log(`\t Average Seeder Count: ${this.torrentCount / shows.length}`);
+        console.log(
+          `\t Average Seeder Count: ${this.torrentCount / shows.length}`
+        );
         done();
       });
       for (const show of shows) {
-        it(`Shows: ${show.title} season 1, episode 1`, async (done) => {
+        it(`Shows: ${show.title} season 1, episode 1`, async done => {
           try {
-            const torrents = await butter.getTorrent(show.id, 'shows', {
-              season: 1,
-              episode: 1,
-              searchQuery: show.title
-            }, true);
-            const torrentCount = torrents.length ? getIdealTorrent(torrents).seeders : 0;
-            this.torrentCount += torrentCount;
-            console.log(
-              '\t Seeder Count: ', torrentCount
+            const torrents = await butter.getTorrent(
+              show.id,
+              'shows',
+              {
+                season: 1,
+                episode: 1,
+                searchQuery: show.title
+              },
+              true
             );
+            const torrentCount = torrents.length
+              ? getIdealTorrent(torrents).seeders
+              : 0;
+            this.torrentCount += torrentCount;
+            console.log('\t Seeder Count: ', torrentCount);
             done();
           } catch (error) {
             done(error);
@@ -59,21 +65,28 @@ describe('Benchmark Butter Shows: Top 50', () => {
         done();
       });
       after(done => {
-        console.log(`\t Average Seeder Count: ${this.torrentCount / shows.length}`);
+        console.log(
+          `\t Average Seeder Count: ${this.torrentCount / shows.length}`
+        );
         done();
       });
       for (const show of shows) {
-        it(`Season Complete: ${show.title} season 1`, async (done) => {
+        it(`Season Complete: ${show.title} season 1`, async done => {
           try {
-            const torrents = await butter.getTorrent(show.id, 'season_complete', {
-              season: 1,
-              searchQuery: show.title
-            }, true);
-            const torrentCount = torrents.length ? getIdealTorrent(torrents).seeders : 0;
-            this.torrentCount += torrentCount;
-            console.log(
-              '\t Seeder Count: ', torrentCount
+            const torrents = await butter.getTorrent(
+              show.id,
+              'season_complete',
+              {
+                season: 1,
+                searchQuery: show.title
+              },
+              true
             );
+            const torrentCount = torrents.length
+              ? getIdealTorrent(torrents).seeders
+              : 0;
+            this.torrentCount += torrentCount;
+            console.log('\t Seeder Count: ', torrentCount);
             done();
           } catch (error) {
             done(error);
@@ -90,22 +103,29 @@ describe('Benchmark Butter Shows: Top 50', () => {
         done();
       });
       after(done => {
-        console.log(`\t Average Seeder Count: ${this.torrentCount / shows.length}`);
+        console.log(
+          `\t Average Seeder Count: ${this.torrentCount / shows.length}`
+        );
         done();
       });
       for (const show of shows) {
-        it(`Shows: ${show.title} season 2, episode 1`, async (done) => {
+        it(`Shows: ${show.title} season 2, episode 1`, async done => {
           try {
-            const torrents = await butter.getTorrent(show.id, 'shows', {
-              season: 1,
-              episode: 1,
-              searchQuery: show.title
-            }, true);
-            const torrentCount = torrents.length ? getIdealTorrent(torrents).seeders : 0;
-            this.torrentCount += torrentCount;
-            console.log(
-              '\t Seeder Count: ', torrentCount
+            const torrents = await butter.getTorrent(
+              show.id,
+              'shows',
+              {
+                season: 1,
+                episode: 1,
+                searchQuery: show.title
+              },
+              true
             );
+            const torrentCount = torrents.length
+              ? getIdealTorrent(torrents).seeders
+              : 0;
+            this.torrentCount += torrentCount;
+            console.log('\t Seeder Count: ', torrentCount);
             done();
           } catch (error) {
             done(error);
@@ -120,21 +140,28 @@ describe('Benchmark Butter Shows: Top 50', () => {
         done();
       });
       after(done => {
-        console.log(`\t Average Seeder Count: ${this.torrentCount / shows.length}`);
+        console.log(
+          `\t Average Seeder Count: ${this.torrentCount / shows.length}`
+        );
         done();
       });
       for (const show of shows) {
-        it(`Season Complete: ${show.title} season 2`, async (done) => {
+        it(`Season Complete: ${show.title} season 2`, async done => {
           try {
-            const torrents = await butter.getTorrent(show.id, 'season_complete', {
-              season: 1,
-              searchQuery: show.title
-            }, true);
-            const torrentCount = torrents.length ? getIdealTorrent(torrents).seeders : 0;
-            this.torrentCount += torrentCount;
-            console.log(
-              '\t Seeder Count: ', torrentCount
+            const torrents = await butter.getTorrent(
+              show.id,
+              'season_complete',
+              {
+                season: 1,
+                searchQuery: show.title
+              },
+              true
             );
+            const torrentCount = torrents.length
+              ? getIdealTorrent(torrents).seeders
+              : 0;
+            this.torrentCount += torrentCount;
+            console.log('\t Seeder Count: ', torrentCount);
             done();
           } catch (error) {
             done(error);

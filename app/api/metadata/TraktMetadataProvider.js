@@ -135,7 +135,7 @@ export default class TraktMetadataAdapter {
    * in config file. The cache can't be used because this data needs to be
    * persisted.
    */
-  _updateConfig(type: string, method: string, metadata: Object) {
+  updateConfig(type: string, method: string, metadata: Object) {
     const property = `${type}`;
 
     switch (method) {
@@ -154,15 +154,15 @@ export default class TraktMetadataAdapter {
   }
 
   favorites(...args: Array<any>) {
-    return this._updateConfig('favorites', ...args);
+    return this.updateConfig('favorites', ...args);
   }
 
   recentlyWatched(...args: Array<any>) {
-    return this._updateConfig('recentlyWatched', ...args);
+    return this.updateConfig('recentlyWatched', ...args);
   }
 
   watchList(...args: Array<any>) {
-    return this._updateConfig('watchList', ...args);
+    return this.updateConfig('watchList', ...args);
   }
 
   async getSubtitles(

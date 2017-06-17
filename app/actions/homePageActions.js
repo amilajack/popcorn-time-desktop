@@ -1,6 +1,4 @@
-/**
- * @flow
- */
+// @flow
 export function setActiveMode(activeMode: string, activeModeOptions: Object = {}) {
   return {
     type: 'SET_ACTIVE_MODE',
@@ -28,7 +26,7 @@ export function clearAllItems() {
   };
 }
 
-export function setLoading(isLoading: boolean) {
+export function setLoading(isLoading: bool) {
   return {
     type: 'SET_LOADING',
     isLoading

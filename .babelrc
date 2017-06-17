@@ -1,45 +1,31 @@
 {
   "presets": [
     ["env", {
-      "targets": {
-        "node": 6.7
-      },
-      "loose": true
+      "targets": { "node": 6 },
+      "useBuiltIns": true
     }],
     "stage-0",
     "react"
   ],
   "plugins": [
     "add-module-exports",
-    "transform-runtime"
+    "dynamic-import-webpack",
+    "transform-decorators-legacy"
   ],
   "env": {
-    "development": {
-      "presets": ["react-hmre"],
-      "plugins": [
-        "syntax-flow",
-        /*"tcomb",*/
-        "transform-flow-strip-types"
-      ]
+    "production": {
+      "presets": ["react-optimize"],
+      "plugins": ["babel-plugin-dev-expression"]
     },
-		"production": {
-			"presets": ["react-optimize"],
-			"plugins": [
-				"babel-plugin-transform-remove-console",
-				"babel-plugin-transform-remove-debugger",
-				"babel-plugin-dev-expression",
-        "syntax-flow",
-        "transform-flow-strip-types"
-			]
-		},
-    "test": {
+    "development": {
       "plugins": [
-        ["webpack-loaders", { "config": "webpack.config.mocha.js", "verbose": false }],
-				["babel-plugin-module-alias", [
-          { "src": "node_modules/electron" , "expose": "electron" }
-        ]],
-        "syntax-flow",
-        "transform-flow-strip-types"
+        "transform-class-properties",
+        "transform-es2015-classes",
+        "react-hot-loader/babel"
+        // ["flow-runtime", {
+        //   "assert": true,
+        //   "annotate": true
+        // }]
       ]
     }
   }
