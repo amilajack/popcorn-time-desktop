@@ -8,11 +8,13 @@ import {
   setCache
 } from '../torrents/BaseTorrentProvider';
 import TraktMetadataProvider from './TraktMetadataProvider';
+import TheMovieDBMetadataProvider from './TheMovieDBMetadataProvider';
 
 
 function MetadataAdapter(): Array<Object> {
   return [
-    new TraktMetadataProvider()
+    //new TraktMetadataProvider(),
+    new TheMovieDBMetadataProvider()
   ];
 }
 
@@ -189,8 +191,8 @@ export function convertRuntimeToHours(runtimeInMinutes: number): Object {
 
   return {
     full: hours > 0
-            ? `${hours} ${hours > 1 ? 'hours' : 'hour'}${minutes > 0 ? ` ${minutes} minutes` : ''}`
-            : `${minutes} minutes`,
+      ? `${hours} ${hours > 1 ? 'hours' : 'hour'}${minutes > 0 ? ` ${minutes} minutes` : ''}`
+      : `${minutes} minutes`,
     hours,
     minutes
   };

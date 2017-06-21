@@ -3,9 +3,8 @@
  * @flow
  */
 import React, { PropTypes } from 'react';
-import Card from './Card';
+import Card from './Card.jsx';
 import Loader from '../loader/Loader.jsx';
-
 
 export default function CardList({ items, isLoading, isFinished, title, limit }) {
   return (
@@ -17,8 +16,8 @@ export default function CardList({ items, isLoading, isFinished, title, limit })
             <Card
               image={item.images.fanart.thumb}
               title={item.title}
-              id={item.imdbId}
-              key={item.imdbId}
+              id={item.id}
+              key={item.id}
               year={item.year}
               type={item.type}
               rating={item.rating}

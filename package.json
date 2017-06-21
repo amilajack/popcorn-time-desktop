@@ -196,6 +196,8 @@
     "why-did-you-update": "0.0.8"
   },
   "dependencies": {
+    "axios": "^0.16.2",
+    "bluebird": "^3.5.0",
     "bootstrap": "4.0.0-alpha.2",
     "isomorphic-fetch": "2.2.1",
     "network-address": "1.1.2",
@@ -210,6 +212,7 @@
     "react-hot-loader": "3.0.0-beta.7",
     "react-redux": "5.0.5",
     "react-router": "4.1.1",
+    "react-router-dom": "^4.1.1",
     "react-router-redux": "5.0.0-alpha.6",
     "react-star-rating-component": "1.2.4",
     "react-transition-group": "^1.2.0",

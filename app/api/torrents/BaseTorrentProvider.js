@@ -6,16 +6,14 @@ import URL from 'url';
 
 export const providerCache = cache({
   maxAge: process.env.CONFIG_CACHE_TIMEOUT
-            ? parseInt(process.env.CONFIG_CACHE_TIMEOUT, 10) * 1000 * 60 * 60
-            : 1000 * 60 * 60 // 1 hr
+    ? parseInt(process.env.CONFIG_CACHE_TIMEOUT, 10) * 1000 * 60 * 60
+    : 1000 * 60 * 60 // 1 hr
 });
 
 export interface BaseTorrentProvider {
   getStatus(): Promise<bool>;
   fetch(showName: string, season: number, episode: number): Promise<Object>;
-  provide(
-    imdbId: string, type: string, extendedDetails: Object
-  ) : Promise<Array<Object>> | Array<any>;
+  provide(imdbId: string, type: string, extendedDetails: Object): Promise<Array<Object>> | Array<any>;
 }
 
 /**
@@ -26,8 +24,8 @@ export function timeout(promise: Promise<any>, time: number = 10000): Promise<an
     promise.then(res => resolve(res)).catch(err => console.log(err));
 
     setTimeout(() => {
-      reject(new Error('Timeout exceeded'));
-    }, process.env.CONFIG_API_TIMEOUT
+        reject(new Error('Timeout exceeded'));
+      }, process.env.CONFIG_API_TIMEOUT
         ? parseInt(process.env.CONFIG_API_TIMEOUT, 10)
         : time
     );
@@ -49,8 +47,8 @@ export function determineQuality(magnet: string, metadata: string = ''): string 
   // Filter videos with 'rendered' subtitles
   if (hasSubtitles(lowerCaseMetadata)) {
     return process.env.FLAG_SUBTITLE_EMBEDDED_MOVIES === 'true'
-            ? '480p'
-            : '';
+      ? '480p'
+      : '';
   }
 
   // Most accurate categorization
@@ -72,8 +70,8 @@ export function determineQuality(magnet: string, metadata: string = ''): string 
 
   if (hasNonNativeCodec(lowerCaseMetadata)) {
     return process.env.FLAG_SUPPORTED_PLAYBACK_FILTERING === 'true'
-            ? '720p'
-            : '';
+      ? '720p'
+      : '';
   }
 
   if (process.env.NODE_ENV === 'development') {
@@ -173,8 +171,8 @@ export function constructMovieQueries(title: string, imdbId: string): Array<stri
   ];
 
   return title.includes("'")
-          ? [...queries, title.replace(/'/g,'')] // eslint-disable-line
-          : queries;
+    ? [...queries, title.replace(/'/g, '')] // eslint-disable-line
+    : queries;
 }
 
 export function constructSeasonQueries(title: string, season: number): Array<string> {

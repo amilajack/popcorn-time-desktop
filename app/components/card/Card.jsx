@@ -3,7 +3,7 @@
  * @flow
  */
 import React, { PropTypes } from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import Rating from './Rating.jsx';
 
 
@@ -13,7 +13,7 @@ export default function Card({ type, image, id, rating, title, starColor }) {
     : './app/images/posterholder.png';
 
   const backgroundImageStyle = {
-    backgroundImage: `url(${image.toLowerCase() !== 'n/a' ? image : placeholder})`
+    backgroundImage: `url(${image !== 'n/a' ? image : placeholder})`
   };
 
   return (
