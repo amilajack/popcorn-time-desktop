@@ -21,7 +21,8 @@
     "package-all": "npm run build && build --publish never --mac --win --linux",
     "prestart": "npm run build",
     "postinstall": "npm run build-dll && node node_modules/fbjs-scripts/node/check-dev-engines.js package.json && node -r babel-register postinstall.js",
-    "test": "npm run lint && npm run lint-styles && npm run lint-summary && npm run build && npm run test-api && npm run test-e2e",
+    "test": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 jest ./test/components/*.spec.js",
+    "test-all": "npm run lint && npm run lint-styles && npm run lint-summary && npm run build && npm run test-api && npm run test-e2e",
     "test-api": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 CONFIG_ENDPOINT_TEST=test.org jest ./test/api/butter.spec.js",
     "test-e2e": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 jest ./test/e2e.js",
     "test-screenshot": "cross-env API_USE_MOCK_DATA=true BABEL_DISABLE_CACHE=1 npm run build && jest ./test/screenshot.e2e.js",
@@ -55,8 +56,10 @@
   ],
   "build": {
     "appId": "popcorn-time-desktop",
-    "category": "public.app-category.video",
     "dmg": {
+      "format": "ULFO",
+      "background": "./resources/background.png",
+      "icon": "./resources/icon.icns",
       "contents": [
         {
           "x": 410,
@@ -73,13 +76,17 @@
     },
     "win": {
       "target": "nsis",
-      "iconUrl": "https://cdn.rawgit.com/amilajack/popcorn-time-desktop/master/app/icons/app.ico"
+      "icon": "./resources/icon.ico"
     },
     "linux": {
       "target": [
         "deb",
         "AppImage"
       ]
+    },
+    "directories": {
+      "buildResources": "resources",
+      "output": "release"
     }
   },
   "jest": {
@@ -89,6 +96,7 @@
     },
     "moduleFileExtensions": [
       "js",
+      "jsx",
       "json"
     ],
     "moduleDirectories": [
@@ -96,6 +104,7 @@
       "app/node_modules"
     ],
     "transform": {
+      "^.+\\.jsx$": "babel-jest",
       "^.+\\.js$": "babel-jest"
     }
   },
@@ -108,6 +117,7 @@
     "autoprefixer": "7.1.1",
     "babel-core": "6.25.0",
     "babel-eslint": "7.2.3",
+    "babel-jest": "^20.0.3",
     "babel-loader": "7.1.0",
     "babel-plugin-add-module-exports": "0.2.1",
     "babel-plugin-dev-expression": "0.2.1",
@@ -169,7 +179,7 @@
     "image-diff": "1.6.3",
     "immutable": "3.8.1",
     "ionicons-temp": "2.0.0",
-    "jest-cli": "20.0.4",
+    "jest-cli": "^20.0.4",
     "jsdom": "11.0.0",
     "json-loader": "0.5.4",
     "lru-cache": "4.1.1",
@@ -230,8 +240,8 @@
     "yargs": "8.0.2"
   },
   "devEngines": {
-    "node": ">=7.x",
-    "npm": ">=4.x"
+    "node": ">=8.x",
+    "npm": ">=5.x"
   },
   "optionalDependencies": {
     "castv2-webpack": "0.1.10",

@@ -15,11 +15,11 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 export default merge.smart(baseConfig, {
-  devtool: 'eval',
+  devtool: 'source-map',
 
   target: 'electron-renderer',
 
-  entry: './app/index',
+  entry: './app/index.jsx',
 
   output: {
     path: path.join(__dirname, 'app/dist'),
@@ -156,7 +156,7 @@ export default merge.smart(baseConfig, {
     /**
      * Babli is an ES6+ aware minifier based on the Babel toolchain (beta)
      */
-    new BabiliPlugin(),
+    // new BabiliPlugin(),
 
     new ExtractTextPlugin('style.css'),
 

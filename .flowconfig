@@ -6,6 +6,7 @@
 .*/git/.*
 
 [include]
+app
 
 [libs]
 
