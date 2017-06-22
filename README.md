@@ -54,8 +54,8 @@ cd popcorn-time-desktop
 
 # Install dependencies
 # Have a cup of coffee ☕️ this might take a while
-# Remember to `npm rebuild` if necessary
-npm install
+# Run `npm run electron-rebuild` if get a 'module version mismatch' error
+yarn
 
 # Customize Build
 # Feel free to enable flags and configs in the `.env` file

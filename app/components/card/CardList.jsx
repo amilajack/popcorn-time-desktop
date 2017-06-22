@@ -3,7 +3,7 @@
  * @flow
  */
 import React, { PropTypes } from 'react';
-import Card from './Card';
+import Card from './Card.jsx';
 import Loader from '../loader/Loader.jsx';
 
 

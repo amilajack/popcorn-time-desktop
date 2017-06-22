@@ -1,3 +1,4 @@
+// @flow
 /* eslint react/no-set-state: 0 */
 import React, { Component, PropTypes } from 'react';
 import { browserHistory } from 'react-router';
@@ -7,7 +8,7 @@ import Butter from '../../api/Butter';
 
 export default class Header extends Component {
 
-  constructor(props: Object) {
+  constructor(props) {
     super(props);
 
     this.butter = new Butter();

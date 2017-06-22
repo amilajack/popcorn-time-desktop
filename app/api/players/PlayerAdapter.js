@@ -1,34 +1,25 @@
+// @flow
 // Initialize the player
-//
-// function setup() {}
+export interface PlayerAdapterInterface {
+  setup: () => void,
 
+  start: () => void,
 
-// function start() {}
+  pause: () => void,
 
+  restart: () => void,
 
-// function pause() {}
+  // Handle any logic to remove the traces of the player from memory
+  cleanup: () => void,
 
+  // Check if the plugin is supported on the machine
+  isSupported: () => void,
 
-// function restart() {}
+  name: string,
 
+  supportedFormats: Array<string>,
 
-// Handle any logic to remove the traces of the player from memory
-//
-// function cleanup() {}
+  supportsSubtitles: false | true,
 
-
-// Check if the plugin is supported on the machine
-//
-// function isSupported() {} <Promise> -> false | true
-
-
-// name = <String>
-
-
-// supportedFormats = []
-
-
-// supportsSubtitles = false | true
-
-
-// svgIconFilename = <String>
+  svgIconFilename: string
+}

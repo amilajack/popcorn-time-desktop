@@ -23,11 +23,11 @@ const butter = new Butter();
 describe('Benchmark Butter Shows: Top 50', () => {
   describe('Season 1', () => {
     describe('Show', function testShow() {
-      before(done => {
+      beforeAll(done => {
         this.torrentCount = 0;
         done();
       });
-      after(done => {
+      afterAll(done => {
         console.log(
           `\t Average Seeder Count: ${this.torrentCount / shows.length}`
         );
@@ -60,11 +60,11 @@ describe('Benchmark Butter Shows: Top 50', () => {
     });
 
     describe('Show Complete', function testShowComplete() {
-      before(done => {
+      beforeAll(done => {
         this.torrentCount = 0;
         done();
       });
-      after(done => {
+      afterAll(done => {
         console.log(
           `\t Average Seeder Count: ${this.torrentCount / shows.length}`
         );
@@ -98,11 +98,11 @@ describe('Benchmark Butter Shows: Top 50', () => {
 
   describe('Season 2', () => {
     describe('Show', function testShow() {
-      before(done => {
+      beforeAll(done => {
         this.torrentCount = 0;
         done();
       });
-      after(done => {
+      afterAll(done => {
         console.log(
           `\t Average Seeder Count: ${this.torrentCount / shows.length}`
         );
@@ -135,11 +135,11 @@ describe('Benchmark Butter Shows: Top 50', () => {
     });
 
     describe('Show Complete', function testShowComplete() {
-      before(done => {
+      beforeAll(done => {
         this.torrentCount = 0;
         done();
       });
-      after(done => {
+      afterAll(done => {
         console.log(
           `\t Average Seeder Count: ${this.torrentCount / shows.length}`
         );
