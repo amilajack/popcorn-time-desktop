@@ -5,19 +5,20 @@ import {
   timeout,
   resolveEndpoint
 } from './BaseTorrentProvider';
+import type { ProviderInterface } from './ProviderInterface';
 
 
 const endpoint = 'http://api-fetch.website/tv';
 const providerId = 'PCT';
 const resolvedEndpoint = resolveEndpoint(endpoint, providerId);
 
-export default class PctTorrentProvider {
+export default class PctTorrentProvider implements ProviderInterface {
 
   static providerName = 'PopcornTime API';
 
   static shows = {};
 
-  static async fetch(imdbId: string, type: string, extendedDetails: Object) {
+  static async fetch(imdbId: string, type: string, extendedDetails) {
     const urlTypeParam = type === 'movies' ? 'movie' : 'show';
     const request = timeout(
       fetch(`${resolvedEndpoint}/${urlTypeParam}/${imdbId}`)
@@ -60,7 +61,7 @@ export default class PctTorrentProvider {
    * @param {number} | episode
    * @return {array} | Array of torrents
    */
-  static filterTorrents(show: Array<any>, season: number, episode: number) {
+  static filterTorrents(show, season: number, episode: number) {
     const filterTorrents = show
       .filter(
         eachEpisode => eachEpisode.season === season &&
@@ -71,7 +72,7 @@ export default class PctTorrentProvider {
     return filterTorrents.length ? filterTorrents[0] : [];
   }
 
-  static formatEpisode({ season, episode, torrents }: Object) {
+  static formatEpisode({ season, episode, torrents }) {
     return {
       season,
       episode,
@@ -79,7 +80,7 @@ export default class PctTorrentProvider {
     };
   }
 
-  static formatMovieTorrent(torrent: Object) {
+  static formatMovieTorrent(torrent) {
     return {
       quality: torrent.quality,
       magnet: torrent.url,
@@ -90,7 +91,7 @@ export default class PctTorrentProvider {
     };
   }
 
-  static formatTorrents(torrents: Object) {
+  static formatTorrents(torrents) {
     return Object.keys(torrents).map(videoQuality => ({
       quality: videoQuality === '0' ? '0p' : videoQuality,
       magnet: torrents[videoQuality].url,
@@ -104,7 +105,7 @@ export default class PctTorrentProvider {
     return fetch(resolvedEndpoint).then(res => res.ok).catch(() => false);
   }
 
-  static provide(imdbId: string, type: string, extendedDetails: Object = {}) {
+  static provide(imdbId: string, type: string, extendedDetails = {}) {
     switch (type) {
       case 'movies':
         return this.fetch(imdbId, type, extendedDetails)

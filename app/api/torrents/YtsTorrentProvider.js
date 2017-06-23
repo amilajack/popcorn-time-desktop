@@ -5,13 +5,14 @@ import {
   timeout,
   resolveEndpoint
 } from './BaseTorrentProvider';
+import type { ProviderInterface } from './ProviderInterface';
 
 
 const endpoint = 'https://yts.ag';
 const providerId = 'YTS';
 const resolvedEndpoint = resolveEndpoint(endpoint, providerId);
 
-export default class YtsTorrentProvider {
+export default class YtsTorrentProvider implements ProviderInterface {
 
   static providerName = 'YTS';
 
@@ -43,7 +44,7 @@ export default class YtsTorrentProvider {
       .catch(() => false);
   }
 
-  static provide(imdbId: string, type: string): Promise<Array<Object>> | Array<Object> {
+  static provide(imdbId: string, type: string): Promise<Array<Object>> {
     switch (type) {
       case 'movies':
         return this.fetch(imdbId)
@@ -53,7 +54,7 @@ export default class YtsTorrentProvider {
             return torrents.map(this.formatTorrent);
           });
       default:
-        return [];
+        return Promise.resolve([]);
     }
   }
 }

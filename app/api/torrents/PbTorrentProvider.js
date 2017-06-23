@@ -12,13 +12,14 @@ import {
   handleProviderError,
   resolveEndpoint
 } from './BaseTorrentProvider';
+import type { ProviderInterface } from './ProviderInterface';
 
 
 const endpoint = 'https://pirate-bay-endpoint.herokuapp.com';
 const providerId = 'PB';
 const resolvedEndpoint = resolveEndpoint(endpoint, providerId);
 
-export default class PbTorrentProvider {
+export default class PbTorrentProvider implements ProviderInterface {
 
   static providerName = 'PirateBay';
 

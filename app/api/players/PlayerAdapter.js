@@ -1,6 +1,8 @@
 // @flow
 // Initialize the player
 export interface PlayerAdapterInterface {
+  name: string,
+
   setup: () => void,
 
   start: () => void,
@@ -9,17 +11,19 @@ export interface PlayerAdapterInterface {
 
   restart: () => void,
 
-  // Handle any logic to remove the traces of the player from memory
+  /**
+   * Handle any logic to remove the traces of the player from memory
+   */
   cleanup: () => void,
 
-  // Check if the plugin is supported on the machine
+  /**
+   * Check if the plugin is supported on the machine
+   */
   isSupported: () => void,
-
-  name: string,
 
   supportedFormats: Array<string>,
 
-  supportsSubtitles: false | true,
+  supportsSubtitles: bool,
 
   svgIconFilename: string
 }

@@ -4,12 +4,12 @@
 
 import webpack from 'webpack';
 import merge from 'webpack-merge';
-import BabiliPlugin from 'babili-webpack-plugin';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
+import BabiliPlugin from 'babili-webpack-plugin';
 import baseConfig from './webpack.config.base';
 
 if (process.env.NODE_ENV !== 'production') {
-  throw new Error('Production builds must have NODE_ENV=production.');
+  throw new Error('Production builds must have NODE_ENV=production');
 }
 
 export default merge.smart(baseConfig, {

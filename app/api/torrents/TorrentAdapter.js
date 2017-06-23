@@ -1,9 +1,4 @@
-/**
- * @flow
- * @param   {string} imdbId
- * @param   {object} extendedDetails
- */
-/* eslint global-require: 0 */
+// @flow
 import {
   determineQuality,
   formatSeasonEpisodeToString,
@@ -27,10 +22,11 @@ const providers = [
 export default async function TorrentAdapter(
   imdbId: string,
   type: string,
-  extendedDetails: Object,
+  extendedDetails,
   returnAll: bool = false,
   method: string = 'all',
-  cache: bool = true): Promise<any> {
+  cache: bool = true
+) {
   const args = JSON.stringify({ extendedDetails, returnAll, method });
 
   if (resolveCache(args) && cache) {
@@ -49,7 +45,7 @@ export default async function TorrentAdapter(
       switch (type) {
         case 'movies':
           return selectTorrents(
-            appendAttributes(providerResults).map((result: Object) => ({
+            appendAttributes(providerResults).map((result) => ({
               ...result,
               method: 'movies'
             })),
@@ -101,8 +97,8 @@ export default async function TorrentAdapter(
  * @param  {array} providerResults
  * @return {array}
  */
-function appendAttributes(providerResults: Array<any>): Array<Object> {
-  const formattedResults = merge(providerResults).map((result: Object) => ({
+function appendAttributes(providerResults) {
+  const formattedResults = merge(providerResults).map((result) => ({
     ...result,
     health: getHealth(result.seeders || 0, result.leechers || 0),
     quality: 'quality' in result
@@ -113,7 +109,7 @@ function appendAttributes(providerResults: Array<any>): Array<Object> {
   return formattedResults;
 }
 
-export function filterShows(show: Object, season: number, episode: number) {
+export function filterShows(show, season: number, episode: number) {
   return (
     show.metadata.toLowerCase().includes(
       formatSeasonEpisodeToString(
@@ -126,7 +122,7 @@ export function filterShows(show: Object, season: number, episode: number) {
   );
 }
 
-export function filterShowsComplete(show: Object, season: number) {
+export function filterShowsComplete(show, season: number) {
   const metadata = show.metadata.toLowerCase();
 
   return (
@@ -153,20 +149,14 @@ export function getStatuses() {
 /**
  * Select one 720p and 1080p quality movie from torrent list
  * By default, sort all torrents by seeders
- *
- * @param  {array}  torrents
- * @param  {string} sortMethod
- * @param  {bool}   returnAll
- * @param  {object} key
- * @return {object}
  */
 export function selectTorrents(
-  torrents: Array<any>,
+  torrents,
   sortMethod: string = 'seeders',
   returnAll: bool = false,
   key: string) {
   const sortedTorrents = sortTorrentsBySeeders(
-    torrents.filter((torrent: Object) =>
+    torrents.filter((torrent) =>
       torrent.quality !== 'n/a' &&
       torrent.quality !== '' &&
       !!torrent.magnet
@@ -176,9 +166,9 @@ export function selectTorrents(
   const formattedTorrents = returnAll
     ? sortedTorrents
     : {
-      '480p': sortedTorrents.find((torrent: Object) => torrent.quality === '480p'),
-      '720p': sortedTorrents.find((torrent: Object) => torrent.quality === '720p'),
-      '1080p': sortedTorrents.find((torrent: Object) => torrent.quality === '1080p')
+      '480p': sortedTorrents.find((torrent) => torrent.quality === '480p'),
+      '720p': sortedTorrents.find((torrent) => torrent.quality === '720p'),
+      '1080p': sortedTorrents.find((torrent) => torrent.quality === '1080p')
     };
 
   setCache(key, formattedTorrents);

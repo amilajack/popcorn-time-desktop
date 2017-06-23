@@ -1,14 +1,12 @@
 // @flow
 import fetch from 'isomorphic-fetch';
 import Trakt from 'trakt.tv';
-import OpenSubtitles from 'opensubtitles-api';
 import { set, get } from '../../utils/Config';
 import { convertRuntimeToHours } from './MetadataAdapter';
+import type { MetadataInterface, contentType } from './MetadataInterface';
 
 
-const subtitlesEndpoint = 'https://popcorn-time-api-server.herokuapp.com/subtitles';
-
-export default class TraktMetadataAdapter {
+export default class TraktMetadataAdapter implements MetadataInterface {
 
   clientId = '647c69e4ed1ad13393bf6edd9d8f9fb6fe9faf405b44320a6b71ab960b4540a2';
 
@@ -16,23 +14,14 @@ export default class TraktMetadataAdapter {
 
   trakt: Trakt;
 
-  openSubtitles: OpenSubtitles;
-
   constructor() {
     this.trakt = new Trakt({
       client_id: this.clientId,
       client_secret: this.clientSecret
     });
-
-    this.openSubtitles = new OpenSubtitles({
-      useragent: 'OSTestUserAgent',
-      username: '',
-      password: '',
-      ssl: true
-    });
   }
 
-  getMovies(page: number = 1, limit: number = 50): Promise<Object> {
+  getMovies(page: number = 1, limit: number = 50) {
     return this.trakt.movies.popular({
       paginate: true,
       page,
@@ -42,7 +31,7 @@ export default class TraktMetadataAdapter {
       .then(movies => movies.map(movie => formatMetadata(movie, 'movies')));
   }
 
-  getMovie(imdbId: string): Object {
+  getMovie(imdbId: string) {
     return this.trakt.movies.summary({
       id: imdbId,
       extended: 'full,images,metadata'
@@ -50,7 +39,7 @@ export default class TraktMetadataAdapter {
       .then(movie => formatMetadata(movie, 'movies'));
   }
 
-  getShows(page: number = 1, limit: number = 50): Promise<Object> {
+  getShows(page: number = 1, limit: number = 50) {
     return this.trakt.shows.popular({
       paginate: true,
       page,
@@ -60,7 +49,7 @@ export default class TraktMetadataAdapter {
       .then(shows => shows.map(show => formatMetadata(show, 'shows')));
   }
 
-  getShow(imdbId: string): Object {
+  getShow(imdbId: string) {
     return this.trakt.shows.summary({
       id: imdbId,
       extended: 'full,images,metadata'
@@ -68,7 +57,7 @@ export default class TraktMetadataAdapter {
       .then(show => formatMetadata(show, 'shows'));
   }
 
-  getSeasons(imdbId: string): Array<Object> {
+  getSeasons(imdbId: string) {
     return this.trakt.seasons.summary({
       id: imdbId,
       extended: 'full,images,metadata'
@@ -85,7 +74,7 @@ export default class TraktMetadataAdapter {
       })));
   }
 
-  getSeason(imdbId: string, season: number): Object {
+  getSeason(imdbId: string, season: number) {
     return this.trakt.seasons.season({
       id: imdbId,
       season,
@@ -94,7 +83,7 @@ export default class TraktMetadataAdapter {
       .then(episodes => episodes.map(episode => formatSeason(episode)));
   }
 
-  getEpisode(imdbId: string, season: number, episode: number): Object {
+  getEpisode(imdbId: string, season: number, episode: number) {
     return this.trakt.episodes.summary({
       id: imdbId,
       season,
@@ -104,7 +93,7 @@ export default class TraktMetadataAdapter {
       .then(res => formatSeason(res));
   }
 
-  search(query: string, page: number = 1): Array<Object> {
+  search(query: string, page: number = 1) {
     if (!query) {
       throw Error('Query paramater required');
     }
@@ -121,7 +110,7 @@ export default class TraktMetadataAdapter {
    * @param {string} type   | movie or show
    * @param {string} imdbId | movie or show
    */
-  getSimilar(type: string = 'movies', imdbId: string, limit: number = 5): Array<Object> {
+  getSimilar(type: string = 'movies', imdbId: string, limit: number = 5) {
     return this.trakt[type].related({
       id: imdbId,
       limit,
@@ -135,7 +124,7 @@ export default class TraktMetadataAdapter {
    * in config file. The cache can't be used because this data needs to be
    * persisted.
    */
-  updateConfig(type: string, method: string, metadata: Object) {
+  updateConfig(type: string, method: string, metadata: contentType) {
     const property = `${type}`;
 
     switch (method) {
@@ -153,62 +142,22 @@ export default class TraktMetadataAdapter {
     }
   }
 
-  favorites(...args: Array<any>) {
+  favorites(...args) {
     return this.updateConfig('favorites', ...args);
   }
 
-  recentlyWatched(...args: Array<any>) {
+  recentlyWatched(...args) {
     return this.updateConfig('recentlyWatched', ...args);
   }
 
-  watchList(...args: Array<any>) {
+  watchList(...args) {
     return this.updateConfig('watchList', ...args);
-  }
-
-  async getSubtitles(
-    imdbId: string,
-    filename: string,
-    length: number,
-    metadata: Object = {}): Promise<Object> {
-    const { activeMode } = metadata;
-
-    const defaultOptions = {
-      sublanguageid: 'eng',
-      // sublanguageid: 'all', // @TODO
-      // hash: '8e245d9679d31e12', // @TODO
-      filesize: length || undefined,
-      filename: filename || undefined,
-      season: metadata.season || undefined,
-      episode: metadata.episode || undefined,
-      extensions: ['srt', 'vtt'],
-      imdbid: imdbId
-    };
-
-    const subtitles = ((): Promise<Object> => {
-      switch (activeMode) {
-        case 'shows': {
-          const { season, episode } = metadata;
-          return this.openSubtitles.search({
-            ...defaultOptions,
-            ...{ season, episode }
-          });
-        }
-        default:
-          return this.openSubtitles.search(defaultOptions);
-      }
-    })();
-
-    return subtitles.then(
-      res => Object
-              .values(res)
-              .map(subtitle => formatSubtitle(subtitle))
-    );
   }
 
   provide() {}
 }
 
-function formatMetadata(movie: Object = {}, type: string): Object {
+function formatMetadata(movie = {}, type: string) {
   return {
     title: movie.title,
     year: movie.year,
@@ -236,7 +185,7 @@ function formatMetadata(movie: Object = {}, type: string): Object {
   };
 }
 
-function formatMovieSearch(movie: Object): Object {
+function formatMovieSearch(movie) {
   return {
     title: movie.Title,
     year: parseInt(movie.Year, 10),
@@ -268,7 +217,7 @@ function formatMovieSearch(movie: Object): Object {
   };
 }
 
-function formatSeason(season: Object, image: string = 'screenshot'): Object {
+function formatSeason(season, image: string = 'screenshot') {
   return {
     id: season.ids.imdb,
     title: season.title,
@@ -288,12 +237,3 @@ function roundRating(rating: number): number {
   return Math.round(rating * 10) / 10;
 }
 
-function formatSubtitle(subtitle: Object): Object {
-  return {
-    kind: 'captions',
-    label: subtitle.langName,
-    srclang: subtitle.lang,
-    src: `${subtitlesEndpoint}/${encodeURIComponent(subtitle.url)}`,
-    default: subtitle.lang === 'en'
-  };
-}

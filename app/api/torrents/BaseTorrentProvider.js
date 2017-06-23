@@ -10,14 +10,6 @@ export const providerCache = cache({
             : 1000 * 60 * 60 // 1 hr
 });
 
-export interface BaseTorrentProvider {
-  getStatus(): Promise<bool>;
-  fetch(showName: string, season: number, episode: number): Promise<Object>;
-  provide(
-    imdbId: string, type: string, extendedDetails: Object
-  ) : Promise<Array<Object>> | Array<any>;
-}
-
 /**
  * Handle a promise and set a timeout
  */
@@ -83,10 +75,6 @@ export function determineQuality(magnet: string, metadata: string = ''): string 
   return '';
 }
 
-/**
- * @param {number} season
- * @param {number} episode
- */
 export function formatSeasonEpisodeToString(season: number, episode: number): string {
   return (
     ('s' + (String(season).length === 1 ? '0' + String(season) : String(season))) +
@@ -94,11 +82,7 @@ export function formatSeasonEpisodeToString(season: number, episode: number): st
   );
 }
 
-/**
- * @param {number} season
- * @param {number} episode
- */
-export function formatSeasonEpisodeToObject(season: number, episode: ? number): Object {
+export function formatSeasonEpisodeToObject(season: number, episode: ?number): Object {
   return {
     season: (String(season).length === 1 ? '0' + String(season) : String(season)),
     episode: (String(episode).length === 1 ? '0' + String(episode) : String(episode))
@@ -157,13 +141,11 @@ export function hasNonNativeCodec(metadata: string): bool {
 }
 
 export function sortTorrentsBySeeders(torrents: Array<any>): Array<any> {
-  return torrents.sort((prev: Object, next: Object) => {
-    if (prev.seeders === next.seeders) {
-      return 0;
-    }
-
-    return prev.seeders > next.seeders ? -1 : 1;
-  });
+  return torrents.sort((prev: Object, next: Object) => (
+    prev.seeders === next.seeders
+      ? 0
+      : prev.seeders > next.seeders ? -1 : 1
+  ));
 }
 
 export function constructMovieQueries(title: string, imdbId: string): Array<string> {

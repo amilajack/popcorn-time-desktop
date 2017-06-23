@@ -4,14 +4,13 @@
  */
 import fetch from 'isomorphic-fetch';
 import cheerio from 'cheerio';
-import {
-  handleProviderError
-} from './BaseTorrentProvider';
+import { handleProviderError } from './BaseTorrentProvider';
+import type { ProviderInterface } from './ProviderInterface';
 
 
 const extratorrentUrl = 'http://extratorrent.cc';
 
-export default class ExtraTorrent {
+export default class ExtraTorrent implements ProviderInterface {
 
   fetch(searchQuery: string) {
     return fetch(

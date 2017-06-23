@@ -9,13 +9,14 @@ import {
   handleProviderError,
   resolveEndpoint
 } from './BaseTorrentProvider';
+import type { ProviderInterface } from './ProviderInterface';
 
 
 const endpoint = 'https://katproxy.al';
 const providerId = 'KAT';
 const resolvedEndpoint = resolveEndpoint(endpoint, providerId);
 
-export default class KatTorrentProvider {
+export default class KatTorrentProvider implements ProviderInterface {
 
   static providerName = 'Kat';
 

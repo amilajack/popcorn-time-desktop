@@ -2,21 +2,40 @@
  * Resolve requests from cache
  * @flow
  */
+import OpenSubtitles from 'opensubtitles-api';
 import {
   merge,
   resolveCache,
   setCache
 } from '../torrents/BaseTorrentProvider';
 import TraktMetadataProvider from './TraktMetadataProvider';
+import type { runtimeType } from './MetadataInterface';
 
 
-function MetadataAdapter(): Array<Object> {
+type subtitlesType = {
+  kind: 'captions',
+  label: string,
+  srclang: string,
+  src: string,
+  default: bool
+};
+
+const subtitlesEndpoint = 'https://popcorn-time-api-server.herokuapp.com/subtitles';
+
+const openSubtitles = new OpenSubtitles({
+  useragent: 'OSTestUserAgent',
+  username: '',
+  password: '',
+  ssl: true
+});
+
+function MetadataAdapter() {
   return [
     new TraktMetadataProvider()
   ];
 }
 
-async function handleRequest(method: string, args: Array<string>): Promise<any> {
+async function handleRequest(method: string, args: Array<string>) {
   const key = JSON.stringify(method) + JSON.stringify(args);
 
   if (resolveCache(key)) {
@@ -42,7 +61,7 @@ async function handleRequest(method: string, args: Array<string>): Promise<any> 
  * @param {string} genre
  * @param {string} sortBy
  */
-function search(...args: Array<string>): Promise<Array<Object>> {
+function search(...args: Array<string>) {
   return handleRequest('search', args);
 }
 
@@ -51,7 +70,7 @@ function search(...args: Array<string>): Promise<Array<Object>> {
  *
  * @param {string} imdbId
  */
-function getMovie(...args: Array<string>): Promise<Array<Object>> {
+function getMovie(...args: Array<string>) {
   return handleRequest('getMovie', args);
 }
 
@@ -63,7 +82,7 @@ function getMovie(...args: Array<string>): Promise<Array<Object>> {
  * @param {string} genre
  * @param {string} sortBy
  */
-function getMovies(...args: Array<string>): Promise<Array<Object>> {
+function getMovies(...args: Array<string>) {
   return handleRequest('getMovies', args);
 }
 
@@ -74,7 +93,7 @@ function getMovies(...args: Array<string>): Promise<Array<Object>> {
  * @param {string} type   | movie or show
  * @param {number} limit  | movie or show
  */
-function getSimilar(...args: Array<string>): Promise<Array<Object>> {
+function getSimilar(...args: Array<string>) {
   return handleRequest('getSimilar', args);
 }
 
@@ -85,7 +104,7 @@ function getSimilar(...args: Array<string>): Promise<Array<Object>> {
  * @param {string} type   | movie or show
  * @param {number} limit  | movie or show
  */
-function getSeason(...args: Array<string>): Promise<Object> {
+function getSeason(...args: Array<string>) {
   return handleRequest('getSeason', args);
 }
 
@@ -96,7 +115,7 @@ function getSeason(...args: Array<string>): Promise<Object> {
  * @param {string} type   | movie or show
  * @param {number} limit  | movie or show
  */
-function getSeasons(...args: Array<string>): Promise<Array<Object>> {
+function getSeasons(...args: Array<string>) {
   return handleRequest('getSeasons', args);
 }
 
@@ -107,7 +126,7 @@ function getSeasons(...args: Array<string>): Promise<Array<Object>> {
  * @param {string} type   | movie or show
  * @param {number} limit  | movie or show
  */
-function getEpisode(...args: Array<string>): Promise<Object> {
+function getEpisode(...args: Array<string>) {
   return handleRequest('getEpisode', args);
 }
 
@@ -118,7 +137,7 @@ function getEpisode(...args: Array<string>): Promise<Object> {
  * @param {string} type   | movie or show
  * @param {number} limit  | movie or show
  */
-function getShow(...args: Array<string>): Promise<Object> {
+function getShow(...args: Array<string>) {
   return handleRequest('getShow', args);
 }
 
@@ -129,7 +148,7 @@ function getShow(...args: Array<string>): Promise<Object> {
  * @param {string} type   | movie or show
  * @param {number} limit  | movie or show
  */
-function getShows(...args: Array<string>): Promise<Array<Object>> {
+function getShows(...args: Array<string>) {
   return handleRequest('getShows', args);
 }
 
@@ -140,8 +159,45 @@ function getShows(...args: Array<string>): Promise<Array<Object>> {
  * @param {string} filename
  * @param {object} metadata
  */
-function getSubtitles(...args: Array<string>): Promise<Array<Object>> {
-  return handleRequest('getSubtitles', args);
+async function getSubtitles(
+  imdbId: string,
+  filename: string,
+  length: number,
+  metadata: { season?: number, episode?: number, activeMode?: string } = {}
+): Promise<Array<subtitlesType>> {
+  const { activeMode } = metadata;
+
+  const defaultOptions = {
+    sublanguageid: 'eng',
+      // sublanguageid: 'all', // @TODO
+      // hash: '8e245d9679d31e12', // @TODO
+    filesize: length || undefined,
+    filename: filename || undefined,
+    season: metadata.season || undefined,
+    episode: metadata.episode || undefined,
+    extensions: ['srt', 'vtt'],
+    imdbid: imdbId
+  };
+
+  const subtitles = (() => {
+    switch (activeMode) {
+      case 'shows': {
+        const { season, episode } = metadata;
+        return openSubtitles.search({
+          ...defaultOptions,
+          ...{ season, episode }
+        });
+      }
+      default:
+        return openSubtitles.search(defaultOptions);
+    }
+  })();
+
+  return subtitles.then(res =>
+    Object
+      .values(res)
+      .map(subtitle => formatSubtitle(subtitle))
+  );
 }
 
 /**
@@ -151,7 +207,7 @@ function getSubtitles(...args: Array<string>): Promise<Array<Object>> {
  * @param {object} metadata | Required only for `set` and `remove`
  * @param {object} metadata | 'id', Required only remove
  */
-function favorites(...args: Array<string>): Promise<Array<Object>> {
+function favorites(...args: Array<string>) {
   return handleRequest('favorites', args);
 }
 
@@ -162,7 +218,7 @@ function favorites(...args: Array<string>): Promise<Array<Object>> {
  * @param {object} metadata | Required only for `set` and `remove`
  * @param {object} metadata | 'id', Required only remove
  */
-function watchList(...args: Array<string>): Promise<Array<Object>> {
+function watchList(...args: Array<string>) {
   return handleRequest('watchList', args);
 }
 
@@ -173,7 +229,7 @@ function watchList(...args: Array<string>): Promise<Array<Object>> {
  * @param {object} metadata | Required only for `set` and `remove`
  * @param {object} metadata | 'id', Required only remove
  */
-function recentlyWatched(...args: Array<any>): Promise<Array<Object>> {
+function recentlyWatched(...args) {
   return handleRequest('recentlyWatched', args);
 }
 
@@ -183,7 +239,7 @@ function recentlyWatched(...args: Array<any>): Promise<Array<Object>> {
  * @param  {number} runtimeInMinutes
  * @return {object}
  */
-export function convertRuntimeToHours(runtimeInMinutes: number): Object {
+export function convertRuntimeToHours(runtimeInMinutes: number): runtimeType {
   const hours = runtimeInMinutes >= 60 ? Math.round(runtimeInMinutes / 60) : 0;
   const minutes = runtimeInMinutes % 60;
 
@@ -193,6 +249,16 @@ export function convertRuntimeToHours(runtimeInMinutes: number): Object {
             : `${minutes} minutes`,
     hours,
     minutes
+  };
+}
+
+function formatSubtitle(subtitle) {
+  return {
+    kind: 'captions',
+    label: subtitle.langName,
+    srclang: subtitle.lang,
+    src: `${subtitlesEndpoint}/${encodeURIComponent(subtitle.url)}`,
+    default: subtitle.lang === 'en'
   };
 }
 

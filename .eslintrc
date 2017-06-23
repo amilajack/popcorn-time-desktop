@@ -10,6 +10,7 @@
   },
   "rules": {
     "class-methods-use-this": "off",
+    "flowtype/no-weak-types": "error",
     "fp/no-arguments": "off",
     "fp/no-class": "off",
     "fp/no-delete": "off",
