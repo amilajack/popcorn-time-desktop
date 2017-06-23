@@ -45,7 +45,7 @@ export type contentType = {
   }
 };
 
-export interface MetadataInterface {
+export interface MetadataProviderInterface {
   getMovies: (page: number, limit: number) => Promise<contentType>,
   getMovie: (imdbId: string) => contentType,
   getShows: (page: number, limit: number) => Promise<contentType>,

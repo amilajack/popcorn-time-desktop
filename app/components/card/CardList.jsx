@@ -2,35 +2,58 @@
  * A list of thumbnail poster images of items that are rendered on the home page
  * @flow
  */
-import React, { PropTypes } from 'react';
+import React from 'react';
 import Card from './Card.jsx';
 import Loader from '../loader/Loader.jsx';
 
-export default function CardList({
-  items,
-  isLoading,
-  isFinished,
-  title,
-  limit
-}) {
+type Props = {
+  title?: string,
+  limit?: number,
+  items: Array<{
+    title: string,
+    id: string,
+    imdbId: string,
+    year: number,
+    type: string,
+    rating: number | 'n/a',
+    genres: Array<string>,
+    images: {
+      fanart: {
+        thumb: string
+      }
+    }
+  }>,
+  isLoading: boolean,
+  isFinished: boolean
+};
+
+export default function CardList(props: Props) {
+  const {
+    items,
+    isLoading,
+    isFinished,
+    title,
+    limit
+  } = props;
+
   return (
     <div className="row">
       <div className="col-sm-12">
-        <h4 className="CardList--header">{title || ''}</h4>
+        <h4 className="CardList--header">{title}</h4>
         <div className="CardList">
           {(limit
             ? items.filter((e, i) => i < limit)
-            : items).map((item: Object) =>
-            <Card
-              image={item.images.fanart.thumb}
-              title={item.title}
-              id={item.imdbId}
-              key={item.imdbId}
-              year={item.year}
-              type={item.type}
-              rating={item.rating}
-              genres={item.genres}
-            />
+            : items).map((item) =>
+              (<Card
+                image={item.images.fanart.thumb}
+                title={item.title}
+                id={item.imdbId}
+                key={item.imdbId}
+                year={item.year}
+                type={item.type}
+                rating={item.rating}
+                genres={item.genres}
+              />)
           )}
         </div>
       </div>
@@ -41,24 +64,9 @@ export default function CardList({
   );
 }
 
-CardList.propTypes = {
-  title: PropTypes.string,
-  limit: PropTypes.number,
-  items: PropTypes.arrayOf(
-    PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      id: PropTypes.string.isRequired,
-      year: PropTypes.number.isRequired,
-      type: PropTypes.string.isRequired,
-      rating: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-      genres: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired
-    })
-  ).isRequired,
-  isLoading: PropTypes.bool.isRequired,
-  isFinished: PropTypes.bool.isRequired
-};
-
 CardList.defaultProps = {
+  title: '',
+  limit: null,
   items: [],
   isLoading: false,
   isFinished: false,

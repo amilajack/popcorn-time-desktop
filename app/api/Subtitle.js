@@ -26,13 +26,21 @@ export function closeServer(server: express): express {
   return server.close();
 }
 
-export function convertFromBuffer(srtBuffer: Buffer): Promise<Object> {
+type subtitleType = {
+  filename: string,
+  basePath: string,
+  port: number,
+  fullPath: string,
+  buffer: Buffer
+};
+
+export function convertFromBuffer(srtBuffer: Buffer): Promise<subtitleType> {
   const randomString = rndm(16);
   const filename = `${randomString}.vtt`;
   const fullPath = path.join(basePath, filename);
 
-  return new Promise((resolve: Function, reject: Function) => {
-    srt2vtt(srtBuffer, (error: Error, vttBuffer: Buffer) => {
+  return new Promise((resolve, reject) => {
+    srt2vtt(srtBuffer, (error?: Error, vttBuffer: Buffer) => {
       if (error) reject(error);
 
       fs.writeFile(fullPath, vttBuffer, () => {

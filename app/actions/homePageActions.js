@@ -1,5 +1,7 @@
 // @flow
-export function setActiveMode(activeMode: string, activeModeOptions: Object = {}) {
+import type { activeModeOptionsType, itemType } from '../components/home/Home.jsx';
+
+export function setActiveMode(activeMode: string, activeModeOptions: activeModeOptionsType = {}) {
   return {
     type: 'SET_ACTIVE_MODE',
     activeMode,
@@ -7,7 +9,7 @@ export function setActiveMode(activeMode: string, activeModeOptions: Object = {}
   };
 }
 
-export function paginate(items: Array<Object>) {
+export function paginate(items: Array<itemType>) {
   return {
     type: 'PAGINATE',
     items
@@ -26,7 +28,7 @@ export function clearAllItems() {
   };
 }
 
-export function setLoading(isLoading: bool) {
+export function setLoading(isLoading: boolean) {
   return {
     type: 'SET_LOADING',
     isLoading

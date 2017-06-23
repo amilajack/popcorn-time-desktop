@@ -11,7 +11,7 @@ export const defaultUpdateEndpoint =
 /**
  * Return if the current application version is the latest
  */
-export default function CheckUpdate(): Promise<bool> {
+export default function CheckUpdate(): Promise<boolean> {
   const currentSemvar = remote.app.getVersion();
 
   return fetch(defaultUpdateEndpoint)
@@ -22,6 +22,6 @@ export default function CheckUpdate(): Promise<bool> {
     ).length);
 }
 
-export function isNewerSemvar(current: string, next: string): bool {
+export function isNewerSemvar(current: string, next: string): boolean {
   return semver.gt(current, next);
 }

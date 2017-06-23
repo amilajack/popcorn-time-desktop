@@ -9,21 +9,14 @@ import extract from 'extract-zip';
 const version = process.env.PREBUILT_FFMPEG_RELEASE || '0.16.0';
 const baseDir = path.join(__dirname, 'node_modules', 'electron', 'dist');
 
-function copy(filepath: string, dest: string): bool {
-  try {
-    fs.accessSync(path.join(__dirname, filepath));
-    return true;
-  } catch (e) {
-    fs.writeFileSync(
-      path.join(__dirname, dest),
-      fs.readFileSync(path.join(__dirname, filepath))
-    );
-
-    return true;
-  }
+function copy(filepath: string, dest: string) {
+  fs.writeFileSync(
+    path.join(__dirname, dest),
+    fs.readFileSync(path.join(__dirname, filepath))
+  );
 }
 
-function setupCasting(): bool {
+function setupCasting(): boolean {
   const tmpPath = path.join(__dirname, 'app', 'dist', '.tmp');
 
   mkdirp(tmpPath, err => {
@@ -37,7 +30,7 @@ function setupCasting(): bool {
   return true;
 }
 
-function addEnvFile(): bool {
+function addEnvFileIfNotExist(): boolean {
   // Check if it exists
   try {
     fs.accessSync(path.join(__dirname, '.env'));
@@ -82,7 +75,7 @@ function getUrl(): { platform: string, dest: string } {
   }
 }
 
-function setupFFMPEG() {
+function setupFfmpeg() {
   const { platform, dest } = getUrl();
   const zipLocation = path.join(
     __dirname,
@@ -100,5 +93,5 @@ function setupFFMPEG() {
 }
 
 setupCasting();
-setupFFMPEG();
-addEnvFile();
+setupFfmpeg();
+addEnvFileIfNotExist();

@@ -1,16 +1,28 @@
 // @flow
 /* eslint react/no-set-state: 0 */
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import classNames from 'classnames';
 import Butter from '../../api/Butter';
 
+type Props = {
+  setActiveMode: (mode: string, options: { searchQuery: string }) => void,
+  activeMode: string
+};
+
 export default class Header extends Component {
-  constructor(props) {
+  props: Props
+
+  state: {
+    searchQuery: string
+  }
+
+  butter: Butter
+
+  constructor(props: Props) {
     super(props);
 
     this.butter = new Butter();
-
     this.state = {
       searchQuery: ''
     };
@@ -23,13 +35,13 @@ export default class Header extends Component {
     this.props.setActiveMode('search', { searchQuery });
   }
 
-  handleSearchChange(event: Object) {
+  handleSearchChange(event: SyntheticEvent) {
     this.setState({
       searchQuery: event.target.value
     });
   }
 
-  handleKeyPress(event: Object) {
+  handleKeyPress(event: SyntheticEvent) {
     if (event.key === 'Enter') {
       browserHistory.push('/search');
       this.props.setActiveMode('search', {
@@ -94,8 +106,3 @@ export default class Header extends Component {
     );
   }
 }
-
-Header.propTypes = {
-  setActiveMode: PropTypes.func.isRequired,
-  activeMode: PropTypes.string.isRequired
-};

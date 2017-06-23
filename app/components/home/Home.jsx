@@ -1,52 +1,73 @@
 // @flow
-import React, { Component, PropTypes } from 'react';
+/* eslint react/no-unused-prop-types: 0 */
+import React, { Component } from 'react';
 import VisibilitySensor from 'react-visibility-sensor';
-// import { shell } from 'electron';
-// import notie from 'notie';
 import Butter from '../../api/Butter';
 import Header from '../header/Header.jsx';
 import CardList from '../card/CardList.jsx';
-// import CheckUpdate from '../../utils/CheckUpdate';
 
-// HACK: This is a temporary way of checking running a check only once. There
-//       needs to be a better way of solving this. Ideally, it could be registered
-//       as a startup task.
-//
-// setTimeout(() => {
-//   requestIdleCallback(() => {
-//     CheckUpdate().then(res =>
-//       (res === true
-//         ? notie.confirm('Update Available! 😁', 'Sure!', 'Nahh', () => {
-//           shell.openExternal(
-//             process.env.APP_DOWNLOAD_URL ||
-//             'https://github.com/amilajack/popcorn-time-desktop/releases'
-//           );
-//         })
-//         : console.info('Using latest semver! 😁'))
-//     )
-//     .catch(res => console.log(res));
-//   });
-// }, 3000);
+export type activeModeOptionsType = {
+  [option: string]: any
+};
+
+export type itemType = {
+  title: string,
+  id: string,
+  year: number,
+  type: string,
+  rating: number | 'n/a',
+  genres: Array<string>,
+};
+
+type Props = {
+  actions: {
+    setActiveMode: (mode: string, options: Object) => void,
+    paginate: (activeMode: string, activeModeOptions?: activeModeOptionsType) => void,
+    clearAllItems: () => void,
+    setLoading: (isLoading: boolean) => void,
+  },
+  activeMode: string,
+  activeModeOptions: activeModeOptionsType,
+  modes: {
+    movies: {
+      page: number,
+      limit: number,
+      items: {
+        title: string,
+        id: string,
+        year: number,
+        type: string,
+        rating: number | 'n/a',
+        genres: Array<string>,
+      },
+    }
+  },
+  items: Array<itemType>,
+  isLoading: boolean,
+  infinitePagination: boolean
+};
 
 export default class Home extends Component {
+  props: Props;
+
   butter: Butter;
 
-  _didMount: boolean;
+  didMount: boolean;
 
   onChange: () => void;
 
-  constructor(props: Object) {
+  constructor(props: Props) {
     super(props);
     this.butter = new Butter();
     this.onChange = this.onChange.bind(this);
   }
 
   componentDidMount() {
-    this._didMount = true;
+    this.didMount = true;
     document.addEventListener('scroll', this.initInfinitePagination.bind(this));
   }
 
-  componentWillReceiveProps(nextProps: Object) {
+  componentWillReceiveProps(nextProps: Props) {
     if (
       JSON.stringify(nextProps.activeModeOptions) !==
       JSON.stringify(this.props.activeModeOptions)
@@ -59,7 +80,7 @@ export default class Home extends Component {
   }
 
   componentWillUnmount() {
-    this._didMount = false;
+    this.didMount = false;
     document.removeEventListener(
       'scroll',
       this.initInfinitePagination.bind(this)
@@ -80,12 +101,11 @@ export default class Home extends Component {
    * @param {string} queryType   | 'search', 'movies', 'shows', etc
    * @param {object} queryParams | { searchQuery: 'game of thrones' }
    */
-  async paginate(queryType: string, activeModeOptions: Object = {}) {
+  async paginate(queryType: string, activeModeOptions: activeModeOptionsType = {}) {
     this.props.actions.setLoading(true);
 
     // HACK: This is a temporary solution.
     // Waiting on: https://github.com/yannickcr/eslint-plugin-react/issues/818
-    /* eslint react/prop-types: 0 */
 
     const { limit, page } = this.props.modes[queryType];
 
@@ -137,44 +157,3 @@ export default class Home extends Component {
   }
 }
 
-Home.propTypes = {
-  actions: PropTypes.shape({
-    setActiveMode: PropTypes.func.isRequired,
-    paginate: PropTypes.func.isRequired,
-    clearAllItems: PropTypes.func.isRequired,
-    setLoading: PropTypes.func.isRequired,
-    setCurrentPlayer: PropTypes.func.isRequired
-  }).isRequired,
-  activeMode: PropTypes.string.isRequired,
-  activeModeOptions: PropTypes.shape({
-    searchQuery: PropTypes.string
-  }).isRequired,
-  modes: PropTypes.shape({
-    movies: PropTypes.shape({
-      page: PropTypes.number.isRequired,
-      limit: PropTypes.number.isRequired,
-      items: PropTypes.arrayOf(
-        PropTypes.shape({
-          title: PropTypes.string.isRequired,
-          id: PropTypes.string.isRequired,
-          year: PropTypes.number.isRequired,
-          type: PropTypes.string.isRequired,
-          rating: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-          genres: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired
-        }).isRequired
-      )
-    })
-  }).isRequired,
-  items: PropTypes.arrayOf(
-    PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      id: PropTypes.string.isRequired,
-      year: PropTypes.number.isRequired,
-      type: PropTypes.string.isRequired,
-      rating: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-      genres: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired
-    })
-  ).isRequired,
-  isLoading: PropTypes.bool.isRequired,
-  infinitePagination: PropTypes.bool.isRequired
-};

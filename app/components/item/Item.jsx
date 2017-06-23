@@ -2,7 +2,7 @@
  * Movie component that is responsible for playing movies
  * @flow
  */
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import {
   Dropdown,
   DropdownToggle,
@@ -21,34 +21,65 @@ import Rating from '../card/Rating.jsx';
 import Show from '../show/Show.jsx';
 import { convertFromBuffer, startServer } from '../../api/Subtitle';
 import Player from '../../api/Player';
+import type { contentType } from '../../api/metadata/MetadataProviderInterface';
+import type { torrentType, qualityType } from '../../api/torrents/TorrentProviderInterface';
 
 const SUMMARY_CHAR_LIMIT = 300;
 
+type playerType = 'Default' | 'plyr' | 'Chromecast';
+
+type torrentSelectionType = {
+  default: torrentType,
+  [quality: qualityType]: torrentType
+};
+
+type Props = {
+  itemId: string,
+  activeMode: string
+};
+
+type State = {
+  item?: contentType,
+  similarItems: Array<contentType>,
+  selectedSeason: number,
+  selectedEpisode: number,
+  seasons: [],
+  season: [],
+  episode: {},
+  episodes: [],
+  currentPlayer: playerType,
+  playbackIsActive: boolean,
+  fetchingTorrents: boolean,
+  dropdownOpen: boolean,
+  idealTorrent: torrentType,
+  torrent: torrentSelectionType,
+  servingUrl: string,
+  similarLoading: boolean,
+  metadataLoading: boolean,
+  torrentInProgress: boolean,
+  torrentProgress: number,
+  isFinished: boolean,
+};
+
 export default class Movie extends Component {
+  props: Props;
+
+  state: State;
+
   butter: Butter;
 
   torrent: Torrent;
 
   player: Player;
 
-  toggle: Function;
-
-  setPlayer: Function;
-
-  stopPlayback: Function;
-
-  startPlayback: Function;
-
-  selectShow: Function;
-
-  defaultTorrent: Object = {
+  defaultTorrent = {
     default: { quality: undefined, magnet: undefined, seeders: 0 },
     '1080p': { quality: undefined, magnet: undefined, seeders: 0 },
     '720p': { quality: undefined, magnet: undefined, seeders: 0 },
     '480p': { quality: undefined, magnet: undefined, seeders: 0 }
   };
 
-  initialState: Object = {
+  initialState = {
     item: {
       images: {
         fanart: {},
@@ -72,7 +103,7 @@ export default class Movie extends Component {
     torrentProgress: 0
   };
 
-  constructor(props: Object) {
+  constructor(props: Props) {
     super(props);
 
     this.butter = new Butter();
@@ -86,7 +117,7 @@ export default class Movie extends Component {
   /**
    * Check which players are available on the system
    */
-  setPlayer(player: string) {
+  setPlayer(player: playerType) {
     this.setState({ currentPlayer: player });
   }
 
@@ -114,7 +145,7 @@ export default class Movie extends Component {
     this.player.destroy();
   }
 
-  componentWillReceiveProps(nextProps: Object) {
+  componentWillReceiveProps(nextProps: Props) {
     this.stopPlayback();
 
     this.setState({
@@ -137,7 +168,7 @@ export default class Movie extends Component {
     });
 
     return Promise.all([
-      this.getItem(itemId).then((item: Object) =>
+      this.getItem(itemId).then((item: contentType) =>
         this.getTorrent(itemId, item.title, 1, 1)
       ),
       this.getSimilar(itemId)
@@ -381,7 +412,7 @@ export default class Movie extends Component {
   async getSubtitles(
     subtitleTorrentFile: Object = {},
     activeMode: string,
-    item: Object
+    item: contentType
   ) {
     // Retrieve list of subtitles
     const subtitles = await this.butter.getSubtitles(
@@ -449,7 +480,7 @@ export default class Movie extends Component {
       formats,
       async (
         servingUrl: string,
-        file: Object,
+        file: { name: string },
         files: string,
         torrent: string,
         subtitle: string
@@ -623,10 +654,10 @@ export default class Movie extends Component {
                 <div className="col-sm-4">
                   {item.rating
                     ? <Rating
-                        emptyStarColor={'rgba(255, 255, 255, 0.2)'}
-                        starColor={'white'}
-                        rating={item.rating}
-                      />
+                      emptyStarColor={'rgba(255, 255, 255, 0.2)'}
+                      starColor={'white'}
+                      rating={item.rating}
+                    />
                     : null}
                 </div>
                 <div className="col-sm-1">
@@ -742,12 +773,12 @@ export default class Movie extends Component {
 
           {activeMode === 'shows'
             ? <Show
-                selectShow={this.selectShow}
-                seasons={seasons}
-                episodes={episodes}
-                selectedSeason={selectedSeason}
-                selectedEpisode={selectedEpisode}
-              />
+              selectShow={this.selectShow}
+              seasons={seasons}
+              episodes={episodes}
+              selectedSeason={selectedSeason}
+              selectedEpisode={selectedEpisode}
+            />
             : null}
 
           <div className="col-sm-12">
@@ -764,11 +795,6 @@ export default class Movie extends Component {
     );
   }
 }
-
-Movie.propTypes = {
-  itemId: PropTypes.string.isRequired,
-  activeMode: PropTypes.string.isRequired
-};
 
 Movie.defaultProps = {
   itemId: '',

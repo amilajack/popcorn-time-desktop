@@ -3,9 +3,9 @@ import fetch from 'isomorphic-fetch';
 import Trakt from 'trakt.tv';
 import { set, get } from '../../utils/Config';
 import { convertRuntimeToHours } from './MetadataAdapter';
-import type { MetadataInterface, contentType } from './MetadataInterface';
+import type { MetadataProviderInterface, contentType } from './MetadataProviderInterface';
 
-export default class TraktMetadataAdapter implements MetadataInterface {
+export default class TraktMetadataAdapter implements MetadataProviderInterface {
   clientId = '647c69e4ed1ad13393bf6edd9d8f9fb6fe9faf405b44320a6b71ab960b4540a2';
 
   clientSecret = 'f55b0a53c63af683588b47f6de94226b7572a6f83f40bd44c58a7c83fe1f2cb1';

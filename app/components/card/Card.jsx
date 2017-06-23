@@ -2,11 +2,22 @@
  * Card in the CardList component
  * @flow
  */
-import React, { PropTypes } from 'react';
+import React from 'react';
 import { Link } from 'react-router';
 import Rating from './Rating.jsx';
 
-export default function Card({ type, image, id, rating, title, starColor }) {
+type Props = {
+  title: string,
+  starColor?: string,
+  image: string,
+  id: string,
+  rating: number | 'n/a',
+  type: string,
+};
+
+export default function Card(props: Props) {
+  const { type, image, id, rating, title, starColor } = props;
+
   const placeholder = process.env.NODE_ENV === 'production'
     ? './images/posterholder.png'
     : './app/images/posterholder.png';
@@ -38,16 +49,6 @@ export default function Card({ type, image, id, rating, title, starColor }) {
     </div>
   );
 }
-
-Card.propTypes = {
-  title: PropTypes.string.isRequired,
-  starColor: PropTypes.string,
-  image: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
-  genres: PropTypes.arrayOf(PropTypes.string).isRequired,
-  rating: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
-  type: PropTypes.string.isRequired
-};
 
 Card.defaultProps = {
   starColor: '#848484'

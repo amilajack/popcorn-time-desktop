@@ -3105,13 +3105,7 @@ dot-prop@^4.1.0:
   dependencies:
     is-obj "^1.0.0"
 
-dotenv-webpack@^1.5.0:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/dotenv-webpack/-/dotenv-webpack-1.5.0.tgz#934b218d1d87158237aa9cba0b3becf63298cb4b"
-  dependencies:
-    dotenv "^4.0.0"
-
-dotenv@4.0.0, dotenv@^4.0.0:
+dotenv@4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-4.0.0.tgz#864ef1379aced55ce6f95debecdce179f7a0cd1d"
 
@@ -3161,22 +3155,22 @@ ejs@^2.5.6, ejs@~2.5.6:
   version "2.5.6"
   resolved "https://registry.yarnpkg.com/ejs/-/ejs-2.5.6.tgz#479636bfa3fe3b1debd52087f0acb204b4f19c88"
 
-electron-builder-http@19.7.0, electron-builder-http@~19.7.0:
-  version "19.7.0"
-  resolved "https://registry.yarnpkg.com/electron-builder-http/-/electron-builder-http-19.7.0.tgz#619e1015200127952e846cbc18f2c54b0edb3f2c"
+electron-builder-http@19.7.2, electron-builder-http@~19.7.2:
+  version "19.7.2"
+  resolved "https://registry.yarnpkg.com/electron-builder-http/-/electron-builder-http-19.7.2.tgz#5a63566e4a4685413861eaf087dcaa9a0e362a03"
   dependencies:
-    debug "2.6.8"
+    debug "^2.6.8"
     fs-extra-p "^4.3.0"
 
-electron-builder-util@19.7.0, electron-builder-util@~19.7.0:
-  version "19.7.0"
-  resolved "https://registry.yarnpkg.com/electron-builder-util/-/electron-builder-util-19.7.0.tgz#c7ce4297e5ea8a50b08ad571fc88563a4e455adc"
+electron-builder-util@19.8.0, electron-builder-util@~19.8.0:
+  version "19.8.0"
+  resolved "https://registry.yarnpkg.com/electron-builder-util/-/electron-builder-util-19.8.0.tgz#f6aa75c271cafcc335b965b50416d167e74ad6c5"
   dependencies:
     "7zip-bin" "^2.1.0"
     bluebird-lst "^1.0.2"
     chalk "^1.1.3"
-    debug "2.6.8"
-    electron-builder-http "~19.7.0"
+    debug "^2.6.8"
+    electron-builder-http "~19.7.2"
     fcopy-pre-bundled "0.3.4"
     fs-extra-p "^4.3.0"
     ini "^1.3.4"
@@ -3186,9 +3180,9 @@ electron-builder-util@19.7.0, electron-builder-util@~19.7.0:
     stat-mode "^0.2.2"
     tunnel-agent "^0.6.0"
 
-electron-builder@19.7.1:
-  version "19.7.1"
-  resolved "https://registry.yarnpkg.com/electron-builder/-/electron-builder-19.7.1.tgz#5f81c097398aaf0b3224f1151341592952cdd986"
+electron-builder@^19.8.0:
+  version "19.8.0"
+  resolved "https://registry.yarnpkg.com/electron-builder/-/electron-builder-19.8.0.tgz#32f0a008be809e1df021ca13a8d9e92f6ee5c917"
   dependencies:
     "7zip-bin" "^2.1.0"
     ajv "^5.2.0"
@@ -3198,12 +3192,12 @@ electron-builder@19.7.1:
     chalk "^1.1.3"
     chromium-pickle-js "^0.2.0"
     cuint "^0.2.2"
-    debug "2.6.8"
-    electron-builder-http "19.7.0"
-    electron-builder-util "19.7.0"
+    debug "^2.6.8"
+    electron-builder-http "19.7.2"
+    electron-builder-util "19.8.0"
     electron-download-tf "4.3.1"
     electron-osx-sign "0.4.6"
-    electron-publish "19.7.0"
+    electron-publish "19.8.0"
     fs-extra-p "^4.3.0"
     hosted-git-info "^2.4.2"
     is-ci "^1.0.10"
@@ -3227,12 +3221,12 @@ electron-chromedriver@~1.6.0:
     electron-download "^3.1.0"
     extract-zip "^1.6.0"
 
-electron-debug@1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/electron-debug/-/electron-debug-1.1.0.tgz#050a9c3f906fffc2492510cf8ac31d0f32a579e1"
+electron-debug@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/electron-debug/-/electron-debug-1.2.0.tgz#22e51a73e1bf095d0bb51a6c3d97a203364c4222"
   dependencies:
     electron-is-dev "^0.1.0"
-    electron-localshortcut "^0.6.0"
+    electron-localshortcut "^2.0.0"
 
 electron-devtools-installer@2.2.0:
   version "2.2.0"
@@ -3271,13 +3265,20 @@ electron-download@^3.0.1, electron-download@^3.1.0:
     semver "^5.3.0"
     sumchecker "^1.2.0"
 
+electron-is-accelerator@^0.1.0:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/electron-is-accelerator/-/electron-is-accelerator-0.1.2.tgz#509e510c26a56b55e17f863a4b04e111846ab27b"
+
 electron-is-dev@^0.1.0:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/electron-is-dev/-/electron-is-dev-0.1.2.tgz#8a1043e32b3a1da1c3f553dce28ce764246167e3"
 
-electron-localshortcut@^0.6.0:
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/electron-localshortcut/-/electron-localshortcut-0.6.1.tgz#c4e268c38a6e42f40de5618fc906d1ed608f11aa"
+electron-localshortcut@^2.0.0:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/electron-localshortcut/-/electron-localshortcut-2.0.2.tgz#6a1adcd6514c957328ec7912f5ccb5e1c10706db"
+  dependencies:
+    debug "^2.6.8"
+    electron-is-accelerator "^0.1.0"
 
 electron-osx-sign@0.4.6:
   version "0.4.6"
@@ -3291,14 +3292,14 @@ electron-osx-sign@0.4.6:
     plist "^2.0.1"
     tempfile "^1.1.1"
 
-electron-publish@19.7.0:
-  version "19.7.0"
-  resolved "https://registry.yarnpkg.com/electron-publish/-/electron-publish-19.7.0.tgz#28056db1a749646ce9ad50b45947abd8d3fda7c3"
+electron-publish@19.8.0:
+  version "19.8.0"
+  resolved "https://registry.yarnpkg.com/electron-publish/-/electron-publish-19.8.0.tgz#ff288f53f639553791a727dfcad1b9d15c999365"
   dependencies:
     bluebird-lst "^1.0.2"
     chalk "^1.1.3"
-    electron-builder-http "~19.7.0"
-    electron-builder-util "~19.7.0"
+    electron-builder-http "~19.7.2"
+    electron-builder-util "~19.8.0"
     fs-extra-p "^4.3.0"
     mime "^1.3.6"
 
@@ -3591,12 +3592,12 @@ eslint-import-resolver-node@^0.2.0:
     object-assign "^4.0.1"
     resolve "^1.1.6"
 
-eslint-import-resolver-webpack@0.8.1:
-  version "0.8.1"
-  resolved "https://registry.yarnpkg.com/eslint-import-resolver-webpack/-/eslint-import-resolver-webpack-0.8.1.tgz#c7f8b4d5bd3c5b489457e5728c5db1c4ffbac9aa"
+eslint-import-resolver-webpack@^0.8.3:
+  version "0.8.3"
+  resolved "https://registry.yarnpkg.com/eslint-import-resolver-webpack/-/eslint-import-resolver-webpack-0.8.3.tgz#ad61e28df378a474459d953f246fd43f92675385"
   dependencies:
     array-find "^1.0.0"
-    debug "^2.2.0"
+    debug "^2.6.8"
     enhanced-resolve "~0.9.0"
     find-root "^0.1.1"
     has "^1.0.1"
@@ -3667,13 +3668,13 @@ eslint-plugin-fp@^2.3.0:
     lodash "^4.13.1"
     req-all "^0.1.0"
 
-eslint-plugin-import@2.3.0, eslint-plugin-import@^2.3.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-import/-/eslint-plugin-import-2.3.0.tgz#37c801e0ada0e296cbdf20c3f393acb5b52af36b"
+eslint-plugin-import@^2.3.0, eslint-plugin-import@^2.6.0:
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-import/-/eslint-plugin-import-2.6.0.tgz#2a4bbad36a078e052a3c830ce3dfbd6b8a12c6e5"
   dependencies:
     builtin-modules "^1.1.1"
     contains-path "^0.1.0"
-    debug "^2.2.0"
+    debug "^2.6.8"
     doctrine "1.5.0"
     eslint-import-resolver-node "^0.2.0"
     eslint-module-utils "^2.0.0"

@@ -10,6 +10,7 @@
   },
   "rules": {
     "class-methods-use-this": "off",
+    "flowtype/boolean-style": ["error", "boolean"],
     "flowtype/no-weak-types": "error",
     "fp/no-arguments": "off",
     "fp/no-class": "off",
@@ -34,7 +35,10 @@
     "no-plusplus": "off",
     "no-use-before-define": "off",
     "no-console": "off",
-    "promise/avoid-new": "off"
+    "promise/avoid-new": "off",
+    "react/sort-comp": ["error", {
+      "order": ["type-annotations", "static-methods", "lifecycle", "everything-else", "render"]
+    }]
   },
   "settings": {
     "import/extensions": [".jsx", ".js"],
