@@ -3,24 +3,20 @@
  * @flow
  */
 import OpenSubtitles from 'opensubtitles-api';
-import {
-  merge,
-  resolveCache,
-  setCache
-} from '../torrents/BaseTorrentProvider';
+import { merge, resolveCache, setCache } from '../torrents/BaseTorrentProvider';
 import TraktMetadataProvider from './TraktMetadataProvider';
 import type { runtimeType } from './MetadataInterface';
-
 
 type subtitlesType = {
   kind: 'captions',
   label: string,
   srclang: string,
   src: string,
-  default: bool
+  default: boolean
 };
 
-const subtitlesEndpoint = 'https://popcorn-time-api-server.herokuapp.com/subtitles';
+const subtitlesEndpoint =
+  'https://popcorn-time-api-server.herokuapp.com/subtitles';
 
 const openSubtitles = new OpenSubtitles({
   useragent: 'OSTestUserAgent',
@@ -30,9 +26,7 @@ const openSubtitles = new OpenSubtitles({
 });
 
 function MetadataAdapter() {
-  return [
-    new TraktMetadataProvider()
-  ];
+  return [new TraktMetadataProvider()];
 }
 
 async function handleRequest(method: string, args: Array<string>) {
@@ -43,8 +37,7 @@ async function handleRequest(method: string, args: Array<string>) {
   }
 
   const results = await Promise.all(
-    MetadataAdapter()
-      .map(provider => provider[method].apply(provider, args)) // eslint-disable-line
+    MetadataAdapter().map(provider => provider[method].apply(provider, args)) // eslint-disable-line
   );
 
   const mergedResults = merge(results);
@@ -169,8 +162,8 @@ async function getSubtitles(
 
   const defaultOptions = {
     sublanguageid: 'eng',
-      // sublanguageid: 'all', // @TODO
-      // hash: '8e245d9679d31e12', // @TODO
+    // sublanguageid: 'all', // @TODO
+    // hash: '8e245d9679d31e12', // @TODO
     filesize: length || undefined,
     filename: filename || undefined,
     season: metadata.season || undefined,
@@ -194,9 +187,7 @@ async function getSubtitles(
   })();
 
   return subtitles.then(res =>
-    Object
-      .values(res)
-      .map(subtitle => formatSubtitle(subtitle))
+    Object.values(res).map(subtitle => formatSubtitle(subtitle))
   );
 }
 
@@ -245,8 +236,10 @@ export function convertRuntimeToHours(runtimeInMinutes: number): runtimeType {
 
   return {
     full: hours > 0
-            ? `${hours} ${hours > 1 ? 'hours' : 'hour'}${minutes > 0 ? ` ${minutes} minutes` : ''}`
-            : `${minutes} minutes`,
+      ? `${hours} ${hours > 1 ? 'hours' : 'hour'}${minutes > 0
+          ? ` ${minutes} minutes`
+          : ''}`
+      : `${minutes} minutes`,
     hours,
     minutes
   };

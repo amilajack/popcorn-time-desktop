@@ -2,8 +2,11 @@
 import React, { PropTypes } from 'react';
 import StarRatingComponent from 'react-star-rating-component';
 
-
-export default function RatingComponent({ rating, starColor, emptyStarColor }: Object) {
+export default function RatingComponent({
+  rating,
+  starColor,
+  emptyStarColor
+}: Object) {
   return (
     <StarRatingComponent
       renderStarIconHalf={() => <span className="ion-android-star-half" />}
@@ -18,10 +21,7 @@ export default function RatingComponent({ rating, starColor, emptyStarColor }: O
 }
 
 RatingComponent.propTypes = {
-  rating: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string
-  ]),
+  rating: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   starColor: PropTypes.string,
   emptyStarColor: PropTypes.string
 };

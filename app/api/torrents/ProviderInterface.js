@@ -8,8 +8,13 @@ type providerResponseType = {
   _provider: 'string'
 };
 
+export type torrentType = 'movies' | 'show' | 'season_complete';
+
 export interface ProviderInterface {
-  static getStatus: () => Promise<bool>,
-  static fetch: (imdbId: string) => Array<Object>,
-  static provide: (imdbId: string, type: string) => Array<providerResponseType>
+  static getStatus: () => Promise<boolean>,
+  static fetch: (imdbId: string) => Promise<Array<providerResponseType>>,
+  static provide: (
+    imdbId: string,
+    type: torrentType
+  ) => Array<providerResponseType>
 }

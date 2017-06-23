@@ -6,7 +6,6 @@ import fs from 'fs';
 import srt2vtt from 'srt2vtt';
 import rndm from 'rndm';
 
-
 export const basePath = os.tmpdir();
 export const port = process.env.SUBTITLES_PORT || 4000;
 

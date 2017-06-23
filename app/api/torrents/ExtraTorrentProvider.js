@@ -7,14 +7,14 @@ import cheerio from 'cheerio';
 import { handleProviderError } from './BaseTorrentProvider';
 import type { ProviderInterface } from './ProviderInterface';
 
-
 const extratorrentUrl = 'http://extratorrent.cc';
 
 export default class ExtraTorrent implements ProviderInterface {
-
   fetch(searchQuery: string) {
     return fetch(
-      `${extratorrentUrl}/search/?search=${encodeURIComponent(searchQuery)}&new=1&x=0&y=0`
+      `${extratorrentUrl}/search/?search=${encodeURIComponent(
+        searchQuery
+      )}&new=1&x=0&y=0`
     )
       .then(res => res.text())
       .then(torrent => this.format(torrent))
@@ -32,22 +32,26 @@ export default class ExtraTorrent implements ProviderInterface {
         if ($(torrent).find('td a').attr('href') !== '#') {
           const findTorrentLink = $(torrent).find('td a');
 
-          const magnet = extratorrentUrl +
-                          findTorrentLink.attr('href')
-                            .split('torrent_download')
-                            .join('download');
+          const magnet =
+            extratorrentUrl +
+            findTorrentLink
+              .attr('href')
+              .split('torrent_download')
+              .join('download');
 
-          const title = findTorrentLink.attr('title')
-                          .split('Download ')
-                          .join('')
-                          .split(' torrent')
-                          .join('');
-          const size = $(torrent).find('td')
-                                .next()
-                                .next()
-                                .next()
-                                .first()
-                                .text();
+          const title = findTorrentLink
+            .attr('title')
+            .split('Download ')
+            .join('')
+            .split(' torrent')
+            .join('');
+          const size = $(torrent)
+            .find('td')
+            .next()
+            .next()
+            .next()
+            .first()
+            .text();
           const seeders = $(torrent).find('td.sy').text();
           const leechers = $(torrent).find('td.ly').text();
 

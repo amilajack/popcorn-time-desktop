@@ -6,23 +6,21 @@ import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import Rating from './Rating.jsx';
 
-
 export default function Card({ type, image, id, rating, title, starColor }) {
   const placeholder = process.env.NODE_ENV === 'production'
     ? './images/posterholder.png'
     : './app/images/posterholder.png';
 
   const backgroundImageStyle = {
-    backgroundImage: `url(${image.toLowerCase() !== 'n/a' ? image : placeholder})`
+    backgroundImage: `url(${image.toLowerCase() !== 'n/a'
+      ? image
+      : placeholder})`
   };
 
   return (
     <div className="Card">
       <Link to={`/item/${type}/${id}`}>
-        <div
-          className="Card--overlay-container"
-          style={backgroundImageStyle}
-        >
+        <div className="Card--overlay-container" style={backgroundImageStyle}>
           <div className="Card--overlay" />
         </div>
       </Link>
@@ -35,9 +33,7 @@ export default function Card({ type, image, id, rating, title, starColor }) {
             ? <Rating starColor={starColor} rating={rating} />
             : null}
         </div>
-        {type === 'search'
-          ? <div>Kind: {type}</div>
-          : null}
+        {type === 'search' ? <div>Kind: {type}</div> : null}
       </div>
     </div>
   );
@@ -49,10 +45,7 @@ Card.propTypes = {
   image: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   genres: PropTypes.arrayOf(PropTypes.string).isRequired,
-  rating: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string
-  ]).isRequired,
+  rating: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   type: PropTypes.string.isRequired
 };
 

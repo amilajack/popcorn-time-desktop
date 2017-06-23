@@ -8,7 +8,6 @@ import Header from '../header/Header.jsx';
 import CardList from '../card/CardList.jsx';
 // import CheckUpdate from '../../utils/CheckUpdate';
 
-
 // HACK: This is a temporary way of checking running a check only once. There
 //       needs to be a better way of solving this. Ideally, it could be registered
 //       as a startup task.
@@ -30,10 +29,9 @@ import CardList from '../card/CardList.jsx';
 // }, 3000);
 
 export default class Home extends Component {
-
   butter: Butter;
 
-  _didMount: bool;
+  _didMount: boolean;
 
   onChange: () => void;
 
@@ -62,10 +60,13 @@ export default class Home extends Component {
 
   componentWillUnmount() {
     this._didMount = false;
-    document.removeEventListener('scroll', this.initInfinitePagination.bind(this));
+    document.removeEventListener(
+      'scroll',
+      this.initInfinitePagination.bind(this)
+    );
   }
 
-  async onChange(isVisible: bool) {
+  async onChange(isVisible: boolean) {
     if (isVisible && !this.props.isLoading) {
       await this.paginate(this.props.activeMode, this.props.activeModeOptions);
     }
@@ -91,9 +92,7 @@ export default class Home extends Component {
     const items = await (async () => {
       switch (queryType) {
         case 'search': {
-          return this.butter.search(
-            activeModeOptions.searchQuery, page
-          );
+          return this.butter.search(activeModeOptions.searchQuery, page);
         }
         case 'movies':
           return this.butter.getMovies(page, limit);
@@ -115,7 +114,9 @@ export default class Home extends Component {
    */
   initInfinitePagination() {
     if (this.props.infinitePagination) {
-      const scrollDimentions = document.querySelector('body').getBoundingClientRect();
+      const scrollDimentions = document
+        .querySelector('body')
+        .getBoundingClientRect();
       if (scrollDimentions.bottom < 2000 && !this.props.isLoading) {
         this.paginate(this.props.activeMode, this.props.activeModeOptions);
       }
@@ -126,18 +127,10 @@ export default class Home extends Component {
     const { activeMode, actions, items, isLoading } = this.props;
     return (
       <div className="row">
-        <Header
-          activeMode={activeMode}
-          setActiveMode={actions.setActiveMode}
-        />
+        <Header activeMode={activeMode} setActiveMode={actions.setActiveMode} />
         <div className="col-sm-12">
-          <CardList
-            items={items}
-            isLoading={isLoading}
-          />
-          <VisibilitySensor
-            onChange={this.onChange}
-          />
+          <CardList items={items} isLoading={isLoading} />
+          <VisibilitySensor onChange={this.onChange} />
         </div>
       </div>
     );
@@ -160,30 +153,28 @@ Home.propTypes = {
     movies: PropTypes.shape({
       page: PropTypes.number.isRequired,
       limit: PropTypes.number.isRequired,
-      items: PropTypes.arrayOf(PropTypes.shape({
-        title: PropTypes.string.isRequired,
-        id: PropTypes.string.isRequired,
-        year: PropTypes.number.isRequired,
-        type: PropTypes.string.isRequired,
-        rating: PropTypes.oneOfType([
-          PropTypes.number,
-          PropTypes.string
-        ]),
-        genres: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired
-      }).isRequired)
+      items: PropTypes.arrayOf(
+        PropTypes.shape({
+          title: PropTypes.string.isRequired,
+          id: PropTypes.string.isRequired,
+          year: PropTypes.number.isRequired,
+          type: PropTypes.string.isRequired,
+          rating: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+          genres: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired
+        }).isRequired
+      )
     })
   }).isRequired,
-  items: PropTypes.arrayOf(PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired,
-    year: PropTypes.number.isRequired,
-    type: PropTypes.string.isRequired,
-    rating: PropTypes.oneOfType([
-      PropTypes.number,
-      PropTypes.string
-    ]),
-    genres: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired
-  })).isRequired,
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      id: PropTypes.string.isRequired,
+      year: PropTypes.number.isRequired,
+      type: PropTypes.string.isRequired,
+      rating: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+      genres: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired
+    })
+  ).isRequired,
   isLoading: PropTypes.bool.isRequired,
   infinitePagination: PropTypes.bool.isRequired
 };

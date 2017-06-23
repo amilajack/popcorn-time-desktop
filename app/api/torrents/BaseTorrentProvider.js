@@ -3,30 +3,32 @@
 import cache from 'lru-cache';
 import URL from 'url';
 
-
 export const providerCache = cache({
   maxAge: process.env.CONFIG_CACHE_TIMEOUT
-            ? parseInt(process.env.CONFIG_CACHE_TIMEOUT, 10) * 1000 * 60 * 60
-            : 1000 * 60 * 60 // 1 hr
+    ? parseInt(process.env.CONFIG_CACHE_TIMEOUT, 10) * 1000 * 60 * 60
+    : 1000 * 60 * 60 // 1 hr
 });
 
 /**
  * Handle a promise and set a timeout
  */
-export function timeout(promise: Promise<any>, time: number = 10000): Promise<any> {
+export function timeout(
+  promise: Promise<any>,
+  time: number = 10000
+): Promise<any> {
   return new Promise((resolve, reject) => {
     promise.then(res => resolve(res)).catch(err => console.log(err));
 
     setTimeout(() => {
       reject(new Error('Timeout exceeded'));
-    }, process.env.CONFIG_API_TIMEOUT
-        ? parseInt(process.env.CONFIG_API_TIMEOUT, 10)
-        : time
-    );
+    }, process.env.CONFIG_API_TIMEOUT ? parseInt(process.env.CONFIG_API_TIMEOUT, 10) : time);
   });
 }
 
-export function determineQuality(magnet: string, metadata: string = ''): string {
+export function determineQuality(
+  magnet: string,
+  metadata: string = ''
+): string {
   const lowerCaseMetadata = (metadata || magnet).toLowerCase();
 
   if (process.env.FLAG_UNVERIFIED_TORRENTS === 'true') {
@@ -40,9 +42,7 @@ export function determineQuality(magnet: string, metadata: string = ''): string 
 
   // Filter videos with 'rendered' subtitles
   if (hasSubtitles(lowerCaseMetadata)) {
-    return process.env.FLAG_SUBTITLE_EMBEDDED_MOVIES === 'true'
-            ? '480p'
-            : '';
+    return process.env.FLAG_SUBTITLE_EMBEDDED_MOVIES === 'true' ? '480p' : '';
   }
 
   // Most accurate categorization
@@ -64,8 +64,8 @@ export function determineQuality(magnet: string, metadata: string = ''): string 
 
   if (hasNonNativeCodec(lowerCaseMetadata)) {
     return process.env.FLAG_SUPPORTED_PLAYBACK_FILTERING === 'true'
-            ? '720p'
-            : '';
+      ? '720p'
+      : '';
   }
 
   if (process.env.NODE_ENV === 'development') {
@@ -75,26 +75,42 @@ export function determineQuality(magnet: string, metadata: string = ''): string 
   return '';
 }
 
-export function formatSeasonEpisodeToString(season: number, episode: number): string {
+export function formatSeasonEpisodeToString(
+  season: number,
+  episode: number
+): string {
   return (
-    ('s' + (String(season).length === 1 ? '0' + String(season) : String(season))) +
-    ('e' + (String(episode).length === 1 ? '0' + String(episode) : String(episode)))
+    's' +
+    (String(season).length === 1 ? '0' + String(season) : String(season)) +
+    ('e' +
+      (String(episode).length === 1 ? '0' + String(episode) : String(episode)))
   );
 }
 
-export function formatSeasonEpisodeToObject(season: number, episode: ?number): Object {
+export function formatSeasonEpisodeToObject(
+  season: number,
+  episode: ?number
+): Object {
   return {
-    season: (String(season).length === 1 ? '0' + String(season) : String(season)),
-    episode: (String(episode).length === 1 ? '0' + String(episode) : String(episode))
+    season: String(season).length === 1 ? '0' + String(season) : String(season),
+    episode: String(episode).length === 1
+      ? '0' + String(episode)
+      : String(episode)
   };
 }
 
-export function isExactEpisode(title: string, season: number, episode: number): bool {
-  return title.toLowerCase().includes(formatSeasonEpisodeToString(season, episode));
+export function isExactEpisode(
+  title: string,
+  season: number,
+  episode: number
+): boolean {
+  return title
+    .toLowerCase()
+    .includes(formatSeasonEpisodeToString(season, episode));
 }
 
 export function getHealth(seeders: number, leechers: number = 0): string {
-  const ratio = (seeders && !!leechers) ? (seeders / leechers) : seeders;
+  const ratio = seeders && !!leechers ? seeders / leechers : seeders;
 
   if (seeders < 50) {
     return 'poor';
@@ -111,7 +127,7 @@ export function getHealth(seeders: number, leechers: number = 0): string {
   return 'poor';
 }
 
-export function hasNonEnglishLanguage(metadata: string): bool {
+export function hasNonEnglishLanguage(metadata: string): boolean {
   if (metadata.includes('french')) return true;
   if (metadata.includes('german')) return true;
   if (metadata.includes('greek')) return true;
@@ -129,38 +145,41 @@ export function hasNonEnglishLanguage(metadata: string): bool {
   return false;
 }
 
-export function hasSubtitles(metadata: string): bool {
+export function hasSubtitles(metadata: string): boolean {
   return metadata.includes('sub');
 }
 
-export function hasNonNativeCodec(metadata: string): bool {
-  return (
-    metadata.includes('avi') ||
-    metadata.includes('mkv')
-  );
+export function hasNonNativeCodec(metadata: string): boolean {
+  return metadata.includes('avi') || metadata.includes('mkv');
 }
 
 export function sortTorrentsBySeeders(torrents: Array<any>): Array<any> {
-  return torrents.sort((prev: Object, next: Object) => (
-    prev.seeders === next.seeders
-      ? 0
-      : prev.seeders > next.seeders ? -1 : 1
-  ));
+  return torrents.sort(
+    (prev: Object, next: Object) =>
+      prev.seeders === next.seeders ? 0 : prev.seeders > next.seeders ? -1 : 1
+  );
 }
 
-export function constructMovieQueries(title: string, imdbId: string): Array<string> {
+export function constructMovieQueries(
+  title: string,
+  imdbId: string
+): Array<string> {
   const queries = [
     title, // default
     imdbId
   ];
 
   return title.includes("'")
-          ? [...queries, title.replace(/'/g,'')] // eslint-disable-line
-          : queries;
+    ? [...queries, title.replace(/'/g, '')] // eslint-disable-line
+    : queries;
 }
 
-export function constructSeasonQueries(title: string, season: number): Array<string> {
-  const formattedSeasonNumber = `s${formatSeasonEpisodeToObject(season, 1).season}`;
+export function constructSeasonQueries(
+  title: string,
+  season: number
+): Array<string> {
+  const formattedSeasonNumber = `s${formatSeasonEpisodeToObject(season, 1)
+    .season}`;
 
   return [
     `${title} season ${season}`,
@@ -194,10 +213,9 @@ export function resolveEndpoint(defaultEndpoint: string, providerId: string) {
 export function getIdealTorrent(torrents: Array<any>): Object {
   const idealTorrent = torrents
     .filter(torrent => !!torrent)
-    .filter(torrent =>
-      !!torrent &&
-      !!torrent.magnet &&
-      typeof torrent.seeders === 'number'
+    .filter(
+      torrent =>
+        !!torrent && !!torrent.magnet && typeof torrent.seeders === 'number'
     );
 
   return idealTorrent.sort((prev: Object, next: Object) => {
@@ -215,16 +233,16 @@ export function handleProviderError(error: Error) {
   }
 }
 
-export function resolveCache(key: string): bool | Object {
+export function resolveCache(key: string): boolean | Object {
   if (process.env.API_USE_MOCK_DATA === 'true') {
     const mock = {
       ...require('../../../test/api/metadata.mock'), // eslint-disable-line global-require
-      ...require('../../../test/api/torrent.mock')   // eslint-disable-line global-require
+      ...require('../../../test/api/torrent.mock') // eslint-disable-line global-require
     };
 
     const resolvedCacheItem = Object.keys(mock).find(
-      (mockKey: string): bool => key.includes(`${mockKey}"`) &&
-      !!Object.keys(mock[mockKey]).length
+      (mockKey: string): boolean =>
+        key.includes(`${mockKey}"`) && !!Object.keys(mock[mockKey]).length
     );
 
     if (resolvedCacheItem) {
@@ -236,19 +254,12 @@ export function resolveCache(key: string): bool | Object {
     return false;
   }
 
-  return (
-    providerCache.has(key)
-      ? providerCache.get(key)
-      : false
-  );
+  return providerCache.has(key) ? providerCache.get(key) : false;
 }
 
 export function setCache(key: string, value: any) {
   if (process.env.NODE_ENV === 'development') {
     console.info('Setting cache key:', key);
   }
-  return providerCache.set(
-    key,
-    value
-  );
+  return providerCache.set(key, value);
 }

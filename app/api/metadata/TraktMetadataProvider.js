@@ -5,9 +5,7 @@ import { set, get } from '../../utils/Config';
 import { convertRuntimeToHours } from './MetadataAdapter';
 import type { MetadataInterface, contentType } from './MetadataInterface';
 
-
 export default class TraktMetadataAdapter implements MetadataInterface {
-
   clientId = '647c69e4ed1ad13393bf6edd9d8f9fb6fe9faf405b44320a6b71ab960b4540a2';
 
   clientSecret = 'f55b0a53c63af683588b47f6de94226b7572a6f83f40bd44c58a7c83fe1f2cb1';
@@ -22,74 +20,83 @@ export default class TraktMetadataAdapter implements MetadataInterface {
   }
 
   getMovies(page: number = 1, limit: number = 50) {
-    return this.trakt.movies.popular({
-      paginate: true,
-      page,
-      limit,
-      extended: 'full,images,metadata'
-    })
+    return this.trakt.movies
+      .popular({
+        paginate: true,
+        page,
+        limit,
+        extended: 'full,images,metadata'
+      })
       .then(movies => movies.map(movie => formatMetadata(movie, 'movies')));
   }
 
   getMovie(imdbId: string) {
-    return this.trakt.movies.summary({
-      id: imdbId,
-      extended: 'full,images,metadata'
-    })
+    return this.trakt.movies
+      .summary({
+        id: imdbId,
+        extended: 'full,images,metadata'
+      })
       .then(movie => formatMetadata(movie, 'movies'));
   }
 
   getShows(page: number = 1, limit: number = 50) {
-    return this.trakt.shows.popular({
-      paginate: true,
-      page,
-      limit,
-      extended: 'full,images,metadata'
-    })
+    return this.trakt.shows
+      .popular({
+        paginate: true,
+        page,
+        limit,
+        extended: 'full,images,metadata'
+      })
       .then(shows => shows.map(show => formatMetadata(show, 'shows')));
   }
 
   getShow(imdbId: string) {
-    return this.trakt.shows.summary({
-      id: imdbId,
-      extended: 'full,images,metadata'
-    })
+    return this.trakt.shows
+      .summary({
+        id: imdbId,
+        extended: 'full,images,metadata'
+      })
       .then(show => formatMetadata(show, 'shows'));
   }
 
   getSeasons(imdbId: string) {
-    return this.trakt.seasons.summary({
-      id: imdbId,
-      extended: 'full,images,metadata'
-    })
-      .then(res => res.filter(season => season.aired_episodes !== 0).map(season => ({
-        season: season.number + 1,
-        overview: season.overview,
-        id: season.ids.imdb,
-        images: {
-          full: season.images.poster.full,
-          medium: season.images.poster.medium,
-          thumb: season.images.poster.thumb
-        }
-      })));
+    return this.trakt.seasons
+      .summary({
+        id: imdbId,
+        extended: 'full,images,metadata'
+      })
+      .then(res =>
+        res.filter(season => season.aired_episodes !== 0).map(season => ({
+          season: season.number + 1,
+          overview: season.overview,
+          id: season.ids.imdb,
+          images: {
+            full: season.images.poster.full,
+            medium: season.images.poster.medium,
+            thumb: season.images.poster.thumb
+          }
+        }))
+      );
   }
 
   getSeason(imdbId: string, season: number) {
-    return this.trakt.seasons.season({
-      id: imdbId,
-      season,
-      extended: 'full,images,metadata'
-    })
+    return this.trakt.seasons
+      .season({
+        id: imdbId,
+        season,
+        extended: 'full,images,metadata'
+      })
       .then(episodes => episodes.map(episode => formatSeason(episode)));
   }
 
   getEpisode(imdbId: string, season: number, episode: number) {
-    return this.trakt.episodes.summary({
-      id: imdbId,
-      season,
-      episode,
-      extended: 'full,images,metadata'
-    })
+    return this.trakt.episodes
+      .summary({
+        id: imdbId,
+        season,
+        episode,
+        extended: 'full,images,metadata'
+      })
       .then(res => formatSeason(res));
   }
 
@@ -111,11 +118,12 @@ export default class TraktMetadataAdapter implements MetadataInterface {
    * @param {string} imdbId | movie or show
    */
   getSimilar(type: string = 'movies', imdbId: string, limit: number = 5) {
-    return this.trakt[type].related({
-      id: imdbId,
-      limit,
-      extended: 'full,images,metadata'
-    })
+    return this.trakt[type]
+      .related({
+        id: imdbId,
+        limit,
+        extended: 'full,images,metadata'
+      })
       .then(movies => movies.map(movie => formatMetadata(movie, type)));
   }
 
@@ -134,7 +142,9 @@ export default class TraktMetadataAdapter implements MetadataInterface {
       case 'get':
         return get(property);
       case 'remove': {
-        const items = [...(get(property) || []).filter(item => item.id !== metadata.id)];
+        const items = [
+          ...(get(property) || []).filter(item => item.id !== metadata.id)
+        ];
         return set(property, items);
       }
       default:
@@ -193,15 +203,15 @@ function formatMovieSearch(movie) {
     id: movie.imdbID,
     type: movie.Type.includes('movie') ? 'movies' : 'shows',
     certification: movie.Rated,
-    summary: 'n/a',  // omdbapi does not support
+    summary: 'n/a', // omdbapi does not support
     genres: [],
-    rating: 'n/a',   // omdbapi does not support
+    rating: 'n/a', // omdbapi does not support
     runtime: {
-      full: 'n/a',   // omdbapi does not support
-      hours: 'n/a',  // omdbapi does not support
+      full: 'n/a', // omdbapi does not support
+      hours: 'n/a', // omdbapi does not support
       minutes: 'n/a' // omdbapi does not support
     },
-    trailer: 'n/a',  // omdbapi does not support
+    trailer: 'n/a', // omdbapi does not support
     images: {
       fanart: {
         full: movie.Poster || '',
@@ -236,4 +246,3 @@ function formatSeason(season, image: string = 'screenshot') {
 function roundRating(rating: number): number {
   return Math.round(rating * 10) / 10;
 }
-

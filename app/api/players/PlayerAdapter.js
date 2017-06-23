@@ -23,7 +23,7 @@ export interface PlayerAdapterInterface {
 
   supportedFormats: Array<string>,
 
-  supportsSubtitles: bool,
+  supportsSubtitles: boolean,
 
   svgIconFilename: string
 }

@@ -2,14 +2,10 @@
 import React, { PropTypes } from 'react';
 import Item from '../components/item/Item.jsx';
 
-
 export default function ItemPage({ params }) {
   return (
     <div>
-      <Item
-        itemId={params.itemId}
-        activeMode={params.activeMode}
-      />
+      <Item itemId={params.itemId} activeMode={params.activeMode} />
     </div>
   );
 }

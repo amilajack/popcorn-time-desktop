@@ -1,7 +1,6 @@
 // @flow
 import React, { PropTypes } from 'react';
 
-
 export default function Loader({ isLoading, isFinished }) {
   const shouldShow = {
     opacity: isLoading ? 1 : 0,
