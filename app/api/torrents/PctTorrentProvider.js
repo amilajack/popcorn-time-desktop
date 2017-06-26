@@ -5,13 +5,13 @@ import {
   timeout,
   resolveEndpoint
 } from './BaseTorrentProvider';
-import type { ProviderInterface } from './ProviderInterface';
+import type { TorrentProviderInterface } from './TorrentProviderInterface';
 
 const endpoint = 'http://api-fetch.website/tv';
 const providerId = 'PCT';
 const resolvedEndpoint = resolveEndpoint(endpoint, providerId);
 
-export default class PctTorrentProvider implements ProviderInterface {
+export default class PctTorrentProvider implements TorrentProviderInterface {
   static providerName = 'PopcornTime API';
 
   static shows = {};

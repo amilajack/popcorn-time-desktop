@@ -6,18 +6,18 @@ import classNames from 'classnames';
 import Butter from '../../api/Butter';
 
 type Props = {
-  setActiveMode: (mode: string, options: { searchQuery: string }) => void,
+  setActiveMode: (mode: string, options?: { searchQuery: string }) => void,
   activeMode: string
 };
 
 export default class Header extends Component {
-  props: Props
+  props: Props;
 
   state: {
     searchQuery: string
-  }
+  };
 
-  butter: Butter
+  butter: Butter;
 
   constructor(props: Props) {
     super(props);

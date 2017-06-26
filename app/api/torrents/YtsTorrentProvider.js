@@ -5,16 +5,16 @@ import {
   timeout,
   resolveEndpoint
 } from './BaseTorrentProvider';
-import type { ProviderInterface } from './ProviderInterface';
+import type { TorrentProviderInterface } from './TorrentProviderInterface';
 
 const endpoint = 'https://yts.ag';
 const providerId = 'YTS';
 const resolvedEndpoint = resolveEndpoint(endpoint, providerId);
 
-export default class YtsTorrentProvider implements ProviderInterface {
+export default class YtsTorrentProvider implements TorrentProviderInterface {
   static providerName = 'YTS';
 
-  static fetch(imdbId: string): Promise<Object> {
+  static fetch(imdbId: string) {
     return timeout(
       fetch(
         [
@@ -26,7 +26,7 @@ export default class YtsTorrentProvider implements ProviderInterface {
     ).then(res => res.json());
   }
 
-  static formatTorrent(torrent: Object): Object {
+  static formatTorrent(torrent) {
     return {
       quality: determineQuality(torrent.quality),
       magnet: constructMagnet(torrent.hash),
@@ -44,7 +44,7 @@ export default class YtsTorrentProvider implements ProviderInterface {
       .catch(() => false);
   }
 
-  static provide(imdbId: string, type: string): Promise<Array<Object>> {
+  static provide(imdbId, type) {
     switch (type) {
       case 'movies':
         return this.fetch(imdbId).then(results => {

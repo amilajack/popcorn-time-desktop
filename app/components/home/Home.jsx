@@ -16,15 +16,18 @@ export type itemType = {
   year: number,
   type: string,
   rating: number | 'n/a',
-  genres: Array<string>,
+  genres: Array<string>
 };
 
 type Props = {
   actions: {
     setActiveMode: (mode: string, options: Object) => void,
-    paginate: (activeMode: string, activeModeOptions?: activeModeOptionsType) => void,
+    paginate: (
+      activeMode: string,
+      activeModeOptions?: activeModeOptionsType
+    ) => void,
     clearAllItems: () => void,
-    setLoading: (isLoading: boolean) => void,
+    setLoading: (isLoading: boolean) => void
   },
   activeMode: string,
   activeModeOptions: activeModeOptionsType,
@@ -38,8 +41,8 @@ type Props = {
         year: number,
         type: string,
         rating: number | 'n/a',
-        genres: Array<string>,
-      },
+        genres: Array<string>
+      }
     }
   },
   items: Array<itemType>,
@@ -101,7 +104,10 @@ export default class Home extends Component {
    * @param {string} queryType   | 'search', 'movies', 'shows', etc
    * @param {object} queryParams | { searchQuery: 'game of thrones' }
    */
-  async paginate(queryType: string, activeModeOptions: activeModeOptionsType = {}) {
+  async paginate(
+    queryType: string,
+    activeModeOptions: activeModeOptionsType = {}
+  ) {
     this.props.actions.setLoading(true);
 
     // HACK: This is a temporary solution.
@@ -156,4 +162,3 @@ export default class Home extends Component {
     );
   }
 }
-

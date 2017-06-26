@@ -2,6 +2,7 @@
 /* eslint prefer-template: 0 */
 import cache from 'lru-cache';
 import URL from 'url';
+import type { torrentType } from './TorrentProviderInterface';
 
 export const providerCache = cache({
   maxAge: process.env.CONFIG_CACHE_TIMEOUT
@@ -210,7 +211,7 @@ export function resolveEndpoint(defaultEndpoint: string, providerId: string) {
   }
 }
 
-export function getIdealTorrent(torrents: Array<any>): Object {
+export function getIdealTorrent(torrents: Array<torrentType>): torrentType {
   const idealTorrent = torrents
     .filter(torrent => !!torrent)
     .filter(
@@ -218,7 +219,7 @@ export function getIdealTorrent(torrents: Array<any>): Object {
         !!torrent && !!torrent.magnet && typeof torrent.seeders === 'number'
     );
 
-  return idealTorrent.sort((prev: Object, next: Object) => {
+  return idealTorrent.sort((prev: torrentType, next: torrentType) => {
     if (prev.seeders === next.seeders) {
       return 0;
     }
@@ -233,7 +234,7 @@ export function handleProviderError(error: Error) {
   }
 }
 
-export function resolveCache(key: string): boolean | Object {
+export function resolveCache(key: string): boolean | any {
   if (process.env.API_USE_MOCK_DATA === 'true') {
     const mock = {
       ...require('../../../test/api/metadata.mock'), // eslint-disable-line global-require

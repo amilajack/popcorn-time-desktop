@@ -3,7 +3,10 @@ import fetch from 'isomorphic-fetch';
 import Trakt from 'trakt.tv';
 import { set, get } from '../../utils/Config';
 import { convertRuntimeToHours } from './MetadataAdapter';
-import type { MetadataProviderInterface, contentType } from './MetadataProviderInterface';
+import type {
+  MetadataProviderInterface,
+  contentType
+} from './MetadataProviderInterface';
 
 export default class TraktMetadataAdapter implements MetadataProviderInterface {
   clientId = '647c69e4ed1ad13393bf6edd9d8f9fb6fe9faf405b44320a6b71ab960b4540a2';

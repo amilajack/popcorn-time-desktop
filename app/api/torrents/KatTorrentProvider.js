@@ -9,13 +9,13 @@ import {
   handleProviderError,
   resolveEndpoint
 } from './BaseTorrentProvider';
-import type { ProviderInterface } from './ProviderInterface';
+import type { TorrentProviderInterface } from './TorrentProviderInterface';
 
 const endpoint = 'https://katproxy.al';
 const providerId = 'KAT';
 const resolvedEndpoint = resolveEndpoint(endpoint, providerId);
 
-export default class KatTorrentProvider implements ProviderInterface {
+export default class KatTorrentProvider implements TorrentProviderInterface {
   static providerName = 'Kat';
 
   static fetch(query: string) {
@@ -31,7 +31,7 @@ export default class KatTorrentProvider implements ProviderInterface {
       });
   }
 
-  static formatTorrent(torrent: Object) {
+  static formatTorrent(torrent) {
     return {
       magnet: torrent.magnet,
       seeders: torrent.seeders,
@@ -46,7 +46,7 @@ export default class KatTorrentProvider implements ProviderInterface {
     return fetch(resolvedEndpoint).then(res => res.ok).catch(() => false);
   }
 
-  static provide(imdbId: string, type: string, extendedDetails: Object = {}) {
+  static provide(imdbId: string, type: string, extendedDetails = {}) {
     const { searchQuery } = extendedDetails;
 
     switch (type) {

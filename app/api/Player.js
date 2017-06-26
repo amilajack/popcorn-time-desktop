@@ -56,7 +56,7 @@ export default class Player {
     );
   }
 
-  initPlyr(streamingUrl: string, metadata: Object = {}): plyr {
+  initPlyr(streamingUrl: string, metadata = {}): plyr {
     console.info('Initializing plyr...');
     this.currentPlayer = 'plyr';
     this.powerSaveBlockerId = powerSaveBlocker.start('prevent-app-suspension');

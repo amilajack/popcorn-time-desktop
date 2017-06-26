@@ -152,13 +152,25 @@ export default class Torrent {
   }
 }
 
-export function formatSpeeds({
-  downloadSpeed,
-  uploadSpeed,
-  progress,
-  numPeers,
-  ratio
-}: Object): Object {
+type torrentSpeedsType = {
+  downloadSpeed: number,
+  uploadSpeed: number,
+  progress: number,
+  numPeers: number,
+  ratio: number
+};
+
+export function formatSpeeds(
+  torrentSpeeds: torrentSpeedsType
+): torrentSpeedsType {
+  const {
+    downloadSpeed,
+    uploadSpeed,
+    progress,
+    numPeers,
+    ratio
+  } = torrentSpeeds;
+
   return {
     downloadSpeed: downloadSpeed / 1000000,
     uploadSpeed: uploadSpeed / 1000000,
@@ -172,10 +184,10 @@ export function formatSpeeds({
  * Get the subtitle file buffer given an array of files
  */
 export function selectSubtitleFile(
-  files: Array<Object> = [],
+  files: Array<{ name: string }> = [],
   activeMode: string,
-  metadata: Object = {}
-): Object | boolean {
+  metadata: { season: number, episode: number }
+): { name: string } | boolean {
   return (
     files.find(file => {
       const formatIsSupported = file.name.includes('.srt');

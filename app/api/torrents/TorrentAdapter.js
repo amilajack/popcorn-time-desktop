@@ -10,6 +10,9 @@ import {
   merge
 } from './BaseTorrentProvider';
 
+/**
+ * @TODO: Use ES6 dynamic imports here
+ */
 const providers = [
   require('./YtsTorrentProvider'),
   require('./PbTorrentProvider'),
@@ -164,10 +167,10 @@ export function selectTorrents(
   const formattedTorrents = returnAll
     ? sortedTorrents
     : {
-      '480p': sortedTorrents.find(torrent => torrent.quality === '480p'),
-      '720p': sortedTorrents.find(torrent => torrent.quality === '720p'),
-      '1080p': sortedTorrents.find(torrent => torrent.quality === '1080p')
-    };
+        '480p': sortedTorrents.find(torrent => torrent.quality === '480p'),
+        '720p': sortedTorrents.find(torrent => torrent.quality === '720p'),
+        '1080p': sortedTorrents.find(torrent => torrent.quality === '1080p')
+      };
 
   setCache(key, formattedTorrents);
 

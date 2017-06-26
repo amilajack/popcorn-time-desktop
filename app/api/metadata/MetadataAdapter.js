@@ -5,7 +5,7 @@
 import OpenSubtitles from 'opensubtitles-api';
 import { merge, resolveCache, setCache } from '../torrents/BaseTorrentProvider';
 import TraktMetadataProvider from './TraktMetadataProvider';
-import type { runtimeType } from './MetadataInterface';
+import type { runtimeType } from './MetadataProviderInterface';
 
 type subtitlesType = {
   kind: 'captions',

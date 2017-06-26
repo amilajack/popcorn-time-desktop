@@ -21,8 +21,11 @@ import Rating from '../card/Rating.jsx';
 import Show from '../show/Show.jsx';
 import { convertFromBuffer, startServer } from '../../api/Subtitle';
 import Player from '../../api/Player';
-import type { contentType } from '../../api/metadata/MetadataProviderInterface';
-import type { torrentType, qualityType } from '../../api/torrents/TorrentProviderInterface';
+import type { contentType, imagesType } from '../../api/metadata/MetadataProviderInterface';
+import type {
+  torrentType,
+  qualityType
+} from '../../api/torrents/TorrentProviderInterface';
 
 const SUMMARY_CHAR_LIMIT = 300;
 
@@ -30,7 +33,15 @@ type playerType = 'Default' | 'plyr' | 'Chromecast';
 
 type torrentSelectionType = {
   default: torrentType,
-  [quality: qualityType]: torrentType
+  [quality: qualityType]:
+    | torrentType
+    | {
+        quality?: string,
+        magnet?: string,
+        seeders: 0,
+        health?: string,
+        quality?: string
+      }
 };
 
 type Props = {
@@ -39,7 +50,10 @@ type Props = {
 };
 
 type State = {
-  item?: contentType,
+  item?: {
+    ...contentType,
+    images: ?imagesType
+  },
   similarItems: Array<contentType>,
   selectedSeason: number,
   selectedEpisode: number,
@@ -58,10 +72,10 @@ type State = {
   metadataLoading: boolean,
   torrentInProgress: boolean,
   torrentProgress: number,
-  isFinished: boolean,
+  isFinished: boolean
 };
 
-export default class Movie extends Component {
+export default class Item extends Component {
   props: Props;
 
   state: State;
@@ -72,20 +86,31 @@ export default class Movie extends Component {
 
   player: Player;
 
-  defaultTorrent = {
-    default: { quality: undefined, magnet: undefined, seeders: 0 },
-    '1080p': { quality: undefined, magnet: undefined, seeders: 0 },
-    '720p': { quality: undefined, magnet: undefined, seeders: 0 },
-    '480p': { quality: undefined, magnet: undefined, seeders: 0 }
+  defaultTorrent: torrentSelectionType = {
+    default: { quality: undefined, magnet: undefined, health: undefined, method: undefined, seeders: 0 },
+    '1080p': { quality: undefined, magnet: undefined, health: undefined, method: undefined, seeders: 0 },
+    '720p': { quality: undefined, magnet: undefined, health: undefined, method: undefined, seeders: 0 },
+    '480p': { quality: undefined, magnet: undefined, health: undefined, method: undefined, seeders: 0 }
   };
 
-  initialState = {
+  initialState: State = {
     item: {
-      images: {
-        fanart: {},
-        poster: {}
-      },
-      runtime: {}
+      id: '',
+      imdbId: '',
+      rating: 'n/a',
+      summary: '',
+      title: '',
+      trailer: '',
+      type: '',
+      year: 0,
+      certification: 'n/a',
+      genres: [],
+      images: null,
+      runtime: {
+        full: '',
+        hours: 0,
+        minutes: 0,
+      }
     },
     selectedSeason: 1,
     selectedEpisode: 1,
@@ -178,8 +203,8 @@ export default class Movie extends Component {
   async getShowData(
     type: string,
     imdbId: string,
-    season: number,
-    episode: number
+    season?: number,
+    episode?: number
   ) {
     switch (type) {
       case 'seasons':
@@ -191,6 +216,9 @@ export default class Movie extends Component {
         });
         break;
       case 'episodes':
+        if (!season) {
+          throw new Error('"season" not provided to getShowData()');
+        }
         this.setState({ episodes: [], episode: {} });
         this.setState({
           episodes: await this.butter.getSeason(imdbId, season),
@@ -198,6 +226,9 @@ export default class Movie extends Component {
         });
         break;
       case 'episode':
+        if (!season || !episode) {
+          throw new Error('"season" or "episode" not provided to getShowData()');
+        }
         this.setState({ episode: {} });
         this.setState({
           episode: await this.butter.getEpisode(imdbId, season, episode)
@@ -654,10 +685,10 @@ export default class Movie extends Component {
                 <div className="col-sm-4">
                   {item.rating
                     ? <Rating
-                      emptyStarColor={'rgba(255, 255, 255, 0.2)'}
-                      starColor={'white'}
-                      rating={item.rating}
-                    />
+                        emptyStarColor={'rgba(255, 255, 255, 0.2)'}
+                        starColor={'white'}
+                        rating={item.rating}
+                      />
                     : null}
                 </div>
                 <div className="col-sm-1">
@@ -773,12 +804,12 @@ export default class Movie extends Component {
 
           {activeMode === 'shows'
             ? <Show
-              selectShow={this.selectShow}
-              seasons={seasons}
-              episodes={episodes}
-              selectedSeason={selectedSeason}
-              selectedEpisode={selectedEpisode}
-            />
+                selectShow={this.selectShow}
+                seasons={seasons}
+                episodes={episodes}
+                selectedSeason={selectedSeason}
+                selectedEpisode={selectedEpisode}
+              />
             : null}
 
           <div className="col-sm-12">
@@ -796,7 +827,7 @@ export default class Movie extends Component {
   }
 }
 
-Movie.defaultProps = {
+Item.defaultProps = {
   itemId: '',
   activeMode: 'movies'
 };

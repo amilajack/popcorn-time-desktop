@@ -47,7 +47,7 @@ export default class Butter {
   getTorrent(
     imdbId: string,
     type: string,
-    extendedDetails: { [option: any]: string } = {},
+    extendedDetails: { [option: string]: string | number } = {},
     returnAll: boolean = false
   ) {
     return TorrentAdapter(imdbId, type, extendedDetails, returnAll);

@@ -12,7 +12,7 @@ type Props = {
   image: string,
   id: string,
   rating: number | 'n/a',
-  type: string,
+  type: string
 };
 
 export default function Card(props: Props) {

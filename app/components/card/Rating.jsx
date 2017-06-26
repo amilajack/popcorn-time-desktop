@@ -3,7 +3,7 @@ import React from 'react';
 import StarRatingComponent from 'react-star-rating-component';
 
 type Props = {
-  rating: number,
+  rating: number | 'n/a',
   starColor: string,
   emptyStarColor?: string
 };
@@ -16,7 +16,7 @@ export default function RatingComponent(props: Props) {
       name={'rating'}
       starColor={props.starColor}
       emptyStarColor={props.emptyStarColor}
-      value={props.rating / 2}
+      value={typeof props.rating === 'string' ? props.rating : props.rating / 2}
       editing={false}
     />
   );

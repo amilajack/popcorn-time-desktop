@@ -8,7 +8,7 @@ type Props = {
   selectedEpisode: number,
   seasons: Array<{
     season: number,
-    overview: string,
+    overview: string
   }>,
   episodes: Array<{
     episode: number,
@@ -31,8 +31,8 @@ export default function Show(props: Props) {
       <div className="col-sm-12 col-md-6">
         <h4>Seasons:</h4>
         <div className="list-group">
-          {seasons.map((season) =>
-            (<a
+          {seasons.map(season =>
+            <a
               className={classNames('list-group-item', {
                 active: season.season === selectedSeason
               })}
@@ -40,7 +40,7 @@ export default function Show(props: Props) {
               key={season.season}
             >
               Season {season.season}
-            </a>)
+            </a>
           )}
         </div>
       </div>
@@ -48,8 +48,8 @@ export default function Show(props: Props) {
       <div className="col-sm-12 col-md-6">
         <h4>Episodes:</h4>
         <div className="list-group">
-          {episodes.map((episode) =>
-            (<a
+          {episodes.map(episode =>
+            <a
               className={classNames('list-group-item', {
                 active: episode.episode === selectedEpisode
               })}
@@ -58,7 +58,7 @@ export default function Show(props: Props) {
               key={episode.episode}
             >
               Ep {episode.episode}. {episode.title}
-            </a>)
+            </a>
           )}
         </div>
       </div>

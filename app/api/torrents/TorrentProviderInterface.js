@@ -11,7 +11,8 @@ export type fetchType = {
 export type torrentType = {
   ...fetchType,
   health: healthType,
-  quality: qualityType
+  quality: qualityType,
+  method: torrentQueryType
 };
 
 export type healthType = 'poor' | 'decent' | 'healthy';
@@ -22,7 +23,7 @@ export type qualityType = '1080p' | '720p' | '480p';
 
 export type torrentQueryType = 'movies' | 'show' | 'season_complete';
 
-export interface ProviderInterface {
+export interface TorrentProviderInterface {
   static getStatus: () => Promise<boolean>,
   static fetch: (imdbId: string) => Promise<Array<fetchType>>,
   static provide: (
