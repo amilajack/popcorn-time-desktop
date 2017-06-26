@@ -9,15 +9,30 @@ type seasonType = {
   images: {
     full: string,
     medium: string,
-    thumb: string,
+    thumb: string
   }
 };
 
 export type runtimeType = {
-  full: number | 'n/a',
-  hours: number | 'n/a',
-  minutes: number | 'n/a'
+  full: string,
+  hours: number,
+  minutes: number
 };
+
+export type certificationType = 'G' | 'PG' | 'PG-13' | 'R';
+
+export type imagesType = {
+  fanart: {
+    full: string,
+    medium: string,
+    thumb: string
+  },
+  poster: {
+    full: string,
+    medium: string,
+    thumb: string
+  }
+}
 
 export type contentType = {
   title: string,
@@ -25,32 +40,25 @@ export type contentType = {
   imdbId: string,
   id: string,
   type: 'movies' | 'shows',
-  certification: string,
+  certification: certificationType,
   summary: string,
   genres: Array<string>,
   rating: number | 'n/a',
   runtime: runtimeType,
   trailer: string | 'n/a',
-  images: {
-    fanart: {
-      full: string,
-      medium: string,
-      thumb: string
-    },
-    poster: {
-      full: string,
-      medium: string,
-      thumb: string
-    }
-  }
+  images: imagesType
 };
 
-export interface MetadataInterface {
+export interface MetadataProviderInterface {
   getMovies: (page: number, limit: number) => Promise<contentType>,
   getMovie: (imdbId: string) => contentType,
   getShows: (page: number, limit: number) => Promise<contentType>,
   getShow: (imdbId: string) => contentType,
-  getSimilar: (type: string, imdbId: string, limit: number) => Promise<Array<contentType>>,
+  getSimilar: (
+    type: string,
+    imdbId: string,
+    limit: number
+  ) => Promise<Array<contentType>>,
 
   getSeasons: (imdbId: string) => Promise<Array<seasonType>>,
   getSeason: (imdbId: string, season: number) => Promise<seasonType>,
@@ -61,5 +69,5 @@ export interface MetadataInterface {
   updateConfig: (type: string, method: string, metadata: contentType) => void,
   favorites: () => void,
   recentlyWatched: () => void,
-  watchList: () => void,
+  watchList: () => void
 }

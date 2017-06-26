@@ -10,7 +10,9 @@ import {
   merge
 } from './BaseTorrentProvider';
 
-
+/**
+ * @TODO: Use ES6 dynamic imports here
+ */
 const providers = [
   require('./YtsTorrentProvider'),
   require('./PbTorrentProvider'),
@@ -23,9 +25,9 @@ export default async function TorrentAdapter(
   imdbId: string,
   type: string,
   extendedDetails,
-  returnAll: bool = false,
+  returnAll: boolean = false,
   method: string = 'all',
-  cache: bool = true
+  cache: boolean = true
 ) {
   const args = JSON.stringify({ extendedDetails, returnAll, method });
 
@@ -33,8 +35,8 @@ export default async function TorrentAdapter(
     return resolveCache(args);
   }
 
-  const torrentPromises = providers.map(
-    provider => provider.provide(imdbId, type, extendedDetails)
+  const torrentPromises = providers.map(provider =>
+    provider.provide(imdbId, type, extendedDetails)
   );
 
   switch (method) {
@@ -45,7 +47,7 @@ export default async function TorrentAdapter(
       switch (type) {
         case 'movies':
           return selectTorrents(
-            appendAttributes(providerResults).map((result) => ({
+            appendAttributes(providerResults).map(result => ({
               ...result,
               method: 'movies'
             })),
@@ -98,12 +100,12 @@ export default async function TorrentAdapter(
  * @return {array}
  */
 function appendAttributes(providerResults) {
-  const formattedResults = merge(providerResults).map((result) => ({
+  const formattedResults = merge(providerResults).map(result => ({
     ...result,
     health: getHealth(result.seeders || 0, result.leechers || 0),
     quality: 'quality' in result
-                ? result.quality
-                : determineQuality(result.magnet, result.metadata, result)
+      ? result.quality
+      : determineQuality(result.magnet, result.metadata, result)
   }));
 
   return formattedResults;
@@ -111,12 +113,9 @@ function appendAttributes(providerResults) {
 
 export function filterShows(show, season: number, episode: number) {
   return (
-    show.metadata.toLowerCase().includes(
-      formatSeasonEpisodeToString(
-        season,
-        episode
-      )
-    ) &&
+    show.metadata
+      .toLowerCase()
+      .includes(formatSeasonEpisodeToString(season, episode)) &&
     show.seeders !== 0 &&
     show.magnet
   );
@@ -130,20 +129,22 @@ export function filterShowsComplete(show, season: number) {
     metadata.includes(`${season} [complete]`) ||
     metadata.includes(`${season} - complete`) ||
     metadata.includes(`season ${season}`) ||
-    metadata.includes(`s${formatSeasonEpisodeToObject(season).season}`) &&
-    !metadata.includes('e0') &&
-    show.seeders !== 0 &&
-    show.magnet
+    (metadata.includes(`s${formatSeasonEpisodeToObject(season).season}`) &&
+      !metadata.includes('e0') &&
+      show.seeders !== 0 &&
+      show.magnet)
   );
 }
 
 export function getStatuses() {
-  return Promise
-    .all(providers.map(provider => provider.getStatus()))
-    .then(providerStatuses => providerStatuses.map((status, index) => ({
+  return Promise.all(
+    providers.map(provider => provider.getStatus())
+  ).then(providerStatuses =>
+    providerStatuses.map((status, index) => ({
       providerName: providers[index].providerName,
       online: status
-    })));
+    }))
+  );
 }
 
 /**
@@ -153,23 +154,23 @@ export function getStatuses() {
 export function selectTorrents(
   torrents,
   sortMethod: string = 'seeders',
-  returnAll: bool = false,
-  key: string) {
+  returnAll: boolean = false,
+  key: string
+) {
   const sortedTorrents = sortTorrentsBySeeders(
-    torrents.filter((torrent) =>
-      torrent.quality !== 'n/a' &&
-      torrent.quality !== '' &&
-      !!torrent.magnet
+    torrents.filter(
+      torrent =>
+        torrent.quality !== 'n/a' && torrent.quality !== '' && !!torrent.magnet
     )
   );
 
   const formattedTorrents = returnAll
     ? sortedTorrents
     : {
-      '480p': sortedTorrents.find((torrent) => torrent.quality === '480p'),
-      '720p': sortedTorrents.find((torrent) => torrent.quality === '720p'),
-      '1080p': sortedTorrents.find((torrent) => torrent.quality === '1080p')
-    };
+        '480p': sortedTorrents.find(torrent => torrent.quality === '480p'),
+        '720p': sortedTorrents.find(torrent => torrent.quality === '720p'),
+        '1080p': sortedTorrents.find(torrent => torrent.quality === '1080p')
+      };
 
   setCache(key, formattedTorrents);
 

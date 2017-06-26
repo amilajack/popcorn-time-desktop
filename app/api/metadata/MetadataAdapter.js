@@ -3,24 +3,20 @@
  * @flow
  */
 import OpenSubtitles from 'opensubtitles-api';
-import {
-  merge,
-  resolveCache,
-  setCache
-} from '../torrents/BaseTorrentProvider';
+import { merge, resolveCache, setCache } from '../torrents/BaseTorrentProvider';
 import TraktMetadataProvider from './TraktMetadataProvider';
-import type { runtimeType } from './MetadataInterface';
-
+import type { runtimeType } from './MetadataProviderInterface';
 
 type subtitlesType = {
   kind: 'captions',
   label: string,
   srclang: string,
   src: string,
-  default: bool
+  default: boolean
 };
 
-const subtitlesEndpoint = 'https://popcorn-time-api-server.herokuapp.com/subtitles';
+const subtitlesEndpoint =
+  'https://popcorn-time-api-server.herokuapp.com/subtitles';
 
 const openSubtitles = new OpenSubtitles({
   useragent: 'OSTestUserAgent',
@@ -30,12 +26,10 @@ const openSubtitles = new OpenSubtitles({
 });
 
 function MetadataAdapter() {
-  return [
-    new TraktMetadataProvider()
-  ];
+  return [new TraktMetadataProvider()];
 }
 
-async function handleRequest(method: string, args: Array<string>) {
+async function interceptAndHandleRequest(method: string, args: Array<string>) {
   const key = JSON.stringify(method) + JSON.stringify(args);
 
   if (resolveCache(key)) {
@@ -43,8 +37,7 @@ async function handleRequest(method: string, args: Array<string>) {
   }
 
   const results = await Promise.all(
-    MetadataAdapter()
-      .map(provider => provider[method].apply(provider, args)) // eslint-disable-line
+    MetadataAdapter().map(provider => provider[method].apply(provider, args)) // eslint-disable-line
   );
 
   const mergedResults = merge(results);
@@ -62,7 +55,7 @@ async function handleRequest(method: string, args: Array<string>) {
  * @param {string} sortBy
  */
 function search(...args: Array<string>) {
-  return handleRequest('search', args);
+  return interceptAndHandleRequest('search', args);
 }
 
 /**
@@ -71,7 +64,7 @@ function search(...args: Array<string>) {
  * @param {string} imdbId
  */
 function getMovie(...args: Array<string>) {
-  return handleRequest('getMovie', args);
+  return interceptAndHandleRequest('getMovie', args);
 }
 
 /**
@@ -83,7 +76,7 @@ function getMovie(...args: Array<string>) {
  * @param {string} sortBy
  */
 function getMovies(...args: Array<string>) {
-  return handleRequest('getMovies', args);
+  return interceptAndHandleRequest('getMovies', args);
 }
 
 /**
@@ -94,7 +87,7 @@ function getMovies(...args: Array<string>) {
  * @param {number} limit  | movie or show
  */
 function getSimilar(...args: Array<string>) {
-  return handleRequest('getSimilar', args);
+  return interceptAndHandleRequest('getSimilar', args);
 }
 
 /**
@@ -105,7 +98,7 @@ function getSimilar(...args: Array<string>) {
  * @param {number} limit  | movie or show
  */
 function getSeason(...args: Array<string>) {
-  return handleRequest('getSeason', args);
+  return interceptAndHandleRequest('getSeason', args);
 }
 
 /**
@@ -116,7 +109,7 @@ function getSeason(...args: Array<string>) {
  * @param {number} limit  | movie or show
  */
 function getSeasons(...args: Array<string>) {
-  return handleRequest('getSeasons', args);
+  return interceptAndHandleRequest('getSeasons', args);
 }
 
 /**
@@ -127,7 +120,7 @@ function getSeasons(...args: Array<string>) {
  * @param {number} limit  | movie or show
  */
 function getEpisode(...args: Array<string>) {
-  return handleRequest('getEpisode', args);
+  return interceptAndHandleRequest('getEpisode', args);
 }
 
 /**
@@ -138,7 +131,7 @@ function getEpisode(...args: Array<string>) {
  * @param {number} limit  | movie or show
  */
 function getShow(...args: Array<string>) {
-  return handleRequest('getShow', args);
+  return interceptAndHandleRequest('getShow', args);
 }
 
 /**
@@ -149,7 +142,7 @@ function getShow(...args: Array<string>) {
  * @param {number} limit  | movie or show
  */
 function getShows(...args: Array<string>) {
-  return handleRequest('getShows', args);
+  return interceptAndHandleRequest('getShows', args);
 }
 
 /**
@@ -169,8 +162,8 @@ async function getSubtitles(
 
   const defaultOptions = {
     sublanguageid: 'eng',
-      // sublanguageid: 'all', // @TODO
-      // hash: '8e245d9679d31e12', // @TODO
+    // sublanguageid: 'all', // @TODO
+    // hash: '8e245d9679d31e12', // @TODO
     filesize: length || undefined,
     filename: filename || undefined,
     season: metadata.season || undefined,
@@ -194,9 +187,7 @@ async function getSubtitles(
   })();
 
   return subtitles.then(res =>
-    Object
-      .values(res)
-      .map(subtitle => formatSubtitle(subtitle))
+    Object.values(res).map(subtitle => formatSubtitle(subtitle))
   );
 }
 
@@ -208,7 +199,7 @@ async function getSubtitles(
  * @param {object} metadata | 'id', Required only remove
  */
 function favorites(...args: Array<string>) {
-  return handleRequest('favorites', args);
+  return interceptAndHandleRequest('favorites', args);
 }
 
 /**
@@ -219,7 +210,7 @@ function favorites(...args: Array<string>) {
  * @param {object} metadata | 'id', Required only remove
  */
 function watchList(...args: Array<string>) {
-  return handleRequest('watchList', args);
+  return interceptAndHandleRequest('watchList', args);
 }
 
 /**
@@ -230,7 +221,7 @@ function watchList(...args: Array<string>) {
  * @param {object} metadata | 'id', Required only remove
  */
 function recentlyWatched(...args) {
-  return handleRequest('recentlyWatched', args);
+  return interceptAndHandleRequest('recentlyWatched', args);
 }
 
 /**
@@ -245,8 +236,10 @@ export function convertRuntimeToHours(runtimeInMinutes: number): runtimeType {
 
   return {
     full: hours > 0
-            ? `${hours} ${hours > 1 ? 'hours' : 'hour'}${minutes > 0 ? ` ${minutes} minutes` : ''}`
-            : `${minutes} minutes`,
+      ? `${hours} ${hours > 1 ? 'hours' : 'hour'}${minutes > 0
+          ? ` ${minutes} minutes`
+          : ''}`
+      : `${minutes} minutes`,
     hours,
     minutes
   };

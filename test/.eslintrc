@@ -3,10 +3,11 @@
     "jest": true
   },
   "rules": {
+    "fp/no-loops": "off",
     "global-require": "off",
     "import/no-dynamic-require": "off",
-    "fp/no-loops": "off",
     "no-restricted-syntax": "off",
-    "no-await-in-loop": "off"
+    "no-await-in-loop": "off",
+    "react/jsx-filename-extension": "off"
   }
 }

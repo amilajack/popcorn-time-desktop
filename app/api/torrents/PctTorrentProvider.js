@@ -5,15 +5,13 @@ import {
   timeout,
   resolveEndpoint
 } from './BaseTorrentProvider';
-import type { ProviderInterface } from './ProviderInterface';
-
+import type { TorrentProviderInterface } from './TorrentProviderInterface';
 
 const endpoint = 'http://api-fetch.website/tv';
 const providerId = 'PCT';
 const resolvedEndpoint = resolveEndpoint(endpoint, providerId);
 
-export default class PctTorrentProvider implements ProviderInterface {
-
+export default class PctTorrentProvider implements TorrentProviderInterface {
   static providerName = 'PopcornTime API';
 
   static shows = {};
@@ -21,8 +19,9 @@ export default class PctTorrentProvider implements ProviderInterface {
   static async fetch(imdbId: string, type: string, extendedDetails) {
     const urlTypeParam = type === 'movies' ? 'movie' : 'show';
     const request = timeout(
-      fetch(`${resolvedEndpoint}/${urlTypeParam}/${imdbId}`)
-        .then(res => res.json())
+      fetch(`${resolvedEndpoint}/${urlTypeParam}/${imdbId}`).then(res =>
+        res.json()
+      )
     );
 
     switch (type) {
@@ -31,14 +30,15 @@ export default class PctTorrentProvider implements ProviderInterface {
           [
             { ...movie.torrents.en['1080p'], quality: '1080p' },
             { ...movie.torrents.en['720p'], quality: '720p' }
-          ]
-            .map(torrent => this.formatMovieTorrent(torrent))
+          ].map(torrent => this.formatMovieTorrent(torrent))
         );
       case 'shows': {
         const { season, episode } = extendedDetails;
 
         const show = await request
-          .then(res => res.episodes.map(eachEpisode => this.formatEpisode(eachEpisode)))
+          .then(res =>
+            res.episodes.map(eachEpisode => this.formatEpisode(eachEpisode))
+          )
           .catch(error => {
             handleProviderError(error);
             return [];
@@ -64,8 +64,8 @@ export default class PctTorrentProvider implements ProviderInterface {
   static filterTorrents(show, season: number, episode: number) {
     const filterTorrents = show
       .filter(
-        eachEpisode => eachEpisode.season === season &&
-                       eachEpisode.episode === episode
+        eachEpisode =>
+          eachEpisode.season === season && eachEpisode.episode === episode
       )
       .map(eachEpisode => eachEpisode.torrents);
 
@@ -108,17 +108,15 @@ export default class PctTorrentProvider implements ProviderInterface {
   static provide(imdbId: string, type: string, extendedDetails = {}) {
     switch (type) {
       case 'movies':
-        return this.fetch(imdbId, type, extendedDetails)
-          .catch(error => {
-            handleProviderError(error);
-            return [];
-          });
+        return this.fetch(imdbId, type, extendedDetails).catch(error => {
+          handleProviderError(error);
+          return [];
+        });
       case 'shows':
-        return this.fetch(imdbId, type, extendedDetails)
-          .catch(error => {
-            handleProviderError(error);
-            return [];
-          });
+        return this.fetch(imdbId, type, extendedDetails).catch(error => {
+          handleProviderError(error);
+          return [];
+        });
       default:
         return [];
     }

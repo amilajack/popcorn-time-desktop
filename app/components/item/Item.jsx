@@ -2,7 +2,7 @@
  * Movie component that is responsible for playing movies
  * @flow
  */
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import {
   Dropdown,
   DropdownToggle,
@@ -19,16 +19,66 @@ import Torrent from '../../api/Torrent';
 import CardList from '../card/CardList.jsx';
 import Rating from '../card/Rating.jsx';
 import Show from '../show/Show.jsx';
-import {
-  convertFromBuffer,
-  startServer
-} from '../../api/Subtitle';
+import { convertFromBuffer, startServer } from '../../api/Subtitle';
 import Player from '../../api/Player';
-
+import type { contentType, imagesType } from '../../api/metadata/MetadataProviderInterface';
+import type {
+  torrentType,
+  qualityType
+} from '../../api/torrents/TorrentProviderInterface';
 
 const SUMMARY_CHAR_LIMIT = 300;
 
-export default class Movie extends Component {
+type playerType = 'Default' | 'plyr' | 'Chromecast';
+
+type torrentSelectionType = {
+  default: torrentType,
+  [quality: qualityType]:
+    | torrentType
+    | {
+        quality?: string,
+        magnet?: string,
+        seeders: 0,
+        health?: string,
+        quality?: string
+      }
+};
+
+type Props = {
+  itemId: string,
+  activeMode: string
+};
+
+type State = {
+  item?: {
+    ...contentType,
+    images: ?imagesType
+  },
+  similarItems: Array<contentType>,
+  selectedSeason: number,
+  selectedEpisode: number,
+  seasons: [],
+  season: [],
+  episode: {},
+  episodes: [],
+  currentPlayer: playerType,
+  playbackIsActive: boolean,
+  fetchingTorrents: boolean,
+  dropdownOpen: boolean,
+  idealTorrent: torrentType,
+  torrent: torrentSelectionType,
+  servingUrl: string,
+  similarLoading: boolean,
+  metadataLoading: boolean,
+  torrentInProgress: boolean,
+  torrentProgress: number,
+  isFinished: boolean
+};
+
+export default class Item extends Component {
+  props: Props;
+
+  state: State;
 
   butter: Butter;
 
@@ -36,30 +86,31 @@ export default class Movie extends Component {
 
   player: Player;
 
-  toggle: Function;
-
-  setPlayer: Function;
-
-  stopPlayback: Function;
-
-  startPlayback: Function;
-
-  selectShow: Function;
-
-  defaultTorrent: Object = {
-    default: { quality: undefined, magnet: undefined, seeders: 0 },
-    '1080p': { quality: undefined, magnet: undefined, seeders: 0 },
-    '720p': { quality: undefined, magnet: undefined, seeders: 0 },
-    '480p': { quality: undefined, magnet: undefined, seeders: 0 }
+  defaultTorrent: torrentSelectionType = {
+    default: { quality: undefined, magnet: undefined, health: undefined, method: undefined, seeders: 0 },
+    '1080p': { quality: undefined, magnet: undefined, health: undefined, method: undefined, seeders: 0 },
+    '720p': { quality: undefined, magnet: undefined, health: undefined, method: undefined, seeders: 0 },
+    '480p': { quality: undefined, magnet: undefined, health: undefined, method: undefined, seeders: 0 }
   };
 
-  initialState: Object = {
+  initialState: State = {
     item: {
-      images: {
-        fanart: {},
-        poster: {}
-      },
-      runtime: {}
+      id: '',
+      imdbId: '',
+      rating: 'n/a',
+      summary: '',
+      title: '',
+      trailer: '',
+      type: '',
+      year: 0,
+      certification: 'n/a',
+      genres: [],
+      images: null,
+      runtime: {
+        full: '',
+        hours: 0,
+        minutes: 0,
+      }
     },
     selectedSeason: 1,
     selectedEpisode: 1,
@@ -77,7 +128,7 @@ export default class Movie extends Component {
     torrentProgress: 0
   };
 
-  constructor(props: Object) {
+  constructor(props: Props) {
     super(props);
 
     this.butter = new Butter();
@@ -91,7 +142,7 @@ export default class Movie extends Component {
   /**
    * Check which players are available on the system
    */
-  setPlayer(player: string) {
+  setPlayer(player: playerType) {
     this.setState({ currentPlayer: player });
   }
 
@@ -106,7 +157,8 @@ export default class Movie extends Component {
     this.stopPlayback();
     this.player.destroy();
 
-    this.setState({ // eslint-disable-line
+    this.setState({
+      // eslint-disable-line
       ...this.initialState,
       dropdownOpen: false,
       currentPlayer: 'Default'
@@ -118,7 +170,7 @@ export default class Movie extends Component {
     this.player.destroy();
   }
 
-  componentWillReceiveProps(nextProps: Object) {
+  componentWillReceiveProps(nextProps: Props) {
     this.stopPlayback();
 
     this.setState({
@@ -132,19 +184,28 @@ export default class Movie extends Component {
     this.setState(this.initialState, () => {
       if (this.props.activeMode === 'shows') {
         this.getShowData(
-          'seasons', itemId, this.state.selectedSeason, this.state.selectedEpisode
+          'seasons',
+          itemId,
+          this.state.selectedSeason,
+          this.state.selectedEpisode
         );
       }
     });
 
     return Promise.all([
-      this.getItem(itemId)
-        .then((item: Object) => this.getTorrent(itemId, item.title, 1, 1)),
+      this.getItem(itemId).then((item: contentType) =>
+        this.getTorrent(itemId, item.title, 1, 1)
+      ),
       this.getSimilar(itemId)
     ]);
   }
 
-  async getShowData(type: string, imdbId: string, season: number, episode: number) {
+  async getShowData(
+    type: string,
+    imdbId: string,
+    season?: number,
+    episode?: number
+  ) {
     switch (type) {
       case 'seasons':
         this.setState({ seasons: [], episodes: [], episode: {} });
@@ -155,6 +216,9 @@ export default class Movie extends Component {
         });
         break;
       case 'episodes':
+        if (!season) {
+          throw new Error('"season" not provided to getShowData()');
+        }
         this.setState({ episodes: [], episode: {} });
         this.setState({
           episodes: await this.butter.getSeason(imdbId, season),
@@ -162,6 +226,9 @@ export default class Movie extends Component {
         });
         break;
       case 'episode':
+        if (!season || !episode) {
+          throw new Error('"season" or "episode" not provided to getShowData()');
+        }
         this.setState({ episode: {} });
         this.setState({
           episode: await this.butter.getEpisode(imdbId, season, episode)
@@ -194,7 +261,12 @@ export default class Movie extends Component {
     return item;
   }
 
-  async getTorrent(imdbId: string, title: string, season: number, episode: number) {
+  async getTorrent(
+    imdbId: string,
+    title: string,
+    season: number,
+    episode: number
+  ) {
     this.setState({
       fetchingTorrents: true,
       idealTorrent: this.defaultTorrent,
@@ -205,9 +277,13 @@ export default class Movie extends Component {
       const { torrent, idealTorrent } = await (async () => {
         switch (this.props.activeMode) {
           case 'movies': {
-            const _torrent = await this.butter.getTorrent(imdbId, this.props.activeMode, {
-              searchQuery: title
-            });
+            const _torrent = await this.butter.getTorrent(
+              imdbId,
+              this.props.activeMode,
+              {
+                searchQuery: title
+              }
+            );
             return {
               torrent: _torrent,
               idealTorrent: getIdealTorrent([
@@ -233,9 +309,18 @@ export default class Movie extends Component {
 
               return {
                 torrent: {
-                  '1080p': getIdealTorrent([shows['1080p'], seasonComplete['1080p']]),
-                  '720p': getIdealTorrent([shows['720p'], seasonComplete['720p']]),
-                  '480p': getIdealTorrent([shows['480p'], seasonComplete['480p']])
+                  '1080p': getIdealTorrent([
+                    shows['1080p'],
+                    seasonComplete['1080p']
+                  ]),
+                  '720p': getIdealTorrent([
+                    shows['720p'],
+                    seasonComplete['720p']
+                  ]),
+                  '480p': getIdealTorrent([
+                    shows['480p'],
+                    seasonComplete['480p']
+                  ])
                 },
                 idealTorrent: getIdealTorrent([
                   shows['1080p'],
@@ -249,11 +334,15 @@ export default class Movie extends Component {
             }
 
             return {
-              torrent: await this.butter.getTorrent(imdbId, this.props.activeMode, {
-                season,
-                episode,
-                searchQuery: title
-              }),
+              torrent: await this.butter.getTorrent(
+                imdbId,
+                this.props.activeMode,
+                {
+                  season,
+                  episode,
+                  searchQuery: title
+                }
+              ),
               idealTorrent: getIdealTorrent([
                 torrent['1080p'] || this.defaultTorrent,
                 torrent['720p'] || this.defaultTorrent,
@@ -288,7 +377,10 @@ export default class Movie extends Component {
     this.setState({ similarLoading: true });
 
     try {
-      const similarItems = await this.butter.getSimilar(this.props.activeMode, imdbId);
+      const similarItems = await this.butter.getSimilar(
+        this.props.activeMode,
+        imdbId
+      );
 
       this.setState({
         similarItems,
@@ -310,7 +402,11 @@ export default class Movie extends Component {
     }
   }
 
-  selectShow(type: string, selectedSeason: number, selectedEpisode: number = 1) {
+  selectShow(
+    type: string,
+    selectedSeason: number,
+    selectedEpisode: number = 1
+  ) {
     switch (type) {
       case 'episodes':
         this.setState({ selectedSeason });
@@ -319,8 +415,18 @@ export default class Movie extends Component {
         break;
       case 'episode':
         this.setState({ selectedSeason, selectedEpisode });
-        this.getShowData('episode', this.state.item.id, selectedSeason, selectedEpisode);
-        this.getTorrent(this.state.item.id, this.state.item.title, selectedSeason, selectedEpisode);
+        this.getShowData(
+          'episode',
+          this.state.item.id,
+          selectedSeason,
+          selectedEpisode
+        );
+        this.getTorrent(
+          this.state.item.id,
+          this.state.item.title,
+          selectedSeason,
+          selectedEpisode
+        );
         break;
       default:
         throw new Error('Invalid selectShow() type');
@@ -334,7 +440,11 @@ export default class Movie extends Component {
    * 4. Serve the file through http
    * 5. Override the default subtitle retrieved from the API
    */
-  async getSubtitles(subtitleTorrentFile: Object = {}, activeMode: string, item: Object) {
+  async getSubtitles(
+    subtitleTorrentFile: Object = {},
+    activeMode: string,
+    item: contentType
+  ) {
     // Retrieve list of subtitles
     const subtitles = await this.butter.getSubtitles(
       item.imdbId,
@@ -358,11 +468,12 @@ export default class Movie extends Component {
     });
 
     // Override the default subtitle
-    const mergedResults = subtitles.map((subtitle: Object) => (
-      subtitle.default === true
-        ? { ...subtitle, src: `http://localhost:${port}/${filename}` }
-        : subtitle
-    ));
+    const mergedResults = subtitles.map(
+      (subtitle: Object) =>
+        subtitle.default === true
+          ? { ...subtitle, src: `http://localhost:${port}/${filename}` }
+          : subtitle
+    );
 
     return mergedResults;
   }
@@ -394,79 +505,103 @@ export default class Movie extends Component {
       ...Player.nativePlaybackFormats
     ];
 
-    this.torrent.start(magnet, metadata, formats, async (servingUrl: string,
-                                                          file: Object,
-                                                          files: string,
-                                                          torrent: string,
-                                                          subtitle: string
-                                                        ) => {
-      console.log(`serving at: ${servingUrl}`);
-      this.setState({ servingUrl });
+    this.torrent.start(
+      magnet,
+      metadata,
+      formats,
+      async (
+        servingUrl: string,
+        file: { name: string },
+        files: string,
+        torrent: string,
+        subtitle: string
+      ) => {
+        console.log(`serving at: ${servingUrl}`);
+        this.setState({ servingUrl });
 
-      const filename = file.name;
-      const subtitles = subtitle && process.env.FLAG_SUBTITLES === 'true'
-                          ? await this.getSubtitles(
-                              subtitle,
-                              this.props.activeMode,
-                              this.state.item
-                            )
-                          : [];
+        const filename = file.name;
+        const subtitles = subtitle && process.env.FLAG_SUBTITLES === 'true'
+          ? await this.getSubtitles(
+              subtitle,
+              this.props.activeMode,
+              this.state.item
+            )
+          : [];
 
-      switch (this.state.currentPlayer) {
-        case 'VLC':
-          return this.player.initVLC(servingUrl);
-        case 'Chromecast': {
-          const { title } = this.state.item;
-          const { full } = this.state.item.images.fanart;
-          const command = [
-            'node ./.tmp/Cast.js',
-            `--url '${servingUrl}'`,
-            `--title '${title}'`,
-            `--image ${full}`
-          ].join(' ');
+        switch (this.state.currentPlayer) {
+          case 'VLC':
+            return this.player.initVLC(servingUrl);
+          case 'Chromecast': {
+            const { title } = this.state.item;
+            const { full } = this.state.item.images.fanart;
+            const command = [
+              'node ./.tmp/Cast.js',
+              `--url '${servingUrl}'`,
+              `--title '${title}'`,
+              `--image ${full}`
+            ].join(' ');
 
-          return exec(command, (_error, stdout, stderr) => {
-            if (_error) {
-              return console.error(`Chromecast Exec Error: ${_error}`);
-            }
-            return [
-              console.log(`stdout: ${stdout}`),
-              console.log(`stderr: ${stderr}`)
-            ];
-          });
-        }
-        case 'Default':
-          if (Player.isFormatSupported(filename, Player.nativePlaybackFormats)) {
-            this.player.initPlyr(servingUrl, {
-              poster: this.state.item.images.fanart.thumb,
-              tracks: subtitles
+            return exec(command, (_error, stdout, stderr) => {
+              if (_error) {
+                return console.error(`Chromecast Exec Error: ${_error}`);
+              }
+              return [
+                console.log(`stdout: ${stdout}`),
+                console.log(`stderr: ${stderr}`)
+              ];
             });
-            this.toggleActive();
-          } else if (Player.isFormatSupported(filename, [
-            ...Player.nativePlaybackFormats,
-            ...Player.experimentalPlaybackFormats
-          ])) {
-            notie.alert(2, 'The format of this video is not playable', 2);
-            console.warn(`Format of filename ${filename} not supported`);
-            console.warn('Files retrieved:', files);
           }
-          break;
-        default:
-          console.error('Invalid player');
-          break;
-      }
+          case 'Default':
+            if (
+              Player.isFormatSupported(filename, Player.nativePlaybackFormats)
+            ) {
+              this.player.initPlyr(servingUrl, {
+                poster: this.state.item.images.fanart.thumb,
+                tracks: subtitles
+              });
+              this.toggleActive();
+            } else if (
+              Player.isFormatSupported(filename, [
+                ...Player.nativePlaybackFormats,
+                ...Player.experimentalPlaybackFormats
+              ])
+            ) {
+              notie.alert(2, 'The format of this video is not playable', 2);
+              console.warn(`Format of filename ${filename} not supported`);
+              console.warn('Files retrieved:', files);
+            }
+            break;
+          default:
+            console.error('Invalid player');
+            break;
+        }
 
-      return torrent;
-    }, downloaded => {
-      console.log('DOWNLOADING', downloaded);
-    });
+        return torrent;
+      },
+      downloaded => {
+        console.log('DOWNLOADING', downloaded);
+      }
+    );
   }
 
   render() {
     const {
-      item, idealTorrent, torrent, servingUrl, torrentInProgress,
-      fetchingTorrents, dropdownOpen, currentPlayer, seasons, selectedSeason,
-      episodes, selectedEpisode, similarItems, similarLoading, isFinished, playbackIsActive
+      item,
+      idealTorrent,
+      torrent,
+      servingUrl,
+      torrentInProgress,
+      fetchingTorrents,
+      dropdownOpen,
+      currentPlayer,
+      seasons,
+      selectedSeason,
+      episodes,
+      selectedEpisode,
+      similarItems,
+      similarLoading,
+      isFinished,
+      playbackIsActive
     } = this.state;
 
     const { activeMode } = this.props;
@@ -501,10 +636,7 @@ export default class Movie extends Component {
         })}
       >
         <Link to="/">
-          <button
-            className="btn btn-back"
-            onClick={() => this.stopPlayback()}
-          >
+          <button className="btn btn-back" onClick={() => this.stopPlayback()}>
             Back
           </button>
         </Link>
@@ -514,10 +646,7 @@ export default class Movie extends Component {
             <video controls poster={item.images.fanart.full} />
           </div>
 
-          <div
-            className="col-sm-12 Item--background"
-            style={itemBackgroundUrl}
-          >
+          <div className="col-sm-12 Item--background" style={itemBackgroundUrl}>
 
             <div className="col-sm-6 Item--image">
               <img
@@ -541,27 +670,25 @@ export default class Movie extends Component {
                   </h6>
                 </span>
                 <span className="col-sm-9" id="genres">
-                  {item.genres
-                    ? <h6>{item.genres.join(', ')}</h6>
-                    : null}
+                  {item.genres ? <h6>{item.genres.join(', ')}</h6> : null}
                 </span>
               </div>
               {/* HACK: Prefer a CSS solution to this, using text-overflow: ellipse */}
               <h6 className="row-margin" id="summary">
                 {item.summary
                   ? item.summary.length > SUMMARY_CHAR_LIMIT
-                      ? `${item.summary.slice(0, SUMMARY_CHAR_LIMIT)}...`
-                      : item.summary
+                    ? `${item.summary.slice(0, SUMMARY_CHAR_LIMIT)}...`
+                    : item.summary
                   : ''}
               </h6>
               <div className="row row-margin row-flex-center">
                 <div className="col-sm-4">
                   {item.rating
                     ? <Rating
-                      emptyStarColor={'rgba(255, 255, 255, 0.2)'}
-                      starColor={'white'}
-                      rating={item.rating}
-                    />
+                        emptyStarColor={'rgba(255, 255, 255, 0.2)'}
+                        starColor={'white'}
+                        rating={item.rating}
+                      />
                     : null}
                 </div>
                 <div className="col-sm-1">
@@ -587,10 +714,8 @@ export default class Movie extends Component {
           {/* Torrent Selection */}
           <span>
             <button
-              onClick={() => this.startPlayback(
-                idealTorrent.magnet,
-                idealTorrent.method
-              )}
+              onClick={() =>
+                this.startPlayback(idealTorrent.magnet, idealTorrent.method)}
               disabled={!idealTorrent.magnet}
             >
               Start Ideal Torrent
@@ -601,19 +726,21 @@ export default class Movie extends Component {
               return (
                 <span>
                   <button
-                    onClick={() => this.startPlayback(
-                      torrent['1080p'].magnet,
-                      torrent['1080p'].method
-                    )}
+                    onClick={() =>
+                      this.startPlayback(
+                        torrent['1080p'].magnet,
+                        torrent['1080p'].method
+                      )}
                     disabled={!torrent['1080p'].quality}
                   >
                     Start 1080p -- {torrent['1080p'].seeders} seeders
                   </button>
                   <button
-                    onClick={() => this.startPlayback(
-                      torrent['720p'].magnet,
-                      torrent['720p'].method
-                    )}
+                    onClick={() =>
+                      this.startPlayback(
+                        torrent['720p'].magnet,
+                        torrent['720p'].method
+                      )}
                     disabled={!torrent['720p'].quality}
                   >
                     Start 720p -- {torrent['720p'].seeders} seeders
@@ -622,10 +749,11 @@ export default class Movie extends Component {
                     if (activeMode === 'shows') {
                       return (
                         <button
-                          onClick={() => this.startPlayback(
-                            torrent['480p'].magnet,
-                            torrent['480p'].method
-                          )}
+                          onClick={() =>
+                            this.startPlayback(
+                              torrent['480p'].magnet,
+                              torrent['480p'].method
+                            )}
                           disabled={!torrent['480p'].quality}
                         >
                           Start 480p -- {torrent['480p'].seeders} seeders
@@ -642,14 +770,10 @@ export default class Movie extends Component {
             return null;
           })()}
           <h3 style={torrentLoadingStatusStyle}>
-            {!servingUrl && torrentInProgress
-              ? 'Loading torrent...'
-              : null}
+            {!servingUrl && torrentInProgress ? 'Loading torrent...' : null}
           </h3>
           <h3 style={torrentLoadingStatusStyle}>
-            {fetchingTorrents
-              ? 'Fetching torrents...'
-              : null}
+            {fetchingTorrents ? 'Fetching torrents...' : null}
           </h3>
           <div className="row">
             <div className="col-sm-12">
@@ -659,22 +783,16 @@ export default class Movie extends Component {
                 </DropdownToggle>
                 <DropdownMenu>
                   <DropdownItem header>Select Player</DropdownItem>
-                  <DropdownItem
-                    onClick={() => this.setPlayer('Default')}
-                  >
+                  <DropdownItem onClick={() => this.setPlayer('Default')}>
                     Default
                   </DropdownItem>
-                  <DropdownItem
-                    onClick={() => this.setPlayer('VLC')}
-                  >
+                  <DropdownItem onClick={() => this.setPlayer('VLC')}>
                     VLC
                   </DropdownItem>
                   {process.env.FLAG_CASTING === 'true'
-                    ? <DropdownItem
-                      onClick={this.setPlayer('Chromecast')}
-                    >
-                      Chromecast
-                    </DropdownItem>
+                    ? <DropdownItem onClick={this.setPlayer('Chromecast')}>
+                        Chromecast
+                      </DropdownItem>
                     : null}
                 </DropdownMenu>
               </Dropdown>
@@ -684,13 +802,15 @@ export default class Movie extends Component {
             Toggle Hover Playback Active
           </button>
 
-          {activeMode === 'shows' ? <Show
-            selectShow={this.selectShow}
-            seasons={seasons}
-            episodes={episodes}
-            selectedSeason={selectedSeason}
-            selectedEpisode={selectedEpisode}
-          /> : null}
+          {activeMode === 'shows'
+            ? <Show
+                selectShow={this.selectShow}
+                seasons={seasons}
+                episodes={episodes}
+                selectedSeason={selectedSeason}
+                selectedEpisode={selectedEpisode}
+              />
+            : null}
 
           <div className="col-sm-12">
             <CardList
@@ -707,12 +827,7 @@ export default class Movie extends Component {
   }
 }
 
-Movie.propTypes = {
-  itemId: PropTypes.string.isRequired,
-  activeMode: PropTypes.string.isRequired
-};
-
-Movie.defaultProps = {
+Item.defaultProps = {
   itemId: '',
   activeMode: 'movies'
 };

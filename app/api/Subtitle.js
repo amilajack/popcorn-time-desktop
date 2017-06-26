@@ -6,9 +6,18 @@ import fs from 'fs';
 import srt2vtt from 'srt2vtt';
 import rndm from 'rndm';
 
-
 export const basePath = os.tmpdir();
-export const port = process.env.SUBTITLES_PORT || 4000;
+export const port = typeof process.env.SUBTITLES_PORT === 'number'
+  ? parseInt(process.env.SUBTITLES_PORT, 10)
+  : 4000;
+
+export type subtitleType = {
+  filename: string,
+  basePath: string,
+  port: number,
+  fullPath: string,
+  buffer: Buffer
+};
 
 /**
  * Serve the file through http
@@ -27,13 +36,13 @@ export function closeServer(server: express): express {
   return server.close();
 }
 
-export function convertFromBuffer(srtBuffer: Buffer): Promise<Object> {
+export function convertFromBuffer(srtBuffer: Buffer): Promise<subtitleType> {
   const randomString = rndm(16);
   const filename = `${randomString}.vtt`;
   const fullPath = path.join(basePath, filename);
 
-  return new Promise((resolve: Function, reject: Function) => {
-    srt2vtt(srtBuffer, (error: Error, vttBuffer: Buffer) => {
+  return new Promise((resolve, reject) => {
+    srt2vtt(srtBuffer, (error?: Error, vttBuffer: Buffer) => {
       if (error) reject(error);
 
       fs.writeFile(fullPath, vttBuffer, () => {

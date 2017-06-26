@@ -1,8 +1,12 @@
 // @flow
-import React, { PropTypes } from 'react';
+import React from 'react';
 
+type Props = {
+  isLoading: boolean,
+  isFinished: boolean
+};
 
-export default function Loader({ isLoading, isFinished }) {
+export default function Loader({ isLoading, isFinished }: Props) {
   const shouldShow = {
     opacity: isLoading ? 1 : 0,
     display: isFinished ? 'none' : 'initial'
@@ -18,11 +22,6 @@ export default function Loader({ isLoading, isFinished }) {
     </div>
   );
 }
-
-Loader.propTypes = {
-  isLoading: PropTypes.bool.isRequired,
-  isFinished: PropTypes.bool.isRequired
-};
 
 Loader.defaultProps = {
   isLoading: false,

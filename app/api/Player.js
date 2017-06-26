@@ -4,11 +4,9 @@ import plyr from 'plyr';
 import childProcess from 'child_process';
 import vlcCommand from 'vlc-command';
 
-
 const { powerSaveBlocker } = remote;
 
 export default class Player {
-
   currentPlayer = 'plyr';
 
   powerSaveBlockerId: number;
@@ -18,7 +16,15 @@ export default class Player {
    */
   player: plyr;
 
-  static nativePlaybackFormats = ['mp4', 'ogg', 'mov', 'webmv', 'mkv', 'wmv', 'avi'];
+  static nativePlaybackFormats = [
+    'mp4',
+    'ogg',
+    'mov',
+    'webmv',
+    'mkv',
+    'wmv',
+    'avi'
+  ];
 
   static experimentalPlaybackFormats = [];
 
@@ -41,13 +47,16 @@ export default class Player {
     this.player.restart();
   }
 
-  static isFormatSupported(filename: string, mimeTypes: Array<string>): bool {
-    return !!mimeTypes.find(
-      mimeType => filename.toLowerCase().includes(mimeType)
+  static isFormatSupported(
+    filename: string,
+    mimeTypes: Array<string>
+  ): boolean {
+    return !!mimeTypes.find(mimeType =>
+      filename.toLowerCase().includes(mimeType)
     );
   }
 
-  initPlyr(streamingUrl: string, metadata: Object = {}): plyr {
+  initPlyr(streamingUrl: string, metadata = {}): plyr {
     console.info('Initializing plyr...');
     this.currentPlayer = 'plyr';
     this.powerSaveBlockerId = powerSaveBlocker.start('prevent-app-suspension');
@@ -62,10 +71,12 @@ export default class Player {
 
     player.source({
       type: 'video',
-      sources: [{
-        src: streamingUrl,
-        type: 'video/mp4'
-      }],
+      sources: [
+        {
+          src: streamingUrl,
+          type: 'video/mp4'
+        }
+      ],
       ...metadata
     });
 
@@ -90,7 +101,9 @@ export default class Player {
         });
       }
 
-      this.powerSaveBlockerId = powerSaveBlocker.start('prevent-app-suspension');
+      this.powerSaveBlockerId = powerSaveBlocker.start(
+        'prevent-app-suspension'
+      );
 
       return true;
     });

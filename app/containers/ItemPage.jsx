@@ -1,25 +1,21 @@
 // @flow
-import React, { PropTypes } from 'react';
+import React from 'react';
 import Item from '../components/item/Item.jsx';
 
+type Props = {
+  params: {
+    itemId: string,
+    activeMode: string
+  }
+};
 
-export default function ItemPage({ params }) {
+export default function ItemPage(props: Props) {
   return (
     <div>
-      <Item
-        itemId={params.itemId}
-        activeMode={params.activeMode}
-      />
+      <Item itemId={props.params.itemId} activeMode={props.params.activeMode} />
     </div>
   );
 }
-
-ItemPage.propTypes = {
-  params: PropTypes.shape({
-    itemId: PropTypes.string.isRequired,
-    activeMode: PropTypes.string.isRequired
-  }).isRequired
-};
 
 ItemPage.defaultProps = {
   params: {}

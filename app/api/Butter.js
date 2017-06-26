@@ -5,9 +5,7 @@
 import TorrentAdapter from './torrents/TorrentAdapter';
 import MetadataAdapter from './metadata/MetadataAdapter';
 
-
 export default class Butter {
-
   getMovies(page: number = 1, limit: number = 50) {
     return MetadataAdapter.getMovies(page, limit);
   }
@@ -46,10 +44,12 @@ export default class Butter {
    * @param {object}  extendedDetails | Additional details provided for heuristics
    * @param {boolean} returnAll
    */
-  getTorrent(imdbId: string,
+  getTorrent(
+    imdbId: string,
     type: string,
-    extendedDetails: Object = {},
-    returnAll: bool = false) {
+    extendedDetails: { [option: string]: string | number } = {},
+    returnAll: boolean = false
+  ) {
     return TorrentAdapter(imdbId, type, extendedDetails, returnAll);
   }
 
@@ -57,7 +57,12 @@ export default class Butter {
     return MetadataAdapter.search(query, page);
   }
 
-  getSubtitles(imdbId: string, filename: string, length: number, metadata: Object) {
+  getSubtitles(
+    imdbId: string,
+    filename: string,
+    length: number,
+    metadata: Object
+  ) {
     return MetadataAdapter.getSubtitles(imdbId, filename, length, metadata);
   }
 

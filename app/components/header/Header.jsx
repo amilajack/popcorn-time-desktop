@@ -1,18 +1,28 @@
 // @flow
 /* eslint react/no-set-state: 0 */
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import classNames from 'classnames';
 import Butter from '../../api/Butter';
 
+type Props = {
+  setActiveMode: (mode: string, options?: { searchQuery: string }) => void,
+  activeMode: string
+};
 
 export default class Header extends Component {
+  props: Props;
 
-  constructor(props) {
+  state: {
+    searchQuery: string
+  };
+
+  butter: Butter;
+
+  constructor(props: Props) {
     super(props);
 
     this.butter = new Butter();
-
     this.state = {
       searchQuery: ''
     };
@@ -25,13 +35,13 @@ export default class Header extends Component {
     this.props.setActiveMode('search', { searchQuery });
   }
 
-  handleSearchChange(event: Object) {
+  handleSearchChange(event: SyntheticEvent) {
     this.setState({
       searchQuery: event.target.value
     });
   }
 
-  handleKeyPress(event: Object) {
+  handleKeyPress(event: SyntheticEvent) {
     if (event.key === 'Enter') {
       browserHistory.push('/search');
       this.props.setActiveMode('search', {
@@ -53,11 +63,8 @@ export default class Header extends Component {
                 active: activeMode === 'movies'
               })}
             >
-              <a
-                className="nav-link"
-                onClick={() => setActiveMode('movies')}
-              >
-                  Movies <span className="sr-only">(current)</span>
+              <a className="nav-link" onClick={() => setActiveMode('movies')}>
+                Movies <span className="sr-only">(current)</span>
               </a>
             </li>
             <li
@@ -65,12 +72,9 @@ export default class Header extends Component {
                 active: activeMode === 'shows'
               })}
             >
-              <a
-                className="nav-link"
-                onClick={() => setActiveMode('shows')}
-              >
-                  TV Shows
-                </a>
+              <a className="nav-link" onClick={() => setActiveMode('shows')}>
+                TV Shows
+              </a>
             </li>
           </ul>
           <div className="pull-xs-right">
@@ -93,8 +97,8 @@ export default class Header extends Component {
         <nav className="navbar hidden navbar-dark bg-inverse">
           <div className="nav navbar-nav">
             <a className="nav-item nav-link active">
-                Popcorn Time
-                <span className="sr-only">(current)</span>
+              Popcorn Time
+              <span className="sr-only">(current)</span>
             </a>
           </div>
         </nav>
@@ -102,8 +106,3 @@ export default class Header extends Component {
     );
   }
 }
-
-Header.propTypes = {
-  setActiveMode: PropTypes.func.isRequired,
-  activeMode: PropTypes.string.isRequired
-};
