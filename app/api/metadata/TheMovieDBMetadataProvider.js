@@ -122,9 +122,9 @@ function formatMetadata(
     trailer: 'n/a',
     images: {
       fanart: {
-        full: formatImage(imageUri, movie.poster_path, 'original'),
-        medium: formatImage(imageUri, movie.poster_path, 'w780'),
-        thumb: formatImage(imageUri, movie.poster_path, 'w342')
+        full: formatImage(imageUri, movie.backdrop_path, 'original'),
+        medium: formatImage(imageUri, movie.backdrop_path, 'w780'),
+        thumb: formatImage(imageUri, movie.backdrop_path, 'w342')
       },
       poster: {
         full: formatImage(imageUri, movie.poster_path, 'original'),
