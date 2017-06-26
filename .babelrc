@@ -20,6 +20,10 @@
       "plugins": [
         "transform-class-properties",
         "transform-es2015-classes"
+        // ["flow-runtime", {
+        //   "assert": true,
+        //   "annotate": true
+        // }]
       ]
     }
   }

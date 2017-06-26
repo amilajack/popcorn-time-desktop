@@ -1,12 +1,8 @@
 // @flow
 import fetch from 'isomorphic-fetch';
 import Trakt from 'trakt.tv';
-import { set, get } from '../../utils/Config';
 import { convertRuntimeToHours } from './MetadataAdapter';
-import type {
-  MetadataProviderInterface,
-  contentType
-} from './MetadataProviderInterface';
+import type { MetadataProviderInterface } from './MetadataProviderInterface';
 
 export default class TraktMetadataAdapter implements MetadataProviderInterface {
   clientId = '647c69e4ed1ad13393bf6edd9d8f9fb6fe9faf405b44320a6b71ab960b4540a2';
@@ -128,43 +124,6 @@ export default class TraktMetadataAdapter implements MetadataProviderInterface {
         extended: 'full,images,metadata'
       })
       .then(movies => movies.map(movie => formatMetadata(movie, type)));
-  }
-
-  /**
-   * Temporarily store the 'favorites', 'recentlyWatched', 'watchList' items
-   * in config file. The cache can't be used because this data needs to be
-   * persisted.
-   */
-  updateConfig(type: string, method: string, metadata: contentType) {
-    const property = `${type}`;
-
-    switch (method) {
-      case 'set':
-        set(property, [...(get(property) || []), metadata]);
-        return get(property);
-      case 'get':
-        return get(property);
-      case 'remove': {
-        const items = [
-          ...(get(property) || []).filter(item => item.id !== metadata.id)
-        ];
-        return set(property, items);
-      }
-      default:
-        return set(property, [...(get(property) || []), metadata]);
-    }
-  }
-
-  favorites(...args) {
-    return this.updateConfig('favorites', ...args);
-  }
-
-  recentlyWatched(...args) {
-    return this.updateConfig('recentlyWatched', ...args);
-  }
-
-  watchList(...args) {
-    return this.updateConfig('watchList', ...args);
   }
 
   // @TODO: Properly implement provider architecture

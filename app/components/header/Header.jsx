@@ -1,8 +1,8 @@
 // @flow
 /* eslint react/no-set-state: 0 */
 import React, { Component } from 'react';
-import { browserHistory } from 'react-router';
 import classNames from 'classnames';
+import { history as browserHistory } from '../../store/configureStore';
 import Butter from '../../api/Butter';
 
 type Props = {

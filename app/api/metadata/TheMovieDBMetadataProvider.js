@@ -1,7 +1,6 @@
 // @flow
 import fetch from 'isomorphic-fetch';
 import axios from 'axios';
-import { set, get } from '../../utils/Config';
 import type { MetadataProviderInterface } from './MetadataProviderInterface';
 
 export default class TheMovieDBMetadataProvider
@@ -81,7 +80,7 @@ export default class TheMovieDBMetadataProvider
 
     // http://www.omdbapi.com/?t=Game+of+thrones&y=&plot=short&r=json
     return fetch(
-      `http://www.omdbapi.com/?s=${encodeURIComponent(query)}&y=&page=${page}`
+      `http://www.omdbapi.com/?s=${encodeURIComponent(query)}&page=${page}&apikey=fcbd49b5`
     )
       .then(response => response.json())
       .then(response => response.Search.map(movie => formatMovieSearch(movie)));
