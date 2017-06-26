@@ -107,7 +107,9 @@ function formatMetadata(
   movieGenres
 ) {
   return {
-    title: movie.title,
+    // 'title' property is on movies only. 'name' property is on
+    // shows only
+    title: movie.name || movie.title,
     year: new Date(movie.release_date).getYear(),
     imdbId: null,
     id: `${movie.id}`,
