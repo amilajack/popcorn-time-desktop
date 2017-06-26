@@ -167,6 +167,7 @@ export default class TraktMetadataAdapter implements MetadataProviderInterface {
     return this.updateConfig('watchList', ...args);
   }
 
+  // @TODO: Properly implement provider architecture
   provide() {}
 }
 

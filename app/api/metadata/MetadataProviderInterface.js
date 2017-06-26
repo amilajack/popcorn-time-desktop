@@ -32,7 +32,7 @@ export type imagesType = {
     medium: string,
     thumb: string
   }
-}
+};
 
 export type contentType = {
   title: string,

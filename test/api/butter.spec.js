@@ -692,7 +692,7 @@ function moviesFactory() {
 
 function assertNAorNumber(variable) {
   const assertion = variable === 'n/a' || typeof variable === 'number';
-  expect(assertion).toBe(true); // eslint-disable-line no-unused-expressions
+  expect(assertion).toBe(true);
 }
 
 function assertMovieFormat(movie) {

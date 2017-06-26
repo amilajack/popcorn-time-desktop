@@ -4,7 +4,8 @@
  */
 import OpenSubtitles from 'opensubtitles-api';
 import { merge, resolveCache, setCache } from '../torrents/BaseTorrentProvider';
-import TraktMetadataProvider from './TraktMetadataProvider';
+import TheMovieDBMetadataProvider from './TheMovieDBMetadataProvider';
+// import TraktMetadataProvider from './TraktMetadataProvider';
 import type { runtimeType } from './MetadataProviderInterface';
 
 type subtitlesType = {
@@ -26,7 +27,10 @@ const openSubtitles = new OpenSubtitles({
 });
 
 function MetadataAdapter() {
-  return [new TraktMetadataProvider()];
+  return [
+    // new TraktMetadataProvider(),
+    new TheMovieDBMetadataProvider()
+  ];
 }
 
 async function interceptAndHandleRequest(method: string, args: Array<string>) {

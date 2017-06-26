@@ -170,9 +170,7 @@ export function constructMovieQueries(
     imdbId
   ];
 
-  return title.includes("'")
-    ? [...queries, title.replace(/'/g, '')] // eslint-disable-line
-    : queries;
+  return title.includes("'") ? [...queries, title.replace(/'/g, '')] : queries;
 }
 
 export function constructSeasonQueries(

@@ -27,8 +27,8 @@ export default function CardList(props: Props) {
             <Card
               image={item.images.fanart.thumb}
               title={item.title}
-              id={item.imdbId}
-              key={item.imdbId}
+              id={item.id}
+              key={item.id}
               year={item.year}
               type={item.type}
               rating={item.rating}

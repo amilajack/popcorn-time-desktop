@@ -49,11 +49,12 @@ type Props = {
   activeMode: string
 };
 
+type itemType = contentType & {
+  images: ?imagesType
+}
+
 type State = {
-  item?: {
-    ...contentType,
-    images: ?imagesType
-  },
+  item?: itemType,
   similarItems: Array<contentType>,
   selectedSeason: number,
   selectedEpisode: number,
@@ -158,7 +159,6 @@ export default class Item extends Component {
     this.player.destroy();
 
     this.setState({
-      // eslint-disable-line
       ...this.initialState,
       dropdownOpen: false,
       currentPlayer: 'Default'
