@@ -24,11 +24,13 @@ export default class TheMovieDBMetadataProvider
     });
 
     // Get movie genres
-    this.theMovieDB.get('/genre/movie/list').then(({ data }) => {
-      this.movieGenres = {};
-      data.genres.forEach(genre => (this.movieGenres[genre.id] = genre.name));
-    })
-    .catch(console.log);
+    this.theMovieDB
+      .get('/genre/movie/list')
+      .then(({ data }) => {
+        this.movieGenres = {};
+        data.genres.forEach(genre => (this.movieGenres[genre.id] = genre.name));
+      })
+      .catch(console.log);
   }
 
   getMovies(page: number = 1) {
@@ -80,7 +82,9 @@ export default class TheMovieDBMetadataProvider
 
     // http://www.omdbapi.com/?t=Game+of+thrones&y=&plot=short&r=json
     return fetch(
-      `http://www.omdbapi.com/?s=${encodeURIComponent(query)}&page=${page}&apikey=fcbd49b5`
+      `http://www.omdbapi.com/?s=${encodeURIComponent(
+        query
+      )}&page=${page}&apikey=fcbd49b5`
     )
       .then(response => response.json())
       .then(response => response.Search.map(movie => formatMovieSearch(movie)));
@@ -113,10 +117,14 @@ function formatMetadata(
     year: new Date(movie.release_date).getYear(),
     imdbId: null,
     id: `${movie.id}`,
+    ids: {
+      imdbId: movie.imdb_id
+    },
     type,
     certification: 'n/a',
     summary: movie.overview,
-    genres: movie.genre_ids.map(id => movieGenres[id]),
+    genres: movie.genre_ids,
+    // genres: movie.genre_ids.map(id => movieGenres[id]),
     rating: movie.vote_average,
     runtime: 'n/a',
     trailer: 'n/a',
@@ -141,6 +149,9 @@ function formatMovieSearch(movie) {
     year: parseInt(movie.Year, 10),
     imdbId: movie.imdbID,
     id: movie.imdbID,
+    ids: {
+      imdbId: movie.imdbID
+    },
     type: movie.Type.includes('movie') ? 'movies' : 'shows',
     certification: movie.Rated,
     summary: 'n/a', // omdbapi does not support

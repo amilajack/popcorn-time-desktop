@@ -2,6 +2,7 @@
 /* eslint react/no-set-state: 0 */
 import React, { Component } from 'react';
 import classNames from 'classnames';
+import { Link } from 'react-router-dom';
 import { history as browserHistory } from '../../store/configureStore';
 import Butter from '../../api/Butter';
 
@@ -43,7 +44,7 @@ export default class Header extends Component {
 
   handleKeyPress(event: SyntheticEvent) {
     if (event.key === 'Enter') {
-      browserHistory.push('/search');
+      browserHistory.replace('/item/search');
       this.props.setActiveMode('search', {
         searchQuery: this.state.searchQuery
       });
@@ -57,28 +58,40 @@ export default class Header extends Component {
     return (
       <div className="col-sm-12">
         <nav className="navbar navbar-dark navbar-fixed-top bg-inverse">
-          <ul className="nav navbar-nav">
-            <li
-              className={classNames('nav-item', {
-                active: activeMode === 'movies'
-              })}
-            >
-              <a className="nav-link" onClick={() => setActiveMode('movies')}>
-                Movies <span className="sr-only">(current)</span>
-              </a>
-            </li>
-            <li
-              className={classNames('nav-item', {
-                active: activeMode === 'shows'
-              })}
-            >
-              <a className="nav-link" onClick={() => setActiveMode('shows')}>
-                TV Shows
-              </a>
-            </li>
-          </ul>
-          <div className="pull-xs-right">
-            <div className="input-group">
+          <div className="col-sm-6">
+            <ul className="nav navbar-nav">
+              <li
+                className={classNames('nav-item', {
+                  active: activeMode === 'movies'
+                })}
+              >
+                <Link
+                  to={'/item/movies'}
+                  replace
+                  className="nav-link"
+                  onClick={() => setActiveMode('movies')}
+                >
+                  Movies <span className="sr-only">(current)</span>
+                </Link>
+              </li>
+              <li
+                className={classNames('nav-item', {
+                  active: activeMode === 'shows'
+                })}
+              >
+                <Link
+                  className="nav-link"
+                  to={'/item/shows'}
+                  replace
+                  onClick={() => setActiveMode('shows')}
+                >
+                  TV Shows
+                </Link>
+              </li>
+            </ul>
+          </div>
+          <div className="col-md-offset-3 col-md-3">
+            <div className="input-group pull-right">
               <span className="input-group-addon" id="basic-addon1">
                 <i className="ion-ios-search-strong" />
               </span>

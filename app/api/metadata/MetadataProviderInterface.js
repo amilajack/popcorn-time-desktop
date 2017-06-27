@@ -1,6 +1,10 @@
 // @flow
 type seasonType = {
   id: string,
+  ids: {
+    imdbId?: string,
+    tmdbId?: string
+  },
   title: string,
   season: number,
   episode: number,

@@ -9,7 +9,7 @@ import {
   DropdownMenu,
   DropdownItem
 } from 'reactstrap';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import notie from 'notie';
 import { exec } from 'child_process';
@@ -21,7 +21,10 @@ import Rating from '../card/Rating.jsx';
 import Show from '../show/Show.jsx';
 import { convertFromBuffer, startServer } from '../../api/Subtitle';
 import Player from '../../api/Player';
-import type { contentType, imagesType } from '../../api/metadata/MetadataProviderInterface';
+import type {
+  contentType,
+  imagesType
+} from '../../api/metadata/MetadataProviderInterface';
 import type {
   torrentType,
   qualityType
@@ -51,7 +54,7 @@ type Props = {
 
 type itemType = contentType & {
   images: ?imagesType
-}
+};
 
 type State = {
   item?: itemType,
@@ -88,10 +91,34 @@ export default class Item extends Component {
   player: Player;
 
   defaultTorrent: torrentSelectionType = {
-    default: { quality: undefined, magnet: undefined, health: undefined, method: undefined, seeders: 0 },
-    '1080p': { quality: undefined, magnet: undefined, health: undefined, method: undefined, seeders: 0 },
-    '720p': { quality: undefined, magnet: undefined, health: undefined, method: undefined, seeders: 0 },
-    '480p': { quality: undefined, magnet: undefined, health: undefined, method: undefined, seeders: 0 }
+    default: {
+      quality: undefined,
+      magnet: undefined,
+      health: undefined,
+      method: undefined,
+      seeders: 0
+    },
+    '1080p': {
+      quality: undefined,
+      magnet: undefined,
+      health: undefined,
+      method: undefined,
+      seeders: 0
+    },
+    '720p': {
+      quality: undefined,
+      magnet: undefined,
+      health: undefined,
+      method: undefined,
+      seeders: 0
+    },
+    '480p': {
+      quality: undefined,
+      magnet: undefined,
+      health: undefined,
+      method: undefined,
+      seeders: 0
+    }
   };
 
   initialState: State = {
@@ -106,11 +133,14 @@ export default class Item extends Component {
       year: 0,
       certification: 'n/a',
       genres: [],
-      images: null,
+      images: {
+        poster: {},
+        fanart: {}
+      },
       runtime: {
         full: '',
         hours: 0,
-        minutes: 0,
+        minutes: 0
       }
     },
     selectedSeason: 1,
@@ -194,7 +224,7 @@ export default class Item extends Component {
 
     return Promise.all([
       this.getItem(itemId).then((item: contentType) =>
-        this.getTorrent(itemId, item.title, 1, 1)
+        this.getTorrent(item.ids.imdbId, item.title, 1, 1)
       ),
       this.getSimilar(itemId)
     ]);
@@ -227,7 +257,9 @@ export default class Item extends Component {
         break;
       case 'episode':
         if (!season || !episode) {
-          throw new Error('"season" or "episode" not provided to getShowData()');
+          throw new Error(
+            '"season" or "episode" not provided to getShowData()'
+          );
         }
         this.setState({ episode: {} });
         this.setState({
@@ -243,6 +275,7 @@ export default class Item extends Component {
    * Get the details of a movie using the butter api
    */
   async getItem(imdbId: string) {
+    console.info(imdbId);
     this.setState({ metadataLoading: true });
 
     const item = await (() => {
@@ -683,7 +716,7 @@ export default class Item extends Component {
               </h6>
               <div className="row row-margin row-flex-center">
                 <div className="col-sm-4">
-                  {item.rating
+                  {item.rating && typeof item.rating === 'number'
                     ? <Rating
                         emptyStarColor={'rgba(255, 255, 255, 0.2)'}
                         starColor={'white'}
@@ -695,11 +728,11 @@ export default class Item extends Component {
                   <h6>{item.year}</h6>
                 </div>
 
-                <div className="col-sm-3">
-                  {item.certification
-                    ? <div className="certification">{item.certification}</div>
-                    : null}
-                </div>
+                {item.certification && item.certification !== 'n/a'
+                  ? <div className="col-sm-3">
+                      <div className="certification">{item.certification}</div>
+                    </div>
+                  : null}
 
                 <div className="col-sm-3 Movie--status-container">
                   <i className="ion-magnet" />

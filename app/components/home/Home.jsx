@@ -7,7 +7,7 @@ import Header from '../header/Header.jsx';
 import CardList from '../card/CardList.jsx';
 
 export type activeModeOptionsType = {
-  [option: string]: any
+  [option: string]: number | boolean | string
 };
 
 export type itemType = {
@@ -21,7 +21,10 @@ export type itemType = {
 
 type Props = {
   actions: {
-    setActiveMode: (mode: string, options: Object) => void,
+    setActiveMode: (
+      mode: string,
+      activeModeOptions?: activeModeOptionsType
+    ) => void,
     paginate: (
       activeMode: string,
       activeModeOptions?: activeModeOptionsType

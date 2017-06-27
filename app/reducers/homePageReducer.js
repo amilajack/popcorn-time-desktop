@@ -1,5 +1,33 @@
 // @flow
-const defaultState = {
+import type { contentType } from '../api/metadata/MetadataProviderInterface';
+
+type modeType = 'movies' | 'shows' | 'search';
+
+type actionType = {
+  type: string,
+  items?: Array<contentType>,
+  activeMode?: modeType,
+  activeModeOptions?: {
+    [option: string]: string | boolean | number
+  },
+  infinitePagination?: boolean,
+  isLoading?: boolean
+};
+
+type homePageReducerStateType = {
+  activeMode: modeType,
+  activeModeOptions: {
+    [option: string]: string | boolean | number
+  },
+  modes: {
+    [mode: modeType]: { page: number, limit: number, items: Array<contentType> }
+  },
+  infinitePagination: boolean,
+  isLoading: boolean,
+  items: Array<contentType>
+};
+
+const defaultState: homePageReducerStateType = {
   activeMode: 'movies',
   activeModeOptions: {},
   modes: {
@@ -12,9 +40,11 @@ const defaultState = {
   items: []
 };
 
-export default function itemList(state: Object = defaultState, action: Object) {
+export default function homePageReducer(
+  state: homePageReducerStateType = defaultState,
+  action: actionType
+): homePageReducerStateType {
   switch (action.type) {
-
     // Add the items. This should be done after getting the paginated results
     case 'PAGINATE':
       return {

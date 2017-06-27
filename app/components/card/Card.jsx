@@ -23,24 +23,22 @@ export default function Card(props: Props) {
     : './app/images/posterholder.png';
 
   const backgroundImageStyle = {
-    backgroundImage: `url(${image !== 'n/a'
-      ? image
-      : placeholder})`
+    backgroundImage: `url(${image !== 'n/a' ? image : placeholder})`
   };
 
   return (
     <div className="Card">
-      <Link to={`/item/${type}/${id}`}>
+      <Link replace to={`/item/${type}/${id}`}>
         <div className="Card--overlay-container" style={backgroundImageStyle}>
           <div className="Card--overlay" />
         </div>
       </Link>
       <div className="Card--descrption">
-        <Link className="Card--title" to={`/item/${type}/${id}`}>
+        <Link className="Card--title" replace to={`/item/${type}/${id}`}>
           {title}
         </Link>
         <div>
-          {rating !== 'n/a'
+          {typeof rating === 'number'
             ? <Rating starColor={starColor} rating={rating} />
             : null}
         </div>
