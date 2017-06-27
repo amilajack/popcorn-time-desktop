@@ -1,5 +1,6 @@
 // @flow
 type seasonType = {
+  // @DEPRECATE (in favor of .ids)
   id: string,
   ids: {
     imdbId?: string,
@@ -41,8 +42,14 @@ export type imagesType = {
 export type contentType = {
   title: string,
   year: number,
+  // @DEPRECATE (in favor of .ids)
   imdbId: string,
+  // @DEPRECATE (in favor of .ids)
   id: string,
+  ids: {
+    imdbId?: string,
+    tmdbId?: string
+  },
   type: 'movies' | 'shows',
   certification: certificationType,
   summary: string,
