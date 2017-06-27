@@ -24,10 +24,11 @@ export type qualityType = '1080p' | '720p' | '480p';
 export type torrentQueryType = 'movies' | 'show' | 'season_complete';
 
 export interface TorrentProviderInterface {
+  supportedIdTypes: Array<'tmdb' | 'imdb'>,
   static getStatus: () => Promise<boolean>,
-  static fetch: (imdbId: string) => Promise<Array<fetchType>>,
+  static fetch: (itemId: string) => Promise<Array<fetchType>>,
   static provide: (
-    imdbId: string,
+    itemId: string,
     type: torrentType
   ) => Promise<Array<torrentType>>
 }

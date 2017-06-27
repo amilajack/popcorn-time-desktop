@@ -27,12 +27,12 @@ export type runtimeType = {
 export type certificationType = 'G' | 'PG' | 'PG-13' | 'R';
 
 export type imagesType = {
-  fanart: {
+  fanart: {} | {
     full: string,
     medium: string,
     thumb: string
   },
-  poster: {
+  poster: {} | {
     full: string,
     medium: string,
     thumb: string
@@ -43,7 +43,7 @@ export type contentType = {
   title: string,
   year: number,
   // @DEPRECATE (in favor of .ids)
-  imdbId: string,
+  imdbId?: string,
   // @DEPRECATE (in favor of .ids)
   id: string,
   ids: {
@@ -62,18 +62,20 @@ export type contentType = {
 
 export interface MetadataProviderInterface {
   getMovies: (page: number, limit: number) => Promise<contentType>,
-  getMovie: (imdbId: string) => contentType,
+  getMovie: (itemId: string) => contentType,
   getShows: (page: number, limit: number) => Promise<contentType>,
-  getShow: (imdbId: string) => contentType,
+  getShow: (itemId: string) => contentType,
   getSimilar: (
     type: string,
-    imdbId: string,
+    itemId: string,
     limit: number
   ) => Promise<Array<contentType>>,
 
-  getSeasons: (imdbId: string) => Promise<Array<seasonType>>,
-  getSeason: (imdbId: string, season: number) => Promise<seasonType>,
-  getEpisode: (imdbId: string, season: number, episode: number) => seasonType,
+  supportedIdTypes: Array<'tmdb' | 'imdb'>,
+
+  getSeasons: (itemId: string) => Promise<Array<seasonType>>,
+  getSeason: (itemId: string, season: number) => Promise<seasonType>,
+  getEpisode: (itemId: string, season: number, episode: number) => seasonType,
 
   search: (query: string, page: number) => Promise<Array<contentType>>,
 

@@ -57,7 +57,7 @@ type itemType = contentType & {
 };
 
 type State = {
-  item?: itemType,
+  item: itemType,
   similarItems: Array<contentType>,
   selectedSeason: number,
   selectedEpisode: number,
@@ -124,7 +124,6 @@ export default class Item extends Component {
   initialState: State = {
     item: {
       id: '',
-      imdbId: '',
       rating: 'n/a',
       summary: '',
       title: '',
@@ -143,6 +142,8 @@ export default class Item extends Component {
         minutes: 0
       }
     },
+    dropdownOpen: false,
+    isFinished: false,
     selectedSeason: 1,
     selectedEpisode: 1,
     seasons: [],
@@ -275,7 +276,6 @@ export default class Item extends Component {
    * Get the details of a movie using the butter api
    */
   async getItem(imdbId: string) {
-    console.info(imdbId);
     this.setState({ metadataLoading: true });
 
     const item = await (() => {
@@ -480,7 +480,7 @@ export default class Item extends Component {
   ) {
     // Retrieve list of subtitles
     const subtitles = await this.butter.getSubtitles(
-      item.imdbId,
+      item.ids.imdbId,
       subtitleTorrentFile.name,
       subtitleTorrentFile.length,
       {
@@ -674,13 +674,11 @@ export default class Item extends Component {
           </button>
         </Link>
         <div className="row">
-
           <div className="plyr col-sm-12">
             <video controls poster={item.images.fanart.full} />
           </div>
 
           <div className="col-sm-12 Item--background" style={itemBackgroundUrl}>
-
             <div className="col-sm-6 Item--image">
               <img
                 height="350px"
@@ -703,7 +701,11 @@ export default class Item extends Component {
                   </h6>
                 </span>
                 <span className="col-sm-9" id="genres">
-                  {item.genres ? <h6>{item.genres.join(', ')}</h6> : null}
+                  {item.genres
+                    ? <h6>
+                        {item.genres.join(', ')}
+                      </h6>
+                    : null}
                 </span>
               </div>
               {/* HACK: Prefer a CSS solution to this, using text-overflow: ellipse */}
@@ -714,7 +716,7 @@ export default class Item extends Component {
                     : item.summary
                   : ''}
               </h6>
-              <div className="row row-margin row-flex-center">
+              <div className="row row-margin row-center Item--details">
                 <div className="col-sm-4">
                   {item.rating && typeof item.rating === 'number'
                     ? <Rating
@@ -724,17 +726,21 @@ export default class Item extends Component {
                       />
                     : null}
                 </div>
-                <div className="col-sm-1">
-                  <h6>{item.year}</h6>
+                <div className="col-sm-2">
+                  <a>
+                    {item.year}
+                  </a>
                 </div>
 
-                {item.certification && item.certification !== 'n/a'
+                {item && item.certification && item.certification !== 'n/a'
                   ? <div className="col-sm-3">
-                      <div className="certification">{item.certification}</div>
+                      <div className="certification">
+                        {item.certification}
+                      </div>
                     </div>
                   : null}
 
-                <div className="col-sm-3 Movie--status-container">
+                <div className="col-sm-3 row-center">
                   <i className="ion-magnet" />
                   <div className="Movie--status" style={statusColorStyle} />
                 </div>

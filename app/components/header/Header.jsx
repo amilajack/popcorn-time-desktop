@@ -58,51 +58,53 @@ export default class Header extends Component {
     return (
       <div className="col-sm-12">
         <nav className="navbar navbar-dark navbar-fixed-top bg-inverse">
-          <div className="col-sm-6">
-            <ul className="nav navbar-nav">
-              <li
-                className={classNames('nav-item', {
-                  active: activeMode === 'movies'
-                })}
-              >
-                <Link
-                  to={'/item/movies'}
-                  replace
-                  className="nav-link"
-                  onClick={() => setActiveMode('movies')}
+          <div className="row">
+            <div className="col-sm-6">
+              <ul className="nav navbar-nav">
+                <li
+                  className={classNames('nav-item', {
+                    active: activeMode === 'movies'
+                  })}
                 >
-                  Movies <span className="sr-only">(current)</span>
-                </Link>
-              </li>
-              <li
-                className={classNames('nav-item', {
-                  active: activeMode === 'shows'
-                })}
-              >
-                <Link
-                  className="nav-link"
-                  to={'/item/shows'}
-                  replace
-                  onClick={() => setActiveMode('shows')}
+                  <Link
+                    to={'/item/movies'}
+                    replace
+                    className="nav-link"
+                    onClick={() => setActiveMode('movies')}
+                  >
+                    Movies <span className="sr-only">(current)</span>
+                  </Link>
+                </li>
+                <li
+                  className={classNames('nav-item', {
+                    active: activeMode === 'shows'
+                  })}
                 >
-                  TV Shows
-                </Link>
-              </li>
-            </ul>
-          </div>
-          <div className="col-md-offset-3 col-md-3">
-            <div className="input-group pull-right">
-              <span className="input-group-addon" id="basic-addon1">
-                <i className="ion-ios-search-strong" />
-              </span>
-              <input
-                className="form-control"
-                value={searchQuery}
-                onKeyPress={event => this.handleKeyPress(event)}
-                onChange={event => this.handleSearchChange(event)}
-                type="text"
-                placeholder="Search"
-              />
+                  <Link
+                    className="nav-link"
+                    to={'/item/shows'}
+                    replace
+                    onClick={() => setActiveMode('shows')}
+                  >
+                    TV Shows
+                  </Link>
+                </li>
+              </ul>
+            </div>
+            <div className="col-md-offset-3 col-md-3">
+              <div className="input-group pull-right">
+                <span className="input-group-addon" id="basic-addon1">
+                  <i className="ion-ios-search-strong" />
+                </span>
+                <input
+                  className="form-control"
+                  value={searchQuery}
+                  onKeyPress={event => this.handleKeyPress(event)}
+                  onChange={event => this.handleSearchChange(event)}
+                  type="text"
+                  placeholder="Search"
+                />
+              </div>
             </div>
           </div>
         </nav>

@@ -65,7 +65,7 @@ function search(...args: Array<string>) {
 /**
  * Get details about a specific movie
  *
- * @param {string} imdbId
+ * @param {string} itemId
  */
 function getMovie(...args: Array<string>) {
   return interceptAndHandleRequest('getMovie', args);
@@ -86,7 +86,7 @@ function getMovies(...args: Array<string>) {
 /**
  * Get list of movies with specific paramaters
  *
- * @param {string} imdbId
+ * @param {string} itemId
  * @param {string} type   | movie or show
  * @param {number} limit  | movie or show
  */
@@ -97,7 +97,7 @@ function getSimilar(...args: Array<string>) {
 /**
  * Get a specific season of a show
  *
- * @param {string} imdbId
+ * @param {string} itemId
  * @param {string} type   | movie or show
  * @param {number} limit  | movie or show
  */
@@ -108,7 +108,7 @@ function getSeason(...args: Array<string>) {
 /**
  * Get a list of seasons of a show
  *
- * @param {string} imdbId
+ * @param {string} itemId
  * @param {string} type   | movie or show
  * @param {number} limit  | movie or show
  */
@@ -119,7 +119,7 @@ function getSeasons(...args: Array<string>) {
 /**
  * Get a single episode of a season
  *
- * @param {string} imdbId
+ * @param {string} itemId
  * @param {string} type   | movie or show
  * @param {number} limit  | movie or show
  */
@@ -130,7 +130,7 @@ function getEpisode(...args: Array<string>) {
 /**
  * Get a single show
  *
- * @param {string} imdbId
+ * @param {string} itemId
  * @param {string} type   | movie or show
  * @param {number} limit  | movie or show
  */
@@ -141,7 +141,7 @@ function getShow(...args: Array<string>) {
 /**
  * Get a list of shows
  *
- * @param {string} imdbId
+ * @param {string} itemId
  * @param {string} type   | movie or show
  * @param {number} limit  | movie or show
  */
@@ -152,7 +152,7 @@ function getShows(...args: Array<string>) {
 /**
  * Get the subtitles for a movie or show
  *
- * @param {string} imdbId
+ * @param {string} itemId
  * @param {string} filename
  * @param {object} metadata
  */
@@ -234,7 +234,9 @@ function recentlyWatched(...args) {
  * @param  {number} runtimeInMinutes
  * @return {object}
  */
-export function convertRuntimeToHours(runtimeInMinutes: number): runtimeType {
+export function parseRuntimeMinutesToObject(
+  runtimeInMinutes: number
+): runtimeType {
   const hours = runtimeInMinutes >= 60 ? Math.round(runtimeInMinutes / 60) : 0;
   const minutes = runtimeInMinutes % 60;
 

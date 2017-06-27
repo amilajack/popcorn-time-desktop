@@ -14,12 +14,12 @@ const resolvedEndpoint = resolveEndpoint(endpoint, providerId);
 export default class YtsTorrentProvider implements TorrentProviderInterface {
   static providerName = 'YTS';
 
-  static fetch(imdbId: string) {
+  static fetch(itemId: string) {
     return timeout(
       fetch(
         [
           `${resolvedEndpoint}/api/v2/list_movies.json`,
-          `?query_term=${imdbId}`,
+          `?query_term=${itemId}`,
           '&order_by=desc&sort_by=seeds&limit=50'
         ].join('')
       )
@@ -44,10 +44,10 @@ export default class YtsTorrentProvider implements TorrentProviderInterface {
       .catch(() => false);
   }
 
-  static provide(imdbId, type) {
+  static provide(itemId, type) {
     switch (type) {
       case 'movies':
-        return this.fetch(imdbId).then(results => {
+        return this.fetch(itemId).then(results => {
           if (!results.data.movie_count) return [];
           const torrents = results.data.movies[0].torrents;
           return torrents.map(this.formatTorrent);

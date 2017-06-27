@@ -1,8 +1,8 @@
 /* eslint-disable */
 import { autoUpdater } from 'electron';
 
-
-const AUTO_UPDATE_URL = 'https://popcorn-desktop-release-server.herokuapp.com/updates/latest';
+const AUTO_UPDATE_URL =
+  'https://popcorn-desktop-release-server.herokuapp.com/updates/latest';
 
 export default function initDarwinWin32() {
   // autoUpdater.on(

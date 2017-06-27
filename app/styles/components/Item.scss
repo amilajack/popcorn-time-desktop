@@ -35,6 +35,12 @@
     align-items: center;
   }
 
+  .Item--details {
+    a {
+      color: white;
+    }
+  }
+
   .Item--overlay {
     height: 100%;
     width: 100%;

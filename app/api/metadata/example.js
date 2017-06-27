@@ -4,13 +4,15 @@
 //
 // Here is an example of the structure of a MetadataProvider
 //
-// getMovie(imdbId) {}
+// getMovie(itemId) {}
 //
 // {
 //   title: <string>,
 //   year: <number>,
-//   imdbId: <string>,
-//   id: <string>, A general id that is not specific to movies. Reserved for future use
+//   ids: {
+//     imdbId: 'tt134145',
+//     tmdbId: '2414140'
+//   }
 //   summary: <string>,
 //   genres: <array>,
 //   runtime: {
@@ -34,15 +36,15 @@
 //   }
 // }
 //
-// getMovie(imdbId) {}
+// getMovie(itemId) {}
 //
 // getMovies(pageumber, limit, genre, sortMethod) {}
 //
 // search(searchQuery, genre, sortMethod) {}
 //
-// similar(imdbId) {}
+// similar(itemId) {}
 //
-// getSeasons(imdbId) {}
+// getSeasons(itemId) {}
 //
 // [
 //   {
@@ -56,7 +58,7 @@
 //   ...
 // ]
 //
-// getSeason(imdbId, season) {}
+// getSeason(itemId, season) {}
 //
 // [
 //   {
@@ -74,11 +76,11 @@
 //   ...
 // ]
 //
-// getEpisode(imdbId, season, episode) {}
+// getEpisode(itemId, season, episode) {}
 //
 // {
 //   title: 'Winter Is Coming',
-//   id: imdbId,
+//   id: itemId,
 //   season: 1,
 //   episode: 1,
 //   overview: 'Ned Stark, Lord of Winterfell learns...'

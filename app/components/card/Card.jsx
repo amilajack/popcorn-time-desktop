@@ -42,7 +42,11 @@ export default function Card(props: Props) {
             ? <Rating starColor={starColor} rating={rating} />
             : null}
         </div>
-        {type === 'search' ? <div>Kind: {type}</div> : null}
+        {type === 'search'
+          ? <div>
+              Kind: {type}
+            </div>
+          : null}
       </div>
     </div>
   );

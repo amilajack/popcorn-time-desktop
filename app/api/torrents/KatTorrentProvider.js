@@ -46,7 +46,7 @@ export default class KatTorrentProvider implements TorrentProviderInterface {
     return fetch(resolvedEndpoint).then(res => res.ok).catch(() => false);
   }
 
-  static provide(imdbId: string, type: string, extendedDetails = {}) {
+  static provide(itemId: string, type: string, extendedDetails = {}) {
     const { searchQuery } = extendedDetails;
 
     switch (type) {
@@ -54,7 +54,7 @@ export default class KatTorrentProvider implements TorrentProviderInterface {
         return (
           timeout(
             Promise.all(
-              constructMovieQueries(searchQuery, imdbId).map(query =>
+              constructMovieQueries(searchQuery, itemId).map(query =>
                 this.fetch(query)
               )
             )

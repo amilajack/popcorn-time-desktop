@@ -22,7 +22,7 @@ const providers = [
 ];
 
 export default async function TorrentAdapter(
-  imdbId: string,
+  itemId: string,
   type: string,
   extendedDetails,
   returnAll: boolean = false,
@@ -36,7 +36,7 @@ export default async function TorrentAdapter(
   }
 
   const torrentPromises = providers.map(provider =>
-    provider.provide(imdbId, type, extendedDetails)
+    provider.provide(itemId, type, extendedDetails)
   );
 
   switch (method) {

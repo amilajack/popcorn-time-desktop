@@ -163,11 +163,11 @@ export function sortTorrentsBySeeders(torrents: Array<any>): Array<any> {
 
 export function constructMovieQueries(
   title: string,
-  imdbId: string
+  itemId: string
 ): Array<string> {
   const queries = [
     title, // default
-    imdbId
+    itemId
   ];
 
   return title.includes("'") ? [...queries, title.replace(/'/g, '')] : queries;
@@ -221,6 +221,8 @@ export function getIdealTorrent(torrents: Array<torrentType>): torrentType {
     if (prev.seeders === next.seeders) {
       return 0;
     }
+
+    if (!next.seeders || !prev.seeders) return 1;
 
     return prev.seeders > next.seeders ? -1 : 1;
   })[0];

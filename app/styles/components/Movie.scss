@@ -27,6 +27,7 @@
     height: 10px;
     width: 10px;
     border-radius: 100%;
+    margin: 10px;
   }
 
   i {
@@ -36,11 +37,6 @@
   .dv-star-rating-star {
     font-size: 1.3rem;
     margin: 0 10px 0 0;
-  }
-
-  .Movie--status-container * {
-    display: inline-block;
-    margin: 5px;
   }
 
   #genres * {

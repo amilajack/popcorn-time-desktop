@@ -7,7 +7,7 @@ import {
   resolveEndpoint
 } from '../../app/api/torrents/BaseTorrentProvider';
 import { getStatuses } from '../../app/api/torrents/TorrentAdapter';
-import { convertRuntimeToHours } from '../../app/api/metadata/MetadataAdapter';
+import { parseRuntimeMinutesToObject } from '../../app/api/metadata/MetadataAdapter';
 import { set, get, clear } from '../../app/utils/Config';
 
 const imdbId = 'tt0468569'; // The Dark Knight
@@ -334,17 +334,17 @@ describe('API', () => {
     describe('metadata', () => {
       describe('time format', () => {
         it('should convert time from minutes to hours', () => {
-          expect(convertRuntimeToHours(64).full).toBe('1 hour 4 minutes');
-          expect(convertRuntimeToHours(20).full).toBe('20 minutes');
-          expect(convertRuntimeToHours(64).hours).toBe(1);
-          expect(convertRuntimeToHours(64).minutes).toBe(4);
+          expect(parseRuntimeMinutesToObject(64).full).toBe('1 hour 4 minutes');
+          expect(parseRuntimeMinutesToObject(20).full).toBe('20 minutes');
+          expect(parseRuntimeMinutesToObject(64).hours).toBe(1);
+          expect(parseRuntimeMinutesToObject(64).minutes).toBe(4);
 
-          expect(convertRuntimeToHours(126).full).toBe('2 hours 6 minutes');
-          expect(convertRuntimeToHours(56).full).toBe('56 minutes');
-          expect(convertRuntimeToHours(126).hours).toBe(2);
-          expect(convertRuntimeToHours(126).minutes).toBe(6);
+          expect(parseRuntimeMinutesToObject(126).full).toBe('2 hours 6 minutes');
+          expect(parseRuntimeMinutesToObject(56).full).toBe('56 minutes');
+          expect(parseRuntimeMinutesToObject(126).hours).toBe(2);
+          expect(parseRuntimeMinutesToObject(126).minutes).toBe(6);
 
-          expect(convertRuntimeToHours(60).full).toBe('1 hour');
+          expect(parseRuntimeMinutesToObject(60).full).toBe('1 hour');
         });
       });
 

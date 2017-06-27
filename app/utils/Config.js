@@ -7,7 +7,6 @@
  */
 import ConfigStore from 'configstore';
 
-
 export default function setupConfig() {
   return new ConfigStore('popcorn-time-experimental', {
     favorites: [],

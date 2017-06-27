@@ -1,7 +1,7 @@
 // @flow
 import fetch from 'isomorphic-fetch';
 import Trakt from 'trakt.tv';
-import { convertRuntimeToHours } from './MetadataAdapter';
+import { parseRuntimeMinutesToObject } from './MetadataAdapter';
 import type { MetadataProviderInterface } from './MetadataProviderInterface';
 
 export default class TraktMetadataAdapter implements MetadataProviderInterface {
@@ -29,10 +29,10 @@ export default class TraktMetadataAdapter implements MetadataProviderInterface {
       .then(movies => movies.map(movie => formatMetadata(movie, 'movies')));
   }
 
-  getMovie(imdbId: string) {
+  getMovie(itemId: string) {
     return this.trakt.movies
       .summary({
-        id: imdbId,
+        id: itemId,
         extended: 'full,images,metadata'
       })
       .then(movie => formatMetadata(movie, 'movies'));
@@ -49,19 +49,19 @@ export default class TraktMetadataAdapter implements MetadataProviderInterface {
       .then(shows => shows.map(show => formatMetadata(show, 'shows')));
   }
 
-  getShow(imdbId: string) {
+  getShow(itemId: string) {
     return this.trakt.shows
       .summary({
-        id: imdbId,
+        id: itemId,
         extended: 'full,images,metadata'
       })
       .then(show => formatMetadata(show, 'shows'));
   }
 
-  getSeasons(imdbId: string) {
+  getSeasons(itemId: string) {
     return this.trakt.seasons
       .summary({
-        id: imdbId,
+        id: itemId,
         extended: 'full,images,metadata'
       })
       .then(res =>
@@ -78,20 +78,20 @@ export default class TraktMetadataAdapter implements MetadataProviderInterface {
       );
   }
 
-  getSeason(imdbId: string, season: number) {
+  getSeason(itemId: string, season: number) {
     return this.trakt.seasons
       .season({
-        id: imdbId,
+        id: itemId,
         season,
         extended: 'full,images,metadata'
       })
       .then(episodes => episodes.map(episode => formatSeason(episode)));
   }
 
-  getEpisode(imdbId: string, season: number, episode: number) {
+  getEpisode(itemId: string, season: number, episode: number) {
     return this.trakt.episodes
       .summary({
-        id: imdbId,
+        id: itemId,
         season,
         episode,
         extended: 'full,images,metadata'
@@ -114,12 +114,12 @@ export default class TraktMetadataAdapter implements MetadataProviderInterface {
 
   /**
    * @param {string} type   | movie or show
-   * @param {string} imdbId | movie or show
+   * @param {string} itemId | movie or show
    */
-  getSimilar(type: string = 'movies', imdbId: string, limit: number = 5) {
+  getSimilar(type: string = 'movies', itemId: string, limit: number = 5) {
     return this.trakt[type]
       .related({
-        id: imdbId,
+        id: itemId,
         limit,
         extended: 'full,images,metadata'
       })
@@ -134,14 +134,17 @@ function formatMetadata(movie = {}, type: string) {
   return {
     title: movie.title,
     year: movie.year,
-    imdbId: movie.ids.imdb,
+    // @DEPRECATE
     id: movie.ids.imdb,
+    ids: {
+      imdbId: movie.ids.imdb
+    },
     type,
     certification: movie.certification,
     summary: movie.overview,
     genres: movie.genres,
     rating: movie.rating ? roundRating(movie.rating) : 'n/a',
-    runtime: convertRuntimeToHours(movie.runtime),
+    runtime: parseRuntimeMinutesToObject(movie.runtime),
     trailer: movie.trailer,
     images: {
       fanart: {
@@ -162,8 +165,11 @@ function formatMovieSearch(movie) {
   return {
     title: movie.Title,
     year: parseInt(movie.Year, 10),
-    imdbId: movie.imdbID,
+    // @DEPRECATE
     id: movie.imdbID,
+    ids: {
+      imdbId: movie.imdbID
+    },
     type: movie.Type.includes('movie') ? 'movies' : 'shows',
     certification: movie.Rated,
     summary: 'n/a', // omdbapi does not support

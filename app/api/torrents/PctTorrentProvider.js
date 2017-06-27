@@ -16,10 +16,10 @@ export default class PctTorrentProvider implements TorrentProviderInterface {
 
   static shows = {};
 
-  static async fetch(imdbId: string, type: string, extendedDetails) {
+  static async fetch(itemId: string, type: string, extendedDetails) {
     const urlTypeParam = type === 'movies' ? 'movie' : 'show';
     const request = timeout(
-      fetch(`${resolvedEndpoint}/${urlTypeParam}/${imdbId}`).then(res =>
+      fetch(`${resolvedEndpoint}/${urlTypeParam}/${itemId}`).then(res =>
         res.json()
       )
     );
@@ -44,7 +44,7 @@ export default class PctTorrentProvider implements TorrentProviderInterface {
             return [];
           });
 
-        this.shows[imdbId] = show;
+        this.shows[itemId] = show;
 
         return this.filterTorrents(show, season, episode);
       }
@@ -105,15 +105,15 @@ export default class PctTorrentProvider implements TorrentProviderInterface {
     return fetch(resolvedEndpoint).then(res => res.ok).catch(() => false);
   }
 
-  static provide(imdbId: string, type: string, extendedDetails = {}) {
+  static provide(itemId: string, type: string, extendedDetails = {}) {
     switch (type) {
       case 'movies':
-        return this.fetch(imdbId, type, extendedDetails).catch(error => {
+        return this.fetch(itemId, type, extendedDetails).catch(error => {
           handleProviderError(error);
           return [];
         });
       case 'shows':
-        return this.fetch(imdbId, type, extendedDetails).catch(error => {
+        return this.fetch(itemId, type, extendedDetails).catch(error => {
           handleProviderError(error);
           return [];
         });

@@ -1,7 +1,13 @@
 // @flow
-import type { activeModeOptionsType, itemType } from '../components/home/Home.jsx';
+import type {
+  activeModeOptionsType,
+  itemType
+} from '../components/home/Home.jsx';
 
-export function setActiveMode(activeMode: string, activeModeOptions?: activeModeOptionsType = {}) {
+export function setActiveMode(
+  activeMode: string,
+  activeModeOptions?: activeModeOptionsType = {}
+) {
   return {
     type: 'SET_ACTIVE_MODE',
     activeMode,

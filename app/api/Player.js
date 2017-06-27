@@ -6,6 +6,10 @@ import vlcCommand from 'vlc-command';
 
 const { powerSaveBlocker } = remote;
 
+type metadataType = {
+  poster: string
+}
+
 export default class Player {
   currentPlayer = 'plyr';
 
@@ -56,7 +60,7 @@ export default class Player {
     );
   }
 
-  initPlyr(streamingUrl: string, metadata = {}): plyr {
+  initPlyr(streamingUrl: string, metadata: metadataType = {}): plyr {
     console.info('Initializing plyr...');
     this.currentPlayer = 'plyr';
     this.powerSaveBlockerId = powerSaveBlocker.start('prevent-app-suspension');

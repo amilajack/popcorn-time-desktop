@@ -52,7 +52,7 @@ export default class PbTorrentProvider implements TorrentProviderInterface {
     return fetch(resolvedEndpoint).then(res => res.ok).catch(() => false);
   }
 
-  static provide(imdbId: string, type: string, extendedDetails = {}) {
+  static provide(itemId: string, type: string, extendedDetails = {}) {
     if (!extendedDetails.searchQuery) {
       return new Promise(resolve => resolve([]));
     }
@@ -63,7 +63,7 @@ export default class PbTorrentProvider implements TorrentProviderInterface {
       case 'movies': {
         return (
           Promise.all(
-            constructMovieQueries(searchQuery, imdbId).map(query =>
+            constructMovieQueries(searchQuery, itemId).map(query =>
               this.fetch(query)
             )
           )

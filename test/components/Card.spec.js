@@ -1,8 +1,6 @@
 import React from 'react';
-import {
-  renderIntoDocument,
-  findRenderedDOMComponentWithClass
-} from 'react-addons-test-utils';
+import { shallow } from 'enzyme';
+import toJson from 'enzyme-to-json';
 import Card from '../../app/components/card/Card.jsx';
 
 function setup(propsOverride) {
@@ -20,23 +18,17 @@ function setup(propsOverride) {
     propsOverride
   );
 
-  const component = renderIntoDocument(<Card {...props} />);
+  const component = shallow(<Card {...props} />);
 
   return {
     component,
-    title: findRenderedDOMComponentWithClass(component, 'Card--title'),
-    genres: findRenderedDOMComponentWithClass(component, 'Card--genres')
+    title: component.find('.Card--title')
   };
 }
 
 describe('Card Component', () => {
   it('should have movie title', () => {
     const { title } = setup();
-    expect(title.textContent).toBe('Test movie');
-  });
-
-  it('should have movie genres', () => {
-    const { genres } = setup();
-    expect(genres.textContent).toBe('action');
+    expect(toJson(title)).toMatchSnapshot();
   });
 });

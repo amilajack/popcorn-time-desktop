@@ -1,6 +1,7 @@
 // @flow
 import fetch from 'isomorphic-fetch';
 import axios from 'axios';
+import { parseRuntimeMinutesToObject } from './MetadataAdapter';
 import type { MetadataProviderInterface } from './MetadataProviderInterface';
 
 export default class TheMovieDBMetadataProvider
@@ -11,69 +12,90 @@ export default class TheMovieDBMetadataProvider
 
   apiUri = 'https://api.themoviedb.org/3/';
 
-  theMovieDB: axios;
+  genres = {
+    '12': 'Adventure',
+    '14': 'Fantasy',
+    '16': 'Animation',
+    '18': 'Drama',
+    '27': 'Horror',
+    '28': 'Action',
+    '35': 'Comedy',
+    '36': 'History',
+    '37': 'Western',
+    '53': 'Thriller',
+    '80': 'Crime',
+    '99': 'Documentary',
+    '878': 'Science Fiction',
+    '9648': 'Mystery',
+    '10402': 'Music',
+    '10749': 'Romance',
+    '10751': 'Family',
+    '10752': 'War',
+    '10770': 'TV Movie',
+    '10759': 'Action & Adventure',
+    '10762': 'Kids',
+    '10763': 'News',
+    '10764': 'Reality',
+    '10765': 'Sci-Fi & Fantasy',
+    '10766': 'Soap',
+    '10767': 'Talk',
+    '10768': 'War & Politics'
+  };
+
+  theMovieDb: axios;
 
   movieGenres: {
     [genre: string]: string
   };
 
   constructor() {
-    this.theMovieDB = axios.create({
+    this.theMovieDb = axios.create({
       baseURL: this.apiUri,
       params: { api_key: this.apiKey }
     });
-
-    // Get movie genres
-    this.theMovieDB
-      .get('/genre/movie/list')
-      .then(({ data }) => {
-        this.movieGenres = {};
-        data.genres.forEach(genre => (this.movieGenres[genre.id] = genre.name));
-      })
-      .catch(console.log);
   }
 
   getMovies(page: number = 1) {
-    return this.theMovieDB
+    return this.theMovieDb
       .get('movie/popular', { params: { page } })
       .then(({ data }) =>
         data.results.map(movie =>
-          formatMetadata(movie, 'movies', this.imageUri, this.movieGenres)
+          formatMetadata(movie, 'movies', this.imageUri, this.genres)
         )
       );
   }
 
   getMovie(id: string) {
-    return this.theMovieDB
+    return this.theMovieDb
       .get(`movie/${id}`)
       .then(({ data }) =>
-        formatMetadata(data, 'movies', this.imageUri, this.movieGenres)
+        formatMetadata(data, 'movies', this.imageUri, this.genres)
       );
   }
 
   getShows(page: number = 1) {
-    return this.theMovieDB
+    return this.theMovieDb
       .get('tv/popular', { params: { page } })
       .then(({ data }) =>
         data.results.map(show =>
-          formatMetadata(show, 'shows', this.imageUri, this.movieGenres)
+          formatMetadata(show, 'shows', this.imageUri, this.genres)
         )
       );
   }
 
   getShow(id: string) {
-    return this.theMovieDB
+    return this.theMovieDb
       .get(`tv/${id}`)
       .then(({ data }) =>
-        formatMetadata(data, 'shows', this.imageUri, this.movieGenres)
+        formatMetadata(data, 'shows', this.imageUri, this.genres)
       );
   }
 
-  // getSeasons(imdbId: string) {}
+  // getSeasons(itemId: string) {}
 
-  // getSeason(imdbId: string, season: number) {}
+  // getSeason(itemId: string, season: number) {}
 
-  // getEpisode(imdbId: string, season: number, episode: number) {}
+  // getEpisode(itemId: string, season: number, episode: number) {}
 
   search(query: string, page: number = 1) {
     if (!query) {
@@ -90,7 +112,29 @@ export default class TheMovieDBMetadataProvider
       .then(response => response.Search.map(movie => formatMovieSearch(movie)));
   }
 
-  // getSimilar(type: string = 'movies', imdbId: string, limit: number = 5) {}
+  getSimilar(type: string = 'movies', itemId: string, limit: number = 5) {
+    const urlType = (() => {
+      switch (type) {
+        case 'movies':
+          return 'movie';
+        case 'shows':
+          return 'tv';
+        default: {
+          throw new Error(`Unexpect type "${type}"`);
+        }
+      }
+    })();
+
+    return this.theMovieDb
+      .get(`${urlType}/${itemId}/recommendations`)
+      .then(({ data }) =>
+        data.results
+          .map(movie =>
+            formatMetadata(movie, 'movies', this.imageUri, this.genres)
+          )
+          .filter((each, index) => index <= limit - 1)
+      );
+  }
 
   // @TODO: Properly implement provider architecture
   provide() {}
@@ -104,29 +148,26 @@ function formatImage(
   return `${imageUri}${size}/${path}`;
 }
 
-function formatMetadata(
-  movie = {},
-  type: string,
-  imageUri: string,
-  movieGenres
-) {
+function formatMetadata(movie, type: string, imageUri: string, genres) {
   return {
     // 'title' property is on movies only. 'name' property is on
     // shows only
     title: movie.name || movie.title,
-    year: new Date(movie.release_date).getYear(),
-    imdbId: null,
-    id: `${movie.id}`,
+    year: new Date(movie.release_date).getFullYear(),
+    // @DEPRECATE
+    id: String(movie.id),
     ids: {
+      tmdbId: movie.id,
       imdbId: movie.imdb_id
     },
     type,
     certification: 'n/a',
     summary: movie.overview,
-    genres: movie.genre_ids,
-    // genres: movie.genre_ids.map(id => movieGenres[id]),
+    genres: movie.genres
+      ? movie.genres.map(genre => genre.name)
+      : movie.genre_ids.map(genre => genres[String(genre)]),
     rating: movie.vote_average,
-    runtime: 'n/a',
+    runtime: movie.runtime ? parseRuntimeMinutesToObject(movie.runtime) : 'n/a',
     trailer: 'n/a',
     images: {
       fanart: {
@@ -147,22 +188,22 @@ function formatMovieSearch(movie) {
   return {
     title: movie.Title,
     year: parseInt(movie.Year, 10),
-    imdbId: movie.imdbID,
+    // @DEPRECATE
     id: movie.imdbID,
     ids: {
       imdbId: movie.imdbID
     },
     type: movie.Type.includes('movie') ? 'movies' : 'shows',
     certification: movie.Rated,
-    summary: 'n/a', // omdbapi does not support
+    summary: 'n/a',
     genres: [],
-    rating: 'n/a', // omdbapi does not support
+    rating: 'n/a',
     runtime: {
-      full: 'n/a', // omdbapi does not support
-      hours: 'n/a', // omdbapi does not support
-      minutes: 'n/a' // omdbapi does not support
+      full: 'n/a',
+      hours: 'n/a',
+      minutes: 'n/a'
     },
-    trailer: 'n/a', // omdbapi does not support
+    trailer: 'n/a',
     images: {
       fanart: {
         full: movie.Poster || '',
