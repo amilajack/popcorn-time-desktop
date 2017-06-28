@@ -823,7 +823,7 @@ export default class Item extends Component {
           </h3>
           <div className="row">
             <div className="col-sm-12">
-              <Dropdown isOpen={dropdownOpen} toggle={this.toggle}>
+              <Dropdown isOpen={dropdownOpen} toggle={() => this.toggle()}>
                 <DropdownToggle caret>
                   {currentPlayer || 'Default'}
                 </DropdownToggle>
@@ -836,7 +836,7 @@ export default class Item extends Component {
                     VLC
                   </DropdownItem>
                   {process.env.FLAG_CASTING === 'true'
-                    ? <DropdownItem onClick={this.setPlayer('Chromecast')}>
+                    ? <DropdownItem onClick={() => this.setPlayer('Chromecast')}>
                         Chromecast
                       </DropdownItem>
                     : null}

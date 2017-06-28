@@ -40,7 +40,7 @@
     "no-console": "off",
     "promise/avoid-new": "off",
     "react/sort-comp": ["error", {
-      "order": ["type-annotations", "static-methods", "lifecycle", "everything-else", "render"]
+      "order": ["type-annotations", "properties", "constructor", "static-methods", "everything-else", "lifecycle", "render"]
     }]
   },
   "settings": {
