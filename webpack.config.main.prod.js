@@ -32,7 +32,8 @@ export default merge.smart(baseConfig, {
     new BabiliPlugin(),
 
     new BundleAnalyzerPlugin({
-      analyzerMode: process.env.OPEN_ANALYZER === 'true' ? 'server' : 'disabled',
+      analyzerMode:
+        process.env.OPEN_ANALYZER === 'true' ? 'server' : 'disabled',
       openAnalyzer: process.env.OPEN_ANALYZER === 'true'
     }),
 
@@ -46,8 +47,12 @@ export default merge.smart(baseConfig, {
      * development checks
      */
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production'),
-      'process.env.DEBUG_PROD': JSON.stringify(process.env.DEBUG_PROD || 'false')
+      'process.env.NODE_ENV': JSON.stringify(
+        process.env.NODE_ENV || 'production'
+      ),
+      'process.env.DEBUG_PROD': JSON.stringify(
+        process.env.DEBUG_PROD || 'false'
+      )
     })
   ],
 

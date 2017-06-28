@@ -1,8 +1,7 @@
 {
   "name": "popcorn-time-desktop",
-  "productName": "Popcorn Time",
   "version": "0.0.6",
-  "description": "An experimental PopcornTime client",
+  "description": "An experimental Popcorn Time client",
   "scripts": {
     "bench-api": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 jest test/**/*.benchmark.js",
     "build": "cross-env NODE_ENV=production FLAG_SEASON_COMPLETE=true FLAG_MANUAL_TORRENT_SELECTION=true npm run build-main && npm run build-renderer",
@@ -17,7 +16,7 @@
     "lint-styles": "stylelint app/styles/*.scss app/styles/**/*.scss --syntax scss",
     "lint-summary": "eslint-nibble app test *.js",
     "package": "npm run postinstall && npm run build && build --publish never",
-    "package-all": "npm run build && build --publish never --mac --win --linux",
+    "package-all": "npm run postinstall && npm run build && build --publish never --mac --win --linux",
     "prestart": "npm run build",
     "prettier": "prettier --single-quote --write \"./app/{actions,api,components,containers,reducers,utils}/**/*.js\" && prettier --single-quote --write \"./app/{actions,api,components,containers,reducers,utils}/**/*.jsx\"",
     "postinstall": "npm run build-dll && node node_modules/fbjs-scripts/node/check-dev-engines.js package.json && node -r babel-register postinstall.js",
@@ -55,11 +54,23 @@
     "es6"
   ],
   "build": {
-    "appId": "popcorn-time-desktop",
+    "appId": "com.github.popcorn-time-desktop",
+    "productName": "Popcorn Time",
+    "files": [
+      "dist/",
+      "node_modules/",
+      "app.html",
+      "main.prod.js",
+      "main.prod.js.map",
+      "package.json"
+    ],
     "dmg": {
       "format": "ULFO",
-      "background": "./resources/background.png",
       "icon": "./resources/icon.icns",
+      "window": {
+        "width": "500",
+        "height": "300"
+      },
       "contents": [
         {
           "x": 410,
@@ -199,6 +210,8 @@
     "style-loader": "0.18.2",
     "stylelint": "7.11.1",
     "stylelint-config-standard": "16.0.0",
+    "uglify-js": "^3.0.20",
+    "uglifyjs-webpack-plugin": "^0.4.6",
     "url-loader": "0.5.9",
     "webpack": "3.0.0",
     "webpack-bundle-analyzer": "2.8.2",

@@ -27,16 +27,20 @@ export type runtimeType = {
 export type certificationType = 'G' | 'PG' | 'PG-13' | 'R';
 
 export type imagesType = {
-  fanart: {} | {
-    full: string,
-    medium: string,
-    thumb: string
-  },
-  poster: {} | {
-    full: string,
-    medium: string,
-    thumb: string
-  }
+  fanart:
+    | {}
+    | {
+        full: string,
+        medium: string,
+        thumb: string
+      },
+  poster:
+    | {}
+    | {
+        full: string,
+        medium: string,
+        thumb: string
+      }
 };
 
 export type contentType = {

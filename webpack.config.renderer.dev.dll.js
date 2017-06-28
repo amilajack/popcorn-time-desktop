@@ -153,13 +153,13 @@ export default merge.smart(baseConfig, {
   },
 
   resolve: {
-    modules: [
-      'app'
-    ]
+    modules: ['app']
   },
 
   entry: {
-    vendor: Object.keys(dependencies || {}).filter(dependency => dependency !== 'font-awesome')
+    vendor: Object.keys(dependencies || {}).filter(
+      dependency => dependency !== 'font-awesome'
+    )
   },
 
   output: {
@@ -185,7 +185,9 @@ export default merge.smart(baseConfig, {
      * development checks
      */
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
+      'process.env.NODE_ENV': JSON.stringify(
+        process.env.NODE_ENV || 'development'
+      )
     }),
 
     new webpack.LoaderOptionsPlugin({

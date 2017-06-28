@@ -25,9 +25,11 @@ const manifest = path.resolve(dll, 'vendor.json');
  * Warn if the DLL is not built
  */
 if (!(fs.existsSync(dll) && fs.existsSync(manifest))) {
-  console.log(chalk.black.bgYellow.bold(
-    'The DLL files are missing. Sit back while we build them for you with "npm run build-dll"'
-  ));
+  console.log(
+    chalk.black.bgYellow.bold(
+      'The DLL files are missing. Sit back while we build them for you with "npm run build-dll"'
+    )
+  );
   execSync('npm run build-dll');
 }
 
@@ -51,13 +53,17 @@ export default merge.smart(baseConfig, {
     rules: [
       {
         test: /\.scss$/,
-        use: [{
-          loader: 'style-loader' // creates style nodes from JS strings
-        }, {
-          loader: 'css-loader' // translates CSS into CommonJS
-        }, {
-          loader: 'sass-loader' // compiles Sass to CSS
-        }]
+        use: [
+          {
+            loader: 'style-loader' // creates style nodes from JS strings
+          },
+          {
+            loader: 'css-loader' // translates CSS into CommonJS
+          },
+          {
+            loader: 'sass-loader' // compiles Sass to CSS
+          }
+        ]
       },
       // WOFF Font
       {
@@ -126,10 +132,12 @@ export default merge.smart(baseConfig, {
     /**
      * https://webpack.js.org/concepts/hot-module-replacement/
      */
-    new webpack.HotModuleReplacementPlugin({
-      // @TODO: Waiting on https://github.com/jantimon/html-webpack-plugin/issues/533
-      // multiStep: true
-    }),
+    new webpack.HotModuleReplacementPlugin(
+      {
+        // @TODO: Waiting on https://github.com/jantimon/html-webpack-plugin/issues/533
+        // multiStep: true
+      }
+    ),
 
     new webpack.NoEmitOnErrorsPlugin(),
 
@@ -146,7 +154,9 @@ export default merge.smart(baseConfig, {
      * 'staging', for example, by changing the ENV variables in the npm scripts
      */
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
+      'process.env.NODE_ENV': JSON.stringify(
+        process.env.NODE_ENV || 'development'
+      )
     }),
 
     new webpack.LoaderOptionsPlugin({
@@ -171,7 +181,8 @@ export default merge.smart(baseConfig, {
     contentBase: path.join(__dirname, 'dist'),
     watchOptions: {
       aggregateTimeout: 300,
-      poll: 100
+      poll: 100,
+      ignored: "node_modules,app/node_modules,release,app/dist,app/main.js"
     },
     historyApiFallback: {
       verbose: true,
@@ -180,13 +191,13 @@ export default merge.smart(baseConfig, {
     setup() {
       if (process.env.START_HOT) {
         console.log('Starting main process...');
-        spawn(
-          'npm',
-          ['run', 'start-main-dev'],
-          { shell: true, env: process.env, stdio: 'inherit' }
-        )
-        .on('close', code => process.exit(code))
-        .on('error', spawnError => console.error(spawnError));
+        spawn('npm', ['run', 'start-main-dev'], {
+          shell: true,
+          env: process.env,
+          stdio: 'inherit'
+        })
+          .on('close', code => process.exit(code))
+          .on('error', spawnError => console.error(spawnError));
       }
     }
   }

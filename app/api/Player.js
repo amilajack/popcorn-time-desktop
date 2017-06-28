@@ -8,7 +8,7 @@ const { powerSaveBlocker } = remote;
 
 type metadataType = {
   poster: string
-}
+};
 
 export default class Player {
   currentPlayer = 'plyr';

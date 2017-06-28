@@ -694,12 +694,16 @@ export default class Item extends Component {
                 {item.title}
               </h1>
               <div className="row">
-                <span className="col-sm-3" id="runtime">
-                  <h6>
-                    {item.runtime.hours ? `${item.runtime.hours} hrs ` : ''}
-                    {item.runtime.minutes ? `${item.runtime.minutes} min` : ''}
-                  </h6>
-                </span>
+                {item.runtime && item.runtime.hours && item.runtime.minutes
+                  ? <span className="col-sm-3" id="runtime">
+                      <h6>
+                        {item.runtime.hours ? `${item.runtime.hours} hrs ` : ''}
+                        {item.runtime.minutes
+                          ? `${item.runtime.minutes} min`
+                          : ''}
+                      </h6>
+                    </span>
+                  : null}
                 <span className="col-sm-9" id="genres">
                   {item.genres
                     ? <h6>
@@ -851,15 +855,13 @@ export default class Item extends Component {
               />
             : null}
 
-          <div className="col-sm-12">
-            <CardList
-              title={'similar'}
-              limit={4}
-              items={similarItems}
-              metadataLoading={similarLoading}
-              isFinished={isFinished}
-            />
-          </div>
+          <CardList
+            title={'similar'}
+            limit={4}
+            items={similarItems}
+            metadataLoading={similarLoading}
+            isFinished={isFinished}
+          />
         </div>
       </div>
     );

@@ -36,18 +36,12 @@ flow-typed/npm/*
 !flow-typed/npm/module_vx.x.x.js
 
 # App packaged
-release
 app/main.prod.js
 app/main.prod.js.map
-app/bundle.js
-app/bundle.js.map
-app/style.css
-app/style.css.map
 dist
-resources
 dll
-main.js
-main.js.map
+release
+resources
 
 .idea
 npm-debug.log.*
