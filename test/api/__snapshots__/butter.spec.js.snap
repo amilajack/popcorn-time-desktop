@@ -1,0 +1,337 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`API Butter metadata movies should have movies that have necessary properties 1`] = `
+Object {
+  "certification": "n/a",
+  "genres": Array [
+    "Family",
+    "Fantasy",
+    "Romance",
+  ],
+  "id": "321612",
+  "ids": Object {
+    "imdbId": undefined,
+    "tmdbId": 321612,
+  },
+  "images": Object {
+    "fanart": Object {
+      "full": "https://image.tmdb.org/t/p/original//7QshG75xKCmClghQDU1ta2BTaja.jpg",
+      "medium": "https://image.tmdb.org/t/p/w780//7QshG75xKCmClghQDU1ta2BTaja.jpg",
+      "thumb": "https://image.tmdb.org/t/p/w342//7QshG75xKCmClghQDU1ta2BTaja.jpg",
+    },
+    "poster": Object {
+      "full": "https://image.tmdb.org/t/p/original//tWqifoYuwLETmmasnGHO7xBjEtt.jpg",
+      "medium": "https://image.tmdb.org/t/p/w780//tWqifoYuwLETmmasnGHO7xBjEtt.jpg",
+      "thumb": "https://image.tmdb.org/t/p/w342//tWqifoYuwLETmmasnGHO7xBjEtt.jpg",
+    },
+  },
+  "rating": 6.8,
+  "runtime": "n/a",
+  "summary": "A live-action adaptation of Disney's version of the classic 'Beauty and the Beast' tale of a cursed prince and a beautiful young woman who helps him break the spell.",
+  "title": "Beauty and the Beast",
+  "trailer": "n/a",
+  "type": "movies",
+  "year": 2017,
+}
+`;
+
+exports[`API Butter metadata movies should have movies that have necessary properties 2`] = `
+Object {
+  "certification": "n/a",
+  "genres": Array [
+    "Family",
+    "Fantasy",
+    "Romance",
+  ],
+  "id": "321612",
+  "ids": Object {
+    "imdbId": undefined,
+    "tmdbId": 321612,
+  },
+  "images": Object {
+    "fanart": Object {
+      "full": "https://image.tmdb.org/t/p/original//7QshG75xKCmClghQDU1ta2BTaja.jpg",
+      "medium": "https://image.tmdb.org/t/p/w780//7QshG75xKCmClghQDU1ta2BTaja.jpg",
+      "thumb": "https://image.tmdb.org/t/p/w342//7QshG75xKCmClghQDU1ta2BTaja.jpg",
+    },
+    "poster": Object {
+      "full": "https://image.tmdb.org/t/p/original//tWqifoYuwLETmmasnGHO7xBjEtt.jpg",
+      "medium": "https://image.tmdb.org/t/p/w780//tWqifoYuwLETmmasnGHO7xBjEtt.jpg",
+      "thumb": "https://image.tmdb.org/t/p/w342//tWqifoYuwLETmmasnGHO7xBjEtt.jpg",
+    },
+  },
+  "rating": 6.8,
+  "runtime": "n/a",
+  "summary": "A live-action adaptation of Disney's version of the classic 'Beauty and the Beast' tale of a cursed prince and a beautiful young woman who helps him break the spell.",
+  "title": "Beauty and the Beast",
+  "trailer": "n/a",
+  "type": "movies",
+  "year": 2017,
+}
+`;
+
+exports[`API Butter metadata movies should have movies that have necessary properties 3`] = `
+Object {
+  "certification": "n/a",
+  "genres": Array [
+    "Family",
+    "Fantasy",
+    "Romance",
+  ],
+  "id": "321612",
+  "ids": Object {
+    "imdbId": undefined,
+    "tmdbId": 321612,
+  },
+  "images": Object {
+    "fanart": Object {
+      "full": "https://image.tmdb.org/t/p/original//7QshG75xKCmClghQDU1ta2BTaja.jpg",
+      "medium": "https://image.tmdb.org/t/p/w780//7QshG75xKCmClghQDU1ta2BTaja.jpg",
+      "thumb": "https://image.tmdb.org/t/p/w342//7QshG75xKCmClghQDU1ta2BTaja.jpg",
+    },
+    "poster": Object {
+      "full": "https://image.tmdb.org/t/p/original//tWqifoYuwLETmmasnGHO7xBjEtt.jpg",
+      "medium": "https://image.tmdb.org/t/p/w780//tWqifoYuwLETmmasnGHO7xBjEtt.jpg",
+      "thumb": "https://image.tmdb.org/t/p/w342//tWqifoYuwLETmmasnGHO7xBjEtt.jpg",
+    },
+  },
+  "rating": 6.8,
+  "runtime": "n/a",
+  "summary": "A live-action adaptation of Disney's version of the classic 'Beauty and the Beast' tale of a cursed prince and a beautiful young woman who helps him break the spell.",
+  "title": "Beauty and the Beast",
+  "trailer": "n/a",
+  "type": "movies",
+  "year": 2017,
+}
+`;
+
+exports[`API Butter metadata movies should have movies that have necessary properties 4`] = `
+Object {
+  "certification": "n/a",
+  "genres": Array [
+    "Family",
+    "Fantasy",
+    "Romance",
+  ],
+  "id": "321612",
+  "ids": Object {
+    "imdbId": undefined,
+    "tmdbId": 321612,
+  },
+  "images": Object {
+    "fanart": Object {
+      "full": "https://image.tmdb.org/t/p/original//7QshG75xKCmClghQDU1ta2BTaja.jpg",
+      "medium": "https://image.tmdb.org/t/p/w780//7QshG75xKCmClghQDU1ta2BTaja.jpg",
+      "thumb": "https://image.tmdb.org/t/p/w342//7QshG75xKCmClghQDU1ta2BTaja.jpg",
+    },
+    "poster": Object {
+      "full": "https://image.tmdb.org/t/p/original//tWqifoYuwLETmmasnGHO7xBjEtt.jpg",
+      "medium": "https://image.tmdb.org/t/p/w780//tWqifoYuwLETmmasnGHO7xBjEtt.jpg",
+      "thumb": "https://image.tmdb.org/t/p/w342//tWqifoYuwLETmmasnGHO7xBjEtt.jpg",
+    },
+  },
+  "rating": 6.8,
+  "runtime": "n/a",
+  "summary": "A live-action adaptation of Disney's version of the classic 'Beauty and the Beast' tale of a cursed prince and a beautiful young woman who helps him break the spell.",
+  "title": "Beauty and the Beast",
+  "trailer": "n/a",
+  "type": "movies",
+  "year": 2017,
+}
+`;
+
+exports[`API Butter metadata movies should have movies that have necessary properties 5`] = `
+Object {
+  "certification": "n/a",
+  "genres": Array [
+    "Family",
+    "Fantasy",
+    "Romance",
+  ],
+  "id": "321612",
+  "ids": Object {
+    "imdbId": undefined,
+    "tmdbId": 321612,
+  },
+  "images": Object {
+    "fanart": Object {
+      "full": "https://image.tmdb.org/t/p/original//7QshG75xKCmClghQDU1ta2BTaja.jpg",
+      "medium": "https://image.tmdb.org/t/p/w780//7QshG75xKCmClghQDU1ta2BTaja.jpg",
+      "thumb": "https://image.tmdb.org/t/p/w342//7QshG75xKCmClghQDU1ta2BTaja.jpg",
+    },
+    "poster": Object {
+      "full": "https://image.tmdb.org/t/p/original//tWqifoYuwLETmmasnGHO7xBjEtt.jpg",
+      "medium": "https://image.tmdb.org/t/p/w780//tWqifoYuwLETmmasnGHO7xBjEtt.jpg",
+      "thumb": "https://image.tmdb.org/t/p/w342//tWqifoYuwLETmmasnGHO7xBjEtt.jpg",
+    },
+  },
+  "rating": 6.8,
+  "runtime": "n/a",
+  "summary": "A live-action adaptation of Disney's version of the classic 'Beauty and the Beast' tale of a cursed prince and a beautiful young woman who helps him break the spell.",
+  "title": "Beauty and the Beast",
+  "trailer": "n/a",
+  "type": "movies",
+  "year": 2017,
+}
+`;
+
+exports[`API Butter metadata movies should have movies that have necessary properties 6`] = `
+Object {
+  "certification": "n/a",
+  "genres": Array [
+    "Family",
+    "Fantasy",
+    "Romance",
+  ],
+  "id": "321612",
+  "ids": Object {
+    "imdbId": undefined,
+    "tmdbId": 321612,
+  },
+  "images": Object {
+    "fanart": Object {
+      "full": "https://image.tmdb.org/t/p/original//7QshG75xKCmClghQDU1ta2BTaja.jpg",
+      "medium": "https://image.tmdb.org/t/p/w780//7QshG75xKCmClghQDU1ta2BTaja.jpg",
+      "thumb": "https://image.tmdb.org/t/p/w342//7QshG75xKCmClghQDU1ta2BTaja.jpg",
+    },
+    "poster": Object {
+      "full": "https://image.tmdb.org/t/p/original//tWqifoYuwLETmmasnGHO7xBjEtt.jpg",
+      "medium": "https://image.tmdb.org/t/p/w780//tWqifoYuwLETmmasnGHO7xBjEtt.jpg",
+      "thumb": "https://image.tmdb.org/t/p/w342//tWqifoYuwLETmmasnGHO7xBjEtt.jpg",
+    },
+  },
+  "rating": 6.8,
+  "runtime": "n/a",
+  "summary": "A live-action adaptation of Disney's version of the classic 'Beauty and the Beast' tale of a cursed prince and a beautiful young woman who helps him break the spell.",
+  "title": "Beauty and the Beast",
+  "trailer": "n/a",
+  "type": "movies",
+  "year": 2017,
+}
+`;
+
+exports[`API Butter metadata movies should have movies that have necessary properties 7`] = `
+Object {
+  "certification": "n/a",
+  "genres": Array [
+    "Family",
+    "Fantasy",
+    "Romance",
+  ],
+  "id": "321612",
+  "ids": Object {
+    "imdbId": undefined,
+    "tmdbId": 321612,
+  },
+  "images": Object {
+    "fanart": Object {
+      "full": "https://image.tmdb.org/t/p/original//7QshG75xKCmClghQDU1ta2BTaja.jpg",
+      "medium": "https://image.tmdb.org/t/p/w780//7QshG75xKCmClghQDU1ta2BTaja.jpg",
+      "thumb": "https://image.tmdb.org/t/p/w342//7QshG75xKCmClghQDU1ta2BTaja.jpg",
+    },
+    "poster": Object {
+      "full": "https://image.tmdb.org/t/p/original//tWqifoYuwLETmmasnGHO7xBjEtt.jpg",
+      "medium": "https://image.tmdb.org/t/p/w780//tWqifoYuwLETmmasnGHO7xBjEtt.jpg",
+      "thumb": "https://image.tmdb.org/t/p/w342//tWqifoYuwLETmmasnGHO7xBjEtt.jpg",
+    },
+  },
+  "rating": 6.8,
+  "runtime": "n/a",
+  "summary": "A live-action adaptation of Disney's version of the classic 'Beauty and the Beast' tale of a cursed prince and a beautiful young woman who helps him break the spell.",
+  "title": "Beauty and the Beast",
+  "trailer": "n/a",
+  "type": "movies",
+  "year": 2017,
+}
+`;
+
+exports[`API Butter metadata movies should have movies that have necessary properties 8`] = `
+Object {
+  "certification": "n/a",
+  "genres": Array [
+    "Family",
+    "Fantasy",
+    "Romance",
+  ],
+  "id": "321612",
+  "ids": Object {
+    "imdbId": undefined,
+    "tmdbId": 321612,
+  },
+  "images": Object {
+    "fanart": Object {
+      "full": "https://image.tmdb.org/t/p/original//7QshG75xKCmClghQDU1ta2BTaja.jpg",
+      "medium": "https://image.tmdb.org/t/p/w780//7QshG75xKCmClghQDU1ta2BTaja.jpg",
+      "thumb": "https://image.tmdb.org/t/p/w342//7QshG75xKCmClghQDU1ta2BTaja.jpg",
+    },
+    "poster": Object {
+      "full": "https://image.tmdb.org/t/p/original//tWqifoYuwLETmmasnGHO7xBjEtt.jpg",
+      "medium": "https://image.tmdb.org/t/p/w780//tWqifoYuwLETmmasnGHO7xBjEtt.jpg",
+      "thumb": "https://image.tmdb.org/t/p/w342//tWqifoYuwLETmmasnGHO7xBjEtt.jpg",
+    },
+  },
+  "rating": 6.8,
+  "runtime": "n/a",
+  "summary": "A live-action adaptation of Disney's version of the classic 'Beauty and the Beast' tale of a cursed prince and a beautiful young woman who helps him break the spell.",
+  "title": "Beauty and the Beast",
+  "trailer": "n/a",
+  "type": "movies",
+  "year": 2017,
+}
+`;
+
+exports[`API Butter metadata movies should have movies that have necessary properties 9`] = `
+Object {
+  "certification": "n/a",
+  "genres": Array [
+    "Family",
+    "Fantasy",
+    "Romance",
+  ],
+  "id": "321612",
+  "ids": Object {
+    "imdbId": undefined,
+    "tmdbId": 321612,
+  },
+  "images": Object {
+    "fanart": Object {
+      "full": "https://image.tmdb.org/t/p/original//7QshG75xKCmClghQDU1ta2BTaja.jpg",
+      "medium": "https://image.tmdb.org/t/p/w780//7QshG75xKCmClghQDU1ta2BTaja.jpg",
+      "thumb": "https://image.tmdb.org/t/p/w342//7QshG75xKCmClghQDU1ta2BTaja.jpg",
+    },
+    "poster": Object {
+      "full": "https://image.tmdb.org/t/p/original//tWqifoYuwLETmmasnGHO7xBjEtt.jpg",
+      "medium": "https://image.tmdb.org/t/p/w780//tWqifoYuwLETmmasnGHO7xBjEtt.jpg",
+      "thumb": "https://image.tmdb.org/t/p/w342//tWqifoYuwLETmmasnGHO7xBjEtt.jpg",
+    },
+  },
+  "rating": 6.8,
+  "runtime": "n/a",
+  "summary": "A live-action adaptation of Disney's version of the classic 'Beauty and the Beast' tale of a cursed prince and a beautiful young woman who helps him break the spell.",
+  "title": "Beauty and the Beast",
+  "trailer": "n/a",
+  "type": "movies",
+  "year": 2017,
+}
+`;
+
+exports[`API Torrent Providers Movie PopcornTimeTorrentProvider should return movie torrents 1`] = `
+Array [
+  Object {
+    "_provider": "pct",
+    "leechers": 0,
+    "magnet": "magnet:?xt=urn:btih:196CFBE40F9AFA8866681AD5E73D159F50C580AA&tr=udp://glotorrents.pw:6969/announce&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://torrent.gresille.org:80/announce&tr=udp://tracker.openbittorrent.com:80&tr=udp://tracker.coppersurfer.tk:6969&tr=udp://tracker.leechers-paradise.org:6969&tr=udp://p4p.arenabg.ch:1337&tr=udp://tracker.internetwarriors.net:1337",
+    "metadata": "magnet:?xt=urn:btih:196CFBE40F9AFA8866681AD5E73D159F50C580AA&tr=udp://glotorrents.pw:6969/announce&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://torrent.gresille.org:80/announce&tr=udp://tracker.openbittorrent.com:80&tr=udp://tracker.coppersurfer.tk:6969&tr=udp://tracker.leechers-paradise.org:6969&tr=udp://p4p.arenabg.ch:1337&tr=udp://tracker.internetwarriors.net:1337",
+    "quality": "1080p",
+    "seeders": 1294,
+  },
+  Object {
+    "_provider": "pct",
+    "leechers": 0,
+    "magnet": "magnet:?xt=urn:btih:1FFC246E37E945A5D88D2D0D43F7B590F5BA02F7&tr=udp://glotorrents.pw:6969/announce&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://torrent.gresille.org:80/announce&tr=udp://tracker.openbittorrent.com:80&tr=udp://tracker.coppersurfer.tk:6969&tr=udp://tracker.leechers-paradise.org:6969&tr=udp://p4p.arenabg.ch:1337&tr=udp://tracker.internetwarriors.net:1337",
+    "metadata": "magnet:?xt=urn:btih:1FFC246E37E945A5D88D2D0D43F7B590F5BA02F7&tr=udp://glotorrents.pw:6969/announce&tr=udp://tracker.opentrackr.org:1337/announce&tr=udp://torrent.gresille.org:80/announce&tr=udp://tracker.openbittorrent.com:80&tr=udp://tracker.coppersurfer.tk:6969&tr=udp://tracker.leechers-paradise.org:6969&tr=udp://p4p.arenabg.ch:1337&tr=udp://tracker.internetwarriors.net:1337",
+    "quality": "720p",
+    "seeders": 848,
+  },
+]
+`;
