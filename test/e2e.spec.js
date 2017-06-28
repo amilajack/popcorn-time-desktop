@@ -4,6 +4,8 @@ import os from 'os';
 import { Application } from 'spectron';
 import electronPrebuilt from 'electron';
 
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+
 const app = new Application({
   path: electronPrebuilt,
   args: [path.join(__dirname, '..', 'app')],
@@ -119,10 +121,9 @@ describe('e2e', function testApp() {
 
   describe('ItemPage', () => {
     beforeEach(async () => {
-      // navigate to Game of thrones
-      await navigate('item/shows/tt0944947');
-      await delay(1000);
+      await this.app.client.waitForVisible('.CardList').click('.Card');
       await this.app.client.waitUntilWindowLoaded();
+      await delay(2000);
     });
 
     it('should navigate to similar cards on click', async () => {

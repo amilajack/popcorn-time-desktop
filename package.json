@@ -23,7 +23,7 @@
     "test": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 jest ./test/components/*.spec.js",
     "test-all": "npm run lint && npm run lint-styles && npm run lint-summary && npm run build && npm run test-api && npm run test-e2e",
     "test-api": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 CONFIG_ENDPOINT_TEST=test.org jest ./test/api/butter.spec.js",
-    "test-e2e": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 jest ./test/e2e.js",
+    "test-e2e": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 jest ./test/e2e.spec.js",
     "test-screenshot": "cross-env API_USE_MOCK_DATA=true BABEL_DISABLE_CACHE=1 npm run build && jest ./test/screenshot.e2e.js",
     "test-watch": "npm test -- --watch",
     "start": "cross-env NODE_ENV=production electron ./",
