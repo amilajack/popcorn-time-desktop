@@ -313,7 +313,7 @@ export default class Item extends Component {
       const { torrent, idealTorrent } = await (async () => {
         switch (this.props.activeMode) {
           case 'movies': {
-            const _torrent = await this.butter.getTorrent(
+            const originalTorrent = await this.butter.getTorrent(
               imdbId,
               this.props.activeMode,
               {
@@ -321,16 +321,16 @@ export default class Item extends Component {
               }
             );
             return {
-              torrent: _torrent,
+              torrent: originalTorrent,
               idealTorrent: getIdealTorrent([
-                _torrent['1080p'],
-                _torrent['720p'],
-                _torrent['480p']
+                originalTorrent['1080p'],
+                originalTorrent['720p'],
+                originalTorrent['480p']
               ])
             };
           }
           case 'shows': {
-            if (process.env.FLAG_SEASON_COMPLETE === 'true') {
+            if (process.env.FLAG_SEASON_COMPLETE === 'cow') {
               const [shows, seasonComplete] = await Promise.all([
                 this.butter.getTorrent(imdbId, this.props.activeMode, {
                   season,
@@ -369,20 +369,22 @@ export default class Item extends Component {
               };
             }
 
+            const singleEpisodeTorrent = await this.butter.getTorrent(
+              imdbId,
+              this.props.activeMode,
+              {
+                season,
+                episode,
+                searchQuery: title
+              }
+            );
+
             return {
-              torrent: await this.butter.getTorrent(
-                imdbId,
-                this.props.activeMode,
-                {
-                  season,
-                  episode,
-                  searchQuery: title
-                }
-              ),
+              torrent: singleEpisodeTorrent,
               idealTorrent: getIdealTorrent([
-                torrent['1080p'] || this.defaultTorrent,
-                torrent['720p'] || this.defaultTorrent,
-                torrent['480p'] || this.defaultTorrent
+                singleEpisodeTorrent['1080p'] || this.defaultTorrent,
+                singleEpisodeTorrent['720p'] || this.defaultTorrent,
+                singleEpisodeTorrent['480p'] || this.defaultTorrent
               ])
             };
           }
@@ -438,27 +440,31 @@ export default class Item extends Component {
     }
   }
 
-  selectShow(
+  selectShow = (
     type: string,
     selectedSeason: number,
     selectedEpisode: number = 1
-  ) {
+  ) => {
     switch (type) {
       case 'episodes':
         this.setState({ selectedSeason });
-        this.getShowData('episodes', this.state.item.id, selectedSeason);
+        this.getShowData(
+          'episodes',
+          this.state.item.ids.tmdbId,
+          selectedSeason
+        );
         this.selectShow('episode', selectedSeason, 1);
         break;
       case 'episode':
         this.setState({ selectedSeason, selectedEpisode });
         this.getShowData(
           'episode',
-          this.state.item.id,
+          this.state.item.ids.tmdbId,
           selectedSeason,
           selectedEpisode
         );
         this.getTorrent(
-          this.state.item.id,
+          this.state.item.ids.imdbId,
           this.state.item.title,
           selectedSeason,
           selectedEpisode
@@ -467,7 +473,7 @@ export default class Item extends Component {
       default:
         throw new Error('Invalid selectShow() type');
     }
-  }
+  };
 
   /**
    * 1. Retrieve list of subtitles
@@ -836,7 +842,9 @@ export default class Item extends Component {
                     VLC
                   </DropdownItem>
                   {process.env.FLAG_CASTING === 'true'
-                    ? <DropdownItem onClick={() => this.setPlayer('Chromecast')}>
+                    ? <DropdownItem
+                        onClick={() => this.setPlayer('Chromecast')}
+                      >
                         Chromecast
                       </DropdownItem>
                     : null}

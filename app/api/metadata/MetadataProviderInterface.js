@@ -8,7 +8,6 @@ type seasonType = {
   },
   title: string,
   season: number,
-  episode: number,
   overview: string,
   rating: number | 'n/a',
   images: {
@@ -16,6 +15,10 @@ type seasonType = {
     medium: string,
     thumb: string
   }
+};
+
+type episodeType = seasonType & {
+  episode: number
 };
 
 export type runtimeType = {
@@ -78,8 +81,8 @@ export interface MetadataProviderInterface {
   supportedIdTypes: Array<'tmdb' | 'imdb'>,
 
   getSeasons: (itemId: string) => Promise<Array<seasonType>>,
-  getSeason: (itemId: string, season: number) => Promise<seasonType>,
-  getEpisode: (itemId: string, season: number, episode: number) => seasonType,
+  getSeason: (itemId: string, season: number) => Promise<episodeType>,
+  getEpisode: (itemId: string, season: number, episode: number) => episodeType,
 
   search: (query: string, page: number) => Promise<Array<contentType>>,
 

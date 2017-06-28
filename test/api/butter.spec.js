@@ -543,6 +543,25 @@ describe('API', () => {
       });
 
       describe('show torrents', () => {
+        it.concurrent('should have torrents for season_complete and shows methods', async () => {
+          const torrents = await butterFactory().getTorrent(
+            'tt0944947',
+            'shows',
+            {
+              season: 2,
+              episode: 2,
+              searchQuery: 'game of thrones'
+            }
+          );
+
+          chaiExpect(torrents).to.be.an('object');
+
+          for (const quality of ['720p', '1080p']) {
+            assertSingleTorrent(torrents[quality]);
+            chaiExpect(torrents[quality]).to.be.a('string').toEqual(quality);
+          }
+        });
+
         it.concurrent('should get show torrent by imdbId', async () => {
           const torrents = await butterFactory().getTorrent(
             'tt0944947',

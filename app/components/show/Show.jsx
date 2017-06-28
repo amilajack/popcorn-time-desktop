@@ -68,11 +68,11 @@ export default function Show(props: Props) {
           <h3>Season overview:</h3>
         </li>
         <li>
-          <a>
+          <h6>
             {seasons.length && selectedSeason && seasons[selectedSeason]
               ? seasons[selectedSeason].overview
               : null}
-          </a>
+          </h6>
         </li>
       </ul>
       <ul>
@@ -80,11 +80,11 @@ export default function Show(props: Props) {
           <h3>Episode overview:</h3>
         </li>
         <li>
-          <a>
+          <h6>
             {episodes.length && selectedSeason && episodes[selectedEpisode]
               ? episodes[selectedEpisode].overview
               : null}
-          </a>
+          </h6>
         </li>
       </ul>
     </div>

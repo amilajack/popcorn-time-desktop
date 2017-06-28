@@ -51,7 +51,10 @@ export default class TheMovieDBMetadataProvider
   constructor() {
     this.theMovieDb = axios.create({
       baseURL: this.apiUri,
-      params: { api_key: this.apiKey }
+      params: {
+        api_key: this.apiKey,
+        append_to_response: 'external_ids'
+      }
     });
   }
 
@@ -65,9 +68,9 @@ export default class TheMovieDBMetadataProvider
       );
   }
 
-  getMovie(id: string) {
+  getMovie(itemId: string) {
     return this.theMovieDb
-      .get(`movie/${id}`)
+      .get(`movie/${itemId}`)
       .then(({ data }) =>
         formatMetadata(data, 'movies', this.imageUri, this.genres)
       );
@@ -83,33 +86,45 @@ export default class TheMovieDBMetadataProvider
       );
   }
 
-  getShow(id: string) {
+  getShow(itemId: string) {
     return this.theMovieDb
-      .get(`tv/${id}`)
+      .get(`tv/${itemId}`)
       .then(({ data }) =>
         formatMetadata(data, 'shows', this.imageUri, this.genres)
       );
   }
 
-  // getSeasons(itemId: string) {}
+  getSeasons(itemId: string) {
+    return this.theMovieDb
+      .get(`tv/${itemId}`)
+      .then(({ data }) => formatSeasons(data));
+  }
 
-  // getSeason(itemId: string, season: number) {}
+  getSeason(itemId: string, season: number) {
+    return this.theMovieDb
+      .get(`tv/${itemId}/season/${season}`)
+      .then(({ data }) => formatSeason(data));
+  }
 
-  // getEpisode(itemId: string, season: number, episode: number) {}
+  getEpisode(itemId: string, season: number, episode: number) {
+    return this.theMovieDb
+      .get(`tv/${itemId}/season/${season}/episode/${episode}`)
+      .then(({ data }) => formatEpisode(data));
+  }
 
   search(query: string, page: number = 1) {
-    if (!query) {
-      throw Error('Query paramater required');
-    }
-
-    // http://www.omdbapi.com/?t=Game+of+thrones&y=&plot=short&r=json
-    return fetch(
-      `http://www.omdbapi.com/?s=${encodeURIComponent(
-        query
-      )}&page=${page}&apikey=fcbd49b5`
-    )
-      .then(response => response.json())
-      .then(response => response.Search.map(movie => formatMovieSearch(movie)));
+    return this.theMovieDb
+      .get('search/multi', { params: { page, include_adult: true, query } })
+      .then(({ data }) =>
+        data.results.map(result =>
+          formatMetadata(
+            result,
+            result.media_type === 'movie' ? 'movies' : 'shows',
+            this.imageUri,
+            this.genres
+          )
+        )
+      );
   }
 
   getSimilar(type: string = 'movies', itemId: string, limit: number = 5) {
@@ -158,14 +173,20 @@ function formatMetadata(movie, type: string, imageUri: string, genres) {
     id: String(movie.id),
     ids: {
       tmdbId: movie.id,
-      imdbId: movie.imdb_id
+      imdbId:
+        movie.imdb_id ||
+          (movie.external_ids && movie.external_ids.imdb_id
+            ? movie.external_ids.imdb_id
+            : '')
     },
     type,
     certification: 'n/a',
     summary: movie.overview,
     genres: movie.genres
       ? movie.genres.map(genre => genre.name)
-      : movie.genre_ids.map(genre => genres[String(genre)]),
+      : movie.genre_ids
+        ? movie.genre_ids.map(genre => genres[String(genre)])
+        : [],
     rating: movie.vote_average,
     runtime: movie.runtime ? parseRuntimeMinutesToObject(movie.runtime) : 'n/a',
     trailer: 'n/a',
@@ -184,37 +205,58 @@ function formatMetadata(movie, type: string, imageUri: string, genres) {
   };
 }
 
-function formatMovieSearch(movie) {
-  return {
-    title: movie.Title,
-    year: parseInt(movie.Year, 10),
-    // @DEPRECATE
-    id: movie.imdbID,
+function formatSeasons(show) {
+  return show.seasons.map(season => ({
+    season: season.season_number + 1,
+    overview: show.overview,
+    id: season.id,
     ids: {
-      imdbId: movie.imdbID
+      tmdbId: season.id
     },
-    type: movie.Type.includes('movie') ? 'movies' : 'shows',
-    certification: movie.Rated,
-    summary: 'n/a',
-    genres: [],
-    rating: 'n/a',
-    runtime: {
-      full: 'n/a',
-      hours: 'n/a',
-      minutes: 'n/a'
-    },
-    trailer: 'n/a',
     images: {
-      fanart: {
-        full: movie.Poster || '',
-        medium: movie.Poster || '',
-        thumb: movie.Poster || ''
-      },
-      poster: {
-        full: movie.Poster || '',
-        medium: movie.Poster || '',
-        thumb: movie.Poster || ''
-      }
+      full: season.poster_path,
+      medium: season.poster_path,
+      thumb: season.poster_path
+    }
+  }));
+}
+
+function formatSeason(season) {
+  return season.episodes.map(episode => ({
+    id: episode.id,
+    ids: {
+      tmdbId: episode.id
+    },
+    title: episode.name,
+    season: episode.season_number,
+    episode: episode.episode_number,
+    overview: episode.overview,
+    rating: episode.vote_average,
+    // rating: episode.rating ? roundRating(episode.rating) : 'n/a',
+    images: {
+      full: episode.poster_path,
+      medium: episode.poster_path,
+      thumb: episode.poster_path
+    }
+  }));
+}
+
+function formatEpisode(episode) {
+  return {
+    id: episode.id,
+    ids: {
+      tmdbId: episode.id
+    },
+    title: episode.name,
+    season: episode.season_number,
+    episode: episode.episode_number,
+    overview: episode.overview,
+    rating: episode.vote_average,
+    // rating: episode.rating ? roundRating(episode.rating) : 'n/a',
+    images: {
+      full: episode.still_path,
+      medium: episode.still_path,
+      thumb: episode.still_path
     }
   };
 }
