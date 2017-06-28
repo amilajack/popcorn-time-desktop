@@ -6,7 +6,7 @@ import mkdirp from 'mkdirp';
 import extract from 'extract-zip';
 
 
-const version = process.env.PREBUILT_FFMPEG_RELEASE || '0.16.0';
+const version = process.env.PREBUILT_FFMPEG_RELEASE || '0.23.5';
 const baseDir = path.join(__dirname, 'node_modules', 'electron', 'dist');
 
 function copy(filepath: string, dest: string) {

@@ -19,7 +19,10 @@ import Torrent from '../../api/Torrent';
 import CardList from '../card/CardList.jsx';
 import Rating from '../card/Rating.jsx';
 import Show from '../show/Show.jsx';
-import { convertFromBuffer, startServer } from '../../api/Subtitle';
+import {
+  convertFromBuffer,
+  startServer as startSubtitleServer
+} from '../../api/Subtitle';
 import Player from '../../api/Player';
 import type {
   contentType,
@@ -168,7 +171,7 @@ export default class Item extends Component {
     this.player = new Player();
     this.state = this.initialState;
 
-    this.subtitleServer = startServer();
+    this.subtitleServer = startSubtitleServer();
   }
 
   /**

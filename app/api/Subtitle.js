@@ -27,7 +27,9 @@ export function startServer(): express {
   server.use(express.static(basePath));
   server.listen(port);
 
-  console.info(`Listening at http://localhost:${port}, serving ${basePath}`);
+  console.info(
+    `Subtitle server serving on http://localhost:${port}, serving ${basePath}`
+  );
 
   return server;
 }

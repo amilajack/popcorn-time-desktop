@@ -64,7 +64,6 @@ app.on('ready', async () => {
     width: 1224,
     height: 728,
     backgroundColor: '#252525',
-    // titleBarStyle: 'hidden-inset',
     webPreferences: {
       darkTheme: true,
       'web-preferences': { 'web-security': false },

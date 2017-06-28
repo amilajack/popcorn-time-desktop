@@ -159,7 +159,7 @@
     "devtron": "1.4.0",
     "dotenv": "4.0.0",
     "download": "6.2.3",
-    "electron": "1.6.11",
+    "electron": "^1.6.11",
     "electron-builder": "^19.8.0",
     "electron-debug": "^1.2.0",
     "electron-devtools-installer": "2.2.0",
