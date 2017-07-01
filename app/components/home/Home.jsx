@@ -72,8 +72,8 @@ export default class Home extends Component {
       global.pct = {
         moviesScrollTop: 0,
         showsScrollTop: 0,
-        searchScrollTop: 0,
-      }
+        searchScrollTop: 0
+      };
     }
   }
 
@@ -139,12 +139,11 @@ export default class Home extends Component {
   componentDidMount() {
     this.didMount = true;
     document.addEventListener('scroll', this.initInfinitePagination.bind(this));
-    console.log(global.pct[`${this.props.activeMode}ScrollTop`])
-    window.scrollTo(0, global.pct[`${this.props.activeMode}ScrollTop`])
+    window.scrollTo(0, global.pct[`${this.props.activeMode}ScrollTop`]);
   }
 
   componentWillReceiveProps(nextProps: Props) {
-    global.pct[`${this.props.activeMode}ScrollTop`] = document.body.scrollTop
+    global.pct[`${this.props.activeMode}ScrollTop`] = document.body.scrollTop;
 
     if (
       JSON.stringify(nextProps.activeModeOptions) !==
@@ -160,17 +159,18 @@ export default class Home extends Component {
 
   componentDidUpdate(prevProps: Props) {
     if (prevProps.activeMode !== this.props.activeMode) {
-      console.log(global.pct[`${this.props.activeMode}ScrollTop`])
-      window.scrollTo(0, global.pct[`${this.props.activeMode}ScrollTop`])
+      window.scrollTo(0, global.pct[`${this.props.activeMode}ScrollTop`]);
     }
   }
 
   componentWillUnmount() {
     if (!document.body) {
-      throw new Error('"document" not defined. You are probably not running in the renderer process');
+      throw new Error(
+        '"document" not defined. You are probably not running in the renderer process'
+      );
     }
 
-    global.pct[`${this.props.activeMode}ScrollTop`] = document.body.scrollTop
+    global.pct[`${this.props.activeMode}ScrollTop`] = document.body.scrollTop;
 
     this.didMount = false;
     document.removeEventListener(

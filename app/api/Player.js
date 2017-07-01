@@ -60,6 +60,34 @@ export default class Player {
     );
   }
 
+  initYouTube(itemTitle, source: string) {
+    console.info('Initializing plyr...');
+    this.currentPlayer = 'plyr';
+
+    this.player = plyr.setup({
+      volume: 10,
+      autoplay: true,
+      showPosterOnEnd: true
+    })[0];
+
+    const player = this.player;
+
+    player.source({
+      title: `${itemTitle} Trailer`,
+      type: 'video',
+      sources: [
+        {
+          src: source,
+          type: 'youtube'
+        }
+      ]
+    });
+
+    // player.poster(metadata.poster);
+
+    return player;
+  }
+
   initPlyr(streamingUrl: string, metadata: metadataType = {}): plyr {
     console.info('Initializing plyr...');
     this.currentPlayer = 'plyr';

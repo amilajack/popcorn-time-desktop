@@ -437,8 +437,8 @@ describe('API', () => {
 
           chaiExpect(season).to.be.an('object');
           chaiExpect(season).to.have.property('season').that.equals(1);
-          chaiExpect(season.overview).to.be.a('string');
-          chaiExpect(season.id).to.be.a('string');
+          chaiExpect(season).to.have.property('overview').that.is.a('string');
+          chaiExpect(season).to.have.property('id').that.is.a('string');
         });
 
         it('should get season', async () => {
@@ -724,6 +724,7 @@ function assertMovieFormat(movie) {
   assertNAorNumber(movie.runtime.hours);
   assertNAorNumber(movie.runtime.minutes);
   assertImageFormat(movie);
+  chaiExpect(movie).to.have.property('trailer').that.is.a('string');
 }
 
 function assertImageFormat(item) {
