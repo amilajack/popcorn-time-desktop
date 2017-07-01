@@ -65,18 +65,19 @@ export default class PctTorrentProvider implements TorrentProviderInterface {
     const filterTorrents = show
       .filter(
         eachEpisode =>
-          eachEpisode.season === season && eachEpisode.episode === episode
+          String(eachEpisode.season) === String(season) &&
+          String(eachEpisode.episode) === String(episode)
       )
       .map(eachEpisode => eachEpisode.torrents);
 
-    return filterTorrents.length ? filterTorrents[0] : [];
+    return filterTorrents.length > 0 ? filterTorrents[0] : [];
   }
 
   static formatEpisode({ season, episode, torrents }) {
     return {
       season,
       episode,
-      torrents: this.formatTorrents(torrents)
+      torrents: this.formatEpisodeTorrents(torrents)
     };
   }
 
@@ -84,18 +85,22 @@ export default class PctTorrentProvider implements TorrentProviderInterface {
     return {
       quality: torrent.quality,
       magnet: torrent.url,
-      seeders: torrent.seed,
+      seeders: torrent.seed || torrent.seeds,
       leechers: 0,
       metadata: String(torrent.url),
       _provider: 'pct'
     };
   }
 
-  static formatTorrents(torrents) {
+  static formatEpisodeTorrents(torrents) {
     return Object.keys(torrents).map(videoQuality => ({
       quality: videoQuality === '0' ? '0p' : videoQuality,
       magnet: torrents[videoQuality].url,
-      seeders: torrents[videoQuality].seeds || torrents[videoQuality].seed,
+      seeders:
+        torrents[videoQuality].seeds ||
+          torrents[videoQuality].seed ||
+          torrents[videoQuality].seeders ||
+          0,
       leechers: torrents[videoQuality].peers || torrents[videoQuality].peer,
       _provider: 'pct'
     }));

@@ -1,7 +1,8 @@
 // @flow
 /* eslint prefer-template: 0 */
 import cache from 'lru-cache';
-import URL from 'url';
+import url from 'url';
+import TheMovieDbMetadataProvider from '../metadata/TheMovieDBMetadataProvider';
 import type { torrentType } from './TorrentProviderInterface';
 
 export const providerCache = cache({
@@ -75,6 +76,24 @@ export function determineQuality(
 
   return '';
 }
+
+export async function convertTmdbToImdb(tmdbId: string): Promise<string> {
+  const theMovieDbProvider = new TheMovieDbMetadataProvider();
+  const movie = await theMovieDbProvider.getMovie(tmdbId);
+  if (!movie.ids.imdbId) {
+    throw new Error('Cannot convert tmdbId to imdbId');
+  }
+  return movie.ids.imdbId;
+}
+
+// export async function convertImdbtoTmdb(imdbId: string): Promise<string> {
+//   const theMovieDbProvider = new TheMovieDbMetadataProvider();
+//   const movie = await theMovieDbProvider.getMovie(imdbId);
+//   if (!movie.ids.imdbId) {
+//     throw new Error('Cannot convert imdbId to tmdbId');
+//   }
+//   return movie.ids.imdbId;
+// }
 
 export function formatSeasonEpisodeToString(
   season: number,
@@ -201,8 +220,8 @@ export function resolveEndpoint(defaultEndpoint: string, providerId: string) {
     case undefined:
       return defaultEndpoint;
     default:
-      return URL.format({
-        ...URL.parse(defaultEndpoint),
+      return url.format({
+        ...url.parse(defaultEndpoint),
         hostname: process.env[endpointEnvVariable],
         host: process.env[endpointEnvVariable]
       });

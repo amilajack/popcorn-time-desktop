@@ -188,6 +188,8 @@ export default class Item extends Component {
   }
 
   componentDidMount() {
+    window.scrollTo(0, 0);
+
     this.getAllData(this.props.itemId);
     this.stopPlayback();
     this.player.destroy();
@@ -205,6 +207,8 @@ export default class Item extends Component {
   }
 
   componentWillReceiveProps(nextProps: Props) {
+    window.scrollTo(0, 0);
+
     this.stopPlayback();
 
     this.setState({
@@ -392,6 +396,8 @@ export default class Item extends Component {
             throw new Error('Invalid active mode');
         }
       })();
+
+      console.log(torrent, idealTorrent);
 
       if (idealTorrent.quality === 'poor') {
         notie.alert(2, 'Slow torrent, low seeder count', 1);

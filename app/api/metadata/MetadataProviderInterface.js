@@ -67,8 +67,17 @@ export type contentType = {
   images: imagesType
 };
 
+type optionsType = {
+  sort?: 'ratings' | 'popular' | 'trending',
+  genres?: Array<string>
+};
+
 export interface MetadataProviderInterface {
-  getMovies: (page: number, limit: number) => Promise<contentType>,
+  getMovies: (
+    page: number,
+    limit: number,
+    options: optionsType
+  ) => Promise<contentType>,
   getMovie: (itemId: string) => contentType,
   getShows: (page: number, limit: number) => Promise<contentType>,
   getShow: (itemId: string) => contentType,

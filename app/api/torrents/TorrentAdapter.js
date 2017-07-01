@@ -3,6 +3,7 @@ import {
   determineQuality,
   formatSeasonEpisodeToString,
   formatSeasonEpisodeToObject,
+  convertTmdbToImdb,
   sortTorrentsBySeeders,
   getHealth,
   resolveCache,
@@ -22,7 +23,7 @@ const providers = [
 ];
 
 export default async function TorrentAdapter(
-  itemId: string,
+  _itemId: string,
   type: string,
   extendedDetails,
   returnAll: boolean = false,
@@ -34,6 +35,11 @@ export default async function TorrentAdapter(
   if (resolveCache(args) && cache) {
     return resolveCache(args);
   }
+
+  // Temporary hack to convert tmdbIds to imdbIds if necessary
+  const itemId = !_itemId.includes('tt')
+    ? await convertTmdbToImdb(_itemId)
+    : _itemId;
 
   const torrentPromises = providers.map(provider =>
     provider.provide(itemId, type, extendedDetails)

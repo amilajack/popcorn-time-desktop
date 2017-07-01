@@ -4,7 +4,7 @@ import axios from 'axios';
 import { parseRuntimeMinutesToObject } from './MetadataAdapter';
 import type { MetadataProviderInterface } from './MetadataProviderInterface';
 
-export default class TheMovieDBMetadataProvider
+export default class TheMovieDbMetadataProvider
   implements MetadataProviderInterface {
   apiKey = '809858c82322872e2be9b2c127ccdcf7';
 
@@ -164,6 +164,7 @@ function formatImage(
 }
 
 function formatMetadata(movie, type: string, imageUri: string, genres) {
+  console.log(movie)
   return {
     // 'title' property is on movies only. 'name' property is on
     // shows only
@@ -172,7 +173,7 @@ function formatMetadata(movie, type: string, imageUri: string, genres) {
     // @DEPRECATE
     id: String(movie.id),
     ids: {
-      tmdbId: movie.id,
+      tmdbId: String(movie.id),
       imdbId:
         movie.imdb_id ||
           (movie.external_ids && movie.external_ids.imdb_id
@@ -188,7 +189,13 @@ function formatMetadata(movie, type: string, imageUri: string, genres) {
         ? movie.genre_ids.map(genre => genres[String(genre)])
         : [],
     rating: movie.vote_average,
-    runtime: movie.runtime ? parseRuntimeMinutesToObject(movie.runtime) : 'n/a',
+    runtime: movie.runtime || (movie.episode_run_time && movie.episode_run_time.length > 0)
+      ? parseRuntimeMinutesToObject(type === 'movies' ? movie.runtime : movie.episode_run_time[0])
+      : {
+          full: 'n/a',
+          hours: 'n/a',
+          minutes: 'n/a'
+        },
     trailer: 'n/a',
     images: {
       fanart: {
@@ -206,12 +213,16 @@ function formatMetadata(movie, type: string, imageUri: string, genres) {
 }
 
 function formatSeasons(show) {
+  const firstSeasonIsZero = show.seasons.length > 0
+    ? show.seasons[0].season_number === 0
+    : false;
+
   return show.seasons.map(season => ({
-    season: season.season_number + 1,
+    season: firstSeasonIsZero ? season.season_number + 1 : season.season_number,
     overview: show.overview,
-    id: season.id,
+    id: String(season.id),
     ids: {
-      tmdbId: season.id
+      tmdbId: String(season.id)
     },
     images: {
       full: season.poster_path,
@@ -223,9 +234,9 @@ function formatSeasons(show) {
 
 function formatSeason(season) {
   return season.episodes.map(episode => ({
-    id: episode.id,
+    id: String(episode.id),
     ids: {
-      tmdbId: episode.id
+      tmdbId: String(episode.id)
     },
     title: episode.name,
     season: episode.season_number,
@@ -243,9 +254,9 @@ function formatSeason(season) {
 
 function formatEpisode(episode) {
   return {
-    id: episode.id,
+    id: String(episode.id),
     ids: {
-      tmdbId: episode.id
+      tmdbId: String(episode.id)
     },
     title: episode.name,
     season: episode.season_number,

@@ -66,31 +66,15 @@ export default class Home extends Component {
     super(props);
     this.butter = new Butter();
     this.onChange = this.onChange.bind(this);
-  }
 
-  componentDidMount() {
-    this.didMount = true;
-    document.addEventListener('scroll', this.initInfinitePagination.bind(this));
-  }
-
-  componentWillReceiveProps(nextProps: Props) {
-    if (
-      JSON.stringify(nextProps.activeModeOptions) !==
-      JSON.stringify(this.props.activeModeOptions)
-    ) {
-      if (nextProps.activeMode === 'search') {
-        this.props.actions.clearAllItems();
+    // Temporary hack to preserve scroll position
+    if (!global.pct) {
+      global.pct = {
+        moviesScrollTop: 0,
+        showsScrollTop: 0,
+        searchScrollTop: 0,
       }
-      this.paginate(nextProps.activeMode, nextProps.activeModeOptions);
     }
-  }
-
-  componentWillUnmount() {
-    this.didMount = false;
-    document.removeEventListener(
-      'scroll',
-      this.initInfinitePagination.bind(this)
-    );
   }
 
   async onChange(isVisible: boolean) {
@@ -150,6 +134,49 @@ export default class Home extends Component {
         this.paginate(this.props.activeMode, this.props.activeModeOptions);
       }
     }
+  }
+
+  componentDidMount() {
+    this.didMount = true;
+    document.addEventListener('scroll', this.initInfinitePagination.bind(this));
+    console.log(global.pct[`${this.props.activeMode}ScrollTop`])
+    window.scrollTo(0, global.pct[`${this.props.activeMode}ScrollTop`])
+  }
+
+  componentWillReceiveProps(nextProps: Props) {
+    global.pct[`${this.props.activeMode}ScrollTop`] = document.body.scrollTop
+
+    if (
+      JSON.stringify(nextProps.activeModeOptions) !==
+      JSON.stringify(this.props.activeModeOptions)
+    ) {
+      if (nextProps.activeMode === 'search') {
+        this.props.actions.clearAllItems();
+      }
+
+      this.paginate(nextProps.activeMode, nextProps.activeModeOptions);
+    }
+  }
+
+  componentDidUpdate(prevProps: Props) {
+    if (prevProps.activeMode !== this.props.activeMode) {
+      console.log(global.pct[`${this.props.activeMode}ScrollTop`])
+      window.scrollTo(0, global.pct[`${this.props.activeMode}ScrollTop`])
+    }
+  }
+
+  componentWillUnmount() {
+    if (!document.body) {
+      throw new Error('"document" not defined. You are probably not running in the renderer process');
+    }
+
+    global.pct[`${this.props.activeMode}ScrollTop`] = document.body.scrollTop
+
+    this.didMount = false;
+    document.removeEventListener(
+      'scroll',
+      this.initInfinitePagination.bind(this)
+    );
   }
 
   render() {
