@@ -533,6 +533,16 @@ export default class Item extends Component {
     return mergedResults;
   }
 
+  closeVideo() {
+    if (this.player.player.isFullscreen()) {
+      this.player.player.toggleFullscreen();
+    } else {
+      this.player.player.pause();
+      // this.player.pause();
+      this.toggleActive();
+    }
+  }
+
   toggleActive() {
     this.setState({
       playbackIsActive: !this.state.playbackIsActive
@@ -697,6 +707,7 @@ export default class Item extends Component {
         </Link>
         <div className="row">
           <div className="plyr col-sm-12">
+            <a id="close-button" onClick={() => this.closeVideo()}>Close</a>
             <video controls poster={item.images.fanart.full} />
           </div>
 
@@ -743,15 +754,15 @@ export default class Item extends Component {
                   : ''}
               </h6>
               <div className="row row-margin row-center Item--details">
-                <div className="col-sm-4">
-                  {item.rating && typeof item.rating === 'number'
-                    ? <Rating
+                {item.rating && typeof item.rating === 'number'
+                  ? <div className="col-sm-4">
+                      <Rating
                         emptyStarColor={'rgba(255, 255, 255, 0.2)'}
                         starColor={'white'}
                         rating={item.rating}
                       />
-                    : null}
-                </div>
+                    </div>
+                  : null}
                 <div className="col-sm-2">
                   <a>
                     {item.year}
@@ -883,12 +894,6 @@ export default class Item extends Component {
               <h3 style={torrentLoadingStatusStyle}>
                 {fetchingTorrents ? 'Fetching torrents...' : null}
               </h3>
-              <button
-                className="btn btn-info"
-                onClick={() => this.toggleActive()}
-              >
-                Toggle Hover Playback Active
-              </button>
             </div>
           </div>
 
