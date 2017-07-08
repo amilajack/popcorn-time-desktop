@@ -45,3 +45,9 @@ mousetrap.bind(['command+2', 'ctrl+2'], () => {
   secondLink.click();
   return false;
 });
+
+mousetrap.bind(['command+3', 'ctrl+3'], () => {
+  const secondLink = Array.from(document.querySelectorAll('.Header .nav-link'))[2];
+  secondLink.click();
+  return false;
+});

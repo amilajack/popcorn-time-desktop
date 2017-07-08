@@ -231,7 +231,7 @@ export default class Home extends Component {
             : <div>
                 <CardList
                   items={items}
-                  isLoading={false}
+                  isLoading={isLoading}
                 />
                 <VisibilitySensor onChange={this.onChange} />
               </div>}
