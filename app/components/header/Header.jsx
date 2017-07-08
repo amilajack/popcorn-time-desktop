@@ -44,7 +44,7 @@ export default class Header extends Component {
 
   handleKeyUp(event: SyntheticEvent) {
     if (event.keyCode === 27) {
-      document.getElementById("pct-search-input").blur();
+      document.getElementById('pct-search-input').blur();
     }
   }
 
@@ -67,6 +67,20 @@ export default class Header extends Component {
           <div className="row">
             <div className="col-sm-6">
               <ul className="nav navbar-nav">
+                <li
+                  className={classNames('nav-item', {
+                    active: activeMode === 'home'
+                  })}
+                >
+                  <Link
+                    className="nav-link"
+                    to={'/item/home'}
+                    replace
+                    onClick={() => setActiveMode('home')}
+                  >
+                    Home
+                  </Link>
+                </li>
                 <li
                   className={classNames('nav-item', {
                     active: activeMode === 'movies'

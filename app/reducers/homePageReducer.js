@@ -28,12 +28,13 @@ type homePageReducerStateType = {
 };
 
 const defaultState: homePageReducerStateType = {
-  activeMode: 'movies',
+  activeMode: 'home',
   activeModeOptions: {},
   modes: {
     movies: { page: 1, limit: 50, items: [] },
     shows: { page: 1, limit: 50, items: [] },
-    search: { page: 1, limit: 50, items: [] }
+    search: { page: 1, limit: 50, items: [] },
+    home: { page: 1, limit: 50, items: [] },
   },
   infinitePagination: false,
   isLoading: false,

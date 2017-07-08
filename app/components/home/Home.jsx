@@ -82,7 +82,8 @@ export default class Home extends Component {
       global.pct = {
         moviesScrollTop: 0,
         showsScrollTop: 0,
-        searchScrollTop: 0
+        searchScrollTop: 0,
+        homeScrollTop: 0
       };
     }
   }
@@ -147,7 +148,6 @@ export default class Home extends Component {
   }
 
   setUserMeta(type: 'favorites' | 'watchList', item) {
-    console.log(type, item);
     this.setState({
       [type]: this.butter[type]('set', item)
     });
@@ -203,17 +203,38 @@ export default class Home extends Component {
 
   render() {
     const { activeMode, actions, items, isLoading } = this.props;
+
+    const home =
+      <div className="row">
+        <div className="col-sm-12">
+          <CardList
+            title={'Favorites'}
+            items={this.state.favorites}
+            isLoading={false}
+          />
+        </div>
+        <div className="col-sm-12">
+          <CardList
+            title={'Watch List'}
+            items={this.state.watchList}
+            isLoading={false}
+          />
+        </div>
+      </div>
+
     return (
       <div className="row">
         <Header activeMode={activeMode} setActiveMode={actions.setActiveMode} />
         <div className="col-sm-12">
-          <CardList
-            items={items}
-            isLoading={isLoading}
-            favorites={this.state.favorites}
-            watchList={this.state.watchList}
-          />
-          <VisibilitySensor onChange={this.onChange} />
+          {activeMode === 'home'
+            ? home
+            : <div>
+                <CardList
+                  items={items}
+                  isLoading={false}
+                />
+                <VisibilitySensor onChange={this.onChange} />
+              </div>}
         </div>
       </div>
     );

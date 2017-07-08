@@ -146,9 +146,7 @@ export default class TheMovieDbMetadataProvider extends BaseMetadataProvider
       .get(`${urlType}/${itemId}/recommendations`)
       .then(({ data }) =>
         data.results
-          .map(movie =>
-            formatMetadata(movie, type, this.imageUri, this.genres)
-          )
+          .map(movie => formatMetadata(movie, type, this.imageUri, this.genres))
           .filter((each, index) => index <= limit - 1)
       );
   }

@@ -53,6 +53,4 @@ export default function Card(props: Props) {
 
 Card.defaultProps = {
   starColor: '#848484',
-  isFavorite: false,
-  isWatchList: false
 };

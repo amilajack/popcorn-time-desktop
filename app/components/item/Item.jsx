@@ -18,6 +18,7 @@ import { getIdealTorrent } from '../../api/torrents/BaseTorrentProvider';
 import Butter from '../../api/Butter';
 import Torrent from '../../api/Torrent';
 import CardList from '../card/CardList.jsx';
+import SaveItem from '../metadata/SaveItem.jsx';
 import Rating from '../card/Rating.jsx';
 import Show from '../show/Show.jsx';
 import {
@@ -197,7 +198,7 @@ export default class Item extends Component {
     });
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     window.scrollTo(0, 0);
 
     this.getAllData(this.props.itemId);
@@ -207,7 +208,9 @@ export default class Item extends Component {
     this.setState({
       ...this.initialState,
       dropdownOpen: false,
-      currentPlayer: 'Default'
+      currentPlayer: 'Default',
+      favorites: await this.butter.favorites('get'),
+      watchList: await this.butter.watchList('get')
     });
   }
 
@@ -407,8 +410,6 @@ export default class Item extends Component {
         }
       })();
 
-      console.log(torrent, idealTorrent);
-
       if (idealTorrent.quality === 'poor') {
         notie.alert(2, 'Slow torrent, low seeder count', 1);
       }
@@ -435,8 +436,6 @@ export default class Item extends Component {
         this.props.activeMode,
         imdbId
       );
-
-      console.log(similarItems)
 
       this.setState({
         similarItems,
@@ -759,6 +758,12 @@ export default class Item extends Component {
                 {!servingUrl && torrentInProgress ? 'Loading torrent...' : null}
                 {fetchingTorrents ? 'Fetching torrents...' : null}
               </div>
+
+              <SaveItem
+                item={this.state.item}
+                favorites={this.state.favorites}
+                watchList={this.state.watchList}
+              />
             </div>
 
             <div className="Movie col-sm-6">
