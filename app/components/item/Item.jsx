@@ -861,7 +861,7 @@ export default class Item extends Component {
             <div className="Item--overlay" />
           </div>
 
-          <div className="row">
+          <div className="row hidden-sm-up">
             <div className="col-sm-8">
               {/* Torrent Selection */}
               <span>
