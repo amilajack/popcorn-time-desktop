@@ -2,7 +2,7 @@
 /* eslint prefer-template: 0 */
 import cache from 'lru-cache';
 import url from 'url';
-import TheMovieDbMetadataProvider from '../metadata/TheMovieDBMetadataProvider';
+import TheMovieDbMetadataProvider from '../metadata/TheMovieDbMetadataProvider';
 import type { torrentType } from './TorrentProviderInterface';
 
 export const providerCache = cache({
