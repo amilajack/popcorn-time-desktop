@@ -72,6 +72,8 @@ type optionsType = {
   genres?: Array<string>
 };
 
+type methodType = 'set' | 'get' | 'remove';
+
 export interface MetadataProviderInterface {
   getMovies: (
     page: number,
@@ -95,8 +97,16 @@ export interface MetadataProviderInterface {
 
   search: (query: string, page: number) => Promise<Array<contentType>>,
 
-  updateConfig: (type: string, method: string, metadata: contentType) => void,
-  favorites: () => void,
-  recentlyWatched: () => void,
-  watchList: () => void
+  favorites: (
+    method: methodType,
+    item?: contentType
+  ) => void | Array<contentType>,
+  recentlyWatched: (
+    method: methodType,
+    item?: contentType
+  ) => void | Array<contentType>,
+  watchList: (
+    method: methodType,
+    item?: contentType
+  ) => void | Array<contentType>
 }

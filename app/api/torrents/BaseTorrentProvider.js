@@ -136,7 +136,7 @@ export function getHealth(seeders: number, leechers: number = 0): string {
     return 'poor';
   }
 
-  if (ratio > 1 && seeders >= 50 && seeders < 100) {
+  if (ratio > 1 && seeders >= 50 && seeders < 500) {
     return 'decent';
   }
 

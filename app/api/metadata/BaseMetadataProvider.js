@@ -1,15 +1,19 @@
 // @flow
 import { set, get } from '../../utils/Config';
-import type { contentType } from './MetadataProviderInterface';
+import type { contentType, methodType } from './MetadataProviderInterface';
+
+type configType = 'favorites' | 'recentlyWatched' | 'watchList';
 
 export default class BaseMetadataProvider {
   /**
    * Temporarily store the 'favorites', 'recentlyWatched', 'watchList' items
    * in config file. The cache can't be used because this data needs to be
    * persisted.
+   *
+   * @private
    */
-  updateConfig(type: string, method: string, metadata: contentType) {
-    const property = `${type}`;
+  updateConfig(type: configType, method: methodType, metadata: contentType) {
+    const property = String(type);
 
     switch (method) {
       case 'set':

@@ -53,6 +53,11 @@ type Props = {
   infinitePagination: boolean
 };
 
+type State = {
+  favorites: Array<itemType>,
+  watchList: Array<itemType>
+};
+
 export default class Home extends Component {
   props: Props;
 
@@ -61,6 +66,11 @@ export default class Home extends Component {
   didMount: boolean;
 
   onChange: () => void;
+
+  state: State = {
+    favorites: [],
+    watchList: []
+  };
 
   constructor(props: Props) {
     super(props);
@@ -136,10 +146,22 @@ export default class Home extends Component {
     }
   }
 
-  componentDidMount() {
+  setUserMeta(type: 'favorites' | 'watchList', item) {
+    console.log(type, item);
+    this.setState({
+      [type]: this.butter[type]('set', item)
+    });
+  }
+
+  async componentDidMount() {
     this.didMount = true;
     document.addEventListener('scroll', this.initInfinitePagination.bind(this));
     window.scrollTo(0, global.pct[`${this.props.activeMode}ScrollTop`]);
+
+    this.setState({
+      favorites: await this.butter.favorites('get'),
+      watchList: await this.butter.watchList('get')
+    });
   }
 
   componentWillReceiveProps(nextProps: Props) {
@@ -185,7 +207,12 @@ export default class Home extends Component {
       <div className="row">
         <Header activeMode={activeMode} setActiveMode={actions.setActiveMode} />
         <div className="col-sm-12">
-          <CardList items={items} isLoading={isLoading} />
+          <CardList
+            items={items}
+            isLoading={isLoading}
+            favorites={this.state.favorites}
+            watchList={this.state.watchList}
+          />
           <VisibilitySensor onChange={this.onChange} />
         </div>
       </div>

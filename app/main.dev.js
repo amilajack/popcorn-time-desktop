@@ -63,6 +63,7 @@ app.on('ready', async () => {
     show: false,
     width: 1224,
     height: 728,
+    minWidth: 900,
     backgroundColor: '#252525',
     webPreferences: {
       darkTheme: true,

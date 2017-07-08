@@ -10,13 +10,29 @@ import type { contentType } from '../../api/metadata/MetadataProviderInterface';
 type Props = {
   title?: string,
   limit?: number,
+  favorites?: Array<contentType>,
+  watchList?: Array<contentType>,
   items: Array<contentType>,
   isLoading: boolean,
   isFinished: boolean
 };
 
 export default function CardList(props: Props) {
-  const { items, isLoading, isFinished, title, limit } = props;
+  const {
+    items,
+    isLoading,
+    isFinished,
+    favorites,
+    watchList,
+    title,
+    limit
+  } = props;
+  const favoriteItemIds = new Set(
+    favorites.map(favorite => favorite.ids.tmdbId)
+  );
+  const watchListItemIds = new Set(
+    watchList.map(favorite => favorite.ids.tmdbId)
+  );
 
   return (
     <div className="row">
@@ -35,6 +51,9 @@ export default function CardList(props: Props) {
               type={item.type}
               rating={item.rating}
               genres={item.genres}
+              item={item}
+              isFavorite={favoriteItemIds.has(item.id)}
+              isWatchList={watchListItemIds.has(item.id)}
             />
           )}
         </div>
@@ -50,6 +69,8 @@ CardList.defaultProps = {
   title: '',
   limit: null,
   items: [],
+  favorites: [],
+  watchList: [],
   isLoading: false,
   isFinished: false,
   starColor: '#848484'

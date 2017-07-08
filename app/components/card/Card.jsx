@@ -34,24 +34,25 @@ export default function Card(props: Props) {
         </div>
       </Link>
       <div className="Card--descrption">
-        <Link className="Card--title" replace to={`/item/${type}/${id}`}>
-          {title}
-        </Link>
-        <div>
-          {typeof rating === 'number'
-            ? <Rating starColor={starColor} rating={rating} />
-            : null}
+        <div className="row">
+          <div className="col-sm-12">
+            <Link className="Card--title" replace to={`/item/${type}/${id}`}>
+              {title}
+            </Link>
+          </div>
+          <div className="col-sm-8">
+            {typeof rating === 'number'
+              ? <Rating starColor={starColor} rating={rating} />
+              : null}
+          </div>
         </div>
-        {type === 'search'
-          ? <div>
-              Kind: {type}
-            </div>
-          : null}
       </div>
     </div>
   );
 }
 
 Card.defaultProps = {
-  starColor: '#848484'
+  starColor: '#848484',
+  isFavorite: false,
+  isWatchList: false
 };

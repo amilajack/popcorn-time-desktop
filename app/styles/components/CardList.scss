@@ -27,6 +27,23 @@
       opacity: 1;
     }
 
+    .Card--icon {
+      float: right;
+      cursor: pointer;
+      color: $card-list-color;
+      opacity: 0;
+      margin-left: 20px;
+      transition: opacity 0.2s ease-in;
+    }
+
+    .Card--icon.active {
+      opacity: 1;
+    }
+
+    &:hover .Card--icon {
+      opacity: 1;
+    }
+
     .Card--descrption {
       padding: 10px;
 

@@ -1,0 +1,18 @@
+.Rating {
+  display: flex;
+  justify-content: left;
+  align-content: center;
+
+  .dv-star-rating {
+    margin-right: 10px;
+  }
+
+  .rating-number {
+    margin-left: 2rem;
+    padding-left: 2rem;
+    margin: 0;
+    padding: 0;
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.2) !important;
+  }
+}

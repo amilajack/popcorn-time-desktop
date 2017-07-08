@@ -2,9 +2,10 @@
 import fetch from 'isomorphic-fetch';
 import axios from 'axios';
 import { parseRuntimeMinutesToObject } from './MetadataAdapter';
+import BaseMetadataProvider from './BaseMetadataProvider';
 import type { MetadataProviderInterface } from './MetadataProviderInterface';
 
-export default class TheMovieDbMetadataProvider
+export default class TheMovieDbMetadataProvider extends BaseMetadataProvider
   implements MetadataProviderInterface {
   apiKey = '809858c82322872e2be9b2c127ccdcf7';
 
@@ -49,6 +50,7 @@ export default class TheMovieDbMetadataProvider
   };
 
   constructor() {
+    super();
     this.theMovieDb = axios.create({
       baseURL: this.apiUri,
       params: {
@@ -135,7 +137,7 @@ export default class TheMovieDbMetadataProvider
         case 'shows':
           return 'tv';
         default: {
-          throw new Error(`Unexpect type "${type}"`);
+          throw new Error(`Unexpected type "${type}"`);
         }
       }
     })();
@@ -145,7 +147,7 @@ export default class TheMovieDbMetadataProvider
       .then(({ data }) =>
         data.results
           .map(movie =>
-            formatMetadata(movie, 'movies', this.imageUri, this.genres)
+            formatMetadata(movie, type, this.imageUri, this.genres)
           )
           .filter((each, index) => index <= limit - 1)
       );

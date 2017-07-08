@@ -3,6 +3,7 @@
  * @flow
  */
 import React, { Component } from 'react';
+import { Tooltip } from 'reactstrap';
 import {
   Dropdown,
   DropdownToggle,
@@ -73,6 +74,7 @@ type State = {
   fetchingTorrents: boolean,
   dropdownOpen: boolean,
   idealTorrent: torrentType,
+  magnetPopoverOpen: boolean,
   torrent: torrentSelectionType,
   servingUrl: string,
   similarLoading: boolean,
@@ -153,6 +155,7 @@ export default class Item extends Component {
     season: [],
     episode: {},
     currentPlayer: 'Default',
+    magnetPopoverOpen: false,
     playbackIsActive: false,
     fetchingTorrents: false,
     idealTorrent: this.defaultTorrent,
@@ -433,6 +436,8 @@ export default class Item extends Component {
         imdbId
       );
 
+      console.log(similarItems)
+
       this.setState({
         similarItems,
         similarLoading: false,
@@ -546,6 +551,12 @@ export default class Item extends Component {
   toggleActive() {
     this.setState({
       playbackIsActive: !this.state.playbackIsActive
+    });
+  }
+
+  toggleStateProperty(property: string) {
+    this.setState({
+      [property]: !this.state[property]
     });
   }
 
@@ -701,9 +712,12 @@ export default class Item extends Component {
         })}
       >
         <Link to="/">
-          <button className="btn btn-back" onClick={() => this.stopPlayback()}>
-            Back
-          </button>
+          <span
+            className="pct-btn pct-btn-tran pct-btn-outline pct-btn-round"
+            onClick={() => this.stopPlayback()}
+          >
+            <i className="ion-ios-arrow-back" /> Back
+          </span>
         </Link>
         <div className="row">
           <div className="plyr col-sm-12">
@@ -713,13 +727,38 @@ export default class Item extends Component {
 
           <div className="col-sm-12 Item--background" style={itemBackgroundUrl}>
             <div className="col-sm-6 Item--image">
-              <img
-                height="350px"
-                width="233px"
-                role="presentation"
-                src={item.images.poster.thumb}
-                onClick={() => this.toggleActive()}
-              />
+              <div className="Item--poster-container">
+                <div
+                  className="Item--play"
+                  onClick={() =>
+                    this.startPlayback(
+                      idealTorrent.magnet,
+                      idealTorrent.method
+                    )}
+                >
+                  {idealTorrent.magnet
+                    ? <i
+                        className="Item--icon-play ion-ios-play"
+                        onClick={() =>
+                          this.startPlayback(
+                            idealTorrent.magnet,
+                            idealTorrent.method
+                          )}
+                      />
+                    : null}
+                </div>
+                <img
+                  className="Item--poster"
+                  height="350px"
+                  width="233px"
+                  role="presentation"
+                  src={item.images.poster.thumb}
+                />
+              </div>
+              <div className="Item--loading-status">
+                {!servingUrl && torrentInProgress ? 'Loading torrent...' : null}
+                {fetchingTorrents ? 'Fetching torrents...' : null}
+              </div>
             </div>
 
             <div className="Movie col-sm-6">
@@ -755,7 +794,7 @@ export default class Item extends Component {
               </h6>
               <div className="row row-margin row-center Item--details">
                 {item.rating && typeof item.rating === 'number'
-                  ? <div className="col-sm-4">
+                  ? <div className="col-sm-5">
                       <Rating
                         emptyStarColor={'rgba(255, 255, 255, 0.2)'}
                         starColor={'white'}
@@ -779,15 +818,40 @@ export default class Item extends Component {
 
                 <div className="col-sm-2 row-center">
                   <i className="ion-magnet" />
-                  <div className="Movie--status" style={statusColorStyle} />
+                  <div
+                    id="magnetPopoverOpen"
+                    className="Movie--status"
+                    style={statusColorStyle}
+                  />
+                  <Tooltip
+                    placement="top"
+                    isOpen={this.state.magnetPopoverOpen || false}
+                    target="magnetPopoverOpen"
+                    toggle={() => this.toggleStateProperty('magnetPopoverOpen')}
+                  >
+                    {this.state.idealTorrent && this.state.idealTorrent.seeders
+                      ? this.state.idealTorrent.seeders
+                      : 0}{' '}
+                    Seeders
+                  </Tooltip>
                 </div>
 
                 {item.trailer && item.trailer !== 'n/a'
                   ? <div className="col-sm-3 row-center">
                       <i
+                        id="trailerPopoverOpen"
                         className="ion-videocamera"
                         onClick={() => this.setPlayer('youtube')}
                       />
+                      <Tooltip
+                        placement="top"
+                        isOpen={this.state.trailerPopoverOpen || false}
+                        target="trailerPopoverOpen"
+                        toggle={() =>
+                          this.toggleStateProperty('trailerPopoverOpen')}
+                      >
+                        Trailer
+                      </Tooltip>
                     </div>
                   : null}
               </div>
@@ -796,8 +860,8 @@ export default class Item extends Component {
             <div className="Item--overlay" />
           </div>
 
-          <div className="row">
-            <div className="col-sm-6">
+          <div className="row hidden-sm-up">
+            <div className="col-sm-8">
               {/* Torrent Selection */}
               <span>
                 <button
@@ -808,7 +872,7 @@ export default class Item extends Component {
                     )}
                   disabled={!idealTorrent.magnet}
                 >
-                  Start Ideal Torrent
+                  Start Playback
                 </button>
               </span>
               {(() => {
@@ -860,7 +924,7 @@ export default class Item extends Component {
                 return null;
               })()}
             </div>
-            <div className="col-sm-6">
+            <div className="col-sm-4">
               <Dropdown
                 style={{ float: 'right' }}
                 isOpen={dropdownOpen}
@@ -886,14 +950,6 @@ export default class Item extends Component {
                     : null}
                 </DropdownMenu>
               </Dropdown>
-            </div>
-            <div className="col-sm-12">
-              <h3 style={torrentLoadingStatusStyle}>
-                {!servingUrl && torrentInProgress ? 'Loading torrent...' : null}
-              </h3>
-              <h3 style={torrentLoadingStatusStyle}>
-                {fetchingTorrents ? 'Fetching torrents...' : null}
-              </h3>
             </div>
           </div>
 

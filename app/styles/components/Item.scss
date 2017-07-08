@@ -1,6 +1,41 @@
 .Item {
   position: relative;
 
+  .Item--play {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.2);
+    transition: background ease-in 0.1s;
+  }
+
+  .Item--poster-container {
+    position: relative;
+  }
+
+  .Item--poster-container:hover {
+    .Item--play {
+      background: rgba(0, 0, 0, 0.5);
+    }
+  }
+
+  .Item--icon-play {
+    color: white;
+    font-size: 3em;
+    z-index: 1000;
+    cursor: pointer;
+  }
+
+  .Item--loading-status {
+    color: white;
+    position: absolute;
+    bottom: 0;
+  }
+
   &.active {
     .Item--background * {
       opacity: 0;
@@ -54,6 +89,7 @@
     justify-content: center;
     z-index: 10;
     border: 0 solid transparent;
+    position: relative;
 
     img {
       box-shadow: rgba(0, 0, 0, 0.6) 0 6px 16px 4px;

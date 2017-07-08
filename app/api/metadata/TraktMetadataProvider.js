@@ -2,9 +2,11 @@
 import fetch from 'isomorphic-fetch';
 import Trakt from 'trakt.tv';
 import { parseRuntimeMinutesToObject } from './MetadataAdapter';
+import BaseMetadataProvider from './BaseMetadataProvider';
 import type { MetadataProviderInterface } from './MetadataProviderInterface';
 
-export default class TraktMetadataAdapter implements MetadataProviderInterface {
+export default class TraktMetadataAdapter extends BaseMetadataProvider
+  implements MetadataProviderInterface {
   clientId = '647c69e4ed1ad13393bf6edd9d8f9fb6fe9faf405b44320a6b71ab960b4540a2';
 
   clientSecret = 'f55b0a53c63af683588b47f6de94226b7572a6f83f40bd44c58a7c83fe1f2cb1';
@@ -12,6 +14,7 @@ export default class TraktMetadataAdapter implements MetadataProviderInterface {
   trakt: Trakt;
 
   constructor() {
+    super();
     this.trakt = new Trakt({
       client_id: this.clientId,
       client_secret: this.clientSecret

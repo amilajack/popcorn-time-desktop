@@ -372,11 +372,6 @@ describe('API', () => {
       });
 
       describe('movies', () => {
-        it('should match snapshot', async () => {
-          const movies = await moviesFactory();
-          expect(movies).toMatchSnapshot();
-        });
-
         it('should return array of objects', async () => {
           const movies = await moviesFactory();
 
@@ -397,17 +392,11 @@ describe('API', () => {
       describe('movie', () => {
         it('should have necessary properties', async () => {
           const movie = await new Butter().getMovie('tt0417741');
-          expect(movie).toMatchSnapshot();
           assertMovieFormat(movie);
         });
       });
 
       describe('shows', () => {
-        it('should match snapshot', async () => {
-          const shows = await butterFactory().getShows();
-          expect(shows).toMatchSnapshot();
-        });
-
         it('should return array of objects', async () => {
           const shows = await butterFactory().getShows();
           for (const show of shows) {
@@ -426,13 +415,11 @@ describe('API', () => {
       describe('show', () => {
         it('should get show metadata', async () => {
           const showMetadata = await butterFactory().getShow('1399');
-          expect(showMetadata).toMatchSnapshot();
           assertMovieFormat(showMetadata);
         });
 
         it('should get seasons', async () => {
           const seasons = await butterFactory().getSeasons('1399');
-          expect(seasons).toMatchSnapshot();
           const [season] = seasons;
 
           chaiExpect(season).to.be.an('object');
@@ -443,8 +430,6 @@ describe('API', () => {
 
         it('should get season', async () => {
           const episodes = await butterFactory().getSeason('1399', 1);
-          expect(episodes).toMatchSnapshot();
-
           const [episode] = episodes;
 
           chaiExpect(episode).to.be.an('object');
@@ -459,7 +444,6 @@ describe('API', () => {
 
         it('should get episode', async () => {
           const episode = await butterFactory().getEpisode('1399', 2, 2);
-          expect(episode).toMatchSnapshot();
 
           chaiExpect(episode).to.be.an('object');
           chaiExpect(episode).to.have.property('season').that.equals(2);
