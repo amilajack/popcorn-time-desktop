@@ -1,29 +1,60 @@
 // @flow
 // Initialize the player
-export interface PlayerAdapterInterface {
+
+export type deviceType = {
+  id: string,
   name: string,
+  address: string,
+  port: number
+};
 
-  setup: () => void,
+export type metadataType = {
+  title: string,
+  image: {
+    poster: string
+  }
+};
 
-  start: () => void,
+export interface PlayerProviderInterface {
+  provider: string,
 
-  pause: () => void,
+  providerId: string,
 
-  restart: () => void,
+  selectedDevice?: deviceType,
 
-  /**
-   * Handle any logic to remove the traces of the player from memory
-   */
-  cleanup: () => void,
-
-  /**
-   * Check if the plugin is supported on the machine
-   */
-  isSupported: () => void,
+  devices: Array<deviceType>,
 
   supportedFormats: Array<string>,
 
   supportsSubtitles: boolean,
 
-  svgIconFilename: string
+  svgIconFilename: string,
+
+  contentUrl: string,
+
+  port: number,
+
+  constructor: () => void,
+
+  getDevices: (timeout: number) => Promise<Array<deviceType>>,
+
+  seek: (seconds: number) => void,
+
+  selectDevice: (deviceId: string) => deviceType,
+
+  play: (contentUrl: string, metadata: metadataType) => Promise<void>,
+
+  pause: () => Promise<void>,
+
+  restart: () => Promise<void>,
+
+  /**
+   * Handle any logic to remove the traces of the player from memory
+   */
+  destroy: () => Promise<void>,
+
+  /**
+   * Check if the plugin is supported on the machine
+   */
+  isSupported: () => Promise<boolean>
 }

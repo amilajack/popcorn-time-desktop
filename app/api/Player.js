@@ -2,7 +2,9 @@
 import { remote } from 'electron';
 import plyr from 'plyr';
 import childProcess from 'child_process';
+import network from 'network-address';
 import vlcCommand from 'vlc-command';
+import ChromecastPlayerProvider from './players/ChromecastPlayerProvider';
 
 const { powerSaveBlocker } = remote;
 
@@ -59,6 +61,25 @@ export default class Player {
       filename.toLowerCase().includes(mimeType)
     );
   }
+
+  async initCast(
+     provider: ChromecastPlayerProvider,
+     // selectedDeviceId: string,
+     streamingUrl: string,
+     metadata: metadataType = {}
+   ) {
+     // await provider.selectDevice(selectedDeviceId);
+     const addr = streamingUrl.replace('localhost', network());
+
+     console.log(addr, network());
+
+     return provider.play(addr, {
+       title: 'Big Buck Bunny',
+       image: {
+         poster: metadata.poster || ''
+       }
+     });
+   }
 
   initYouTube(itemTitle: string, source: string) {
     console.info('Initializing plyr...');

@@ -27,7 +27,7 @@ export type runtimeType = {
   minutes: number
 };
 
-export type certificationType = 'G' | 'PG' | 'PG-13' | 'R';
+export type certificationType = 'G' | 'PG' | 'PG-13' | 'R' | 'n/a';
 
 export type imagesType = {
   fanart:

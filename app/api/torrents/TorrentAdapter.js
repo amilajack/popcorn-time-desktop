@@ -11,6 +11,13 @@ import {
   merge
 } from './BaseTorrentProvider';
 
+type extendedDetailsType =
+   | {}
+   | {
+       season: number,
+       episode: number
+     };
+
 /**
  * @TODO: Use ES6 dynamic imports here
  */
@@ -25,7 +32,7 @@ const providers = [
 export default async function TorrentAdapter(
   _itemId: string,
   type: string,
-  extendedDetails,
+  extendedDetails: extendedDetailsType = {},
   returnAll: boolean = false,
   method: string = 'all',
   cache: boolean = true

@@ -9,7 +9,7 @@
     "build-main": "cross-env NODE_ENV=production node --trace-warnings -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.main.prod.js --colors",
     "build-renderer": "cross-env NODE_ENV=production node --trace-warnings -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.renderer.prod.js --colors",
     "dev": "cross-env NODE_ENV=development FLAG_CASTING=true FLAG_SEASON_COMPLETE=true FLAG_MANUAL_TORRENT_SELECTION=true FLAG_SUBTITLES=false START_HOT=1 npm run start-renderer-dev",
-    "electron-rebuild": "electron-rebuild --version=1.7.0 --force --types prod,dev,optional && electron-rebuild --version=1.7.0 --force --types prod,dev,optional --module-dir app",
+    "electron-rebuild": "electron-rebuild --version=1.6.6 --force --types prod,dev,optional && electron-rebuild --version=1.6.6 --force --types prod,dev,optional --module-dir app",
     "flow": "flow",
     "flow-typed": "flow-typed install",
     "lint": "eslint --ext .jsx,.js --cache --format=node_modules/eslint-formatter-pretty .",

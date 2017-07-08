@@ -44,9 +44,9 @@ export default {
   resolve: {
     extensions: ['.js', '.jsx', '.json'],
     modules: [path.join(__dirname, 'app'), 'node_modules'],
-    alias: {
-      castv2: 'castv2-webpack'
-    }
+    // alias: {
+    //   castv2: 'castv2-webpack'
+    // }
   },
 
   plugins: [

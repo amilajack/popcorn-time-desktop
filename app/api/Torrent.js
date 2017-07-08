@@ -8,6 +8,12 @@ import { isExactEpisode } from './torrents/BaseTorrentProvider';
 
 const port = 9090;
 
+type metadataType = {
+   season: number,
+   episode: number,
+   activeMode: string
+ };
+
 export default class Torrent {
   inProgress: boolean = false;
 
@@ -19,11 +25,16 @@ export default class Torrent {
 
   magnetURI: string;
 
-  server: Object;
+  server:
+     | {}
+     | {
+         close: () => void,
+         listen: (port: number) => void
+       };
 
   start(
     magnetURI: string,
-    metadata: Object,
+    metadata: metadataType,
     supportedFormats: Array<string>,
     cb
   ) {
@@ -40,16 +51,9 @@ export default class Torrent {
     this.inProgress = true;
     this.magnetURI = magnetURI;
 
-    const cacheLocation = ((): string => {
-      switch (process.env.CONFIG_PERSIST_DOWNLOADS) {
-        case 'true':
-          return (
-            process.env.CONFIG_DOWNLOAD_LOCATION || '/tmp/popcorn-time-desktop'
-          );
-        default:
-          return os.tmpdir();
-      }
-    })();
+    const cacheLocation = process.env.CONFIG_PERSIST_DOWNLOADS === 'true'
+       ? process.env.CONFIG_DOWNLOAD_LOCATION || '/tmp/popcorn-time-desktop'
+       : os.tmpdir();
 
     this.engine.add(magnetURI, { path: cacheLocation }, torrent => {
       const server = torrent.createServer();
@@ -137,7 +141,7 @@ export default class Torrent {
     if (this.inProgress) {
       console.log('Destroyed Torrent...');
 
-      if (this.server) {
+      if (this.server && typeof this.server.close === 'function') {
         this.server.close();
         this.server = {};
       }
