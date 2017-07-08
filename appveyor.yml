@@ -1,6 +1,13 @@
+os: unstable
+
 environment:
   matrix:
-    - nodejs_version: 6
+    - nodejs_version: 8
+
+cache:
+  - "%LOCALAPPDATA%/Yarn"
+  - node_modules -> package.json
+  - app/node_modules -> app/package.json
 
 matrix:
   fast_finish: true
@@ -16,14 +23,12 @@ clone_depth: 1
 install:
   - ps: Install-Product node $env:nodejs_version
   - set CI=true
-  - npm install -g npm@latest --loglevel=warn
-  - set PATH=%APPDATA%\npm;%PATH%
-  - npm install --loglevel=warn
+  - yarn
+  - cd app && yarn
 
 test_script:
   - node --version
-  - npm --version
+  - npm run lint
   - npm run test
   - npm run package
-  - npm run bench-api
-  # - npm run test-screenshot
+  - npm run test-e2e

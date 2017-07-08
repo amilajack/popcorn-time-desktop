@@ -1,9 +1,9 @@
+// @flow
 import speedTest from 'speedtest-net';
-
 
 export const timeout: number = 30000;
 
-export function getDownloadSpeed() {
+export function getDownloadSpeed(): Promise<number> {
   return new Promise((resolve, reject) => {
     speedTest({ maxTime: timeout })
       .on('downloadspeed', (downloadSpeed: number) => {
@@ -15,7 +15,7 @@ export function getDownloadSpeed() {
   });
 }
 
-export function getUploadSpeed() {
+export function getUploadSpeed(): Promise<number> {
   return new Promise((resolve, reject) => {
     speedTest({ maxTime: timeout })
       .on('uploadspeed', (uploadSpeed: number) => {

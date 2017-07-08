@@ -1,26 +1,27 @@
+// @flow
 import fetch from 'isomorphic-fetch';
 import {
   handleProviderError,
   timeout,
   resolveEndpoint
 } from './BaseTorrentProvider';
-
+import type { TorrentProviderInterface } from './TorrentProviderInterface';
 
 const endpoint = 'http://api-fetch.website/tv';
 const providerId = 'PCT';
 const resolvedEndpoint = resolveEndpoint(endpoint, providerId);
 
-export default class PctTorrentProvider {
-
+export default class PctTorrentProvider implements TorrentProviderInterface {
   static providerName = 'PopcornTime API';
 
   static shows = {};
 
-  static async fetch(imdbId: string, type: string, extendedDetails: Object) {
+  static async fetch(itemId: string, type: string, extendedDetails) {
     const urlTypeParam = type === 'movies' ? 'movie' : 'show';
     const request = timeout(
-      fetch(`${resolvedEndpoint}/${urlTypeParam}/${imdbId}`)
-        .then(res => res.json())
+      fetch(`${resolvedEndpoint}/${urlTypeParam}/${itemId}`).then(res =>
+        res.json()
+      )
     );
 
     switch (type) {
@@ -29,20 +30,21 @@ export default class PctTorrentProvider {
           [
             { ...movie.torrents.en['1080p'], quality: '1080p' },
             { ...movie.torrents.en['720p'], quality: '720p' }
-          ]
-            .map(torrent => this.formatMovieTorrent(torrent))
+          ].map(torrent => this.formatMovieTorrent(torrent))
         );
       case 'shows': {
         const { season, episode } = extendedDetails;
 
         const show = await request
-          .then(res => res.episodes.map(eachEpisode => this.formatEpisode(eachEpisode)))
+          .then(res =>
+            res.episodes.map(eachEpisode => this.formatEpisode(eachEpisode))
+          )
           .catch(error => {
             handleProviderError(error);
             return [];
           });
 
-        this.shows[imdbId] = show;
+        this.shows[itemId] = show;
 
         return this.filterTorrents(show, season, episode);
       }
@@ -59,41 +61,46 @@ export default class PctTorrentProvider {
    * @param {number} | episode
    * @return {array} | Array of torrents
    */
-  static filterTorrents(show: Array<any>, season: number, episode: number) {
+  static filterTorrents(show, season: number, episode: number) {
     const filterTorrents = show
       .filter(
-        eachEpisode => eachEpisode.season === season &&
-                       eachEpisode.episode === episode
+        eachEpisode =>
+          String(eachEpisode.season) === String(season) &&
+          String(eachEpisode.episode) === String(episode)
       )
       .map(eachEpisode => eachEpisode.torrents);
 
-    return filterTorrents.length ? filterTorrents[0] : [];
+    return filterTorrents.length > 0 ? filterTorrents[0] : [];
   }
 
-  static formatEpisode({ season, episode, torrents } = episode) {
+  static formatEpisode({ season, episode, torrents }) {
     return {
       season,
       episode,
-      torrents: this.formatTorrents(torrents)
+      torrents: this.formatEpisodeTorrents(torrents)
     };
   }
 
-  static formatMovieTorrent(torrent: Object) {
+  static formatMovieTorrent(torrent) {
     return {
       quality: torrent.quality,
       magnet: torrent.url,
-      seeders: torrent.seed,
+      seeders: torrent.seed || torrent.seeds,
       leechers: 0,
       metadata: String(torrent.url),
       _provider: 'pct'
     };
   }
 
-  static formatTorrents(torrents: Object) {
+  static formatEpisodeTorrents(torrents) {
     return Object.keys(torrents).map(videoQuality => ({
       quality: videoQuality === '0' ? '0p' : videoQuality,
       magnet: torrents[videoQuality].url,
-      seeders: torrents[videoQuality].seeds || torrents[videoQuality].seed,
+      seeders:
+        torrents[videoQuality].seeds ||
+          torrents[videoQuality].seed ||
+          torrents[videoQuality].seeders ||
+          0,
       leechers: torrents[videoQuality].peers || torrents[videoQuality].peer,
       _provider: 'pct'
     }));
@@ -103,20 +110,18 @@ export default class PctTorrentProvider {
     return fetch(resolvedEndpoint).then(res => res.ok).catch(() => false);
   }
 
-  static provide(imdbId: string, type: string, extendedDetails: Object = {}) {
+  static provide(itemId: string, type: string, extendedDetails = {}) {
     switch (type) {
       case 'movies':
-        return this.fetch(imdbId, type, extendedDetails)
-          .catch(error => {
-            handleProviderError(error);
-            return [];
-          });
+        return this.fetch(itemId, type, extendedDetails).catch(error => {
+          handleProviderError(error);
+          return [];
+        });
       case 'shows':
-        return this.fetch(imdbId, type, extendedDetails)
-          .catch(error => {
-            handleProviderError(error);
-            return [];
-          });
+        return this.fetch(itemId, type, extendedDetails).catch(error => {
+          handleProviderError(error);
+          return [];
+        });
       default:
         return [];
     }

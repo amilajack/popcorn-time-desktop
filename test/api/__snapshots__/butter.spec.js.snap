@@ -1,0 +1,1817 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`API Butter metadata movie should have necessary properties 1`] = `
+Object {
+  "certification": "n/a",
+  "genres": Array [
+    "Adventure",
+    "Fantasy",
+    "Family",
+  ],
+  "id": "767",
+  "ids": Object {
+    "imdbId": "tt0417741",
+    "tmdbId": "767",
+  },
+  "images": Object {
+    "fanart": Object {
+      "full": "https://image.tmdb.org/t/p/original//zWTe4iEVHfPdAfmsQ0kg4DF5noO.jpg",
+      "medium": "https://image.tmdb.org/t/p/w780//zWTe4iEVHfPdAfmsQ0kg4DF5noO.jpg",
+      "thumb": "https://image.tmdb.org/t/p/w342//zWTe4iEVHfPdAfmsQ0kg4DF5noO.jpg",
+    },
+    "poster": Object {
+      "full": "https://image.tmdb.org/t/p/original//bFXys2nhALwDvpkF3dP3Vvdfn8b.jpg",
+      "medium": "https://image.tmdb.org/t/p/w780//bFXys2nhALwDvpkF3dP3Vvdfn8b.jpg",
+      "thumb": "https://image.tmdb.org/t/p/w342//bFXys2nhALwDvpkF3dP3Vvdfn8b.jpg",
+    },
+  },
+  "rating": 7.4,
+  "runtime": Object {
+    "full": "3 hours 33 minutes",
+    "hours": 3,
+    "minutes": 33,
+  },
+  "summary": "As Harry begins his sixth year at Hogwarts, he discovers an old book marked as 'Property of the Half-Blood Prince', and begins to learn more about Lord Voldemort's dark past.",
+  "title": "Harry Potter and the Half-Blood Prince",
+  "trailer": "n/a",
+  "type": "movies",
+  "year": 2009,
+}
+`;
+
+exports[`API Butter metadata movies should match snapshot 1`] = `
+Array [
+  Object {
+    "certification": "n/a",
+    "genres": Array [
+      "Action",
+      "Adventure",
+      "Fantasy",
+      "Science Fiction",
+    ],
+    "id": "297762",
+    "ids": Object {
+      "imdbId": "",
+      "tmdbId": "297762",
+    },
+    "images": Object {
+      "fanart": Object {
+        "full": "https://image.tmdb.org/t/p/original//hA5oCgvgCxj5MEWcLpjXXTwEANF.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//hA5oCgvgCxj5MEWcLpjXXTwEANF.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//hA5oCgvgCxj5MEWcLpjXXTwEANF.jpg",
+      },
+      "poster": Object {
+        "full": "https://image.tmdb.org/t/p/original//gfJGlDaHuWimErCr5Ql0I8x9QSy.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//gfJGlDaHuWimErCr5Ql0I8x9QSy.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//gfJGlDaHuWimErCr5Ql0I8x9QSy.jpg",
+      },
+    },
+    "rating": 7.1,
+    "runtime": Object {
+      "full": "n/a",
+      "hours": "n/a",
+      "minutes": "n/a",
+    },
+    "summary": "An Amazon princess comes to the world of Man to become the greatest of the female superheroes.",
+    "title": "Wonder Woman",
+    "trailer": "n/a",
+    "type": "movies",
+    "year": 2017,
+  },
+  Object {
+    "certification": "n/a",
+    "genres": Array [
+      "Family",
+      "Fantasy",
+      "Romance",
+    ],
+    "id": "321612",
+    "ids": Object {
+      "imdbId": "",
+      "tmdbId": "321612",
+    },
+    "images": Object {
+      "fanart": Object {
+        "full": "https://image.tmdb.org/t/p/original//7QshG75xKCmClghQDU1ta2BTaja.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//7QshG75xKCmClghQDU1ta2BTaja.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//7QshG75xKCmClghQDU1ta2BTaja.jpg",
+      },
+      "poster": Object {
+        "full": "https://image.tmdb.org/t/p/original//tWqifoYuwLETmmasnGHO7xBjEtt.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//tWqifoYuwLETmmasnGHO7xBjEtt.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//tWqifoYuwLETmmasnGHO7xBjEtt.jpg",
+      },
+    },
+    "rating": 6.8,
+    "runtime": Object {
+      "full": "n/a",
+      "hours": "n/a",
+      "minutes": "n/a",
+    },
+    "summary": "A live-action adaptation of Disney's version of the classic 'Beauty and the Beast' tale of a cursed prince and a beautiful young woman who helps him break the spell.",
+    "title": "Beauty and the Beast",
+    "trailer": "n/a",
+    "type": "movies",
+    "year": 2017,
+  },
+  Object {
+    "certification": "n/a",
+    "genres": Array [
+      "Action",
+      "Science Fiction",
+      "Thriller",
+      "Adventure",
+    ],
+    "id": "335988",
+    "ids": Object {
+      "imdbId": "",
+      "tmdbId": "335988",
+    },
+    "images": Object {
+      "fanart": Object {
+        "full": "https://image.tmdb.org/t/p/original//Ytv7P13rbwQ3mLpCAY8lBTqI5s.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//Ytv7P13rbwQ3mLpCAY8lBTqI5s.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//Ytv7P13rbwQ3mLpCAY8lBTqI5s.jpg",
+      },
+      "poster": Object {
+        "full": "https://image.tmdb.org/t/p/original//f8Ng1Sgb3VLiSwAvrfKeQPzvlfr.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//f8Ng1Sgb3VLiSwAvrfKeQPzvlfr.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//f8Ng1Sgb3VLiSwAvrfKeQPzvlfr.jpg",
+      },
+    },
+    "rating": 6.1,
+    "runtime": Object {
+      "full": "n/a",
+      "hours": "n/a",
+      "minutes": "n/a",
+    },
+    "summary": "Autobots and Decepticons are at war, with humans on the sidelines. Optimus Prime is gone. The key to saving our future lies buried in the secrets of the past, in the hidden history of Transformers on Earth.",
+    "title": "Transformers: The Last Knight",
+    "trailer": "n/a",
+    "type": "movies",
+    "year": 2017,
+  },
+  Object {
+    "certification": "n/a",
+    "genres": Array [
+      "Action",
+      "Adventure",
+      "Fantasy",
+      "Horror",
+      "Thriller",
+    ],
+    "id": "282035",
+    "ids": Object {
+      "imdbId": "",
+      "tmdbId": "282035",
+    },
+    "images": Object {
+      "fanart": Object {
+        "full": "https://image.tmdb.org/t/p/original//qedJJ2z9oBYKxxO4Pp8qAkfgPst.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//qedJJ2z9oBYKxxO4Pp8qAkfgPst.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//qedJJ2z9oBYKxxO4Pp8qAkfgPst.jpg",
+      },
+      "poster": Object {
+        "full": "https://image.tmdb.org/t/p/original//zxkY8byBnCsXodEYpK8tmwEGXBI.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//zxkY8byBnCsXodEYpK8tmwEGXBI.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//zxkY8byBnCsXodEYpK8tmwEGXBI.jpg",
+      },
+    },
+    "rating": 5.3,
+    "runtime": Object {
+      "full": "n/a",
+      "hours": "n/a",
+      "minutes": "n/a",
+    },
+    "summary": "Though safely entombed in a crypt deep beneath the unforgiving desert, an ancient queen whose destiny was unjustly taken from her is awakened in our current day, bringing with her malevolence grown over millennia, and terrors that defy human comprehension.",
+    "title": "The Mummy",
+    "trailer": "n/a",
+    "type": "movies",
+    "year": 2017,
+  },
+  Object {
+    "certification": "n/a",
+    "genres": Array [
+      "Action",
+      "Drama",
+      "Science Fiction",
+    ],
+    "id": "263115",
+    "ids": Object {
+      "imdbId": "",
+      "tmdbId": "263115",
+    },
+    "images": Object {
+      "fanart": Object {
+        "full": "https://image.tmdb.org/t/p/original//5pAGnkFYSsFJ99ZxDIYnhQbQFXs.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//5pAGnkFYSsFJ99ZxDIYnhQbQFXs.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//5pAGnkFYSsFJ99ZxDIYnhQbQFXs.jpg",
+      },
+      "poster": Object {
+        "full": "https://image.tmdb.org/t/p/original//9EXnebqbb7dOhONLPV9Tg2oh2KD.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//9EXnebqbb7dOhONLPV9Tg2oh2KD.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//9EXnebqbb7dOhONLPV9Tg2oh2KD.jpg",
+      },
+    },
+    "rating": 7.5,
+    "runtime": Object {
+      "full": "n/a",
+      "hours": "n/a",
+      "minutes": "n/a",
+    },
+    "summary": "In the near future, a weary Logan cares for an ailing Professor X in a hideout on the Mexican border. But Logan's attempts to hide from the world and his legacy are upended when a young mutant arrives, pursued by dark forces.",
+    "title": "Logan",
+    "trailer": "n/a",
+    "type": "movies",
+    "year": 2017,
+  },
+  Object {
+    "certification": "n/a",
+    "genres": Array [
+      "Action",
+      "Adventure",
+      "Fantasy",
+    ],
+    "id": "293167",
+    "ids": Object {
+      "imdbId": "",
+      "tmdbId": "293167",
+    },
+    "images": Object {
+      "fanart": Object {
+        "full": "https://image.tmdb.org/t/p/original//pGwChWiAY1bdoxL79sXmaFBlYJH.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//pGwChWiAY1bdoxL79sXmaFBlYJH.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//pGwChWiAY1bdoxL79sXmaFBlYJH.jpg",
+      },
+      "poster": Object {
+        "full": "https://image.tmdb.org/t/p/original//r2517Vz9EhDhj88qwbDVj8DCRZN.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//r2517Vz9EhDhj88qwbDVj8DCRZN.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//r2517Vz9EhDhj88qwbDVj8DCRZN.jpg",
+      },
+    },
+    "rating": 6.1,
+    "runtime": Object {
+      "full": "n/a",
+      "hours": "n/a",
+      "minutes": "n/a",
+    },
+    "summary": "Explore the mysterious and dangerous home of the king of the apes as a team of explorers ventures deep inside the treacherous, primordial island.",
+    "title": "Kong: Skull Island",
+    "trailer": "n/a",
+    "type": "movies",
+    "year": 2017,
+  },
+  Object {
+    "certification": "n/a",
+    "genres": Array [
+      "Action",
+      "Adventure",
+      "Comedy",
+      "Fantasy",
+    ],
+    "id": "166426",
+    "ids": Object {
+      "imdbId": "",
+      "tmdbId": "166426",
+    },
+    "images": Object {
+      "fanart": Object {
+        "full": "https://image.tmdb.org/t/p/original//tZvdyLP2F6x2TTuh292ceH87qZT.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//tZvdyLP2F6x2TTuh292ceH87qZT.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//tZvdyLP2F6x2TTuh292ceH87qZT.jpg",
+      },
+      "poster": Object {
+        "full": "https://image.tmdb.org/t/p/original//xbpSDU3p7YUGlu9Mr6Egg2Vweto.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//xbpSDU3p7YUGlu9Mr6Egg2Vweto.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//xbpSDU3p7YUGlu9Mr6Egg2Vweto.jpg",
+      },
+    },
+    "rating": 6.5,
+    "runtime": Object {
+      "full": "n/a",
+      "hours": "n/a",
+      "minutes": "n/a",
+    },
+    "summary": "Thrust into an all-new adventure, a down-on-his-luck Capt. Jack Sparrow feels the winds of ill-fortune blowing even more strongly when deadly ghost sailors led by his old nemesis, the evil Capt. Salazar, escape from the Devil's Triangle. Jack's only hope of survival lies in seeking out the legendary Trident of Poseidon, but to find it, he must forge an uneasy alliance with a brilliant and beautiful astronomer and a headstrong young man in the British navy.",
+    "title": "Pirates of the Caribbean: Dead Men Tell No Tales",
+    "trailer": "n/a",
+    "type": "movies",
+    "year": 2017,
+  },
+  Object {
+    "certification": "n/a",
+    "genres": Array [
+      "Action",
+      "Science Fiction",
+      "Adventure",
+    ],
+    "id": "118340",
+    "ids": Object {
+      "imdbId": "",
+      "tmdbId": "118340",
+    },
+    "images": Object {
+      "fanart": Object {
+        "full": "https://image.tmdb.org/t/p/original//bHarw8xrmQeqf3t8HpuMY7zoK4x.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//bHarw8xrmQeqf3t8HpuMY7zoK4x.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//bHarw8xrmQeqf3t8HpuMY7zoK4x.jpg",
+      },
+      "poster": Object {
+        "full": "https://image.tmdb.org/t/p/original//y31QB9kn3XSudA15tV7UWQ9XLuW.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//y31QB9kn3XSudA15tV7UWQ9XLuW.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//y31QB9kn3XSudA15tV7UWQ9XLuW.jpg",
+      },
+    },
+    "rating": 7.8,
+    "runtime": Object {
+      "full": "n/a",
+      "hours": "n/a",
+      "minutes": "n/a",
+    },
+    "summary": "Light years from Earth, 26 years after being abducted, Peter Quill finds himself the prime target of a manhunt after discovering an orb wanted by Ronan the Accuser.",
+    "title": "Guardians of the Galaxy",
+    "trailer": "n/a",
+    "type": "movies",
+    "year": 2014,
+  },
+  Object {
+    "certification": "n/a",
+    "genres": Array [
+      "Adventure",
+      "Drama",
+      "Science Fiction",
+    ],
+    "id": "157336",
+    "ids": Object {
+      "imdbId": "",
+      "tmdbId": "157336",
+    },
+    "images": Object {
+      "fanart": Object {
+        "full": "https://image.tmdb.org/t/p/original//xu9zaAevzQ5nnrsXN6JcahLnG4i.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//xu9zaAevzQ5nnrsXN6JcahLnG4i.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//xu9zaAevzQ5nnrsXN6JcahLnG4i.jpg",
+      },
+      "poster": Object {
+        "full": "https://image.tmdb.org/t/p/original//nBNZadXqJSdt05SHLqgT0HuC5Gm.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//nBNZadXqJSdt05SHLqgT0HuC5Gm.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//nBNZadXqJSdt05SHLqgT0HuC5Gm.jpg",
+      },
+    },
+    "rating": 8.1,
+    "runtime": Object {
+      "full": "n/a",
+      "hours": "n/a",
+      "minutes": "n/a",
+    },
+    "summary": "Interstellar chronicles the adventures of a group of explorers who make use of a newly discovered wormhole to surpass the limitations on human space travel and conquer the vast distances involved in an interstellar voyage.",
+    "title": "Interstellar",
+    "trailer": "n/a",
+    "type": "movies",
+    "year": 2014,
+  },
+  Object {
+    "certification": "n/a",
+    "genres": Array [
+      "Action",
+      "Adventure",
+      "Science Fiction",
+      "Thriller",
+    ],
+    "id": "76341",
+    "ids": Object {
+      "imdbId": "",
+      "tmdbId": "76341",
+    },
+    "images": Object {
+      "fanart": Object {
+        "full": "https://image.tmdb.org/t/p/original//phszHPFVhPHhMZgo0fWTKBDQsJA.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//phszHPFVhPHhMZgo0fWTKBDQsJA.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//phszHPFVhPHhMZgo0fWTKBDQsJA.jpg",
+      },
+      "poster": Object {
+        "full": "https://image.tmdb.org/t/p/original//kqjL17yufvn9OVLyXYpvtyrFfak.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//kqjL17yufvn9OVLyXYpvtyrFfak.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//kqjL17yufvn9OVLyXYpvtyrFfak.jpg",
+      },
+    },
+    "rating": 7.2,
+    "runtime": Object {
+      "full": "n/a",
+      "hours": "n/a",
+      "minutes": "n/a",
+    },
+    "summary": "An apocalyptic story set in the furthest reaches of our planet, in a stark desert landscape where humanity is broken, and most everyone is crazed fighting for the necessities of life. Within this world exist two rebels on the run who just might be able to restore order. There's Max, a man of action and a man of few words, who seeks peace of mind following the loss of his wife and child in the aftermath of the chaos. And Furiosa, a woman of action and a woman who believes her path to survival may be achieved if she can make it across the desert back to her childhood homeland.",
+    "title": "Mad Max: Fury Road",
+    "trailer": "n/a",
+    "type": "movies",
+    "year": 2015,
+  },
+  Object {
+    "certification": "n/a",
+    "genres": Array [
+      "Action",
+      "Thriller",
+    ],
+    "id": "245891",
+    "ids": Object {
+      "imdbId": "",
+      "tmdbId": "245891",
+    },
+    "images": Object {
+      "fanart": Object {
+        "full": "https://image.tmdb.org/t/p/original//mFb0ygcue4ITixDkdr7wm1Tdarx.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//mFb0ygcue4ITixDkdr7wm1Tdarx.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//mFb0ygcue4ITixDkdr7wm1Tdarx.jpg",
+      },
+      "poster": Object {
+        "full": "https://image.tmdb.org/t/p/original//5vHssUeVe25bMrof1HyaPyWgaP.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//5vHssUeVe25bMrof1HyaPyWgaP.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//5vHssUeVe25bMrof1HyaPyWgaP.jpg",
+      },
+    },
+    "rating": 6.9,
+    "runtime": Object {
+      "full": "n/a",
+      "hours": "n/a",
+      "minutes": "n/a",
+    },
+    "summary": "Ex-hitman John Wick comes out of retirement to track down the gangsters that took everything from him.",
+    "title": "John Wick",
+    "trailer": "n/a",
+    "type": "movies",
+    "year": 2014,
+  },
+  Object {
+    "certification": "n/a",
+    "genres": Array [
+      "Adventure",
+      "Fantasy",
+      "Action",
+    ],
+    "id": "22",
+    "ids": Object {
+      "imdbId": "",
+      "tmdbId": "22",
+    },
+    "images": Object {
+      "fanart": Object {
+        "full": "https://image.tmdb.org/t/p/original//fQZQYW9Hrg8TpYZH4KgbRptkcCN.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//fQZQYW9Hrg8TpYZH4KgbRptkcCN.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//fQZQYW9Hrg8TpYZH4KgbRptkcCN.jpg",
+      },
+      "poster": Object {
+        "full": "https://image.tmdb.org/t/p/original//tkt9xR1kNX5R9rCebASKck44si2.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//tkt9xR1kNX5R9rCebASKck44si2.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//tkt9xR1kNX5R9rCebASKck44si2.jpg",
+      },
+    },
+    "rating": 7.4,
+    "runtime": Object {
+      "full": "n/a",
+      "hours": "n/a",
+      "minutes": "n/a",
+    },
+    "summary": "Jack Sparrow, a freewheeling 17th-century pirate who roams the Caribbean Sea, butts heads with a rival pirate bent on pillaging the village of Port Royal. When the governor's daughter is kidnapped, Sparrow decides to help the girl's love save her. But their seafaring mission is hardly simple.",
+    "title": "Pirates of the Caribbean: The Curse of the Black Pearl",
+    "trailer": "n/a",
+    "type": "movies",
+    "year": 2003,
+  },
+  Object {
+    "certification": "n/a",
+    "genres": Array [
+      "Science Fiction",
+      "Action",
+      "Drama",
+      "Thriller",
+    ],
+    "id": "119450",
+    "ids": Object {
+      "imdbId": "",
+      "tmdbId": "119450",
+    },
+    "images": Object {
+      "fanart": Object {
+        "full": "https://image.tmdb.org/t/p/original//rjUl3pd1LHVOVfG4IGcyA1cId5l.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//rjUl3pd1LHVOVfG4IGcyA1cId5l.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//rjUl3pd1LHVOVfG4IGcyA1cId5l.jpg",
+      },
+      "poster": Object {
+        "full": "https://image.tmdb.org/t/p/original//aJemoN7F9GrAYjIL94KXww3QWP9.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//aJemoN7F9GrAYjIL94KXww3QWP9.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//aJemoN7F9GrAYjIL94KXww3QWP9.jpg",
+      },
+    },
+    "rating": 7.4,
+    "runtime": Object {
+      "full": "n/a",
+      "hours": "n/a",
+      "minutes": "n/a",
+    },
+    "summary": "A group of scientists in San Francisco struggle to stay alive in the aftermath of a plague that is wiping out humanity, while Caesar tries to maintain dominance over his community of intelligent apes.",
+    "title": "Dawn of the Planet of the Apes",
+    "trailer": "n/a",
+    "type": "movies",
+    "year": 2014,
+  },
+  Object {
+    "certification": "n/a",
+    "genres": Array [
+      "Action",
+      "Adventure",
+      "Science Fiction",
+      "Thriller",
+    ],
+    "id": "135397",
+    "ids": Object {
+      "imdbId": "",
+      "tmdbId": "135397",
+    },
+    "images": Object {
+      "fanart": Object {
+        "full": "https://image.tmdb.org/t/p/original//dkMD5qlogeRMiEixC4YNPUvax2T.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//dkMD5qlogeRMiEixC4YNPUvax2T.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//dkMD5qlogeRMiEixC4YNPUvax2T.jpg",
+      },
+      "poster": Object {
+        "full": "https://image.tmdb.org/t/p/original//jjBgi2r5cRt36xF6iNUEhzscEcb.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//jjBgi2r5cRt36xF6iNUEhzscEcb.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//jjBgi2r5cRt36xF6iNUEhzscEcb.jpg",
+      },
+    },
+    "rating": 6.5,
+    "runtime": Object {
+      "full": "n/a",
+      "hours": "n/a",
+      "minutes": "n/a",
+    },
+    "summary": "Twenty-two years after the events of Jurassic Park, Isla Nublar now features a fully functioning dinosaur theme park, Jurassic World, as originally envisioned by John Hammond.",
+    "title": "Jurassic World",
+    "trailer": "n/a",
+    "type": "movies",
+    "year": 2015,
+  },
+  Object {
+    "certification": "n/a",
+    "genres": Array [
+      "Horror",
+      "Science Fiction",
+      "Thriller",
+    ],
+    "id": "395992",
+    "ids": Object {
+      "imdbId": "",
+      "tmdbId": "395992",
+    },
+    "images": Object {
+      "fanart": Object {
+        "full": "https://image.tmdb.org/t/p/original//hES8wGmkxHa54z7hqUMpw5TIs09.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//hES8wGmkxHa54z7hqUMpw5TIs09.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//hES8wGmkxHa54z7hqUMpw5TIs09.jpg",
+      },
+      "poster": Object {
+        "full": "https://image.tmdb.org/t/p/original//h2mhfbEBGABSHo2vXG1ECMKAJa7.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//h2mhfbEBGABSHo2vXG1ECMKAJa7.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//h2mhfbEBGABSHo2vXG1ECMKAJa7.jpg",
+      },
+    },
+    "rating": 6.2,
+    "runtime": Object {
+      "full": "n/a",
+      "hours": "n/a",
+      "minutes": "n/a",
+    },
+    "summary": "The six-member crew of the International Space Station is tasked with studying a sample from Mars that may be the first proof of extra-terrestrial life, which proves more intelligent than ever expected.",
+    "title": "Life",
+    "trailer": "n/a",
+    "type": "movies",
+    "year": 2017,
+  },
+  Object {
+    "certification": "n/a",
+    "genres": Array [
+      "Action",
+      "Adventure",
+      "Science Fiction",
+    ],
+    "id": "305470",
+    "ids": Object {
+      "imdbId": "",
+      "tmdbId": "305470",
+    },
+    "images": Object {
+      "fanart": Object {
+        "full": "https://image.tmdb.org/t/p/original//gfTQaH7h09IaSZw9ubZgP2c7syr.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//gfTQaH7h09IaSZw9ubZgP2c7syr.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//gfTQaH7h09IaSZw9ubZgP2c7syr.jpg",
+      },
+      "poster": Object {
+        "full": "https://image.tmdb.org/t/p/original//iRAZIEgfB9N0BObV0QI61Nxh92h.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//iRAZIEgfB9N0BObV0QI61Nxh92h.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//iRAZIEgfB9N0BObV0QI61Nxh92h.jpg",
+      },
+    },
+    "rating": 6.4,
+    "runtime": Object {
+      "full": "n/a",
+      "hours": "n/a",
+      "minutes": "n/a",
+    },
+    "summary": "Saban's Power Rangers follows five ordinary teens who must become something extraordinary when they learn that their small town of Angel Grove — and the world — is on the verge of being obliterated by an alien threat. Chosen by destiny, our heroes quickly discover they are the only ones who can save the planet. But to do so, they will have to overcome their real-life issues and before it’s too late, band together as the Power Rangers.",
+    "title": "Power Rangers",
+    "trailer": "n/a",
+    "type": "movies",
+    "year": 2017,
+  },
+  Object {
+    "certification": "n/a",
+    "genres": Array [
+      "Thriller",
+      "Action",
+      "Crime",
+    ],
+    "id": "324552",
+    "ids": Object {
+      "imdbId": "",
+      "tmdbId": "324552",
+    },
+    "images": Object {
+      "fanart": Object {
+        "full": "https://image.tmdb.org/t/p/original//dQ6s3Ud2KoOs3LKw6xgZr1cw7Yq.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//dQ6s3Ud2KoOs3LKw6xgZr1cw7Yq.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//dQ6s3Ud2KoOs3LKw6xgZr1cw7Yq.jpg",
+      },
+      "poster": Object {
+        "full": "https://image.tmdb.org/t/p/original//zkXnKIwX5pYorKJp2fjFSfNyKT0.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//zkXnKIwX5pYorKJp2fjFSfNyKT0.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//zkXnKIwX5pYorKJp2fjFSfNyKT0.jpg",
+      },
+    },
+    "rating": 6.6,
+    "runtime": Object {
+      "full": "n/a",
+      "hours": "n/a",
+      "minutes": "n/a",
+    },
+    "summary": "John Wick is forced out of retirement by a former associate looking to seize control of a shadowy international assassins’ guild. Bound by a blood oath to aid him, Wick travels to Rome and does battle against some of the world’s most dangerous killers.",
+    "title": "John Wick: Chapter 2",
+    "trailer": "n/a",
+    "type": "movies",
+    "year": 2017,
+  },
+  Object {
+    "certification": "n/a",
+    "genres": Array [
+      "Horror",
+      "Science Fiction",
+      "Thriller",
+    ],
+    "id": "126889",
+    "ids": Object {
+      "imdbId": "",
+      "tmdbId": "126889",
+    },
+    "images": Object {
+      "fanart": Object {
+        "full": "https://image.tmdb.org/t/p/original//kMU8trT43p5LFoJ4plIySMOsZ1T.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//kMU8trT43p5LFoJ4plIySMOsZ1T.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//kMU8trT43p5LFoJ4plIySMOsZ1T.jpg",
+      },
+      "poster": Object {
+        "full": "https://image.tmdb.org/t/p/original//ewVHnq4lUiovxBCu64qxq5bT2lu.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//ewVHnq4lUiovxBCu64qxq5bT2lu.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//ewVHnq4lUiovxBCu64qxq5bT2lu.jpg",
+      },
+    },
+    "rating": 5.8,
+    "runtime": Object {
+      "full": "n/a",
+      "hours": "n/a",
+      "minutes": "n/a",
+    },
+    "summary": "Bound for a remote planet on the far side of the galaxy, the crew of the colony ship Covenant discovers what they think is an uncharted paradise, but is actually a dark, dangerous world — whose sole inhabitant is the “synthetic” David, survivor of the doomed Prometheus expedition.",
+    "title": "Alien: Covenant",
+    "trailer": "n/a",
+    "type": "movies",
+    "year": 2017,
+  },
+  Object {
+    "certification": "n/a",
+    "genres": Array [
+      "Action",
+      "Adventure",
+      "Comedy",
+      "Science Fiction",
+    ],
+    "id": "283995",
+    "ids": Object {
+      "imdbId": "",
+      "tmdbId": "283995",
+    },
+    "images": Object {
+      "fanart": Object {
+        "full": "https://image.tmdb.org/t/p/original//aJn9XeesqsrSLKcHfHP4u5985hn.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//aJn9XeesqsrSLKcHfHP4u5985hn.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//aJn9XeesqsrSLKcHfHP4u5985hn.jpg",
+      },
+      "poster": Object {
+        "full": "https://image.tmdb.org/t/p/original//y4MBh0EjBlMuOzv9axM4qJlmhzz.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//y4MBh0EjBlMuOzv9axM4qJlmhzz.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//y4MBh0EjBlMuOzv9axM4qJlmhzz.jpg",
+      },
+    },
+    "rating": 7.6,
+    "runtime": Object {
+      "full": "n/a",
+      "hours": "n/a",
+      "minutes": "n/a",
+    },
+    "summary": "The Guardians must fight to keep their newfound family together as they unravel the mysteries of Peter Quill's true parentage.",
+    "title": "Guardians of the Galaxy Vol. 2",
+    "trailer": "n/a",
+    "type": "movies",
+    "year": 2017,
+  },
+  Object {
+    "certification": "n/a",
+    "genres": Array [
+      "Science Fiction",
+      "Action",
+      "Adventure",
+    ],
+    "id": "91314",
+    "ids": Object {
+      "imdbId": "",
+      "tmdbId": "91314",
+    },
+    "images": Object {
+      "fanart": Object {
+        "full": "https://image.tmdb.org/t/p/original//cHy7nSitAVgvZ7qfCK4JO47t3oZ.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//cHy7nSitAVgvZ7qfCK4JO47t3oZ.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//cHy7nSitAVgvZ7qfCK4JO47t3oZ.jpg",
+      },
+      "poster": Object {
+        "full": "https://image.tmdb.org/t/p/original//ykIZB9dYBIKV13k5igGFncT5th6.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//ykIZB9dYBIKV13k5igGFncT5th6.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//ykIZB9dYBIKV13k5igGFncT5th6.jpg",
+      },
+    },
+    "rating": 5.9,
+    "runtime": Object {
+      "full": "n/a",
+      "hours": "n/a",
+      "minutes": "n/a",
+    },
+    "summary": "As humanity picks up the pieces, following the conclusion of \\"Transformers: Dark of the Moon,\\" Autobots and Decepticons have all but vanished from the face of the planet. However, a group of powerful, ingenious businessman and scientists attempt to learn from past Transformer incursions and push the boundaries of technology beyond what they can control - all while an ancient, powerful Transformer menace sets Earth in his cross-hairs.",
+    "title": "Transformers: Age of Extinction",
+    "trailer": "n/a",
+    "type": "movies",
+    "year": 2014,
+  },
+]
+`;
+
+exports[`API Butter metadata show should get episode 1`] = `
+Object {
+  "episode": 2,
+  "id": "974430",
+  "ids": Object {
+    "tmdbId": "974430",
+  },
+  "images": Object {
+    "full": "/8ywfRTCSZUSummwvKky7V4DZJru.jpg",
+    "medium": "/8ywfRTCSZUSummwvKky7V4DZJru.jpg",
+    "thumb": "/8ywfRTCSZUSummwvKky7V4DZJru.jpg",
+  },
+  "overview": "In the wake of a bloody purge in the capital, Tyrion chastens Cersei for alienating the king’s subjects.  On the road north, Arya shares a secret with Gendry, a Night’s Watch recruit.  With supplies dwindling, one of Dany’s scouts returns with news of their position.  After nine years as a Stark ward, Theon Greyjoy reunites with his father Balon, who wants to restore the ancient Kingdom of the Iron Islands.  Davos enlists Salladhor Saan, a pirate, to join forces with Stannis and Melisandre for a naval invasion of King’s Landing.",
+  "rating": 7.45,
+  "season": 2,
+  "title": "The Night Lands",
+}
+`;
+
+exports[`API Butter metadata show should get season 1`] = `
+Array [
+  Object {
+    "episode": 1,
+    "id": "63056",
+    "ids": Object {
+      "tmdbId": "63056",
+    },
+    "images": Object {
+      "full": undefined,
+      "medium": undefined,
+      "thumb": undefined,
+    },
+    "overview": "Jon Arryn, the Hand of the King, is dead. King Robert Baratheon plans to ask his oldest friend, Eddard Stark, to take Jon's place. Across the sea, Viserys Targaryen plans to wed his sister to a nomadic warlord in exchange for an army.",
+    "rating": 7.529,
+    "season": 1,
+    "title": "Winter Is Coming",
+  },
+  Object {
+    "episode": 2,
+    "id": "63057",
+    "ids": Object {
+      "tmdbId": "63057",
+    },
+    "images": Object {
+      "full": undefined,
+      "medium": undefined,
+      "thumb": undefined,
+    },
+    "overview": "While Bran recovers from his fall, Ned takes only his daughters to Kings Landing. Jon Snow goes with his uncle Benjen to The Wall. Tyrion joins them.",
+    "rating": 6.789,
+    "season": 1,
+    "title": "The Kingsroad",
+  },
+  Object {
+    "episode": 3,
+    "id": "63058",
+    "ids": Object {
+      "tmdbId": "63058",
+    },
+    "images": Object {
+      "full": undefined,
+      "medium": undefined,
+      "thumb": undefined,
+    },
+    "overview": "Lord Stark and his daughters arrive at King's Landing to discover the intrigues of the king's realm.",
+    "rating": 7.708,
+    "season": 1,
+    "title": "Lord Snow",
+  },
+  Object {
+    "episode": 4,
+    "id": "63059",
+    "ids": Object {
+      "tmdbId": "63059",
+    },
+    "images": Object {
+      "full": undefined,
+      "medium": undefined,
+      "thumb": undefined,
+    },
+    "overview": "Eddard investigates Jon Arryn's murder. Jon befriends Samwell Tarly, a coward who has come to join the Night's Watch.",
+    "rating": 7.354,
+    "season": 1,
+    "title": "Cripples, Bastards, and Broken Things",
+  },
+  Object {
+    "episode": 5,
+    "id": "63060",
+    "ids": Object {
+      "tmdbId": "63060",
+    },
+    "images": Object {
+      "full": undefined,
+      "medium": undefined,
+      "thumb": undefined,
+    },
+    "overview": "Catelyn has captured Tyrion and plans to bring him to her sister, Lysa Arryn, at The Vale, to be tried for his, supposed, crimes against Bran. Robert plans to have Daenerys killed, but Eddard refuses to be a part of it and quits.",
+    "rating": 8.185,
+    "season": 1,
+    "title": "The Wolf and the Lion",
+  },
+  Object {
+    "episode": 6,
+    "id": "63061",
+    "ids": Object {
+      "tmdbId": "63061",
+    },
+    "images": Object {
+      "full": undefined,
+      "medium": undefined,
+      "thumb": undefined,
+    },
+    "overview": "While recovering from his battle with Jamie, Eddard is forced to run the kingdom while Robert goes hunting. Tyrion demands a trial by combat for his freedom. Viserys is losing his patience with Drogo.",
+    "rating": 7.625,
+    "season": 1,
+    "title": "A Golden Crown",
+  },
+  Object {
+    "episode": 7,
+    "id": "63062",
+    "ids": Object {
+      "tmdbId": "63062",
+    },
+    "images": Object {
+      "full": undefined,
+      "medium": undefined,
+      "thumb": undefined,
+    },
+    "overview": "Robert has been injured while hunting and is dying. Jon and the others finally take their vows to the Night's Watch. A man, sent by Robert, is captured for trying to poison Daenerys. Furious, Drogo vows to attack the Seven Kingdoms.",
+    "rating": 7.76,
+    "season": 1,
+    "title": "You Win or You Die",
+  },
+  Object {
+    "episode": 8,
+    "id": "63063",
+    "ids": Object {
+      "tmdbId": "63063",
+    },
+    "images": Object {
+      "full": undefined,
+      "medium": undefined,
+      "thumb": undefined,
+    },
+    "overview": "Eddard and his men are betrayed and captured by the Lannisters. When word reaches Robb, he plans to go to war to rescue them. The White Walkers attack The Wall. Tyrion returns to his father with some new friends.",
+    "rating": 7.42,
+    "season": 1,
+    "title": "The Pointy End",
+  },
+  Object {
+    "episode": 9,
+    "id": "63064",
+    "ids": Object {
+      "tmdbId": "63064",
+    },
+    "images": Object {
+      "full": undefined,
+      "medium": undefined,
+      "thumb": undefined,
+    },
+    "overview": "Robb goes to war against the Lannisters. Jon finds himself struggling on deciding if his place is with Robb or the Night's Watch. Drogo has fallen ill from a fresh battle wound. Daenerys is desperate to save him.",
+    "rating": 8.611,
+    "season": 1,
+    "title": "Baelor",
+  },
+  Object {
+    "episode": 10,
+    "id": "63065",
+    "ids": Object {
+      "tmdbId": "63065",
+    },
+    "images": Object {
+      "full": undefined,
+      "medium": undefined,
+      "thumb": undefined,
+    },
+    "overview": "With Ned dead, Robb vows to get revenge on the Lannisters. Jon must officially decide if his place is with Robb or the Night's Watch. Daenerys says her final goodbye to Drogo.",
+    "rating": 8.407,
+    "season": 1,
+    "title": "Fire and Blood",
+  },
+]
+`;
+
+exports[`API Butter metadata show should get seasons 1`] = `
+Array [
+  Object {
+    "id": "3627",
+    "ids": Object {
+      "tmdbId": "3627",
+    },
+    "images": Object {
+      "full": "/kMTcwNRfFKCZ0O2OaBZS0nZ2AIe.jpg",
+      "medium": "/kMTcwNRfFKCZ0O2OaBZS0nZ2AIe.jpg",
+      "thumb": "/kMTcwNRfFKCZ0O2OaBZS0nZ2AIe.jpg",
+    },
+    "overview": "Seven noble families fight for control of the mythical land of Westeros. Friction between the houses leads to full-scale war. All while a very ancient evil awakens in the farthest north. Amidst the war, a neglected military order of misfits, the Night's Watch, is all that stands between the realms of men and icy horrors beyond.",
+    "season": 1,
+  },
+  Object {
+    "id": "3624",
+    "ids": Object {
+      "tmdbId": "3624",
+    },
+    "images": Object {
+      "full": "/olJ6ivXxCMq3cfujo1IRw30OrsQ.jpg",
+      "medium": "/olJ6ivXxCMq3cfujo1IRw30OrsQ.jpg",
+      "thumb": "/olJ6ivXxCMq3cfujo1IRw30OrsQ.jpg",
+    },
+    "overview": "Seven noble families fight for control of the mythical land of Westeros. Friction between the houses leads to full-scale war. All while a very ancient evil awakens in the farthest north. Amidst the war, a neglected military order of misfits, the Night's Watch, is all that stands between the realms of men and icy horrors beyond.",
+    "season": 2,
+  },
+  Object {
+    "id": "3625",
+    "ids": Object {
+      "tmdbId": "3625",
+    },
+    "images": Object {
+      "full": "/5tuhCkqPOT20XPwwi9NhFnC1g9R.jpg",
+      "medium": "/5tuhCkqPOT20XPwwi9NhFnC1g9R.jpg",
+      "thumb": "/5tuhCkqPOT20XPwwi9NhFnC1g9R.jpg",
+    },
+    "overview": "Seven noble families fight for control of the mythical land of Westeros. Friction between the houses leads to full-scale war. All while a very ancient evil awakens in the farthest north. Amidst the war, a neglected military order of misfits, the Night's Watch, is all that stands between the realms of men and icy horrors beyond.",
+    "season": 3,
+  },
+  Object {
+    "id": "3626",
+    "ids": Object {
+      "tmdbId": "3626",
+    },
+    "images": Object {
+      "full": "/7d3vRgbmnrRQ39Qmzd66bQyY7Is.jpg",
+      "medium": "/7d3vRgbmnrRQ39Qmzd66bQyY7Is.jpg",
+      "thumb": "/7d3vRgbmnrRQ39Qmzd66bQyY7Is.jpg",
+    },
+    "overview": "Seven noble families fight for control of the mythical land of Westeros. Friction between the houses leads to full-scale war. All while a very ancient evil awakens in the farthest north. Amidst the war, a neglected military order of misfits, the Night's Watch, is all that stands between the realms of men and icy horrors beyond.",
+    "season": 4,
+  },
+  Object {
+    "id": "3628",
+    "ids": Object {
+      "tmdbId": "3628",
+    },
+    "images": Object {
+      "full": "/dniQ7zw3mbLJkd1U0gdFEh4b24O.jpg",
+      "medium": "/dniQ7zw3mbLJkd1U0gdFEh4b24O.jpg",
+      "thumb": "/dniQ7zw3mbLJkd1U0gdFEh4b24O.jpg",
+    },
+    "overview": "Seven noble families fight for control of the mythical land of Westeros. Friction between the houses leads to full-scale war. All while a very ancient evil awakens in the farthest north. Amidst the war, a neglected military order of misfits, the Night's Watch, is all that stands between the realms of men and icy horrors beyond.",
+    "season": 5,
+  },
+  Object {
+    "id": "62090",
+    "ids": Object {
+      "tmdbId": "62090",
+    },
+    "images": Object {
+      "full": "/yKOltUHsp9X7dXWIm0hNGcIQa4G.jpg",
+      "medium": "/yKOltUHsp9X7dXWIm0hNGcIQa4G.jpg",
+      "thumb": "/yKOltUHsp9X7dXWIm0hNGcIQa4G.jpg",
+    },
+    "overview": "Seven noble families fight for control of the mythical land of Westeros. Friction between the houses leads to full-scale war. All while a very ancient evil awakens in the farthest north. Amidst the war, a neglected military order of misfits, the Night's Watch, is all that stands between the realms of men and icy horrors beyond.",
+    "season": 6,
+  },
+  Object {
+    "id": "71881",
+    "ids": Object {
+      "tmdbId": "71881",
+    },
+    "images": Object {
+      "full": "/zvYrzLMfPIenxoq2jFY4eExbRv8.jpg",
+      "medium": "/zvYrzLMfPIenxoq2jFY4eExbRv8.jpg",
+      "thumb": "/zvYrzLMfPIenxoq2jFY4eExbRv8.jpg",
+    },
+    "overview": "Seven noble families fight for control of the mythical land of Westeros. Friction between the houses leads to full-scale war. All while a very ancient evil awakens in the farthest north. Amidst the war, a neglected military order of misfits, the Night's Watch, is all that stands between the realms of men and icy horrors beyond.",
+    "season": 7,
+  },
+  Object {
+    "id": "81266",
+    "ids": Object {
+      "tmdbId": "81266",
+    },
+    "images": Object {
+      "full": "/19NPjmN6o3QGYfu8WnzgDSx75Ov.jpg",
+      "medium": "/19NPjmN6o3QGYfu8WnzgDSx75Ov.jpg",
+      "thumb": "/19NPjmN6o3QGYfu8WnzgDSx75Ov.jpg",
+    },
+    "overview": "Seven noble families fight for control of the mythical land of Westeros. Friction between the houses leads to full-scale war. All while a very ancient evil awakens in the farthest north. Amidst the war, a neglected military order of misfits, the Night's Watch, is all that stands between the realms of men and icy horrors beyond.",
+    "season": 8,
+  },
+]
+`;
+
+exports[`API Butter metadata show should get show metadata 1`] = `
+Object {
+  "certification": "n/a",
+  "genres": Array [
+    "Action & Adventure",
+    "Drama",
+    "Sci-Fi & Fantasy",
+  ],
+  "id": "1399",
+  "ids": Object {
+    "imdbId": "tt0944947",
+    "tmdbId": "1399",
+  },
+  "images": Object {
+    "fanart": Object {
+      "full": "https://image.tmdb.org/t/p/original//mUkuc2wyV9dHLG0D0Loaw5pO2s8.jpg",
+      "medium": "https://image.tmdb.org/t/p/w780//mUkuc2wyV9dHLG0D0Loaw5pO2s8.jpg",
+      "thumb": "https://image.tmdb.org/t/p/w342//mUkuc2wyV9dHLG0D0Loaw5pO2s8.jpg",
+    },
+    "poster": Object {
+      "full": "https://image.tmdb.org/t/p/original//gwPSoYUHAKmdyVywgLpKKA4BjRr.jpg",
+      "medium": "https://image.tmdb.org/t/p/w780//gwPSoYUHAKmdyVywgLpKKA4BjRr.jpg",
+      "thumb": "https://image.tmdb.org/t/p/w342//gwPSoYUHAKmdyVywgLpKKA4BjRr.jpg",
+    },
+  },
+  "rating": 8.1,
+  "runtime": Object {
+    "full": "n/a",
+    "hours": "n/a",
+    "minutes": "n/a",
+  },
+  "summary": "Seven noble families fight for control of the mythical land of Westeros. Friction between the houses leads to full-scale war. All while a very ancient evil awakens in the farthest north. Amidst the war, a neglected military order of misfits, the Night's Watch, is all that stands between the realms of men and icy horrors beyond.",
+  "title": "Game of Thrones",
+  "trailer": "n/a",
+  "type": "shows",
+  "year": NaN,
+}
+`;
+
+exports[`API Butter metadata shows should match snapshot 1`] = `
+Array [
+  Object {
+    "certification": "n/a",
+    "genres": Array [
+      "Action & Adventure",
+      "Drama",
+      "Sci-Fi & Fantasy",
+    ],
+    "id": "57243",
+    "ids": Object {
+      "imdbId": "",
+      "tmdbId": "57243",
+    },
+    "images": Object {
+      "fanart": Object {
+        "full": "https://image.tmdb.org/t/p/original//tQkigP2fItdzJWvtIhBvHxgs5yE.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//tQkigP2fItdzJWvtIhBvHxgs5yE.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//tQkigP2fItdzJWvtIhBvHxgs5yE.jpg",
+      },
+      "poster": Object {
+        "full": "https://image.tmdb.org/t/p/original//cFcZYgPRFZdBkA7EsxHz5Cb8x5.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//cFcZYgPRFZdBkA7EsxHz5Cb8x5.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//cFcZYgPRFZdBkA7EsxHz5Cb8x5.jpg",
+      },
+    },
+    "rating": 6.98,
+    "runtime": Object {
+      "full": "n/a",
+      "hours": "n/a",
+      "minutes": "n/a",
+    },
+    "summary": "The Doctor looks and seems human. He's handsome, witty, and could be mistaken for just another man in the street. But he is a Time Lord: a 900 year old alien with 2 hearts, part of a gifted civilization who mastered time travel. The Doctor saves planets for a living – more of a hobby actually, and he's very, very good at it. He's saved us from alien menaces and evil from before time began – but just who is he?",
+    "title": "Doctor Who",
+    "trailer": "n/a",
+    "type": "shows",
+    "year": NaN,
+  },
+  Object {
+    "certification": "n/a",
+    "genres": Array [
+      "Action & Adventure",
+      "Drama",
+      "Sci-Fi & Fantasy",
+    ],
+    "id": "1399",
+    "ids": Object {
+      "imdbId": "",
+      "tmdbId": "1399",
+    },
+    "images": Object {
+      "fanart": Object {
+        "full": "https://image.tmdb.org/t/p/original//mUkuc2wyV9dHLG0D0Loaw5pO2s8.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//mUkuc2wyV9dHLG0D0Loaw5pO2s8.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//mUkuc2wyV9dHLG0D0Loaw5pO2s8.jpg",
+      },
+      "poster": Object {
+        "full": "https://image.tmdb.org/t/p/original//gwPSoYUHAKmdyVywgLpKKA4BjRr.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//gwPSoYUHAKmdyVywgLpKKA4BjRr.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//gwPSoYUHAKmdyVywgLpKKA4BjRr.jpg",
+      },
+    },
+    "rating": 8.08,
+    "runtime": Object {
+      "full": "n/a",
+      "hours": "n/a",
+      "minutes": "n/a",
+    },
+    "summary": "Seven noble families fight for control of the mythical land of Westeros. Friction between the houses leads to full-scale war. All while a very ancient evil awakens in the farthest north. Amidst the war, a neglected military order of misfits, the Night's Watch, is all that stands between the realms of men and icy horrors beyond.",
+    "title": "Game of Thrones",
+    "trailer": "n/a",
+    "type": "shows",
+    "year": NaN,
+  },
+  Object {
+    "certification": "n/a",
+    "genres": Array [
+      "Action & Adventure",
+      "Drama",
+    ],
+    "id": "1402",
+    "ids": Object {
+      "imdbId": "",
+      "tmdbId": "1402",
+    },
+    "images": Object {
+      "fanart": Object {
+        "full": "https://image.tmdb.org/t/p/original//h1qyblc5p9G3ZWIVK8ZrkpxcXgO.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//h1qyblc5p9G3ZWIVK8ZrkpxcXgO.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//h1qyblc5p9G3ZWIVK8ZrkpxcXgO.jpg",
+      },
+      "poster": Object {
+        "full": "https://image.tmdb.org/t/p/original//vxuoMW6YBt6UsxvMfRNwRl9LtWS.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//vxuoMW6YBt6UsxvMfRNwRl9LtWS.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//vxuoMW6YBt6UsxvMfRNwRl9LtWS.jpg",
+      },
+    },
+    "rating": 7.36,
+    "runtime": Object {
+      "full": "n/a",
+      "hours": "n/a",
+      "minutes": "n/a",
+    },
+    "summary": "Sheriff's deputy Rick Grimes awakens from a coma to find a post-apocalyptic world dominated by flesh-eating zombies. He sets out to find his family and encounters many other survivors along the way.",
+    "title": "The Walking Dead",
+    "trailer": "n/a",
+    "type": "shows",
+    "year": NaN,
+  },
+  Object {
+    "certification": "n/a",
+    "genres": Array [
+      "Comedy",
+    ],
+    "id": "1418",
+    "ids": Object {
+      "imdbId": "",
+      "tmdbId": "1418",
+    },
+    "images": Object {
+      "fanart": Object {
+        "full": "https://image.tmdb.org/t/p/original//nGsNruW3W27V6r4gkyc3iiEGsKR.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//nGsNruW3W27V6r4gkyc3iiEGsKR.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//nGsNruW3W27V6r4gkyc3iiEGsKR.jpg",
+      },
+      "poster": Object {
+        "full": "https://image.tmdb.org/t/p/original//wQoosZYg9FqPrmI4zeCLRdEbqAB.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//wQoosZYg9FqPrmI4zeCLRdEbqAB.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//wQoosZYg9FqPrmI4zeCLRdEbqAB.jpg",
+      },
+    },
+    "rating": 6.98,
+    "runtime": Object {
+      "full": "n/a",
+      "hours": "n/a",
+      "minutes": "n/a",
+    },
+    "summary": "The Big Bang Theory is centered on five characters living in Pasadena, California: roommates Leonard Hofstadter and Sheldon Cooper; Penny, a waitress and aspiring actress who lives across the hall; and Leonard and Sheldon's equally geeky and socially awkward friends and co-workers, mechanical engineer Howard Wolowitz and astrophysicist Raj Koothrappali. The geekiness and intellect of the four guys is contrasted for comic effect with Penny's social skills and common sense.",
+    "title": "The Big Bang Theory",
+    "trailer": "n/a",
+    "type": "shows",
+    "year": NaN,
+  },
+  Object {
+    "certification": "n/a",
+    "genres": Array [
+      "Drama",
+      "Mystery",
+    ],
+    "id": "31917",
+    "ids": Object {
+      "imdbId": "",
+      "tmdbId": "31917",
+    },
+    "images": Object {
+      "fanart": Object {
+        "full": "https://image.tmdb.org/t/p/original//rQGBjWNveVeF8f2PGRtS85w9o9r.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//rQGBjWNveVeF8f2PGRtS85w9o9r.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//rQGBjWNveVeF8f2PGRtS85w9o9r.jpg",
+      },
+      "poster": Object {
+        "full": "https://image.tmdb.org/t/p/original//aUPbHiLS3hCHKjtLsncFa9g0viV.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//aUPbHiLS3hCHKjtLsncFa9g0viV.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//aUPbHiLS3hCHKjtLsncFa9g0viV.jpg",
+      },
+    },
+    "rating": 6.02,
+    "runtime": Object {
+      "full": "n/a",
+      "hours": "n/a",
+      "minutes": "n/a",
+    },
+    "summary": "Based on the Pretty Little Liars series of young adult novels by Sara Shepard, the series follows the lives of four girls — Spencer, Hanna, Aria, and Emily — whose clique falls apart after the disappearance of their queen bee, Alison. One year later, they begin receiving messages from someone using the name \\"A\\" who threatens to expose their secrets — including long-hidden ones they thought only Alison knew.",
+    "title": "Pretty Little Liars",
+    "trailer": "n/a",
+    "type": "shows",
+    "year": NaN,
+  },
+  Object {
+    "certification": "n/a",
+    "genres": Array [
+      "Drama",
+      "Horror",
+    ],
+    "id": "62286",
+    "ids": Object {
+      "imdbId": "",
+      "tmdbId": "62286",
+    },
+    "images": Object {
+      "fanart": Object {
+        "full": "https://image.tmdb.org/t/p/original//okhLwP26UXHJ4KYGVsERQqp3129.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//okhLwP26UXHJ4KYGVsERQqp3129.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//okhLwP26UXHJ4KYGVsERQqp3129.jpg",
+      },
+      "poster": Object {
+        "full": "https://image.tmdb.org/t/p/original//cCDuZqLv6jwnf3cZZq7g3uNLaIu.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//cCDuZqLv6jwnf3cZZq7g3uNLaIu.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//cCDuZqLv6jwnf3cZZq7g3uNLaIu.jpg",
+      },
+    },
+    "rating": 6.27,
+    "runtime": Object {
+      "full": "n/a",
+      "hours": "n/a",
+      "minutes": "n/a",
+    },
+    "summary": "What did the world look like as it was transforming into the horrifying apocalypse depicted in \\"The Walking Dead\\"? This spin-off set in Los Angeles, following new characters as they face the beginning of the end of the world, will answer that question.",
+    "title": "Fear the Walking Dead",
+    "trailer": "n/a",
+    "type": "shows",
+    "year": NaN,
+  },
+  Object {
+    "certification": "n/a",
+    "genres": Array [
+      "Animation",
+      "Comedy",
+    ],
+    "id": "456",
+    "ids": Object {
+      "imdbId": "",
+      "tmdbId": "456",
+    },
+    "images": Object {
+      "fanart": Object {
+        "full": "https://image.tmdb.org/t/p/original//f5uNbUC76oowt5mt5J9QlqrIYQ6.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//f5uNbUC76oowt5mt5J9QlqrIYQ6.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//f5uNbUC76oowt5mt5J9QlqrIYQ6.jpg",
+      },
+      "poster": Object {
+        "full": "https://image.tmdb.org/t/p/original//yTZQkSsxUFJZJe67IenRM0AEklc.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//yTZQkSsxUFJZJe67IenRM0AEklc.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//yTZQkSsxUFJZJe67IenRM0AEklc.jpg",
+      },
+    },
+    "rating": 7.14,
+    "runtime": Object {
+      "full": "n/a",
+      "hours": "n/a",
+      "minutes": "n/a",
+    },
+    "summary": "Set in Springfield, the average American town, the show focuses on the antics and everyday adventures of the Simpson family; Homer, Marge, Bart, Lisa and Maggie, as well as a virtual cast of thousands. Since the beginning, the series has been a pop culture icon, attracting hundreds of celebrities to guest star. The show has also made name for itself in its fearless satirical take on politics, media and American life in general.",
+    "title": "The Simpsons",
+    "trailer": "n/a",
+    "type": "shows",
+    "year": NaN,
+  },
+  Object {
+    "certification": "n/a",
+    "genres": Array [
+      "Drama",
+      "Sci-Fi & Fantasy",
+    ],
+    "id": "60735",
+    "ids": Object {
+      "imdbId": "",
+      "tmdbId": "60735",
+    },
+    "images": Object {
+      "fanart": Object {
+        "full": "https://image.tmdb.org/t/p/original//mmxxEpTqVdwBlu5Pii7tbedBkPC.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//mmxxEpTqVdwBlu5Pii7tbedBkPC.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//mmxxEpTqVdwBlu5Pii7tbedBkPC.jpg",
+      },
+      "poster": Object {
+        "full": "https://image.tmdb.org/t/p/original//lUFK7ElGCk9kVEryDJHICeNdmd1.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//lUFK7ElGCk9kVEryDJHICeNdmd1.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//lUFK7ElGCk9kVEryDJHICeNdmd1.jpg",
+      },
+    },
+    "rating": 6.79,
+    "runtime": Object {
+      "full": "n/a",
+      "hours": "n/a",
+      "minutes": "n/a",
+    },
+    "summary": "After a particle accelerator causes a freak storm, CSI Investigator Barry Allen is struck by lightning and falls into a coma. Months later he awakens with the power of super speed, granting him the ability to move through Central City like an unseen guardian angel. Though initially excited by his newfound powers, Barry is shocked to discover he is not the only \\"meta-human\\" who was created in the wake of the accelerator explosion -- and not everyone is using their new powers for good. Barry partners with S.T.A.R. Labs and dedicates his life to protect the innocent. For now, only a few close friends and associates know that Barry is literally the fastest man alive, but it won't be long before the world learns what Barry Allen has become...The Flash.",
+    "title": "The Flash",
+    "trailer": "n/a",
+    "type": "shows",
+    "year": NaN,
+  },
+  Object {
+    "certification": "n/a",
+    "genres": Array [
+      "Drama",
+      "Mystery",
+      "Sci-Fi & Fantasy",
+    ],
+    "id": "68315",
+    "ids": Object {
+      "imdbId": "",
+      "tmdbId": "68315",
+    },
+    "images": Object {
+      "fanart": Object {
+        "full": "https://image.tmdb.org/t/p/original//scITaEMqkmQqBONRneKy8QjZlKb.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//scITaEMqkmQqBONRneKy8QjZlKb.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//scITaEMqkmQqBONRneKy8QjZlKb.jpg",
+      },
+      "poster": Object {
+        "full": "https://image.tmdb.org/t/p/original//iwDmsffJ5qYBxiGTPdwgIKTscKu.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//iwDmsffJ5qYBxiGTPdwgIKTscKu.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//iwDmsffJ5qYBxiGTPdwgIKTscKu.jpg",
+      },
+    },
+    "rating": 5.28,
+    "runtime": Object {
+      "full": "n/a",
+      "hours": "n/a",
+      "minutes": "n/a",
+    },
+    "summary": "A small town family is torn apart by a brutal crime. As they deal with the fallout an eerie mist rolls in, suddenly cutting them off from the rest of the world, and in some cases, each other.",
+    "title": "The Mist",
+    "trailer": "n/a",
+    "type": "shows",
+    "year": NaN,
+  },
+  Object {
+    "certification": "n/a",
+    "genres": Array [
+      "Drama",
+    ],
+    "id": "1396",
+    "ids": Object {
+      "imdbId": "",
+      "tmdbId": "1396",
+    },
+    "images": Object {
+      "fanart": Object {
+        "full": "https://image.tmdb.org/t/p/original//hbgPoI0GBrXJfGjYNV2fMQU0xou.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//hbgPoI0GBrXJfGjYNV2fMQU0xou.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//hbgPoI0GBrXJfGjYNV2fMQU0xou.jpg",
+      },
+      "poster": Object {
+        "full": "https://image.tmdb.org/t/p/original//1yeVJox3rjo2jBKrrihIMj7uoS9.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//1yeVJox3rjo2jBKrrihIMj7uoS9.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//1yeVJox3rjo2jBKrrihIMj7uoS9.jpg",
+      },
+    },
+    "rating": 8.17,
+    "runtime": Object {
+      "full": "n/a",
+      "hours": "n/a",
+      "minutes": "n/a",
+    },
+    "summary": "Breaking Bad is an American crime drama television series created and produced by Vince Gilligan. Set and produced in Albuquerque, New Mexico, Breaking Bad is the story of Walter White, a struggling high school chemistry teacher who is diagnosed with inoperable lung cancer at the beginning of the series. He turns to a life of crime, producing and selling methamphetamine, in order to secure his family's financial future before he dies, teaming with his former student, Jesse Pinkman. Heavily serialized, the series is known for positioning its characters in seemingly inextricable corners and has been labeled a contemporary western by its creator.",
+    "title": "Breaking Bad",
+    "trailer": "n/a",
+    "type": "shows",
+    "year": NaN,
+  },
+  Object {
+    "certification": "n/a",
+    "genres": Array [
+      "Drama",
+      "Mystery",
+      "Thriller",
+    ],
+    "id": "1920",
+    "ids": Object {
+      "imdbId": "",
+      "tmdbId": "1920",
+    },
+    "images": Object {
+      "fanart": Object {
+        "full": "https://image.tmdb.org/t/p/original//3Y91NnZZyTS8UbgJUw3AZ6WWKTN.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//3Y91NnZZyTS8UbgJUw3AZ6WWKTN.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//3Y91NnZZyTS8UbgJUw3AZ6WWKTN.jpg",
+      },
+      "poster": Object {
+        "full": "https://image.tmdb.org/t/p/original//6W6zWBAay6XVBgJsOu6c2mlFZ8l.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//6W6zWBAay6XVBgJsOu6c2mlFZ8l.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//6W6zWBAay6XVBgJsOu6c2mlFZ8l.jpg",
+      },
+    },
+    "rating": 8.13,
+    "runtime": Object {
+      "full": "n/a",
+      "hours": "n/a",
+      "minutes": "n/a",
+    },
+    "summary": "The body of Laura Palmer is washed up on a beach near the small Washington state town of Twin Peaks. FBI Special Agent Dale Cooper is called in to investigate her strange demise only to uncover a web of mystery that ultimately leads him deep into the heart of the surrounding woodland and his very own soul.",
+    "title": "Twin Peaks",
+    "trailer": "n/a",
+    "type": "shows",
+    "year": NaN,
+  },
+  Object {
+    "certification": "n/a",
+    "genres": Array [
+      "Action",
+      "Adventure",
+      "Crime",
+      "Drama",
+      "Mystery",
+      "Science Fiction",
+    ],
+    "id": "1412",
+    "ids": Object {
+      "imdbId": "",
+      "tmdbId": "1412",
+    },
+    "images": Object {
+      "fanart": Object {
+        "full": "https://image.tmdb.org/t/p/original//dKxkwAJfGuznW8Hu0mhaDJtna0n.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//dKxkwAJfGuznW8Hu0mhaDJtna0n.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//dKxkwAJfGuznW8Hu0mhaDJtna0n.jpg",
+      },
+      "poster": Object {
+        "full": "https://image.tmdb.org/t/p/original//mo0FP1GxOFZT4UDde7RFDz5APXF.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//mo0FP1GxOFZT4UDde7RFDz5APXF.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//mo0FP1GxOFZT4UDde7RFDz5APXF.jpg",
+      },
+    },
+    "rating": 6.16,
+    "runtime": Object {
+      "full": "n/a",
+      "hours": "n/a",
+      "minutes": "n/a",
+    },
+    "summary": "Spoiled billionaire playboy Oliver Queen is missing and presumed dead when his yacht is lost at sea. He returns five years later a changed man, determined to clean up the city as a hooded vigilante armed with a bow.",
+    "title": "Arrow",
+    "trailer": "n/a",
+    "type": "shows",
+    "year": NaN,
+  },
+  Object {
+    "certification": "n/a",
+    "genres": Array [
+      "Comedy",
+    ],
+    "id": "1668",
+    "ids": Object {
+      "imdbId": "",
+      "tmdbId": "1668",
+    },
+    "images": Object {
+      "fanart": Object {
+        "full": "https://image.tmdb.org/t/p/original//efiX8iir6GEBWCD0uCFIi5NAyYA.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//efiX8iir6GEBWCD0uCFIi5NAyYA.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//efiX8iir6GEBWCD0uCFIi5NAyYA.jpg",
+      },
+      "poster": Object {
+        "full": "https://image.tmdb.org/t/p/original//7buCWBTpiPrCF5Lt023dSC60rgS.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//7buCWBTpiPrCF5Lt023dSC60rgS.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//7buCWBTpiPrCF5Lt023dSC60rgS.jpg",
+      },
+    },
+    "rating": 7.75,
+    "runtime": Object {
+      "full": "n/a",
+      "hours": "n/a",
+      "minutes": "n/a",
+    },
+    "summary": "Friends is an American sitcom revolving around a group of friends in the New York City borough of Manhattan. Episodes typically depict the friends' comedic and romantic adventures and career issues, such as Joey auditioning for roles or Rachel seeking jobs in the fashion industry. The six characters each have many dates and serious relationships, such as Monica with Richard Burke and Ross with Emily Waltham. Other frequently recurring characters include Ross and Monica's parents in Long Island, Ross's ex-wife and their son, Central Perk barista Gunther, Chandler's ex-girlfriend Janice, and Phoebe's twin sister Ursula.",
+    "title": "Friends",
+    "trailer": "n/a",
+    "type": "shows",
+    "year": NaN,
+  },
+  Object {
+    "certification": "n/a",
+    "genres": Array [
+      "Drama",
+      "Sci-Fi & Fantasy",
+    ],
+    "id": "48866",
+    "ids": Object {
+      "imdbId": "",
+      "tmdbId": "48866",
+    },
+    "images": Object {
+      "fanart": Object {
+        "full": "https://image.tmdb.org/t/p/original//qYTIuJJ7fIehicAt3bl0vW70Sq6.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//qYTIuJJ7fIehicAt3bl0vW70Sq6.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//qYTIuJJ7fIehicAt3bl0vW70Sq6.jpg",
+      },
+      "poster": Object {
+        "full": "https://image.tmdb.org/t/p/original//zW1k1QYYUXxPBqQigxk4ynbcTYD.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//zW1k1QYYUXxPBqQigxk4ynbcTYD.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//zW1k1QYYUXxPBqQigxk4ynbcTYD.jpg",
+      },
+    },
+    "rating": 6.22,
+    "runtime": Object {
+      "full": "n/a",
+      "hours": "n/a",
+      "minutes": "n/a",
+    },
+    "summary": "Based on the books by Kass Morgan, this show takes place 100 years in the future, when the Earth has been abandoned due to radioactivity. The last surviving humans live on an ark orbiting the planet — but the ark won't last forever. So the repressive regime picks 100 expendable juvenile delinquents to send down to Earth to see if the planet is still habitable.",
+    "title": "The 100",
+    "trailer": "n/a",
+    "type": "shows",
+    "year": NaN,
+  },
+  Object {
+    "certification": "n/a",
+    "genres": Array [
+      "Crime",
+      "Drama",
+    ],
+    "id": "2734",
+    "ids": Object {
+      "imdbId": "",
+      "tmdbId": "2734",
+    },
+    "images": Object {
+      "fanart": Object {
+        "full": "https://image.tmdb.org/t/p/original//nALNtBMQVf27H4HiSZnKNfFVvXX.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//nALNtBMQVf27H4HiSZnKNfFVvXX.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//nALNtBMQVf27H4HiSZnKNfFVvXX.jpg",
+      },
+      "poster": Object {
+        "full": "https://image.tmdb.org/t/p/original//5KfFnPRIgxan2eJ7XxMkucpq8VI.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//5KfFnPRIgxan2eJ7XxMkucpq8VI.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//5KfFnPRIgxan2eJ7XxMkucpq8VI.jpg",
+      },
+    },
+    "rating": 6.1,
+    "runtime": Object {
+      "full": "n/a",
+      "hours": "n/a",
+      "minutes": "n/a",
+    },
+    "summary": "In the criminal justice system, sexually-based offenses are considered especially heinous. In New York City, the dedicated detectives who investigate these vicious felonies are members of an elite squad known as the Special Victims Unit. These are their stories.",
+    "title": "Law & Order: Special Victims Unit",
+    "trailer": "n/a",
+    "type": "shows",
+    "year": NaN,
+  },
+  Object {
+    "certification": "n/a",
+    "genres": Array [
+      "Comedy",
+      "Crime",
+      "Drama",
+    ],
+    "id": "60059",
+    "ids": Object {
+      "imdbId": "",
+      "tmdbId": "60059",
+    },
+    "images": Object {
+      "fanart": Object {
+        "full": "https://image.tmdb.org/t/p/original//AlqSvfI6bmxh31iaJTgjNSemF3D.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//AlqSvfI6bmxh31iaJTgjNSemF3D.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//AlqSvfI6bmxh31iaJTgjNSemF3D.jpg",
+      },
+      "poster": Object {
+        "full": "https://image.tmdb.org/t/p/original//xEggmiD4WoJBQR2AiVF46yPUUgD.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//xEggmiD4WoJBQR2AiVF46yPUUgD.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//xEggmiD4WoJBQR2AiVF46yPUUgD.jpg",
+      },
+    },
+    "rating": 8,
+    "runtime": Object {
+      "full": "n/a",
+      "hours": "n/a",
+      "minutes": "n/a",
+    },
+    "summary": "Six years before Saul Goodman meets Walter White. We meet him when the man who will become Saul Goodman is known as Jimmy McGill, a small-time lawyer searching for his destiny, and, more immediately, hustling to make ends meet. Working alongside, and, often, against Jimmy, is “fixer” Mike Erhmantraut. The series will track Jimmy's transformation into Saul Goodman, the man who puts “criminal” in “criminal lawyer\\".",
+    "title": "Better Call Saul",
+    "trailer": "n/a",
+    "type": "shows",
+    "year": NaN,
+  },
+  Object {
+    "certification": "n/a",
+    "genres": Array [
+      "Action",
+      "Crime",
+    ],
+    "id": "61889",
+    "ids": Object {
+      "imdbId": "",
+      "tmdbId": "61889",
+    },
+    "images": Object {
+      "fanart": Object {
+        "full": "https://image.tmdb.org/t/p/original//dpNeXLEnuKzAvbNwveJhNEiQvXZ.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//dpNeXLEnuKzAvbNwveJhNEiQvXZ.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//dpNeXLEnuKzAvbNwveJhNEiQvXZ.jpg",
+      },
+      "poster": Object {
+        "full": "https://image.tmdb.org/t/p/original//cidOqJL8tayqvv3TpfTQCsgeITu.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//cidOqJL8tayqvv3TpfTQCsgeITu.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//cidOqJL8tayqvv3TpfTQCsgeITu.jpg",
+      },
+    },
+    "rating": 7.57,
+    "runtime": Object {
+      "full": "n/a",
+      "hours": "n/a",
+      "minutes": "n/a",
+    },
+    "summary": "Lawyer-by-day Matt Murdock uses his heightened senses from being blinded as a young boy to fight crime at night on the streets of Hell’s Kitchen as Daredevil.",
+    "title": "Marvel's Daredevil",
+    "trailer": "n/a",
+    "type": "shows",
+    "year": NaN,
+  },
+  Object {
+    "certification": "n/a",
+    "genres": Array [
+      "Comedy",
+    ],
+    "id": "60573",
+    "ids": Object {
+      "imdbId": "",
+      "tmdbId": "60573",
+    },
+    "images": Object {
+      "fanart": Object {
+        "full": "https://image.tmdb.org/t/p/original//4pfXAnWxOfEJsUgDPW0zqzs5UWv.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//4pfXAnWxOfEJsUgDPW0zqzs5UWv.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//4pfXAnWxOfEJsUgDPW0zqzs5UWv.jpg",
+      },
+      "poster": Object {
+        "full": "https://image.tmdb.org/t/p/original//dc5r71XI1gD4YwIUoEYCLiVvtss.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//dc5r71XI1gD4YwIUoEYCLiVvtss.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//dc5r71XI1gD4YwIUoEYCLiVvtss.jpg",
+      },
+    },
+    "rating": 7.74,
+    "runtime": Object {
+      "full": "n/a",
+      "hours": "n/a",
+      "minutes": "n/a",
+    },
+    "summary": "In the high-tech gold rush of modern Silicon Valley, the people most qualified to succeed are the least capable of handling success. Partially inspired by Mike Judge’s own experiences as a Silicon Valley engineer in the late ‘80s, Silicon Valley is an American sitcom that centers around six programmers who are living together and trying to make it big in the Silicon Valley.",
+    "title": "Silicon Valley",
+    "trailer": "n/a",
+    "type": "shows",
+    "year": NaN,
+  },
+  Object {
+    "certification": "n/a",
+    "genres": Array [
+      "Drama",
+      "Mystery",
+      "Sci-Fi & Fantasy",
+    ],
+    "id": "1622",
+    "ids": Object {
+      "imdbId": "",
+      "tmdbId": "1622",
+    },
+    "images": Object {
+      "fanart": Object {
+        "full": "https://image.tmdb.org/t/p/original//koMUCyGWNtH5LXYbGqjsUwvgtsT.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//koMUCyGWNtH5LXYbGqjsUwvgtsT.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//koMUCyGWNtH5LXYbGqjsUwvgtsT.jpg",
+      },
+      "poster": Object {
+        "full": "https://image.tmdb.org/t/p/original//3iFm6Kz7iYoFaEcj4fLyZHAmTQA.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//3iFm6Kz7iYoFaEcj4fLyZHAmTQA.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//3iFm6Kz7iYoFaEcj4fLyZHAmTQA.jpg",
+      },
+    },
+    "rating": 7.04,
+    "runtime": Object {
+      "full": "n/a",
+      "hours": "n/a",
+      "minutes": "n/a",
+    },
+    "summary": "When they were boys, Sam and Dean Winchester lost their mother to a mysterious and demonic supernatural force. Subsequently, their father raised them to be soldiers. He taught them about the paranormal evil that lives in the dark corners and on the back roads of America ... and he taught them how to kill it. Now, the Winchester brothers crisscross the country in their '67 Chevy Impala, battling every kind of supernatural threat they encounter along the way. ",
+    "title": "Supernatural",
+    "trailer": "n/a",
+    "type": "shows",
+    "year": NaN,
+  },
+  Object {
+    "certification": "n/a",
+    "genres": Array [
+      "Drama",
+      "Fantasy",
+      "Mystery",
+    ],
+    "id": "39351",
+    "ids": Object {
+      "imdbId": "",
+      "tmdbId": "39351",
+    },
+    "images": Object {
+      "fanart": Object {
+        "full": "https://image.tmdb.org/t/p/original//ocWDGFHxddYWcZYeenO1y7ULeIi.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//ocWDGFHxddYWcZYeenO1y7ULeIi.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//ocWDGFHxddYWcZYeenO1y7ULeIi.jpg",
+      },
+      "poster": Object {
+        "full": "https://image.tmdb.org/t/p/original//efrDcB26bugOroNshsPSrPEwJAI.jpg",
+        "medium": "https://image.tmdb.org/t/p/w780//efrDcB26bugOroNshsPSrPEwJAI.jpg",
+        "thumb": "https://image.tmdb.org/t/p/w342//efrDcB26bugOroNshsPSrPEwJAI.jpg",
+      },
+    },
+    "rating": 6.49,
+    "runtime": Object {
+      "full": "n/a",
+      "hours": "n/a",
+      "minutes": "n/a",
+    },
+    "summary": "After Portland homicide detective Nick Burkhardt discovers he's descended from an elite line of criminal profilers known as \\"Grimms,\\" he increasingly finds his responsibilities as a detective at odds with his new responsibilities as a Grimm.",
+    "title": "Grimm",
+    "trailer": "n/a",
+    "type": "shows",
+    "year": NaN,
+  },
+]
+`;

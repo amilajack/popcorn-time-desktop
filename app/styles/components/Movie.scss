@@ -1,17 +1,18 @@
 // The entire movie page
-
+// @DEPRECATE: Movie styles should be merged into Item.scss styles
 .Movie {
+  z-index: 10;
+
   video {
     width: 100%;
   }
 
   .certification {
     font-family: arial, sans-serif;
-    border: 1px solid rgb(119, 119, 119);
+    border: 1px solid white;
     box-sizing: border-box;
-    color: rgb(119, 119, 119);
+    color: white;
     display: inline-block;
-    margin: 5px;
     padding: 3px 9px;
   }
 
@@ -20,5 +21,25 @@
     position: absolute;
     top: 0;
     z-index: -1;
+  }
+
+  .Movie--status {
+    height: 10px;
+    width: 10px;
+    border-radius: 100%;
+    margin: 10px;
+  }
+
+  i {
+    color: white;
+  }
+
+  .dv-star-rating-star {
+    font-size: 1.3rem;
+    margin: 0 10px 0 0;
+  }
+
+  #genres * {
+    text-transform: capitalize;
   }
 }

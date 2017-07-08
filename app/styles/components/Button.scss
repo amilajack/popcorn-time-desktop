@@ -1,0 +1,28 @@
+.pct-btn {
+  position: absolute;
+  z-index: 100;
+  color: white;
+  margin: 20px 0;
+  padding: 5px 20px;
+  opacity: 0.2;
+  transition: opacity 0.1s ease-in;
+
+  i {
+    margin-right: 5px;
+  }
+
+  &.pct-btn-trans {
+    background: none;
+  }
+  &.pct-btn-outline {
+    border: 2px solid white;
+  }
+
+  &.pct-btn-round {
+    border-radius: 30px;
+  }
+
+  &:hover {
+    opacity: 1;
+  }
+}

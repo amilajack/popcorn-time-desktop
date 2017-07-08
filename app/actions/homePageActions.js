@@ -1,4 +1,13 @@
-export function setActiveMode(activeMode, activeModeOptions = {}) {
+// @flow
+import type {
+  activeModeOptionsType,
+  itemType
+} from '../components/home/Home.jsx';
+
+export function setActiveMode(
+  activeMode: string,
+  activeModeOptions?: activeModeOptionsType = {}
+) {
   return {
     type: 'SET_ACTIVE_MODE',
     activeMode,
@@ -6,7 +15,7 @@ export function setActiveMode(activeMode, activeModeOptions = {}) {
   };
 }
 
-export function paginate(items) {
+export function paginate(items: Array<itemType>) {
   return {
     type: 'PAGINATE',
     items
@@ -19,14 +28,20 @@ export function clearItems() {
   };
 }
 
-export function setLoading(isLoading) {
+export function clearAllItems() {
+  return {
+    type: 'CLEAR_ALL_ITEMS'
+  };
+}
+
+export function setLoading(isLoading: boolean) {
   return {
     type: 'SET_LOADING',
     isLoading
   };
 }
 
-export function setCurrentPlayer(player) {
+export function setCurrentPlayer(player: string) {
   return {
     type: 'SET_CURRENT_PLAYER',
     player

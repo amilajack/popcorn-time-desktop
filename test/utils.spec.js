@@ -1,41 +1,30 @@
-import { expect } from 'chai';
-import {
-  getDownloadSpeed,
-  getUploadSpeed,
-  timeout
-} from '../app/utils/Network';
+import { getDownloadSpeed, getUploadSpeed } from '../app/utils/Network';
+import { isNewerSemvar } from '../app/utils/CheckUpdate';
 
+describe('CheckUpdate', () => {
+  it('should compare semvers', () => {
+    expect(isNewerSemvar('v0.0.6-alpha', '0.0.7')).toBe(false);
+    expect(isNewerSemvar('v0.0.7', '0.0.6')).toBe(true);
+  });
+});
 
-describe('Network', function testNetwork() {
-  this.slow(timeout + 1000);
-  this.timeout(timeout + 1000000);
-
+describe('Network', () => {
   // HACK: The 'speedtest-net' module needs to be rewritten. It fails to resolve
   //       speeds in a timely manner and ignores any timeout that is givent to it
 
   describe('download', () => {
-    it.skip('should resolve to a download speed', async done => {
-      try {
-        const downloadSpeed = getDownloadSpeed();
-        expect(downloadSpeed).to.be.a('promise');
-        expect(await getDownloadSpeed()).to.be.a('number');
-        done();
-      } catch (error) {
-        done(error);
-      }
+    it.skip('should resolve to a download speed', async () => {
+      const downloadSpeed = getDownloadSpeed();
+      expect(typeof downloadSpeed).toBe('promise');
+      expect(typeof await getDownloadSpeed()).toBe('number');
     });
   });
 
   describe('upload ->', () => {
-    it.skip('should resolve to an upload speed', async done => {
-      try {
-        const uploadSpeed = getUploadSpeed();
-        expect(uploadSpeed).to.be.a('promise');
-        expect(await getUploadSpeed()).to.be.a('number');
-        done();
-      } catch (error) {
-        done(error);
-      }
+    it.skip('should resolve to an upload speed', async () => {
+      const uploadSpeed = getUploadSpeed();
+      expect(typeof uploadSpeed).toBe('promise');
+      expect(typeof await getUploadSpeed()).toBe('number');
     });
   });
 });
