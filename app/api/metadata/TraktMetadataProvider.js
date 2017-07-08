@@ -1,101 +1,104 @@
+// @flow
 import fetch from 'isomorphic-fetch';
 import Trakt from 'trakt.tv';
-import OpenSubtitles from 'opensubtitles-api';
-import { set, get } from '../../utils/Config';
-import { convertRuntimeToHours } from './MetadataAdapter';
+import { parseRuntimeMinutesToObject } from './MetadataAdapter';
+import BaseMetadataProvider from './BaseMetadataProvider';
+import type { MetadataProviderInterface } from './MetadataProviderInterface';
 
-
-const subtitlesEndpoint = 'https://popcorn-time-api-server.herokuapp.com/subtitles';
-
-export default class TraktMetadataAdapter {
-
+export default class TraktMetadataAdapter extends BaseMetadataProvider
+  implements MetadataProviderInterface {
   clientId = '647c69e4ed1ad13393bf6edd9d8f9fb6fe9faf405b44320a6b71ab960b4540a2';
 
   clientSecret = 'f55b0a53c63af683588b47f6de94226b7572a6f83f40bd44c58a7c83fe1f2cb1';
 
+  trakt: Trakt;
+
   constructor() {
+    super();
     this.trakt = new Trakt({
       client_id: this.clientId,
       client_secret: this.clientSecret
     });
-
-    this.openSubtitles = new OpenSubtitles({
-      useragent: 'OSTestUserAgent',
-      username: '',
-      password: '',
-      ssl: true
-    });
   }
 
   getMovies(page: number = 1, limit: number = 50) {
-    return this.trakt.movies.popular({
-      paginate: true,
-      page,
-      limit,
-      extended: 'full,images,metadata'
-    })
+    return this.trakt.movies
+      .popular({
+        paginate: true,
+        page,
+        limit,
+        extended: 'full,images,metadata'
+      })
       .then(movies => movies.map(movie => formatMetadata(movie, 'movies')));
   }
 
-  getMovie(imdbId: string) {
-    return this.trakt.movies.summary({
-      id: imdbId,
-      extended: 'full,images,metadata'
-    })
+  getMovie(itemId: string) {
+    return this.trakt.movies
+      .summary({
+        id: itemId,
+        extended: 'full,images,metadata'
+      })
       .then(movie => formatMetadata(movie, 'movies'));
   }
 
   getShows(page: number = 1, limit: number = 50) {
-    return this.trakt.shows.popular({
-      paginate: true,
-      page,
-      limit,
-      extended: 'full,images,metadata'
-    })
+    return this.trakt.shows
+      .popular({
+        paginate: true,
+        page,
+        limit,
+        extended: 'full,images,metadata'
+      })
       .then(shows => shows.map(show => formatMetadata(show, 'shows')));
   }
 
-  getShow(imdbId: string) {
-    return this.trakt.shows.summary({
-      id: imdbId,
-      extended: 'full,images,metadata'
-    })
+  getShow(itemId: string) {
+    return this.trakt.shows
+      .summary({
+        id: itemId,
+        extended: 'full,images,metadata'
+      })
       .then(show => formatMetadata(show, 'shows'));
   }
 
-  getSeasons(imdbId: string) {
-    return this.trakt.seasons.summary({
-      id: imdbId,
-      extended: 'full,images,metadata'
-    })
-      .then(res => res.filter(season => season.aired_episodes !== 0).map(season => ({
-        season: season.number + 1,
-        overview: season.overview,
-        id: season.ids.imdb,
-        images: {
-          full: season.images.poster.full,
-          medium: season.images.poster.medium,
-          thumb: season.images.poster.thumb
-        }
-      })));
+  getSeasons(itemId: string) {
+    return this.trakt.seasons
+      .summary({
+        id: itemId,
+        extended: 'full,images,metadata'
+      })
+      .then(res =>
+        res.filter(season => season.aired_episodes !== 0).map(season => ({
+          season: season.number + 1,
+          overview: season.overview,
+          id: season.ids.imdb,
+          images: {
+            full: season.images.poster.full,
+            medium: season.images.poster.medium,
+            thumb: season.images.poster.thumb
+          }
+        }))
+      );
   }
 
-  getSeason(imdbId: string, season: number) {
-    return this.trakt.seasons.season({
-      id: imdbId,
-      season,
-      extended: 'full,images,metadata'
-    })
+  getSeason(itemId: string, season: number) {
+    return this.trakt.seasons
+      .season({
+        id: itemId,
+        season,
+        extended: 'full,images,metadata'
+      })
       .then(episodes => episodes.map(episode => formatSeason(episode)));
   }
 
-  getEpisode(imdbId: string, season: number, episode: number) {
-    return this.trakt.episodes.summary({
-      id: imdbId,
-      season,
-      episode,
-      extended: 'full,images,metadata'
-    })
+  getEpisode(itemId: string, season: number, episode: number) {
+    return this.trakt.episodes
+      .summary({
+        id: itemId,
+        season,
+        episode,
+        extended: 'full,images,metadata'
+      })
       .then(res => formatSeason(res));
   }
 
@@ -114,103 +117,37 @@ export default class TraktMetadataAdapter {
 
   /**
    * @param {string} type   | movie or show
-   * @param {string} imdbId | movie or show
+   * @param {string} itemId | movie or show
    */
-  getSimilar(type: string = 'movies', imdbId: string, limit: number = 5) {
-    return this.trakt[type].related({
-      id: imdbId,
-      limit,
-      extended: 'full,images,metadata'
-    })
+  getSimilar(type: string = 'movies', itemId: string, limit: number = 5) {
+    return this.trakt[type]
+      .related({
+        id: itemId,
+        limit,
+        extended: 'full,images,metadata'
+      })
       .then(movies => movies.map(movie => formatMetadata(movie, type)));
   }
 
-  /**
-   * Temporarily store the 'favorites', 'recentlyWatched', 'watchList' items
-   * in config file. The cache can't be used because this data needs to be
-   * persisted.
-   */
-  _updateConfig(type: string, method: string, metadata: Object) {
-    const property = `${type}`;
-
-    switch (method) {
-      case 'set':
-        set(property, [...(get(property) || []), metadata]);
-        return get(property);
-      case 'get':
-        return get(property);
-      case 'remove': {
-        const items = [...(get(property) || []).filter(item => item.id !== metadata.id)];
-        return set(property, items);
-      }
-      default:
-        return set(property, [...(get(property) || []), metadata]);
-    }
-  }
-
-  favorites(...args) {
-    return this._updateConfig('favorites', ...args);
-  }
-
-  recentlyWatched(...args) {
-    return this._updateConfig('recentlyWatched', ...args);
-  }
-
-  watchList(...args) {
-    return this._updateConfig('watchList', ...args);
-  }
-
-  async getSubtitles(imdbId: string, filename: string, length: number, metadata: Object = {}) {
-    const { activeMode } = metadata;
-
-    const defaultOptions = {
-      sublanguageid: 'eng',
-      // sublanguageid: 'all', // @TODO
-      // hash: '8e245d9679d31e12', // @TODO
-      filesize: length || undefined,
-      filename: filename || undefined,
-      season: metadata.season || undefined,
-      episode: metadata.episode || undefined,
-      extensions: ['srt', 'vtt'],
-      imdbid: imdbId
-    };
-
-    const subtitles = (() => {
-      switch (activeMode) {
-        case 'shows': {
-          const { season, episode } = metadata;
-          return this.openSubtitles.search({
-            ...defaultOptions,
-            ...{ season, episode }
-          });
-        }
-        default:
-          return this.openSubtitles.search(defaultOptions);
-      }
-    })();
-
-    return subtitles.then(
-      res => Object
-              .values(res)
-              .map(subtitle => formatSubtitle(subtitle))
-    );
-  }
-
+  // @TODO: Properly implement provider architecture
   provide() {}
 }
 
-function formatMetadata(movie: Object = {}, type: string) {
+function formatMetadata(movie = {}, type: string) {
   return {
     title: movie.title,
     year: movie.year,
-    imdbId: movie.ids.imdb,
+    // @DEPRECATE
     id: movie.ids.imdb,
+    ids: {
+      imdbId: movie.ids.imdb
+    },
     type,
     certification: movie.certification,
     summary: movie.overview,
     genres: movie.genres,
     rating: movie.rating ? roundRating(movie.rating) : 'n/a',
-    runtime: convertRuntimeToHours(movie.runtime),
+    runtime: parseRuntimeMinutesToObject(movie.runtime),
     trailer: movie.trailer,
     images: {
       fanart: {
@@ -227,39 +164,42 @@ function formatMetadata(movie: Object = {}, type: string) {
   };
 }
 
-function formatMovieSearch(movie: Object) {
+function formatMovieSearch(movie) {
   return {
     title: movie.Title,
     year: parseInt(movie.Year, 10),
-    imdbId: movie.imdbID,
+    // @DEPRECATE
     id: movie.imdbID,
+    ids: {
+      imdbId: movie.imdbID
+    },
     type: movie.Type.includes('movie') ? 'movies' : 'shows',
     certification: movie.Rated,
-    summary: 'n/a',  // omdbapi does not support
+    summary: 'n/a', // omdbapi does not support
     genres: [],
-    rating: 'n/a',   // omdbapi does not support
+    rating: 'n/a', // omdbapi does not support
     runtime: {
-      full: 'n/a',   // omdbapi does not support
-      hours: 'n/a',  // omdbapi does not support
+      full: 'n/a', // omdbapi does not support
+      hours: 'n/a', // omdbapi does not support
       minutes: 'n/a' // omdbapi does not support
     },
-    trailer: 'n/a',  // omdbapi does not support
+    trailer: 'n/a', // omdbapi does not support
     images: {
       fanart: {
-        full: movie.Poster,
-        medium: movie.Poster,
-        thumb: movie.Poster
+        full: movie.Poster || '',
+        medium: movie.Poster || '',
+        thumb: movie.Poster || ''
       },
       poster: {
-        full: movie.Poster,
-        medium: movie.Poster,
-        thumb: movie.Poster
+        full: movie.Poster || '',
+        medium: movie.Poster || '',
+        thumb: movie.Poster || ''
       }
     }
   };
 }
 
-function formatSeason(season: Object, image: string = 'screenshot') {
+function formatSeason(season, image: string = 'screenshot') {
   return {
     id: season.ids.imdb,
     title: season.title,
@@ -275,16 +215,6 @@ function formatSeason(season: Object, image: string = 'screenshot') {
   };
 }
 
-function roundRating(rating: number) {
+function roundRating(rating: number): number {
   return Math.round(rating * 10) / 10;
-}
-
-function formatSubtitle(subtitle: Object) {
-  return {
-    kind: 'captions',
-    label: subtitle.langName,
-    srclang: subtitle.lang,
-    src: `${subtitlesEndpoint}/${encodeURIComponent(subtitle.url)}`,
-    default: subtitle.lang === 'en'
-  };
 }

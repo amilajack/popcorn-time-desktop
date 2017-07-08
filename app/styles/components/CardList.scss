@@ -1,6 +1,11 @@
 //
-// Card list for homepage
+// Card list
 //
+
+.CardList--header {
+  text-transform: capitalize;
+  margin: 30px 0;
+}
 
 .CardList {
   display: flex;
@@ -11,8 +16,10 @@
 
   .Card {
     border: 2px solid transparent;
-    width: 150px;
-    margin: 10px;
+    max-width: 280px;
+    min-width: 200px;
+    width: 100%;
+    margin: 10px 0;
     overflow: hidden;
     position: relative;
 
@@ -20,11 +27,37 @@
       opacity: 1;
     }
 
-    .Card--title {
-      white-space: nowrap;
-      width: 100%;
-      overflow: hidden;
-      text-overflow: ellipsis;
+    .Card--icon {
+      float: right;
+      cursor: pointer;
+      color: $card-list-color;
+      opacity: 0;
+      margin-left: 20px;
+      transition: opacity 0.2s ease-in;
+    }
+
+    .Card--icon.active {
+      opacity: 1;
+    }
+
+    &:hover .Card--icon {
+      opacity: 1;
+    }
+
+    .Card--descrption {
+      padding: 10px;
+
+      .Card--title {
+        color: $card-list-color;
+        white-space: nowrap;
+        width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .Card--genres {
+        text-transform: capitalize;
+      }
     }
 
     .Card--overlay {
@@ -43,9 +76,9 @@
 
     .Card--overlay-container {
       width: 100%;
-      height: 219px;
+      height: 170px;
       position: relative;
-      background-color: #D8D8D8;
+      background-color: #373737;
       background-repeat: no-repeat;
       background-size: cover;
       background-position: center;
@@ -60,5 +93,6 @@
 }
 
 .dv-star-rating-star {
-  margin: 1px;
+  margin: 0 6px 0 0;
+  color: $card-list-color;
 }

@@ -1,32 +1,36 @@
+// @flow
 /* eslint prefer-template: 0 */
-
 import cache from 'lru-cache';
-import URL from 'url';
-
+import url from 'url';
+import TheMovieDbMetadataProvider from '../metadata/TheMovieDBMetadataProvider';
+import type { torrentType } from './TorrentProviderInterface';
 
 export const providerCache = cache({
   maxAge: process.env.CONFIG_CACHE_TIMEOUT
-            ? parseInt(process.env.CONFIG_CACHE_TIMEOUT, 10) * 1000 * 60 * 60
-            : 1000 * 60 * 60 // 1 hr
+    ? parseInt(process.env.CONFIG_CACHE_TIMEOUT, 10) * 1000 * 60 * 60
+    : 1000 * 60 * 60 // 1 hr
 });
 
 /**
  * Handle a promise and set a timeout
  */
-export function timeout(promise, time: number = 10000) {
+export function timeout(
+  promise: Promise<any>,
+  time: number = 10000
+): Promise<any> {
   return new Promise((resolve, reject) => {
     promise.then(res => resolve(res)).catch(err => console.log(err));
 
     setTimeout(() => {
       reject(new Error('Timeout exceeded'));
-    }, process.env.CONFIG_API_TIMEOUT
-        ? parseInt(process.env.CONFIG_API_TIMEOUT, 10)
-        : time
-    );
+    }, process.env.CONFIG_API_TIMEOUT ? parseInt(process.env.CONFIG_API_TIMEOUT, 10) : time);
   });
 }
 
-export function determineQuality(magnet: string, metadata: string = ''): string {
+export function determineQuality(
+  magnet: string,
+  metadata: string = ''
+): string {
   const lowerCaseMetadata = (metadata || magnet).toLowerCase();
 
   if (process.env.FLAG_UNVERIFIED_TORRENTS === 'true') {
@@ -40,9 +44,7 @@ export function determineQuality(magnet: string, metadata: string = ''): string 
 
   // Filter videos with 'rendered' subtitles
   if (hasSubtitles(lowerCaseMetadata)) {
-    return process.env.FLAG_SUBTITLE_EMBEDDED_MOVIES === 'true'
-            ? '480p'
-            : '';
+    return process.env.FLAG_SUBTITLE_EMBEDDED_MOVIES === 'true' ? '480p' : '';
   }
 
   // Most accurate categorization
@@ -64,8 +66,8 @@ export function determineQuality(magnet: string, metadata: string = ''): string 
 
   if (hasNonNativeCodec(lowerCaseMetadata)) {
     return process.env.FLAG_SUPPORTED_PLAYBACK_FILTERING === 'true'
-            ? '720p'
-            : '';
+      ? '720p'
+      : '';
   }
 
   if (process.env.NODE_ENV === 'development') {
@@ -75,40 +77,66 @@ export function determineQuality(magnet: string, metadata: string = ''): string 
   return '';
 }
 
-/**
- * @param {number} season
- * @param {number} episode
- */
-export function formatSeasonEpisodeToString(season: number, episode: number): string {
+export async function convertTmdbToImdb(tmdbId: string): Promise<string> {
+  const theMovieDbProvider = new TheMovieDbMetadataProvider();
+  const movie = await theMovieDbProvider.getMovie(tmdbId);
+  if (!movie.ids.imdbId) {
+    throw new Error('Cannot convert tmdbId to imdbId');
+  }
+  return movie.ids.imdbId;
+}
+
+// export async function convertImdbtoTmdb(imdbId: string): Promise<string> {
+//   const theMovieDbProvider = new TheMovieDbMetadataProvider();
+//   const movie = await theMovieDbProvider.getMovie(imdbId);
+//   if (!movie.ids.imdbId) {
+//     throw new Error('Cannot convert imdbId to tmdbId');
+//   }
+//   return movie.ids.imdbId;
+// }
+
+export function formatSeasonEpisodeToString(
+  season: number,
+  episode: number
+): string {
   return (
-    ('s' + (String(season).length === 1 ? '0' + String(season) : String(season))) +
-    ('e' + (String(episode).length === 1 ? '0' + String(episode) : String(episode)))
+    's' +
+    (String(season).length === 1 ? '0' + String(season) : String(season)) +
+    ('e' +
+      (String(episode).length === 1 ? '0' + String(episode) : String(episode)))
   );
 }
 
-/**
- * @param {number} season
- * @param {number} episode
- */
-export function formatSeasonEpisodeToObject(season: number, episode: number): Object {
+export function formatSeasonEpisodeToObject(
+  season: number,
+  episode: ?number
+): Object {
   return {
-    season: (String(season).length === 1 ? '0' + String(season) : String(season)),
-    episode: (String(episode).length === 1 ? '0' + String(episode) : String(episode))
+    season: String(season).length === 1 ? '0' + String(season) : String(season),
+    episode: String(episode).length === 1
+      ? '0' + String(episode)
+      : String(episode)
   };
 }
 
-export function isExactEpisode(title: string, season: number, episode: number): boolean {
-  return title.toLowerCase().includes(formatSeasonEpisodeToString(season, episode));
+export function isExactEpisode(
+  title: string,
+  season: number,
+  episode: number
+): boolean {
+  return title
+    .toLowerCase()
+    .includes(formatSeasonEpisodeToString(season, episode));
 }
 
 export function getHealth(seeders: number, leechers: number = 0): string {
-  const ratio = (seeders && !!leechers) ? (seeders / leechers) : seeders;
+  const ratio = seeders && !!leechers ? seeders / leechers : seeders;
 
   if (seeders < 50) {
     return 'poor';
   }
 
-  if (ratio > 1 && seeders >= 50 && seeders < 100) {
+  if (ratio > 1 && seeders >= 50 && seeders < 500) {
     return 'decent';
   }
 
@@ -141,46 +169,35 @@ export function hasSubtitles(metadata: string): boolean {
   return metadata.includes('sub');
 }
 
-export function hasNonNativeCodec(metadata: string) {
-  return (
-    metadata.includes('avi') ||
-    metadata.includes('mkv')
+export function hasNonNativeCodec(metadata: string): boolean {
+  return metadata.includes('avi') || metadata.includes('mkv');
+}
+
+export function sortTorrentsBySeeders(torrents: Array<any>): Array<any> {
+  return torrents.sort(
+    (prev: Object, next: Object) =>
+      prev.seeders === next.seeders ? 0 : prev.seeders > next.seeders ? -1 : 1
   );
 }
 
-export function sortTorrentsBySeeders(torrents: Array<any>) {
-  return torrents.sort((prev: Object, next: Object) => {
-    if (prev.seeders === next.seeders) {
-      return 0;
-    }
-
-    return prev.seeders > next.seeders ? -1 : 1;
-  });
-}
-
-export function constructMovieQueries(title: string, imdbId: string): Array<string> {
+export function constructMovieQueries(
+  title: string,
+  itemId: string
+): Array<string> {
   const queries = [
     title, // default
-    imdbId
+    itemId
   ];
 
-  return title.includes("'")
-          ? [...queries, title.replace(/'/g,'')] // eslint-disable-line
-          : queries;
+  return title.includes("'") ? [...queries, title.replace(/'/g, '')] : queries;
 }
 
-export function combineAllQueries(queries: Array<Promise>) {
-  return Promise.all(
-    queries.map(query => this.fetch(query))
-  )
-    // Flatten array of arrays to an array with no empty arrays
-    .then(
-      res => merge(res).filter(array => array.length !== 0)
-    );
-}
-
-export function constructSeasonQueries(title: string, season: number): Array<string> {
-  const formattedSeasonNumber = `s${formatSeasonEpisodeToObject(season, 1).season}`;
+export function constructSeasonQueries(
+  title: string,
+  season: number
+): Array<string> {
+  const formattedSeasonNumber = `s${formatSeasonEpisodeToObject(season, 1)
+    .season}`;
 
   return [
     `${title} season ${season}`,
@@ -203,49 +220,49 @@ export function resolveEndpoint(defaultEndpoint: string, providerId: string) {
     case undefined:
       return defaultEndpoint;
     default:
-      return URL.format({
-        ...URL.parse(defaultEndpoint),
+      return url.format({
+        ...url.parse(defaultEndpoint),
         hostname: process.env[endpointEnvVariable],
         host: process.env[endpointEnvVariable]
       });
   }
 }
 
-export function getIdealTorrent(torrents: Array<any>) {
+export function getIdealTorrent(torrents: Array<torrentType>): torrentType {
   const idealTorrent = torrents
     .filter(torrent => !!torrent)
     .filter(
-      (torrent: Object) => typeof torrent.seeders === 'number'
+      torrent =>
+        !!torrent && !!torrent.magnet && typeof torrent.seeders === 'number'
     );
 
-  return idealTorrent
-    ?
-      idealTorrent.sort((prev: Object, next: Object) => {
-        if (prev.seeders === next.seeders) {
-          return 0;
-        }
+  return idealTorrent.sort((prev: torrentType, next: torrentType) => {
+    if (prev.seeders === next.seeders) {
+      return 0;
+    }
 
-        return prev.seeders > next.seeders ? -1 : 1;
-      })[0]
-    :
-      idealTorrent;
+    if (!next.seeders || !prev.seeders) return 1;
+
+    return prev.seeders > next.seeders ? -1 : 1;
+  })[0];
 }
 
-export function handleProviderError(error) {
+export function handleProviderError(error: Error) {
   if (process.env.NODE_ENV === 'development') {
     console.log(error);
   }
 }
 
-export function resolveCache(key: string) {
+export function resolveCache(key: string): boolean | any {
   if (process.env.API_USE_MOCK_DATA === 'true') {
     const mock = {
       ...require('../../../test/api/metadata.mock'), // eslint-disable-line global-require
-      ...require('../../../test/api/torrent.mock')   // eslint-disable-line global-require
+      ...require('../../../test/api/torrent.mock') // eslint-disable-line global-require
     };
 
     const resolvedCacheItem = Object.keys(mock).find(
-      mockKey => key.includes(`${mockKey}"`) && Object.keys(mock[mockKey]).length
+      (mockKey: string): boolean =>
+        key.includes(`${mockKey}"`) && !!Object.keys(mock[mockKey]).length
     );
 
     if (resolvedCacheItem) {
@@ -253,22 +270,16 @@ export function resolveCache(key: string) {
     }
 
     console.warn('Fetching from network:', key);
+
     return false;
   }
 
-  return (
-    providerCache.has(key)
-      ? providerCache.get(key)
-      : false
-  );
+  return providerCache.has(key) ? providerCache.get(key) : false;
 }
 
 export function setCache(key: string, value: any) {
   if (process.env.NODE_ENV === 'development') {
-    console.log('Setting cache key', key);
+    console.info('Setting cache key:', key);
   }
-  return providerCache.set(
-    key,
-    value
-  );
+  return providerCache.set(key, value);
 }

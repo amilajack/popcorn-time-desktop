@@ -20,7 +20,7 @@ export default [
   { id: 'tt2372162', title: 'Orange Is the New Black' },
   { id: 'tt0096697', title: 'The Simpsons' },
   { id: 'tt2356777', title: 'True Detective' },
-  { id: 'tt2364582', title: 'Marvel\'s Agents of S.H.I.E.L.D.' },
+  { id: 'tt2364582', title: "Marvel's Agents of S.H.I.E.L.D." },
   { id: 'tt1439629', title: 'Community' },
   { id: 'tt0844441', title: 'True Blood' },
   { id: 'tt1844624', title: 'American Horror Story' },
@@ -47,6 +47,6 @@ export default [
   { id: 'tt1196946', title: 'The Mentalist' },
   { id: 'tt0813715', title: 'Heroes' },
   { id: 'tt0185906', title: 'Band of Brothers' },
-  { id: 'tt0413573', title: 'Grey\'s Anatomy' },
+  { id: 'tt0413573', title: "Grey's Anatomy" },
   { id: 'tt1266020', title: 'Parks and Recreation' }
 ];

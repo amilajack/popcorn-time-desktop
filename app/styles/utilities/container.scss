@@ -1,9 +1,10 @@
-.container-fluid {
-  padding: 0;
-}
-
 ::-webkit-scrollbar-corner {
   background-color: transparent;
+}
+
+.row-center {
+  display: flex;
+  align-items: center;
 }
 
 ::-webkit-scrollbar {

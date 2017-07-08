@@ -7,88 +7,52 @@
 import path from 'path';
 import fs from 'fs';
 import { Application } from 'spectron';
-import { expect } from 'chai';
 import imageDiff from 'image-diff';
 import gm from 'gm';
-import electronPrebuilt from 'electron-prebuilt';
-
+import electronPrebuilt from 'electron';
 
 const app = new Application({
   path: electronPrebuilt,
-  args: [
-    path.join(__dirname, '..', 'app')
-  ],
+  args: [path.join(__dirname, '..', 'app')],
   waitTimeout: 2000
 });
 
 const delay = time => new Promise(resolve => setTimeout(resolve, time));
 
 describe('screenshot', function testApp() {
-  this.retries(3);
-  this.slow(5000);
-
   // Constructs url similar to file:///Users/john/popcorn-desktop-experimental/app/app.html#/${url}
-  const navigate = url => this.app.client.url(`file://${process.cwd()}/app/app.html#/${url}`);
+  const navigate = url =>
+    this.app.client.url(`file://${process.cwd()}/app/app.html#/${url}`);
 
-  before(async done => {
-    try {
-      this.app = await app.start();
-      done();
-    } catch (error) {
-      done(error);
-    }
+  beforeAll(async () => {
+    this.app = await app.start();
   });
 
-  after(done => {
-    try {
-      if (this.app && this.app.isRunning()) {
-        return this.app.stop();
-      }
-      done();
-    } catch (error) {
-      done(error);
+  afterAll(() => {
+    if (this.app && this.app.isRunning()) {
+      this.app.stop();
     }
   });
 
   describe('HomePage', () => {
-    beforeEach(async done => {
-      try {
-        await navigate('');
-        await delay(2000);
-        done();
-      } catch (error) {
-        done(error);
-      }
+    beforeEach(async () => {
+      await navigate('');
+      await delay(2000);
     });
 
-    it('should display CardList', async done => {
-      try {
-        await screenshotTest(this.app, 'CardList');
-        done();
-      } catch (error) {
-        done(error);
-      }
+    it('should display CardList', async () => {
+      await screenshotTest(this.app, 'CardList');
     });
   });
 
-  describe('MoviePage', () => {
-    beforeEach(async done => {
-      try {
-        await navigate('item/shows/tt0944947');
-        await delay(2000);
-        done();
-      } catch (error) {
-        done(error);
-      }
+  describe('ItemPage', () => {
+    beforeEach(async () => {
+      await navigate('item/shows/tt0944947');
+      await delay(2000);
     });
 
-    it('should display Movie', async done => {
-      try {
-        await screenshotTest(this.app, 'MoviePage', 0.3);
-        done();
-      } catch (error) {
-        done(error);
-      }
+    it('should display Movie', async () => {
+      await screenshotTest(this.app, 'ItemPage', 0.3);
     });
   });
 });
@@ -96,7 +60,9 @@ describe('screenshot', function testApp() {
 async function screenshotTest(_app, filename, differencePercentage = 0.2) {
   const diff = await handleScreenshot(_app, filename);
   // Allow 10% of pixels to be different by default
-  expect(diff).to.have.deep.property('percentage').that.is.below(differencePercentage);
+  expect(diff)
+    .toHavePropertys('percentage')
+    .toBeLessThan(differencePercentage);
 }
 
 async function handleScreenshot(_app, filename) {
@@ -134,15 +100,18 @@ async function compareScreenshot(_app, filename) {
   await capturePage(_app, filename, './.tmp');
 
   return new Promise((resolve, reject) =>
-    imageDiff.getFullResult({
-      actualImage: `./.tmp/${filename}.png`,
-      expectedImage: `./test/screenshots/${filename}.png`,
-      diffImage: './.tmp/difference.png'
-    }, (error, result) => {
-      if (error) {
-        return reject(error);
+    imageDiff.getFullResult(
+      {
+        actualImage: `./.tmp/${filename}.png`,
+        expectedImage: `./test/screenshots/${filename}.png`,
+        diffImage: './.tmp/difference.png'
+      },
+      (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(result);
       }
-      return resolve(result);
-    })
+    )
   );
 }

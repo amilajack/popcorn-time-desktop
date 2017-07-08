@@ -1,0 +1,129 @@
+.Item {
+  position: relative;
+
+  .Item--play {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.2);
+    transition: background ease-in 0.1s;
+  }
+
+  .Item--poster-container {
+    position: relative;
+  }
+
+  .Item--poster-container:hover {
+    .Item--play {
+      background: rgba(0, 0, 0, 0.5);
+    }
+  }
+
+  .Item--icon-play {
+    color: white;
+    font-size: 3em;
+    z-index: 1000;
+    cursor: pointer;
+  }
+
+  .Item--loading-status {
+    color: white;
+    position: absolute;
+    bottom: 0;
+  }
+
+  &.active {
+    .Item--background * {
+      opacity: 0;
+    }
+
+    > .row > .plyr {
+      opacity: 1;
+      z-index: 100;
+      width: 100%;
+    }
+  }
+
+  > .row > .plyr {
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: -100;
+    min-height: 500px;
+    opacity: 1;
+    height: 500px;
+    overflow: hidden;
+  }
+
+  .Item--background {
+    background-color: #373737;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    min-height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .Item--details {
+    a {
+      color: white;
+    }
+  }
+
+  .Item--overlay {
+    height: 100%;
+    width: 100%;
+    opacity: 0.5;
+    background: black;
+    position: absolute;
+  }
+
+  .Item--image {
+    display: flex;
+    justify-content: center;
+    z-index: 10;
+    border: 0 solid transparent;
+    position: relative;
+
+    img {
+      box-shadow: rgba(0, 0, 0, 0.6) 0 6px 16px 4px;
+      background: gray;
+    }
+  }
+
+  // Some hacky plyr style overrides
+  .plyr {
+    height: 500px;
+  }
+
+  .plyr.col-sm-12 {
+    padding: 0;
+  }
+
+  .plyr__video-wrapper.plyr__video-embed.plyr--setup {
+    padding: 250px 0;
+  }
+
+  .plyr--fullscreen-active.plyr {
+    height: 100%;
+    padding: inherit;
+
+    &.plyr__video-wrapper.plyr__video-embed.plyr--setup {
+      padding: inherit;
+    }
+  }
+
+  #close-button {
+    position: absolute !important;
+    top: 0;
+    right: 0;
+    z-index: 1000000000;
+    color: white !important;
+  }
+}

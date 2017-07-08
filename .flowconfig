@@ -1,15 +1,12 @@
 [ignore]
 .*/node_modules/fbjs/.*
-.*/node_modules/*
-.*/app/node_modules/*
 .*/app/main.js
 .*/app/dist/.*
 .*/release/.*
 .*/git/.*
 
 [include]
-./app/*.js
-./node_modules/
+app
 
 [libs]
 
@@ -17,3 +14,10 @@
 esproposal.class_static_fields=enable
 esproposal.class_instance_fields=enable
 esproposal.export_star_as=enable
+experimental.strict_type_args=true
+
+suppress_type=$FlowIssue
+suppress_type=$FlowFixMe
+suppress_type=$FixMe
+
+munge_underscores=true

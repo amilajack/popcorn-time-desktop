@@ -2,8 +2,17 @@
   "name": "PopcornTime",
   "description": "An experimental PopcornTime client",
   "homepage": "https://github.com/amilajack/popcorn-time-desktop",
-  "version": "0.0.5",
-  "author": "Amila Welihinda <amilajack@gmail.com>",
+  "version": "0.0.6",
+  "main": "./main.prod.js",
+  "author": {
+    "name": "Amila Welihinda <amilajack@gmail.com>",
+    "email": "amilajack@gmail.com",
+    "url": "https://github.com/amilajack"
+  },
+  "scripts": {
+    "postinstall": "npm rebuild --runtime=electron --target=1.6.6 --disturl=https://atom.io/download/atom-shell --build-from-source"
+  },
   "license": "MIT",
-  "main": "./main.js"
+  "dependencies": {
+  }
 }

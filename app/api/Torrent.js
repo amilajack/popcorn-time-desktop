@@ -1,37 +1,51 @@
 /**
  * Torrents controller, responsible for playing, stoping, etc
+ * @flow
  */
 import os from 'os';
 import WebTorrent from 'webtorrent';
 import { isExactEpisode } from './torrents/BaseTorrentProvider';
 
-
 const port = 9090;
 
 export default class Torrent {
+  inProgress: boolean = false;
 
-  inProgress = false;
+  finished: boolean = false;
 
-  finished = false;
+  checkDownloadInterval: number;
 
-  start(magnetURI: string, metadata: Object, supportedFormats: Array<string>, cb) {
+  engine: WebTorrent;
+
+  magnetURI: string;
+
+  server: Object;
+
+  start(
+    magnetURI: string,
+    metadata: Object,
+    supportedFormats: Array<string>,
+    cb
+  ) {
     if (this.inProgress) {
       throw new Error('Torrent already in progress');
     }
 
     const { season, episode, activeMode } = metadata;
     const maxConns = process.env.CONFIG_MAX_CONNECTIONS
-                      ? parseInt(process.env.CONFIG_MAX_CONNECTIONS, 10)
-                      : 20;
+      ? parseInt(process.env.CONFIG_MAX_CONNECTIONS, 10)
+      : 20;
 
     this.engine = new WebTorrent({ maxConns });
     this.inProgress = true;
     this.magnetURI = magnetURI;
 
-    const cacheLocation = (() => {
+    const cacheLocation = ((): string => {
       switch (process.env.CONFIG_PERSIST_DOWNLOADS) {
         case 'true':
-          return process.env.CONFIG_DOWNLOAD_LOCATION || '/tmp/popcorn-time-desktop';
+          return (
+            process.env.CONFIG_DOWNLOAD_LOCATION || '/tmp/popcorn-time-desktop'
+          );
         default:
           return os.tmpdir();
       }
@@ -42,41 +56,49 @@ export default class Torrent {
       server.listen(port);
       this.server = server;
 
-      const { file, torrentIndex } = torrent.files.reduce((previous, current, index) => {
-        const formatIsSupported = !!supportedFormats.find(
-          format => current.name.includes(format)
-        );
+      const { file, torrentIndex } = torrent.files.reduce(
+        (previous, current, index) => {
+          const formatIsSupported = !!supportedFormats.find(format =>
+            current.name.includes(format)
+          );
 
-        switch (activeMode) {
-          // Check if the current file is the exact episode we're looking for
-          case 'season_complete':
-            if (formatIsSupported && isExactEpisode(current.name, season, episode)) {
-              previous.file.deselect();
-              return {
-                file: current,
-                torrentIndex: index
-              };
-            }
+          switch (activeMode) {
+            // Check if the current file is the exact episode we're looking for
+            case 'season_complete':
+              if (
+                formatIsSupported &&
+                isExactEpisode(current.name, season, episode)
+              ) {
+                previous.file.deselect();
+                return {
+                  file: current,
+                  torrentIndex: index
+                };
+              }
 
-            return previous;
+              return previous;
 
-          // Check if the current file is greater than the previous file
-          default:
-            if (formatIsSupported && current.length > previous.file.length) {
-              previous.file.deselect();
-              return {
-                file: current,
-                torrentIndex: index
-              };
-            }
+            // Check if the current file is greater than the previous file
+            default:
+              if (formatIsSupported && current.length > previous.file.length) {
+                previous.file.deselect();
+                return {
+                  file: current,
+                  torrentIndex: index
+                };
+              }
 
-            return previous;
-        }
-      }, { file: torrent.files[0], torrentIndex: 0 });
+              return previous;
+          }
+        },
+        { file: torrent.files[0], torrentIndex: 0 }
+      );
 
       if (typeof torrentIndex !== 'number') {
         console.warn('File List', torrent.files.map(_file => _file.name));
-        throw new Error(`No torrent could be selected. Torrent Index: ${torrentIndex}`);
+        throw new Error(
+          `No torrent could be selected. Torrent Index: ${torrentIndex}`
+        );
       }
 
       const buffer = 1 * 1024 * 1024; // 1MB
@@ -117,7 +139,7 @@ export default class Torrent {
 
       if (this.server) {
         this.server.close();
-        this.server = undefined;
+        this.server = {};
       }
 
       this.clearIntervals();
@@ -130,7 +152,25 @@ export default class Torrent {
   }
 }
 
-export function formatSpeeds({ downloadSpeed, uploadSpeed, progress, numPeers, ratio }) {
+type torrentSpeedsType = {
+  downloadSpeed: number,
+  uploadSpeed: number,
+  progress: number,
+  numPeers: number,
+  ratio: number
+};
+
+export function formatSpeeds(
+  torrentSpeeds: torrentSpeedsType
+): torrentSpeedsType {
+  const {
+    downloadSpeed,
+    uploadSpeed,
+    progress,
+    numPeers,
+    ratio
+  } = torrentSpeeds;
+
   return {
     downloadSpeed: downloadSpeed / 1000000,
     uploadSpeed: uploadSpeed / 1000000,
@@ -143,22 +183,28 @@ export function formatSpeeds({ downloadSpeed, uploadSpeed, progress, numPeers, r
 /**
  * Get the subtitle file buffer given an array of files
  */
-export function selectSubtitleFile(files: Array<string>,
-                                    activeMode: string,
-                                    metadata: string = '') {
-  return files.find(file => {
-    const formatIsSupported = file.name.includes('.srt');
+export function selectSubtitleFile(
+  files: Array<{ name: string }> = [],
+  activeMode: string,
+  metadata: { season: number, episode: number }
+): { name: string } | boolean {
+  return (
+    files.find(file => {
+      const formatIsSupported = file.name.includes('.srt');
 
-    switch (activeMode) {
-      // Check if the current file is the exact episode we're looking for
-      case 'season_complete': {
-        const { season, episode } = metadata;
-        return (formatIsSupported && isExactEpisode(file.name, season, episode));
+      switch (activeMode) {
+        // Check if the current file is the exact episode we're looking for
+        case 'season_complete': {
+          const { season, episode } = metadata;
+          return (
+            formatIsSupported && isExactEpisode(file.name, season, episode)
+          );
+        }
+
+        // Check if the current file is greater than the previous file
+        default:
+          return formatIsSupported;
       }
-
-      // Check if the current file is greater than the previous file
-      default:
-        return formatIsSupported;
-    }
-  });
+    }) || false
+  );
 }

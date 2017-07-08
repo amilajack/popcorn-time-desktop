@@ -10,10 +10,10 @@
 // @TODO: Import only boootstrap that are used
 //
 
-@import 'bootstrap/scss/bootstrap-flex.scss';
-@import 'ionicons-temp/scss/ionicons.scss';
-@import 'plyr/src/scss/plyr.scss';
-@import 'notie/src/notie.scss';
+@import '~bootstrap/scss/bootstrap.scss';
+@import '~ionicons-temp/scss/ionicons.scss';
+@import '~plyr/src/scss/plyr.scss';
+@import '~notie/src/notie.scss';
 
 //
 // Components
@@ -21,7 +21,11 @@
 
 @import './components/Movie.scss';
 @import './components/CardList.scss';
+@import './components/Rating.scss';
 @import './components/Loader.scss';
+@import './components/Item.scss';
+@import './components/Show.scss';
+@import './components/Button.scss';
 
 //
 // Utilities

@@ -4,11 +4,33 @@
 
 // Base
 $body-bg: #252525;
-$gray-dark: black;
+$gray-dark: #151515;
+$link-color: #1B221C;
 $gray: #303030;
 $brand-primary: white;
 $enable-rounded: false;
 $enable-hover-media-query: true;
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 544px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px
+);
+
+$container-max-widths: (
+  sm: 576px,
+  md: 720px,
+  lg: 940px,
+  xl: 1200px
+);
+
+// Input
+$input-bg: rgb(53, 53, 53);
+$input-border-color: rgb(53, 53, 53);
+$input-group-addon-bg: rgb(53, 53, 53);
+$input-color: white;
 
 // Components
 $component-active-bg: gray;
@@ -19,14 +41,43 @@ $container-max-widths: (
   xl: 1540px
 ) !default;
 $headings-color: white;
-$navbar-dark-color: #252525;
+$navbar-dark-color: #848484;
 
 // Fonts
 $font-family-base: "Avenir Next", Avenir, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, sans-serif;
+$headings-font-weight: 400;
+
+.row-margin {
+  margin: 20px 0;
+}
+
+#summary {
+  line-height: 2rem;
+}
+
+::selection {
+  background: black;
+  color: white;
+}
+
+.btn-back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+}
 
 //
-// Notie variables override
+// Custom Components
 //
 
+// Card list
+$card-list-color: #848484;
+
+// Notie
 $notie-font-size-big: 18px;
 $notie-font-size-small: 18px;
+
+// Plyr
+$plyr-color-main: gray;
+$plyr-tooltip-radius: 0;

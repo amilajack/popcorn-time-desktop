@@ -3,12 +3,12 @@
 //
 
 // Required:
-// imdbId
+// itemId
 // type    | The type of torrent: movies or shows
 
 // Example:
 //
-// getTorrent(imdbId, type, {
+// getTorrent(itemId, type, {
 //  searchQuery: 'harry potter and the half...',
 //  ...otherCustomOptions
 // })

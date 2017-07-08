@@ -1,16 +1,34 @@
+// @flow
 import { remote } from 'electron';
 import plyr from 'plyr';
 import childProcess from 'child_process';
 import vlcCommand from 'vlc-command';
 
-
 const { powerSaveBlocker } = remote;
 
-export default class Player {
+type metadataType = {
+  poster: string
+};
 
+export default class Player {
   currentPlayer = 'plyr';
 
-  static nativePlaybackFormats = ['mp4', 'ogg', 'mov', 'webmv', 'mkv', 'wmv', 'avi'];
+  powerSaveBlockerId: number;
+
+  /**
+   * @private
+   */
+  player: plyr;
+
+  static nativePlaybackFormats = [
+    'mp4',
+    'ogg',
+    'mov',
+    'webmv',
+    'mkv',
+    'wmv',
+    'avi'
+  ];
 
   static experimentalPlaybackFormats = [];
 
@@ -21,6 +39,9 @@ export default class Player {
     if (this.powerSaveBlockerId) {
       powerSaveBlocker.stop(this.powerSaveBlockerId);
     }
+    if (this.player) {
+      this.player.destroy();
+    }
   }
 
   /**
@@ -30,40 +51,77 @@ export default class Player {
     this.player.restart();
   }
 
-  static isFormatSupported(filename, mimeTypes) {
-    return mimeTypes.find(
-      mimeType => filename.toLowerCase().includes(mimeType)
+  static isFormatSupported(
+    filename: string,
+    mimeTypes: Array<string>
+  ): boolean {
+    return !!mimeTypes.find(mimeType =>
+      filename.toLowerCase().includes(mimeType)
     );
   }
 
-  initPlyr(streamingUrl, metadata = {}) {
+  initYouTube(itemTitle: string, source: string) {
+    console.info('Initializing plyr...');
     this.currentPlayer = 'plyr';
-    this.powerSaveBlockerId = powerSaveBlocker.start('prevent-app-suspension');
 
-    this._player = this._player || plyr.setup({
-      volume: 10,
-      autoplay: true,
-      showPosterOnEnd: true
-    })[0];
+    this.player =
+      this.player ||
+      plyr.setup({
+        volume: 10,
+        autoplay: true,
+        showPosterOnEnd: true
+      })[0];
 
-    const player = this._player;
+    const player = this.player;
 
     player.source({
+      title: `${itemTitle} Trailer`,
       type: 'video',
-      sources: [{
-        src: streamingUrl,
-        type: 'video/mp4'
-      }],
-      ...metadata
+      sources: [
+        {
+          src: source,
+          type: 'youtube'
+        }
+      ]
     });
-
-    player.poster(metadata.poster);
 
     return player;
   }
 
-  initVLC(servingUrl) {
-    vlcCommand((error, cmd) => {
+  initPlyr(streamingUrl: string, metadata: metadataType = {}): plyr {
+    console.info('Initializing plyr...');
+    this.currentPlayer = 'plyr';
+    this.powerSaveBlockerId = powerSaveBlocker.start('prevent-app-suspension');
+
+    this.player =
+      this.player ||
+      plyr.setup({
+        volume: 10,
+        autoplay: true,
+        showPosterOnEnd: true
+      })[0];
+
+    const player = this.player;
+
+    player.source({
+      type: 'video',
+      sources: [
+        {
+          src: streamingUrl,
+          type: 'video/mp4'
+        }
+      ],
+      ...metadata
+    });
+
+    player.poster(metadata.poster);
+    player.toggleFullscreen();
+
+    return player;
+  }
+
+  initVLC(servingUrl: string) {
+    vlcCommand((error, cmd: string) => {
       if (error) return console.error('Could not find vlc command path');
 
       if (process.platform === 'win32') {
@@ -78,7 +136,9 @@ export default class Player {
         });
       }
 
-      this.powerSaveBlockerId = powerSaveBlocker.start('prevent-app-suspension');
+      this.powerSaveBlockerId = powerSaveBlocker.start(
+        'prevent-app-suspension'
+      );
 
       return true;
     });

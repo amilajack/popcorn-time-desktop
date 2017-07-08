@@ -34,11 +34,11 @@
 
 **Faster Torrents**: New API optimized for fast torrents by querying the from multiple endpoints
 
-**Modern Stack**: Electron, React, Webpack, ES7, Flow, and others
+**Modern Stack**: Electron, React, Redux, Webpack, ES7, Flow, and others
 
 ## Requirements:
 
-* [Node >= 6](https://nodejs.org)
+* [Node >= 8](https://nodejs.org)
 * Mac, Linux, Windows
 * For packaging, see [packaging requirements](https://github.com/amilajack/popcorn-time-desktop/wiki/Packaging-Requirements)
 
@@ -54,8 +54,8 @@ cd popcorn-time-desktop
 
 # Install dependencies
 # Have a cup of coffee ☕️ this might take a while
-# Remember to `npm rebuild` if necessary
-npm install
+# Run `npm run electron-rebuild` if get a 'module version mismatch' error
+yarn
 
 # Customize Build
 # Feel free to enable flags and configs in the `.env` file
@@ -81,6 +81,3 @@ See the [roadmap](https://github.com/amilajack/popcorn-time-desktop/wiki/Road-Ma
 
 ### Movie Page:
 ![Movie page](https://raw.github.com/amilajack/popcorn-time-desktop/master/images/movie-page.jpg)
-
-### TV Show Page:
-![Show page](https://raw.github.com/amilajack/popcorn-time-desktop/master/images/show-page.jpg)

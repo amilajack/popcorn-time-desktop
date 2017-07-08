@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Card Component should have movie title 1`] = `
+<Link
+  className="Card--title"
+  replace={true}
+  to="/item/undefined/248245"
+>
+  Test movie
+</Link>
+`;
