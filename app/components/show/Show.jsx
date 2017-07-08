@@ -27,10 +27,10 @@ export default function Show(props: Props) {
   } = props;
 
   return (
-    <div className="row">
+    <div className="Show row">
       <div className="col-sm-12 col-md-6">
         <h4>Seasons:</h4>
-        <div className="list-group">
+        <div className="list-group Show--list-group">
           {seasons.map(season =>
             <a
               className={classNames('list-group-item', {
@@ -47,7 +47,7 @@ export default function Show(props: Props) {
 
       <div className="col-sm-12 col-md-6">
         <h4>Episodes:</h4>
-        <div className="list-group">
+        <div className="list-group Show--list-group">
           {episodes.map(episode =>
             <a
               className={classNames('list-group-item', {
