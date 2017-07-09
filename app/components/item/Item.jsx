@@ -183,6 +183,10 @@ export default class Item extends Component {
     this.setState({
       castingDevices: await this.playerProvider.getDevices()
     });
+    setInterval(async () => {
+      console.log(this.state.castingDevices);
+      console.log(await this.playerProvider.getDevices());
+    }, 5000);
   }
 
   /**
@@ -355,7 +359,7 @@ export default class Item extends Component {
             };
           }
           case 'shows': {
-            if (process.env.FLAG_SEASON_COMPLETE === 'cow') {
+            if (process.env.FLAG_SEASON_COMPLETE === 'true') {
               const [shows, seasonComplete] = await Promise.all([
                 this.butter.getTorrent(imdbId, this.props.activeMode, {
                   season,
@@ -621,7 +625,11 @@ export default class Item extends Component {
           case 'chromecast': {
             const { title } = this.state.item;
             const { full } = this.state.item.images.fanart;
-            this.player.initCast(this.playerProvider, servingUrl, this.state.item);
+            this.player.initCast(
+              this.playerProvider,
+              servingUrl,
+              this.state.item
+            );
             break;
           }
           case 'default':
@@ -881,18 +889,16 @@ export default class Item extends Component {
               <DropdownItem onClick={() => this.setPlayer('vlc')}>
                 VLC
               </DropdownItem>
-              {process.env.FLAG_CASTING === 'true'
-                ? this.state.castingDevices.map(castingDevice =>
-                    <DropdownItem
-                      onClick={() => {
-                        this.setPlayer('chromecast');
-                        this.playerProvider.selectDevice(castingDevice.id);
-                      }}
-                    >
-                      {castingDevice.name}
-                    </DropdownItem>
-                  )
-                : null}
+              {this.state.castingDevices.map(castingDevice =>
+                <DropdownItem
+                  onClick={() => {
+                    this.setPlayer('chromecast');
+                    this.playerProvider.selectDevice(castingDevice.id);
+                  }}
+                >
+                  {castingDevice.name}
+                </DropdownItem>
+              )}
             </DropdownMenu>
           </Dropdown>
 
