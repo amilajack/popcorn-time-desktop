@@ -93,6 +93,8 @@ export default class Item extends Component {
 
   player: Player;
 
+  checkCastingDevicesInterval: number;
+
   defaultTorrent: torrentSelectionType = {
     default: {
       quality: undefined,
@@ -183,10 +185,6 @@ export default class Item extends Component {
     this.setState({
       castingDevices: await this.playerProvider.getDevices()
     });
-    setInterval(async () => {
-      console.log(this.state.castingDevices);
-      console.log(await this.playerProvider.getDevices());
-    }, 5000);
   }
 
   /**
@@ -213,6 +211,11 @@ export default class Item extends Component {
     window.scrollTo(0, 0);
     this.initCastingDevices();
 
+    this.checkCastingDevicesInterval = setInterval(() => {
+      console.log('Looking for casting devices...');
+      this.initCastingDevices();
+    }, 10000);
+
     this.getAllData(this.props.itemId);
     this.stopPlayback();
     this.player.destroy();
@@ -228,6 +231,7 @@ export default class Item extends Component {
 
   componentWillUnmount() {
     this.stopPlayback();
+    clearInterval(this.checkCastingDevicesInterval);
     this.player.destroy();
   }
 
@@ -241,6 +245,7 @@ export default class Item extends Component {
     });
 
     this.getAllData(nextProps.itemId);
+    this.initCastingDevices();
   }
 
   getAllData(itemId: string) {

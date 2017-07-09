@@ -30,7 +30,8 @@ class ChromecastPlayerProvider implements PlayerProviderInterface {
   browser: {
     on: (event: string, cb: (device: castv2DeviceType) => void) => void,
     start: () => void,
-    stop: () => void
+    stop: () => void,
+    removeAllListeners: () => void
   };
 
   constructor() {
@@ -54,6 +55,7 @@ class ChromecastPlayerProvider implements PlayerProviderInterface {
 
       setTimeout(() => {
         this.browser.stop();
+        this.browser.removeAllListeners();
         resolve(devices);
         this.devices = devices;
       }, timeout);
