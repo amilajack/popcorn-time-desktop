@@ -61,7 +61,7 @@ describe('e2e', function testApp() {
         .keys('Enter');
 
       await this.app.client.waitUntilWindowLoaded(); // await search results();
-      await delay(3000);
+      await delay(6000);
 
       const movieTitles = await this.app.client.getText('.Card .Card--title');
       expect(movieTitles[0]).toContain('Harry Potter');
@@ -73,7 +73,7 @@ describe('e2e', function testApp() {
         .keys('Enter');
 
       await this.app.client.waitUntilWindowLoaded(); // await search results();
-      await delay(3000);
+      await delay(6000);
 
       const secondMovieTitles = await this.app.client.getText(
         '.Card .Card--title'
@@ -84,6 +84,7 @@ describe('e2e', function testApp() {
     });
 
     it('should navigate to item on CardList click', async () => {
+      await this.app.client.click('.nav-item:nth-child(2) .nav-link');
       await this.app.client.waitForVisible('.CardList').click('.Card');
 
       await this.app.client.waitUntilWindowLoaded();
@@ -126,6 +127,7 @@ describe('e2e', function testApp() {
 
   describe('ItemPage', () => {
     beforeEach(async () => {
+      await this.app.client.click('.nav-item:nth-child(2) .nav-link');
       await this.app.client.waitForVisible('.CardList').click('.Card');
       await this.app.client.waitUntilWindowLoaded();
       await delay(2000);

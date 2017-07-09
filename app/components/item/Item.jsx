@@ -642,7 +642,7 @@ export default class Item extends Component {
               Player.isFormatSupported(filename, Player.nativePlaybackFormats)
             ) {
               this.player.initPlyr(servingUrl, {
-                poster: this.state.item.images.fanart.thumb,
+                ...this.state.item,
                 tracks: subtitles
               });
               this.toggleActive();
