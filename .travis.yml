@@ -21,6 +21,7 @@ addons:
       - graphicsmagick
       - xz-utils
       - xorriso
+      - libavahi-compat-libdnssd-dev
 
 install:
   - export CXX="g++-4.8"
