@@ -12,11 +12,11 @@ import {
 } from './BaseTorrentProvider';
 
 type extendedDetailsType =
-   | {}
-   | {
-       season: number,
-       episode: number
-     };
+  | {}
+  | {
+      season: number,
+      episode: number
+    };
 
 /**
  * @TODO: Use ES6 dynamic imports here

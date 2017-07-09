@@ -1,6 +1,8 @@
 // @flow
 // Initialize the player
 
+import type { imagesType } from '../metadata/MetadataProviderInterface'
+
 export type deviceType = {
   id: string,
   name: string,
@@ -10,9 +12,7 @@ export type deviceType = {
 
 export type metadataType = {
   title: string,
-  image: {
-    poster: string
-  }
+  images: imagesType
 };
 
 export interface PlayerProviderInterface {

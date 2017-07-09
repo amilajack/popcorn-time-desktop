@@ -63,23 +63,14 @@ export default class Player {
   }
 
   async initCast(
-     provider: ChromecastPlayerProvider,
-     // selectedDeviceId: string,
-     streamingUrl: string,
-     metadata: metadataType = {}
-   ) {
-     // await provider.selectDevice(selectedDeviceId);
-     const addr = streamingUrl.replace('localhost', network());
-
-     console.log(addr, network());
-
-     return provider.play(addr, {
-       title: 'Big Buck Bunny',
-       image: {
-         poster: metadata.poster || ''
-       }
-     });
-   }
+    provider: ChromecastPlayerProvider,
+    // selectedDeviceId: string,
+    streamingUrl: string,
+    metadata: metadataType = {}
+  ) {
+    const addr = streamingUrl.replace('localhost', network());
+    return provider.play(addr, metadata);
+  }
 
   initYouTube(itemTitle: string, source: string) {
     console.info('Initializing plyr...');

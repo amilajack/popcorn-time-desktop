@@ -204,7 +204,7 @@ export default class Home extends Component {
   render() {
     const { activeMode, actions, items, isLoading } = this.props;
 
-    const home =
+    const home = (
       <div className="row">
         <div className="col-sm-12">
           <CardList
@@ -221,6 +221,7 @@ export default class Home extends Component {
           />
         </div>
       </div>
+    );
 
     return (
       <div className="row">
@@ -229,10 +230,7 @@ export default class Home extends Component {
           {activeMode === 'home'
             ? home
             : <div>
-                <CardList
-                  items={items}
-                  isLoading={isLoading}
-                />
+                <CardList items={items} isLoading={isLoading} />
                 <VisibilitySensor onChange={this.onChange} />
               </div>}
         </div>

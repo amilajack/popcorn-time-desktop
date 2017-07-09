@@ -35,7 +35,7 @@ import type {
   qualityType
 } from '../../api/torrents/TorrentProviderInterface';
 import ChromecastPlayerProvider from '../../api/players/ChromecastPlayerProvider';
- import type { deviceType } from '../../api/torrents/TorrentProviderInterface';
+import type { deviceType } from '../../api/torrents/TorrentProviderInterface';
 
 const SUMMARY_CHAR_LIMIT = 300;
 
@@ -180,10 +180,10 @@ export default class Item extends Component {
   static defaultProps: Props;
 
   async initCastingDevices() {
-     this.setState({
-       castingDevices: await this.playerProvider.getDevices()
-     });
-   }
+    this.setState({
+      castingDevices: await this.playerProvider.getDevices()
+    });
+  }
 
   /**
    * Check which players are available on the system
@@ -567,7 +567,11 @@ export default class Item extends Component {
     });
   }
 
-  async startPlayback(magnet?: string, activeMode?: string, currentPlayer: playerType) {
+  async startPlayback(
+    magnet?: string,
+    activeMode?: string,
+    currentPlayer: playerType
+  ) {
     if (this.state.torrentInProgress) {
       this.stopPlayback();
     }
@@ -617,7 +621,7 @@ export default class Item extends Component {
           case 'chromecast': {
             const { title } = this.state.item;
             const { full } = this.state.item.images.fanart;
-            this.player.initCast(this.playerProvider, servingUrl, {})
+            this.player.initCast(this.playerProvider, servingUrl, this.state.item);
             break;
           }
           case 'default':
@@ -861,6 +865,37 @@ export default class Item extends Component {
             <div className="Item--overlay" />
           </div>
 
+          <Dropdown
+            style={{ float: 'right' }}
+            isOpen={dropdownOpen}
+            toggle={() => this.toggle()}
+          >
+            <DropdownToggle caret>
+              {currentPlayer || 'default'}
+            </DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem header>Select Player</DropdownItem>
+              <DropdownItem onClick={() => this.setPlayer('default')}>
+                Default
+              </DropdownItem>
+              <DropdownItem onClick={() => this.setPlayer('vlc')}>
+                VLC
+              </DropdownItem>
+              {process.env.FLAG_CASTING === 'true'
+                ? this.state.castingDevices.map(castingDevice =>
+                    <DropdownItem
+                      onClick={() => {
+                        this.setPlayer('chromecast');
+                        this.playerProvider.selectDevice(castingDevice.id);
+                      }}
+                    >
+                      {castingDevice.name}
+                    </DropdownItem>
+                  )
+                : null}
+            </DropdownMenu>
+          </Dropdown>
+
           <div className="row hidden-sm-up">
             <div className="col-sm-8">
               {/* Torrent Selection */}
@@ -928,38 +963,6 @@ export default class Item extends Component {
 
                 return null;
               })()}
-            </div>
-            <div className="col-sm-4">
-              <Dropdown
-                style={{ float: 'right' }}
-                isOpen={dropdownOpen}
-                toggle={() => this.toggle()}
-              >
-                <DropdownToggle caret>
-                  {currentPlayer || 'default'}
-                </DropdownToggle>
-                <DropdownMenu>
-                  <DropdownItem header>Select Player</DropdownItem>
-                  <DropdownItem onClick={() => this.setPlayer('default')}>
-                    Default
-                  </DropdownItem>
-                  <DropdownItem onClick={() => this.setPlayer('vlc')}>
-                    VLC
-                  </DropdownItem>
-                  {process.env.FLAG_CASTING === 'true'
-                    ? this.state.castingDevices.map(castingDevice =>
-                         <DropdownItem
-                           onClick={() => {
-                             this.setPlayer('chromecast')
-                             this.playerProvider.selectDevice(castingDevice.id)
-                           }}
-                         >
-                           {castingDevice.name}
-                         </DropdownItem>
-                       )
-                    : null}
-                </DropdownMenu>
-              </Dropdown>
             </div>
           </div>
 

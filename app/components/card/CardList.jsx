@@ -16,13 +16,7 @@ type Props = {
 };
 
 export default function CardList(props: Props) {
-  const {
-    items,
-    isLoading,
-    isFinished,
-    title,
-    limit
-  } = props;
+  const { items, isLoading, isFinished, title, limit } = props;
 
   return (
     <div className="row">

@@ -84,7 +84,7 @@ class ChromecastPlayerProvider implements PlayerProviderInterface {
           const media = {
             // Here you can plug an URL to any mp4, webm, mp3 or jpg file with the proper contentType.
             contentId: contentUrl,
-            // contentType: 'video/mp4',
+            contentType: 'video/mp4',
             streamType: 'BUFFERED', // or LIVE
 
             // Title and cover displayed while buffering
@@ -94,7 +94,10 @@ class ChromecastPlayerProvider implements PlayerProviderInterface {
               title: metadata.title,
               images: [
                 {
-                  url: metadata.image.poster
+                  url: metadata.images.poster.full
+                },
+                {
+                  url: metadata.images.fanart.full
                 }
               ]
             }

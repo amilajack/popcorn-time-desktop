@@ -4,7 +4,7 @@
   "description": "An experimental Popcorn Time client",
   "scripts": {
     "bench-api": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 jest test/**/*.benchmark.js",
-    "build": "cross-env NODE_ENV=production FLAG_SEASON_COMPLETE=true FLAG_MANUAL_TORRENT_SELECTION=true npm run build-main && npm run build-renderer",
+    "build": "cross-env NODE_ENV=production FLAG_CASTING=true FLAG_SEASON_COMPLETE=true FLAG_MANUAL_TORRENT_SELECTION=true npm run build-main && npm run build-renderer",
     "build-dll": "cross-env NODE_ENV=development node --trace-warnings -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.renderer.dev.dll.js --colors",
     "build-main": "cross-env NODE_ENV=production node --trace-warnings -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.main.prod.js --colors",
     "build-renderer": "cross-env NODE_ENV=production node --trace-warnings -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.renderer.prod.js --colors",
@@ -262,9 +262,5 @@
   "devEngines": {
     "node": ">=8.x",
     "npm": ">=5.x"
-  },
-  "optionalDependencies": {
-    "castv2-webpack": "0.1.10",
-    "chromecast-player": "0.2.3"
   }
 }

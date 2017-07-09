@@ -9,10 +9,10 @@ import { isExactEpisode } from './torrents/BaseTorrentProvider';
 const port = 9090;
 
 type metadataType = {
-   season: number,
-   episode: number,
-   activeMode: string
- };
+  season: number,
+  episode: number,
+  activeMode: string
+};
 
 export default class Torrent {
   inProgress: boolean = false;
@@ -26,11 +26,11 @@ export default class Torrent {
   magnetURI: string;
 
   server:
-     | {}
-     | {
-         close: () => void,
-         listen: (port: number) => void
-       };
+    | {}
+    | {
+        close: () => void,
+        listen: (port: number) => void
+      };
 
   start(
     magnetURI: string,
@@ -52,8 +52,8 @@ export default class Torrent {
     this.magnetURI = magnetURI;
 
     const cacheLocation = process.env.CONFIG_PERSIST_DOWNLOADS === 'true'
-       ? process.env.CONFIG_DOWNLOAD_LOCATION || '/tmp/popcorn-time-desktop'
-       : os.tmpdir();
+      ? process.env.CONFIG_DOWNLOAD_LOCATION || '/tmp/popcorn-time-desktop'
+      : os.tmpdir();
 
     this.engine.add(magnetURI, { path: cacheLocation }, torrent => {
       const server = torrent.createServer();
