@@ -174,9 +174,7 @@ export default class Item extends Component {
     this.torrent = new Torrent();
     this.player = new Player();
     this.state = this.initialState;
-
     this.playerProvider = new ChromecastPlayerProvider();
-    this.subtitleServer = startSubtitleServer();
   }
 
   static defaultProps: Props;
@@ -227,6 +225,8 @@ export default class Item extends Component {
       favorites: await this.butter.favorites('get'),
       watchList: await this.butter.watchList('get')
     });
+
+    this.subtitleServer = await startSubtitleServer();
   }
 
   componentWillUnmount() {
@@ -878,34 +878,43 @@ export default class Item extends Component {
             <div className="Item--overlay" />
           </div>
 
-          <Dropdown
-            style={{ float: 'right' }}
-            isOpen={dropdownOpen}
-            toggle={() => this.toggle()}
-          >
-            <DropdownToggle caret>
-              {currentPlayer || 'default'}
-            </DropdownToggle>
-            <DropdownMenu>
-              <DropdownItem header>Select Player</DropdownItem>
-              <DropdownItem onClick={() => this.setPlayer('default')}>
-                Default
-              </DropdownItem>
-              <DropdownItem onClick={() => this.setPlayer('vlc')}>
-                VLC
-              </DropdownItem>
-              {this.state.castingDevices.map(castingDevice =>
-                <DropdownItem
-                  onClick={() => {
-                    this.setPlayer('chromecast');
-                    this.playerProvider.selectDevice(castingDevice.id);
-                  }}
-                >
-                  {castingDevice.name}
-                </DropdownItem>
-              )}
-            </DropdownMenu>
-          </Dropdown>
+          <div className="row">
+            <div className="col-sm-12">
+              <Dropdown
+                style={{ float: 'right' }}
+                isOpen={dropdownOpen}
+                toggle={() => this.toggle()}
+                className="row-margin"
+              >
+                <DropdownToggle caret>
+                  {currentPlayer || 'default'}
+                </DropdownToggle>
+                <DropdownMenu>
+                  <DropdownItem header>Select Player</DropdownItem>
+                  <DropdownItem
+                    key="default"
+                    onClick={() => this.setPlayer('default')}
+                  >
+                    Default
+                  </DropdownItem>
+                  <DropdownItem key="vlc" onClick={() => this.setPlayer('vlc')}>
+                    VLC
+                  </DropdownItem>
+                  {this.state.castingDevices.map(castingDevice =>
+                    <DropdownItem
+                      key={castingDevice.id}
+                      onClick={() => {
+                        this.setPlayer('chromecast');
+                        this.playerProvider.selectDevice(castingDevice.id);
+                      }}
+                    >
+                      {castingDevice.name}
+                    </DropdownItem>
+                  )}
+                </DropdownMenu>
+              </Dropdown>
+            </div>
+          </div>
 
           <div className="row hidden-sm-up">
             <div className="col-sm-8">

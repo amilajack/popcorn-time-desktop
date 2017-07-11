@@ -2,11 +2,26 @@
 //  Bootstrap variables override
 //
 
+$gray: #303030;
+$gray-dark: #151515;
+$gray-light: gray;
+$gray-lighter: gray;
+$gray-lightest: gray;
+
+// $enable-flex:               true;
+$enable-rounded:            true;
+$enable-shadows:            true;
+$enable-gradients:          true;
+$enable-transitions:        true;
+$enable-hover-media-query:  true;
+$enable-grid-classes:       true;
+
 // Base
 $body-bg: #252525;
-$gray-dark: #151515;
+$body-color: white;
+
 $link-color: #1B221C;
-$gray: #303030;
+
 $brand-primary: white;
 $enable-rounded: false;
 $enable-hover-media-query: true;
@@ -31,6 +46,19 @@ $input-bg: rgb(53, 53, 53);
 $input-border-color: rgb(53, 53, 53);
 $input-group-addon-bg: rgb(53, 53, 53);
 $input-color: white;
+
+// List Group
+$list-group-border-color: black;
+$list-group-link-color: white;
+$list-group-hover-bg: #333333;
+$list-group-hover-bg: #333333;
+$list-group-active-border: black;
+$list-group-bg: #484848;
+
+// Card
+$card-bg: #484848;
+$card-border-color: none;
+$card-color: white;
 
 // Components
 $component-active-bg: gray;
