@@ -92,8 +92,7 @@
     "linux": {
       "target": [
         "deb",
-        "rpm",
-        "snap"
+        "rpm"
       ]
     },
     "directories": {

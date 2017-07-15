@@ -24,7 +24,6 @@ addons:
       - xz-utils
       - gcc-multilib
       - g++-multilib
-      - snapcraft
       - rpm
       - libavahi-compat-libdnssd-dev
 
