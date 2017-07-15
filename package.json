@@ -92,7 +92,8 @@
     "linux": {
       "target": [
         "deb",
-        "AppImage"
+        "rpm",
+        "snap"
       ]
     },
     "directories": {

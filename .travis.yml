@@ -1,4 +1,6 @@
-sudo: false
+sudo: required
+
+dist: trusty
 
 language: node_js
 
@@ -20,7 +22,10 @@ addons:
       - icnsutils
       - graphicsmagick
       - xz-utils
-      - xorriso
+      - gcc-multilib
+      - g++-multilib
+      - snapcraft
+      - rpm
       - libavahi-compat-libdnssd-dev
 
 install:
