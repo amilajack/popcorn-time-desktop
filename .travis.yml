@@ -8,7 +8,7 @@ dist: trusty
 
 osx_image: xcode8.3
 
-language: node_js
+language: cpp
 
 node_js:
   - 8
@@ -37,7 +37,13 @@ addons:
       - libavahi-compat-libdnssd-dev
 
 before_install:
+  - git submodule update --init --recursive
+  - git clone https://github.com/creationix/nvm.git ./.nvm
+  - source ./.nvm/nvm.sh
+  - nvm install $NODE_VERSION
+  - nvm use $NODE_VERSION
   - npm config set python `which python`
+  - npm i -g yarn@latest
 
 install:
   - export CXX="g++-4.8"
