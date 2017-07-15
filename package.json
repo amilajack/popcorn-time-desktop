@@ -1,6 +1,6 @@
 {
   "name": "popcorn-time-desktop",
-  "version": "0.0.7",
+  "version": "v0.0.7",
   "description": "An experimental Popcorn Time client",
   "scripts": {
     "bench-api": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 jest test/**/*.benchmark.js",
@@ -15,8 +15,9 @@
     "lint": "eslint --ext .jsx,.js --cache --format=node_modules/eslint-formatter-pretty .",
     "lint-styles": "stylelint app/styles/*.scss app/styles/**/*.scss --syntax scss",
     "lint-summary": "eslint-nibble app test *.js",
-    "package": "npm run postinstall && npm run build && build --publish onTagOrDraft",
+    "package": "npm run postinstall && npm run build && build --publish never",
     "package-all": "npm run postinstall && npm run build && build --publish never --mac --win --linux",
+    "package-ci": "npm run postinstall && npm run build && build --publish",
     "prestart": "npm run build",
     "prettier": "prettier --single-quote --write \"./{app,test}/{actions,api,components,containers,reducers,utils}/**/*.js\" && prettier --single-quote --write \"./app/{actions,api,components,containers,reducers,utils}/**/*.jsx\"",
     "postinstall": "npm run build-dll && node node_modules/fbjs-scripts/node/check-dev-engines.js package.json && node -r babel-register postinstall.js",
@@ -261,6 +262,7 @@
   },
   "devEngines": {
     "node": ">=8.x",
-    "npm": ">=5.x"
+    "npm": ">=5.x",
+    "yarn": ">=0.27.5"
   }
 }

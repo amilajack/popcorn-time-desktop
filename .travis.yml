@@ -41,5 +41,5 @@ before_script:
 script:
   # - npm run lint
   # - npm run test
-  - npm run package
+  - npm run package-ci
   - npm run test-e2e
