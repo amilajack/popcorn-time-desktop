@@ -15,7 +15,7 @@
     "lint": "eslint --ext .jsx,.js --cache --format=node_modules/eslint-formatter-pretty .",
     "lint-styles": "stylelint app/styles/*.scss app/styles/**/*.scss --syntax scss",
     "lint-summary": "eslint-nibble app test *.js",
-    "package": "npm run postinstall && npm run build && build --publish never",
+    "package": "npm run postinstall && npm run build && build --publish onTagOrDraft",
     "package-all": "npm run postinstall && npm run build && build --publish never --mac --win --linux",
     "prestart": "npm run build",
     "prettier": "prettier --single-quote --write \"./{app,test}/{actions,api,components,containers,reducers,utils}/**/*.js\" && prettier --single-quote --write \"./app/{actions,api,components,containers,reducers,utils}/**/*.jsx\"",
