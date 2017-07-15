@@ -8,12 +8,15 @@
 import ConfigStore from 'configstore';
 
 export default function setupConfig() {
-  return new ConfigStore(process.env.NODE_ENV === 'TEST' ? 'popcorn-time-test' : 'popcorn-time', {
-    favorites: [],
-    recentlyWatched: [],
-    watchList: [],
-    state: {}
-  });
+  return new ConfigStore(
+    process.env.NODE_ENV === 'TEST' ? 'popcorn-time-test' : 'popcorn-time',
+    {
+      favorites: [],
+      recentlyWatched: [],
+      watchList: [],
+      state: {}
+    }
+  );
 }
 
 const config = setupConfig();

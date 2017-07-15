@@ -49,34 +49,35 @@ export default function Show(props: Props) {
           {episodes.length === 0
             ? seasons.length > 0 ? 'No episodes for this season' : null
             : episodes.map(episode =>
-              <a
-                className={classNames('list-group-item', {
-                  active: episode.episode === selectedEpisode
-                })}
-                onClick={() =>
-                  selectShow('episode', selectedSeason, episode.episode)}
-                key={episode.episode}
-              >
-                Ep {episode.episode}. {episode.title}
-              </a>)}
+                <a
+                  className={classNames('list-group-item', {
+                    active: episode.episode === selectedEpisode
+                  })}
+                  onClick={() =>
+                    selectShow('episode', selectedSeason, episode.episode)}
+                  key={episode.episode}
+                >
+                  Ep {episode.episode}. {episode.title}
+                </a>
+              )}
         </div>
       </div>
 
       <div className="col-sm-6">
         <div className="card w-75">
-            <div className="card-block">
-              <h3 className="card-title">
-                {episodes.length && selectedSeason && episodes[selectedEpisode]
-                  ? episodes[selectedEpisode].title
-                  : null}
-              </h3>
-              <p className="card-text">
-                {episodes.length && selectedSeason && episodes[selectedEpisode]
-                  ? episodes[selectedEpisode].overview
-                  : null}
-              </p>
-            </div>
+          <div className="card-block">
+            <h3 className="card-title">
+              {episodes.length && selectedSeason && episodes[selectedEpisode]
+                ? episodes[selectedEpisode].title
+                : null}
+            </h3>
+            <p className="card-text">
+              {episodes.length && selectedSeason && episodes[selectedEpisode]
+                ? episodes[selectedEpisode].overview
+                : null}
+            </p>
           </div>
+        </div>
       </div>
     </div>
   );

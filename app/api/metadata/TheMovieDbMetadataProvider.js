@@ -1,5 +1,4 @@
 // @flow
-import fetch from 'isomorphic-fetch';
 import axios from 'axios';
 import { parseRuntimeMinutesToObject } from './MetadataAdapter';
 import BaseMetadataProvider from './BaseMetadataProvider';

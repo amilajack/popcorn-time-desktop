@@ -3,8 +3,8 @@
  * @flow
  */
 import React, { Component } from 'react';
-import { Tooltip } from 'reactstrap';
 import {
+  Tooltip,
   Dropdown,
   DropdownToggle,
   DropdownMenu,
@@ -13,7 +13,6 @@ import {
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import notie from 'notie';
-import { exec } from 'child_process';
 import { getIdealTorrent } from '../../api/torrents/BaseTorrentProvider';
 import Butter from '../../api/Butter';
 import Torrent from '../../api/Torrent';
@@ -35,7 +34,7 @@ import type {
   qualityType
 } from '../../api/torrents/TorrentProviderInterface';
 import ChromecastPlayerProvider from '../../api/players/ChromecastPlayerProvider';
-import type { deviceType } from '../../api/torrents/TorrentProviderInterface';
+import type { deviceType } from '../../api/players/PlayerProviderInterface';
 
 const SUMMARY_CHAR_LIMIT = 300;
 
@@ -229,12 +228,6 @@ export default class Item extends Component {
     this.subtitleServer = await startSubtitleServer();
   }
 
-  componentWillUnmount() {
-    this.stopPlayback();
-    clearInterval(this.checkCastingDevicesInterval);
-    this.player.destroy();
-  }
-
   componentWillReceiveProps(nextProps: Props) {
     window.scrollTo(0, 0);
 
@@ -246,6 +239,12 @@ export default class Item extends Component {
 
     this.getAllData(nextProps.itemId);
     this.initCastingDevices();
+  }
+
+  componentWillUnmount() {
+    this.stopPlayback();
+    clearInterval(this.checkCastingDevicesInterval);
+    this.player.destroy();
   }
 
   getAllData(itemId: string) {
@@ -691,8 +690,6 @@ export default class Item extends Component {
     } = this.state;
 
     const { activeMode } = this.props;
-
-    const torrentLoadingStatusStyle = { color: 'maroon' };
 
     const statusColorStyle = {
       backgroundColor: (() => {

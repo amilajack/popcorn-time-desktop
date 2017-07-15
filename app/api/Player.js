@@ -119,11 +119,13 @@ export default class Player {
           src: streamingUrl,
           type: 'video/mp4'
         }
-      ],
-      ...metadata
+      ]
     });
 
-    player.poster(metadata.images.poster.full);
+    if ('full' in metadata.images.poster) {
+      player.poster(metadata.images.poster.full);
+    }
+
     player.toggleFullscreen();
 
     return player;
