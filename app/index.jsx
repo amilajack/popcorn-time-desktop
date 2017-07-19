@@ -3,6 +3,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import mousetrap from 'mousetrap';
+import 'electron-titlebar';
 import Root from './containers/Root.jsx';
 import { configureStore, history } from './store/configureStore';
 import './styles/main.scss';

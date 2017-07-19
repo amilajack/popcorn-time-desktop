@@ -64,6 +64,7 @@ app.on('ready', async () => {
     width: 1224,
     height: 728,
     minWidth: 900,
+    titleBarStyle: process.platform === 'win32' ? 'hidden' : undefined,
     backgroundColor: '#252525',
     webPreferences: {
       darkTheme: true,
