@@ -2,7 +2,6 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
-import mousetrap from 'mousetrap';
 import Root from './containers/Root.jsx';
 import { configureStore, history } from './store/configureStore';
 import './styles/main.scss';
@@ -28,26 +27,31 @@ if (module.hot) {
   });
 }
 
-// Bind app shortcuts
-mousetrap.bind(['command+f', 'ctrl+f'], () => {
-  document.getElementById("pct-search-input").focus();
-  return false;
-});
+import('mousetrap').then(mousetrap => {
+  // Bind app shortcuts
+  mousetrap.bind(['command+f', 'ctrl+f'], () => {
+    document.getElementById("pct-search-input").focus();
+    return false;
+  });
 
-mousetrap.bind(['command+1', 'ctrl+1'], () => {
-  const [firstLink] = Array.from(document.querySelectorAll('.Header .nav-link'))
-  firstLink.click();
-  return false;
-});
+  mousetrap.bind(['command+1', 'ctrl+1'], () => {
+    const [firstLink] = Array.from(document.querySelectorAll('.Header .nav-link'))
+    firstLink.click();
+    return false;
+  });
 
-mousetrap.bind(['command+2', 'ctrl+2'], () => {
-  const secondLink = Array.from(document.querySelectorAll('.Header .nav-link'))[1];
-  secondLink.click();
-  return false;
-});
+  mousetrap.bind(['command+2', 'ctrl+2'], () => {
+    const secondLink = Array.from(document.querySelectorAll('.Header .nav-link'))[1];
+    secondLink.click();
+    return false;
+  });
 
-mousetrap.bind(['command+3', 'ctrl+3'], () => {
-  const secondLink = Array.from(document.querySelectorAll('.Header .nav-link'))[2];
-  secondLink.click();
-  return false;
-});
+  mousetrap.bind(['command+3', 'ctrl+3'], () => {
+    const secondLink = Array.from(document.querySelectorAll('.Header .nav-link'))[2];
+    secondLink.click();
+    return false;
+  });
+
+  return true;
+})
+.catch(console.log);

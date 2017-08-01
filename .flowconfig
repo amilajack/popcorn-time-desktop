@@ -16,6 +16,12 @@ esproposal.class_instance_fields=enable
 esproposal.export_star_as=enable
 experimental.strict_type_args=true
 
+module.name_mapper.extension='css' -> '<PROJECT_ROOT>/internals/flow/CSSModule.js.flow'
+module.name_mapper.extension='styl' -> '<PROJECT_ROOT>/internals/flow/CSSModule.js.flow'
+module.name_mapper.extension='scss' -> '<PROJECT_ROOT>/internals/flow/CSSModule.js.flow'
+module.name_mapper.extension='png' -> '<PROJECT_ROOT>/internals/flow/WebpackAsset.js.flow'
+module.name_mapper.extension='jpg' -> '<PROJECT_ROOT>/internals/flow/WebpackAsset.js.flow'
+
 suppress_type=$FlowIssue
 suppress_type=$FlowFixMe
 suppress_type=$FixMe
