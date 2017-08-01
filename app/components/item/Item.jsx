@@ -13,13 +13,14 @@ import {
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import notie from 'notie';
-import { getIdealTorrent } from '../../api/torrents/BaseTorrentProvider';
-import Butter from '../../api/Butter';
-import Torrent from '../../api/Torrent';
 import CardList from '../card/CardList.jsx';
 import SaveItem from '../metadata/SaveItem.jsx';
 import Rating from '../card/Rating.jsx';
 import Show from '../show/Show.jsx';
+import { getIdealTorrent } from '../../api/torrents/BaseTorrentProvider';
+import ChromecastPlayerProvider from '../../api/players/ChromecastPlayerProvider';
+import Butter from '../../api/Butter';
+import Torrent from '../../api/Torrent';
 import {
   convertFromBuffer,
   startServer as startSubtitleServer
@@ -33,7 +34,6 @@ import type {
   torrentType,
   qualityType
 } from '../../api/torrents/TorrentProviderInterface';
-import ChromecastPlayerProvider from '../../api/players/ChromecastPlayerProvider';
 import type { deviceType } from '../../api/players/PlayerProviderInterface';
 
 const SUMMARY_CHAR_LIMIT = 300;

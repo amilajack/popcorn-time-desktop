@@ -52,6 +52,7 @@ export default class TheMovieDbMetadataProvider extends BaseMetadataProvider
     super();
     this.theMovieDb = axios.create({
       baseURL: this.apiUri,
+      timeout: 10000,
       params: {
         api_key: this.apiKey,
         append_to_response: 'external_ids,videos'

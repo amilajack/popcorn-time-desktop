@@ -1,8 +1,17 @@
 import React from 'react';
 import { Switch, Route } from 'react-router';
+import Loadable from 'react-loadable';
 import App from './containers/App.jsx';
 import HomePage from './containers/HomePage.jsx';
-import ItemPage from './containers/ItemPage.jsx';
+
+const LoadableHelper = (module, opts = {}) => Loadable({
+  loader: () => module,
+  loading: () => <div>Loading...</div>,
+  delay: 2000,
+  ...opts,
+});
+
+const ItemPage = LoadableHelper(import('./containers/ItemPage.jsx'));
 
 export default () => (
   <App>
@@ -14,3 +23,5 @@ export default () => (
     </Switch>
   </App>
 );
+
+ItemPage.preload();
