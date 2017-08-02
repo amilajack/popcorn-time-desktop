@@ -56,7 +56,6 @@
   ],
   "build": {
     "appId": "com.github.popcorn-time-desktop",
-    "asar": "false",
     "productName": "Popcorn Time",
     "files": [
       "dist/",

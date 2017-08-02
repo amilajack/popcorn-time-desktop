@@ -33,6 +33,7 @@ export default merge.smart(baseConfig, {
       {
         test: /\.scss$/,
         use: extractSass.extract({
+          publicPath: './',
           use: [
             {
               loader: 'css-loader'
@@ -50,6 +51,7 @@ export default merge.smart(baseConfig, {
           loader: 'url-loader',
           options: {
             limit: 10000,
+            prefix: '../',
             mimetype: 'application/font-woff'
           }
         }
@@ -61,6 +63,7 @@ export default merge.smart(baseConfig, {
           loader: 'url-loader',
           options: {
             limit: 10000,
+            prefix: '../',
             mimetype: 'application/font-woff'
           }
         }
@@ -72,6 +75,7 @@ export default merge.smart(baseConfig, {
           loader: 'url-loader',
           options: {
             limit: 10000,
+            prefix: '../',
             mimetype: 'application/octet-stream'
           }
         }
@@ -88,6 +92,7 @@ export default merge.smart(baseConfig, {
           loader: 'url-loader',
           options: {
             limit: 10000,
+            prefix: '../',
             mimetype: 'image/svg+xml'
           }
         }
