@@ -248,11 +248,12 @@ export function parseRuntimeMinutesToObject(
   const minutes = runtimeInMinutes % 60;
 
   return {
-    full: hours > 0
-      ? `${hours} ${hours > 1 ? 'hours' : 'hour'}${minutes > 0
-          ? ` ${minutes} minutes`
-          : ''}`
-      : `${minutes} minutes`,
+    full:
+      hours > 0
+        ? `${hours} ${hours > 1 ? 'hours' : 'hour'}${minutes > 0
+            ? ` ${minutes} minutes`
+            : ''}`
+        : `${minutes} minutes`,
     hours,
     minutes
   };

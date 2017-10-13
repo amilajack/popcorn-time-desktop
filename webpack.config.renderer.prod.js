@@ -7,6 +7,7 @@ import webpack from 'webpack';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import merge from 'webpack-merge';
+import LodashModuleReplacementPlugin from 'lodash-webpack-plugin';
 import UglifyJSPlugin from 'uglifyjs-webpack-plugin';
 import baseConfig from './webpack.config.base';
 
@@ -114,8 +115,11 @@ export default merge.smart(baseConfig, {
       DEBUG_PROD: 'false'
     }),
 
+    new LodashModuleReplacementPlugin(),
+
     new UglifyJSPlugin({
       parallel: true,
+      sourceMap: true
     }),
 
     extractSass,

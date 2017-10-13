@@ -42,8 +42,8 @@ export default class PbTorrentProvider implements TorrentProviderInterface {
       leechers: parseInt(torrent.leechers, 10),
       metadata:
         (String(torrent.name) || '') +
-          (String(torrent.magnetLink) || '') +
-          (String(torrent.link) || ''),
+        (String(torrent.magnetLink) || '') +
+        (String(torrent.link) || ''),
       _provider: 'pb'
     };
   }

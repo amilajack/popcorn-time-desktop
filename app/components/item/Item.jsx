@@ -615,13 +615,14 @@ export default class Item extends Component {
         this.setState({ servingUrl });
 
         const filename = file.name;
-        const subtitles = subtitle && process.env.FLAG_SUBTITLES === 'true'
-          ? await this.getSubtitles(
-              subtitle,
-              this.props.activeMode,
-              this.state.item
-            )
-          : [];
+        const subtitles =
+          subtitle && process.env.FLAG_SUBTITLES === 'true'
+            ? await this.getSubtitles(
+                subtitle,
+                this.props.activeMode,
+                this.state.item
+              )
+            : [];
 
         switch (currentPlayer) {
           case 'VLC':
@@ -728,7 +729,9 @@ export default class Item extends Component {
         </Link>
         <div className="row">
           <div className="plyr col-sm-12">
-            <a id="close-button" onClick={() => this.closeVideo()}>Close</a>
+            <a id="close-button" onClick={() => this.closeVideo()}>
+              Close
+            </a>
             <video controls poster={item.images.fanart.full} />
           </div>
 

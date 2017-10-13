@@ -51,9 +51,10 @@ export default class Torrent {
     this.inProgress = true;
     this.magnetURI = magnetURI;
 
-    const cacheLocation = process.env.CONFIG_PERSIST_DOWNLOADS === 'true'
-      ? process.env.CONFIG_DOWNLOAD_LOCATION || '/tmp/popcorn-time-desktop'
-      : os.tmpdir();
+    const cacheLocation =
+      process.env.CONFIG_PERSIST_DOWNLOADS === 'true'
+        ? process.env.CONFIG_DOWNLOAD_LOCATION || '/tmp/popcorn-time-desktop'
+        : os.tmpdir();
 
     this.engine.add(magnetURI, { path: cacheLocation }, torrent => {
       const server = torrent.createServer();

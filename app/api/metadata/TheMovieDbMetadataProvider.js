@@ -175,9 +175,9 @@ function formatMetadata(item, type: string, imageUri: string, genres) {
       tmdbId: String(item.id),
       imdbId:
         item.imdb_id ||
-          (item.external_ids && item.external_ids.imdb_id
-            ? item.external_ids.imdb_id
-            : '')
+        (item.external_ids && item.external_ids.imdb_id
+          ? item.external_ids.imdb_id
+          : '')
     },
     type,
     certification: 'n/a',
@@ -188,21 +188,21 @@ function formatMetadata(item, type: string, imageUri: string, genres) {
         ? item.genre_ids.map(genre => genres[String(genre)])
         : [],
     rating: item.vote_average,
-    runtime: item.runtime ||
+    runtime:
+      item.runtime ||
       (item.episode_run_time && item.episode_run_time.length > 0)
-      ? parseRuntimeMinutesToObject(
-          type === 'movies' ? item.runtime : item.episode_run_time[0]
-        )
-      : {
-          full: 'n/a',
-          hours: 'n/a',
-          minutes: 'n/a'
-        },
-    trailer: item.videos &&
-      item.videos.results &&
-      item.videos.results.length > 0
-      ? `http://youtube.com/watch?v=${item.videos.results[0].key}`
-      : 'n/a',
+        ? parseRuntimeMinutesToObject(
+            type === 'movies' ? item.runtime : item.episode_run_time[0]
+          )
+        : {
+            full: 'n/a',
+            hours: 'n/a',
+            minutes: 'n/a'
+          },
+    trailer:
+      item.videos && item.videos.results && item.videos.results.length > 0
+        ? `http://youtube.com/watch?v=${item.videos.results[0].key}`
+        : 'n/a',
     images: {
       fanart: {
         full: formatImage(imageUri, item.backdrop_path, 'original'),
@@ -219,9 +219,8 @@ function formatMetadata(item, type: string, imageUri: string, genres) {
 }
 
 function formatSeasons(show) {
-  const firstSeasonIsZero = show.seasons.length > 0
-    ? show.seasons[0].season_number === 0
-    : false;
+  const firstSeasonIsZero =
+    show.seasons.length > 0 ? show.seasons[0].season_number === 0 : false;
 
   return show.seasons.map(season => ({
     season: firstSeasonIsZero ? season.season_number + 1 : season.season_number,

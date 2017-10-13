@@ -22,11 +22,12 @@ type extendedDetailsType =
  * @TODO: Use ES6 dynamic imports here
  */
 const providers = [
-  require('./YtsTorrentProvider'),
-  require('./PbTorrentProvider'),
-  require('./PctTorrentProvider'),
-  require('./KatTorrentProvider')
-  // require('./KatShowsTorrentProvider')
+  import('./YtsTorrentProvider'),
+  import('./PbTorrentProvider'),
+  // import('./RarbgTorrentProvider'),
+  import('./PctTorrentProvider'),
+  import('./KatTorrentProvider')
+  // import('./KatShowsTorrentProvider')
 ];
 
 export default async function TorrentAdapter(
@@ -48,7 +49,7 @@ export default async function TorrentAdapter(
     ? await convertTmdbToImdb(_itemId)
     : _itemId;
 
-  const torrentPromises = providers.map(provider =>
+  const torrentPromises = (await Promise.all(providers)).map(provider =>
     provider.provide(itemId, type, extendedDetails)
   );
 
@@ -116,9 +117,10 @@ function appendAttributes(providerResults) {
   const formattedResults = merge(providerResults).map(result => ({
     ...result,
     health: getHealth(result.seeders || 0, result.leechers || 0),
-    quality: 'quality' in result
-      ? result.quality
-      : determineQuality(result.magnet, result.metadata, result)
+    quality:
+      'quality' in result
+        ? result.quality
+        : determineQuality(result.magnet, result.metadata, result)
   }));
 
   return formattedResults;
