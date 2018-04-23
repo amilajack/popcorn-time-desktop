@@ -2,3 +2,78 @@
 # yarn lockfile v1
 
 
+ascli@~0.3:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/ascli/-/ascli-0.3.0.tgz#5e66230e5219fe3e8952a4efb4f20fae596a813a"
+  dependencies:
+    colour latest
+    optjs latest
+
+bindings@~1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/bindings/-/bindings-1.2.1.tgz#14ad6113812d2d37d72e67b4cacb4bb726505f11"
+
+bufferview@~1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/bufferview/-/bufferview-1.0.1.tgz#7afd74a45f937fa422a1d338c08bbfdc76cd725d"
+
+"bytebuffer@~3 >=3.5":
+  version "3.5.5"
+  resolved "https://registry.yarnpkg.com/bytebuffer/-/bytebuffer-3.5.5.tgz#7a6faf1a13514b083f1fcf9541c4c9bfbe7e7fd3"
+  dependencies:
+    bufferview "~1"
+    long "~2 >=2.2.3"
+
+castv2-client@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/castv2-client/-/castv2-client-1.2.0.tgz#a9193b1a5448b8cb9a0415bd021c8811ed7b0544"
+  dependencies:
+    castv2 "~0.1.4"
+    debug "^2.2.0"
+
+castv2@~0.1.4:
+  version "0.1.9"
+  resolved "https://registry.yarnpkg.com/castv2/-/castv2-0.1.9.tgz#d0b0fab1fd06b0d9cca636886716ec1293a5905a"
+  dependencies:
+    debug "^2.2.0"
+    protobufjs "^3.2.2"
+
+colour@latest:
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/colour/-/colour-0.7.1.tgz#9cb169917ec5d12c0736d3e8685746df1cadf778"
+
+debug@^2.2.0:
+  version "2.6.8"
+  resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.8.tgz#e731531ca2ede27d188222427da17821d68ff4fc"
+  dependencies:
+    ms "2.0.0"
+
+"long@~2 >=2.2.3":
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/long/-/long-2.4.0.tgz#9fa180bb1d9500cdc29c4156766a1995e1f4524f"
+
+mdns@^2.3.3:
+  version "2.3.3"
+  resolved "https://registry.yarnpkg.com/mdns/-/mdns-2.3.3.tgz#bbc6ad5407a230133d62e0da692f29f0bd49728e"
+  dependencies:
+    bindings "~1.2.1"
+    nan "~2.3.0"
+
+ms@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"
+
+nan@~2.3.0:
+  version "2.3.5"
+  resolved "https://registry.yarnpkg.com/nan/-/nan-2.3.5.tgz#822a0dc266290ce4cd3a12282ca3e7e364668a08"
+
+optjs@latest:
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/optjs/-/optjs-3.2.2.tgz#69a6ce89c442a44403141ad2f9b370bd5bb6f4ee"
+
+protobufjs@^3.2.2:
+  version "3.8.2"
+  resolved "https://registry.yarnpkg.com/protobufjs/-/protobufjs-3.8.2.tgz#bc826e34c3af4697e8d0af7a669e4d612aedcd17"
+  dependencies:
+    ascli "~0.3"
+    bytebuffer "~3 >=3.5"

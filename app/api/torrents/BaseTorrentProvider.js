@@ -113,9 +113,8 @@ export function formatSeasonEpisodeToObject(
 ): Object {
   return {
     season: String(season).length === 1 ? '0' + String(season) : String(season),
-    episode: String(episode).length === 1
-      ? '0' + String(episode)
-      : String(episode)
+    episode:
+      String(episode).length === 1 ? '0' + String(episode) : String(episode)
   };
 }
 

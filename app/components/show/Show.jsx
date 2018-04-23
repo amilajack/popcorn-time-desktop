@@ -28,8 +28,7 @@ export default function Show(props: Props) {
 
   return (
     <div className="Show row">
-      <div className="col-sm-12 col-md-6">
-        <h4>Seasons:</h4>
+      <div className="col-sm-2">
         <div className="list-group Show--list-group">
           {seasons.map(season =>
             <a
@@ -45,48 +44,41 @@ export default function Show(props: Props) {
         </div>
       </div>
 
-      <div className="col-sm-12 col-md-6">
-        <h4>Episodes:</h4>
+      <div className="col-sm-4">
         <div className="list-group Show--list-group">
-          {episodes.map(episode =>
-            <a
-              className={classNames('list-group-item', {
-                active: episode.episode === selectedEpisode
-              })}
-              onClick={() =>
-                selectShow('episode', selectedSeason, episode.episode)}
-              key={episode.episode}
-            >
-              Ep {episode.episode}. {episode.title}
-            </a>
-          )}
+          {episodes.length === 0
+            ? seasons.length > 0 ? 'No episodes for this season' : null
+            : episodes.map(episode =>
+                <a
+                  className={classNames('list-group-item', {
+                    active: episode.episode === selectedEpisode
+                  })}
+                  onClick={() =>
+                    selectShow('episode', selectedSeason, episode.episode)}
+                  key={episode.episode}
+                >
+                  Ep {episode.episode}. {episode.title}
+                </a>
+              )}
         </div>
       </div>
 
-      <ul>
-        <li>
-          <h3>Season overview:</h3>
-        </li>
-        <li>
-          <h6>
-            {seasons.length && selectedSeason && seasons[selectedSeason]
-              ? seasons[selectedSeason].overview
-              : null}
-          </h6>
-        </li>
-      </ul>
-      <ul>
-        <li>
-          <h3>Episode overview:</h3>
-        </li>
-        <li>
-          <h6>
-            {episodes.length && selectedSeason && episodes[selectedEpisode]
-              ? episodes[selectedEpisode].overview
-              : null}
-          </h6>
-        </li>
-      </ul>
+      <div className="col-sm-6">
+        <div className="card w-75">
+          <div className="card-block">
+            <h3 className="card-title">
+              {episodes.length && selectedSeason && episodes[selectedEpisode]
+                ? episodes[selectedEpisode].title
+                : null}
+            </h3>
+            <p className="card-text">
+              {episodes.length && selectedSeason && episodes[selectedEpisode]
+                ? episodes[selectedEpisode].overview
+                : null}
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

@@ -2,13 +2,12 @@
 import { remote } from 'electron';
 import plyr from 'plyr';
 import childProcess from 'child_process';
+import network from 'network-address';
 import vlcCommand from 'vlc-command';
+import ChromecastPlayerProvider from './players/ChromecastPlayerProvider';
+import type { metadataType } from './players/PlayerProviderInterface';
 
 const { powerSaveBlocker } = remote;
-
-type metadataType = {
-  poster: string
-};
 
 export default class Player {
   currentPlayer = 'plyr';
@@ -39,7 +38,7 @@ export default class Player {
     if (this.powerSaveBlockerId) {
       powerSaveBlocker.stop(this.powerSaveBlockerId);
     }
-    if (this.player) {
+    if (this.player && this.player.destroy) {
       this.player.destroy();
     }
   }
@@ -58,6 +57,16 @@ export default class Player {
     return !!mimeTypes.find(mimeType =>
       filename.toLowerCase().includes(mimeType)
     );
+  }
+
+  async initCast(
+    provider: ChromecastPlayerProvider,
+    streamingUrl: string,
+    metadata: metadataType
+  ) {
+    this.powerSaveBlockerId = powerSaveBlocker.start('prevent-app-suspension');
+    const addr = streamingUrl.replace('localhost', network());
+    return provider.play(addr, metadata);
   }
 
   initYouTube(itemTitle: string, source: string) {
@@ -88,7 +97,7 @@ export default class Player {
     return player;
   }
 
-  initPlyr(streamingUrl: string, metadata: metadataType = {}): plyr {
+  initPlyr(streamingUrl: string, metadata: metadataType): plyr {
     console.info('Initializing plyr...');
     this.currentPlayer = 'plyr';
     this.powerSaveBlockerId = powerSaveBlocker.start('prevent-app-suspension');
@@ -110,11 +119,13 @@ export default class Player {
           src: streamingUrl,
           type: 'video/mp4'
         }
-      ],
-      ...metadata
+      ]
     });
 
-    player.poster(metadata.poster);
+    if ('full' in metadata.images.poster) {
+      player.poster(metadata.images.poster.full);
+    }
+
     player.toggleFullscreen();
 
     return player;

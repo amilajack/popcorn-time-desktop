@@ -1,0 +1,20 @@
+.SaveItem {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  bottom: -3.5rem;
+
+  .SaveItem--icon {
+    color: white;
+    opacity: 0.5;
+    margin: 0 10px;
+    font-size: 1.7rem;
+    transition: opacity 0.1s ease-in;
+    cursor: pointer;
+  }
+
+  .SaveItem--active-icon, .SaveItem--icon:hover {
+    opacity: 1;
+  }
+}

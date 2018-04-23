@@ -18,9 +18,10 @@ type Props = {
 export default function Card(props: Props) {
   const { type, image, id, rating, title, starColor } = props;
 
-  const placeholder = process.env.NODE_ENV === 'production'
-    ? './images/posterholder.png'
-    : './app/images/posterholder.png';
+  const placeholder =
+    process.env.NODE_ENV === 'production'
+      ? './images/posterholder.png'
+      : './app/images/posterholder.png';
 
   const backgroundImageStyle = {
     backgroundImage: `url(${image !== 'n/a' ? image : placeholder})`
@@ -52,7 +53,5 @@ export default function Card(props: Props) {
 }
 
 Card.defaultProps = {
-  starColor: '#848484',
-  isFavorite: false,
-  isWatchList: false
+  starColor: '#848484'
 };

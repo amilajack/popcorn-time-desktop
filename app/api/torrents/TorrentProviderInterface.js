@@ -4,8 +4,8 @@ export type fetchType = {
   magnet: string,
   seeders: number,
   leechers: number,
-  metadata: '',
-  _provider: 'string'
+  metadata: string,
+  _provider: string
 };
 
 export type torrentType = {
@@ -19,7 +19,7 @@ export type healthType = 'poor' | 'decent' | 'healthy';
 
 export type torrentMethodType = 'all' | 'race';
 
-export type qualityType = '1080p' | '720p' | '480p';
+export type qualityType = '1080p' | '720p' | '480p' | 'default';
 
 export type torrentQueryType = 'movies' | 'show' | 'season_complete';
 

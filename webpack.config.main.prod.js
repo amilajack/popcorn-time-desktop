@@ -5,7 +5,8 @@
 import webpack from 'webpack';
 import merge from 'webpack-merge';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
-import BabiliPlugin from 'babili-webpack-plugin';
+import LodashModuleReplacementPlugin from 'lodash-webpack-plugin';
+import UglifyJSPlugin from 'uglifyjs-webpack-plugin';
 import baseConfig from './webpack.config.base';
 
 if (process.env.NODE_ENV !== 'production') {
@@ -19,17 +20,18 @@ export default merge.smart(baseConfig, {
 
   entry: './app/main.dev',
 
-  // 'main.js' in root
   output: {
     path: __dirname,
     filename: './app/main.prod.js'
   },
 
   plugins: [
-    /**
-     * Babli is an ES6+ aware minifier based on the Babel toolchain (beta)
-     */
-    new BabiliPlugin(),
+    new LodashModuleReplacementPlugin(),
+
+    new UglifyJSPlugin({
+      parallel: true,
+      sourceMap: true
+    }),
 
     new BundleAnalyzerPlugin({
       analyzerMode:
@@ -37,23 +39,10 @@ export default merge.smart(baseConfig, {
       openAnalyzer: process.env.OPEN_ANALYZER === 'true'
     }),
 
-    /**
-     * Create global constants which can be configured at compile time.
-     *
-     * Useful for allowing different behaviour between development builds and
-     * release builds
-     *
-     * NODE_ENV should be production so that modules do not perform certain
-     * development checks
-     */
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(
-        process.env.NODE_ENV || 'production'
-      ),
-      'process.env.DEBUG_PROD': JSON.stringify(
-        process.env.DEBUG_PROD || 'false'
-      )
-    })
+    new webpack.EnvironmentPlugin({
+      NODE_ENV: 'production',
+      DEBUG_PROD: 'false'
+    }),
   ],
 
   /**

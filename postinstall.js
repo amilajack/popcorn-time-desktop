@@ -16,20 +16,6 @@ function copy(filepath: string, dest: string) {
   );
 }
 
-function setupCasting(): boolean {
-  const tmpPath = path.join(__dirname, 'app', 'dist', '.tmp');
-
-  mkdirp(tmpPath, err => {
-    if (err) console.error(err);
-    else console.log(`--> Creating "${path.join('app', 'dist', '.tmp')}" dir...`);
-
-    copy('./app/api/players/Cast.js', './.tmp/Cast.js');
-    copy('./app/api/players/Cast.js', './app/dist/.tmp/Cast.js');
-  });
-
-  return true;
-}
-
 function addEnvFileIfNotExist(): boolean {
   // Check if it exists
   try {
@@ -92,6 +78,5 @@ function setupFfmpeg() {
   });
 }
 
-setupCasting();
 setupFfmpeg();
 addEnvFileIfNotExist();

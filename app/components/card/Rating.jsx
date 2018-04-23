@@ -17,10 +17,12 @@ export default function StarRating(props: Props) {
           name={'rating'}
           starColor={props.starColor}
           emptyStarColor={props.emptyStarColor}
-          value={props.rating / 2}
+          value={Math.floor(props.rating / 2)}
           editing={false}
         />
-        <a className="rating-number">{props.rating}</a>
+        <a className="rating-number">
+          {props.rating}
+        </a>
       </div>
     : null;
 }

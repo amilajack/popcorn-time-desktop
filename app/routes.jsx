@@ -1,8 +1,24 @@
 import React from 'react';
 import { Switch, Route } from 'react-router';
+import Loadable from 'react-loadable';
 import App from './containers/App.jsx';
-import HomePage from './containers/HomePage.jsx';
-import ItemPage from './containers/ItemPage.jsx';
+
+const style = {
+  color: 'blue !important',
+  width: '100%',
+  display: 'flex',
+  fontFamily: "Avenir Next"
+};
+
+const LoadableHelper = (module, opts = {}) => Loadable({
+  loader: () => module,
+  loading: () => <div style={style}>Welcome to PopcornTime</div>,
+  delay: 2000,
+  ...opts,
+});
+
+const ItemPage = LoadableHelper(import('./containers/ItemPage.jsx'));
+const HomePage = LoadableHelper(import('./containers/HomePage.jsx'));
 
 export default () => (
   <App>
@@ -14,3 +30,5 @@ export default () => (
     </Switch>
   </App>
 );
+
+ItemPage.preload();

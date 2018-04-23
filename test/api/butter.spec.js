@@ -91,7 +91,7 @@ describe('API', () => {
 
         // Test addition
         expect(await butter[type]('set', res)).toEqual([res]);
-        expect(await butter[type]('get', res)).toEqual([res]);
+        expect(await butter[type]('get')).toEqual([res]);
 
         // Test addition of multiple elements
         expect(

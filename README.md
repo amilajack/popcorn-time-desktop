@@ -66,6 +66,9 @@ npm run dev
 
 # Production build
 npm run package
+
+# 💡 For casting support, you will need to satisfy mdns's requirements:
+# https://github.com/agnat/node_mdns#installation
 ```
 
 ## Contributing:

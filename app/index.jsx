@@ -26,3 +26,32 @@ if (module.hot) {
     );
   });
 }
+
+import('mousetrap').then(mousetrap => {
+  // Bind app shortcuts
+  mousetrap.bind(['command+f', 'ctrl+f'], () => {
+    document.getElementById("pct-search-input").focus();
+    return false;
+  });
+
+  mousetrap.bind(['command+1', 'ctrl+1'], () => {
+    const [firstLink] = Array.from(document.querySelectorAll('.Header .nav-link'))
+    firstLink.click();
+    return false;
+  });
+
+  mousetrap.bind(['command+2', 'ctrl+2'], () => {
+    const secondLink = Array.from(document.querySelectorAll('.Header .nav-link'))[1];
+    secondLink.click();
+    return false;
+  });
+
+  mousetrap.bind(['command+3', 'ctrl+3'], () => {
+    const secondLink = Array.from(document.querySelectorAll('.Header .nav-link'))[2];
+    secondLink.click();
+    return false;
+  });
+
+  return true;
+})
+.catch(console.log);

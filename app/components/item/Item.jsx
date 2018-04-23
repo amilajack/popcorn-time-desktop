@@ -3,8 +3,8 @@
  * @flow
  */
 import React, { Component } from 'react';
-import { Tooltip } from 'reactstrap';
 import {
+  Tooltip,
   Dropdown,
   DropdownToggle,
   DropdownMenu,
@@ -13,13 +13,14 @@ import {
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import notie from 'notie';
-import { exec } from 'child_process';
-import { getIdealTorrent } from '../../api/torrents/BaseTorrentProvider';
-import Butter from '../../api/Butter';
-import Torrent from '../../api/Torrent';
 import CardList from '../card/CardList.jsx';
+import SaveItem from '../metadata/SaveItem.jsx';
 import Rating from '../card/Rating.jsx';
 import Show from '../show/Show.jsx';
+import { getIdealTorrent } from '../../api/torrents/BaseTorrentProvider';
+import ChromecastPlayerProvider from '../../api/players/ChromecastPlayerProvider';
+import Butter from '../../api/Butter';
+import Torrent from '../../api/Torrent';
 import {
   convertFromBuffer,
   startServer as startSubtitleServer
@@ -33,22 +34,15 @@ import type {
   torrentType,
   qualityType
 } from '../../api/torrents/TorrentProviderInterface';
+import type { deviceType } from '../../api/players/PlayerProviderInterface';
 
 const SUMMARY_CHAR_LIMIT = 300;
 
-type playerType = 'Default' | 'plyr' | 'Chromecast' | 'youtube';
+type playerType = 'default' | 'plyr' | 'vlc' | 'chromecast' | 'youtube';
 
 type torrentSelectionType = {
   default: torrentType,
-  [quality: qualityType]:
-    | torrentType
-    | {
-        quality?: string,
-        magnet?: string,
-        seeders: 0,
-        health?: string,
-        quality?: string
-      }
+  [quality: qualityType]: torrentType
 };
 
 type Props = {
@@ -69,6 +63,7 @@ type State = {
   season: [],
   episode: {},
   episodes: [],
+  castingDevices: Array<deviceType>,
   currentPlayer: playerType,
   playbackIsActive: boolean,
   fetchingTorrents: boolean,
@@ -93,7 +88,11 @@ export default class Item extends Component {
 
   torrent: Torrent;
 
+  playerProvider: ChromecastPlayerProvider;
+
   player: Player;
+
+  checkCastingDevicesInterval: number;
 
   defaultTorrent: torrentSelectionType = {
     default: {
@@ -154,7 +153,8 @@ export default class Item extends Component {
     seasons: [],
     season: [],
     episode: {},
-    currentPlayer: 'Default',
+    castingDevices: [],
+    currentPlayer: 'default',
     magnetPopoverOpen: false,
     playbackIsActive: false,
     fetchingTorrents: false,
@@ -173,8 +173,15 @@ export default class Item extends Component {
     this.torrent = new Torrent();
     this.player = new Player();
     this.state = this.initialState;
+    this.playerProvider = new ChromecastPlayerProvider();
+  }
 
-    this.subtitleServer = startSubtitleServer();
+  static defaultProps: Props;
+
+  async initCastingDevices() {
+    this.setState({
+      castingDevices: await this.playerProvider.getDevices()
+    });
   }
 
   /**
@@ -197,8 +204,14 @@ export default class Item extends Component {
     });
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     window.scrollTo(0, 0);
+    this.initCastingDevices();
+
+    this.checkCastingDevicesInterval = setInterval(() => {
+      console.log('Looking for casting devices...');
+      this.initCastingDevices();
+    }, 10000);
 
     this.getAllData(this.props.itemId);
     this.stopPlayback();
@@ -207,13 +220,12 @@ export default class Item extends Component {
     this.setState({
       ...this.initialState,
       dropdownOpen: false,
-      currentPlayer: 'Default'
+      currentPlayer: 'default',
+      favorites: await this.butter.favorites('get'),
+      watchList: await this.butter.watchList('get')
     });
-  }
 
-  componentWillUnmount() {
-    this.stopPlayback();
-    this.player.destroy();
+    this.subtitleServer = await startSubtitleServer();
   }
 
   componentWillReceiveProps(nextProps: Props) {
@@ -226,6 +238,13 @@ export default class Item extends Component {
     });
 
     this.getAllData(nextProps.itemId);
+    this.initCastingDevices();
+  }
+
+  componentWillUnmount() {
+    this.stopPlayback();
+    clearInterval(this.checkCastingDevicesInterval);
+    this.player.destroy();
   }
 
   getAllData(itemId: string) {
@@ -344,7 +363,7 @@ export default class Item extends Component {
             };
           }
           case 'shows': {
-            if (process.env.FLAG_SEASON_COMPLETE === 'cow') {
+            if (process.env.FLAG_SEASON_COMPLETE === 'true') {
               const [shows, seasonComplete] = await Promise.all([
                 this.butter.getTorrent(imdbId, this.props.activeMode, {
                   season,
@@ -407,8 +426,6 @@ export default class Item extends Component {
         }
       })();
 
-      console.log(torrent, idealTorrent);
-
       if (idealTorrent.quality === 'poor') {
         notie.alert(2, 'Slow torrent, low seeder count', 1);
       }
@@ -435,8 +452,6 @@ export default class Item extends Component {
         this.props.activeMode,
         imdbId
       );
-
-      console.log(similarItems)
 
       this.setState({
         similarItems,
@@ -560,7 +575,11 @@ export default class Item extends Component {
     });
   }
 
-  async startPlayback(magnet: string, activeMode: string) {
+  async startPlayback(
+    magnet?: string,
+    activeMode?: string,
+    currentPlayer: playerType
+  ) {
     if (this.state.torrentInProgress) {
       this.stopPlayback();
     }
@@ -596,43 +615,34 @@ export default class Item extends Component {
         this.setState({ servingUrl });
 
         const filename = file.name;
-        const subtitles = subtitle && process.env.FLAG_SUBTITLES === 'true'
-          ? await this.getSubtitles(
-              subtitle,
-              this.props.activeMode,
-              this.state.item
-            )
-          : [];
+        const subtitles =
+          subtitle && process.env.FLAG_SUBTITLES === 'true'
+            ? await this.getSubtitles(
+                subtitle,
+                this.props.activeMode,
+                this.state.item
+              )
+            : [];
 
-        switch (this.state.currentPlayer) {
+        switch (currentPlayer) {
           case 'VLC':
             return this.player.initVLC(servingUrl);
-          case 'Chromecast': {
+          case 'chromecast': {
             const { title } = this.state.item;
             const { full } = this.state.item.images.fanart;
-            const command = [
-              'node ./.tmp/Cast.js',
-              `--url '${servingUrl}'`,
-              `--title '${title}'`,
-              `--image ${full}`
-            ].join(' ');
-
-            return exec(command, (_error, stdout, stderr) => {
-              if (_error) {
-                return console.error(`Chromecast Exec Error: ${_error}`);
-              }
-              return [
-                console.log(`stdout: ${stdout}`),
-                console.log(`stderr: ${stderr}`)
-              ];
-            });
+            this.player.initCast(
+              this.playerProvider,
+              servingUrl,
+              this.state.item
+            );
+            break;
           }
-          case 'Default':
+          case 'default':
             if (
               Player.isFormatSupported(filename, Player.nativePlaybackFormats)
             ) {
               this.player.initPlyr(servingUrl, {
-                poster: this.state.item.images.fanart.thumb,
+                ...this.state.item,
                 tracks: subtitles
               });
               this.toggleActive();
@@ -682,8 +692,6 @@ export default class Item extends Component {
 
     const { activeMode } = this.props;
 
-    const torrentLoadingStatusStyle = { color: 'maroon' };
-
     const statusColorStyle = {
       backgroundColor: (() => {
         switch (idealTorrent.health) {
@@ -721,7 +729,9 @@ export default class Item extends Component {
         </Link>
         <div className="row">
           <div className="plyr col-sm-12">
-            <a id="close-button" onClick={() => this.closeVideo()}>Close</a>
+            <a id="close-button" onClick={() => this.closeVideo()}>
+              Close
+            </a>
             <video controls poster={item.images.fanart.full} />
           </div>
 
@@ -733,7 +743,8 @@ export default class Item extends Component {
                   onClick={() =>
                     this.startPlayback(
                       idealTorrent.magnet,
-                      idealTorrent.method
+                      idealTorrent.method,
+                      this.state.currentPlayer
                     )}
                 >
                   {idealTorrent.magnet
@@ -742,7 +753,8 @@ export default class Item extends Component {
                         onClick={() =>
                           this.startPlayback(
                             idealTorrent.magnet,
-                            idealTorrent.method
+                            idealTorrent.method,
+                            this.state.currentPlayer
                           )}
                       />
                     : null}
@@ -759,6 +771,12 @@ export default class Item extends Component {
                 {!servingUrl && torrentInProgress ? 'Loading torrent...' : null}
                 {fetchingTorrents ? 'Fetching torrents...' : null}
               </div>
+
+              <SaveItem
+                item={this.state.item}
+                favorites={this.state.favorites}
+                watchList={this.state.watchList}
+              />
             </div>
 
             <div className="Movie col-sm-6">
@@ -860,6 +878,44 @@ export default class Item extends Component {
             <div className="Item--overlay" />
           </div>
 
+          <div className="row">
+            <div className="col-sm-12">
+              <Dropdown
+                style={{ float: 'right' }}
+                isOpen={dropdownOpen}
+                toggle={() => this.toggle()}
+                className="row-margin"
+              >
+                <DropdownToggle caret>
+                  {currentPlayer || 'default'}
+                </DropdownToggle>
+                <DropdownMenu>
+                  <DropdownItem header>Select Player</DropdownItem>
+                  <DropdownItem
+                    key="default"
+                    onClick={() => this.setPlayer('default')}
+                  >
+                    Default
+                  </DropdownItem>
+                  <DropdownItem key="vlc" onClick={() => this.setPlayer('vlc')}>
+                    VLC
+                  </DropdownItem>
+                  {this.state.castingDevices.map(castingDevice =>
+                    <DropdownItem
+                      key={castingDevice.id}
+                      onClick={() => {
+                        this.setPlayer('chromecast');
+                        this.playerProvider.selectDevice(castingDevice.id);
+                      }}
+                    >
+                      {castingDevice.name}
+                    </DropdownItem>
+                  )}
+                </DropdownMenu>
+              </Dropdown>
+            </div>
+          </div>
+
           <div className="row hidden-sm-up">
             <div className="col-sm-8">
               {/* Torrent Selection */}
@@ -868,7 +924,8 @@ export default class Item extends Component {
                   onClick={() =>
                     this.startPlayback(
                       idealTorrent.magnet,
-                      idealTorrent.method
+                      idealTorrent.method,
+                      this.state.currentPlayer
                     )}
                   disabled={!idealTorrent.magnet}
                 >
@@ -883,7 +940,8 @@ export default class Item extends Component {
                         onClick={() =>
                           this.startPlayback(
                             torrent['1080p'].magnet,
-                            torrent['1080p'].method
+                            torrent['1080p'].method,
+                            this.state.currentPlayer
                           )}
                         disabled={!torrent['1080p'].quality}
                       >
@@ -893,7 +951,8 @@ export default class Item extends Component {
                         onClick={() =>
                           this.startPlayback(
                             torrent['720p'].magnet,
-                            torrent['720p'].method
+                            torrent['720p'].method,
+                            this.state.currentPlayer
                           )}
                         disabled={!torrent['720p'].quality}
                       >
@@ -906,7 +965,8 @@ export default class Item extends Component {
                               onClick={() =>
                                 this.startPlayback(
                                   torrent['480p'].magnet,
-                                  torrent['480p'].method
+                                  torrent['480p'].method,
+                                  this.state.currentPlayer
                                 )}
                               disabled={!torrent['480p'].quality}
                             >
@@ -923,33 +983,6 @@ export default class Item extends Component {
 
                 return null;
               })()}
-            </div>
-            <div className="col-sm-4">
-              <Dropdown
-                style={{ float: 'right' }}
-                isOpen={dropdownOpen}
-                toggle={() => this.toggle()}
-              >
-                <DropdownToggle caret>
-                  {currentPlayer || 'Default'}
-                </DropdownToggle>
-                <DropdownMenu>
-                  <DropdownItem header>Select Player</DropdownItem>
-                  <DropdownItem onClick={() => this.setPlayer('Default')}>
-                    Default
-                  </DropdownItem>
-                  <DropdownItem onClick={() => this.setPlayer('VLC')}>
-                    VLC
-                  </DropdownItem>
-                  {process.env.FLAG_CASTING === 'true'
-                    ? <DropdownItem
-                        onClick={() => this.setPlayer('Chromecast')}
-                      >
-                        Chromecast
-                      </DropdownItem>
-                    : null}
-                </DropdownMenu>
-              </Dropdown>
             </div>
           </div>
 

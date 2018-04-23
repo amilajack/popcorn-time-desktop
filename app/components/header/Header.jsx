@@ -42,6 +42,12 @@ export default class Header extends Component {
     });
   }
 
+  handleKeyUp(event: SyntheticEvent) {
+    if (event.keyCode === 27) {
+      document.getElementById('pct-search-input').blur();
+    }
+  }
+
   handleKeyPress(event: SyntheticEvent) {
     if (event.key === 'Enter') {
       browserHistory.replace('/item/search');
@@ -56,11 +62,25 @@ export default class Header extends Component {
     const { searchQuery } = this.state;
 
     return (
-      <div className="col-sm-12">
+      <div className="Header col-sm-12">
         <nav className="navbar navbar-dark navbar-fixed-top bg-inverse">
           <div className="row">
             <div className="col-sm-6">
               <ul className="nav navbar-nav">
+                <li
+                  className={classNames('nav-item', {
+                    active: activeMode === 'home'
+                  })}
+                >
+                  <Link
+                    className="nav-link"
+                    to={'/item/home'}
+                    replace
+                    onClick={() => setActiveMode('home')}
+                  >
+                    Home
+                  </Link>
+                </li>
                 <li
                   className={classNames('nav-item', {
                     active: activeMode === 'movies'
@@ -97,8 +117,10 @@ export default class Header extends Component {
                   <i className="ion-ios-search-strong" />
                 </span>
                 <input
+                  id="pct-search-input"
                   className="form-control"
                   value={searchQuery}
+                  onKeyUp={event => this.handleKeyUp(event)}
                   onKeyPress={event => this.handleKeyPress(event)}
                   onChange={event => this.handleSearchChange(event)}
                   type="text"

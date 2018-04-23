@@ -27,23 +27,19 @@ export type runtimeType = {
   minutes: number
 };
 
-export type certificationType = 'G' | 'PG' | 'PG-13' | 'R';
+export type certificationType = 'G' | 'PG' | 'PG-13' | 'R' | 'n/a';
 
 export type imagesType = {
-  fanart:
-    | {}
-    | {
-        full: string,
-        medium: string,
-        thumb: string
-      },
-  poster:
-    | {}
-    | {
-        full: string,
-        medium: string,
-        thumb: string
-      }
+  fanart: {
+    full: string,
+    medium: string,
+    thumb: string
+  },
+  poster: {
+    full: string,
+    medium: string,
+    thumb: string
+  }
 };
 
 export type contentType = {
@@ -72,7 +68,7 @@ type optionsType = {
   genres?: Array<string>
 };
 
-type methodType = 'set' | 'get' | 'remove';
+export type methodType = 'set' | 'get' | 'remove';
 
 export interface MetadataProviderInterface {
   getMovies: (

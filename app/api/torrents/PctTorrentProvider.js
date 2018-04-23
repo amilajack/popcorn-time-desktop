@@ -98,9 +98,9 @@ export default class PctTorrentProvider implements TorrentProviderInterface {
       magnet: torrents[videoQuality].url,
       seeders:
         torrents[videoQuality].seeds ||
-          torrents[videoQuality].seed ||
-          torrents[videoQuality].seeders ||
-          0,
+        torrents[videoQuality].seed ||
+        torrents[videoQuality].seeders ||
+        0,
       leechers: torrents[videoQuality].peers || torrents[videoQuality].peer,
       _provider: 'pct'
     }));

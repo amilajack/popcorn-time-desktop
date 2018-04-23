@@ -7,7 +7,8 @@ import webpack from 'webpack';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import merge from 'webpack-merge';
-// import UglifyJSPlugin from 'uglifyjs-webpack-plugin';
+import LodashModuleReplacementPlugin from 'lodash-webpack-plugin';
+import UglifyJSPlugin from 'uglifyjs-webpack-plugin';
 import baseConfig from './webpack.config.base';
 
 if (process.env.NODE_ENV !== 'production') {
@@ -25,7 +26,7 @@ export default merge.smart(baseConfig, {
 
   output: {
     path: path.join(__dirname, 'app/dist'),
-    publicPath: '../dist/'
+    publicPath: './dist/'
   },
 
   module: {
@@ -33,9 +34,13 @@ export default merge.smart(baseConfig, {
       {
         test: /\.scss$/,
         use: extractSass.extract({
+          publicPath: './',
           use: [
             {
-              loader: 'css-loader'
+              loader: 'css-loader',
+              options: {
+                minimize: true,
+              },
             },
             {
               loader: 'sass-loader'
@@ -50,6 +55,7 @@ export default merge.smart(baseConfig, {
           loader: 'url-loader',
           options: {
             limit: 10000,
+            prefix: '../',
             mimetype: 'application/font-woff'
           }
         }
@@ -61,6 +67,7 @@ export default merge.smart(baseConfig, {
           loader: 'url-loader',
           options: {
             limit: 10000,
+            prefix: '../',
             mimetype: 'application/font-woff'
           }
         }
@@ -72,6 +79,7 @@ export default merge.smart(baseConfig, {
           loader: 'url-loader',
           options: {
             limit: 10000,
+            prefix: '../',
             mimetype: 'application/octet-stream'
           }
         }
@@ -88,6 +96,7 @@ export default merge.smart(baseConfig, {
           loader: 'url-loader',
           options: {
             limit: 10000,
+            prefix: '../',
             mimetype: 'image/svg+xml'
           }
         }
@@ -101,22 +110,17 @@ export default merge.smart(baseConfig, {
   },
 
   plugins: [
-    /**
-     * Create global constants which can be configured at compile time.
-     *
-     * Useful for allowing different behaviour between development builds and
-     * release builds
-     *
-     * NODE_ENV should be production so that modules do not perform certain
-     * development checks
-     */
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(
-        process.env.NODE_ENV || 'production'
-      )
+    new webpack.EnvironmentPlugin({
+      NODE_ENV: 'production',
+      DEBUG_PROD: 'false'
     }),
 
-    // new UglifyJSPlugin(),
+    new LodashModuleReplacementPlugin(),
+
+    new UglifyJSPlugin({
+      parallel: true,
+      sourceMap: true
+    }),
 
     extractSass,
 

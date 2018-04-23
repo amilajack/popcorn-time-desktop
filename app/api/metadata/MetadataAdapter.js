@@ -33,10 +33,14 @@ function MetadataAdapter() {
   ];
 }
 
-async function interceptAndHandleRequest(method: string, args: Array<string>) {
+async function interceptAndHandleRequest(
+  method: string,
+  args: Array<string>,
+  cache: boolean = true
+) {
   const key = JSON.stringify(method) + JSON.stringify(args);
 
-  if (resolveCache(key)) {
+  if (cache && resolveCache(key)) {
     return Promise.resolve(resolveCache(key));
   }
 
@@ -45,7 +49,10 @@ async function interceptAndHandleRequest(method: string, args: Array<string>) {
   );
 
   const mergedResults = merge(results);
-  setCache(key, mergedResults);
+
+  if (cache) {
+    setCache(key, mergedResults);
+  }
 
   return mergedResults;
 }
@@ -203,7 +210,7 @@ async function getSubtitles(
  * @param {object} metadata | 'id', Required only remove
  */
 function favorites(...args: Array<string>) {
-  return interceptAndHandleRequest('favorites', args);
+  return interceptAndHandleRequest('favorites', args, false);
 }
 
 /**
@@ -214,7 +221,7 @@ function favorites(...args: Array<string>) {
  * @param {object} metadata | 'id', Required only remove
  */
 function watchList(...args: Array<string>) {
-  return interceptAndHandleRequest('watchList', args);
+  return interceptAndHandleRequest('watchList', args, false);
 }
 
 /**
@@ -225,7 +232,7 @@ function watchList(...args: Array<string>) {
  * @param {object} metadata | 'id', Required only remove
  */
 function recentlyWatched(...args) {
-  return interceptAndHandleRequest('recentlyWatched', args);
+  return interceptAndHandleRequest('recentlyWatched', args, false);
 }
 
 /**
@@ -241,11 +248,12 @@ export function parseRuntimeMinutesToObject(
   const minutes = runtimeInMinutes % 60;
 
   return {
-    full: hours > 0
-      ? `${hours} ${hours > 1 ? 'hours' : 'hour'}${minutes > 0
-          ? ` ${minutes} minutes`
-          : ''}`
-      : `${minutes} minutes`,
+    full:
+      hours > 0
+        ? `${hours} ${hours > 1 ? 'hours' : 'hour'}${minutes > 0
+            ? ` ${minutes} minutes`
+            : ''}`
+        : `${minutes} minutes`,
     hours,
     minutes
   };
