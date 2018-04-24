@@ -39,8 +39,8 @@ export default merge.smart(baseConfig, {
             {
               loader: 'css-loader',
               options: {
-                minimize: true,
-              },
+                minimize: true
+              }
             },
             {
               loader: 'sass-loader'

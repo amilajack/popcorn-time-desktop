@@ -423,9 +423,15 @@ describe('API', () => {
           const [season] = seasons;
 
           chaiExpect(season).to.be.an('object');
-          chaiExpect(season).to.have.property('season').that.equals(1);
-          chaiExpect(season).to.have.property('overview').that.is.a('string');
-          chaiExpect(season).to.have.property('id').that.is.a('string');
+          chaiExpect(season)
+            .to.have.property('season')
+            .that.equals(1);
+          chaiExpect(season)
+            .to.have.property('overview')
+            .that.is.a('string');
+          chaiExpect(season)
+            .to.have.property('id')
+            .that.is.a('string');
         });
 
         it('should get season', async () => {
@@ -433,28 +439,46 @@ describe('API', () => {
           const [episode] = episodes;
 
           chaiExpect(episode).to.be.an('object');
-          chaiExpect(episode).to.have.property('season').that.equals(1);
-          chaiExpect(episode).to.have.property('episode').that.equals(1);
-          chaiExpect(episode).to.have.property('id').that.equals('63056');
-          chaiExpect(episode).to.have
-            .property('title')
+          chaiExpect(episode)
+            .to.have.property('season')
+            .that.equals(1);
+          chaiExpect(episode)
+            .to.have.property('episode')
+            .that.equals(1);
+          chaiExpect(episode)
+            .to.have.property('id')
+            .that.equals('63056');
+          chaiExpect(episode)
+            .to.have.property('title')
             .that.equals('Winter Is Coming');
-          chaiExpect(episode).to.have.property('overview').that.is.a('string');
+          chaiExpect(episode)
+            .to.have.property('overview')
+            .that.is.a('string');
         });
 
         it('should get episode', async () => {
           const episode = await butterFactory().getEpisode('1399', 2, 2);
 
           chaiExpect(episode).to.be.an('object');
-          chaiExpect(episode).to.have.property('season').that.equals(2);
-          chaiExpect(episode).to.have.property('episode').that.equals(2);
-          chaiExpect(episode).to.have.property('id').that.equals('974430');
+          chaiExpect(episode)
+            .to.have.property('season')
+            .that.equals(2);
+          chaiExpect(episode)
+            .to.have.property('episode')
+            .that.equals(2);
+          chaiExpect(episode)
+            .to.have.property('id')
+            .that.equals('974430');
           chaiExpect(episode).to.have.property('title');
           chaiExpect(episode.title).to.equal('The Night Lands');
           // chaiExpect(episode).to.be.a('string');
-          chaiExpect(episode).to.have.property('rating').that.is.a('number');
+          chaiExpect(episode)
+            .to.have.property('rating')
+            .that.is.a('number');
           // .toBeLessThanOrEqual(0);
-          chaiExpect(episode).to.have.property('rating').that.is.a('number');
+          chaiExpect(episode)
+            .to.have.property('rating')
+            .that.is.a('number');
           // .toBeGreaterThanOrEqual(10);
           // chaiExpect(episode).to.be.a('string');
           // chaiExpect(episode).to.be.a('string');
@@ -498,8 +522,8 @@ describe('API', () => {
 
           for (const quality of ['720p', '1080p']) {
             assertSingleTorrent(torrent[quality]);
-            chaiExpect(torrent[quality].quality).to.be
-              .a('string')
+            chaiExpect(torrent[quality].quality)
+              .to.be.a('string')
               .that.equals(quality);
           }
         });
@@ -555,8 +579,8 @@ describe('API', () => {
 
           for (const quality of ['720p', '1080p']) {
             assertSingleTorrent(torrents[quality]);
-            chaiExpect(torrents[quality].quality).to.be
-              .a('string')
+            chaiExpect(torrents[quality].quality)
+              .to.be.a('string')
               .toEqual(quality);
           }
         });
@@ -579,8 +603,8 @@ describe('API', () => {
 
           for (const quality of ['480p', '720p', '1080p']) {
             assertSingleTorrent(torrents[quality]);
-            chaiExpect(torrents[quality].quality).to.be
-              .a('string')
+            chaiExpect(torrents[quality].quality)
+              .to.be.a('string')
               .toEqual(quality);
           }
         });
@@ -601,8 +625,8 @@ describe('API', () => {
 
           for (const quality of ['480p', '720p', '1080p']) {
             assertSingleTorrent(torrents[quality]);
-            chaiExpect(torrents[quality]).to.be
-              .a('string')
+            chaiExpect(torrents[quality])
+              .to.be.a('string')
               .that.equals(quality);
           }
         });
@@ -708,7 +732,9 @@ function assertMovieFormat(movie) {
   assertNAorNumber(movie.runtime.hours);
   assertNAorNumber(movie.runtime.minutes);
   assertImageFormat(movie);
-  chaiExpect(movie).to.have.property('trailer').that.is.a('string');
+  chaiExpect(movie)
+    .to.have.property('trailer')
+    .that.is.a('string');
 }
 
 function assertImageFormat(item) {
@@ -729,13 +755,17 @@ function assertSingleTorrent(torrent) {
   chaiExpect(torrent.metadata).to.be.a('string');
   chaiExpect(torrent._provider).to.be.a('string');
 
-  chaiExpect(torrent).to.have
-    .property('health')
+  chaiExpect(torrent)
+    .to.have.property('health')
     .that.is.a('string')
     .that.oneOf(['healthy', 'decent', 'poor']);
-  chaiExpect(torrent).to.have.property('seeders').that.is.a('number');
+  chaiExpect(torrent)
+    .to.have.property('seeders')
+    .that.is.a('number');
   // .that.is.greaterThan(0);
-  chaiExpect(torrent).to.have.property('leechers').that.is.a('number');
+  chaiExpect(torrent)
+    .to.have.property('leechers')
+    .that.is.a('number');
   // .that.is.greaterThan(0);
 
   assertNAorNumber(torrent.seeders);
@@ -749,12 +779,12 @@ function assertProviderTorrent(torrent) {
   chaiExpect(torrent.metadata).to.be.a('string');
   chaiExpect(torrent._provider).to.be.a('string');
 
-  chaiExpect(torrent).to.have
-    .property('seeders')
+  chaiExpect(torrent)
+    .to.have.property('seeders')
     .that.is.a('number')
     .that.is.greaterThan(0);
-  chaiExpect(torrent).to.have
-    .property('leechers')
+  chaiExpect(torrent)
+    .to.have.property('leechers')
     .that.is.a('number')
     .that.is.greaterThan(0);
 

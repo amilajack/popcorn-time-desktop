@@ -158,7 +158,9 @@ export default merge.smart(baseConfig, {
 
   entry: {
     vendor: Object.keys(dependencies || {}).filter(
-      dependency => dependency !== 'font-awesome' &&  dependency !== 'react-addons-test-utils'
+      dependency =>
+        dependency !== 'font-awesome' &&
+        dependency !== 'react-addons-test-utils'
     )
   },
 

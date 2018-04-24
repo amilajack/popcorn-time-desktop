@@ -43,7 +43,9 @@ export default class KatTorrentProvider implements TorrentProviderInterface {
   }
 
   static getStatus() {
-    return fetch(resolvedEndpoint).then(res => res.ok).catch(() => false);
+    return fetch(resolvedEndpoint)
+      .then(res => res.ok)
+      .catch(() => false);
   }
 
   static provide(itemId: string, type: string, extendedDetails = {}) {
@@ -86,7 +88,9 @@ export default class KatTorrentProvider implements TorrentProviderInterface {
               (previous, current) =>
                 previous.length && current.length
                   ? [...previous, ...current]
-                  : previous.length && !current.length ? previous : current
+                  : previous.length && !current.length
+                    ? previous
+                    : current
             )
           )
           .catch(error => {

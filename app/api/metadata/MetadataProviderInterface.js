@@ -75,34 +75,34 @@ export interface MetadataProviderInterface {
     page: number,
     limit: number,
     options: optionsType
-  ) => Promise<contentType>,
-  getMovie: (itemId: string) => contentType,
-  getShows: (page: number, limit: number) => Promise<contentType>,
-  getShow: (itemId: string) => contentType,
+  ) => Promise<contentType>;
+  getMovie: (itemId: string) => contentType;
+  getShows: (page: number, limit: number) => Promise<contentType>;
+  getShow: (itemId: string) => contentType;
   getSimilar: (
     type: string,
     itemId: string,
     limit: number
-  ) => Promise<Array<contentType>>,
+  ) => Promise<Array<contentType>>;
 
-  supportedIdTypes: Array<'tmdb' | 'imdb'>,
+  supportedIdTypes: Array<'tmdb' | 'imdb'>;
 
-  getSeasons: (itemId: string) => Promise<Array<seasonType>>,
-  getSeason: (itemId: string, season: number) => Promise<episodeType>,
-  getEpisode: (itemId: string, season: number, episode: number) => episodeType,
+  getSeasons: (itemId: string) => Promise<Array<seasonType>>;
+  getSeason: (itemId: string, season: number) => Promise<episodeType>;
+  getEpisode: (itemId: string, season: number, episode: number) => episodeType;
 
-  search: (query: string, page: number) => Promise<Array<contentType>>,
+  search: (query: string, page: number) => Promise<Array<contentType>>;
 
   favorites: (
     method: methodType,
     item?: contentType
-  ) => void | Array<contentType>,
+  ) => void | Array<contentType>;
   recentlyWatched: (
     method: methodType,
     item?: contentType
-  ) => void | Array<contentType>,
+  ) => void | Array<contentType>;
   watchList: (
     method: methodType,
     item?: contentType
-  ) => void | Array<contentType>
+  ) => void | Array<contentType>;
 }

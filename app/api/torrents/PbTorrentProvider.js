@@ -49,7 +49,9 @@ export default class PbTorrentProvider implements TorrentProviderInterface {
   }
 
   static getStatus(): Promise<boolean> {
-    return fetch(resolvedEndpoint).then(res => res.ok).catch(() => false);
+    return fetch(resolvedEndpoint)
+      .then(res => res.ok)
+      .catch(() => false);
   }
 
   static provide(itemId: string, type: string, extendedDetails = {}) {
