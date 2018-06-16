@@ -34,7 +34,7 @@
 
 **Faster Torrents**: New API optimized for fast torrents by querying the from multiple endpoints
 
-**Modern Stack**: Electron, React, Redux, Webpack, ES7, Flow, and others
+**Modern Stack**: Electron, React, Redux, Webpack, ES8, Flow, and others
 
 ## Requirements:
 
@@ -62,10 +62,10 @@ yarn
 vi .env
 
 # Developement build
-npm run dev
+yarn dev
 
 # Production build
-npm run package
+yarn package
 
 # 💡 For casting support, you will need to satisfy mdns's requirements:
 # https://github.com/agnat/node_mdns#installation
