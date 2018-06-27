@@ -1,7 +1,6 @@
 {
   "extends": [
     "airbnb",
-    "bliss",
     "prettier",
     "prettier/flowtype",
     "prettier/react"

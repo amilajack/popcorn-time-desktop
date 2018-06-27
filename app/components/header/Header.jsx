@@ -62,14 +62,14 @@ export default class Header extends Component {
     const { searchQuery } = this.state;
 
     return (
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark col-sm-12 col-md-12">
-        <a class="navbar-brand" href="#">Popcorn Time</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark col-sm-12 col-md-12">
+        <a className="navbar-brand" href="#">Popcorn Time</a>
+        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span className="navbar-toggler-icon" />
         </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto">
+        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul className="navbar-nav mr-auto">
           <li
           className={classNames('nav-item', {
             active: activeMode === 'home'
@@ -77,7 +77,7 @@ export default class Header extends Component {
         >
           <Link
             className="nav-link"
-            to={'/item/home'}
+            to="/item/home"
             replace
             onClick={() => setActiveMode('home')}
           >
@@ -90,7 +90,7 @@ export default class Header extends Component {
           })}
         >
           <Link
-            to={'/item/movies'}
+            to="/item/movies"
             replace
             className="nav-link"
             onClick={() => setActiveMode('movies')}
@@ -105,7 +105,7 @@ export default class Header extends Component {
         >
           <Link
             className="nav-link"
-            to={'/item/shows'}
+            to="/item/shows"
             replace
             onClick={() => setActiveMode('shows')}
           >
@@ -113,7 +113,7 @@ export default class Header extends Component {
           </Link>
         </li>
           </ul>
-          <form class="form-inline my-2 my-lg-0">
+          <form className="form-inline my-2 my-lg-0">
             <input
               id="pct-search-input"
               className="form-control mr-sm-2"
@@ -126,7 +126,7 @@ export default class Header extends Component {
               type="text"
               placeholder="Search"
             />
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
           </form>
         </div>
       </nav>

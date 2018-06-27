@@ -108,9 +108,9 @@ export default class RarbgTorrentProvider implements TorrentProviderInterface {
         verified: false
       })
       .then(results => results.map(torrent => this.formatTorrent(torrent)))
-      .catch(error => {
-        return !retry ? this.search(query, category, true) : resolve([]);
-      });
+      .catch(
+        error => (!retry ? this.search(query, category, true) : resolve([]))
+      );
   }
 
   static formatTorrent(torrent, quality) {

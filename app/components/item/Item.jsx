@@ -814,8 +814,8 @@ export default class Item extends Component {
                 {item.rating && typeof item.rating === 'number'
                   ? <div className="col-sm-5">
                       <Rating
-                        emptyStarColor={'rgba(255, 255, 255, 0.2)'}
-                        starColor={'white'}
+                        emptyStarColor="rgba(255, 255, 255, 0.2)"
+                        starColor="white"
                         rating={item.rating}
                       />
                     </div>
@@ -997,7 +997,7 @@ export default class Item extends Component {
             : null}
 
           <CardList
-            title={'similar'}
+            title="similar"
             limit={4}
             items={similarItems}
             metadataLoading={similarLoading}
