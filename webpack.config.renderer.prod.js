@@ -22,6 +22,8 @@ export default merge.smart(baseConfig, {
 
   target: 'electron-renderer',
 
+  mode: 'production',
+
   entry: './app/index.jsx',
 
   output: {

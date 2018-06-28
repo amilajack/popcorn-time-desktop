@@ -57,7 +57,7 @@ describe('e2e', function testApp() {
 
     it('should search items', async () => {
       await this.app.client
-        .setValue('.navbar input', 'harry potter')
+        .setValue('#pct-search-input', 'harry potter')
         .keys('Enter');
 
       await this.app.client.waitUntilWindowLoaded(); // await search results();
@@ -69,15 +69,17 @@ describe('e2e', function testApp() {
       expect(movieTitles[2]).toContain('Harry Potter');
 
       await this.app.client
-        .setValue('.navbar input', 'Lord of the Rings')
+        .setValue('#pct-search-input', 'Lord of the Rings')
         .keys('Enter');
 
       await this.app.client.waitUntilWindowLoaded(); // await search results();
       await delay(6000);
 
-      const secondMovieTitles = await this.app.client.getText(
-        '.Card .Card--title'
-      );
+      const secondMovieTitles = await this.app.client
+        .waitForExist('.Card .Card--title')
+        .waitForVisible('.Card .Card--title')
+        .getText('.Card .Card--title');
+
       expect(secondMovieTitles[0]).toContain('Lord');
       expect(secondMovieTitles[1]).toContain('Lord');
       expect(secondMovieTitles[2]).toContain('Lord');

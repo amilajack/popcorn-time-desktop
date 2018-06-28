@@ -50,7 +50,8 @@ export default class Header extends Component {
 
   handleKeyPress(event: SyntheticEvent) {
     if (event.key === 'Enter') {
-      browserHistory.replace('/item/search');
+      // browserHistory.replace('/item/movies');
+      // browserHistory.replace('/item/search');
       this.props.setActiveMode('search', {
         searchQuery: this.state.searchQuery
       });
@@ -63,7 +64,6 @@ export default class Header extends Component {
 
     return (
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark col-sm-12 col-md-12">
-        <a className="navbar-brand" href="#">Popcorn Time</a>
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon" />
         </button>
@@ -126,7 +126,6 @@ export default class Header extends Component {
               type="text"
               placeholder="Search"
             />
-            <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
           </form>
         </div>
       </nav>

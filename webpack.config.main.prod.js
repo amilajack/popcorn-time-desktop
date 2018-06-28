@@ -18,6 +18,8 @@ export default merge.smart(baseConfig, {
 
   target: 'electron-main',
 
+  mode: 'production',
+
   entry: './app/main.dev',
 
   output: {
