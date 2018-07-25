@@ -3,7 +3,6 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
-import { history as browserHistory } from '../../store/configureStore';
 import Butter from '../../api/Butter';
 
 type Props = {
@@ -95,7 +94,7 @@ export default class Header extends Component {
             className="nav-link"
             onClick={() => setActiveMode('movies')}
           >
-            Movies <span className="sr-only">(current)</span>
+            Movies
           </Link>
         </li>
         <li
