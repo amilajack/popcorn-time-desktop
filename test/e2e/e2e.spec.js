@@ -71,3 +71,21 @@ test('should navigate between movies and shows', async t => {
   // const cardLinks = await t.getAttribute('.Card a', 'href');
   // expect(cardLinks[0]).toContain('item/shows');
 });
+
+test('should paginate items on scroll to bottom of viewport', async t => {
+  await t
+    .click('.nav-item:nth-child(2) .nav-link');
+
+  const selector1 = await Selector('.Card a');
+
+  await t
+    .hover('.Loader')
+    .expect(Selector('.Loader').visible)
+    .notOk();
+
+  const selector2 = await Selector('.Card a');
+
+  await t
+    .expect(selector1.length)
+    .notEql(selector2.length);
+});
