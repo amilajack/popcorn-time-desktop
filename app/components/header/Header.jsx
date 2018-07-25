@@ -116,7 +116,6 @@ export default class Header extends Component {
             <input
               id="pct-search-input"
               className="form-control mr-sm-2"
-              type="search"
               aria-label="Search"
               value={searchQuery}
               onKeyUp={event => this.handleKeyUp(event)}

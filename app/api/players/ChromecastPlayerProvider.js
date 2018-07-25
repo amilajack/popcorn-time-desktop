@@ -38,6 +38,12 @@ class ChromecastPlayerProvider implements PlayerProviderInterface {
     this.browser = mdns.createBrowser(mdns.tcp('googlecast'));
   }
 
+  destroy() {
+    if (this.browser) {
+      this.browser.stop();
+    }
+  }
+
   getDevices(timeout: number = 2000) {
     return new Promise(resolve => {
       const devices = [];

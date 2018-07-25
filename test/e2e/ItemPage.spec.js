@@ -8,13 +8,13 @@ import {
 
 const TEST_MOVIE_URL = '#/item/movies/351286';
 
-fixture
-  `Item Page`
-  .page(`../../app/app.html${TEST_MOVIE_URL}`);
+fixture`Item Page`.page(`../../app/app.html${TEST_MOVIE_URL}`);
 
 test('it should load item title', async t => {
   await t
-    .expect(Selector('h1').withExactText('Jurassic World: Fallen Kingdom').visible)
+    .expect(
+      Selector('h1').withExactText('Jurassic World: Fallen Kingdom').visible
+    )
     .ok();
 });
 
