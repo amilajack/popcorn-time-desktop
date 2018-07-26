@@ -1,17 +1,22 @@
 {
   "presets": [
     ["env", {
-      "targets": { "node": 7 },
+      "targets": { "node": 10 },
       "useBuiltIns": true
     }],
     "stage-0",
     "react"
   ],
-  "plugins": ["add-module-exports"],
+  "plugins": [
+    "add-module-exports"
+  ],
   "env": {
     "production": {
       "presets": ["react-optimize"],
-      "plugins": ["babel-plugin-dev-expression"]
+      "plugins": [
+        "dev-expression",
+        ["react-remove-properties", { "properties": ["data-e2e"] }]
+      ]
     },
     "development": {
       "plugins": [
