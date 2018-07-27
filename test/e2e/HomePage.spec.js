@@ -45,9 +45,10 @@ test('it should search items (2)', async t => {
 
 test('it should navigate to item on CardList click', async t => {
   await t
+    .click(Selector('a').withExactText('TV Shows'))
     .click(cardSelector)
     .expect(getPageUrl())
-    .contains('#/item/movies/')
+    .contains('#/item/shows/')
     .expect(Selector('#title').visible)
     .ok()
     .expect(Selector('#summary').visible)
