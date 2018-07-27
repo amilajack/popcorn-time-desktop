@@ -15,6 +15,7 @@ test('it should have the expected title', async t => {
 
 test('it should display cards list and cards', async t => {
   await t
+    .click(Selector('a').withExactText('TV Shows'))
     .expect(cardlistSelector.visible)
     .ok()
     .expect(cardSelector.visible)
