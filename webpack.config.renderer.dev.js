@@ -27,10 +27,10 @@ const manifest = path.resolve(dll, 'vendor.json');
 if (!(fs.existsSync(dll) && fs.existsSync(manifest))) {
   console.log(
     chalk.black.bgYellow.bold(
-      'The DLL files are missing. Sit back while we build them for you with "npm run build-dll"'
+      'The DLL files are missing. Sit back while we build them for you with "yarn build-dll"'
     )
   );
-  execSync('npm run build-dll');
+  execSync('yarn build-dll');
 }
 
 export default merge.smart(baseConfig, {

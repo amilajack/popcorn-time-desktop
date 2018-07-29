@@ -68,7 +68,6 @@
     ],
     "dmg": {
       "format": "ULFO",
-      "icon": "./resources/icon.icns",
       "window": {
         "width": "500",
         "height": "300"
@@ -88,8 +87,7 @@
       ]
     },
     "win": {
-      "target": "nsis",
-      "icon": "./resources/icon.ico"
+      "target": "nsis"
     },
     "linux": {
       "target": [

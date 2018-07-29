@@ -39,7 +39,7 @@ before_script:
   - sleep 3
 
 script:
-  # - npm run lint
-  # - npm run test
-  - npm run package-ci
-  - npm run test-e2e
+  # - yarn lint
+  # - yarn test
+  - yarn package-ci
+  - yarn test-e2e
