@@ -21,7 +21,7 @@ shallow_clone: true
 clone_depth: 1
 
 install:
-  - ps: Install-Product node $env:nodejs_version
+  - ps: Install-Product node $env:nodejs_version x64
   - set CI=true
   # Bonjour
   - appveyor DownloadFile https://www.samuelattard.com/files/bonjourcore2.msi
