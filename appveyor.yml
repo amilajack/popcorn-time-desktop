@@ -4,6 +4,7 @@ image: Visual Studio 2017
 
 platform:
   - x64
+  - x86
 
 environment:
   matrix:
@@ -41,14 +42,7 @@ install:
   - ps: Install-Product node $env:nodejs_version x64
   - set CI=true
   # Bonjour
-  - cmd: echo %BONJOUR_SDK_HOME%
-  - ps: Get-ChildItem "env:"
-  - IF NOT EXIST vendor mkdir vendor
-  - IF NOT EXIST C:\projects\popcorn-time-desktop\vendor\Bonjour.msi curl -fsS -u %download_user% -o vendor\Bonjour.msi http://%bonjour_installer%
-  - IF NOT EXIST C:\projects\popcorn-time-desktop\vendor\Bonjour64.msi curl -fsS -u %download_user% -o vendor\Bonjour64.msi http://%bonjour_installer64%
-  - IF NOT EXIST C:\projects\popcorn-time-desktop\vendor\BonjourSDK64.msi curl -fsS -u %download_user% -o vendor\BonjourSDK64.msi http://%bonjour_sdk64%
-  - ps: Start-Process -FilePath msiexec -ArgumentList /i, 'C:\projects\popcorn-time-desktop\vendor\Bonjour64.msi', /quiet, /qn, /norestart, /l, 'C:\projects\popcorn-time-desktop\install.log' -Wait
-  - ps: Start-Process -FilePath msiexec -ArgumentList /i, 'C:\projects\popcorn-time-desktop\vendor\BonjourSDK64.msi', /quiet, /qn, /norestart, /l, 'C:\projects\popcorn-time-desktop\install_sdk.log' -Wait
+  - ps: choco install bonjour
   # Install npm dependencies
   - yarn
 
