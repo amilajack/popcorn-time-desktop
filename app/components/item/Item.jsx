@@ -18,7 +18,6 @@ import SaveItem from '../metadata/SaveItem.jsx';
 import Rating from '../card/Rating.jsx';
 import Show from '../show/Show.jsx';
 import { getIdealTorrent } from '../../api/torrents/BaseTorrentProvider';
-import ChromecastPlayerProvider from '../../api/players/ChromecastPlayerProvider';
 import Butter from '../../api/Butter';
 import Torrent from '../../api/Torrent';
 import {
@@ -175,7 +174,8 @@ export default class Item extends Component {
     this.state = this.initialState;
 
     if (!process.env.CI) {
-      this.playerProvider = new ChromecastPlayerProvider();
+      // import ChromecastPlayerProvider from '../../api/players/ChromecastPlayerProvider';
+      // this.playerProvider = new ChromecastPlayerProvider();
     }
   }
 
