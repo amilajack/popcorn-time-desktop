@@ -173,7 +173,10 @@ export default class Item extends Component {
     this.torrent = new Torrent();
     this.player = new Player();
     this.state = this.initialState;
-    this.playerProvider = new ChromecastPlayerProvider();
+
+    if (!process.env.CI) {
+      this.playerProvider = new ChromecastPlayerProvider();
+    }
   }
 
   static defaultProps: Props;
@@ -206,12 +209,13 @@ export default class Item extends Component {
 
   async componentDidMount() {
     window.scrollTo(0, 0);
-    this.initCastingDevices();
-
-    this.checkCastingDevicesInterval = setInterval(() => {
-      console.log('Looking for casting devices...');
+    if (!process.env.CI) {
       this.initCastingDevices();
-    }, 10000);
+      this.checkCastingDevicesInterval = setInterval(() => {
+        console.log('Looking for casting devices...');
+        this.initCastingDevices();
+      }, 10000);
+    }
 
     this.getAllData(this.props.itemId);
     this.stopPlayback();
@@ -238,12 +242,17 @@ export default class Item extends Component {
     });
 
     this.getAllData(nextProps.itemId);
-    this.initCastingDevices();
+
+    if (!process.env.CI) {
+      this.initCastingDevices();
+    }
   }
 
   componentWillUnmount() {
     this.stopPlayback();
-    clearInterval(this.checkCastingDevicesInterval);
+    if (!process.env.CI) {
+      clearInterval(this.checkCastingDevicesInterval);
+    }
     this.player.destroy();
   }
 
