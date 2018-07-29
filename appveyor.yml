@@ -32,7 +32,6 @@ install:
   - del bonjoursdksetup.exe
   # Install npm dependencies
   - yarn
-  - cd app && yarn
 
 test_script:
   # - yarn lint
