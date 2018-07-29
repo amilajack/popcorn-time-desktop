@@ -2,10 +2,6 @@ os: unstable
 
 image: Visual Studio 2017
 
-platform:
-  - x64
-  - x86
-
 environment:
   nodejs_version: 9
   BONJOUR_SDK_HOME: 'C:\\Program Files\\Bonjour SDK'

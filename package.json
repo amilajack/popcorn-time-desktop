@@ -20,7 +20,7 @@
     "package-all": "yarn postinstall && yarn build && electron-builder --publish never --mac --win --linux",
     "package-ci": "yarn postinstall && yarn build && electron-builder --publish always",
     "prettier": "prettier --single-quote --write \"./{app,test}/{actions,api,components,containers,reducers,utils}/**/*.js\" && prettier --single-quote --write \"./app/{actions,api,components,containers,reducers,utils}/**/*.jsx\"",
-    "postinstall": "yarn build-dll && node node_modules/fbjs-scripts/node/check-dev-engines.js package.json && node -r babel-register postinstall.js",
+    "postinstall": "yarn build-dll && node node_modules/fbjs-scripts/node/check-dev-engines.js package.json && node -r babel-register postinstall.js && electron-builder install-app-deps",
     "postlint-fix": "prettier --ignore-path .eslintignore --single-quote --write '**/*.js'",
     "test": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 jest ./test/components/*.spec.js",
     "test-all": "yarn lint && yarn lint-styles && yarn lint-summary && yarn build && yarn test-api && yarn test-e2e",
