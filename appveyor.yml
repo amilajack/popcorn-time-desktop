@@ -1,8 +1,25 @@
 os: unstable
 
+image: Visual Studio 2017
+
+platform:
+  - x64
+
 environment:
   matrix:
     - nodejs_version: 9
+  BONJOUR_HOME: 'C:\Program Files\Bonjour'
+  BONJOUR_SDK_HOME: 'C:\Program Files\Bonjour SDK'
+  download_user:
+    secure: qJc53Aj3IePOJrzM23qw2UzmmHhzw0AfGQmAMUsAc5I=
+  bonjour_installer64:
+    secure: QbbC1VtR6vZAKfHUJeJ1nnm3Hi0HVrpmS3+ocEwmfIiSkHpSe7idgVOXufBISjbs
+  bonjour_installer:
+    secure: QbbC1VtR6vZAKfHUJeJ1nnm3Hi0HVrpmS3+ocEwmfIghyl9zbrmS6I+8MY1xOkgh
+  bonjour_sdk64:
+    secure: QbbC1VtR6vZAKfHUJeJ1nnm3Hi0HVrpmS3+ocEwmfIhP2q0XRDUqXUrSKhvyy/iu
+  bonjour_sdk:
+    secure: QbbC1VtR6vZAKfHUJeJ1nnm3Hi0HVrpmS3+ocEwmfIjjzytlZvdLKEiCanjwgvLJ
 
 cache:
   - "%LOCALAPPDATA%/Yarn"
@@ -24,12 +41,14 @@ install:
   - ps: Install-Product node $env:nodejs_version x64
   - set CI=true
   # Bonjour
-  - appveyor DownloadFile https://www.samuelattard.com/files/bonjourcore2.msi
-  - msiexec /i bonjourcore2.msi /qn
-  - del bonjourcore2.msi
-  - appveyor DownloadFile https://www.samuelattard.com/files/bonjoursdksetup.exe
-  - bonjoursdksetup.exe /quiet
-  - del bonjoursdksetup.exe
+  - cmd: echo %BONJOUR_SDK_HOME%
+  - ps: Get-ChildItem "env:"
+  - IF NOT EXIST vendor mkdir vendor
+  - IF NOT EXIST C:\projects\popcorn-time-desktop\vendor\Bonjour.msi curl -fsS -u %download_user% -o vendor\Bonjour.msi http://%bonjour_installer%
+  - IF NOT EXIST C:\projects\popcorn-time-desktop\vendor\Bonjour64.msi curl -fsS -u %download_user% -o vendor\Bonjour64.msi http://%bonjour_installer64%
+  - IF NOT EXIST C:\projects\popcorn-time-desktop\vendor\BonjourSDK64.msi curl -fsS -u %download_user% -o vendor\BonjourSDK64.msi http://%bonjour_sdk64%
+  - ps: Start-Process -FilePath msiexec -ArgumentList /i, 'C:\projects\popcorn-time-desktop\vendor\Bonjour64.msi', /quiet, /qn, /norestart, /l, 'C:\projects\popcorn-time-desktop\install.log' -Wait
+  - ps: Start-Process -FilePath msiexec -ArgumentList /i, 'C:\projects\popcorn-time-desktop\vendor\BonjourSDK64.msi', /quiet, /qn, /norestart, /l, 'C:\projects\popcorn-time-desktop\install_sdk.log' -Wait
   # Install npm dependencies
   - yarn
 
