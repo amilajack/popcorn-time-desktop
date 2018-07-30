@@ -1,19 +1,22 @@
 import { Selector } from 'testcafe';
 import {
+  BASE_URL,
   cardSelector,
   cardlistSelector,
   titleSelector,
-  getPageUrl
+  getPageUrl,
+  clearConfigs
 } from './helpers';
 
 const TEST_MOVIE_URL = '#/item/movies/351286';
 
-fixture`Item Page`.page('../../app/app.html?').beforeEach(async t => {
+fixture`Item Page`.page(BASE_URL).beforeEach(async t => {
+  clearConfigs();
   await t
     .click(Selector('a').withExactText('Home'))
     .typeText('#pct-search-input', 'jurassic world', { replace: true })
     .pressKey('enter')
-    .click(cardSelector)
+    .click(cardSelector);
 });
 
 test('it should load item title', async t => {
@@ -24,7 +27,14 @@ test('it should load item title', async t => {
     .ok();
 });
 
-test.skip('it should load similar cards', async t => {
+test('it should go back', async t => {
+  await t
+    .click('[data-e2e="item-button-back"]')
+    .expect(getPageUrl())
+    .contains('search')
+})
+
+test('it should load similar cards', async t => {
   await t
     .click(cardlistSelector.find('.Card'))
     .expect(getPageUrl())

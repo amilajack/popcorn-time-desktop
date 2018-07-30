@@ -731,6 +731,7 @@ export default class Item extends Component {
         <Link to="/">
           <span
             className="pct-btn pct-btn-tran pct-btn-outline pct-btn-round"
+            data-e2e="item-button-back"
             onClick={() => this.stopPlayback()}
           >
             <i className="ion-ios-arrow-back" /> Back
