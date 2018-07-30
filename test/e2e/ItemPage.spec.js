@@ -16,7 +16,7 @@ fixture`Item Page`.page('../../app/app.html?').beforeEach(async t => {
     .click(cardSelector)
 });
 
-test.only('it should load item title', async t => {
+test('it should load item title', async t => {
   await t
     .expect(
       Selector('h1').withExactText('Jurassic World: Fallen Kingdom').visible
