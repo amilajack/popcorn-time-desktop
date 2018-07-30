@@ -17,8 +17,8 @@ import CardList from '../card/CardList.jsx';
 import SaveItem from '../metadata/SaveItem.jsx';
 import Rating from '../card/Rating.jsx';
 import Show from '../show/Show.jsx';
-import { getIdealTorrent } from '../../api/torrents/BaseTorrentProvider';
 import ChromecastPlayerProvider from '../../api/players/ChromecastPlayerProvider';
+import { getIdealTorrent } from '../../api/torrents/BaseTorrentProvider';
 import Butter from '../../api/Butter';
 import Torrent from '../../api/Torrent';
 import {

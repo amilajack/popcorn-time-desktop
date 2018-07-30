@@ -8,7 +8,13 @@ import {
 
 const TEST_MOVIE_URL = '#/item/movies/351286';
 
-fixture`Item Page`.page(`../../app/app.html${TEST_MOVIE_URL}`);
+fixture`Item Page`.page('../../app/app.html?').beforeEach(async t => {
+  await t
+    .click(Selector('a').withExactText('Home'))
+    .typeText('#pct-search-input', 'jurassic world', { replace: true })
+    .pressKey('enter')
+    .click(cardSelector)
+});
 
 test('it should load item title', async t => {
   await t
