@@ -5,12 +5,16 @@ import {
   cardlistSelector,
   titleSelector,
   getPageUrl,
-  clearConfigs
+  clearConfigs,
+  clickItemPageBackButton,
+  navigateToCard,
+  navigateTo,
+  getLowerCaseCardTitle
 } from './helpers';
 
 const TEST_MOVIE_URL = '#/item/movies/351286';
 
-fixture`Item Page`.page(BASE_URL).beforeEach(async t => {
+fixture.only`Item Page`.page(BASE_URL).beforeEach(async t => {
   clearConfigs();
   await t
     .click(Selector('a').withExactText('Home'))
@@ -28,10 +32,10 @@ test('it should load item title', async t => {
 });
 
 test('it should go back', async t => {
+  await clickItemPageBackButton(t)
   await t
-    .click('[data-e2e="item-button-back"]')
-    .expect(getPageUrl())
-    .contains('search')
+    .expect(await getPageUrl().then(str => str.slice(str.length - 11)))
+    .eql('app.html?#/')
 })
 
 test('it should load similar cards', async t => {
@@ -45,4 +49,30 @@ test('it should load similar cards', async t => {
     .ok()
     .expect(titleSelector.visible)
     .ok();
+});
+
+test('it should add items to favorites', async t => {
+  await t
+    .click('.SaveItem--favorites')
+  await t
+    .expect(Selector('.SaveItem--active-icon.SaveItem--favorites').visible)
+    .ok();
+  await clickItemPageBackButton(t);
+  await navigateTo(t, 'home');
+  await t
+    .expect(await getLowerCaseCardTitle())
+    .contains('jurassic world');
+});
+
+test('it should add items to watch list', async t => {
+  await t
+    .click('.SaveItem--watchlist')
+  await t
+    .expect(Selector('.SaveItem--active-icon.SaveItem--watchlist').visible)
+    .ok();
+  await clickItemPageBackButton(t);
+  await navigateTo(t, 'home');
+  await t
+    .expect(await getLowerCaseCardTitle())
+    .contains('jurassic world');
 });

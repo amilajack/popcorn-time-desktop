@@ -14,8 +14,7 @@
     "production": {
       "presets": ["react-optimize"],
       "plugins": [
-        "dev-expression",
-        ["react-remove-properties", { "properties": ["data-e2e"] }]
+        "dev-expression"
       ]
     },
     "development": {

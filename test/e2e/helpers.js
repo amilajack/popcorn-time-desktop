@@ -43,8 +43,13 @@ export async function navigateTo(t, route = 'home') {
 }
 
 export async function navigateToCard(t) {
+  await navigateTo(t, 'home');
   await t
     .typeText('#pct-search-input', 'harry potter')
     .pressKey('enter')
     .click(cardSelector);
+}
+
+export function clickItemPageBackButton(t) {
+  return t.click('[data-e2e="item-button-back"]')
 }

@@ -9,7 +9,8 @@ import {
   scrollBottom,
   navigateToCard,
   navigateTo,
-  clearConfigs
+  clearConfigs,
+  clickItemPageBackButton
 } from './helpers';
 
 fixture`Home Page`.page(BASE_URL).beforeEach(() => clearConfigs());
@@ -83,24 +84,4 @@ test('it should paginate items on scroll to bottom of viewport', async t => {
   const selector2 = await Selector('.Card a').count;
 
   await t.expect(selector1).lt(selector2);
-});
-
-test('it should add items to favorites', async t => {
-  await navigateToCard(t);
-  await t
-    .click('.SaveItem--favorites')
-  await navigateTo(t, 'home');
-  await t
-    .expect(getLowerCaseCardTitle)
-    .contain('harry potter');
-});
-
-test('it should add items to watch list', async t => {
-  await navigateToCard(t);
-  await t
-    .click('.SaveItem--watchlist')
-  await navigateTo(t, 'home');
-  await t
-    .expect(getLowerCaseCardTitle)
-    .contain('harry potter');
 });
