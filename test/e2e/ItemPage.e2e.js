@@ -7,14 +7,13 @@ import {
   getPageUrl,
   clearConfigs,
   clickItemPageBackButton,
-  navigateToCard,
   navigateTo,
   getLowerCaseCardTitle
 } from './helpers';
 
 const TEST_MOVIE_URL = '#/item/movies/351286';
 
-fixture.only`Item Page`.page(BASE_URL).beforeEach(async t => {
+fixture`Item Page`.page(BASE_URL).beforeEach(async t => {
   clearConfigs();
   await t
     .click(Selector('a').withExactText('Home'))
@@ -76,3 +75,9 @@ test('it should add items to watch list', async t => {
     .expect(await getLowerCaseCardTitle())
     .contains('jurassic world');
 });
+
+test('it should display torrent loading status', async t => {
+  await t
+    .expect(Selector('.Item--loading-status').withExactText('Fetching torrents...').visible)
+    .ok();
+})

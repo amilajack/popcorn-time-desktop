@@ -5,12 +5,9 @@ import {
   getPageUrl,
   cardlistSelector,
   cardSelector,
-  getLowerCaseCardTitle,
   scrollBottom,
-  navigateToCard,
   navigateTo,
-  clearConfigs,
-  clickItemPageBackButton
+  clearConfigs
 } from './helpers';
 
 fixture`Home Page`.page(BASE_URL).beforeEach(() => clearConfigs());
