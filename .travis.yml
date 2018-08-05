@@ -15,7 +15,6 @@ matrix:
         - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
 
     - os: linux
-      services: docker
       language: node_js
       node_js:
         - node

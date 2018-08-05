@@ -100,12 +100,17 @@
       ]
     },
     "win": {
-      "target": "nsis"
+      "target": [
+        "nsis",
+        "portable"
+      ]
     },
     "linux": {
       "target": [
         "deb",
-        "rpm"
+        "rpm",
+        "snap",
+        "AppImage"
       ],
       "category": "Video"
     },
