@@ -19,7 +19,7 @@ export default function CardList(props: Props) {
   const { items, isLoading, isFinished, title, limit } = props;
 
   return (
-    <div className="row">
+    <div className="row" data-e2e={`${title}-card-list`}>
       <div className="col-sm-12">
         <h4 className="CardList--header">
           {title}

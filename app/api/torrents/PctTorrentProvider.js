@@ -107,7 +107,9 @@ export default class PctTorrentProvider implements TorrentProviderInterface {
   }
 
   static getStatus() {
-    return fetch(resolvedEndpoint).then(res => res.ok).catch(() => false);
+    return fetch(resolvedEndpoint)
+      .then(res => res.ok)
+      .catch(() => false);
   }
 
   static provide(itemId: string, type: string, extendedDetails = {}) {

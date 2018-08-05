@@ -18,6 +18,8 @@ export default merge.smart(baseConfig, {
 
   target: 'electron-main',
 
+  mode: 'production',
+
   entry: './app/main.dev',
 
   output: {
@@ -30,7 +32,8 @@ export default merge.smart(baseConfig, {
 
     new UglifyJSPlugin({
       parallel: true,
-      sourceMap: true
+      sourceMap: true,
+      cache: true
     }),
 
     new BundleAnalyzerPlugin({
@@ -42,7 +45,7 @@ export default merge.smart(baseConfig, {
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'production',
       DEBUG_PROD: 'false'
-    }),
+    })
   ],
 
   /**

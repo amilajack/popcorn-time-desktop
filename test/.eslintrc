@@ -1,7 +1,11 @@
 {
+  "extends": "plugin:testcafe/recommended",
   "env": {
     "jest": true
   },
+  "plugins": [
+    "testcafe"
+  ],
   "rules": {
     "fp/no-loops": "off",
     "global-require": "off",

@@ -1,13 +1,18 @@
 os: unstable
 
+image: Visual Studio 2017
+
 environment:
-  matrix:
-    - nodejs_version: 8
+  nodejs_version: 9
+  BONJOUR_SDK_HOME: 'C:\\Program Files\\Bonjour SDK'
 
 cache:
   - "%LOCALAPPDATA%/Yarn"
   - node_modules -> yarn.lock
   - app/node_modules -> app/yarn.lock
+  - flow-typed
+  - '%LOCALAPPDATA%\electron\Cache'
+  - '%LOCALAPPDATA%\electron-builder\cache'
 
 matrix:
   fast_finish: true
@@ -21,7 +26,7 @@ shallow_clone: true
 clone_depth: 1
 
 install:
-  - ps: Install-Product node $env:nodejs_version
+  - ps: Install-Product node $env:nodejs_version x64
   - set CI=true
   # Bonjour
   - appveyor DownloadFile https://www.samuelattard.com/files/bonjourcore2.msi
@@ -32,10 +37,9 @@ install:
   - del bonjoursdksetup.exe
   # Install npm dependencies
   - yarn
-  - cd app && yarn
 
 test_script:
-  # - npm run lint
-  # - npm run test
-  - npm run package-ci
-  - npm run test-e2e
+  # - yarn lint
+  # - yarn test
+  - yarn package-ci
+  - yarn test-e2e

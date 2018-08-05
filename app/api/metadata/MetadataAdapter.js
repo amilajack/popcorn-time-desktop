@@ -250,9 +250,9 @@ export function parseRuntimeMinutesToObject(
   return {
     full:
       hours > 0
-        ? `${hours} ${hours > 1 ? 'hours' : 'hour'}${minutes > 0
-            ? ` ${minutes} minutes`
-            : ''}`
+        ? `${hours} ${hours > 1 ? 'hours' : 'hour'}${
+            minutes > 0 ? ` ${minutes} minutes` : ''
+          }`
         : `${minutes} minutes`,
     hours,
     minutes

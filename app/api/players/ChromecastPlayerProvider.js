@@ -38,6 +38,12 @@ class ChromecastPlayerProvider implements PlayerProviderInterface {
     this.browser = mdns.createBrowser(mdns.tcp('googlecast'));
   }
 
+  destroy() {
+    if (this.browser) {
+      this.browser.stop();
+    }
+  }
+
   getDevices(timeout: number = 2000) {
     return new Promise(resolve => {
       const devices = [];
@@ -51,7 +57,11 @@ class ChromecastPlayerProvider implements PlayerProviderInterface {
         });
       });
 
-      this.browser.start();
+      try {
+        this.browser.start();
+      } catch(e) {
+        console.log(e);
+      }
 
       setTimeout(() => {
         this.browser.stop();
@@ -79,38 +89,41 @@ class ChromecastPlayerProvider implements PlayerProviderInterface {
     }
 
     return new Promise((resolve, reject) => {
-      client.connect(this.selectedDevice.address, () => {
-        client.launch(DefaultMediaReceiver, (err, player) => {
-          if (err) reject(err);
+      client.connect(
+        this.selectedDevice.address,
+        () => {
+          client.launch(DefaultMediaReceiver, (err, player) => {
+            if (err) reject(err);
 
-          const media = {
-            // Here you can plug an URL to any mp4, webm, mp3 or jpg file with the proper contentType.
-            contentId: contentUrl,
-            contentType: 'video/mp4',
-            streamType: 'BUFFERED', // or LIVE
+            const media = {
+              // Here you can plug an URL to any mp4, webm, mp3 or jpg file with the proper contentType.
+              contentId: contentUrl,
+              contentType: 'video/mp4',
+              streamType: 'BUFFERED', // or LIVE
 
-            // Title and cover displayed while buffering
-            metadata: {
-              type: 0,
-              metadataType: 0,
-              title: metadata.title,
-              images: [
-                {
-                  url: metadata.images.poster.full
-                },
-                {
-                  url: metadata.images.fanart.full
-                }
-              ]
-            }
-          };
+              // Title and cover displayed while buffering
+              metadata: {
+                type: 0,
+                metadataType: 0,
+                title: metadata.title,
+                images: [
+                  {
+                    url: metadata.images.poster.full
+                  },
+                  {
+                    url: metadata.images.fanart.full
+                  }
+                ]
+              }
+            };
 
-          player.load(media, { autoplay: true }, _err => {
-            if (_err) reject(_err);
-            resolve();
+            player.load(media, { autoplay: true }, _err => {
+              if (_err) reject(_err);
+              resolve();
+            });
           });
-        });
-      });
+        }
+      );
     });
   }
 }

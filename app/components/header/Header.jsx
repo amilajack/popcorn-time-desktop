@@ -3,7 +3,6 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
-import { history as browserHistory } from '../../store/configureStore';
 import Butter from '../../api/Butter';
 
 type Props = {
@@ -50,7 +49,8 @@ export default class Header extends Component {
 
   handleKeyPress(event: SyntheticEvent) {
     if (event.key === 'Enter') {
-      browserHistory.replace('/item/search');
+      // browserHistory.replace('/item/movies');
+      // browserHistory.replace('/item/search');
       this.props.setActiveMode('search', {
         searchQuery: this.state.searchQuery
       });
@@ -62,84 +62,71 @@ export default class Header extends Component {
     const { searchQuery } = this.state;
 
     return (
-      <div className="Header col-sm-12">
-        <nav className="navbar navbar-dark navbar-fixed-top bg-inverse">
-          <div className="row">
-            <div className="col-sm-6">
-              <ul className="nav navbar-nav">
-                <li
-                  className={classNames('nav-item', {
-                    active: activeMode === 'home'
-                  })}
-                >
-                  <Link
-                    className="nav-link"
-                    to={'/item/home'}
-                    replace
-                    onClick={() => setActiveMode('home')}
-                  >
-                    Home
-                  </Link>
-                </li>
-                <li
-                  className={classNames('nav-item', {
-                    active: activeMode === 'movies'
-                  })}
-                >
-                  <Link
-                    to={'/item/movies'}
-                    replace
-                    className="nav-link"
-                    onClick={() => setActiveMode('movies')}
-                  >
-                    Movies <span className="sr-only">(current)</span>
-                  </Link>
-                </li>
-                <li
-                  className={classNames('nav-item', {
-                    active: activeMode === 'shows'
-                  })}
-                >
-                  <Link
-                    className="nav-link"
-                    to={'/item/shows'}
-                    replace
-                    onClick={() => setActiveMode('shows')}
-                  >
-                    TV Shows
-                  </Link>
-                </li>
-              </ul>
-            </div>
-            <div className="col-md-offset-3 col-md-3">
-              <div className="input-group pull-right">
-                <span className="input-group-addon" id="basic-addon1">
-                  <i className="ion-ios-search-strong" />
-                </span>
-                <input
-                  id="pct-search-input"
-                  className="form-control"
-                  value={searchQuery}
-                  onKeyUp={event => this.handleKeyUp(event)}
-                  onKeyPress={event => this.handleKeyPress(event)}
-                  onChange={event => this.handleSearchChange(event)}
-                  type="text"
-                  placeholder="Search"
-                />
-              </div>
-            </div>
-          </div>
-        </nav>
-        {/* // HACK: Add spacing from top of page */}
-        <nav className="navbar hidden navbar-dark bg-inverse">
-          <div className="nav navbar-nav">
-            <a className="nav-item nav-link active">
-              Popcorn Time
-              <span className="sr-only">(current)</span>
-            </a>
-          </div>
-        </nav>
-      </div>
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark col-sm-12 col-md-12">
+        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span className="navbar-toggler-icon" />
+        </button>
+
+        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul className="navbar-nav mr-auto">
+          <li
+          className={classNames('nav-item', {
+            active: activeMode === 'home'
+          })}
+        >
+          <Link
+            className="nav-link"
+            to="/item/home"
+            replace
+            onClick={() => setActiveMode('home')}
+          >
+            Home
+          </Link>
+        </li>
+        <li
+          className={classNames('nav-item', {
+            active: activeMode === 'movies'
+          })}
+        >
+          <Link
+            to="/item/movies"
+            replace
+            className="nav-link"
+            onClick={() => setActiveMode('movies')}
+          >
+            Movies
+          </Link>
+        </li>
+        <li
+          className={classNames('nav-item', {
+            active: activeMode === 'shows'
+          })}
+        >
+          <Link
+            className="nav-link"
+            to="/item/shows"
+            replace
+            onClick={() => setActiveMode('shows')}
+          >
+            TV Shows
+          </Link>
+        </li>
+          </ul>
+          <form className="form-inline my-2 my-lg-0">
+            <input
+              id="pct-search-input"
+              className="form-control mr-sm-2"
+              aria-label="Search"
+              value={searchQuery}
+              onKeyUp={event => this.handleKeyUp(event)}
+              onKeyPress={event => this.handleKeyPress(event)}
+              onChange={event => this.handleSearchChange(event)}
+              type="text"
+              placeholder="Search"
+            />
+          </form>
+        </div>
+      </nav>
     );
   }
 }

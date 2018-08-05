@@ -22,6 +22,8 @@ export default merge.smart(baseConfig, {
 
   target: 'electron-renderer',
 
+  mode: 'production',
+
   entry: './app/index.jsx',
 
   output: {
@@ -39,8 +41,8 @@ export default merge.smart(baseConfig, {
             {
               loader: 'css-loader',
               options: {
-                minimize: true,
-              },
+                minimize: true
+              }
             },
             {
               loader: 'sass-loader'
@@ -119,7 +121,8 @@ export default merge.smart(baseConfig, {
 
     new UglifyJSPlugin({
       parallel: true,
-      sourceMap: true
+      sourceMap: true,
+      cache: true
     }),
 
     extractSass,

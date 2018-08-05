@@ -16,45 +16,45 @@ export type metadataType = {
 };
 
 export interface PlayerProviderInterface {
-  provider: string,
+  provider: string;
 
-  providerId: string,
+  providerId: string;
 
-  selectedDevice?: deviceType,
+  selectedDevice?: deviceType;
 
-  devices: Array<deviceType>,
+  devices: Array<deviceType>;
 
-  supportedFormats: Array<string>,
+  supportedFormats: Array<string>;
 
-  supportsSubtitles: boolean,
+  supportsSubtitles: boolean;
 
-  svgIconFilename: string,
+  svgIconFilename: string;
 
-  contentUrl: string,
+  contentUrl: string;
 
-  port: number,
+  port: number;
 
-  constructor: () => void,
+  constructor: () => void;
 
-  getDevices: (timeout: number) => Promise<Array<deviceType>>,
+  getDevices: (timeout: number) => Promise<Array<deviceType>>;
 
-  seek: (seconds: number) => void,
+  seek: (seconds: number) => void;
 
-  selectDevice: (deviceId: string) => deviceType,
+  selectDevice: (deviceId: string) => deviceType;
 
-  play: (contentUrl: string, metadata: metadataType) => Promise<void>,
+  play: (contentUrl: string, metadata: metadataType) => Promise<void>;
 
-  pause: () => Promise<void>,
+  pause: () => Promise<void>;
 
-  restart: () => Promise<void>,
+  restart: () => Promise<void>;
 
   /**
    * Handle any logic to remove the traces of the player from memory
    */
-  destroy: () => Promise<void>,
+  destroy: () => Promise<void>;
 
   /**
    * Check if the plugin is supported on the machine
    */
-  isSupported: () => Promise<boolean>
+  isSupported: () => Promise<boolean>;
 }

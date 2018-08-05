@@ -23,8 +23,7 @@ type extendedDetailsType =
  */
 const providers = [
   import('./YtsTorrentProvider'),
-  import('./PbTorrentProvider'),
-  // import('./RarbgTorrentProvider'),
+  import('./PbTorrentProvider'), // import('./RarbgTorrentProvider'),
   import('./PctTorrentProvider'),
   import('./KatTorrentProvider')
   // import('./KatShowsTorrentProvider')
@@ -152,13 +151,12 @@ export function filterShowsComplete(show, season: number) {
 }
 
 export function getStatuses() {
-  return Promise.all(
-    providers.map(provider => provider.getStatus())
-  ).then(providerStatuses =>
-    providerStatuses.map((status, index) => ({
-      providerName: providers[index].providerName,
-      online: status
-    }))
+  return Promise.all(providers.map(provider => provider.getStatus())).then(
+    providerStatuses =>
+      providerStatuses.map((status, index) => ({
+        providerName: providers[index].providerName,
+        online: status
+      }))
   );
 }
 

@@ -80,13 +80,13 @@ export default class SaveItem extends Component {
     return (
       <div className="SaveItem" style={{ color: 'white' }}>
         <i
-          className={classnames('SaveItem--icon', 'ion-heart', {
+          className={classnames('SaveItem--icon', 'SaveItem--favorites', 'ion-heart', {
             'SaveItem--active-icon': this.state.isInFavorites
           })}
           onClick={() => this.addFavorite()}
         />
         <i
-          className={classnames('SaveItem--icon', 'ion-ios-list', {
+          className={classnames('SaveItem--icon', 'SaveItem--watchlist', 'ion-ios-list', {
             'SaveItem--active-icon': this.state.isInWatchList
           })}
           onClick={() => this.addWatchList()}

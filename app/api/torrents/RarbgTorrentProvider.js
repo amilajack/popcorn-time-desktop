@@ -1,6 +1,9 @@
 // @flow
 import rbg from 'torrentapi-wrapper';
-import type { TorrentProviderInterface, torrentQueryType } from './TorrentProviderInterface';
+import type {
+  TorrentProviderInterface,
+  torrentQueryType
+} from './TorrentProviderInterface';
 import {
   formatSeasonEpisodeToString,
   constructSeasonQueries,
@@ -53,7 +56,9 @@ export default class RarbgTorrentProvider implements TorrentProviderInterface {
               (previous, current) =>
                 previous.length && current.length
                   ? [...previous, ...current]
-                  : previous.length && !current.length ? previous : current
+                  : previous.length && !current.length
+                    ? previous
+                    : current
             )
           )
           .catch(error => {
@@ -79,10 +84,7 @@ export default class RarbgTorrentProvider implements TorrentProviderInterface {
         results
           .filter(torrent => torrent.episode_info.imdb === item.id)
           .map(torrent =>
-            this.formatTorrent(
-              torrent,
-              determineQuality(torrent.download)
-            )
+            this.formatTorrent(torrent, determineQuality(torrent.download))
           )
           .forEach((torrent: TorrentType) => {
             if (
@@ -101,16 +103,14 @@ export default class RarbgTorrentProvider implements TorrentProviderInterface {
     return rbg
       .search({
         query,
-        category: ,
+        category: 'foo',
         sort: 'seeders',
         verified: false
       })
       .then(results => results.map(torrent => this.formatTorrent(torrent)))
-      .catch(error => {
-        return !retry)
-          ? this.search(query, category, true);
-          : resolve([]);
-      });
+      .catch(
+        error => (!retry ? this.search(query, category, true) : resolve([]))
+      );
   }
 
   static formatTorrent(torrent, quality) {

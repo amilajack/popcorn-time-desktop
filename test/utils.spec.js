@@ -16,7 +16,7 @@ describe('Network', () => {
     it.skip('should resolve to a download speed', async () => {
       const downloadSpeed = getDownloadSpeed();
       expect(typeof downloadSpeed).toBe('promise');
-      expect(typeof await getDownloadSpeed()).toBe('number');
+      expect(typeof (await getDownloadSpeed())).toBe('number');
     });
   });
 
@@ -24,7 +24,7 @@ describe('Network', () => {
     it.skip('should resolve to an upload speed', async () => {
       const uploadSpeed = getUploadSpeed();
       expect(typeof uploadSpeed).toBe('promise');
-      expect(typeof await getUploadSpeed()).toBe('number');
+      expect(typeof (await getUploadSpeed())).toBe('number');
     });
   });
 });

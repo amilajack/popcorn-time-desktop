@@ -27,16 +27,18 @@ const manifest = path.resolve(dll, 'vendor.json');
 if (!(fs.existsSync(dll) && fs.existsSync(manifest))) {
   console.log(
     chalk.black.bgYellow.bold(
-      'The DLL files are missing. Sit back while we build them for you with "npm run build-dll"'
+      'The DLL files are missing. Sit back while we build them for you with "yarn build-dll"'
     )
   );
-  execSync('npm run build-dll');
+  execSync('yarn build-dll');
 }
 
 export default merge.smart(baseConfig, {
   devtool: 'inline-source-map',
 
   target: 'electron-renderer',
+
+  mode: 'development',
 
   entry: [
     'react-hot-loader/patch',
@@ -132,12 +134,10 @@ export default merge.smart(baseConfig, {
     /**
      * https://webpack.js.org/concepts/hot-module-replacement/
      */
-    new webpack.HotModuleReplacementPlugin(
-      {
-        // @TODO: Waiting on https://github.com/jantimon/html-webpack-plugin/issues/533
-        // multiStep: true
-      }
-    ),
+    new webpack.HotModuleReplacementPlugin({
+      // @TODO: Waiting on https://github.com/jantimon/html-webpack-plugin/issues/533
+      // multiStep: true
+    }),
 
     new webpack.NoEmitOnErrorsPlugin(),
 
@@ -188,7 +188,7 @@ export default merge.smart(baseConfig, {
       verbose: true,
       disableDotRule: false
     },
-    setup() {
+    before() {
       if (process.env.START_HOT) {
         console.log('Starting main process...');
         spawn('npm', ['run', 'start-main-dev'], {

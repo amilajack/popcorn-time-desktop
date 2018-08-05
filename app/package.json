@@ -2,7 +2,7 @@
   "name": "PopcornTime",
   "description": "An experimental PopcornTime client",
   "homepage": "https://github.com/amilajack/popcorn-time-desktop",
-  "version": "v0.0.7",
+  "version": "v0.0.8",
   "main": "./main.prod.js",
   "author": {
     "name": "Amila Welihinda <amilajack@gmail.com>",
@@ -10,11 +10,12 @@
     "url": "https://github.com/amilajack"
   },
   "scripts": {
-    "postinstall": "npm rebuild --runtime=electron --target=1.6.6 --disturl=https://atom.io/download/atom-shell --build-from-source"
+    "electron-rebuild": "node -r babel-register ../internals/scripts/ElectronRebuild.js",
+    "postinstall": "yarn electron-rebuild"
   },
   "license": "MIT",
   "dependencies": {
     "castv2-client": "^1.2.0",
-    "mdns": "^2.3.3"
+    "mdns": "^2.3.4"
   }
 }

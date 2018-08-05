@@ -195,8 +195,9 @@ export function constructSeasonQueries(
   title: string,
   season: number
 ): Array<string> {
-  const formattedSeasonNumber = `s${formatSeasonEpisodeToObject(season, 1)
-    .season}`;
+  const formattedSeasonNumber = `s${
+    formatSeasonEpisodeToObject(season, 1).season
+  }`;
 
   return [
     `${title} season ${season}`,

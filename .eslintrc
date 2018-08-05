@@ -1,7 +1,6 @@
 {
   "extends": [
     "airbnb",
-    "bliss",
     "prettier",
     "prettier/flowtype",
     "prettier/react"
@@ -13,8 +12,6 @@
   },
   "rules": {
     "class-methods-use-this": "off",
-    "flowtype/boolean-style": ["error", "boolean"],
-    "flowtype/no-weak-types": "error",
     "fp/no-arguments": "off",
     "fp/no-class": "off",
     "fp/no-delete": "off",

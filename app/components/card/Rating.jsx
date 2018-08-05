@@ -14,7 +14,7 @@ export default function StarRating(props: Props) {
         <StarRatingComponent
           renderStarIconHalf={() => <span className="ion-android-star-half" />}
           renderStarIcon={() => <span className="ion-android-star" />}
-          name={'rating'}
+          name="rating"
           starColor={props.starColor}
           emptyStarColor={props.emptyStarColor}
           value={Math.floor(props.rating / 2)}

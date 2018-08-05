@@ -15,6 +15,8 @@ export default merge.smart(baseConfig, {
 
   devtool: 'eval',
 
+  mode: 'development',
+
   target: 'electron-renderer',
 
   externals: ['fsevents', 'crypto-browserify', 'webtorrent'],
@@ -158,7 +160,9 @@ export default merge.smart(baseConfig, {
 
   entry: {
     vendor: Object.keys(dependencies || {}).filter(
-      dependency => dependency !== 'font-awesome' &&  dependency !== 'react-addons-test-utils'
+      dependency =>
+        dependency !== 'font-awesome' &&
+        dependency !== 'react-addons-test-utils'
     )
   },
 

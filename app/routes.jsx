@@ -11,7 +11,7 @@ const style = {
 };
 
 const LoadableHelper = (module, opts = {}) => Loadable({
-  loader: () => module,
+  loader: () => module.then(e => e.default),
   loading: () => <div style={style}>Welcome to PopcornTime</div>,
   delay: 2000,
   ...opts,

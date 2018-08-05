@@ -17,8 +17,8 @@ import CardList from '../card/CardList.jsx';
 import SaveItem from '../metadata/SaveItem.jsx';
 import Rating from '../card/Rating.jsx';
 import Show from '../show/Show.jsx';
-import { getIdealTorrent } from '../../api/torrents/BaseTorrentProvider';
 import ChromecastPlayerProvider from '../../api/players/ChromecastPlayerProvider';
+import { getIdealTorrent } from '../../api/torrents/BaseTorrentProvider';
 import Butter from '../../api/Butter';
 import Torrent from '../../api/Torrent';
 import {
@@ -173,7 +173,10 @@ export default class Item extends Component {
     this.torrent = new Torrent();
     this.player = new Player();
     this.state = this.initialState;
-    this.playerProvider = new ChromecastPlayerProvider();
+
+    if (!process.env.CI) {
+      this.playerProvider = new ChromecastPlayerProvider();
+    }
   }
 
   static defaultProps: Props;
@@ -206,12 +209,13 @@ export default class Item extends Component {
 
   async componentDidMount() {
     window.scrollTo(0, 0);
-    this.initCastingDevices();
-
-    this.checkCastingDevicesInterval = setInterval(() => {
-      console.log('Looking for casting devices...');
+    if (!process.env.CI) {
       this.initCastingDevices();
-    }, 10000);
+      this.checkCastingDevicesInterval = setInterval(() => {
+        console.log('Looking for casting devices...');
+        this.initCastingDevices();
+      }, 10000);
+    }
 
     this.getAllData(this.props.itemId);
     this.stopPlayback();
@@ -238,12 +242,17 @@ export default class Item extends Component {
     });
 
     this.getAllData(nextProps.itemId);
-    this.initCastingDevices();
+
+    if (!process.env.CI) {
+      this.initCastingDevices();
+    }
   }
 
   componentWillUnmount() {
     this.stopPlayback();
-    clearInterval(this.checkCastingDevicesInterval);
+    if (!process.env.CI) {
+      clearInterval(this.checkCastingDevicesInterval);
+    }
     this.player.destroy();
   }
 
@@ -722,6 +731,7 @@ export default class Item extends Component {
         <Link to="/">
           <span
             className="pct-btn pct-btn-tran pct-btn-outline pct-btn-round"
+            data-e2e="item-button-back"
             onClick={() => this.stopPlayback()}
           >
             <i className="ion-ios-arrow-back" /> Back
@@ -814,8 +824,8 @@ export default class Item extends Component {
                 {item.rating && typeof item.rating === 'number'
                   ? <div className="col-sm-5">
                       <Rating
-                        emptyStarColor={'rgba(255, 255, 255, 0.2)'}
-                        starColor={'white'}
+                        emptyStarColor="rgba(255, 255, 255, 0.2)"
+                        starColor="white"
                         rating={item.rating}
                       />
                     </div>
@@ -997,7 +1007,7 @@ export default class Item extends Component {
             : null}
 
           <CardList
-            title={'similar'}
+            title="similar"
             limit={4}
             items={similarItems}
             metadataLoading={similarLoading}

@@ -208,14 +208,14 @@ export default class Home extends Component {
       <div className="row">
         <div className="col-sm-12">
           <CardList
-            title={'Favorites'}
+            title="Favorites"
             items={this.state.favorites}
             isLoading={false}
           />
         </div>
         <div className="col-sm-12">
           <CardList
-            title={'Watch List'}
+            title="Watch List"
             items={this.state.watchList}
             isLoading={false}
           />

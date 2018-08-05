@@ -34,11 +34,11 @@
 
 **Faster Torrents**: New API optimized for fast torrents by querying the from multiple endpoints
 
-**Modern Stack**: Electron, React, Redux, Webpack, ES7, Flow, and others
+**Modern Stack**: Electron, React, Redux, Webpack, ES8, Flow, and others
 
 ## Requirements:
 
-* [Node >= 8](https://nodejs.org)
+* [Node >= 10](https://nodejs.org)
 * Mac, Linux, Windows
 * For packaging, see [packaging requirements](https://github.com/amilajack/popcorn-time-desktop/wiki/Packaging-Requirements)
 
@@ -54,7 +54,7 @@ cd popcorn-time-desktop
 
 # Install dependencies
 # Have a cup of coffee ☕️ this might take a while
-# Run `npm run electron-rebuild` if get a 'module version mismatch' error
+# Run `yarn electron-rebuild` if get a 'module version mismatch' error
 yarn
 
 # Customize Build
@@ -62,10 +62,10 @@ yarn
 vi .env
 
 # Developement build
-npm run dev
+yarn dev
 
 # Production build
-npm run package
+yarn package
 
 # 💡 For casting support, you will need to satisfy mdns's requirements:
 # https://github.com/agnat/node_mdns#installation
