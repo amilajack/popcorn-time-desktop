@@ -36,10 +36,11 @@
 
 **Modern Stack**: Electron, React, Redux, Webpack, ES8, Flow, and others
 
+**Cross Platform**: Works on Mac, Windows, and Linux
+
 ## Requirements:
 
 * [Node >= 10](https://nodejs.org)
-* Mac, Linux, Windows
 * For packaging, see [packaging requirements](https://github.com/amilajack/popcorn-time-desktop/wiki/Packaging-Requirements)
 
 ## Getting started:
