@@ -49,7 +49,7 @@ cache:
     - $HOME/docker
 
 install:
-  - export CXX="g++-4.8"
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export CXX="g++-4.8"; fi
   - yarn
   # On Linux, initialize "virtual display". See before_script
   - |
@@ -73,8 +73,5 @@ before_script:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sleep 3; fi
 
 script:
-  - yarn package
-  - yarn lint
-  - yarn flow
-  - yarn test
+  - yarn package-ci
   - yarn test-e2e
