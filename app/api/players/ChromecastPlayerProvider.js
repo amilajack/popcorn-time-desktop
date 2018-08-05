@@ -57,7 +57,11 @@ class ChromecastPlayerProvider implements PlayerProviderInterface {
         });
       });
 
-      this.browser.start();
+      try {
+        this.browser.start();
+      } catch(e) {
+        console.log(e);
+      }
 
       setTimeout(() => {
         this.browser.stop();
