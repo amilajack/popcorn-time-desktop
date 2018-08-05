@@ -111,6 +111,16 @@ export default merge.smart(baseConfig, {
     ]
   },
 
+  optimization: {
+    minimizer: [
+      new UglifyJSPlugin({
+        parallel: true,
+        sourceMap: true,
+        cache: true
+      })
+    ]
+  },
+
   plugins: [
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'production',
@@ -118,12 +128,6 @@ export default merge.smart(baseConfig, {
     }),
 
     new LodashModuleReplacementPlugin(),
-
-    new UglifyJSPlugin({
-      parallel: true,
-      sourceMap: true,
-      cache: true
-    }),
 
     extractSass,
 

@@ -60,13 +60,9 @@ test('it should navigate to item on CardList click', async t => {
 
 test('it should navigate between movies and shows', async t => {
   await navigateTo(t, 'shows');
-  await t
-    .expect(getPageUrl())
-    .contains('#/item/shows')
+  await t.expect(getPageUrl()).contains('#/item/shows');
   await navigateTo(t, 'movies');
-  await t
-    .expect(getPageUrl())
-    .contains('#/item/movies');
+  await t.expect(getPageUrl()).contains('#/item/movies');
 });
 
 test('it should paginate items on scroll to bottom of viewport', async t => {

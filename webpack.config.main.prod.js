@@ -6,6 +6,7 @@ import webpack from 'webpack';
 import merge from 'webpack-merge';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import LodashModuleReplacementPlugin from 'lodash-webpack-plugin';
+import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 import UglifyJSPlugin from 'uglifyjs-webpack-plugin';
 import baseConfig from './webpack.config.base';
 
@@ -27,14 +28,26 @@ export default merge.smart(baseConfig, {
     filename: './app/main.prod.js'
   },
 
+  optimization: {
+    minimizer: [
+      new UglifyJSPlugin({
+        parallel: true,
+        sourceMap: true,
+        cache: true
+      }),
+      new OptimizeCSSAssetsPlugin({
+        cssProcessorOptions: {
+          map: {
+            inline: false,
+            annotation: true
+          }
+        }
+      })
+    ]
+  },
+
   plugins: [
     new LodashModuleReplacementPlugin(),
-
-    new UglifyJSPlugin({
-      parallel: true,
-      sourceMap: true,
-      cache: true
-    }),
 
     new BundleAnalyzerPlugin({
       analyzerMode:
