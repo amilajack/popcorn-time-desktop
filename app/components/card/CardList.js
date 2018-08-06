@@ -3,8 +3,8 @@
  * @flow
  */
 import React from 'react';
-import Card from './Card.jsx';
-import Loader from '../loader/Loader.jsx';
+import Card from './Card';
+import Loader from '../loader/Loader';
 import type { contentType } from '../../api/metadata/MetadataProviderInterface';
 
 type Props = {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Switch, Route } from 'react-router';
 import Loadable from 'react-loadable';
-import App from './containers/App.jsx';
+import App from './containers/App';
 
 const style = {
   color: 'blue !important',
@@ -17,8 +17,8 @@ const LoadableHelper = (module, opts = {}) => Loadable({
   ...opts,
 });
 
-const ItemPage = LoadableHelper(import('./containers/ItemPage.jsx'));
-const HomePage = LoadableHelper(import('./containers/HomePage.jsx'));
+const ItemPage = LoadableHelper(import('./containers/ItemPage'));
+const HomePage = LoadableHelper(import('./containers/HomePage'));
 
 export default () => (
   <App>

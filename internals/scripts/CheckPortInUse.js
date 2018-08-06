@@ -1,6 +1,6 @@
 // @flow
-import chalk from 'chalk';
-import detectPort from 'detect-port';
+const chalk = require('chalk');
+const detectPort = require('detect-port');
 
 (function CheckPortInUse() {
   const port: string = process.env.PORT || '1212';

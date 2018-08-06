@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
-import Card from '../../app/components/card/Card.jsx';
+import Card from '../../app/components/card/Card';
 
 function setup(propsOverride) {
   const props = Object.assign(

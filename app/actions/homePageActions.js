@@ -2,7 +2,7 @@
 import type {
   activeModeOptionsType,
   itemType
-} from '../components/home/Home.jsx';
+} from '../components/home/Home';
 
 export function setActiveMode(
   activeMode: string,

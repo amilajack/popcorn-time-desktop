@@ -1,4 +1,7 @@
-module.exports =
+import configStoreProd from './configureStore.prod';
+import configStoreDev from './configureStore.dev';
+
+export default
   process.env.NODE_ENV === 'production'
-    ? require('./configureStore.prod')
-    : require('./configureStore.dev');
+    ? configStoreProd
+    : configStoreDev;

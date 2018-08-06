@@ -3,8 +3,8 @@
 import React, { Component } from 'react';
 import VisibilitySensor from 'react-visibility-sensor';
 import Butter from '../../api/Butter';
-import Header from '../header/Header.jsx';
-import CardList from '../card/CardList.jsx';
+import Header from '../header/Header';
+import CardList from '../card/CardList';
 
 export type activeModeOptionsType = {
   [option: string]: number | boolean | string

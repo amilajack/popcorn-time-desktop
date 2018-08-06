@@ -2,7 +2,6 @@
 import os from 'os';
 import path from 'path';
 import fs from 'fs';
-import mkdirp from 'mkdirp';
 import extract from 'extract-zip';
 
 const version = process.env.PREBUILT_FFMPEG_RELEASE || '0.23.5';
@@ -16,16 +15,20 @@ function copy(filepath: string, dest: string) {
 }
 
 function addEnvFileIfNotExist(): boolean {
-  // Check if it exists
-  try {
-    fs.accessSync(path.join(__dirname, '.env'));
+  if (fs.existsSync(path.join(__dirname, '.env'))) {
     console.log('--> Using existing .env file...');
-    return true;
-  } catch (e) {
+  } else {
     console.log('--> Creating ".env" file...');
     copy('.env.example', '.env');
-    return true;
   }
+}
+
+function copyRandomAccessFile() {
+  console.log('--> Creating ".env" file...');
+  fs.copyFileSync(
+    path.join(__dirname, 'node_modules', 'random-access-file', 'index.js'),
+    path.join(__dirname, 'node_modules', 'random-access-file', 'browser.js')
+  );
 }
 
 function getUrl(): { platform: string, dest: string } {
@@ -79,3 +82,4 @@ function setupFfmpeg() {
 
 setupFfmpeg();
 addEnvFileIfNotExist();
+copyRandomAccessFile();

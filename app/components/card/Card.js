@@ -4,7 +4,7 @@
  */
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Rating from './Rating.jsx';
+import Rating from './Rating';
 
 type Props = {
   title: string,

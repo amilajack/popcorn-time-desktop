@@ -2,9 +2,11 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
-import Root from './containers/Root.jsx';
-import { configureStore, history } from './store/configureStore';
+import Root from './containers/Root';
+import configureStoreDefault from './store/configureStore';
 import './styles/main.scss';
+
+const { configureStore, history } = configureStoreDefault;
 
 const store = configureStore();
 
@@ -16,8 +18,8 @@ render(
 );
 
 if (module.hot) {
-  module.hot.accept('./containers/Root.jsx', () => {
-    const NextRoot = require('./containers/Root.jsx'); // eslint-disable-line global-require
+  module.hot.accept('./containers/Root', () => {
+    const NextRoot = require('./containers/Root'); // eslint-disable-line global-require
     render(
       <AppContainer>
         <NextRoot store={store} history={history} />
@@ -30,6 +32,7 @@ if (module.hot) {
 import('mousetrap').then(mousetrap => {
   // Bind app shortcuts
   mousetrap.bind(['command+f', 'ctrl+f'], () => {
+    window.scrollTo(0, 0);
     document.getElementById("pct-search-input").focus();
     return false;
   });

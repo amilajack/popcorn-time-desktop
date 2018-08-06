@@ -1,23 +1,46 @@
 {
-  "presets": [
-    ["env", {
-      "targets": { "node": 10 },
-      "useBuiltIns": true
-    }],
-    "stage-0",
-    "react"
-  ],
-  "plugins": [
-    "add-module-exports"
-  ],
+  "presets": ["stage-0", "react"],
   "env": {
     "production": {
-      "presets": ["react-optimize"],
+      "presets": [
+        [
+          "env",
+          {
+            "targets": { "node": 10 },
+            "modules": false,
+            "useBuiltIns": true
+          }
+        ],
+        "react-optimize"
+      ],
+      "plugins": ["dev-expression"]
+    },
+    "test": {
+      "presets": [
+        [
+          "env",
+          {
+            "targets": { "node": 10 },
+            "useBuiltIns": true
+          }
+        ]
+      ],
       "plugins": [
-        "dev-expression"
+        "transform-class-properties",
+        "transform-es2015-classes",
+        "dynamic-import-node"
       ]
     },
     "development": {
+      "presets": [
+        [
+          "env",
+          {
+            "targets": { "node": 10 },
+            "useBuiltIns": true
+          }
+        ]
+      ],
       "plugins": [
         "transform-class-properties",
         "transform-es2015-classes"

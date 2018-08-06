@@ -13,18 +13,15 @@ import {
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import notie from 'notie';
-import CardList from '../card/CardList.jsx';
-import SaveItem from '../metadata/SaveItem.jsx';
-import Rating from '../card/Rating.jsx';
-import Show from '../show/Show.jsx';
+import CardList from '../card/CardList';
+import SaveItem from '../metadata/SaveItem';
+import Rating from '../card/Rating';
+import Show from '../show/Show';
 import ChromecastPlayerProvider from '../../api/players/ChromecastPlayerProvider';
 import { getIdealTorrent } from '../../api/torrents/BaseTorrentProvider';
 import Butter from '../../api/Butter';
 import Torrent from '../../api/Torrent';
-import {
-  convertFromBuffer,
-  startServer as startSubtitleServer
-} from '../../api/Subtitle';
+import SubtitleServer from '../../api/Subtitle';
 import Player from '../../api/Player';
 import type {
   contentType,
@@ -173,10 +170,8 @@ export default class Item extends Component {
     this.torrent = new Torrent();
     this.player = new Player();
     this.state = this.initialState;
-
-    if (!process.env.CI) {
-      this.playerProvider = new ChromecastPlayerProvider();
-    }
+    this.subtitleServer = new SubtitleServer();
+    this.playerProvider = new ChromecastPlayerProvider();
   }
 
   static defaultProps: Props;
@@ -209,13 +204,11 @@ export default class Item extends Component {
 
   async componentDidMount() {
     window.scrollTo(0, 0);
-    if (!process.env.CI) {
+    this.initCastingDevices();
+    this.checkCastingDevicesInterval = setInterval(() => {
+      console.log('Looking for casting devices...');
       this.initCastingDevices();
-      this.checkCastingDevicesInterval = setInterval(() => {
-        console.log('Looking for casting devices...');
-        this.initCastingDevices();
-      }, 10000);
-    }
+    }, 10000);
 
     this.getAllData(this.props.itemId);
     this.stopPlayback();
@@ -229,31 +222,24 @@ export default class Item extends Component {
       watchList: await this.butter.watchList('get')
     });
 
-    this.subtitleServer = await startSubtitleServer();
+    await this.subtitleServer.startServer();
   }
 
   componentWillReceiveProps(nextProps: Props) {
     window.scrollTo(0, 0);
-
     this.stopPlayback();
-
     this.setState({
       ...this.initialState
     });
-
     this.getAllData(nextProps.itemId);
-
-    if (!process.env.CI) {
-      this.initCastingDevices();
-    }
+    this.initCastingDevices();
   }
 
   componentWillUnmount() {
     this.stopPlayback();
-    if (!process.env.CI) {
-      clearInterval(this.checkCastingDevicesInterval);
-    }
+    clearInterval(this.checkCastingDevicesInterval);
     this.player.destroy();
+    this.subtitleServer.closeServer();
   }
 
   getAllData(itemId: string) {
@@ -476,10 +462,6 @@ export default class Item extends Component {
     this.player.destroy();
     this.torrent.destroy();
     this.setState({ torrentInProgress: false });
-
-    if (process.env.NODE_ENV === 'development') {
-      clearInterval(this.torrentInfoInterval);
-    }
   }
 
   selectShow = (
@@ -543,11 +525,11 @@ export default class Item extends Component {
       return subtitles;
     }
 
-    const { filename, port } = await new Promise((resolve, reject) => {
+    const { filename } = await new Promise((resolve, reject) => {
       subtitleTorrentFile.getBuffer((err, srtSubtitleBuffer) => {
         if (err) reject(err);
         // Convert to vtt, get filename
-        resolve(convertFromBuffer(srtSubtitleBuffer));
+        resolve(this.subtitleServer.convertFromBuffer(srtSubtitleBuffer));
       });
     });
 
@@ -555,7 +537,7 @@ export default class Item extends Component {
     const mergedResults = subtitles.map(
       (subtitle: Object) =>
         subtitle.default === true
-          ? { ...subtitle, src: `http://localhost:${port}/${filename}` }
+          ? { ...subtitle, src: `http://localhost:${this.subtitleServer.port}/${filename}` }
           : subtitle
     );
 
@@ -759,6 +741,7 @@ export default class Item extends Component {
                 >
                   {idealTorrent.magnet
                     ? <i
+                        data-e2e="item-play-button"
                         className="Item--icon-play ion-ios-play"
                         onClick={() =>
                           this.startPlayback(
@@ -848,6 +831,7 @@ export default class Item extends Component {
                   <i className="ion-magnet" />
                   <div
                     id="magnetPopoverOpen"
+                    data-e2e="item-magnet-torrent-health-popover"
                     className="Movie--status"
                     style={statusColorStyle}
                   />
@@ -868,6 +852,7 @@ export default class Item extends Component {
                   ? <div className="col-sm-3 row-center">
                       <i
                         id="trailerPopoverOpen"
+                        data-e2e="item-trailer-button"
                         className="ion-videocamera"
                         onClick={() => this.setPlayer('youtube')}
                       />
