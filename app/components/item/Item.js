@@ -888,16 +888,18 @@ export default class Item extends Component {
                   <DropdownItem header>Select Player</DropdownItem>
                   <DropdownItem
                     key="default"
+                    id="default"
                     onClick={() => this.setPlayer('default')}
                   >
                     Default
                   </DropdownItem>
-                  <DropdownItem key="vlc" onClick={() => this.setPlayer('vlc')}>
+                  <DropdownItem key="vlc" id="vlc" onClick={() => this.setPlayer('vlc')}>
                     VLC
                   </DropdownItem>
                   {this.state.castingDevices.map(castingDevice =>
                     <DropdownItem
                       key={castingDevice.id}
+                      id={castingDevice.id}
                       onClick={() => {
                         this.setPlayer('chromecast');
                         this.playerProvider.selectDevice(castingDevice.id);

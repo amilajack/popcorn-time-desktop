@@ -1,4 +1,5 @@
 import { Selector } from 'testcafe';
+import { ReactSelector, waitForReact } from 'testcafe-react-selectors';
 import {
   BASE_URL,
   cardSelector,
@@ -93,6 +94,17 @@ test('it should play trailer', async t => {
   await t
     .click('[data-e2e="item-trailer-button"]')
     .expect(Selector('.plyr').visible)
+    .ok();
+});
+
+test('it should click player dropdown menu', async t => {
+  await waitForReact();
+  await t
+    .click(ReactSelector('DropdownToggle'))
+    .click(ReactSelector('DropdownItem').withProps({
+      id: 'vlc'
+    }))
+    .expect(ReactSelector('Button').withExactText('vlc').visible)
     .ok();
 });
 

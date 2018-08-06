@@ -29,7 +29,7 @@ module.exports = merge.smart(baseConfig, {
   },
 
   optimization: {
-    minimizer: [
+    minimizer: process.env.E2E_BUILD ? [] : [
       new UglifyJSPlugin({
         parallel: true,
         sourceMap: true,
