@@ -96,7 +96,7 @@ test('it should play trailer', async t => {
     .ok();
 });
 
-test('it should load and play a movie', async t => {
+test.skip('it should load and play a movie', async t => {
   const playButton = Selector('[data-e2e="item-play-button"]');
   // Navigate to harry potter because we know it has a lot of torrents. Good for testing purposes
   await t
