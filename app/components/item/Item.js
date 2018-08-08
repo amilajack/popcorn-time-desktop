@@ -43,8 +43,8 @@ type torrentSelectionType = {
 };
 
 type Props = {
-  itemId: string,
-  activeMode: string
+  itemId?: string,
+  activeMode?: string
 };
 
 type itemType = contentType & {
@@ -421,14 +421,17 @@ export default class Item extends Component {
         }
       })();
 
-      console.log(idealTorrent);
-
-      if (idealTorrent.quality === 'poor') {
+      if (idealTorrent && idealTorrent.quality === 'poor') {
         notie.alert(2, 'Slow torrent, low seeder count', 1);
       }
 
+      if (idealTorrent) {
+        this.setState({
+          idealTorrent
+        });
+      }
+
       this.setState({
-        idealTorrent,
         fetchingTorrents: false,
         torrent: {
           '1080p': torrent['1080p'] || this.defaultTorrent,
@@ -607,7 +610,7 @@ export default class Item extends Component {
         torrent: string,
         subtitle: string
       ) => {
-        console.log(`serving at: ${servingUrl}`);
+        console.log(`Serving torrent at: ${servingUrl}`);
         this.setState({ servingUrl });
 
         const filename = file.name;
@@ -690,7 +693,7 @@ export default class Item extends Component {
 
     const statusColorStyle = {
       backgroundColor: (() => {
-        switch (idealTorrent.health) {
+        switch (idealTorrent && idealTorrent.health) {
           case 'healthy':
             return 'green';
           case 'decent':

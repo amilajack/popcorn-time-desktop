@@ -14,7 +14,7 @@ import {
 
 const TEST_MOVIE_URL = '#/item/movies/351286';
 
-fixture`Item Page`.page(BASE_URL).beforeEach(async t => {
+fixture`Item Page Movies`.page(BASE_URL).beforeEach(async t => {
   clearConfigs();
   await t
     .click(Selector('a').withExactText('Home'))
@@ -120,6 +120,41 @@ test('it should load and play a movie', async t => {
         .visible
     )
     .ok()
+    .expect(Selector('button').withExactText('Start Playback').visible)
+    .ok()
+    .expect(
+      Selector('button[disabled=true]').withExactText('Start Playback').exists
+    )
+    .notOk()
+    .expect(playButton.visible)
+    .ok()
+    .click(playButton)
+    .expect(
+      Selector('.Item--loading-status').withExactText('Loading torrent...')
+        .visible
+    )
+    .ok();
+});
+
+fixture`Item Page TV Shows`.page(BASE_URL).beforeEach(async t => {
+  clearConfigs();
+  await t
+    .click(Selector('a').withExactText('Home'))
+    .typeText('#pct-search-input', 'silicon valley', { replace: true })
+    .pressKey('enter')
+    .click(cardSelector);
+});
+
+test.skip('it should load and play a tv show', async t => {
+  const playButton = Selector('[data-e2e="item-play-button"]');
+  // Navigate to harry potter because we know it has a lot of torrents. Good for testing purposes
+  await t
+    .expect(
+      Selector('.Item--loading-status').withExactText('Fetching torrents...')
+        .visible
+    )
+    .ok()
+    .wait(20000)
     .expect(Selector('button').withExactText('Start Playback').visible)
     .ok()
     .expect(
