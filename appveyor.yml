@@ -43,4 +43,5 @@ test_script:
   # - yarn lint
   # - yarn test
   - yarn package-ci
+  - yarn build-e2e
   - yarn test-e2e

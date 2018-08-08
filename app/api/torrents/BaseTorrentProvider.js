@@ -12,7 +12,7 @@ export const providerCache = cache({
 });
 
 // Create a promise that rejects in <ms> milliseconds
-export function timeout(promise: Promise<any>, ms: number = 10000) {
+export function timeout(promise: Promise<any>, ms: number = 20000) {
   const timeoutPromise = new Promise((resolve, reject) => {
     const id = setTimeout(() => {
       clearTimeout(id);
