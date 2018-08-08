@@ -599,7 +599,7 @@ export default class Item extends Component {
       ...Player.nativePlaybackFormats
     ];
 
-    this.torrent.start(
+    await this.torrent.start(
       magnet,
       metadata,
       formats,
@@ -627,8 +627,6 @@ export default class Item extends Component {
           case 'VLC':
             return this.player.initVLC(servingUrl);
           case 'chromecast': {
-            const { title } = this.state.item;
-            const { full } = this.state.item.images.fanart;
             this.player.initCast(
               this.playerProvider,
               servingUrl,
@@ -922,6 +920,7 @@ export default class Item extends Component {
             {/* Torrent Selection */}
             <span className="col-sm-12 hidden-sm-up">
               <button
+                type="button"
                 onClick={() =>
                   this.startPlayback(
                     idealTorrent.magnet,
@@ -939,6 +938,7 @@ export default class Item extends Component {
                 return (
                   <span>
                     <button
+                      type="button"
                       onClick={() =>
                         this.startPlayback(
                           torrent['1080p'].magnet,
@@ -951,6 +951,7 @@ export default class Item extends Component {
                       Start 1080p -- {torrent['1080p'].seeders} seeders
                     </button>
                     <button
+                      type="button"
                       onClick={() =>
                         this.startPlayback(
                           torrent['720p'].magnet,
@@ -966,6 +967,7 @@ export default class Item extends Component {
                       if (activeMode === 'shows') {
                         return (
                           <button
+                            type="button"
                             onClick={() =>
                               this.startPlayback(
                                 torrent['480p'].magnet,
