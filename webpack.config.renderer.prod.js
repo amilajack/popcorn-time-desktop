@@ -2,14 +2,14 @@
  * Build config for electron renderer process
  */
 
-import path from 'path';
-import webpack from 'webpack';
-import ExtractTextPlugin from 'extract-text-webpack-plugin';
-import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
-import merge from 'webpack-merge';
-import LodashModuleReplacementPlugin from 'lodash-webpack-plugin';
-import UglifyJSPlugin from 'uglifyjs-webpack-plugin';
-import baseConfig from './webpack.config.base';
+const path = require('path');
+const webpack = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const merge = require('webpack-merge');
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const baseConfig = require('./webpack.config.base');
 
 if (process.env.NODE_ENV !== 'production') {
   throw new Error('Production builds must have NODE_ENV=production');
@@ -17,14 +17,14 @@ if (process.env.NODE_ENV !== 'production') {
 
 const extractSass = new ExtractTextPlugin('style.css');
 
-export default merge.smart(baseConfig, {
+module.exports = merge.smart(baseConfig, {
   devtool: 'source-map',
 
   target: 'electron-renderer',
 
   mode: 'production',
 
-  entry: './app/index.jsx',
+  entry: './app/index',
 
   output: {
     path: path.join(__dirname, 'app/dist'),
@@ -111,6 +111,18 @@ export default merge.smart(baseConfig, {
     ]
   },
 
+  optimization: {
+    minimizer: process.env.E2E_BUILD
+      ? []
+      : [
+          new UglifyJSPlugin({
+            parallel: true,
+            sourceMap: true,
+            cache: true
+          })
+        ]
+  },
+
   plugins: [
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'production',
@@ -118,12 +130,6 @@ export default merge.smart(baseConfig, {
     }),
 
     new LodashModuleReplacementPlugin(),
-
-    new UglifyJSPlugin({
-      parallel: true,
-      sourceMap: true,
-      cache: true
-    }),
 
     extractSass,
 

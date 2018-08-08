@@ -95,13 +95,16 @@ export default class PctTorrentProvider implements TorrentProviderInterface {
   static formatEpisodeTorrents(torrents) {
     return Object.keys(torrents).map(videoQuality => ({
       quality: videoQuality === '0' ? '0p' : videoQuality,
-      magnet: torrents[videoQuality].url,
+      magnet: torrents[videoQuality] && torrents[videoQuality].url,
+      metadata: String(torrents[videoQuality] && torrents[videoQuality].url),
       seeders:
-        torrents[videoQuality].seeds ||
-        torrents[videoQuality].seed ||
-        torrents[videoQuality].seeders ||
+        (torrents[videoQuality] && torrents[videoQuality].seeds) ||
+        (torrents[videoQuality] && torrents[videoQuality].seed) ||
+        (torrents[videoQuality] && torrents[videoQuality].seeders) ||
         0,
-      leechers: torrents[videoQuality].peers || torrents[videoQuality].peer,
+      leechers:
+        (torrents[videoQuality] && torrents[videoQuality].peers) ||
+        (torrents[videoQuality] && torrents[videoQuality].peer),
       _provider: 'pct'
     }));
   }

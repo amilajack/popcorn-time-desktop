@@ -59,7 +59,7 @@ class ChromecastPlayerProvider implements PlayerProviderInterface {
 
       try {
         this.browser.start();
-      } catch(e) {
+      } catch (e) {
         console.log(e);
       }
 

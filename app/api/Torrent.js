@@ -4,9 +4,8 @@
  */
 import os from 'os';
 import WebTorrent from 'webtorrent';
+import getPort from 'get-port';
 import { isExactEpisode } from './torrents/BaseTorrentProvider';
-
-const port = 9090;
 
 type metadataType = {
   season: number,
@@ -32,15 +31,18 @@ export default class Torrent {
         listen: (port: number) => void
       };
 
-  start(
+  async start(
     magnetURI: string,
     metadata: metadataType,
     supportedFormats: Array<string>,
     cb
   ) {
     if (this.inProgress) {
-      throw new Error('Torrent already in progress');
+      console.error('Torrent already in progress');
+      return;
     }
+
+    const port = await getPort({ port: 9090 });
 
     const { season, episode, activeMode } = metadata;
     const maxConns = process.env.CONFIG_MAX_CONNECTIONS
@@ -107,7 +109,7 @@ export default class Torrent {
       }
 
       const buffer = 1 * 1024 * 1024; // 1MB
-      const files = torrent.files;
+      const { files } = torrent;
 
       file.select();
 

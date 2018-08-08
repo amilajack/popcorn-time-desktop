@@ -30,7 +30,7 @@ export default function Show(props: Props) {
     <div className="Show row">
       <div className="col-sm-2">
         <div className="list-group Show--list-group">
-          {seasons.map(season =>
+          {seasons.map(season => (
             <a
               className={classNames('list-group-item', {
                 active: season.season === selectedSeason
@@ -40,26 +40,29 @@ export default function Show(props: Props) {
             >
               Season {season.season}
             </a>
-          )}
+          ))}
         </div>
       </div>
 
       <div className="col-sm-4">
         <div className="list-group Show--list-group">
           {episodes.length === 0
-            ? seasons.length > 0 ? 'No episodes for this season' : null
-            : episodes.map(episode =>
+            ? seasons.length > 0
+              ? 'No episodes for this season'
+              : null
+            : episodes.map(episode => (
                 <a
                   className={classNames('list-group-item', {
                     active: episode.episode === selectedEpisode
                   })}
                   onClick={() =>
-                    selectShow('episode', selectedSeason, episode.episode)}
+                    selectShow('episode', selectedSeason, episode.episode)
+                  }
                   key={episode.episode}
                 >
                   Ep {episode.episode}. {episode.title}
                 </a>
-              )}
+              ))}
         </div>
       </div>
 

@@ -11,20 +11,17 @@ export const providerCache = cache({
     : 1000 * 60 * 60 // 1 hr
 });
 
-/**
- * Handle a promise and set a timeout
- */
-export function timeout(
-  promise: Promise<any>,
-  time: number = 10000
-): Promise<any> {
-  return new Promise((resolve, reject) => {
-    promise.then(res => resolve(res)).catch(err => console.log(err));
-
-    setTimeout(() => {
-      reject(new Error('Timeout exceeded'));
-    }, process.env.CONFIG_API_TIMEOUT ? parseInt(process.env.CONFIG_API_TIMEOUT, 10) : time);
+// Create a promise that rejects in <ms> milliseconds
+export function timeout(promise: Promise<any>, ms: number = 20000) {
+  const timeoutPromise = new Promise((resolve, reject) => {
+    const id = setTimeout(() => {
+      clearTimeout(id);
+      reject(new Error('Torrent Provider timeout exceeded'));
+    }, process.env.CONFIG_API_TIMEOUT ? parseInt(process.env.CONFIG_API_TIMEOUT, 10) : ms);
   });
+
+  // Returns a race between our timeout and the passed in promise
+  return Promise.race([promise, timeoutPromise]);
 }
 
 export function determineQuality(

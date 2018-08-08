@@ -9,33 +9,36 @@ import {
   resolveEndpoint
 } from '../../app/api/torrents/BaseTorrentProvider';
 import { getStatuses } from '../../app/api/torrents/TorrentAdapter';
+import PctTorrentProvider from '../../app/api/torrents/PctTorrentProvider';
+import KatTorrentProvider from '../../app/api/torrents/KatTorrentProvider';
+import YtsTorrentProvider from '../../app/api/torrents/YtsTorrentProvider';
 import { parseRuntimeMinutesToObject } from '../../app/api/metadata/MetadataAdapter';
 import { set, get, clear } from '../../app/utils/Config';
 
 const imdbId = '263115'; // The Dark Knight
 const showImdbId = 'tt1475582'; // Sherlock
 
-const torrentBasePath = '../../app/api/torrents';
+// const torrentBasePath = '../../app/api/torrents';
 const providers = [
   // {
   //   name: 'PirateBay',
-  //   provider: require(`${torrentBasePath}/PbTorrentProvider`)
+  //   provider: PbTorrentProvider
   // },
   {
     name: 'PopcornTime',
-    provider: require(`${torrentBasePath}/PctTorrentProvider`)
+    provider: PctTorrentProvider
   },
   {
     name: 'Kat',
-    provider: require(`${torrentBasePath}/KatTorrentProvider`)
+    provider: KatTorrentProvider
   },
   {
     name: 'Yts',
-    provider: require(`${torrentBasePath}/YtsTorrentProvider`)
+    provider: YtsTorrentProvider
   }
 ];
 
-jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+jest.setTimeout(20000);
 
 function greaterThanOrEqualTo(first, second) {
   return first > second || first === second;
@@ -131,28 +134,28 @@ describe('API', () => {
       const movieTorrentProviders = [
         // {
         //   name: 'PirateBay',
-        //   provider: require(`${torrentBasePath}/PbTorrentProvider`),
+        //   provider: PbTorrentProvider,
         //   minTorrentsCount: 5,
         //   minSeederCount: 100,
         //   id: 'pb'
         // },
         {
           name: 'PctTorrentProvider',
-          provider: require(`${torrentBasePath}/PctTorrentProvider`),
+          provider: PctTorrentProvider,
           minTorrentsCount: 0,
           minSeederCount: 300,
           id: 'pct'
         },
         // {
         //   name: 'Kat',
-        //   provider: require(`${torrentBasePath}/KatTorrentProvider`),
+        //   provider: KatTorrentProvider,
         //   minTorrentsCount: 5,
         //   minSeederCount: 100,
         //   id: 'kat'
         // },
         {
           name: 'YtsTorrentProvider',
-          provider: require(`${torrentBasePath}/YtsTorrentProvider`),
+          provider: YtsTorrentProvider,
           minTorrentsCount: 1,
           minSeederCount: 200,
           id: 'yts'
@@ -199,23 +202,23 @@ describe('API', () => {
 
     describe('Show', () => {
       const showTorrentProviders = [
-        {
-          name: 'PbTorrentProvider',
-          provider: require(`${torrentBasePath}/PbTorrentProvider`),
-          minTorrentsCount: 5,
-          minSeederCount: 300,
-          id: 'pb'
-        },
+        // {
+        //   name: 'PbTorrentProvider',
+        //   provider: PbTorrentProvider,
+        //   minTorrentsCount: 5,
+        //   minSeederCount: 300,
+        //   id: 'pb'
+        // },
         {
           name: 'PctTorrentProvider',
-          provider: require(`${torrentBasePath}/PctTorrentProvider`),
+          provider: PctTorrentProvider,
           minTorrentsCount: 0,
           minSeederCount: 100,
           id: 'pct'
         },
         {
           name: 'Kat',
-          provider: require(`${torrentBasePath}/KatTorrentProvider`),
+          provider: KatTorrentProvider,
           minTorrentsCount: 5,
           minSeederCount: 100,
           id: 'kat'
@@ -269,14 +272,14 @@ describe('API', () => {
       const showTorrentProviders = [
         // {
         //   name: 'PirateBay',
-        //   provider: require(`${torrentBasePath}/PbTorrentProvider`),
+        //   provider: PbTorrentProvider,
         //   minTorrentsCount: 20,
         //   minSeederCount: 500,
         //   id: 'pb'
         // },
         {
           name: 'Kat',
-          provider: require(`${torrentBasePath}/KatTorrentProvider`),
+          provider: KatTorrentProvider,
           minTorrentsCount: 0,
           minSeederCount: 100,
           id: 'kat'

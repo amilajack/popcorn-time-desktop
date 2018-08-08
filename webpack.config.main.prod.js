@@ -2,18 +2,19 @@
  * Webpack config for production electron main process
  */
 
-import webpack from 'webpack';
-import merge from 'webpack-merge';
-import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
-import LodashModuleReplacementPlugin from 'lodash-webpack-plugin';
-import UglifyJSPlugin from 'uglifyjs-webpack-plugin';
-import baseConfig from './webpack.config.base';
+const webpack = require('webpack');
+const merge = require('webpack-merge');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const baseConfig = require('./webpack.config.base');
 
 if (process.env.NODE_ENV !== 'production') {
   throw new Error('Production builds must have NODE_ENV=production');
 }
 
-export default merge.smart(baseConfig, {
+module.exports = merge.smart(baseConfig, {
   devtool: 'source-map',
 
   target: 'electron-main',
@@ -27,14 +28,28 @@ export default merge.smart(baseConfig, {
     filename: './app/main.prod.js'
   },
 
+  optimization: {
+    minimizer: process.env.E2E_BUILD
+      ? []
+      : [
+          new UglifyJSPlugin({
+            parallel: true,
+            sourceMap: true,
+            cache: true
+          }),
+          new OptimizeCSSAssetsPlugin({
+            cssProcessorOptions: {
+              map: {
+                inline: false,
+                annotation: true
+              }
+            }
+          })
+        ]
+  },
+
   plugins: [
     new LodashModuleReplacementPlugin(),
-
-    new UglifyJSPlugin({
-      parallel: true,
-      sourceMap: true,
-      cache: true
-    }),
 
     new BundleAnalyzerPlugin({
       analyzerMode:

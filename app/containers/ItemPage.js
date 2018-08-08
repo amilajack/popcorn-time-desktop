@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import Item from '../components/item/Item.jsx';
+import Item from '../components/item/Item';
 
 type Props = {
   match: {

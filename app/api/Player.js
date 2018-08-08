@@ -77,7 +77,7 @@ export default class Player {
       this.player ||
       plyr.setup({
         volume: 10,
-        autoplay: true,
+        // autoplay: true,
         showPosterOnEnd: true
       })[0];
 
@@ -106,7 +106,7 @@ export default class Player {
       this.player ||
       plyr.setup({
         volume: 10,
-        autoplay: true,
+        // autoplay: true,
         showPosterOnEnd: true
       })[0];
 

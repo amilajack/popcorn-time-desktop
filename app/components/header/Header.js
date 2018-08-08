@@ -63,54 +63,62 @@ export default class Header extends Component {
 
     return (
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark col-sm-12 col-md-12">
-        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
           <span className="navbar-toggler-icon" />
         </button>
 
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav mr-auto">
-          <li
-          className={classNames('nav-item', {
-            active: activeMode === 'home'
-          })}
-        >
-          <Link
-            className="nav-link"
-            to="/item/home"
-            replace
-            onClick={() => setActiveMode('home')}
-          >
-            Home
-          </Link>
-        </li>
-        <li
-          className={classNames('nav-item', {
-            active: activeMode === 'movies'
-          })}
-        >
-          <Link
-            to="/item/movies"
-            replace
-            className="nav-link"
-            onClick={() => setActiveMode('movies')}
-          >
-            Movies
-          </Link>
-        </li>
-        <li
-          className={classNames('nav-item', {
-            active: activeMode === 'shows'
-          })}
-        >
-          <Link
-            className="nav-link"
-            to="/item/shows"
-            replace
-            onClick={() => setActiveMode('shows')}
-          >
-            TV Shows
-          </Link>
-        </li>
+            <li
+              className={classNames('nav-item', {
+                active: activeMode === 'home'
+              })}
+            >
+              <Link
+                className="nav-link"
+                to="/item/home"
+                replace
+                onClick={() => setActiveMode('home')}
+              >
+                Home
+              </Link>
+            </li>
+            <li
+              className={classNames('nav-item', {
+                active: activeMode === 'movies'
+              })}
+            >
+              <Link
+                to="/item/movies"
+                replace
+                className="nav-link"
+                onClick={() => setActiveMode('movies')}
+              >
+                Movies
+              </Link>
+            </li>
+            <li
+              className={classNames('nav-item', {
+                active: activeMode === 'shows'
+              })}
+            >
+              <Link
+                className="nav-link"
+                to="/item/shows"
+                replace
+                onClick={() => setActiveMode('shows')}
+              >
+                TV Shows
+              </Link>
+            </li>
           </ul>
           <form className="form-inline my-2 my-lg-0">
             <input
