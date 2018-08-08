@@ -21,11 +21,9 @@ export default function CardList(props: Props) {
   return (
     <div className="row" data-e2e={`${title}-card-list`}>
       <div className="col-sm-12">
-        <h4 className="CardList--header">
-          {title}
-        </h4>
+        <h4 className="CardList--header">{title}</h4>
         <div className="CardList">
-          {(limit ? items.filter((e, i) => i < limit) : items).map(item =>
+          {(limit ? items.filter((e, i) => i < limit) : items).map(item => (
             <Card
               image={item.images.fanart.thumb}
               title={item.title}
@@ -37,7 +35,7 @@ export default function CardList(props: Props) {
               genres={item.genres}
               item={item}
             />
-          )}
+          ))}
         </div>
       </div>
       <div className="col-sm-12">

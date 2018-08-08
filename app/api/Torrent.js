@@ -39,7 +39,8 @@ export default class Torrent {
     cb
   ) {
     if (this.inProgress) {
-      throw new Error('Torrent already in progress');
+      console.error('Torrent already in progress');
+      return;
     }
 
     const { season, episode, activeMode } = metadata;

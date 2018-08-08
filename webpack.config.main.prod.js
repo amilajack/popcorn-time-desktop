@@ -29,21 +29,23 @@ module.exports = merge.smart(baseConfig, {
   },
 
   optimization: {
-    minimizer: process.env.E2E_BUILD ? [] : [
-      new UglifyJSPlugin({
-        parallel: true,
-        sourceMap: true,
-        cache: true
-      }),
-      new OptimizeCSSAssetsPlugin({
-        cssProcessorOptions: {
-          map: {
-            inline: false,
-            annotation: true
-          }
-        }
-      })
-    ]
+    minimizer: process.env.E2E_BUILD
+      ? []
+      : [
+          new UglifyJSPlugin({
+            parallel: true,
+            sourceMap: true,
+            cache: true
+          }),
+          new OptimizeCSSAssetsPlugin({
+            cssProcessorOptions: {
+              map: {
+                inline: false,
+                annotation: true
+              }
+            }
+          })
+        ]
   },
 
   plugins: [

@@ -38,7 +38,9 @@
     "promise/avoid-new": "off",
     "react/sort-comp": ["error", {
       "order": ["type-annotations", "properties", "constructor", "static-methods", "everything-else", "lifecycle", "render"]
-    }]
+    }],
+    "react/destructuring-assignment": "off",
+    "react/jsx-filename-extension": "off"
   },
   "settings": {
     "import/extensions": [".jsx", ".js"],

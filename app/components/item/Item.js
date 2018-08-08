@@ -421,6 +421,8 @@ export default class Item extends Component {
         }
       })();
 
+      console.log(idealTorrent);
+
       if (idealTorrent.quality === 'poor') {
         notie.alert(2, 'Slow torrent, low seeder count', 1);
       }
@@ -537,7 +539,10 @@ export default class Item extends Component {
     const mergedResults = subtitles.map(
       (subtitle: Object) =>
         subtitle.default === true
-          ? { ...subtitle, src: `http://localhost:${this.subtitleServer.port}/${filename}` }
+          ? {
+              ...subtitle,
+              src: `http://localhost:${this.subtitleServer.port}/${filename}`
+            }
           : subtitle
     );
 
@@ -737,20 +742,22 @@ export default class Item extends Component {
                       idealTorrent.magnet,
                       idealTorrent.method,
                       this.state.currentPlayer
-                    )}
+                    )
+                  }
                 >
-                  {idealTorrent.magnet
-                    ? <i
-                        data-e2e="item-play-button"
-                        className="Item--icon-play ion-ios-play"
-                        onClick={() =>
-                          this.startPlayback(
-                            idealTorrent.magnet,
-                            idealTorrent.method,
-                            this.state.currentPlayer
-                          )}
-                      />
-                    : null}
+                  {idealTorrent.magnet ? (
+                    <i
+                      data-e2e="item-play-button"
+                      className="Item--icon-play ion-ios-play"
+                      onClick={() =>
+                        this.startPlayback(
+                          idealTorrent.magnet,
+                          idealTorrent.method,
+                          this.state.currentPlayer
+                        )
+                      }
+                    />
+                  ) : null}
                 </div>
                 <img
                   className="Item--poster"
@@ -777,22 +784,18 @@ export default class Item extends Component {
                 {item.title}
               </h1>
               <div className="row">
-                {item.runtime && item.runtime.hours && item.runtime.minutes
-                  ? <span className="col-sm-3" id="runtime">
-                      <h6>
-                        {item.runtime.hours ? `${item.runtime.hours} hrs ` : ''}
-                        {item.runtime.minutes
-                          ? `${item.runtime.minutes} min`
-                          : ''}
-                      </h6>
-                    </span>
-                  : null}
+                {item.runtime && item.runtime.hours && item.runtime.minutes ? (
+                  <span className="col-sm-3" id="runtime">
+                    <h6>
+                      {item.runtime.hours ? `${item.runtime.hours} hrs ` : ''}
+                      {item.runtime.minutes
+                        ? `${item.runtime.minutes} min`
+                        : ''}
+                    </h6>
+                  </span>
+                ) : null}
                 <span className="col-sm-9" id="genres">
-                  {item.genres
-                    ? <h6>
-                        {item.genres.join(', ')}
-                      </h6>
-                    : null}
+                  {item.genres ? <h6>{item.genres.join(', ')}</h6> : null}
                 </span>
               </div>
               {/* HACK: Prefer a CSS solution to this, using text-overflow: ellipse */}
@@ -804,28 +807,24 @@ export default class Item extends Component {
                   : ''}
               </h6>
               <div className="row row-margin row-center Item--details">
-                {item.rating && typeof item.rating === 'number'
-                  ? <div className="col-sm-5">
-                      <Rating
-                        emptyStarColor="rgba(255, 255, 255, 0.2)"
-                        starColor="white"
-                        rating={item.rating}
-                      />
-                    </div>
-                  : null}
+                {item.rating && typeof item.rating === 'number' ? (
+                  <div className="col-sm-5">
+                    <Rating
+                      emptyStarColor="rgba(255, 255, 255, 0.2)"
+                      starColor="white"
+                      rating={item.rating}
+                    />
+                  </div>
+                ) : null}
                 <div className="col-sm-2">
-                  <a>
-                    {item.year}
-                  </a>
+                  <a>{item.year}</a>
                 </div>
 
-                {item && item.certification && item.certification !== 'n/a'
-                  ? <div className="col-sm-3">
-                      <div className="certification">
-                        {item.certification}
-                      </div>
-                    </div>
-                  : null}
+                {item && item.certification && item.certification !== 'n/a' ? (
+                  <div className="col-sm-3">
+                    <div className="certification">{item.certification}</div>
+                  </div>
+                ) : null}
 
                 <div className="col-sm-2 row-center">
                   <i className="ion-magnet" />
@@ -848,159 +847,164 @@ export default class Item extends Component {
                   </Tooltip>
                 </div>
 
-                {item.trailer && item.trailer !== 'n/a'
-                  ? <div className="col-sm-3 row-center">
-                      <i
-                        id="trailerPopoverOpen"
-                        data-e2e="item-trailer-button"
-                        className="ion-videocamera"
-                        onClick={() => this.setPlayer('youtube')}
-                      />
-                      <Tooltip
-                        placement="top"
-                        isOpen={this.state.trailerPopoverOpen || false}
-                        target="trailerPopoverOpen"
-                        toggle={() =>
-                          this.toggleStateProperty('trailerPopoverOpen')}
-                      >
-                        Trailer
-                      </Tooltip>
-                    </div>
-                  : null}
+                {item.trailer && item.trailer !== 'n/a' ? (
+                  <div className="col-sm-3 row-center">
+                    <i
+                      id="trailerPopoverOpen"
+                      data-e2e="item-trailer-button"
+                      className="ion-videocamera"
+                      onClick={() => this.setPlayer('youtube')}
+                    />
+                    <Tooltip
+                      placement="top"
+                      isOpen={this.state.trailerPopoverOpen || false}
+                      target="trailerPopoverOpen"
+                      toggle={() =>
+                        this.toggleStateProperty('trailerPopoverOpen')
+                      }
+                    >
+                      Trailer
+                    </Tooltip>
+                  </div>
+                ) : null}
               </div>
             </div>
 
             <div className="Item--overlay" />
           </div>
-
-          <div className="row">
-            <div className="col-sm-12">
-              <Dropdown
-                style={{ float: 'right' }}
-                isOpen={dropdownOpen}
-                toggle={() => this.toggle()}
-                className="row-margin"
-              >
-                <DropdownToggle caret>
-                  {currentPlayer || 'default'}
-                </DropdownToggle>
-                <DropdownMenu>
-                  <DropdownItem header>Select Player</DropdownItem>
-                  <DropdownItem
-                    key="default"
-                    id="default"
-                    onClick={() => this.setPlayer('default')}
-                  >
-                    Default
-                  </DropdownItem>
-                  <DropdownItem key="vlc" id="vlc" onClick={() => this.setPlayer('vlc')}>
-                    VLC
-                  </DropdownItem>
-                  {this.state.castingDevices.map(castingDevice =>
-                    <DropdownItem
-                      key={castingDevice.id}
-                      id={castingDevice.id}
-                      onClick={() => {
-                        this.setPlayer('chromecast');
-                        this.playerProvider.selectDevice(castingDevice.id);
-                      }}
-                    >
-                      {castingDevice.name}
-                    </DropdownItem>
-                  )}
-                </DropdownMenu>
-              </Dropdown>
-            </div>
-          </div>
-
-          <div className="row hidden-sm-up">
-            <div className="col-sm-8">
-              {/* Torrent Selection */}
-              <span>
-                <button
-                  onClick={() =>
-                    this.startPlayback(
-                      idealTorrent.magnet,
-                      idealTorrent.method,
-                      this.state.currentPlayer
-                    )}
-                  disabled={!idealTorrent.magnet}
-                >
-                  Start Playback
-                </button>
-              </span>
-              {(() => {
-                if (process.env.FLAG_MANUAL_TORRENT_SELECTION === 'true') {
-                  return (
-                    <span>
-                      <button
-                        onClick={() =>
-                          this.startPlayback(
-                            torrent['1080p'].magnet,
-                            torrent['1080p'].method,
-                            this.state.currentPlayer
-                          )}
-                        disabled={!torrent['1080p'].quality}
-                      >
-                        Start 1080p -- {torrent['1080p'].seeders} seeders
-                      </button>
-                      <button
-                        onClick={() =>
-                          this.startPlayback(
-                            torrent['720p'].magnet,
-                            torrent['720p'].method,
-                            this.state.currentPlayer
-                          )}
-                        disabled={!torrent['720p'].quality}
-                      >
-                        Start 720p -- {torrent['720p'].seeders} seeders
-                      </button>
-                      {(() => {
-                        if (activeMode === 'shows') {
-                          return (
-                            <button
-                              onClick={() =>
-                                this.startPlayback(
-                                  torrent['480p'].magnet,
-                                  torrent['480p'].method,
-                                  this.state.currentPlayer
-                                )}
-                              disabled={!torrent['480p'].quality}
-                            >
-                              Start 480p -- {torrent['480p'].seeders} seeders
-                            </button>
-                          );
-                        }
-
-                        return null;
-                      })()}
-                    </span>
-                  );
-                }
-
-                return null;
-              })()}
-            </div>
-          </div>
-
-          {activeMode === 'shows'
-            ? <Show
-                selectShow={this.selectShow}
-                seasons={seasons}
-                episodes={episodes}
-                selectedSeason={selectedSeason}
-                selectedEpisode={selectedEpisode}
-              />
-            : null}
-
-          <CardList
-            title="similar"
-            limit={4}
-            items={similarItems}
-            metadataLoading={similarLoading}
-            isFinished={isFinished}
-          />
         </div>
+
+        <div className="row row-margin">
+          <div className="col-sm-2">
+            <Dropdown
+              style={{ float: 'left' }}
+              isOpen={dropdownOpen}
+              toggle={() => this.toggle()}
+            >
+              <DropdownToggle caret>
+                {currentPlayer || 'default'}
+              </DropdownToggle>
+              <DropdownMenu>
+                <DropdownItem header>Select Player</DropdownItem>
+                <DropdownItem
+                  key="default"
+                  id="default"
+                  onClick={() => this.setPlayer('default')}
+                >
+                  Default
+                </DropdownItem>
+                <DropdownItem
+                  key="vlc"
+                  id="vlc"
+                  onClick={() => this.setPlayer('vlc')}
+                >
+                  VLC
+                </DropdownItem>
+                {this.state.castingDevices.map(castingDevice => (
+                  <DropdownItem
+                    key={castingDevice.id}
+                    id={castingDevice.id}
+                    onClick={() => {
+                      this.setPlayer('chromecast');
+                      this.playerProvider.selectDevice(castingDevice.id);
+                    }}
+                  >
+                    {castingDevice.name}
+                  </DropdownItem>
+                ))}
+              </DropdownMenu>
+            </Dropdown>
+          </div>
+          <div className="col-sm-10">
+            {/* Torrent Selection */}
+            <span className="col-sm-12 hidden-sm-up">
+              <button
+                onClick={() =>
+                  this.startPlayback(
+                    idealTorrent.magnet,
+                    idealTorrent.method,
+                    this.state.currentPlayer
+                  )
+                }
+                disabled={!idealTorrent.magnet}
+              >
+                Start Playback
+              </button>
+            </span>
+            {(() => {
+              if (process.env.FLAG_MANUAL_TORRENT_SELECTION === 'true') {
+                return (
+                  <span>
+                    <button
+                      onClick={() =>
+                        this.startPlayback(
+                          torrent['1080p'].magnet,
+                          torrent['1080p'].method,
+                          this.state.currentPlayer
+                        )
+                      }
+                      disabled={!torrent['1080p'].quality}
+                    >
+                      Start 1080p -- {torrent['1080p'].seeders} seeders
+                    </button>
+                    <button
+                      onClick={() =>
+                        this.startPlayback(
+                          torrent['720p'].magnet,
+                          torrent['720p'].method,
+                          this.state.currentPlayer
+                        )
+                      }
+                      disabled={!torrent['720p'].quality}
+                    >
+                      Start 720p -- {torrent['720p'].seeders} seeders
+                    </button>
+                    {(() => {
+                      if (activeMode === 'shows') {
+                        return (
+                          <button
+                            onClick={() =>
+                              this.startPlayback(
+                                torrent['480p'].magnet,
+                                torrent['480p'].method,
+                                this.state.currentPlayer
+                              )
+                            }
+                            disabled={!torrent['480p'].quality}
+                          >
+                            Start 480p -- {torrent['480p'].seeders} seeders
+                          </button>
+                        );
+                      }
+
+                      return null;
+                    })()}
+                  </span>
+                );
+              }
+
+              return null;
+            })()}
+          </div>
+        </div>
+
+        {activeMode === 'shows' ? (
+          <Show
+            selectShow={this.selectShow}
+            seasons={seasons}
+            episodes={episodes}
+            selectedSeason={selectedSeason}
+            selectedEpisode={selectedEpisode}
+          />
+        ) : null}
+
+        <CardList
+          title="similar"
+          limit={4}
+          items={similarItems}
+          metadataLoading={similarLoading}
+          isFinished={isFinished}
+        />
       </div>
     );
   }

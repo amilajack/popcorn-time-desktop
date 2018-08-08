@@ -22,10 +22,10 @@ type extendedDetailsType =
  * @TODO: Use ES6 dynamic imports here
  */
 const providers = [
-  import('./YtsTorrentProvider').then(e => e.default || e),
-  import('./PbTorrentProvider').then(e => e.default || e),
-  import('./PctTorrentProvider').then(e => e.default || e),
-  import('./KatTorrentProvider').then(e => e.default || e)
+  import('./YtsTorrentProvider').then(e => e.default || e)
+  // import('./PbTorrentProvider').then(e => e.default || e),
+  // import('./PctTorrentProvider').then(e => e.default || e),
+  // import('./KatTorrentProvider').then(e => e.default || e)
   // import('./RarbgTorrentProvider'),
   // import('./KatShowsTorrentProvider')
 ];

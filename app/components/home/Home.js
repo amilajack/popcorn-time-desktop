@@ -227,12 +227,14 @@ export default class Home extends Component {
       <div className="row">
         <Header activeMode={activeMode} setActiveMode={actions.setActiveMode} />
         <div className="col-sm-12">
-          {activeMode === 'home'
-            ? home
-            : <div>
-                <CardList items={items} isLoading={isLoading} />
-                <VisibilitySensor onChange={this.onChange} />
-              </div>}
+          {activeMode === 'home' ? (
+            home
+          ) : (
+            <div>
+              <CardList items={items} isLoading={isLoading} />
+              <VisibilitySensor onChange={this.onChange} />
+            </div>
+          )}
         </div>
       </div>
     );

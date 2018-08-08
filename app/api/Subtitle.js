@@ -22,9 +22,10 @@ export default class SubtitleServer {
 
   async startServer(): Promise<void> {
     // Find a port at runtime. Default to 4000 if it is available
-    this.port = typeof process.env.SUBTITLES_PORT === 'number'
-      ? parseInt(process.env.SUBTITLES_PORT, 10)
-      : await getPort({ port: 4000 });
+    this.port =
+      typeof process.env.SUBTITLES_PORT === 'number'
+        ? parseInt(process.env.SUBTITLES_PORT, 10)
+        : await getPort({ port: 4000 });
 
     // Start the static file server for the subtitle files
     const server = express();
@@ -32,7 +33,9 @@ export default class SubtitleServer {
     this.server = server.listen(this.port);
 
     console.info(
-      `Subtitle server serving on http://localhost:${this.port}, serving ${this.basePath}`
+      `Subtitle server serving on http://localhost:${this.port}, serving ${
+        this.basePath
+      }`
     );
   }
 

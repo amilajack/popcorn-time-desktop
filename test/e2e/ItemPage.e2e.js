@@ -26,7 +26,8 @@ fixture`Item Page`.page(BASE_URL).beforeEach(async t => {
 test('it should load item title', async t => {
   await t
     .expect(
-      Selector('h1').withExactText("Harry Potter and the Philosopher's Stone").visible
+      Selector('h1').withExactText("Harry Potter and the Philosopher's Stone")
+        .visible
     )
     .ok();
 });
@@ -101,22 +102,30 @@ test('it should click player dropdown menu', async t => {
   await waitForReact();
   await t
     .click(ReactSelector('DropdownToggle'))
-    .click(ReactSelector('DropdownItem').withProps({
-      id: 'vlc'
-    }))
+    .click(
+      ReactSelector('DropdownItem').withProps({
+        id: 'vlc'
+      })
+    )
     .expect(ReactSelector('Button').withExactText('vlc').visible)
     .ok();
 });
 
-test.skip('it should load and play a movie', async t => {
+test('it should load and play a movie', async t => {
   const playButton = Selector('[data-e2e="item-play-button"]');
   // Navigate to harry potter because we know it has a lot of torrents. Good for testing purposes
   await t
     .expect(
-      Selector('.Item--loading-status').withExactText('Fetching torrents...').visible
+      Selector('.Item--loading-status').withExactText('Fetching torrents...')
+        .visible
     )
     .ok()
-    .wait(20000)
+    .expect(Selector('button').withExactText('Start Playback').visible)
+    .ok()
+    .expect(
+      Selector('button[disabled=true]').withExactText('Start Playback').exists
+    )
+    .notOk()
     .expect(playButton.visible)
     .ok()
     .click(playButton)
