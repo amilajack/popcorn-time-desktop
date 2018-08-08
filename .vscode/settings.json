@@ -1,6 +1,7 @@
 {
   "files.associations": {
     ".stylelintrc": "jsonc",
+    ".testcafe-electron-rc": "jsonc",
 
     ".env": "ignore",
     ".env.example": "ignore",
