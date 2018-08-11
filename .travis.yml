@@ -33,6 +33,9 @@ matrix:
             - g++-multilib
             - rpm
             - libavahi-compat-libdnssd-dev
+            - avahi-daemon
+            - avahi-discover
+            - libnss-mdns
 
 before_cache:
   - rm -rf $HOME/.cache/electron-builder/wine

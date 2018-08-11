@@ -82,7 +82,7 @@ test('it should add items to watch list', async t => {
     .contains('item/');
 });
 
-test('it should display torrent loading status', async t => {
+test.skip('it should display torrent loading status', async t => {
   await t
     .wait(20000)
     .expect(
@@ -112,7 +112,7 @@ test('it should click player dropdown menu', async t => {
     .ok();
 });
 
-test('it should load and play a movie', async t => {
+test.skip('it should load and play a movie', async t => {
   const playButton = Selector('[data-e2e="item-play-button"]');
   // Navigate to harry potter because we know it has a lot of torrents. Good for testing purposes
   await t
