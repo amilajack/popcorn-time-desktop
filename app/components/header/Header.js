@@ -35,19 +35,19 @@ export default class Header extends Component {
     this.props.setActiveMode('search', { searchQuery });
   }
 
-  handleSearchChange(event: SyntheticEvent) {
+  handleSearchChange(event: Event<T>) {
     this.setState({
       searchQuery: event.target.value
     });
   }
 
-  handleKeyUp(event: SyntheticEvent) {
+  handleKeyUp(event: Event<T>) {
     if (event.keyCode === 27) {
       document.getElementById('pct-search-input').blur();
     }
   }
 
-  handleKeyPress(event: SyntheticEvent) {
+  handleKeyPress(event: Event<T>) {
     if (event.key === 'Enter') {
       // browserHistory.replace('/item/movies');
       // browserHistory.replace('/item/search');

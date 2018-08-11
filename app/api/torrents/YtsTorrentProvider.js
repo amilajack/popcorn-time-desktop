@@ -49,7 +49,7 @@ export default class YtsTorrentProvider implements TorrentProviderInterface {
       case 'movies':
         return this.fetch(itemId).then(results => {
           if (!results.data.movie_count) return [];
-          const torrents = results.data.movies[0].torrents;
+          const { torrents } = results.data.movies[0];
           return torrents.map(this.formatTorrent);
         });
       default:

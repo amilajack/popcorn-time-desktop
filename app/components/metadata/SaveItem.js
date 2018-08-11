@@ -33,7 +33,7 @@ export default class SaveItem extends Component {
 
   componentWillReceiveProps(nextProps: Props) {
     if (!(nextProps.item && nextProps.item.ids && nextProps.item.ids.tmdbId)) {
-      return false;
+      return;
     }
     const { tmdbId } = nextProps.item.ids;
 

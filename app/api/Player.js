@@ -81,7 +81,7 @@ export default class Player {
         showPosterOnEnd: true
       })[0];
 
-    const player = this.player;
+    const { player } = this;
 
     player.source({
       title: `${itemTitle} Trailer`,
@@ -110,7 +110,7 @@ export default class Player {
         showPosterOnEnd: true
       })[0];
 
-    const player = this.player;
+    const { player } = this;
 
     player.source({
       type: 'video',

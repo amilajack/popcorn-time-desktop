@@ -15,7 +15,7 @@
     "electron-rebuild": "electron-rebuild --parallel --force --types prod,dev,optional --module-dir app",
     "flow": "flow",
     "flow-typed": "flow-typed install",
-    "lint": "eslint --ext .jsx,.js --cache --format=node_modules/eslint-formatter-pretty .",
+    "lint": "eslint --cache --format=node_modules/eslint-formatter-pretty .",
     "lint-fix": "yarn --silent lint --fix; exit 0",
     "lint-styles": "stylelint app/styles/*.scss app/styles/**/*.scss --syntax scss",
     "lint-summary": "eslint-nibble app test *.js",
@@ -23,7 +23,7 @@
     "package-all": "yarn postinstall && yarn build && electron-builder --publish never --mac --win --linux",
     "package-ci": "yarn postinstall && yarn build && electron-builder --publish always",
     "precommit": "yarn build-e2e && yarn test-e2e && lint-staged",
-    "prettier": "prettier --single-quote --write \"./{app,test}/{actions,api,components,containers,reducers,utils}/**/*.js\" && prettier --single-quote --write \"./app/{actions,api,components,containers,reducers,utils}/**/*.jsx\"",
+    "prettier": "prettier --single-quote --write \"./{app,test}/{actions,api,components,containers,reducers,utils}/**/*.js\" && prettier --single-quote --write \"./app/{actions,api,components,containers,reducers,utils}/**/*.js\"",
     "postinstall": "yarn build-dll & node -r babel-register postinstall.js & electron-builder install-app-deps",
     "postlint-fix": "prettier --ignore-path .eslintignore --single-quote --write '**/*.js'",
     "test": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 jest ./test/components/*.spec.js",
@@ -38,7 +38,7 @@
     "start-renderer-dev": "cross-env NODE_ENV=development HOT=1 node -r babel-register ./node_modules/webpack-dev-server/bin/webpack-dev-server --config webpack.config.renderer.dev.js"
   },
   "lint-staged": {
-    "*.(js|jsx)": [
+    "*.(js)": [
       "cross-env NODE_ENV=development eslint --cache --format=node_modules/eslint-formatter-pretty",
       "prettier --ignore-path .eslintignore --single-quote --write",
       "git add"
@@ -133,7 +133,6 @@
     },
     "moduleFileExtensions": [
       "js",
-      "jsx",
       "json"
     ],
     "moduleDirectories": [
@@ -185,6 +184,7 @@
     "cross-env": "^5.2.0",
     "css-loader": "^1.0.0",
     "css-modules-require-hook": "^4.2.3",
+    "detect-port": "^1.2.3",
     "devtron": "1.4.0",
     "dotenv": "6.0.0",
     "download": "^7.1.0",
