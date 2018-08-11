@@ -1,4 +1,3 @@
-// @flow
 const chalk = require('chalk');
 const detectPort = require('detect-port');
 

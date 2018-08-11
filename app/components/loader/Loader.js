@@ -2,8 +2,8 @@
 import React from 'react';
 
 type Props = {
-  isLoading: boolean,
-  isFinished: boolean
+  isLoading?: boolean,
+  isFinished?: boolean
 };
 
 export default function Loader({ isLoading, isFinished }: Props) {

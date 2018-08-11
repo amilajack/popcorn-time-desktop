@@ -15,7 +15,7 @@
  * to allow fair distribution of bandwith to each torrent.
  */
 import Butter from '../../app/api/Butter';
-import shows from './butter.mock.js';
+import shows from './butter.mock';
 import { getIdealTorrent } from '../../app/api/torrents/BaseTorrentProvider';
 
 const butter = new Butter();

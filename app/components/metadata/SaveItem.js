@@ -5,9 +5,9 @@ import Butter from '../../api/Butter';
 import type { contentType } from '../../api/metadata/MetadataProviderInterface';
 
 type Props = {
-  item: contentType,
-  favorites: Array<contentType>,
-  watchList: Array<contentType>
+  item?: contentType,
+  favorites?: Array<contentType>,
+  watchList?: Array<contentType>
 };
 
 type State = {

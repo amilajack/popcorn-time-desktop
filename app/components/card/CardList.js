@@ -10,19 +10,20 @@ import type { contentType } from '../../api/metadata/MetadataProviderInterface';
 type Props = {
   title?: string,
   limit?: number,
-  items: Array<contentType>,
-  isLoading: boolean,
-  isFinished: boolean
+  items?: Array<contentType>,
+  isLoading?: boolean,
+  isFinished?: boolean,
+  justifyContent?: string
 };
 
 export default function CardList(props: Props) {
-  const { items, isLoading, isFinished, title, limit } = props;
+  const { items, isLoading, isFinished, title, limit, justifyContent } = props;
 
   return (
     <div className="row" data-e2e={`${title}-card-list`}>
       <div className="col-sm-12">
         <h4 className="CardList--header">{title}</h4>
-        <div className="CardList">
+        <div className="CardList" style={{ justifyContent }}>
           {(limit ? items.filter((e, i) => i < limit) : items).map(item => (
             <Card
               image={item.images.fanart.thumb}
@@ -51,5 +52,5 @@ CardList.defaultProps = {
   items: [],
   isLoading: false,
   isFinished: false,
-  starColor: '#848484'
+  justifyContent: 'space-between'
 };
