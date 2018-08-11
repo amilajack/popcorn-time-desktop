@@ -67,7 +67,7 @@ export default function Show(props: Props) {
       </div>
 
       <div className="col-sm-6">
-        <div className="card w-75">
+        <div className="card">
           <div className="card-block">
             <h3 className="card-title">
               {episodes.length && selectedSeason && episodes[selectedEpisode]

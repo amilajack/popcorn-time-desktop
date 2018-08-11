@@ -29,7 +29,7 @@
     "test": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 jest ./test/components/*.spec.js",
     "test-all": "yarn lint && yarn lint-styles && yarn lint-summary && yarn build && yarn test-api && yarn test-e2e",
     "test-api": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 CONFIG_ENDPOINT_TEST=test.org jest ./test/api/butter.spec.js",
-    "test-e2e": "cross-env NODE_ENV=production FLAG_SUBTITLES=true testcafe electron:./app ./test/e2e/*.e2e.js",
+    "test-e2e": "cross-env NODE_ENV=production FLAG_SUBTITLES=true testcafe -c 2 electron:./app ./test/e2e/*.e2e.js",
     "test-e2e:live": "cross-env NODE_ENV=production FLAG_SUBTITLES=true testcafe-live electron:./app ./test/e2e/*.e2e.js",
     "test-screenshot": "cross-env API_USE_MOCK_DATA=true BABEL_DISABLE_CACHE=1 yarn build && jest ./test/screenshot.e2e.js",
     "test-watch": "yarn test --watch",

@@ -133,6 +133,8 @@ test('it should load and play a movie', async t => {
       Selector('.Item--loading-status').withExactText('Loading torrent...')
         .visible
     )
+    .ok()
+    .expect(Selector('a[data-e2e="item-year"]').withExactText('2001').visible)
     .ok();
 });
 
@@ -142,7 +144,9 @@ fixture`Item Page TV Shows`.page(BASE_URL).beforeEach(async t => {
     .click(Selector('a').withExactText('Home'))
     .typeText('#pct-search-input', 'silicon valley', { replace: true })
     .pressKey('enter')
-    .click(cardSelector);
+    .click(cardSelector)
+    .expect(Selector('a[data-e2e="item-year"]').withExactText('2014').visible)
+    .ok();
 });
 
 test.skip('it should load and play a tv show', async t => {
@@ -168,5 +172,7 @@ test.skip('it should load and play a tv show', async t => {
       Selector('.Item--loading-status').withExactText('Loading torrent...')
         .visible
     )
+    .ok()
+    .expect(Selector('a').withExactText('').visible)
     .ok();
 });

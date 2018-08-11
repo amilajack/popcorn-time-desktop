@@ -818,7 +818,7 @@ export default class Item extends Component {
                   </div>
                 ) : null}
                 <div className="col-sm-2">
-                  <a>{item.year}</a>
+                  <a data-e2e="item-year">{item.year}</a>
                 </div>
 
                 {item && item.certification && item.certification !== 'n/a' ? (

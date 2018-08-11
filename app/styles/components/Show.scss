@@ -1,4 +1,9 @@
 .Show {
+  .card {
+    width: 75% !important;
+    padding: 30px;
+  }
+
   .Show--list-group {
     max-height: 400px;
     overflow: scroll;
