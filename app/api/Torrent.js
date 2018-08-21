@@ -4,7 +4,8 @@
  */
 import os from 'os';
 import WebTorrent from 'webtorrent';
-import getPort from 'get-port';
+// 'get-port' lib doesn't work here for some reason. Not sure why
+import findFreePort from 'find-free-port';
 import { isExactEpisode } from './torrents/BaseTorrentProvider';
 
 type metadataType = {
@@ -38,12 +39,11 @@ export default class Torrent {
     cb
   ) {
     if (this.inProgress) {
-      console.error('Torrent already in progress');
+      console.log('Torrent already in progress');
       return;
     }
 
-    const port = await getPort({ port: 9090 });
-
+    const [port] = await findFreePort(9090);
     const { season, episode, activeMode } = metadata;
     const maxConns = process.env.CONFIG_MAX_CONNECTIONS
       ? parseInt(process.env.CONFIG_MAX_CONNECTIONS, 10)
@@ -118,11 +118,11 @@ export default class Torrent {
         this.clearIntervals();
       });
 
-      this.checkDownloadInterval = setInterval(() => {
+      this.checkDownloadInterval = setInterval(async () => {
         if (torrent.downloaded > buffer) {
           console.log('Ready...');
 
-          cb(
+          await cb(
             `http://localhost:${port}/${torrentIndex}`,
             file,
             files,

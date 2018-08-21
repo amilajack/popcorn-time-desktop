@@ -40,8 +40,8 @@
 
 ## Requirements:
 
-* [Node >= 10](https://nodejs.org)
-* For packaging, see [packaging requirements](https://github.com/amilajack/popcorn-time-desktop/wiki/Packaging-Requirements)
+- [Node >= 10](https://nodejs.org)
+- For packaging, see [packaging requirements](https://github.com/amilajack/popcorn-time-desktop/wiki/Packaging-Requirements)
 
 ## Getting started:
 
@@ -61,6 +61,10 @@
 ```bash
 git clone https://github.com/amilajack/popcorn-time-desktop.git
 cd popcorn-time-desktop
+
+# 💡 For casting support, you will need to satisfy mdns's requirements:
+# For windows install bonjour: https://support.apple.com/downloads/bonjour_for_windows
+# For linux, make sure you have these dependencies installed with apt-get: https://github.com/amilajack/popcorn-time-desktop/blob/v1.0.0/.travis.yml#L26-L38
 
 # Install dependencies
 # Have a cup of coffee ☕️ this might take a while

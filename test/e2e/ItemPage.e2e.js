@@ -82,14 +82,8 @@ test('it should add items to watch list', async t => {
     .contains('item/');
 });
 
-test.skip('it should display torrent loading status', async t => {
-  await t
-    .wait(20000)
-    .expect(
-      Selector('.Item--loading-status').withExactText('Fetching torrents...')
-        .visible
-    )
-    .ok();
+test('it should display torrent loading status', async t => {
+  await t.expect(Selector('[data-e2e="item-play-button"]').visible).ok();
 });
 
 test('it should play trailer', async t => {
@@ -112,15 +106,11 @@ test('it should click player dropdown menu', async t => {
     .ok();
 });
 
-test.skip('it should load and play a movie', async t => {
+test('it should load and play a movie', async t => {
   const playButton = Selector('[data-e2e="item-play-button"]');
   // Navigate to harry potter because we know it has a lot of torrents. Good for testing purposes
   await t
-    .wait(20000)
-    .expect(
-      Selector('.Item--loading-status').withExactText('Fetching torrents...')
-        .visible
-    )
+    .expect(Selector('[data-e2e="item-play-button"]').visible)
     .ok()
     .expect(Selector('button').withExactText('Start Playback').visible)
     .ok()
@@ -155,13 +145,8 @@ test.skip('it should load and play a tv show', async t => {
   const playButton = Selector('[data-e2e="item-play-button"]');
   // Navigate to harry potter because we know it has a lot of torrents. Good for testing purposes
   await t
-    .wait(20000)
-    .expect(
-      Selector('.Item--loading-status').withExactText('Fetching torrents...')
-        .visible
-    )
+    .expect(Selector('[data-e2e="item-play-button"]').visible)
     .ok()
-    .wait(20000)
     .expect(Selector('button').withExactText('Start Playback').visible)
     .ok()
     .expect(
