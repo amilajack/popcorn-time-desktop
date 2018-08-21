@@ -9,11 +9,12 @@ import {
   Navbar,
   NavbarToggler,
   NavItem
-} from "reactstrap";
-import React, { Component } from "react";
-import classNames from "classnames";
-import { Link } from "react-router-dom";
-import Butter from "../../api/Butter";
+} from 'reactstrap';
+import React, { Component } from 'react';
+import type { Node, SyntheticEvent as Event } from 'react';
+import classNames from 'classnames';
+import { Link } from 'react-router-dom';
+import Butter from '../../api/Butter';
 
 type Props = {
   setActiveMode: (mode: string, options?: { searchQuery: string }) => void,
@@ -34,40 +35,40 @@ export default class Header extends Component {
 
     this.butter = new Butter();
     this.state = {
-      searchQuery: ""
+      searchQuery: ''
     };
   }
 
   /**
    * Set the mode of the movies to be 'search'
    */
-  setSearchState(searchQuery: string) {
-    this.props.setActiveMode("search", { searchQuery });
+  setSearchState(searchQuery: string): void {
+    this.props.setActiveMode('search', { searchQuery });
   }
 
-  handleSearchChange({ target: { value } }: Event<T>) {
+  handleSearchChange({ target: { value } }: Event<HTMLButtonElement>): void {
     this.setState({
       searchQuery: value
     });
   }
 
-  handleKeyUp({ keyCode }: Event<T>) {
+  handleKeyUp({ keyCode }: Event<HTMLButtonElement>): void {
     if (keyCode === 27) {
-      document.getElementById("pct-search-input").blur();
+      document.getElementById('pct-search-input').blur();
     }
   }
 
-  handleKeyPress({ key }: Event<T>) {
-    if (key === "Enter") {
+  handleKeyPress({ key }: Event<HTMLButtonElement>): void {
+    if (key === 'Enter') {
       // browserHistory.replace('/item/movies');
       // browserHistory.replace('/item/search');
-      this.props.setActiveMode("search", {
+      this.props.setActiveMode('search', {
         searchQuery: this.state.searchQuery
       });
     }
   }
 
-  render() {
+  render(): Node {
     const { activeMode, setActiveMode } = this.props;
     const { searchQuery } = this.state;
 
@@ -91,43 +92,43 @@ export default class Header extends Component {
         >
           <Nav className="navbar-nav mr-auto">
             <NavItem
-              className={classNames("nav-item", {
-                active: activeMode === "home"
+              className={classNames('nav-item', {
+                active: activeMode === 'home'
               })}
             >
               <Link
                 className="nav-link"
                 to="/item/home"
                 replace
-                onClick={() => this.props.setActiveMode("home")}
+                onClick={() => this.props.setActiveMode('home')}
               >
                 Home
               </Link>
             </NavItem>
             <NavItem
-              className={classNames("nav-item", {
-                active: activeMode === "movies"
+              className={classNames('nav-item', {
+                active: activeMode === 'movies'
               })}
             >
               <Link
                 to="/item/movies"
                 replace
                 className="nav-link"
-                onClick={() => setActiveMode("movies")}
+                onClick={() => setActiveMode('movies')}
               >
                 Movies
               </Link>
             </NavItem>
             <NavItem
-              className={classNames("nav-item", {
-                active: activeMode === "shows"
+              className={classNames('nav-item', {
+                active: activeMode === 'shows'
               })}
             >
               <Link
                 className="nav-link"
                 to="/item/shows"
                 replace
-                onClick={() => setActiveMode("shows")}
+                onClick={() => setActiveMode('shows')}
               >
                 TV Shows
               </Link>
