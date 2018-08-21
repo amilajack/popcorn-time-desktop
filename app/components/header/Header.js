@@ -1,9 +1,19 @@
 // @flow
 /* eslint react/no-set-state: 0 */
-import React, { Component } from 'react';
-import classNames from 'classnames';
-import { Link } from 'react-router-dom';
-import Butter from '../../api/Butter';
+import {
+  Button,
+  Collapse,
+  Form,
+  Input,
+  Nav,
+  Navbar,
+  NavbarToggler,
+  NavItem
+} from "reactstrap";
+import React, { Component } from "react";
+import classNames from "classnames";
+import { Link } from "react-router-dom";
+import Butter from "../../api/Butter";
 
 type Props = {
   setActiveMode: (mode: string, options?: { searchQuery: string }) => void,
@@ -24,7 +34,7 @@ export default class Header extends Component {
 
     this.butter = new Butter();
     this.state = {
-      searchQuery: ''
+      searchQuery: ""
     };
   }
 
@@ -32,26 +42,26 @@ export default class Header extends Component {
    * Set the mode of the movies to be 'search'
    */
   setSearchState(searchQuery: string) {
-    this.props.setActiveMode('search', { searchQuery });
+    this.props.setActiveMode("search", { searchQuery });
   }
 
-  handleSearchChange(event: Event<T>) {
+  handleSearchChange({ target: { value } }: Event<T>) {
     this.setState({
-      searchQuery: event.target.value
+      searchQuery: value
     });
   }
 
-  handleKeyUp(event: Event<T>) {
-    if (event.keyCode === 27) {
-      document.getElementById('pct-search-input').blur();
+  handleKeyUp({ keyCode }: Event<T>) {
+    if (keyCode === 27) {
+      document.getElementById("pct-search-input").blur();
     }
   }
 
-  handleKeyPress(event: Event<T>) {
-    if (event.key === 'Enter') {
+  handleKeyPress({ key }: Event<T>) {
+    if (key === "Enter") {
       // browserHistory.replace('/item/movies');
       // browserHistory.replace('/item/search');
-      this.props.setActiveMode('search', {
+      this.props.setActiveMode("search", {
         searchQuery: this.state.searchQuery
       });
     }
@@ -62,8 +72,8 @@ export default class Header extends Component {
     const { searchQuery } = this.state;
 
     return (
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark col-sm-12 col-md-12">
-        <button
+      <Navbar className="navbar navbar-expand-lg navbar-dark bg-dark col-sm-12 col-md-12">
+        <Button
           className="navbar-toggler"
           type="button"
           data-toggle="collapse"
@@ -72,56 +82,59 @@ export default class Header extends Component {
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <span className="navbar-toggler-icon" />
-        </button>
+          <NavbarToggler className="navbar-toggler-icon" />
+        </Button>
 
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul className="navbar-nav mr-auto">
-            <li
-              className={classNames('nav-item', {
-                active: activeMode === 'home'
+        <Collapse
+          className="collapse navbar-collapse"
+          id="navbarSupportedContent"
+        >
+          <Nav className="navbar-nav mr-auto">
+            <NavItem
+              className={classNames("nav-item", {
+                active: activeMode === "home"
               })}
             >
               <Link
                 className="nav-link"
                 to="/item/home"
                 replace
-                onClick={() => setActiveMode('home')}
+                onClick={() => this.props.setActiveMode("home")}
               >
                 Home
               </Link>
-            </li>
-            <li
-              className={classNames('nav-item', {
-                active: activeMode === 'movies'
+            </NavItem>
+            <NavItem
+              className={classNames("nav-item", {
+                active: activeMode === "movies"
               })}
             >
               <Link
                 to="/item/movies"
                 replace
                 className="nav-link"
-                onClick={() => setActiveMode('movies')}
+                onClick={() => setActiveMode("movies")}
               >
                 Movies
               </Link>
-            </li>
-            <li
-              className={classNames('nav-item', {
-                active: activeMode === 'shows'
+            </NavItem>
+            <NavItem
+              className={classNames("nav-item", {
+                active: activeMode === "shows"
               })}
             >
               <Link
                 className="nav-link"
                 to="/item/shows"
                 replace
-                onClick={() => setActiveMode('shows')}
+                onClick={() => setActiveMode("shows")}
               >
                 TV Shows
               </Link>
-            </li>
-          </ul>
-          <form className="form-inline my-2 my-lg-0">
-            <input
+            </NavItem>
+          </Nav>
+          <Form className="form-inline my-2 my-lg-0">
+            <Input
               id="pct-search-input"
               className="form-control mr-sm-2"
               aria-label="Search"
@@ -132,9 +145,9 @@ export default class Header extends Component {
               type="text"
               placeholder="Search"
             />
-          </form>
-        </div>
-      </nav>
+          </Form>
+        </Collapse>
+      </Navbar>
     );
   }
 }
