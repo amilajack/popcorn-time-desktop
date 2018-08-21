@@ -28,6 +28,8 @@
 
 ## Features:
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/amilajack/popcorn-time-desktop.svg)](https://greenkeeper.io/)
+
 **Modern**: This client was started from scratch and was designed to be performant and customizable
 
 **Performance**: Significantly faster than other clients. Everything from scrolling perf to playing movies is buttery smooth
