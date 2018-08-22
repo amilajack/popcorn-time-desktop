@@ -11,9 +11,9 @@ import {
   NavItem
 } from 'reactstrap';
 import React, { Component } from 'react';
-import type { Node, SyntheticEvent as Event } from 'react';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
+import type { Node, SyntheticEvent as Event } from 'react';
 import Butter from '../../api/Butter';
 
 type Props = {
