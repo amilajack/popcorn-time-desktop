@@ -1,8 +1,19 @@
 // @flow
 /* eslint react/no-set-state: 0 */
+import {
+  Button,
+  Collapse,
+  Form,
+  Input,
+  Nav,
+  Navbar,
+  NavbarToggler,
+  NavItem
+} from 'reactstrap';
 import React, { Component } from 'react';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
+import type { Node, SyntheticEvent as Event } from 'react';
 import Butter from '../../api/Butter';
 
 type Props = {
@@ -35,20 +46,20 @@ export default class Header extends Component {
     this.props.setActiveMode('search', { searchQuery });
   }
 
-  handleSearchChange(event: Event<T>) {
+  handleSearchChange({ target: { value } }: Event<HTMLButtonElement>) {
     this.setState({
-      searchQuery: event.target.value
+      searchQuery: value
     });
   }
 
-  handleKeyUp(event: Event<T>) {
-    if (event.keyCode === 27) {
+  handleKeyUp({ keyCode }: Event<HTMLButtonElement>) {
+    if (keyCode === 27) {
       document.getElementById('pct-search-input').blur();
     }
   }
 
-  handleKeyPress(event: Event<T>) {
-    if (event.key === 'Enter') {
+  handleKeyPress({ key }: Event<HTMLButtonElement>) {
+    if (key === 'Enter') {
       // browserHistory.replace('/item/movies');
       // browserHistory.replace('/item/search');
       this.props.setActiveMode('search', {
@@ -57,13 +68,13 @@ export default class Header extends Component {
     }
   }
 
-  render() {
+  render(): Node {
     const { activeMode, setActiveMode } = this.props;
     const { searchQuery } = this.state;
 
     return (
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark col-sm-12 col-md-12">
-        <button
+      <Navbar className="navbar navbar-expand-lg navbar-dark bg-dark col-sm-12 col-md-12">
+        <Button
           className="navbar-toggler"
           type="button"
           data-toggle="collapse"
@@ -72,12 +83,15 @@ export default class Header extends Component {
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <span className="navbar-toggler-icon" />
-        </button>
+          <NavbarToggler className="navbar-toggler-icon" />
+        </Button>
 
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul className="navbar-nav mr-auto">
-            <li
+        <Collapse
+          className="collapse navbar-collapse"
+          id="navbarSupportedContent"
+        >
+          <Nav className="navbar-nav mr-auto">
+            <NavItem
               className={classNames('nav-item', {
                 active: activeMode === 'home'
               })}
@@ -86,12 +100,12 @@ export default class Header extends Component {
                 className="nav-link"
                 to="/item/home"
                 replace
-                onClick={() => setActiveMode('home')}
+                onClick={() => this.props.setActiveMode('home')}
               >
                 Home
               </Link>
-            </li>
-            <li
+            </NavItem>
+            <NavItem
               className={classNames('nav-item', {
                 active: activeMode === 'movies'
               })}
@@ -104,8 +118,8 @@ export default class Header extends Component {
               >
                 Movies
               </Link>
-            </li>
-            <li
+            </NavItem>
+            <NavItem
               className={classNames('nav-item', {
                 active: activeMode === 'shows'
               })}
@@ -118,10 +132,10 @@ export default class Header extends Component {
               >
                 TV Shows
               </Link>
-            </li>
-          </ul>
-          <form className="form-inline my-2 my-lg-0">
-            <input
+            </NavItem>
+          </Nav>
+          <Form className="form-inline my-2 my-lg-0">
+            <Input
               id="pct-search-input"
               className="form-control mr-sm-2"
               aria-label="Search"
@@ -132,9 +146,9 @@ export default class Header extends Component {
               type="text"
               placeholder="Search"
             />
-          </form>
-        </div>
-      </nav>
+          </Form>
+        </Collapse>
+      </Navbar>
     );
   }
 }
