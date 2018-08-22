@@ -42,23 +42,23 @@ export default class Header extends Component {
   /**
    * Set the mode of the movies to be 'search'
    */
-  setSearchState(searchQuery: string): void {
+  setSearchState(searchQuery: string) {
     this.props.setActiveMode('search', { searchQuery });
   }
 
-  handleSearchChange({ target: { value } }: Event<HTMLButtonElement>): void {
+  handleSearchChange({ target: { value } }: Event<HTMLButtonElement>) {
     this.setState({
       searchQuery: value
     });
   }
 
-  handleKeyUp({ keyCode }: Event<HTMLButtonElement>): void {
+  handleKeyUp({ keyCode }: Event<HTMLButtonElement>) {
     if (keyCode === 27) {
       document.getElementById('pct-search-input').blur();
     }
   }
 
-  handleKeyPress({ key }: Event<HTMLButtonElement>): void {
+  handleKeyPress({ key }: Event<HTMLButtonElement>) {
     if (key === 'Enter') {
       // browserHistory.replace('/item/movies');
       // browserHistory.replace('/item/search');
