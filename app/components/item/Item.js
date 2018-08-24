@@ -162,7 +162,8 @@ export default class Item extends Component {
     similarLoading: false,
     metadataLoading: false,
     torrentInProgress: false,
-    torrentProgress: 0
+    torrentProgress: 0,
+    captions: []
   };
 
   constructor(props: Props) {
@@ -636,7 +637,7 @@ export default class Item extends Component {
         console.log(`Serving torrent at: ${servingUrl}`);
         this.setState({ servingUrl });
 
-        const filename = file.name;
+        // const filename = file.name;
         const subtitles =
           subtitle && process.env.FLAG_SUBTITLES === 'true'
             ? await this.getSubtitles(
@@ -645,6 +646,10 @@ export default class Item extends Component {
                 this.state.item
               )
             : [];
+        console.log(subtitles);
+        this.setState({
+          captions: subtitles
+        });
 
         switch (currentPlayer) {
           case 'VLC':
@@ -698,7 +703,8 @@ export default class Item extends Component {
       watchList,
       magnetPopoverOpen,
       trailerPopoverOpen,
-      castingDevices
+      castingDevices,
+      captions
     } = this.state;
 
     const { activeMode } = this.props;
@@ -737,6 +743,7 @@ export default class Item extends Component {
         </Link>
         <div className="row">
           <Plyr
+            captions={{ active: true, language: 'en' }}
             type="video"
             url={playbackInProgress ? servingUrl || item.trailer : undefined}
             poster={item.images.fanart.full || ''}
@@ -755,7 +762,7 @@ export default class Item extends Component {
 
           {playbackInProgress ? (
             <a id="close-button" onClick={() => this.closeVideo()}>
-              Close
+              <i className="ion-close" />
             </a>
           ) : null}
 
