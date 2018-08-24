@@ -3634,6 +3634,10 @@ currently-unhandled@^0.4.1:
   dependencies:
     array-find-index "^1.0.1"
 
+custom-event-polyfill@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/custom-event-polyfill/-/custom-event-polyfill-1.0.6.tgz#6b026e81cd9f7bc896bd6b016a427407bb068db1"
+
 cyclist@~0.2.2:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/cyclist/-/cyclist-0.2.2.tgz#1b33792e11e914a2fd6d6ed6447464444e5fa640"
@@ -7971,6 +7975,10 @@ loader-utils@^1.0.1, loader-utils@^1.0.2, loader-utils@^1.1.0:
     emojis-list "^2.0.0"
     json5 "^0.5.0"
 
+loadjs@^3.5.4:
+  version "3.5.4"
+  resolved "https://registry.yarnpkg.com/loadjs/-/loadjs-3.5.4.tgz#ef0f4eb5a6ac2b86c7597a3d4de97b83816e36b8"
+
 locate-path@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/locate-path/-/locate-path-2.0.0.tgz#2b568b265eec944c6d9c0de9c3dbbbca0354cd8e"
@@ -9622,9 +9630,15 @@ pluralize@^7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/pluralize/-/pluralize-7.0.0.tgz#298b89df8b93b0221dbf421ad2b1b1ea23fc6777"
 
-plyr@2.0.16:
-  version "2.0.16"
-  resolved "https://registry.yarnpkg.com/plyr/-/plyr-2.0.16.tgz#119ee39a22ae36d59ce599aa48cfb1f53da378ac"
+plyr@^3.3.21:
+  version "3.4.3"
+  resolved "https://registry.yarnpkg.com/plyr/-/plyr-3.4.3.tgz#7e4466cee4c13efc1cf3fa4dd1f450339eab1ad3"
+  dependencies:
+    babel-polyfill "^6.26.0"
+    custom-event-polyfill "^1.0.6"
+    loadjs "^3.5.4"
+    raven-js "^3.26.4"
+    url-polyfill "^1.0.14"
 
 pn@^1.1.0:
   version "1.1.0"
@@ -10339,6 +10353,10 @@ range-slice-stream@^1.2.0:
     inherits "^2.0.1"
     readable-stream "^2.0.5"
 
+raven-js@^3.26.4:
+  version "3.26.4"
+  resolved "https://registry.yarnpkg.com/raven-js/-/raven-js-3.26.4.tgz#32aae3a63a9314467a453c94c89a364ea43707be"
+
 raw-body@2.3.2:
   version "2.3.2"
   resolved "https://registry.yarnpkg.com/raw-body/-/raw-body-2.3.2.tgz#bcd60c77d3eb93cde0050295c3f379389bc88f89"
@@ -10410,6 +10428,13 @@ react-loadable@^5.4.0:
   resolved "https://registry.yarnpkg.com/react-loadable/-/react-loadable-5.4.0.tgz#3b6b7d51121a7868fd155be848a36e02084742c9"
   dependencies:
     prop-types "^15.5.0"
+
+react-plyr@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/react-plyr/-/react-plyr-2.1.1.tgz#d370b57b6cdb083c62f675f7d048a5d15682bf59"
+  dependencies:
+    plyr "^3.3.21"
+    prop-types "^15.6.2"
 
 react-popper@^0.10.4:
   version "0.10.4"
@@ -13066,6 +13091,10 @@ url-parse@^1.1.8, url-parse@~1.4.0:
   dependencies:
     querystringify "^2.0.0"
     requires-port "^1.0.0"
+
+url-polyfill@^1.0.14:
+  version "1.0.14"
+  resolved "https://registry.yarnpkg.com/url-polyfill/-/url-polyfill-1.0.14.tgz#1baf108b0c09eacaa1915c067409f639a2a7e061"
 
 url-template@^2.0.8:
   version "2.0.8"

@@ -13,6 +13,7 @@ import {
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import notie from 'notie';
+import Plyr from "react-plyr";
 import CardList from '../card/CardList';
 import SaveItem from '../metadata/SaveItem';
 import Rating from '../card/Rating';
@@ -703,11 +704,7 @@ export default class Item extends Component {
     };
 
     const itemBackgroundUrl = {
-      backgroundImage: [
-        `-webkit-image-set(url(${item.images.fanart.thumb}) 1x,`,
-        `url(${item.images.fanart.medium}) 2x,`,
-        `url(${item.images.fanart.full}) 3x`
-      ].join('')
+      backgroundImage: `url(${item.images.fanart.full})`
     };
 
     return (
@@ -726,12 +723,16 @@ export default class Item extends Component {
           </span>
         </Link>
         <div className="row">
-          <div className="plyr col-sm-12">
-            <a id="close-button" onClick={() => this.closeVideo()}>
-              Close
-            </a>
-            <video controls poster={item.images.fanart.full} />
-          </div>
+          <Plyr
+            autoplay
+            type="video"
+            url={servingUrl}
+            poster={item.images.fanart.full}
+            title={item.title}
+            volume={10}
+            onEnterFullscreen={() => { document.querySelector('.plyr').style.height = '100%' }}
+            onExitFullscreen={() => { document.querySelector('.plyr').style.height = '0px' }}
+          />
 
           <div className="col-sm-12 Item--background" style={itemBackgroundUrl}>
             <div className="col-sm-6 Item--image">

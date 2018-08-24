@@ -97,38 +97,12 @@ export default class Player {
     return player;
   }
 
-  initPlyr(streamingUrl: string, metadata: metadataType): plyr {
+  initPlyr(): plyr {
     console.info('Initializing plyr...');
     this.currentPlayer = 'plyr';
     this.powerSaveBlockerId = powerSaveBlocker.start('prevent-app-suspension');
-
-    this.player =
-      this.player ||
-      plyr.setup({
-        volume: 10,
-        // autoplay: true,
-        showPosterOnEnd: true
-      })[0];
-
-    const { player } = this;
-
-    player.source({
-      type: 'video',
-      sources: [
-        {
-          src: streamingUrl,
-          type: 'video/mp4'
-        }
-      ]
-    });
-
-    if ('full' in metadata.images.poster) {
-      player.poster(metadata.images.poster.full);
-    }
-
-    player.toggleFullscreen();
-
-    return player;
+    this.player = {};
+    return this.player;
   }
 
   initVLC(servingUrl: string) {

@@ -110,8 +110,8 @@
     padding: 250px 0;
   }
 
-  .plyr--fullscreen-active.plyr {
-    height: 100%;
+  .plyr {
+    // height: 100%;
     padding: inherit;
 
     &.plyr__video-wrapper.plyr__video-embed.plyr--setup {
