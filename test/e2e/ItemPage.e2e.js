@@ -18,7 +18,7 @@ fixture`Item Page Movies`.page(BASE_URL).beforeEach(async t => {
   clearConfigs();
   await t
     .click(Selector('a').withExactText('Home'))
-    .typeText('#pct-search-input', 'harry potter', { replace: true })
+    .typeText('#pct-search-input', "harry potter and the philosopher's stone", { replace: true })
     .pressKey('enter')
     .click(cardSelector);
 });
@@ -61,7 +61,7 @@ test('it should add items to favorites', async t => {
   await navigateTo(t, 'home');
   await t
     .expect(await getLowerCaseCardTitle())
-    .contains('harry potter')
+    .contains("harry potter and the philosopher's stone")
     .click(cardSelector)
     .expect(getPageUrl())
     .contains('item/');
@@ -76,7 +76,7 @@ test('it should add items to watch list', async t => {
   await navigateTo(t, 'home');
   await t
     .expect(await getLowerCaseCardTitle())
-    .contains('harry potter')
+    .contains("harry potter and the philosopher's stone")
     .click(cardSelector)
     .expect(getPageUrl())
     .contains('item/');
@@ -112,12 +112,6 @@ test('it should load and play a movie', async t => {
   await t
     .expect(Selector('[data-e2e="item-play-button"]').visible)
     .ok()
-    .expect(Selector('button').withExactText('Start Playback').visible)
-    .ok()
-    .expect(
-      Selector('button[disabled=true]').withExactText('Start Playback').exists
-    )
-    .notOk()
     .expect(playButton.visible)
     .ok()
     .click(playButton)
@@ -147,11 +141,6 @@ test.skip('it should load and play a tv show', async t => {
   await t
     .expect(Selector('[data-e2e="item-play-button"]').visible)
     .ok()
-    .expect(Selector('button').withExactText('Start Playback').visible)
-    .ok()
-    .expect(
-      Selector('button[disabled=true]').withExactText('Start Playback').exists
-    )
     .notOk()
     .expect(playButton.visible)
     .ok()
