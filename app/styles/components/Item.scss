@@ -97,13 +97,12 @@
     }
   }
 
-  // Some hacky plyr style overrides
-  .plyr {
-    height: 500px;
-  }
-
   .plyr.col-sm-12 {
     padding: 0;
+  }
+
+  .plyr__video-wrapper {
+    display: flex;
   }
 
   .plyr__video-wrapper.plyr__video-embed.plyr--setup {
@@ -111,8 +110,10 @@
   }
 
   .plyr {
-    // height: 100%;
+    height: 500px;
     padding: inherit;
+    display: flex;
+    justify-content: center;
 
     &.plyr__video-wrapper.plyr__video-embed.plyr--setup {
       padding: inherit;

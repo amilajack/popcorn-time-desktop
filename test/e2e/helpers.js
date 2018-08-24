@@ -15,7 +15,7 @@ export const scrollBottom = ClientFunction(() =>
 
 export function clearConfigs() {
   const config = new ConfigStore(
-    process.env.NODE_ENV === 'TEST' ? 'popcorn-time-test' : 'popcorn-time',
+    ['TEST', 'E2E_BUILD'].includes(process.env.NODE_ENV) ? 'popcorn-time-test' : 'popcorn-time',
     {
       favorites: [],
       recentlyWatched: [],

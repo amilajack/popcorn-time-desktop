@@ -69,32 +69,11 @@ export default class Player {
     return provider.play(addr, metadata);
   }
 
-  initYouTube(itemTitle: string, source: string) {
+  initYouTube() {
     console.info('Initializing plyr...');
     this.currentPlayer = 'plyr';
-
-    this.player =
-      this.player ||
-      plyr.setup({
-        volume: 10,
-        // autoplay: true,
-        showPosterOnEnd: true
-      })[0];
-
-    const { player } = this;
-
-    player.source({
-      title: `${itemTitle} Trailer`,
-      type: 'video',
-      sources: [
-        {
-          src: source,
-          type: 'youtube'
-        }
-      ]
-    });
-
-    return player;
+    this.player = {};
+    return this.player;
   }
 
   initPlyr(): plyr {

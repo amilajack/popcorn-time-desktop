@@ -144,6 +144,7 @@ export default class Item extends Component {
         minutes: 0
       }
     },
+    servingUrl: undefined,
     dropdownOpen: false,
     isFinished: false,
     selectedSeason: 1,
@@ -189,8 +190,13 @@ export default class Item extends Component {
   setPlayer(player: playerType) {
     switch (player) {
       case 'youtube':
-        this.player.initYouTube(this.state.item.title, this.state.item.trailer);
+        this.player.player = this.plyr;
         this.toggleActive();
+        this.setState({ currentPlayer: player });
+        break;
+      case 'default':
+        this.player.player = this.plyr;
+        this.setState({ currentPlayer: player });
         break;
       default:
         this.setState({ currentPlayer: player });
@@ -554,13 +560,11 @@ export default class Item extends Component {
   }
 
   closeVideo() {
-    if (this.player.player.isFullscreen()) {
-      this.player.player.toggleFullscreen();
-    } else {
+    if (this.player.player.pause) {
       this.player.player.pause();
-      // this.player.pause();
-      this.toggleActive();
     }
+    this.toggleActive();
+    this.stopPlayback();
   }
 
   toggleActive() {
@@ -582,6 +586,9 @@ export default class Item extends Component {
   ) {
     if (this.state.torrentInProgress) {
       this.stopPlayback();
+    }
+    if (!magnet || !activeMode) {
+      return;
     }
 
     this.setState({
@@ -726,13 +733,18 @@ export default class Item extends Component {
           <Plyr
             autoplay
             type="video"
-            url={servingUrl}
-            poster={item.images.fanart.full}
-            title={item.title}
+            url={servingUrl || item.trailer || ''}
+            poster={item.images.fanart.full || ''}
+            title={item.title || ''}
             volume={10}
             onEnterFullscreen={() => { document.querySelector('.plyr').style.height = '100%' }}
             onExitFullscreen={() => { document.querySelector('.plyr').style.height = '0px' }}
+            ref={plyr => { this.plyr = plyr }}
           />
+
+          <a id="close-button" onClick={() => this.closeVideo()}>
+            Close
+          </a>
 
           <div className="col-sm-12 Item--background" style={itemBackgroundUrl}>
             <div className="col-sm-6 Item--image">
@@ -766,6 +778,7 @@ export default class Item extends Component {
                   height="350px"
                   width="233px"
                   role="presentation"
+                  style={{ opacity: item.images.poster.thumb ? 1 : 0 }}
                   src={item.images.poster.thumb}
                 />
               </div>
