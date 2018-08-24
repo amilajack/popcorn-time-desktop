@@ -15,7 +15,7 @@ export const scrollBottom = ClientFunction(() =>
 
 export function clearConfigs() {
   const config = new ConfigStore(
-    process.env.NODE_ENV === 'TEST' ? 'popcorn-time-test' : 'popcorn-time',
+    process.env.E2E_BUILD === 'true' ? 'popcorn-time-test' : 'popcorn-time',
     {
       favorites: [],
       recentlyWatched: [],
@@ -45,7 +45,7 @@ export async function navigateTo(t, route = 'home') {
 export async function navigateToCard(t) {
   await navigateTo(t, 'home');
   await t
-    .typeText('#pct-search-input', 'harry potter')
+    .typeText('#pct-search-input', "harry potter and the philosopher's stone")
     .pressKey('enter')
     .click(cardSelector);
 }

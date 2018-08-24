@@ -26,12 +26,12 @@ test('it should display cards list and cards', async t => {
 });
 
 test('it should search items', async t => {
-  await t.typeText('#pct-search-input', 'harry potter').pressKey('enter');
+  await t.typeText('#pct-search-input', "harry potter and the philosopher's stone").pressKey('enter');
   await t
     .expect(
       (await cardSelector.find('.Card--title').nth(0).innerText).toLowerCase()
     )
-    .contains('harry potter');
+    .contains("harry potter and the philosopher's stone");
 });
 
 test('it should search items (2)', async t => {

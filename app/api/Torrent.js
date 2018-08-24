@@ -121,6 +121,9 @@ export default class Torrent {
       this.checkDownloadInterval = setInterval(async () => {
         if (torrent.downloaded > buffer) {
           console.log('Ready...');
+          if (!this.checkDownloadInterval) {
+            return;
+          }
 
           await cb(
             `http://localhost:${port}/${torrentIndex}`,
@@ -138,6 +141,7 @@ export default class Torrent {
 
   clearIntervals() {
     clearInterval(this.checkDownloadInterval);
+    this.checkDownloadInterval = undefined;
   }
 
   destroy() {

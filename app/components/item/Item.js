@@ -13,6 +13,7 @@ import {
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import notie from 'notie';
+import Plyr from 'react-plyr';
 import CardList from '../card/CardList';
 import SaveItem from '../metadata/SaveItem';
 import Rating from '../card/Rating';
@@ -62,7 +63,7 @@ type State = {
   episodes: [],
   castingDevices: Array<deviceType>,
   currentPlayer: playerType,
-  playbackIsActive: boolean,
+  playbackInProgress: boolean,
   fetchingTorrents: boolean,
   dropdownOpen: boolean,
   idealTorrent: torrentType,
@@ -143,6 +144,7 @@ export default class Item extends Component {
         minutes: 0
       }
     },
+    servingUrl: undefined,
     dropdownOpen: false,
     isFinished: false,
     selectedSeason: 1,
@@ -153,14 +155,15 @@ export default class Item extends Component {
     castingDevices: [],
     currentPlayer: 'default',
     magnetPopoverOpen: false,
-    playbackIsActive: false,
+    playbackInProgress: false,
     fetchingTorrents: false,
     idealTorrent: this.defaultTorrent,
     torrent: this.defaultTorrent,
     similarLoading: false,
     metadataLoading: false,
     torrentInProgress: false,
-    torrentProgress: 0
+    torrentProgress: 0,
+    captions: []
   };
 
   constructor(props: Props) {
@@ -186,14 +189,19 @@ export default class Item extends Component {
    * Check which players are available on the system
    */
   setPlayer(player: playerType) {
+    console.log(this.plyr);
     switch (player) {
       case 'youtube':
-        this.player.initYouTube(this.state.item.title, this.state.item.trailer);
+        this.player.player = this.plyr;
+        this.toggleActive();
+        break;
+      case 'default':
+        this.player.player = this.plyr;
         this.toggleActive();
         break;
       default:
-        this.setState({ currentPlayer: player });
     }
+    this.setState({ currentPlayer: player });
   }
 
   toggle() {
@@ -464,6 +472,18 @@ export default class Item extends Component {
   }
 
   stopPlayback() {
+    if (!this.state.torrentInProgress && !this.state.playbackInProgress) {
+      return;
+    }
+    switch (this.state.currentPlayer) {
+      case 'youtube':
+        this.plyr.pause();
+        break;
+      case 'default':
+        this.plyr.pause();
+        break;
+      default:
+    }
     this.player.destroy();
     this.torrent.destroy();
     this.setState({ torrentInProgress: false });
@@ -553,18 +573,19 @@ export default class Item extends Component {
   }
 
   closeVideo() {
-    if (this.player.player.isFullscreen()) {
-      this.player.player.toggleFullscreen();
-    } else {
-      this.player.player.pause();
-      // this.player.pause();
-      this.toggleActive();
+    if (!this.state.playbackInProgress) {
+      return;
     }
+    this.toggleActive();
+    this.stopPlayback();
+    this.setState({
+      currentPlayer: 'default'
+    });
   }
 
   toggleActive() {
     this.setState({
-      playbackIsActive: !this.state.playbackIsActive
+      playbackInProgress: !this.state.playbackInProgress
     });
   }
 
@@ -581,6 +602,9 @@ export default class Item extends Component {
   ) {
     if (this.state.torrentInProgress) {
       this.stopPlayback();
+    }
+    if (!magnet || !activeMode) {
+      return;
     }
 
     this.setState({
@@ -613,7 +637,7 @@ export default class Item extends Component {
         console.log(`Serving torrent at: ${servingUrl}`);
         this.setState({ servingUrl });
 
-        const filename = file.name;
+        // const filename = file.name;
         const subtitles =
           subtitle && process.env.FLAG_SUBTITLES === 'true'
             ? await this.getSubtitles(
@@ -622,6 +646,10 @@ export default class Item extends Component {
                 this.state.item
               )
             : [];
+        console.log(subtitles);
+        this.setState({
+          captions: subtitles
+        });
 
         switch (currentPlayer) {
           case 'VLC':
@@ -634,25 +662,11 @@ export default class Item extends Component {
             );
             break;
           }
+          case 'youtube':
+            this.toggleActive();
+            break;
           case 'default':
-            if (
-              Player.isFormatSupported(filename, Player.nativePlaybackFormats)
-            ) {
-              this.player.initPlyr(servingUrl, {
-                ...this.state.item,
-                tracks: subtitles
-              });
-              this.toggleActive();
-            } else if (
-              Player.isFormatSupported(filename, [
-                ...Player.nativePlaybackFormats,
-                ...Player.experimentalPlaybackFormats
-              ])
-            ) {
-              notie.alert(2, 'The format of this video is not playable', 2);
-              console.warn(`Format of filename ${filename} not supported`);
-              console.warn('Files retrieved:', files);
-            }
+            this.toggleActive();
             break;
           default:
             console.error('Invalid player');
@@ -684,7 +698,13 @@ export default class Item extends Component {
       similarItems,
       similarLoading,
       isFinished,
-      playbackIsActive
+      playbackInProgress,
+      favorites,
+      watchList,
+      magnetPopoverOpen,
+      trailerPopoverOpen,
+      castingDevices,
+      captions
     } = this.state;
 
     const { activeMode } = this.props;
@@ -703,17 +723,13 @@ export default class Item extends Component {
     };
 
     const itemBackgroundUrl = {
-      backgroundImage: [
-        `-webkit-image-set(url(${item.images.fanart.thumb}) 1x,`,
-        `url(${item.images.fanart.medium}) 2x,`,
-        `url(${item.images.fanart.full}) 3x`
-      ].join('')
+      backgroundImage: `url(${item.images.fanart.full})`
     };
 
     return (
       <div
         className={classNames('container-fluid', 'Item', {
-          active: playbackIsActive
+          active: playbackInProgress
         })}
       >
         <Link to="/">
@@ -726,12 +742,29 @@ export default class Item extends Component {
           </span>
         </Link>
         <div className="row">
-          <div className="plyr col-sm-12">
+          <Plyr
+            captions={{ active: true, language: 'en' }}
+            type="video"
+            url={playbackInProgress ? servingUrl || item.trailer : undefined}
+            poster={item.images.fanart.full || ''}
+            title={item.title || ''}
+            volume={10}
+            onEnterFullscreen={() => {
+              document.querySelector('.plyr').style.height = '100%';
+            }}
+            onExitFullscreen={() => {
+              document.querySelector('.plyr').style.height = '0px';
+            }}
+            ref={plyr => {
+              this.plyr = plyr;
+            }}
+          />
+
+          {playbackInProgress ? (
             <a id="close-button" onClick={() => this.closeVideo()}>
-              Close
+              <i className="ion-close" />
             </a>
-            <video controls poster={item.images.fanart.full} />
-          </div>
+          ) : null}
 
           <div className="col-sm-12 Item--background" style={itemBackgroundUrl}>
             <div className="col-sm-6 Item--image">
@@ -742,7 +775,7 @@ export default class Item extends Component {
                     this.startPlayback(
                       idealTorrent.magnet,
                       idealTorrent.method,
-                      this.state.currentPlayer
+                      currentPlayer
                     )
                   }
                 >
@@ -754,7 +787,7 @@ export default class Item extends Component {
                         this.startPlayback(
                           idealTorrent.magnet,
                           idealTorrent.method,
-                          this.state.currentPlayer
+                          currentPlayer
                         )
                       }
                     />
@@ -765,6 +798,7 @@ export default class Item extends Component {
                   height="350px"
                   width="233px"
                   role="presentation"
+                  style={{ opacity: item.images.poster.thumb ? 1 : 0 }}
                   src={item.images.poster.thumb}
                 />
               </div>
@@ -774,9 +808,9 @@ export default class Item extends Component {
               </div>
 
               <SaveItem
-                item={this.state.item}
-                favorites={this.state.favorites}
-                watchList={this.state.watchList}
+                item={item}
+                favorites={favorites}
+                watchList={watchList}
               />
             </div>
 
@@ -837,12 +871,12 @@ export default class Item extends Component {
                   />
                   <Tooltip
                     placement="top"
-                    isOpen={this.state.magnetPopoverOpen || false}
+                    isOpen={magnetPopoverOpen || false}
                     target="magnetPopoverOpen"
                     toggle={() => this.toggleStateProperty('magnetPopoverOpen')}
                   >
-                    {this.state.idealTorrent && this.state.idealTorrent.seeders
-                      ? this.state.idealTorrent.seeders
+                    {idealTorrent && idealTorrent.seeders
+                      ? idealTorrent.seeders
                       : 0}{' '}
                     Seeders
                   </Tooltip>
@@ -858,7 +892,7 @@ export default class Item extends Component {
                     />
                     <Tooltip
                       placement="top"
-                      isOpen={this.state.trailerPopoverOpen || false}
+                      isOpen={trailerPopoverOpen || false}
                       target="trailerPopoverOpen"
                       toggle={() =>
                         this.toggleStateProperty('trailerPopoverOpen')
@@ -901,7 +935,7 @@ export default class Item extends Component {
                 >
                   VLC
                 </DropdownItem>
-                {this.state.castingDevices.map(castingDevice => (
+                {castingDevices.map(castingDevice => (
                   <DropdownItem
                     key={castingDevice.id}
                     id={castingDevice.id}
@@ -917,22 +951,6 @@ export default class Item extends Component {
             </Dropdown>
           </div>
           <div className="col-sm-10">
-            {/* Torrent Selection */}
-            <span className="col-sm-12 hidden-sm-up">
-              <button
-                type="button"
-                onClick={() =>
-                  this.startPlayback(
-                    idealTorrent.magnet,
-                    idealTorrent.method,
-                    this.state.currentPlayer
-                  )
-                }
-                disabled={!idealTorrent.magnet}
-              >
-                Start Playback
-              </button>
-            </span>
             {(() => {
               if (process.env.FLAG_MANUAL_TORRENT_SELECTION === 'true') {
                 return (
@@ -943,7 +961,7 @@ export default class Item extends Component {
                         this.startPlayback(
                           torrent['1080p'].magnet,
                           torrent['1080p'].method,
-                          this.state.currentPlayer
+                          currentPlayer
                         )
                       }
                       disabled={!torrent['1080p'].quality}
@@ -956,7 +974,7 @@ export default class Item extends Component {
                         this.startPlayback(
                           torrent['720p'].magnet,
                           torrent['720p'].method,
-                          this.state.currentPlayer
+                          currentPlayer
                         )
                       }
                       disabled={!torrent['720p'].quality}
@@ -972,7 +990,7 @@ export default class Item extends Component {
                               this.startPlayback(
                                 torrent['480p'].magnet,
                                 torrent['480p'].method,
-                                this.state.currentPlayer
+                                currentPlayer
                               )
                             }
                             disabled={!torrent['480p'].quality}
