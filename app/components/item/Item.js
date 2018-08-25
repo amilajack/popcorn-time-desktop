@@ -882,7 +882,7 @@ export default class Item extends Component {
                   </Tooltip>
                 </div>
 
-                {item.trailer && item.trailer !== 'n/a' ? (
+                {process.env.NODE_ENV === 'test' && item.trailer && item.trailer !== 'n/a' ? (
                   <div className="col-sm-3 row-center">
                     <i
                       id="trailerPopoverOpen"

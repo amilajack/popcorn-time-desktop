@@ -86,7 +86,7 @@ test('it should display torrent loading status', async t => {
   await t.expect(Selector('[data-e2e="item-play-button"]').visible).ok();
 });
 
-test('it should play trailer', async t => {
+test.skip('it should play trailer', async t => {
   await t
     .click('[data-e2e="item-trailer-button"]')
     .expect(Selector('.plyr').visible)

@@ -109,16 +109,16 @@
     padding: 250px 0;
   }
 
-  .plyr {
-    height: 500px;
-    padding: inherit;
-    display: flex;
-    justify-content: center;
+  // .plyr {
+  //   height: 500px;
+  //   padding: inherit;
+  //   display: flex;
+  //   justify-content: center;
 
-    &.plyr__video-wrapper.plyr__video-embed.plyr--setup {
-      padding: inherit;
-    }
-  }
+  //   &.plyr__video-wrapper.plyr__video-embed.plyr--setup {
+  //     padding: inherit;
+  //   }
+  // }
 
   #close-button {
     position: absolute !important;
