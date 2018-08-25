@@ -14,6 +14,7 @@ import {
   Col
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import classNames from 'classnames';
 import notie from 'notie';
 import Plyr from 'react-plyr';
 import CardList from '../card/CardList';
@@ -191,7 +192,6 @@ export default class Item extends Component<Props, State> {
    * Check which players are available on the system
    */
   setPlayer(player: playerType) {
-    console.log(this.plyr);
     switch (player) {
       case 'youtube':
         this.player.player = this.plyr;
@@ -651,7 +651,6 @@ export default class Item extends Component<Props, State> {
                 item
               )
             : [];
-        console.log(subtitles);
 
         switch (currentPlayer) {
           case 'VLC':
@@ -662,9 +661,15 @@ export default class Item extends Component<Props, State> {
           }
           case 'youtube':
             this.toggleActive();
+            setTimeout(() => {
+              this.plyr.play();
+            }, 3000);
             break;
           case 'default':
             this.toggleActive();
+            setTimeout(() => {
+              this.plyr.play();
+            }, 3000);
             break;
           default:
             console.error('Invalid player');
@@ -729,7 +734,10 @@ export default class Item extends Component<Props, State> {
     };
 
     return (
-      <Container fluid className="Item">
+      <Container
+        fluid
+        className={classNames('Item', { active: playbackInProgress })}
+      >
         <Link to="/">
           <span
             role="presentation"
