@@ -37,14 +37,14 @@ export default function Card(props: Props) {
       </Link>
       <div className="Card--descrption">
         <Row>
-          <Col col-sm="12">
+          <Col sm="12">
             <Link className="Card--title" replace to={`/item/${type}/${id}`}>
               {title}
             </Link>
           </Col>
         </Row>
         <Row>
-          <Col col-sm="12">
+          <Col sm="12">
             {typeof rating === 'number' ? (
               <Rating starColor={starColor} rating={rating} />
             ) : null}

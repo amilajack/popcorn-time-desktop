@@ -223,12 +223,12 @@ export default class Home extends Component<Props, State> {
     const home = (
       <Container fluid>
         <Row>
-          <Col col-sm="12">
+          <Col sm="12">
             <CardList title="Favorites" items={favorites} isLoading={false} />
           </Col>
         </Row>
         <Row>
-          <Col col-sm="12">
+          <Col sm="12">
             <CardList title="Watch List" items={watchList} isLoading={false} />
           </Col>
         </Row>
@@ -238,7 +238,7 @@ export default class Home extends Component<Props, State> {
     return (
       <Row>
         <Header activeMode={activeMode} setActiveMode={actions.setActiveMode} />
-        <Col col-sm="12">
+        <Col sm="12">
           {activeMode === 'home' ? (
             home
           ) : (

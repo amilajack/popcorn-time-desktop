@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import { Col, Row } from 'reactstrap';
+import { Col, Row, ListGroup, ListGroupItem } from 'reactstrap';
 import classNames from 'classnames';
 
 type Props = {
@@ -29,11 +29,11 @@ export default function Show(props: Props) {
 
   return (
     <Row className="Show">
-      <Col col-sm="2">
-        <div className="list-group Show--list-group">
+      {/* Seasons */}
+      <Col sm="2" xs="6">
+        <ListGroup className="Show--list-group">
           {seasons.map(season => (
-            <span
-              role="presentation"
+            <ListGroupItem
               className={classNames('list-group-item', {
                 active: season.season === selectedSeason
               })}
@@ -41,20 +41,19 @@ export default function Show(props: Props) {
               key={season.season}
             >
               Season {season.season}
-            </span>
+            </ListGroupItem>
           ))}
-        </div>
+        </ListGroup>
       </Col>
-
-      <Col col-sm="4">
-        <div className="list-group Show--list-group">
+      {/* Episodes */}
+      <Col sm="4" xs="6">
+        <ListGroup className="Show--list-group">
           {episodes.length === 0
             ? seasons.length > 0
               ? 'No episodes for this season'
               : null
             : episodes.map(episode => (
-                <span
-                  role="presentation"
+                <ListGroupItem
                   className={classNames('list-group-item', {
                     active: episode.episode === selectedEpisode
                   })}
@@ -64,12 +63,12 @@ export default function Show(props: Props) {
                   key={episode.episode}
                 >
                   Ep {episode.episode}. {episode.title}
-                </span>
+                </ListGroupItem>
               ))}
-        </div>
+        </ListGroup>
       </Col>
-
-      <Col col-sm="6">
+      {/* Summary */}
+      <Col sm="6" xs="12">
         <div className="card">
           <div className="card-block">
             <h3 className="card-title">

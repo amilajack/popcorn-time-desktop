@@ -23,7 +23,7 @@ export default function CardList(props: Props) {
   return (
     <Container fluid>
       <Row data-e2e={`${title}-card-list`}>
-        <Col col-sm="12">
+        <Col sm="12">
           <h4 className="CardList--header">{title}</h4>
           <div className="CardList" style={{ justifyContent }}>
             {(limit ? items.filter((e, i) => i < limit) : items).map(item => (
@@ -43,7 +43,7 @@ export default function CardList(props: Props) {
         </Col>
       </Row>
       <Row>
-        <Col col-sm="12">
+        <Col sm="12">
           <Loader isLoading={isLoading} isFinished={isFinished} />
         </Col>
       </Row>
