@@ -1,13 +1,17 @@
 // @flow
+/* eslint react/prefer-stateless-function: off */
 import React, { Component } from 'react';
 import type { Children } from 'react';
 
-export default class App extends Component {
-  props: {
-    children: Children
-  };
+type Props = {
+  children: Children
+};
+
+export default class App extends Component<Props, {}> {
+  props: Props;
 
   render() {
-    return <div>{this.props.children}</div>;
+    const { children } = this.props;
+    return <div>{children}</div>;
   }
 }

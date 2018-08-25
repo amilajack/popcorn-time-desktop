@@ -5,7 +5,6 @@
 import OpenSubtitles from 'opensubtitles-api';
 import { merge, resolveCache, setCache } from '../torrents/BaseTorrentProvider';
 import TheMovieDbMetadataProvider from './TheMovieDbMetadataProvider';
-// import TraktMetadataProvider from './TraktMetadataProvider';
 import type { runtimeType } from './MetadataProviderInterface';
 
 type subtitlesType = {
@@ -27,10 +26,7 @@ const openSubtitles = new OpenSubtitles({
 });
 
 function MetadataAdapter() {
-  return [
-    // new TraktMetadataProvider(),
-    new TheMovieDbMetadataProvider()
-  ];
+  return [new TheMovieDbMetadataProvider()];
 }
 
 async function interceptAndHandleRequest(
@@ -156,6 +152,16 @@ function getShows(...args: Array<string>) {
   return interceptAndHandleRequest('getShows', args);
 }
 
+function formatSubtitle(subtitle) {
+  return {
+    kind: 'captions',
+    label: subtitle.langName,
+    srclang: subtitle.lang,
+    src: `${subtitlesEndpoint}/${encodeURIComponent(subtitle.url)}`,
+    default: subtitle.lang === 'en'
+  };
+}
+
 /**
  * Get the subtitles for a movie or show
  *
@@ -256,16 +262,6 @@ export function parseRuntimeMinutesToObject(
         : `${minutes} minutes`,
     hours,
     minutes
-  };
-}
-
-function formatSubtitle(subtitle) {
-  return {
-    kind: 'captions',
-    label: subtitle.langName,
-    srclang: subtitle.lang,
-    src: `${subtitlesEndpoint}/${encodeURIComponent(subtitle.url)}`,
-    default: subtitle.lang === 'en'
   };
 }
 

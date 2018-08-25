@@ -4,6 +4,128 @@ import { parseRuntimeMinutesToObject } from './MetadataAdapter';
 import BaseMetadataProvider from './BaseMetadataProvider';
 import type { MetadataProviderInterface } from './MetadataProviderInterface';
 
+function formatImage(
+  imageUri,
+  path: string,
+  size: string = 'original'
+): string {
+  return `${imageUri}${size}/${path}`;
+}
+
+function formatMetadata(item, type: string, imageUri: string, genres) {
+  return {
+    // 'title' property is on movies only. 'name' property is on
+    // shows only
+    title: item.name || item.title,
+    year: new Date(item.release_date || item.first_air_date).getFullYear(),
+    // @DEPRECATE
+    id: String(item.id),
+    ids: {
+      tmdbId: String(item.id),
+      imdbId:
+        item.imdb_id ||
+        (item.external_ids && item.external_ids.imdb_id
+          ? item.external_ids.imdb_id
+          : '')
+    },
+    type,
+    certification: 'n/a',
+    summary: item.overview,
+    genres: item.genres
+      ? item.genres.map(genre => genre.name)
+      : item.genre_ids
+        ? item.genre_ids.map(genre => genres[String(genre)])
+        : [],
+    rating: item.vote_average,
+    runtime:
+      item.runtime ||
+      (item.episode_run_time && item.episode_run_time.length > 0)
+        ? parseRuntimeMinutesToObject(
+            type === 'movies' ? item.runtime : item.episode_run_time[0]
+          )
+        : {
+            full: 'n/a',
+            hours: 'n/a',
+            minutes: 'n/a'
+          },
+    trailer:
+      item.videos && item.videos.results && item.videos.results.length > 0
+        ? `http://youtube.com/watch?v=${item.videos.results[0].key}`
+        : 'n/a',
+    images: {
+      fanart: {
+        full: formatImage(imageUri, item.backdrop_path, 'original'),
+        medium: formatImage(imageUri, item.backdrop_path, 'w780'),
+        thumb: formatImage(imageUri, item.backdrop_path, 'w342')
+      },
+      poster: {
+        full: formatImage(imageUri, item.poster_path, 'original'),
+        medium: formatImage(imageUri, item.poster_path, 'w780'),
+        thumb: formatImage(imageUri, item.poster_path, 'w342')
+      }
+    }
+  };
+}
+
+function formatSeasons(show) {
+  const firstSeasonIsZero =
+    show.seasons.length > 0 ? show.seasons[0].season_number === 0 : false;
+
+  return show.seasons.map(season => ({
+    season: firstSeasonIsZero ? season.season_number + 1 : season.season_number,
+    overview: show.overview,
+    id: String(season.id),
+    ids: {
+      tmdbId: String(season.id)
+    },
+    images: {
+      full: season.poster_path,
+      medium: season.poster_path,
+      thumb: season.poster_path
+    }
+  }));
+}
+
+function formatSeason(season) {
+  return season.episodes.map(episode => ({
+    id: String(episode.id),
+    ids: {
+      tmdbId: String(episode.id)
+    },
+    title: episode.name,
+    season: episode.season_number,
+    episode: episode.episode_number,
+    overview: episode.overview,
+    rating: episode.vote_average,
+    // rating: episode.rating ? roundRating(episode.rating) : 'n/a',
+    images: {
+      full: episode.poster_path,
+      medium: episode.poster_path,
+      thumb: episode.poster_path
+    }
+  }));
+}
+
+function formatEpisode(episode) {
+  return {
+    id: String(episode.id),
+    ids: {
+      tmdbId: String(episode.id)
+    },
+    title: episode.name,
+    season: episode.season_number,
+    episode: episode.episode_number,
+    overview: episode.overview,
+    rating: episode.vote_average,
+    // rating: episode.rating ? roundRating(episode.rating) : 'n/a',
+    images: {
+      full: episode.still_path,
+      medium: episode.still_path,
+      thumb: episode.still_path
+    }
+  };
+}
+
 export default class TheMovieDbMetadataProvider extends BaseMetadataProvider
   implements MetadataProviderInterface {
   apiKey = '809858c82322872e2be9b2c127ccdcf7';
@@ -153,126 +275,4 @@ export default class TheMovieDbMetadataProvider extends BaseMetadataProvider
 
   // @TODO: Properly implement provider architecture
   provide() {}
-}
-
-function formatImage(
-  imageUri,
-  path: string,
-  size: string = 'original'
-): string {
-  return `${imageUri}${size}/${path}`;
-}
-
-function formatMetadata(item, type: string, imageUri: string, genres) {
-  return {
-    // 'title' property is on movies only. 'name' property is on
-    // shows only
-    title: item.name || item.title,
-    year: new Date(item.release_date || item.first_air_date).getFullYear(),
-    // @DEPRECATE
-    id: String(item.id),
-    ids: {
-      tmdbId: String(item.id),
-      imdbId:
-        item.imdb_id ||
-        (item.external_ids && item.external_ids.imdb_id
-          ? item.external_ids.imdb_id
-          : '')
-    },
-    type,
-    certification: 'n/a',
-    summary: item.overview,
-    genres: item.genres
-      ? item.genres.map(genre => genre.name)
-      : item.genre_ids
-        ? item.genre_ids.map(genre => genres[String(genre)])
-        : [],
-    rating: item.vote_average,
-    runtime:
-      item.runtime ||
-      (item.episode_run_time && item.episode_run_time.length > 0)
-        ? parseRuntimeMinutesToObject(
-            type === 'movies' ? item.runtime : item.episode_run_time[0]
-          )
-        : {
-            full: 'n/a',
-            hours: 'n/a',
-            minutes: 'n/a'
-          },
-    trailer:
-      item.videos && item.videos.results && item.videos.results.length > 0
-        ? `http://youtube.com/watch?v=${item.videos.results[0].key}`
-        : 'n/a',
-    images: {
-      fanart: {
-        full: formatImage(imageUri, item.backdrop_path, 'original'),
-        medium: formatImage(imageUri, item.backdrop_path, 'w780'),
-        thumb: formatImage(imageUri, item.backdrop_path, 'w342')
-      },
-      poster: {
-        full: formatImage(imageUri, item.poster_path, 'original'),
-        medium: formatImage(imageUri, item.poster_path, 'w780'),
-        thumb: formatImage(imageUri, item.poster_path, 'w342')
-      }
-    }
-  };
-}
-
-function formatSeasons(show) {
-  const firstSeasonIsZero =
-    show.seasons.length > 0 ? show.seasons[0].season_number === 0 : false;
-
-  return show.seasons.map(season => ({
-    season: firstSeasonIsZero ? season.season_number + 1 : season.season_number,
-    overview: show.overview,
-    id: String(season.id),
-    ids: {
-      tmdbId: String(season.id)
-    },
-    images: {
-      full: season.poster_path,
-      medium: season.poster_path,
-      thumb: season.poster_path
-    }
-  }));
-}
-
-function formatSeason(season) {
-  return season.episodes.map(episode => ({
-    id: String(episode.id),
-    ids: {
-      tmdbId: String(episode.id)
-    },
-    title: episode.name,
-    season: episode.season_number,
-    episode: episode.episode_number,
-    overview: episode.overview,
-    rating: episode.vote_average,
-    // rating: episode.rating ? roundRating(episode.rating) : 'n/a',
-    images: {
-      full: episode.poster_path,
-      medium: episode.poster_path,
-      thumb: episode.poster_path
-    }
-  }));
-}
-
-function formatEpisode(episode) {
-  return {
-    id: String(episode.id),
-    ids: {
-      tmdbId: String(episode.id)
-    },
-    title: episode.name,
-    season: episode.season_number,
-    episode: episode.episode_number,
-    overview: episode.overview,
-    rating: episode.vote_average,
-    // rating: episode.rating ? roundRating(episode.rating) : 'n/a',
-    images: {
-      full: episode.still_path,
-      medium: episode.still_path,
-      thumb: episode.still_path
-    }
-  };
 }

@@ -1,6 +1,7 @@
 // @flow
 /* eslint react/no-unused-prop-types: 0 */
 import React, { Component } from 'react';
+import { Container, Col, Row } from 'reactstrap';
 import VisibilitySensor from 'react-visibility-sensor';
 import Butter from '../../api/Butter';
 import Header from '../header/Header';
@@ -58,19 +59,19 @@ type State = {
   watchList: Array<itemType>
 };
 
-export default class Home extends Component {
+export default class Home extends Component<Props, State> {
   props: Props;
+
+  state: State = {
+    favorites: [],
+    watchList: []
+  };
 
   butter: Butter;
 
   didMount: boolean;
 
   onChange: () => void;
-
-  state: State = {
-    favorites: [],
-    watchList: []
-  };
 
   constructor(props: Props) {
     super(props);
@@ -89,8 +90,9 @@ export default class Home extends Component {
   }
 
   async onChange(isVisible: boolean) {
-    if (isVisible && !this.props.isLoading) {
-      await this.paginate(this.props.activeMode, this.props.activeModeOptions);
+    const { isLoading, activeMode, activeModeOptions } = this.props;
+    if (isVisible && !isLoading) {
+      await this.paginate(activeMode, activeModeOptions);
     }
   }
 
@@ -106,12 +108,14 @@ export default class Home extends Component {
     queryType: string,
     activeModeOptions: activeModeOptionsType = {}
   ) {
-    this.props.actions.setLoading(true);
+    const { actions, modes } = this.props;
+
+    actions.setLoading(true);
 
     // HACK: This is a temporary solution.
     // Waiting on: https://github.com/yannickcr/eslint-plugin-react/issues/818
 
-    const { limit, page } = this.props.modes[queryType];
+    const { limit, page } = modes[queryType];
 
     const items = await (async () => {
       switch (queryType) {
@@ -127,8 +131,8 @@ export default class Home extends Component {
       }
     })();
 
-    this.props.actions.paginate(items);
-    this.props.actions.setLoading(false);
+    actions.paginate(items);
+    actions.setLoading(false);
 
     return items;
   }
@@ -137,12 +141,19 @@ export default class Home extends Component {
    * If bottom of component is 2000px from viewport, query
    */
   initInfinitePagination() {
-    if (this.props.infinitePagination) {
+    const {
+      infinitePagination,
+      activeMode,
+      activeModeOptions,
+      isLoading
+    } = this.props;
+
+    if (infinitePagination) {
       const scrollDimentions = document
         .querySelector('body')
         .getBoundingClientRect();
-      if (scrollDimentions.bottom < 2000 && !this.props.isLoading) {
-        this.paginate(this.props.activeMode, this.props.activeModeOptions);
+      if (scrollDimentions.bottom < 2000 && !isLoading) {
+        this.paginate(activeMode, activeModeOptions);
       }
     }
   }
@@ -154,25 +165,34 @@ export default class Home extends Component {
   }
 
   async componentDidMount() {
+    const { activeMode } = this.props;
     this.didMount = true;
     document.addEventListener('scroll', this.initInfinitePagination.bind(this));
-    window.scrollTo(0, global.pct[`${this.props.activeMode}ScrollTop`]);
+    window.scrollTo(0, global.pct[`${activeMode}ScrollTop`]);
+
+    const [favorites, watchList, recentlyWatched] = await Promise.all([
+      this.butter.favorites('get'),
+      this.butter.watchList('get'),
+      this.butter.recentlyWatched('get')
+    ]);
 
     this.setState({
-      favorites: await this.butter.favorites('get'),
-      watchList: await this.butter.watchList('get')
+      favorites,
+      watchList,
+      recentlyWatched
     });
   }
 
   componentWillReceiveProps(nextProps: Props) {
-    global.pct[`${this.props.activeMode}ScrollTop`] = document.body.scrollTop;
+    const { activeMode, activeModeOptions, actions } = this.props;
+    global.pct[`${activeMode}ScrollTop`] = document.body.scrollTop;
 
     if (
       JSON.stringify(nextProps.activeModeOptions) !==
-      JSON.stringify(this.props.activeModeOptions)
+      JSON.stringify(activeModeOptions)
     ) {
       if (nextProps.activeMode === 'search') {
-        this.props.actions.clearAllItems();
+        actions.clearAllItems();
       }
 
       this.paginate(nextProps.activeMode, nextProps.activeModeOptions);
@@ -180,19 +200,21 @@ export default class Home extends Component {
   }
 
   componentDidUpdate(prevProps: Props) {
-    if (prevProps.activeMode !== this.props.activeMode) {
-      window.scrollTo(0, global.pct[`${this.props.activeMode}ScrollTop`]);
+    const { activeMode } = this.props;
+    if (prevProps.activeMode !== activeMode) {
+      window.scrollTo(0, global.pct[`${activeMode}ScrollTop`]);
     }
   }
 
   componentWillUnmount() {
+    const { activeMode } = this.props;
     if (!document.body) {
       throw new Error(
         '"document" not defined. You are probably not running in the renderer process'
       );
     }
 
-    global.pct[`${this.props.activeMode}ScrollTop`] = document.body.scrollTop;
+    global.pct[`${activeMode}ScrollTop`] = document.body.scrollTop;
 
     this.didMount = false;
     document.removeEventListener(
@@ -203,30 +225,32 @@ export default class Home extends Component {
 
   render() {
     const { activeMode, actions, items, isLoading } = this.props;
+    const { favorites, watchList, recentlyWatched } = this.state;
 
     const home = (
-      <div className="row">
-        <div className="col-sm-12">
-          <CardList
-            title="Favorites"
-            items={this.state.favorites}
-            isLoading={false}
-          />
-        </div>
-        <div className="col-sm-12">
-          <CardList
-            title="Watch List"
-            items={this.state.watchList}
-            isLoading={false}
-          />
-        </div>
-      </div>
+      <Container fluid>
+        <Row>
+          <Col sm="12">
+            <CardList title="Recently Watched" items={recentlyWatched} />
+          </Col>
+        </Row>
+        <Row>
+          <Col sm="12">
+            <CardList title="Favorites" items={favorites} />
+          </Col>
+        </Row>
+        <Row>
+          <Col sm="12">
+            <CardList title="Watch List" items={watchList} />
+          </Col>
+        </Row>
+      </Container>
     );
 
     return (
-      <div className="row">
+      <Row>
         <Header activeMode={activeMode} setActiveMode={actions.setActiveMode} />
-        <div className="col-sm-12">
+        <Col sm="12">
           {activeMode === 'home' ? (
             home
           ) : (
@@ -235,8 +259,8 @@ export default class Home extends Component {
               <VisibilitySensor onChange={this.onChange} />
             </div>
           )}
-        </div>
-      </div>
+        </Col>
+      </Row>
     );
   }
 }

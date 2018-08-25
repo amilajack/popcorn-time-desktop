@@ -18,7 +18,9 @@ fixture`Item Page Movies`.page(BASE_URL).beforeEach(async t => {
   clearConfigs();
   await t
     .click(Selector('a').withExactText('Home'))
-    .typeText('#pct-search-input', "harry potter and the philosopher's stone", { replace: true })
+    .typeText('#pct-search-input', "harry potter and the philosopher's stone", {
+      replace: true
+    })
     .pressKey('enter')
     .click(cardSelector);
 });
@@ -82,6 +84,22 @@ test('it should add items to watch list', async t => {
     .contains('item/');
 });
 
+test.skip('it should add items to recently watched list', async t => {
+  await t
+    .click('[data-e2e="item-play-button"]')
+    .wait(20000)
+    .click('[data-e2e="close-player"]');
+
+  await clickItemPageBackButton(t);
+  await navigateTo(t, 'home');
+  await t
+    .expect(await getLowerCaseCardTitle())
+    .contains("harry potter and the philosopher's stone")
+    .click(cardSelector)
+    .expect(getPageUrl())
+    .contains('item/');
+});
+
 test('it should display torrent loading status', async t => {
   await t.expect(Selector('[data-e2e="item-play-button"]').visible).ok();
 });
@@ -120,7 +138,7 @@ test('it should load and play a movie', async t => {
         .visible
     )
     .ok()
-    .expect(Selector('a[data-e2e="item-year"]').withExactText('2001').visible)
+    .expect(Selector('[data-e2e="item-year"]').withExactText('2001').visible)
     .ok();
 });
 
@@ -131,7 +149,7 @@ fixture`Item Page TV Shows`.page(BASE_URL).beforeEach(async t => {
     .typeText('#pct-search-input', 'silicon valley', { replace: true })
     .pressKey('enter')
     .click(cardSelector)
-    .expect(Selector('a[data-e2e="item-year"]').withExactText('2014').visible)
+    .expect(Selector('[data-e2e="item-year"]').withExactText('2014').visible)
     .ok();
 });
 

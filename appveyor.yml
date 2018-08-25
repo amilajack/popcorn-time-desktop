@@ -40,7 +40,7 @@ install:
   - yarn
 
 test_script:
-  # - yarn lint
+  - yarn lint
   # - yarn test
   - yarn package-ci
   - yarn build-e2e

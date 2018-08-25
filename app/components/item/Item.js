@@ -8,7 +8,10 @@ import {
   Dropdown,
   DropdownToggle,
   DropdownMenu,
-  DropdownItem
+  DropdownItem,
+  Container,
+  Row,
+  Col
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
@@ -33,8 +36,6 @@ import type {
   qualityType
 } from '../../api/torrents/TorrentProviderInterface';
 import type { deviceType } from '../../api/players/PlayerProviderInterface';
-
-const SUMMARY_CHAR_LIMIT = 300;
 
 type playerType = 'default' | 'plyr' | 'vlc' | 'chromecast' | 'youtube';
 
@@ -77,7 +78,7 @@ type State = {
   isFinished: boolean
 };
 
-export default class Item extends Component {
+export default class Item extends Component<Props, State> {
   props: Props;
 
   state: State;
@@ -91,6 +92,8 @@ export default class Item extends Component {
   player: Player;
 
   checkCastingDevicesInterval: number;
+
+  SUMMARY_CHAR_LIMIT = 300;
 
   defaultTorrent: torrentSelectionType = {
     default: {
@@ -189,7 +192,6 @@ export default class Item extends Component {
    * Check which players are available on the system
    */
   setPlayer(player: playerType) {
-    console.log(this.plyr);
     switch (player) {
       case 'youtube':
         this.player.player = this.plyr;
@@ -205,12 +207,13 @@ export default class Item extends Component {
   }
 
   toggle() {
-    this.setState({
-      dropdownOpen: !this.state.dropdownOpen
-    });
+    this.setState(prevState => ({
+      dropdownOpen: !prevState.dropdownOpen
+    }));
   }
 
   async componentDidMount() {
+    const { itemId } = this.props;
     window.scrollTo(0, 0);
     this.initCastingDevices();
     this.checkCastingDevicesInterval = setInterval(() => {
@@ -218,7 +221,7 @@ export default class Item extends Component {
       this.initCastingDevices();
     }, 10000);
 
-    this.getAllData(this.props.itemId);
+    this.getAllData(itemId);
     this.stopPlayback();
     this.player.destroy();
 
@@ -251,14 +254,11 @@ export default class Item extends Component {
   }
 
   getAllData(itemId: string) {
+    const { activeMode } = this.props;
+    const { selectedSeason, selectedEpisode } = this.state;
     this.setState(this.initialState, () => {
-      if (this.props.activeMode === 'shows') {
-        this.getShowData(
-          'seasons',
-          itemId,
-          this.state.selectedSeason,
-          this.state.selectedEpisode
-        );
+      if (activeMode === 'shows') {
+        this.getShowData('seasons', itemId, selectedSeason, selectedEpisode);
       }
     });
 
@@ -315,10 +315,11 @@ export default class Item extends Component {
    * Get the details of a movie using the butter api
    */
   async getItem(imdbId: string) {
+    const { activeMode } = this.props;
     this.setState({ metadataLoading: true });
 
     const item = await (() => {
-      switch (this.props.activeMode) {
+      switch (activeMode) {
         case 'movies':
           return this.butter.getMovie(imdbId);
         case 'shows':
@@ -339,6 +340,7 @@ export default class Item extends Component {
     season: number,
     episode: number
   ) {
+    const { activeMode } = this.props;
     this.setState({
       fetchingTorrents: true,
       idealTorrent: this.defaultTorrent,
@@ -347,11 +349,11 @@ export default class Item extends Component {
 
     try {
       const { torrent, idealTorrent } = await (async () => {
-        switch (this.props.activeMode) {
+        switch (activeMode) {
           case 'movies': {
             const originalTorrent = await this.butter.getTorrent(
               imdbId,
-              this.props.activeMode,
+              activeMode,
               {
                 searchQuery: title
               }
@@ -368,7 +370,7 @@ export default class Item extends Component {
           case 'shows': {
             if (process.env.FLAG_SEASON_COMPLETE === 'true') {
               const [shows, seasonComplete] = await Promise.all([
-                this.butter.getTorrent(imdbId, this.props.activeMode, {
+                this.butter.getTorrent(imdbId, activeMode, {
                   season,
                   episode,
                   searchQuery: title
@@ -407,7 +409,7 @@ export default class Item extends Component {
 
             const singleEpisodeTorrent = await this.butter.getTorrent(
               imdbId,
-              this.props.activeMode,
+              activeMode,
               {
                 season,
                 episode,
@@ -453,13 +455,11 @@ export default class Item extends Component {
   }
 
   async getSimilar(imdbId: string) {
+    const { activeMode } = this.props;
     this.setState({ similarLoading: true });
 
     try {
-      const similarItems = await this.butter.getSimilar(
-        this.props.activeMode,
-        imdbId
-      );
+      const similarItems = await this.butter.getSimilar(activeMode, imdbId);
 
       this.setState({
         similarItems,
@@ -472,10 +472,11 @@ export default class Item extends Component {
   }
 
   stopPlayback() {
-    if (!this.state.torrentInProgress && !this.state.playbackInProgress) {
+    const { torrentInProgress, playbackInProgress, currentPlayer } = this.state;
+    if (!torrentInProgress && !playbackInProgress) {
       return;
     }
-    switch (this.state.currentPlayer) {
+    switch (currentPlayer) {
       case 'youtube':
         this.plyr.pause();
         break;
@@ -494,27 +495,24 @@ export default class Item extends Component {
     selectedSeason: number,
     selectedEpisode: number = 1
   ) => {
+    const { item } = this.state;
     switch (type) {
       case 'episodes':
         this.setState({ selectedSeason });
-        this.getShowData(
-          'episodes',
-          this.state.item.ids.tmdbId,
-          selectedSeason
-        );
+        this.getShowData('episodes', item.ids.tmdbId, selectedSeason);
         this.selectShow('episode', selectedSeason, 1);
         break;
       case 'episode':
         this.setState({ selectedSeason, selectedEpisode });
         this.getShowData(
           'episode',
-          this.state.item.ids.tmdbId,
+          item.ids.tmdbId,
           selectedSeason,
           selectedEpisode
         );
         this.getTorrent(
-          this.state.item.ids.imdbId,
-          this.state.item.title,
+          item.ids.imdbId,
+          item.title,
           selectedSeason,
           selectedEpisode
         );
@@ -573,7 +571,8 @@ export default class Item extends Component {
   }
 
   closeVideo() {
-    if (!this.state.playbackInProgress) {
+    const { playbackInProgress } = this.state;
+    if (!playbackInProgress) {
       return;
     }
     this.toggleActive();
@@ -584,15 +583,15 @@ export default class Item extends Component {
   }
 
   toggleActive() {
-    this.setState({
-      playbackInProgress: !this.state.playbackInProgress
-    });
+    this.setState(prevState => ({
+      playbackInProgress: !prevState.playbackInProgress
+    }));
   }
 
   toggleStateProperty(property: string) {
-    this.setState({
-      [property]: !this.state[property]
-    });
+    this.setState(prevState => ({
+      [property]: !prevState[property]
+    }));
   }
 
   async startPlayback(
@@ -600,7 +599,13 @@ export default class Item extends Component {
     activeMode?: string,
     currentPlayer: playerType
   ) {
-    if (this.state.torrentInProgress) {
+    const {
+      torrentInProgress,
+      selectedEpisode,
+      selectedSeason,
+      item
+    } = this.state;
+    if (torrentInProgress) {
       this.stopPlayback();
     }
     if (!magnet || !activeMode) {
@@ -614,8 +619,8 @@ export default class Item extends Component {
 
     const metadata = {
       activeMode,
-      season: this.state.selectedSeason,
-      episode: this.state.selectedEpisode
+      season: selectedSeason,
+      episode: selectedEpisode
     };
 
     const formats = [
@@ -635,43 +640,54 @@ export default class Item extends Component {
         subtitle: string
       ) => {
         console.log(`Serving torrent at: ${servingUrl}`);
-        this.setState({ servingUrl });
 
         // const filename = file.name;
         const subtitles =
           subtitle && process.env.FLAG_SUBTITLES === 'true'
             ? await this.getSubtitles(
                 subtitle,
-                this.props.activeMode,
-                this.state.item
+                activeMode,
+                // eslint-disable-next-line
+                item
               )
             : [];
-        console.log(subtitles);
-        this.setState({
-          captions: subtitles
-        });
 
         switch (currentPlayer) {
           case 'VLC':
             return this.player.initVLC(servingUrl);
           case 'chromecast': {
-            this.player.initCast(
-              this.playerProvider,
-              servingUrl,
-              this.state.item
-            );
+            this.player.initCast(this.playerProvider, servingUrl, item);
             break;
           }
           case 'youtube':
             this.toggleActive();
+            setTimeout(() => {
+              this.plyr.play();
+            }, 3000);
             break;
           case 'default':
             this.toggleActive();
+            setTimeout(() => {
+              this.plyr.play();
+            }, 3000);
             break;
           default:
             console.error('Invalid player');
             break;
         }
+
+        const recentlyWatchedList = await this.butter.recentlyWatched('get');
+        const containsRecentlyWatchedItem = recentlyWatchedList.some(
+          e => e.id === item.id
+        );
+        if (!containsRecentlyWatchedItem) {
+          await this.butter.recentlyWatched('set', item);
+        }
+
+        this.setState({
+          captions: subtitles,
+          servingUrl
+        });
 
         return torrent;
       },
@@ -703,8 +719,7 @@ export default class Item extends Component {
       watchList,
       magnetPopoverOpen,
       trailerPopoverOpen,
-      castingDevices,
-      captions
+      castingDevices
     } = this.state;
 
     const { activeMode } = this.props;
@@ -727,13 +742,13 @@ export default class Item extends Component {
     };
 
     return (
-      <div
-        className={classNames('container-fluid', 'Item', {
-          active: playbackInProgress
-        })}
+      <Container
+        fluid
+        className={classNames('Item', { active: playbackInProgress })}
       >
         <Link to="/">
           <span
+            role="presentation"
             className="pct-btn pct-btn-tran pct-btn-outline pct-btn-round"
             data-e2e="item-button-back"
             onClick={() => this.stopPlayback()}
@@ -741,7 +756,7 @@ export default class Item extends Component {
             <i className="ion-ios-arrow-back" /> Back
           </span>
         </Link>
-        <div className="row">
+        <Row>
           <Plyr
             captions={{ active: true, language: 'en' }}
             type="video"
@@ -761,15 +776,21 @@ export default class Item extends Component {
           />
 
           {playbackInProgress ? (
-            <a id="close-button" onClick={() => this.closeVideo()}>
+            <span
+              data-e2e="close-player"
+              role="presentation"
+              id="close-button"
+              onClick={() => this.closeVideo()}
+            >
               <i className="ion-close" />
-            </a>
+            </span>
           ) : null}
 
-          <div className="col-sm-12 Item--background" style={itemBackgroundUrl}>
-            <div className="col-sm-6 Item--image">
+          <Col sm="12" className="Item--background" style={itemBackgroundUrl}>
+            <Col sm="6" className="Item--image">
               <div className="Item--poster-container">
                 <div
+                  role="presentation"
                   className="Item--play"
                   onClick={() =>
                     this.startPlayback(
@@ -781,6 +802,7 @@ export default class Item extends Component {
                 >
                   {idealTorrent.magnet ? (
                     <i
+                      role="presentation"
                       data-e2e="item-play-button"
                       className="Item--icon-play ion-ios-play"
                       onClick={() =>
@@ -798,6 +820,7 @@ export default class Item extends Component {
                   height="350px"
                   width="233px"
                   role="presentation"
+                  alt="item-poster"
                   style={{ opacity: item.images.poster.thumb ? 1 : 0 }}
                   src={item.images.poster.thumb}
                 />
@@ -812,13 +835,13 @@ export default class Item extends Component {
                 favorites={favorites}
                 watchList={watchList}
               />
-            </div>
+            </Col>
 
-            <div className="Movie col-sm-6">
+            <Col sm="6" className="Movie">
               <h1 className="row-margin" id="title">
                 {item.title}
               </h1>
-              <div className="row">
+              <Row>
                 {item.runtime && item.runtime.hours && item.runtime.minutes ? (
                   <span className="col-sm-3" id="runtime">
                     <h6>
@@ -832,36 +855,36 @@ export default class Item extends Component {
                 <span className="col-sm-9" id="genres">
                   {item.genres ? <h6>{item.genres.join(', ')}</h6> : null}
                 </span>
-              </div>
+              </Row>
               {/* HACK: Prefer a CSS solution to this, using text-overflow: ellipse */}
               <h6 className="row-margin" id="summary">
                 {item.summary
-                  ? item.summary.length > SUMMARY_CHAR_LIMIT
-                    ? `${item.summary.slice(0, SUMMARY_CHAR_LIMIT)}...`
+                  ? item.summary.length > this.SUMMARY_CHAR_LIMIT
+                    ? `${item.summary.slice(0, this.SUMMARY_CHAR_LIMIT)}...`
                     : item.summary
                   : ''}
               </h6>
-              <div className="row row-margin row-center Item--details">
+              <Row className="row-margin row-center Item--details">
                 {item.rating && typeof item.rating === 'number' ? (
-                  <div className="col-sm-5">
+                  <Col sm="5">
                     <Rating
                       emptyStarColor="rgba(255, 255, 255, 0.2)"
                       starColor="white"
                       rating={item.rating}
                     />
-                  </div>
+                  </Col>
                 ) : null}
-                <div className="col-sm-2">
-                  <a data-e2e="item-year">{item.year}</a>
-                </div>
+                <Col sm="2">
+                  <span data-e2e="item-year">{item.year}</span>
+                </Col>
 
                 {item && item.certification && item.certification !== 'n/a' ? (
-                  <div className="col-sm-3">
+                  <Col sm="3">
                     <div className="certification">{item.certification}</div>
-                  </div>
+                  </Col>
                 ) : null}
 
-                <div className="col-sm-2 row-center">
+                <Col sm="2" className="row-center">
                   <i className="ion-magnet" />
                   <div
                     id="magnetPopoverOpen"
@@ -880,15 +903,18 @@ export default class Item extends Component {
                       : 0}{' '}
                     Seeders
                   </Tooltip>
-                </div>
+                </Col>
 
-                {process.env.NODE_ENV === 'test' && item.trailer && item.trailer !== 'n/a' ? (
-                  <div className="col-sm-3 row-center">
+                {process.env.NODE_ENV === 'test' &&
+                item.trailer &&
+                item.trailer !== 'n/a' ? (
+                  <Col sm="3" className="row-center">
                     <i
                       id="trailerPopoverOpen"
                       data-e2e="item-trailer-button"
                       className="ion-videocamera"
                       onClick={() => this.setPlayer('youtube')}
+                      role="presentation"
                     />
                     <Tooltip
                       placement="top"
@@ -900,17 +926,17 @@ export default class Item extends Component {
                     >
                       Trailer
                     </Tooltip>
-                  </div>
+                  </Col>
                 ) : null}
-              </div>
-            </div>
+              </Row>
+            </Col>
 
             <div className="Item--overlay" />
-          </div>
-        </div>
+          </Col>
+        </Row>
 
-        <div className="row row-margin">
-          <div className="col-sm-2">
+        <Row className="row-margin">
+          <Col sm="2">
             <Dropdown
               style={{ float: 'left' }}
               isOpen={dropdownOpen}
@@ -949,8 +975,8 @@ export default class Item extends Component {
                 ))}
               </DropdownMenu>
             </Dropdown>
-          </div>
-          <div className="col-sm-10">
+          </Col>
+          <Col sm="10">
             {(() => {
               if (process.env.FLAG_MANUAL_TORRENT_SELECTION === 'true') {
                 return (
@@ -1008,8 +1034,8 @@ export default class Item extends Component {
 
               return null;
             })()}
-          </div>
-        </div>
+          </Col>
+        </Row>
 
         {activeMode === 'shows' ? (
           <Show
@@ -1028,7 +1054,7 @@ export default class Item extends Component {
           metadataLoading={similarLoading}
           isFinished={isFinished}
         />
-      </div>
+      </Container>
     );
   }
 }

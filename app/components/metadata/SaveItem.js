@@ -15,20 +15,28 @@ type State = {
   isInFavorites: boolean
 };
 
-export default class SaveItem extends Component {
-  butter = new Butter();
+function hasFavorites(favorites: Array<contentType>, tmdbId: string): boolean {
+  return !!favorites.find(favorite => favorite.ids.tmdbId === tmdbId);
+}
 
+function hasWatchList(watchList: Array<contentType>, tmdbId: string): boolean {
+  return !!watchList.find(watchListItem => watchListItem.ids.tmdbId === tmdbId);
+}
+
+export default class SaveItem extends Component<Props, State> {
   props: Props;
+
+  state: State = {
+    isInFavorites: false,
+    isInWatchList: false
+  };
+
+  butter = new Butter();
 
   static defaultProps: Props = {
     item: {},
     favorites: [],
     watchList: []
-  };
-
-  state: State = {
-    isInFavorites: false,
-    isInWatchList: false
   };
 
   componentWillReceiveProps(nextProps: Props) {
@@ -47,14 +55,15 @@ export default class SaveItem extends Component {
   }
 
   async addFavorite() {
+    const { item } = this.props;
     const favorites = await this.butter.favorites('get');
-    if (!hasFavorites(favorites, this.props.item.ids.tmdbId)) {
-      await this.butter.favorites('set', this.props.item);
+    if (!hasFavorites(favorites, item.ids.tmdbId)) {
+      await this.butter.favorites('set', item);
       this.setState({
         isInFavorites: true
       });
     } else {
-      await this.butter.favorites('remove', this.props.item);
+      await this.butter.favorites('remove', item);
       this.setState({
         isInFavorites: false
       });
@@ -62,14 +71,15 @@ export default class SaveItem extends Component {
   }
 
   async addWatchList() {
+    const { item } = this.props;
     const watchList = await this.butter.watchList('get');
-    if (!hasWatchList(watchList, this.props.item.ids.tmdbId)) {
-      await this.butter.watchList('set', this.props.item);
+    if (!hasWatchList(watchList, item.ids.tmdbId)) {
+      await this.butter.watchList('set', item);
       this.setState({
         isInWatchList: true
       });
     } else {
-      await this.butter.watchList('remove', this.props.item);
+      await this.butter.watchList('remove', item);
       this.setState({
         isInWatchList: false
       });
@@ -77,26 +87,29 @@ export default class SaveItem extends Component {
   }
 
   render() {
+    const { isInFavorites, isInWatchList } = this.state;
     return (
       <div className="SaveItem" style={{ color: 'white' }}>
         <i
+          role="presentation"
           className={classnames(
             'SaveItem--icon',
             'SaveItem--favorites',
             'ion-heart',
             {
-              'SaveItem--active-icon': this.state.isInFavorites
+              'SaveItem--active-icon': isInFavorites
             }
           )}
           onClick={() => this.addFavorite()}
         />
         <i
+          role="presentation"
           className={classnames(
             'SaveItem--icon',
             'SaveItem--watchlist',
             'ion-ios-list',
             {
-              'SaveItem--active-icon': this.state.isInWatchList
+              'SaveItem--active-icon': isInWatchList
             }
           )}
           onClick={() => this.addWatchList()}
@@ -104,12 +117,4 @@ export default class SaveItem extends Component {
       </div>
     );
   }
-}
-
-function hasFavorites(favorites: Array<contentType>, tmdbId: string): boolean {
-  return !!favorites.find(favorite => favorite.ids.tmdbId === tmdbId);
-}
-
-function hasWatchList(watchList: Array<contentType>, tmdbId: string): boolean {
-  return !!watchList.find(watchListItem => watchListItem.ids.tmdbId === tmdbId);
 }

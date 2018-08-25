@@ -9,18 +9,19 @@ type Props = {
 };
 
 export default function StarRating(props: Props) {
-  return typeof props.rating === 'number' ? (
+  const { rating, starColor, emptyStarColor } = props;
+  return typeof rating === 'number' ? (
     <div className="Rating">
       <StarRatingComponent
         renderStarIconHalf={() => <span className="ion-android-star-half" />}
         renderStarIcon={() => <span className="ion-android-star" />}
         name="rating"
-        starColor={props.starColor}
-        emptyStarColor={props.emptyStarColor}
-        value={Math.floor(props.rating / 2)}
+        starColor={starColor}
+        emptyStarColor={emptyStarColor}
+        value={Math.floor(rating / 2)}
         editing={false}
       />
-      <a className="rating-number">{props.rating}</a>
+      <span className="rating-number">{rating}</span>
     </div>
   ) : null;
 }

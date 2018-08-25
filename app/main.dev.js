@@ -1,4 +1,4 @@
-/* eslint global-require: 1, flowtype-errors/show-errors: 0 */
+/* eslint global-require: off, flowtype-errors/show-errors: off */
 
 /**
  * This module executes inside of electron's main process. You can start
@@ -11,6 +11,7 @@
  * @flow
  */
 import { app, BrowserWindow } from 'electron';
+import windowStateKeeper from 'electron-window-state';
 import MenuBuilder from './menu';
 
 let mainWindow = null;
@@ -60,10 +61,17 @@ app.on('ready', async () => {
     await installExtensions();
   }
 
+  const mainWindowState = windowStateKeeper({
+    defaultWidth: 1224,
+    defaultHeight: 728
+  });
+
   mainWindow = new BrowserWindow({
     show: false,
-    width: 1224,
-    height: 728,
+    x: mainWindowState.x,
+    y: mainWindowState.y,
+    width: mainWindowState.width,
+    height: mainWindowState.height,
     minWidth: 900,
     backgroundColor: '#252525',
     webPreferences: {
@@ -73,6 +81,8 @@ app.on('ready', async () => {
       overlayFullscreenVideo: false
     }
   });
+
+  mainWindowState.manage(mainWindow);
 
   mainWindow.loadURL(`file://${__dirname}/app.html?`);
   mainWindow.show();

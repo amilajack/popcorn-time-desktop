@@ -1,5 +1,6 @@
 // @flow
 import React from 'react';
+import { Col, Row, ListGroup, ListGroupItem } from 'reactstrap';
 import classNames from 'classnames';
 
 type Props = {
@@ -27,11 +28,12 @@ export default function Show(props: Props) {
   } = props;
 
   return (
-    <div className="Show row">
-      <div className="col-sm-2">
-        <div className="list-group Show--list-group">
+    <Row className="Show">
+      {/* Seasons */}
+      <Col sm="2" xs="6">
+        <ListGroup className="Show--list-group">
           {seasons.map(season => (
-            <a
+            <ListGroupItem
               className={classNames('list-group-item', {
                 active: season.season === selectedSeason
               })}
@@ -39,19 +41,19 @@ export default function Show(props: Props) {
               key={season.season}
             >
               Season {season.season}
-            </a>
+            </ListGroupItem>
           ))}
-        </div>
-      </div>
-
-      <div className="col-sm-4">
-        <div className="list-group Show--list-group">
+        </ListGroup>
+      </Col>
+      {/* Episodes */}
+      <Col sm="4" xs="6">
+        <ListGroup className="Show--list-group">
           {episodes.length === 0
             ? seasons.length > 0
               ? 'No episodes for this season'
               : null
             : episodes.map(episode => (
-                <a
+                <ListGroupItem
                   className={classNames('list-group-item', {
                     active: episode.episode === selectedEpisode
                   })}
@@ -61,12 +63,12 @@ export default function Show(props: Props) {
                   key={episode.episode}
                 >
                   Ep {episode.episode}. {episode.title}
-                </a>
+                </ListGroupItem>
               ))}
-        </div>
-      </div>
-
-      <div className="col-sm-6">
+        </ListGroup>
+      </Col>
+      {/* Summary */}
+      <Col sm="6" xs="12">
         <div className="card">
           <div className="card-block">
             <h3 className="card-title">
@@ -81,13 +83,12 @@ export default function Show(props: Props) {
             </p>
           </div>
         </div>
-      </div>
-    </div>
+      </Col>
+    </Row>
   );
 }
 
 Show.defaultProps = {
   seasons: [],
-  episodes: [],
-  episode: {}
+  episodes: []
 };

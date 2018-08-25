@@ -3,6 +3,7 @@
  * @flow
  */
 import React from 'react';
+import { Col, Row } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import Rating from './Rating';
 
@@ -35,18 +36,20 @@ export default function Card(props: Props) {
         </div>
       </Link>
       <div className="Card--descrption">
-        <div className="row">
-          <div className="col-sm-12">
+        <Row>
+          <Col sm="12">
             <Link className="Card--title" replace to={`/item/${type}/${id}`}>
               {title}
             </Link>
-          </div>
-          <div className="col-sm-8">
+          </Col>
+        </Row>
+        <Row>
+          <Col sm="12">
             {typeof rating === 'number' ? (
               <Rating starColor={starColor} rating={rating} />
             ) : null}
-          </div>
-        </div>
+          </Col>
+        </Row>
       </div>
     </div>
   );

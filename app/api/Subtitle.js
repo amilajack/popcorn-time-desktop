@@ -20,6 +20,8 @@ export default class SubtitleServer {
 
   server: express;
 
+  port: ?number;
+
   async startServer(): Promise<void> {
     // Find a port at runtime. Default to 4000 if it is available
     this.port =

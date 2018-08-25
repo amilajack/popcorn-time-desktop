@@ -63,7 +63,7 @@ cd popcorn-time-desktop
 # 💡 For casting support, you will need to satisfy mdns's requirements:
 # For windows install bonjour: https://support.apple.com/downloads/bonjour_for_windows
 # For linux, make sure you have these dependencies installed with apt-get:
-# https://github.com/amilajack/popcorn-time-desktop/blob/v1.0.0/.travis.yml#L23-L35
+# https://github.com/amilajack/popcorn-time-desktop/blob/v1.1.0/.travis.yml#L24-L35
 
 # Install dependencies
 # Have a cup of coffee ☕️ this might take a while

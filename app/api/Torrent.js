@@ -14,6 +14,35 @@ type metadataType = {
   activeMode: string
 };
 
+/**
+ * Get the subtitle file buffer given an array of files
+ */
+export function selectSubtitleFile(
+  files: Array<{ name: string }> = [],
+  activeMode: string,
+  metadata: { season: number, episode: number }
+): { name: string } | boolean {
+  return (
+    files.find(file => {
+      const formatIsSupported = file.name.includes('.srt');
+
+      switch (activeMode) {
+        // Check if the current file is the exact episode we're looking for
+        case 'season_complete': {
+          const { season, episode } = metadata;
+          return (
+            formatIsSupported && isExactEpisode(file.name, season, episode)
+          );
+        }
+
+        // Check if the current file is greater than the previous file
+        default:
+          return formatIsSupported;
+      }
+    }) || false
+  );
+}
+
 export default class Torrent {
   inProgress: boolean = false;
 
@@ -60,8 +89,8 @@ export default class Torrent {
 
     this.engine.add(magnetURI, { path: cacheLocation }, torrent => {
       const server = torrent.createServer();
-      server.listen(port);
-      this.server = server;
+      this.server = server.listen(port);
+      // this.server = server;
 
       const { file, torrentIndex } = torrent.files.reduce(
         (previous, current, index) => {
@@ -146,15 +175,15 @@ export default class Torrent {
 
   destroy() {
     if (this.inProgress) {
-      console.log('Destroyed Torrent...');
-
-      if (this.server && typeof this.server.close === 'function') {
+      if (this.server && this.server.close) {
+        console.log('Closing the torrent server...');
         this.server.close();
         this.server = {};
       }
 
       this.clearIntervals();
 
+      console.log('Destroying the torrent engine...');
       this.engine.destroy();
       this.engine = undefined;
 
@@ -189,33 +218,4 @@ export function formatSpeeds(
     numPeers,
     ratio
   };
-}
-
-/**
- * Get the subtitle file buffer given an array of files
- */
-export function selectSubtitleFile(
-  files: Array<{ name: string }> = [],
-  activeMode: string,
-  metadata: { season: number, episode: number }
-): { name: string } | boolean {
-  return (
-    files.find(file => {
-      const formatIsSupported = file.name.includes('.srt');
-
-      switch (activeMode) {
-        // Check if the current file is the exact episode we're looking for
-        case 'season_complete': {
-          const { season, episode } = metadata;
-          return (
-            formatIsSupported && isExactEpisode(file.name, season, episode)
-          );
-        }
-
-        // Check if the current file is greater than the previous file
-        default:
-          return formatIsSupported;
-      }
-    }) || false
-  );
 }

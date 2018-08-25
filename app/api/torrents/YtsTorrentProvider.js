@@ -11,6 +11,10 @@ const endpoint = 'https://yts.am';
 const providerId = 'YTS';
 const resolvedEndpoint = resolveEndpoint(endpoint, providerId);
 
+function constructMagnet(hash: string): string {
+  return `magnet:?xt=urn:btih:${hash}`;
+}
+
 export default class YtsTorrentProvider implements TorrentProviderInterface {
   static providerName = 'YTS';
 
@@ -56,8 +60,4 @@ export default class YtsTorrentProvider implements TorrentProviderInterface {
         return Promise.resolve([]);
     }
   }
-}
-
-function constructMagnet(hash: string): string {
-  return `magnet:?xt=urn:btih:${hash}`;
 }
