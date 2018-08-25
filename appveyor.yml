@@ -36,8 +36,12 @@ install:
   - appveyor DownloadFile https://www.samuelattard.com/files/bonjoursdksetup.exe
   - bonjoursdksetup.exe /quiet
   - del bonjoursdksetup.exe
-  # Install npm dependencies
+  # NPM
+  - yarn global add greenkeeper-lockfile@2
   - yarn
+
+before_test:
+  - greenkeeper-lockfile-update
 
 test_script:
   - yarn lint
@@ -45,3 +49,5 @@ test_script:
   - yarn package-ci
   - yarn build-e2e
   - yarn test-e2e --quarantine-mode
+
+after_test: greenkeeper-lockfile-upload
