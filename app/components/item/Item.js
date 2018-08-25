@@ -36,8 +36,6 @@ import type {
 } from '../../api/torrents/TorrentProviderInterface';
 import type { deviceType } from '../../api/players/PlayerProviderInterface';
 
-const SUMMARY_CHAR_LIMIT = 300;
-
 type playerType = 'default' | 'plyr' | 'vlc' | 'chromecast' | 'youtube';
 
 type torrentSelectionType = {
@@ -79,7 +77,7 @@ type State = {
   isFinished: boolean
 };
 
-export default class Item extends Component {
+export default class Item extends Component<Props, State> {
   props: Props;
 
   state: State;
@@ -93,6 +91,8 @@ export default class Item extends Component {
   player: Player;
 
   checkCastingDevicesInterval: number;
+
+  SUMMARY_CHAR_LIMIT = 300;
 
   defaultTorrent: torrentSelectionType = {
     default: {
@@ -842,8 +842,8 @@ export default class Item extends Component {
               {/* HACK: Prefer a CSS solution to this, using text-overflow: ellipse */}
               <h6 className="row-margin" id="summary">
                 {item.summary
-                  ? item.summary.length > SUMMARY_CHAR_LIMIT
-                    ? `${item.summary.slice(0, SUMMARY_CHAR_LIMIT)}...`
+                  ? item.summary.length > this.SUMMARY_CHAR_LIMIT
+                    ? `${item.summary.slice(0, this.SUMMARY_CHAR_LIMIT)}...`
                     : item.summary
                   : ''}
               </h6>

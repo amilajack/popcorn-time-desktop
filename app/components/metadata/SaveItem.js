@@ -23,20 +23,20 @@ function hasWatchList(watchList: Array<contentType>, tmdbId: string): boolean {
   return !!watchList.find(watchListItem => watchListItem.ids.tmdbId === tmdbId);
 }
 
-export default class SaveItem extends Component {
-  butter = new Butter();
-
+export default class SaveItem extends Component<Props, State> {
   props: Props;
+
+  state: State = {
+    isInFavorites: false,
+    isInWatchList: false
+  };
+
+  butter = new Butter();
 
   static defaultProps: Props = {
     item: {},
     favorites: [],
     watchList: []
-  };
-
-  state: State = {
-    isInFavorites: false,
-    isInWatchList: false
   };
 
   componentWillReceiveProps(nextProps: Props) {

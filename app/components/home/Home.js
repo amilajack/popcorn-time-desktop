@@ -1,6 +1,7 @@
 // @flow
 /* eslint react/no-unused-prop-types: 0 */
 import React, { Component } from 'react';
+import { Container, Col, Row } from 'reactstrap';
 import VisibilitySensor from 'react-visibility-sensor';
 import Butter from '../../api/Butter';
 import Header from '../header/Header';
@@ -58,19 +59,19 @@ type State = {
   watchList: Array<itemType>
 };
 
-export default class Home extends Component {
+export default class Home extends Component<Props, State> {
   props: Props;
+
+  state: State = {
+    favorites: [],
+    watchList: []
+  };
 
   butter: Butter;
 
   didMount: boolean;
 
   onChange: () => void;
-
-  state: State = {
-    favorites: [],
-    watchList: []
-  };
 
   constructor(props: Props) {
     super(props);
@@ -220,20 +221,24 @@ export default class Home extends Component {
     const { favorites, watchList } = this.state;
 
     const home = (
-      <div className="row">
-        <div className="col-sm-12">
-          <CardList title="Favorites" items={favorites} isLoading={false} />
-        </div>
-        <div className="col-sm-12">
-          <CardList title="Watch List" items={watchList} isLoading={false} />
-        </div>
-      </div>
+      <Container fluid>
+        <Row>
+          <Col col-sm="12">
+            <CardList title="Favorites" items={favorites} isLoading={false} />
+          </Col>
+        </Row>
+        <Row>
+          <Col col-sm="12">
+            <CardList title="Watch List" items={watchList} isLoading={false} />
+          </Col>
+        </Row>
+      </Container>
     );
 
     return (
-      <div className="row">
+      <Row>
         <Header activeMode={activeMode} setActiveMode={actions.setActiveMode} />
-        <div className="col-sm-12">
+        <Col col-sm="12">
           {activeMode === 'home' ? (
             home
           ) : (
@@ -242,8 +247,8 @@ export default class Home extends Component {
               <VisibilitySensor onChange={this.onChange} />
             </div>
           )}
-        </div>
-      </div>
+        </Col>
+      </Row>
     );
   }
 }

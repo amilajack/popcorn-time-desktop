@@ -1,5 +1,6 @@
 // @flow
 import React from 'react';
+import { Col, Row } from 'reactstrap';
 import classNames from 'classnames';
 
 type Props = {
@@ -27,8 +28,8 @@ export default function Show(props: Props) {
   } = props;
 
   return (
-    <div className="Show row">
-      <div className="col-sm-2">
+    <Row className="Show">
+      <Col col-sm="2">
         <div className="list-group Show--list-group">
           {seasons.map(season => (
             <span
@@ -43,9 +44,9 @@ export default function Show(props: Props) {
             </span>
           ))}
         </div>
-      </div>
+      </Col>
 
-      <div className="col-sm-4">
+      <Col col-sm="4">
         <div className="list-group Show--list-group">
           {episodes.length === 0
             ? seasons.length > 0
@@ -66,9 +67,9 @@ export default function Show(props: Props) {
                 </span>
               ))}
         </div>
-      </div>
+      </Col>
 
-      <div className="col-sm-6">
+      <Col col-sm="6">
         <div className="card">
           <div className="card-block">
             <h3 className="card-title">
@@ -83,8 +84,8 @@ export default function Show(props: Props) {
             </p>
           </div>
         </div>
-      </div>
-    </div>
+      </Col>
+    </Row>
   );
 }
 

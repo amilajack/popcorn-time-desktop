@@ -21,7 +21,7 @@ type Props = {
   activeMode: string
 };
 
-export default class Header extends Component {
+export default class Header extends Component<Props, {}> {
   props: Props;
 
   state: {
@@ -63,8 +63,6 @@ export default class Header extends Component {
     const { searchQuery } = this.state;
     const { setActiveMode } = this.props;
     if (key === 'Enter') {
-      // browserHistory.replace('/item/movies');
-      // browserHistory.replace('/item/search');
       setActiveMode('search', {
         searchQuery
       });
@@ -86,7 +84,7 @@ export default class Header extends Component {
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <NavbarToggler className="navbar-toggler-icon" />
+          <NavbarToggler />
         </Button>
 
         <Collapse
