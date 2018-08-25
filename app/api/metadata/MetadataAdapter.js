@@ -5,7 +5,6 @@
 import OpenSubtitles from 'opensubtitles-api';
 import { merge, resolveCache, setCache } from '../torrents/BaseTorrentProvider';
 import TheMovieDbMetadataProvider from './TheMovieDbMetadataProvider';
-// import TraktMetadataProvider from './TraktMetadataProvider';
 import type { runtimeType } from './MetadataProviderInterface';
 
 type subtitlesType = {
@@ -27,10 +26,7 @@ const openSubtitles = new OpenSubtitles({
 });
 
 function MetadataAdapter() {
-  return [
-    // new TraktMetadataProvider(),
-    new TheMovieDbMetadataProvider()
-  ];
+  return [new TheMovieDbMetadataProvider()];
 }
 
 async function interceptAndHandleRequest(

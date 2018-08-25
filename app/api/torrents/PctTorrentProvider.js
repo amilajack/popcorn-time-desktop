@@ -128,7 +128,7 @@ export default class PctTorrentProvider implements TorrentProviderInterface {
           return [];
         });
       default:
-        return [];
+        return Promise.resolve([]);
     }
   }
 }
