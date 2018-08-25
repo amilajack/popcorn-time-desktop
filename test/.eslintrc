@@ -3,11 +3,9 @@
   "env": {
     "jest": true
   },
-  "plugins": [
-    "testcafe"
-  ],
+  "plugins": ["testcafe"],
   "rules": {
-    "fp/no-loops": "off",
+    "no-use-before-define": "off",
     "global-require": "off",
     "import/no-dynamic-require": "off",
     "no-restricted-syntax": "off",

@@ -18,7 +18,9 @@ fixture`Item Page Movies`.page(BASE_URL).beforeEach(async t => {
   clearConfigs();
   await t
     .click(Selector('a').withExactText('Home'))
-    .typeText('#pct-search-input', "harry potter and the philosopher's stone", { replace: true })
+    .typeText('#pct-search-input', "harry potter and the philosopher's stone", {
+      replace: true
+    })
     .pressKey('enter')
     .click(cardSelector);
 });
@@ -120,7 +122,7 @@ test('it should load and play a movie', async t => {
         .visible
     )
     .ok()
-    .expect(Selector('a[data-e2e="item-year"]').withExactText('2001').visible)
+    .expect(Selector('[data-e2e="item-year"]').withExactText('2001').visible)
     .ok();
 });
 
@@ -131,7 +133,7 @@ fixture`Item Page TV Shows`.page(BASE_URL).beforeEach(async t => {
     .typeText('#pct-search-input', 'silicon valley', { replace: true })
     .pressKey('enter')
     .click(cardSelector)
-    .expect(Selector('a[data-e2e="item-year"]').withExactText('2014').visible)
+    .expect(Selector('[data-e2e="item-year"]').withExactText('2014').visible)
     .ok();
 });
 

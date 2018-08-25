@@ -7,6 +7,10 @@ export const defaultUpdateEndpoint =
   process.env.APP_API_UPDATE_ENDPOINT ||
   'https://api.github.com/repos/amilajack/popcorn-time-desktop/releases';
 
+export function isNewerSemvar(current: string, next: string): boolean {
+  return semver.gt(current, next);
+}
+
 /**
  * Return if the current application version is the latest
  */
@@ -22,8 +26,4 @@ export default function CheckUpdate(): Promise<boolean> {
             each.prerelease === false && isNewerSemvar(each.name, currentSemvar)
         ).length
     );
-}
-
-export function isNewerSemvar(current: string, next: string): boolean {
-  return semver.gt(current, next);
 }

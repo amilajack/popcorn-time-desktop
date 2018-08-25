@@ -43,7 +43,8 @@ export default class Header extends Component {
    * Set the mode of the movies to be 'search'
    */
   setSearchState(searchQuery: string) {
-    this.props.setActiveMode('search', { searchQuery });
+    const { setActiveMode } = this.props;
+    setActiveMode('search', { searchQuery });
   }
 
   handleSearchChange({ target: { value } }: Event<HTMLButtonElement>) {
@@ -59,11 +60,13 @@ export default class Header extends Component {
   }
 
   handleKeyPress({ key }: Event<HTMLButtonElement>) {
+    const { searchQuery } = this.state;
+    const { setActiveMode } = this.props;
     if (key === 'Enter') {
       // browserHistory.replace('/item/movies');
       // browserHistory.replace('/item/search');
-      this.props.setActiveMode('search', {
-        searchQuery: this.state.searchQuery
+      setActiveMode('search', {
+        searchQuery
       });
     }
   }
@@ -100,7 +103,7 @@ export default class Header extends Component {
                 className="nav-link"
                 to="/item/home"
                 replace
-                onClick={() => this.props.setActiveMode('home')}
+                onClick={() => setActiveMode('home')}
               >
                 Home
               </Link>

@@ -24,107 +24,6 @@ export function timeout(promise: Promise<any>, ms: number = 20000) {
   return Promise.race([promise, timeoutPromise]);
 }
 
-export function determineQuality(
-  magnet: string,
-  metadata: string = ''
-): string {
-  const lowerCaseMetadata = (metadata || magnet).toLowerCase();
-
-  if (process.env.FLAG_UNVERIFIED_TORRENTS === 'true') {
-    return '480p';
-  }
-
-  // Filter non-english languages
-  if (hasNonEnglishLanguage(lowerCaseMetadata)) {
-    return '';
-  }
-
-  // Filter videos with 'rendered' subtitles
-  if (hasSubtitles(lowerCaseMetadata)) {
-    return process.env.FLAG_SUBTITLE_EMBEDDED_MOVIES === 'true' ? '480p' : '';
-  }
-
-  // Most accurate categorization
-  if (lowerCaseMetadata.includes('1080')) return '1080p';
-  if (lowerCaseMetadata.includes('720')) return '720p';
-  if (lowerCaseMetadata.includes('480')) return '480p';
-
-  // Guess the quality 1080p
-  if (lowerCaseMetadata.includes('bluray')) return '1080p';
-  if (lowerCaseMetadata.includes('blu-ray')) return '1080p';
-
-  // Guess the quality 720p, prefer english
-  if (lowerCaseMetadata.includes('dvd')) return '720p';
-  if (lowerCaseMetadata.includes('rip')) return '720p';
-  if (lowerCaseMetadata.includes('mp4')) return '720p';
-  if (lowerCaseMetadata.includes('web')) return '720p';
-  if (lowerCaseMetadata.includes('hdtv')) return '720p';
-  if (lowerCaseMetadata.includes('eng')) return '720p';
-
-  if (hasNonNativeCodec(lowerCaseMetadata)) {
-    return process.env.FLAG_SUPPORTED_PLAYBACK_FILTERING === 'true'
-      ? '720p'
-      : '';
-  }
-
-  if (process.env.NODE_ENV === 'development') {
-    console.warn(`${magnet}, could not be verified`);
-  }
-
-  return '';
-}
-
-export async function convertTmdbToImdb(tmdbId: string): Promise<string> {
-  const theMovieDbProvider = new TheMovieDbMetadataProvider();
-  const movie = await theMovieDbProvider.getMovie(tmdbId);
-  if (!movie.ids.imdbId) {
-    throw new Error('Cannot convert tmdbId to imdbId');
-  }
-  return movie.ids.imdbId;
-}
-
-// export async function convertImdbtoTmdb(imdbId: string): Promise<string> {
-//   const theMovieDbProvider = new TheMovieDbMetadataProvider();
-//   const movie = await theMovieDbProvider.getMovie(imdbId);
-//   if (!movie.ids.imdbId) {
-//     throw new Error('Cannot convert imdbId to tmdbId');
-//   }
-//   return movie.ids.imdbId;
-// }
-
-export function formatSeasonEpisodeToString(
-  season: number,
-  episode: number
-): string {
-  return (
-    's' +
-    (String(season).length === 1 ? '0' + String(season) : String(season)) +
-    ('e' +
-      (String(episode).length === 1 ? '0' + String(episode) : String(episode)))
-  );
-}
-
-export function formatSeasonEpisodeToObject(
-  season: number,
-  episode: ?number
-): Object {
-  return {
-    season: String(season).length === 1 ? '0' + String(season) : String(season),
-    episode:
-      String(episode).length === 1 ? '0' + String(episode) : String(episode)
-  };
-}
-
-export function isExactEpisode(
-  title: string,
-  season: number,
-  episode: number
-): boolean {
-  return title
-    .toLowerCase()
-    .includes(formatSeasonEpisodeToString(season, episode));
-}
-
 export function getHealth(seeders: number, leechers: number = 0): string {
   const ratio = seeders && !!leechers ? seeders / leechers : seeders;
 
@@ -165,10 +64,6 @@ export function hasSubtitles(metadata: string): boolean {
   return metadata.includes('sub');
 }
 
-export function hasNonNativeCodec(metadata: string): boolean {
-  return metadata.includes('avi') || metadata.includes('mkv');
-}
-
 export function sortTorrentsBySeeders(torrents: Array<any>): Array<any> {
   return torrents.sort(
     (prev: Object, next: Object) =>
@@ -186,6 +81,17 @@ export function constructMovieQueries(
   ];
 
   return title.includes("'") ? [...queries, title.replace(/'/g, '')] : queries;
+}
+
+export function formatSeasonEpisodeToObject(
+  season: number,
+  episode: ?number
+): Object {
+  return {
+    season: String(season).length === 1 ? '0' + String(season) : String(season),
+    episode:
+      String(episode).length === 1 ? '0' + String(episode) : String(episode)
+  };
 }
 
 export function constructSeasonQueries(
@@ -279,4 +185,98 @@ export function setCache(key: string, value: any) {
     console.info('Setting cache key:', key);
   }
   return providerCache.set(key, value);
+}
+
+export function hasNonNativeCodec(metadata: string): boolean {
+  return metadata.includes('avi') || metadata.includes('mkv');
+}
+
+export function determineQuality(
+  magnet: string,
+  metadata: string = ''
+): string {
+  const lowerCaseMetadata = (metadata || magnet).toLowerCase();
+
+  if (process.env.FLAG_UNVERIFIED_TORRENTS === 'true') {
+    return '480p';
+  }
+
+  // Filter non-english languages
+  if (hasNonEnglishLanguage(lowerCaseMetadata)) {
+    return '';
+  }
+
+  // Filter videos with 'rendered' subtitles
+  if (hasSubtitles(lowerCaseMetadata)) {
+    return process.env.FLAG_SUBTITLE_EMBEDDED_MOVIES === 'true' ? '480p' : '';
+  }
+
+  // Most accurate categorization
+  if (lowerCaseMetadata.includes('1080')) return '1080p';
+  if (lowerCaseMetadata.includes('720')) return '720p';
+  if (lowerCaseMetadata.includes('480')) return '480p';
+
+  // Guess the quality 1080p
+  if (lowerCaseMetadata.includes('bluray')) return '1080p';
+  if (lowerCaseMetadata.includes('blu-ray')) return '1080p';
+
+  // Guess the quality 720p, prefer english
+  if (lowerCaseMetadata.includes('dvd')) return '720p';
+  if (lowerCaseMetadata.includes('rip')) return '720p';
+  if (lowerCaseMetadata.includes('mp4')) return '720p';
+  if (lowerCaseMetadata.includes('web')) return '720p';
+  if (lowerCaseMetadata.includes('hdtv')) return '720p';
+  if (lowerCaseMetadata.includes('eng')) return '720p';
+
+  if (hasNonNativeCodec(lowerCaseMetadata)) {
+    return process.env.FLAG_SUPPORTED_PLAYBACK_FILTERING === 'true'
+      ? '720p'
+      : '';
+  }
+
+  if (process.env.NODE_ENV === 'development') {
+    console.warn(`${magnet}, could not be verified`);
+  }
+
+  return '';
+}
+
+export async function convertTmdbToImdb(tmdbId: string): Promise<string> {
+  const theMovieDbProvider = new TheMovieDbMetadataProvider();
+  const movie = await theMovieDbProvider.getMovie(tmdbId);
+  if (!movie.ids.imdbId) {
+    throw new Error('Cannot convert tmdbId to imdbId');
+  }
+  return movie.ids.imdbId;
+}
+
+// export async function convertImdbtoTmdb(imdbId: string): Promise<string> {
+//   const theMovieDbProvider = new TheMovieDbMetadataProvider();
+//   const movie = await theMovieDbProvider.getMovie(imdbId);
+//   if (!movie.ids.imdbId) {
+//     throw new Error('Cannot convert imdbId to tmdbId');
+//   }
+//   return movie.ids.imdbId;
+// }
+
+export function formatSeasonEpisodeToString(
+  season: number,
+  episode: number
+): string {
+  return (
+    's' +
+    (String(season).length === 1 ? '0' + String(season) : String(season)) +
+    ('e' +
+      (String(episode).length === 1 ? '0' + String(episode) : String(episode)))
+  );
+}
+
+export function isExactEpisode(
+  title: string,
+  season: number,
+  episode: number
+): boolean {
+  return title
+    .toLowerCase()
+    .includes(formatSeasonEpisodeToString(season, episode));
 }

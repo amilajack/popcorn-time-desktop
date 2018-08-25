@@ -5,6 +5,92 @@ import { parseRuntimeMinutesToObject } from './MetadataAdapter';
 import BaseMetadataProvider from './BaseMetadataProvider';
 import type { MetadataProviderInterface } from './MetadataProviderInterface';
 
+function roundRating(rating: number): number {
+  return Math.round(rating * 10) / 10;
+}
+
+function formatMetadata(movie = {}, type: string) {
+  return {
+    title: movie.title,
+    year: movie.year,
+    // @DEPRECATE
+    id: movie.ids.imdb,
+    ids: {
+      imdbId: movie.ids.imdb
+    },
+    type,
+    certification: movie.certification,
+    summary: movie.overview,
+    genres: movie.genres,
+    rating: movie.rating ? roundRating(movie.rating) : 'n/a',
+    runtime: parseRuntimeMinutesToObject(movie.runtime),
+    trailer: movie.trailer,
+    images: {
+      fanart: {
+        full: movie.images.fanart.full,
+        medium: movie.images.fanart.medium,
+        thumb: movie.images.fanart.thumb
+      },
+      poster: {
+        full: movie.images.poster.full,
+        medium: movie.images.poster.medium,
+        thumb: movie.images.poster.thumb
+      }
+    }
+  };
+}
+
+function formatMovieSearch(movie) {
+  return {
+    title: movie.Title,
+    year: parseInt(movie.Year, 10),
+    // @DEPRECATE
+    id: movie.imdbID,
+    ids: {
+      imdbId: movie.imdbID
+    },
+    type: movie.Type.includes('movie') ? 'movies' : 'shows',
+    certification: movie.Rated,
+    summary: 'n/a', // omdbapi does not support
+    genres: [],
+    rating: 'n/a', // omdbapi does not support
+    runtime: {
+      full: 'n/a', // omdbapi does not support
+      hours: 'n/a', // omdbapi does not support
+      minutes: 'n/a' // omdbapi does not support
+    },
+    trailer: 'n/a', // omdbapi does not support
+    images: {
+      fanart: {
+        full: movie.Poster || '',
+        medium: movie.Poster || '',
+        thumb: movie.Poster || ''
+      },
+      poster: {
+        full: movie.Poster || '',
+        medium: movie.Poster || '',
+        thumb: movie.Poster || ''
+      }
+    }
+  };
+}
+
+function formatSeason(season, image: string = 'screenshot') {
+  return {
+    id: season.ids.imdb,
+    title: season.title,
+    season: season.season,
+    episode: season.number,
+    overview: season.overview,
+    rating: season.rating ? roundRating(season.rating) : 'n/a',
+    images: {
+      full: season.images[image].full,
+      medium: season.images[image].medium,
+      thumb: season.images[image].thumb
+    }
+  };
+}
+
 export default class TraktMetadataAdapter extends BaseMetadataProvider
   implements MetadataProviderInterface {
   clientId = '647c69e4ed1ad13393bf6edd9d8f9fb6fe9faf405b44320a6b71ab960b4540a2';
@@ -132,90 +218,4 @@ export default class TraktMetadataAdapter extends BaseMetadataProvider
 
   // @TODO: Properly implement provider architecture
   provide() {}
-}
-
-function formatMetadata(movie = {}, type: string) {
-  return {
-    title: movie.title,
-    year: movie.year,
-    // @DEPRECATE
-    id: movie.ids.imdb,
-    ids: {
-      imdbId: movie.ids.imdb
-    },
-    type,
-    certification: movie.certification,
-    summary: movie.overview,
-    genres: movie.genres,
-    rating: movie.rating ? roundRating(movie.rating) : 'n/a',
-    runtime: parseRuntimeMinutesToObject(movie.runtime),
-    trailer: movie.trailer,
-    images: {
-      fanart: {
-        full: movie.images.fanart.full,
-        medium: movie.images.fanart.medium,
-        thumb: movie.images.fanart.thumb
-      },
-      poster: {
-        full: movie.images.poster.full,
-        medium: movie.images.poster.medium,
-        thumb: movie.images.poster.thumb
-      }
-    }
-  };
-}
-
-function formatMovieSearch(movie) {
-  return {
-    title: movie.Title,
-    year: parseInt(movie.Year, 10),
-    // @DEPRECATE
-    id: movie.imdbID,
-    ids: {
-      imdbId: movie.imdbID
-    },
-    type: movie.Type.includes('movie') ? 'movies' : 'shows',
-    certification: movie.Rated,
-    summary: 'n/a', // omdbapi does not support
-    genres: [],
-    rating: 'n/a', // omdbapi does not support
-    runtime: {
-      full: 'n/a', // omdbapi does not support
-      hours: 'n/a', // omdbapi does not support
-      minutes: 'n/a' // omdbapi does not support
-    },
-    trailer: 'n/a', // omdbapi does not support
-    images: {
-      fanart: {
-        full: movie.Poster || '',
-        medium: movie.Poster || '',
-        thumb: movie.Poster || ''
-      },
-      poster: {
-        full: movie.Poster || '',
-        medium: movie.Poster || '',
-        thumb: movie.Poster || ''
-      }
-    }
-  };
-}
-
-function formatSeason(season, image: string = 'screenshot') {
-  return {
-    id: season.ids.imdb,
-    title: season.title,
-    season: season.season,
-    episode: season.number,
-    overview: season.overview,
-    rating: season.rating ? roundRating(season.rating) : 'n/a',
-    images: {
-      full: season.images[image].full,
-      medium: season.images[image].medium,
-      thumb: season.images[image].thumb
-    }
-  };
-}
-
-function roundRating(rating: number): number {
-  return Math.round(rating * 10) / 10;
 }

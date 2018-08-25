@@ -12,12 +12,10 @@ type Props = {
 };
 
 export default function ItemPage(props: Props) {
+  const { match } = props;
   return (
     <div>
-      <Item
-        itemId={props.match.params.itemId}
-        activeMode={props.match.params.activeMode}
-      />
+      <Item itemId={match.params.itemId} activeMode={match.params.activeMode} />
     </div>
   );
 }

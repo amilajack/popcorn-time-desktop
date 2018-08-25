@@ -31,7 +31,8 @@ export default function Show(props: Props) {
       <div className="col-sm-2">
         <div className="list-group Show--list-group">
           {seasons.map(season => (
-            <a
+            <span
+              role="presentation"
               className={classNames('list-group-item', {
                 active: season.season === selectedSeason
               })}
@@ -39,7 +40,7 @@ export default function Show(props: Props) {
               key={season.season}
             >
               Season {season.season}
-            </a>
+            </span>
           ))}
         </div>
       </div>
@@ -51,7 +52,8 @@ export default function Show(props: Props) {
               ? 'No episodes for this season'
               : null
             : episodes.map(episode => (
-                <a
+                <span
+                  role="presentation"
                   className={classNames('list-group-item', {
                     active: episode.episode === selectedEpisode
                   })}
@@ -61,7 +63,7 @@ export default function Show(props: Props) {
                   key={episode.episode}
                 >
                   Ep {episode.episode}. {episode.title}
-                </a>
+                </span>
               ))}
         </div>
       </div>
@@ -88,6 +90,5 @@ export default function Show(props: Props) {
 
 Show.defaultProps = {
   seasons: [],
-  episodes: [],
-  episode: {}
+  episodes: []
 };
