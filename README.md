@@ -13,8 +13,8 @@
   <a target="_blank" href="https://ci.appveyor.com/project/amilajack/popcorn-time-desktop/branch/master">
     <img src="https://ci.appveyor.com/api/projects/status/071qeglg94au8wr2/branch/master?svg=true" alt="AppVeyor Build status" />
   </a>
-  <a target="_blank" href="https://david-dm.org/amilajack/popcorn-time-desktop?type=dev">
-    <img src="https://img.shields.io/david/dev/amilajack/popcorn-time-desktop.svg" alt="npm dev dependencies" />
+  <a target="_blank" href="https://david-dm.org/amilajack/popcorn-time-desktop">
+    <img src="https://img.shields.io/david/amilajack/popcorn-time-desktop.svg" alt="npm dependencies" />
   </a>
   <a target="_blank" href="https://gitter.im/amilajack/popcorn-time-desktop?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge">
     <img src="https://badges.gitter.im/amilajack/popcorn-time-desktop.svg" alt="Gitter" />
