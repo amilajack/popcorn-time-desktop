@@ -89,8 +89,8 @@ export default class Torrent {
 
     this.engine.add(magnetURI, { path: cacheLocation }, torrent => {
       const server = torrent.createServer();
-      server.listen(port);
-      this.server = server;
+      this.server = server.listen(port);
+      // this.server = server;
 
       const { file, torrentIndex } = torrent.files.reduce(
         (previous, current, index) => {
@@ -175,15 +175,15 @@ export default class Torrent {
 
   destroy() {
     if (this.inProgress) {
-      console.log('Destroyed Torrent...');
-
-      if (this.server && typeof this.server.close === 'function') {
+      if (this.server && this.server.close) {
+        console.log('Closing the torrent server...');
         this.server.close();
         this.server = {};
       }
 
       this.clearIntervals();
 
+      console.log('Destroying the torrent engine...');
       this.engine.destroy();
       this.engine = undefined;
 

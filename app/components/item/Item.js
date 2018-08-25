@@ -676,6 +676,14 @@ export default class Item extends Component<Props, State> {
             break;
         }
 
+        const recentlyWatchedList = await this.butter.recentlyWatched('get');
+        const containsRecentlyWatchedItem = recentlyWatchedList.some(
+          e => e.id === item.id
+        );
+        if (!containsRecentlyWatchedItem) {
+          await this.butter.recentlyWatched('set', item);
+        }
+
         this.setState({
           captions: subtitles,
           servingUrl
@@ -769,6 +777,7 @@ export default class Item extends Component<Props, State> {
 
           {playbackInProgress ? (
             <span
+              data-e2e="close-player"
               role="presentation"
               id="close-button"
               onClick={() => this.closeVideo()}

@@ -170,9 +170,16 @@ export default class Home extends Component<Props, State> {
     document.addEventListener('scroll', this.initInfinitePagination.bind(this));
     window.scrollTo(0, global.pct[`${activeMode}ScrollTop`]);
 
+    const [favorites, watchList, recentlyWatched] = await Promise.all([
+      this.butter.favorites('get'),
+      this.butter.watchList('get'),
+      this.butter.recentlyWatched('get')
+    ]);
+
     this.setState({
-      favorites: await this.butter.favorites('get'),
-      watchList: await this.butter.watchList('get')
+      favorites,
+      watchList,
+      recentlyWatched
     });
   }
 
@@ -218,18 +225,23 @@ export default class Home extends Component<Props, State> {
 
   render() {
     const { activeMode, actions, items, isLoading } = this.props;
-    const { favorites, watchList } = this.state;
+    const { favorites, watchList, recentlyWatched } = this.state;
 
     const home = (
       <Container fluid>
         <Row>
           <Col sm="12">
-            <CardList title="Favorites" items={favorites} isLoading={false} />
+            <CardList title="Recently Watched" items={recentlyWatched} />
           </Col>
         </Row>
         <Row>
           <Col sm="12">
-            <CardList title="Watch List" items={watchList} isLoading={false} />
+            <CardList title="Favorites" items={favorites} />
+          </Col>
+        </Row>
+        <Row>
+          <Col sm="12">
+            <CardList title="Watch List" items={watchList} />
           </Col>
         </Row>
       </Container>

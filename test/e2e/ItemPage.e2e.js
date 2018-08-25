@@ -84,6 +84,22 @@ test('it should add items to watch list', async t => {
     .contains('item/');
 });
 
+test.skip('it should add items to recently watched list', async t => {
+  await t
+    .click('[data-e2e="item-play-button"]')
+    .wait(20000)
+    .click('[data-e2e="close-player"]');
+
+  await clickItemPageBackButton(t);
+  await navigateTo(t, 'home');
+  await t
+    .expect(await getLowerCaseCardTitle())
+    .contains("harry potter and the philosopher's stone")
+    .click(cardSelector)
+    .expect(getPageUrl())
+    .contains('item/');
+});
+
 test('it should display torrent loading status', async t => {
   await t.expect(Selector('[data-e2e="item-play-button"]').visible).ok();
 });
