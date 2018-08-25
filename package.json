@@ -1,6 +1,6 @@
 {
   "name": "popcorn-time-desktop",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "An experimental Popcorn Time client",
   "scripts": {
     "bench-api": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 jest test/**/*.benchmark.js",
