@@ -41,11 +41,6 @@
 
 **Cross Platform**: Works on Mac, Windows, and Linux
 
-## Requirements:
-
-- [Node >= 10](https://nodejs.org)
-- For packaging, see [packaging requirements](https://github.com/amilajack/popcorn-time-desktop/wiki/Packaging-Requirements)
-
 ## Getting started:
 
 - **I am a tester:** Download the latest build from the [releases](https://github.com/amilajack/popcorn-time-desktop/releases) section.
@@ -67,7 +62,8 @@ cd popcorn-time-desktop
 
 # 💡 For casting support, you will need to satisfy mdns's requirements:
 # For windows install bonjour: https://support.apple.com/downloads/bonjour_for_windows
-# For linux, make sure you have these dependencies installed with apt-get: https://github.com/amilajack/popcorn-time-desktop/blob/v1.0.0/.travis.yml#L26-L38
+# For linux, make sure you have these dependencies installed with apt-get:
+# https://github.com/amilajack/popcorn-time-desktop/blob/v1.0.0/.travis.yml#L23-L35
 
 # Install dependencies
 # Have a cup of coffee ☕️ this might take a while
@@ -88,11 +84,11 @@ yarn package
 
 Please see the [contributing guide](https://github.com/amilajack/popcorn-time-desktop/blob/master/CONTRIBUTING.md)
 
-## Todos:
+## Roadmap:
 
 See the [roadmap](https://github.com/amilajack/popcorn-time-desktop/wiki/Road-Map-and-Progress) for the full list.
 
-## Goals/Mockups:
+## Designs:
 
 ### Home Page:
 
