@@ -1,4 +1,5 @@
-os: unstable
+platform:
+  - x64
 
 image: Visual Studio 2017
 
@@ -42,4 +43,5 @@ test_script:
   # - yarn lint
   # - yarn test
   - yarn package-ci
-  - yarn test-e2e
+  - yarn build-e2e
+  - yarn test-e2e --quarantine-mode

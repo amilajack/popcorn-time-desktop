@@ -9,7 +9,7 @@ import ConfigStore from 'configstore';
 
 export default function setupConfig() {
   return new ConfigStore(
-    process.env.NODE_ENV === 'TEST' ? 'popcorn-time-test' : 'popcorn-time',
+    process.env.E2E_BUILD === 'true' ? 'popcorn-time-test' : 'popcorn-time',
     {
       favorites: [],
       recentlyWatched: [],

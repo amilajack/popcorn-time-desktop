@@ -97,27 +97,28 @@
     }
   }
 
-  // Some hacky plyr style overrides
-  .plyr {
-    height: 500px;
-  }
-
   .plyr.col-sm-12 {
     padding: 0;
+  }
+
+  .plyr__video-wrapper {
+    display: flex;
   }
 
   .plyr__video-wrapper.plyr__video-embed.plyr--setup {
     padding: 250px 0;
   }
 
-  .plyr--fullscreen-active.plyr {
-    height: 100%;
-    padding: inherit;
+  // .plyr {
+  //   height: 500px;
+  //   padding: inherit;
+  //   display: flex;
+  //   justify-content: center;
 
-    &.plyr__video-wrapper.plyr__video-embed.plyr--setup {
-      padding: inherit;
-    }
-  }
+  //   &.plyr__video-wrapper.plyr__video-embed.plyr--setup {
+  //     padding: inherit;
+  //   }
+  // }
 
   #close-button {
     position: absolute !important;
@@ -125,5 +126,10 @@
     right: 0;
     z-index: 1000000000;
     color: white !important;
+    opacity: 0.5;
+    opacity: 0.5;
+    font-size: 1.5em;
+    margin: 10px;
+    cursor: pointer;
   }
 }

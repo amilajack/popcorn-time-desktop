@@ -69,66 +69,19 @@ export default class Player {
     return provider.play(addr, metadata);
   }
 
-  initYouTube(itemTitle: string, source: string) {
+  initYouTube() {
     console.info('Initializing plyr...');
     this.currentPlayer = 'plyr';
-
-    this.player =
-      this.player ||
-      plyr.setup({
-        volume: 10,
-        autoplay: true,
-        showPosterOnEnd: true
-      })[0];
-
-    const player = this.player;
-
-    player.source({
-      title: `${itemTitle} Trailer`,
-      type: 'video',
-      sources: [
-        {
-          src: source,
-          type: 'youtube'
-        }
-      ]
-    });
-
-    return player;
+    this.player = {};
+    return this.player;
   }
 
-  initPlyr(streamingUrl: string, metadata: metadataType): plyr {
+  initPlyr(): plyr {
     console.info('Initializing plyr...');
     this.currentPlayer = 'plyr';
     this.powerSaveBlockerId = powerSaveBlocker.start('prevent-app-suspension');
-
-    this.player =
-      this.player ||
-      plyr.setup({
-        volume: 10,
-        autoplay: true,
-        showPosterOnEnd: true
-      })[0];
-
-    const player = this.player;
-
-    player.source({
-      type: 'video',
-      sources: [
-        {
-          src: streamingUrl,
-          type: 'video/mp4'
-        }
-      ]
-    });
-
-    if ('full' in metadata.images.poster) {
-      player.poster(metadata.images.poster.full);
-    }
-
-    player.toggleFullscreen();
-
-    return player;
+    this.player = {};
+    return this.player;
   }
 
   initVLC(servingUrl: string) {

@@ -5,9 +5,9 @@ import Butter from '../../api/Butter';
 import type { contentType } from '../../api/metadata/MetadataProviderInterface';
 
 type Props = {
-  item: contentType,
-  favorites: Array<contentType>,
-  watchList: Array<contentType>
+  item?: contentType,
+  favorites?: Array<contentType>,
+  watchList?: Array<contentType>
 };
 
 type State = {
@@ -33,7 +33,7 @@ export default class SaveItem extends Component {
 
   componentWillReceiveProps(nextProps: Props) {
     if (!(nextProps.item && nextProps.item.ids && nextProps.item.ids.tmdbId)) {
-      return false;
+      return;
     }
     const { tmdbId } = nextProps.item.ids;
 
@@ -80,15 +80,25 @@ export default class SaveItem extends Component {
     return (
       <div className="SaveItem" style={{ color: 'white' }}>
         <i
-          className={classnames('SaveItem--icon', 'SaveItem--favorites', 'ion-heart', {
-            'SaveItem--active-icon': this.state.isInFavorites
-          })}
+          className={classnames(
+            'SaveItem--icon',
+            'SaveItem--favorites',
+            'ion-heart',
+            {
+              'SaveItem--active-icon': this.state.isInFavorites
+            }
+          )}
           onClick={() => this.addFavorite()}
         />
         <i
-          className={classnames('SaveItem--icon', 'SaveItem--watchlist', 'ion-ios-list', {
-            'SaveItem--active-icon': this.state.isInWatchList
-          })}
+          className={classnames(
+            'SaveItem--icon',
+            'SaveItem--watchlist',
+            'ion-ios-list',
+            {
+              'SaveItem--active-icon': this.state.isInWatchList
+            }
+          )}
           onClick={() => this.addWatchList()}
         />
       </div>

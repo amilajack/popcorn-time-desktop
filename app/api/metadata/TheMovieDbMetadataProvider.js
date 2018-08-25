@@ -168,7 +168,7 @@ function formatMetadata(item, type: string, imageUri: string, genres) {
     // 'title' property is on movies only. 'name' property is on
     // shows only
     title: item.name || item.title,
-    year: new Date(item.release_date).getFullYear(),
+    year: new Date(item.release_date || item.first_air_date).getFullYear(),
     // @DEPRECATE
     id: String(item.id),
     ids: {

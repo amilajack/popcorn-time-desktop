@@ -1,4 +1,5 @@
 import { Selector } from 'testcafe';
+import { ReactSelector, waitForReact } from 'testcafe-react-selectors';
 import {
   BASE_URL,
   cardSelector,
@@ -13,11 +14,11 @@ import {
 
 const TEST_MOVIE_URL = '#/item/movies/351286';
 
-fixture`Item Page`.page(BASE_URL).beforeEach(async t => {
+fixture`Item Page Movies`.page(BASE_URL).beforeEach(async t => {
   clearConfigs();
   await t
     .click(Selector('a').withExactText('Home'))
-    .typeText('#pct-search-input', 'jurassic world', { replace: true })
+    .typeText('#pct-search-input', "harry potter and the philosopher's stone", { replace: true })
     .pressKey('enter')
     .click(cardSelector);
 });
@@ -25,17 +26,18 @@ fixture`Item Page`.page(BASE_URL).beforeEach(async t => {
 test('it should load item title', async t => {
   await t
     .expect(
-      Selector('h1').withExactText('Jurassic World: Fallen Kingdom').visible
+      Selector('h1').withExactText("Harry Potter and the Philosopher's Stone")
+        .visible
     )
     .ok();
 });
 
 test('it should go back', async t => {
-  await clickItemPageBackButton(t)
+  await clickItemPageBackButton(t);
   await t
     .expect(await getPageUrl().then(str => str.slice(str.length - 11)))
-    .eql('app.html?#/')
-})
+    .eql('app.html?#/');
+});
 
 test('it should load similar cards', async t => {
   await t
@@ -51,8 +53,7 @@ test('it should load similar cards', async t => {
 });
 
 test('it should add items to favorites', async t => {
-  await t
-    .click('.SaveItem--favorites')
+  await t.click('.SaveItem--favorites');
   await t
     .expect(Selector('.SaveItem--active-icon.SaveItem--favorites').visible)
     .ok();
@@ -60,12 +61,14 @@ test('it should add items to favorites', async t => {
   await navigateTo(t, 'home');
   await t
     .expect(await getLowerCaseCardTitle())
-    .contains('jurassic world');
+    .contains("harry potter and the philosopher's stone")
+    .click(cardSelector)
+    .expect(getPageUrl())
+    .contains('item/');
 });
 
 test('it should add items to watch list', async t => {
-  await t
-    .click('.SaveItem--watchlist')
+  await t.click('.SaveItem--watchlist');
   await t
     .expect(Selector('.SaveItem--active-icon.SaveItem--watchlist').visible)
     .ok();
@@ -73,11 +76,80 @@ test('it should add items to watch list', async t => {
   await navigateTo(t, 'home');
   await t
     .expect(await getLowerCaseCardTitle())
-    .contains('jurassic world');
+    .contains("harry potter and the philosopher's stone")
+    .click(cardSelector)
+    .expect(getPageUrl())
+    .contains('item/');
 });
 
 test('it should display torrent loading status', async t => {
+  await t.expect(Selector('[data-e2e="item-play-button"]').visible).ok();
+});
+
+test.skip('it should play trailer', async t => {
   await t
-    .expect(Selector('.Item--loading-status').withExactText('Fetching torrents...').visible)
+    .click('[data-e2e="item-trailer-button"]')
+    .expect(Selector('.plyr').visible)
     .ok();
-})
+});
+
+test('it should click player dropdown menu', async t => {
+  await waitForReact();
+  await t
+    .click(ReactSelector('DropdownToggle'))
+    .click(
+      ReactSelector('DropdownItem').withProps({
+        id: 'vlc'
+      })
+    )
+    .expect(ReactSelector('Button').withExactText('vlc').visible)
+    .ok();
+});
+
+test('it should load and play a movie', async t => {
+  const playButton = Selector('[data-e2e="item-play-button"]');
+  // Navigate to harry potter because we know it has a lot of torrents. Good for testing purposes
+  await t
+    .expect(Selector('[data-e2e="item-play-button"]').visible)
+    .ok()
+    .expect(playButton.visible)
+    .ok()
+    .click(playButton)
+    .expect(
+      Selector('.Item--loading-status').withExactText('Loading torrent...')
+        .visible
+    )
+    .ok()
+    .expect(Selector('a[data-e2e="item-year"]').withExactText('2001').visible)
+    .ok();
+});
+
+fixture`Item Page TV Shows`.page(BASE_URL).beforeEach(async t => {
+  clearConfigs();
+  await t
+    .click(Selector('a').withExactText('Home'))
+    .typeText('#pct-search-input', 'silicon valley', { replace: true })
+    .pressKey('enter')
+    .click(cardSelector)
+    .expect(Selector('a[data-e2e="item-year"]').withExactText('2014').visible)
+    .ok();
+});
+
+test.skip('it should load and play a tv show', async t => {
+  const playButton = Selector('[data-e2e="item-play-button"]');
+  // Navigate to harry potter because we know it has a lot of torrents. Good for testing purposes
+  await t
+    .expect(Selector('[data-e2e="item-play-button"]').visible)
+    .ok()
+    .notOk()
+    .expect(playButton.visible)
+    .ok()
+    .click(playButton)
+    .expect(
+      Selector('.Item--loading-status').withExactText('Loading torrent...')
+        .visible
+    )
+    .ok()
+    .expect(Selector('a').withExactText('').visible)
+    .ok();
+});

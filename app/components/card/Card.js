@@ -4,7 +4,7 @@
  */
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Rating from './Rating.jsx';
+import Rating from './Rating';
 
 type Props = {
   title: string,
@@ -42,9 +42,9 @@ export default function Card(props: Props) {
             </Link>
           </div>
           <div className="col-sm-8">
-            {typeof rating === 'number'
-              ? <Rating starColor={starColor} rating={rating} />
-              : null}
+            {typeof rating === 'number' ? (
+              <Rating starColor={starColor} rating={rating} />
+            ) : null}
           </div>
         </div>
       </div>

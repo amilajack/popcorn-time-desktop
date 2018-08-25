@@ -1,10 +1,5 @@
 {
-  "extends": [
-    "airbnb",
-    "prettier",
-    "prettier/flowtype",
-    "prettier/react"
-  ],
+  "extends": ["airbnb", "prettier", "prettier/flowtype", "prettier/react"],
   "parser": "babel-eslint",
   "env": {
     "browser": true,
@@ -36,9 +31,9 @@
     "no-use-before-define": "off",
     "no-console": "off",
     "promise/avoid-new": "off",
-    "react/sort-comp": ["error", {
-      "order": ["type-annotations", "properties", "constructor", "static-methods", "everything-else", "lifecycle", "render"]
-    }]
+    "react/sort-comp": "off",
+    "react/destructuring-assignment": "off",
+    "react/jsx-filename-extension": "off"
   },
   "settings": {
     "import/extensions": [".jsx", ".js"],

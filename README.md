@@ -43,22 +43,34 @@
 
 ## Requirements:
 
-* [Node >= 10](https://nodejs.org)
-* For packaging, see [packaging requirements](https://github.com/amilajack/popcorn-time-desktop/wiki/Packaging-Requirements)
+- [Node >= 10](https://nodejs.org)
+- For packaging, see [packaging requirements](https://github.com/amilajack/popcorn-time-desktop/wiki/Packaging-Requirements)
 
 ## Getting started:
+
 - **I am a tester:** Download the latest build from the [releases](https://github.com/amilajack/popcorn-time-desktop/releases) section.
 
 - **I am a developer:** Compile the project with the installation steps below.
 
+## Requirements:
+
+- [Node >= 10](https://nodejs.org)
+- Mac, Linux, Windows
+- For packaging, see [packaging requirements](https://github.com/amilajack/popcorn-time-desktop/wiki/Packaging-Requirements)
+- For casting support, you will need to [satisfy mdns's requirements](https://github.com/agnat/node_mdns#installation)
+
 ## Installation:
+
 ```bash
 git clone https://github.com/amilajack/popcorn-time-desktop.git
 cd popcorn-time-desktop
 
+# 💡 For casting support, you will need to satisfy mdns's requirements:
+# For windows install bonjour: https://support.apple.com/downloads/bonjour_for_windows
+# For linux, make sure you have these dependencies installed with apt-get: https://github.com/amilajack/popcorn-time-desktop/blob/v1.0.0/.travis.yml#L26-L38
+
 # Install dependencies
 # Have a cup of coffee ☕️ this might take a while
-# Run `yarn electron-rebuild` if get a 'module version mismatch' error
 yarn
 
 # Customize Build
@@ -70,21 +82,22 @@ yarn dev
 
 # Production build
 yarn package
-
-# 💡 For casting support, you will need to satisfy mdns's requirements:
-# https://github.com/agnat/node_mdns#installation
 ```
 
 ## Contributing:
+
 Please see the [contributing guide](https://github.com/amilajack/popcorn-time-desktop/blob/master/CONTRIBUTING.md)
 
 ## Todos:
+
 See the [roadmap](https://github.com/amilajack/popcorn-time-desktop/wiki/Road-Map-and-Progress) for the full list.
 
 ## Goals/Mockups:
 
 ### Home Page:
+
 ![Home Page](https://github.com/amilajack/popcorn-time-desktop-design/raw/master/Desktop.jpg)
 
 ### Movie Page:
+
 ![Movie page](https://raw.github.com/amilajack/popcorn-time-desktop/master/images/movie-page.jpg)

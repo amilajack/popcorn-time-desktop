@@ -1,52 +1,85 @@
-sudo: required
+sudo: true
 
-dist: trusty
+matrix:
+  include:
+  - os: osx
+    osx_image: xcode9.4
+    language: node_js
+    node_js:
+    - node
+    - 9
+    env:
+    - ELECTRON_CACHE=$HOME/.cache/electron
+    - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
+  - os: linux
+    language: node_js
+    node_js:
+    - node
+    - 9
+    addons:
+      apt:
+        sources:
+        - ubuntu-toolchain-r-test
+        packages:
+        - g++-4.8
+        - icnsutils
+        - graphicsmagick
+        - xz-utils
+        - xorriso
+        - gcc-multilib
+        - g++-multilib
+        - rpm
+        - libavahi-compat-libdnssd-dev
+        - avahi-daemon
+        - avahi-discover
+        - libnss-mdns
 
-language: node_js
-
-node_js:
-  - 9
+before_cache:
+  - rm -rf $HOME/.cache/electron-builder/wine
 
 cache:
   yarn: true
   directories:
     - node_modules
     - app/node_modules
+    - "$(npm config get prefix)/lib/node_modules"
     - flow-typed
-    - $(npm config get prefix)/lib/node_modules
-    - $HOME/.electron
-
-addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-    packages:
-      - g++-4.8
-      - icnsutils
-      - graphicsmagick
-      - xz-utils
-      - gcc-multilib
-      - g++-multilib
-      - rpm
-      - libavahi-compat-libdnssd-dev
+    - "$HOME/.cache/electron"
+    - "$HOME/.cache/electron-builder"
+    - "$HOME/docker"
 
 before_install: yarn global add greenkeeper-lockfile@1
 
 install:
-  - export CXX="g++-4.8"
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export CXX="g++-4.8"; fi
   - yarn
-  - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x16"
+  - |
+    if [ "$TRAVIS_OS_NAME" == "linux" ]; then
+      /sbin/start-stop-daemon \
+      --start \
+      --quiet \
+      --pidfile /tmp/custom_xvfb_99.pid \
+      --make-pidfile \
+      --background \
+      --exec /usr/bin/Xvfb \
+      -- :99 -ac -screen 0 1280x1024x16
+    else
+      :
+    fi
 
 before_script:
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start &
-  - sleep 3
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export DISPLAY=:99.0; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sh -e /etc/init.d/xvfb start; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sleep 3; fi
   - greenkeeper-lockfile-update
 
 script:
-  # - yarn lint
-  # - yarn test
   - yarn package-ci
-  - yarn test-e2e
+  - yarn build-e2e
+  - yarn test-e2e --quarantine-mode
 
 after_script: greenkeeper-lockfile-upload
+
+env:
+  global:
+    secure: h08lERRuaRxR+8HLA8Z7DD/ZqK3iKL5l3mokNK18RxY5iFRdlZxRoIMLck8oXsrkiqIzI0Ah9a8I524wW9rqiuy0nw8V0QpbXyPQI7UXs1ZqiUcivyinc59juURE6rXFtnQVmL3W5bjjpiJRNSgw6T1j9Csls4cdH/OEEgUczP1a0ijFCAWszs1v3FYykhQ/2v5Dsji5ZV2IkXMelVu6FdWGjWHknmpfemCogqGB9z6wHCONfGXBF+HGI1pJPnva0pnLVVUb8Qy8RK/sQ8Qn3eGYDlSMDZiRwd9zDmqQvCTMeEbU9Gs8QmmgelKqmNBN6FPHElNsJq1B8Z4X7rnaR/jNbbfZanmZvt+nL5j6SRVn96IwDlXufS4IfhSo56d9Eervvyz1nWQB0KnUVBf8UV7s2U9dpw/RCYDKR1mVFGYpQT+0d9cbxrEau1pVDbl9Hj5dubG99fUHNS5uwef/UuSn/oAOw9crAzOCtfSfOBc5jrpDlj4/QEcCGcR58GvR2awF2mxw39WlgQt5YJr2Zbzzrhr2pd/F991J5wmynhxjfD2DXEwxqteaEDJa4fTPjS2UDIRHjLqxWwirXzFCaHFV9449Tnp7SpYuzbYeu81yzq1XIS8zzla3nQ/GY+By78ny6twgnNSPdNAk8dAA3MPGEpWzRphOmGrM1ubKt34=

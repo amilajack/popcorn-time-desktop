@@ -6,7 +6,7 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as HomeActions from '../actions/homePageActions';
-import Home from '../components/home/Home.jsx';
+import Home from '../components/home/Home';
 
 function mapStateToProps(state) {
   return {
@@ -25,4 +25,7 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Home);
