@@ -2,37 +2,37 @@ sudo: true
 
 matrix:
   include:
-  - os: osx
-    osx_image: xcode9.4
-    language: node_js
-    node_js:
-    - node
-    - 9
-    env:
-    - ELECTRON_CACHE=$HOME/.cache/electron
-    - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
-  - os: linux
-    language: node_js
-    node_js:
-    - node
-    - 9
-    addons:
-      apt:
-        sources:
-        - ubuntu-toolchain-r-test
-        packages:
-        - g++-4.8
-        - icnsutils
-        - graphicsmagick
-        - xz-utils
-        - xorriso
-        - gcc-multilib
-        - g++-multilib
-        - rpm
-        - libavahi-compat-libdnssd-dev
-        - avahi-daemon
-        - avahi-discover
-        - libnss-mdns
+    - os: osx
+      osx_image: xcode9.4
+      language: node_js
+      node_js:
+        - node
+        - 9
+      env:
+        - ELECTRON_CACHE=$HOME/.cache/electron
+        - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
+    - os: linux
+      language: node_js
+      node_js:
+        - node
+        - 9
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-4.8
+            - icnsutils
+            - graphicsmagick
+            - xz-utils
+            - xorriso
+            - gcc-multilib
+            - g++-multilib
+            - rpm
+            - libavahi-compat-libdnssd-dev
+            - avahi-daemon
+            - avahi-discover
+            - libnss-mdns
 
 before_cache:
   - rm -rf $HOME/.cache/electron-builder/wine
