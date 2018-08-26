@@ -21,23 +21,20 @@ type Props = {
   activeMode: string
 };
 
-export default class Header extends Component<Props, {}> {
+type State = {
+  searchQuery: string
+};
+
+export default class Header extends Component<Props, State> {
   props: Props;
 
-  state: {
-    searchQuery: string
+  state: State = {
+    searchQuery: ''
   };
 
   butter: Butter;
 
-  constructor(props: Props) {
-    super(props);
-
-    this.butter = new Butter();
-    this.state = {
-      searchQuery: ''
-    };
-  }
+  butter = new Butter();
 
   /**
    * Set the mode of the movies to be 'search'
