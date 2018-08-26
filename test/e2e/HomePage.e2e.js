@@ -80,3 +80,28 @@ test('it should paginate items on scroll to bottom of viewport', async t => {
 
   await t.expect(selector1).lt(selector2);
 });
+
+test('it should move card selector left and right', async t => {
+  await navigateTo(t, 'movies');
+  await t
+    .pressKey('right')
+    .expect(Selector('.Card').nth(1).withAttribute('class', 'Card Card--selected').visible)
+    .ok()
+    .pressKey('left')
+    .expect(Selector('.Card').nth(0).withAttribute('class', 'Card Card--selected').visible)
+    .ok()
+    .pressKey('left')
+    .expect(Selector('.Card').nth(0).withAttribute('class', 'Card Card--selected').visible)
+    .ok();
+});
+
+test('it should navigate to card on enter press', async t => {
+  await navigateTo(t, 'movies');
+  await t
+    .pressKey('right')
+    .expect(Selector('.Card').nth(1).withAttribute('class', 'Card Card--selected').visible)
+    .ok()
+    .pressKey('enter')
+    .expect(getPageUrl())
+    .contains('item')
+});

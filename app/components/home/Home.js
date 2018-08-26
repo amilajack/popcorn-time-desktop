@@ -183,9 +183,17 @@ export default class Home extends Component<Props, State> {
     });
   }
 
+  componentWillMount() {
+
+  }
+
   componentWillReceiveProps(nextProps: Props) {
     const { activeMode, activeModeOptions, actions } = this.props;
     global.pct[`${activeMode}ScrollTop`] = document.body.scrollTop;
+
+    if (activeMode !== nextProps.activeMode) {
+      window.currentCardSelectedIndex = 0;
+    }
 
     if (
       JSON.stringify(nextProps.activeModeOptions) !==
