@@ -171,3 +171,43 @@ test.skip('it should load and play a tv show', async t => {
     .expect(Selector('a').withExactText('').visible)
     .ok();
 });
+
+test('it should move card selector left and right', async t => {
+  await t
+    .pressKey('right')
+    .expect(
+      Selector('.Card')
+        .nth(1)
+        .withAttribute('class', 'Card Card--selected').visible
+    )
+    .ok()
+    .pressKey('left')
+    .expect(
+      Selector('.Card')
+        .nth(0)
+        .withAttribute('class', 'Card Card--selected').visible
+    )
+    .ok()
+    .pressKey('left')
+    .expect(
+      Selector('.Card')
+        .nth(0)
+        .withAttribute('class', 'Card Card--selected').visible
+    )
+    .ok();
+});
+
+test('it should navigate to card on enter press', async t => {
+  const url = await getPageUrl();
+  await t
+    .pressKey('right')
+    .expect(
+      Selector('.Card')
+        .nth(1)
+        .withAttribute('class', 'Card Card--selected').visible
+    )
+    .ok()
+    .pressKey('enter')
+    .expect(getPageUrl())
+    .notEql(url);
+});

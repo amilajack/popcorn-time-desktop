@@ -1,7 +1,9 @@
 import React from 'react';
 import { Switch, Route } from 'react-router';
 import Loadable from 'react-loadable';
+import { Row, Col } from 'reactstrap';
 import App from './containers/App';
+import OfflineAlert from './components/header/OfflineAlert';
 
 const style = {
   color: 'blue !important',
@@ -23,6 +25,11 @@ const HomePage = LoadableHelper(import('./containers/HomePage'));
 
 export default () => (
   <App>
+    <Row>
+      <Col sm="12">
+        <OfflineAlert />
+      </Col>
+    </Row>
     <Switch>
       <Route
         exact

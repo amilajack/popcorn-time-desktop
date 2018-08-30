@@ -31,7 +31,6 @@ if (module.hot) {
 
 import('mousetrap')
   .then(mousetrap => {
-    // Bind app shortcuts
     mousetrap.bind(['command+f', 'ctrl+f'], () => {
       window.scrollTo(0, 0);
       document.getElementById('pct-search-input').focus();
@@ -60,6 +59,47 @@ import('mousetrap')
       )[2];
       secondLink.click();
       return false;
+    });
+
+    mousetrap.bind(['left', 'right', 'enter'], event => {
+      const cards = Array.from(document.querySelectorAll('.Card'));
+      if (!cards.length) {
+        return;
+      }
+
+      const prevIndex = window.currentCardSelectedIndex;
+      const prevSelectedCard = document.querySelector('.Card--selected');
+
+      switch (event.key) {
+        case 'ArrowLeft': {
+          if (window.currentCardSelectedIndex - 1 >= 0) {
+            window.currentCardSelectedIndex--;
+          }
+          break;
+        }
+        case 'ArrowRight': {
+          if (window.currentCardSelectedIndex + 1 <= cards.length - 1) {
+            window.currentCardSelectedIndex++;
+          }
+          break;
+        }
+        case 'Enter': {
+          if (prevSelectedCard) {
+            prevSelectedCard.querySelector('a').click();
+          }
+          break;
+        }
+        default:
+          throw new Error('Unsupported key event');
+      }
+
+      if (window.currentCardSelectedIndex !== prevIndex || !prevSelectedCard) {
+        if (prevSelectedCard) {
+          prevSelectedCard.classList.remove('Card--selected');
+        }
+        cards[window.currentCardSelectedIndex].classList.add('Card--selected');
+        cards[window.currentCardSelectedIndex].scrollIntoView();
+      }
     });
 
     return true;

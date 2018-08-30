@@ -27,6 +27,15 @@
       opacity: 1;
     }
 
+    &.Card--selected {
+      .Card--overlay-container {
+        transition: all 0.2 ease cubic-bezier(0.075, 0.82, 0.165, 1);
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.12),
+          0 2px 4px 0 rgba(0, 0, 0, 0.08);
+        border: 2px solid white;
+      }
+    }
+
     .Card--icon {
       float: right;
       cursor: pointer;

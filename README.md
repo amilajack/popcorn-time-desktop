@@ -13,8 +13,8 @@
   <a target="_blank" href="https://ci.appveyor.com/project/amilajack/popcorn-time-desktop/branch/master">
     <img src="https://ci.appveyor.com/api/projects/status/071qeglg94au8wr2/branch/master?svg=true" alt="AppVeyor Build status" />
   </a>
-  <a target="_blank" href="https://david-dm.org/amilajack/popcorn-time-desktop?type=dev">
-    <img src="https://img.shields.io/david/dev/amilajack/popcorn-time-desktop.svg" alt="npm dev dependencies" />
+  <a target="_blank" href="https://david-dm.org/amilajack/popcorn-time-desktop">
+    <img src="https://img.shields.io/david/amilajack/popcorn-time-desktop.svg" alt="npm dependencies" />
   </a>
   <a target="_blank" href="https://gitter.im/amilajack/popcorn-time-desktop?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge">
     <img src="https://badges.gitter.im/amilajack/popcorn-time-desktop.svg" alt="Gitter" />
@@ -63,7 +63,7 @@ cd popcorn-time-desktop
 # 💡 For casting support, you will need to satisfy mdns's requirements:
 # For windows install bonjour: https://support.apple.com/downloads/bonjour_for_windows
 # For linux, make sure you have these dependencies installed with apt-get:
-# https://github.com/amilajack/popcorn-time-desktop/blob/v1.1.0/.travis.yml#L24-L35
+# https://github.com/amilajack/popcorn-time-desktop/blob/v1.2.0/.travis.yml#L24-L35
 
 # Install dependencies
 # Have a cup of coffee ☕️ this might take a while
