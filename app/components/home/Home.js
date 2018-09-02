@@ -183,9 +183,7 @@ export default class Home extends Component<Props, State> {
     });
   }
 
-  componentWillMount() {
-
-  }
+  componentWillMount() {}
 
   componentWillReceiveProps(nextProps: Props) {
     const { activeMode, activeModeOptions, actions } = this.props;

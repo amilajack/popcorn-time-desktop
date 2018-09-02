@@ -65,7 +65,13 @@ export default class Torrent {
     magnetURI: string,
     metadata: metadataType,
     supportedFormats: Array<string>,
-    cb
+    cb: (
+      servingUrl: string,
+      file: { name: string },
+      files: string,
+      torrent: string,
+      subtitle: { name: string } | boolean
+    ) => void
   ) {
     if (this.inProgress) {
       console.log('Torrent already in progress');
@@ -159,7 +165,8 @@ export default class Torrent {
             file,
             files,
             torrent,
-            selectSubtitleFile(files, activeMode, metadata)
+            false
+            // selectSubtitleFile(files, activeMode, metadata)
           );
 
           this.clearIntervals();

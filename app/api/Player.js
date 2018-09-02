@@ -7,6 +7,8 @@ import vlcCommand from 'vlc-command';
 import ChromecastPlayerProvider from './players/ChromecastPlayerProvider';
 import type { metadataType } from './players/PlayerProviderInterface';
 
+export type subtitleType = { kind: string, src: string, srclang: string };
+
 const { powerSaveBlocker } = remote;
 
 export default class Player {
@@ -62,11 +64,12 @@ export default class Player {
   async initCast(
     provider: ChromecastPlayerProvider,
     streamingUrl: string,
-    metadata: metadataType
+    metadata: metadataType,
+    subtitles: Array<subtitleType>
   ) {
     this.powerSaveBlockerId = powerSaveBlocker.start('prevent-app-suspension');
     const addr = streamingUrl.replace('localhost', network());
-    return provider.play(addr, metadata);
+    return provider.play(addr, metadata, subtitles);
   }
 
   initYouTube() {

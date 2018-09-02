@@ -1,10 +1,12 @@
 // @flow
 import { Client, DefaultMediaReceiver } from 'castv2-client';
 import mdns from 'mdns';
+import network from 'network-address';
 import type {
   PlayerProviderInterface,
   deviceType,
-  metadataType
+  metadataType,
+  subtitleType
 } from './PlayerProviderInterface';
 
 type castv2DeviceType = {
@@ -81,12 +83,27 @@ class ChromecastPlayerProvider implements PlayerProviderInterface {
     return selectedDevice;
   }
 
-  play(contentUrl: string, metadata: metadataType) {
+  play(
+    contentUrl: string,
+    metadata: metadataType,
+    subtitles: Array<subtitleType>
+  ) {
     const client = new Client();
 
     if (!this.selectDevice) {
       throw new Error('No device selected');
     }
+
+    const networkAddress = network();
+    const tracks = subtitles.map((subtitle, index) => ({
+      trackId: index, // This is an unique ID, used to reference the track
+      type: 'TEXT', // Default Media Receiver currently only supports TEXT
+      trackContentId: subtitle.src.replace('localhost', networkAddress), // the URL of the VTT (enabled CORS and the correct ContentType are required)
+      trackContentType: 'text/vtt', // Currently only VTT is supported
+      name: subtitle.srclang, // a Name for humans
+      language: subtitle.srclang, // the language
+      subtype: 'SUBTITLES' // should be SUBTITLES
+    }));
 
     return new Promise((resolve, reject) => {
       client.connect(
@@ -100,6 +117,8 @@ class ChromecastPlayerProvider implements PlayerProviderInterface {
               contentId: contentUrl,
               contentType: 'video/mp4',
               streamType: 'BUFFERED', // or LIVE
+
+              tracks,
 
               // Title and cover displayed while buffering
               metadata: {
@@ -117,10 +136,14 @@ class ChromecastPlayerProvider implements PlayerProviderInterface {
               }
             };
 
-            player.load(media, { autoplay: true }, _err => {
-              if (_err) reject(_err);
-              resolve();
-            });
+            player.load(
+              media,
+              { autoplay: true, activeTrackIds: tracks.map(e => e.trackId) },
+              _err => {
+                if (_err) reject(_err);
+                resolve();
+              }
+            );
           });
         }
       );
