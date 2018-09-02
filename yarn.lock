@@ -10,6 +10,13 @@
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/7zip/-/7zip-0.0.6.tgz#9cafb171af82329490353b4816f03347aa150a30"
 
+"@amilajack/react-plyr@^2.1.1":
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/@amilajack/react-plyr/-/react-plyr-2.1.1.tgz#5c1acd5fc56327ce28e9c107911bf2eabce4ec6f"
+  dependencies:
+    plyr "^3.3.21"
+    prop-types "^15.6.2"
+
 "@babel/code-frame@7.0.0-beta.44":
   version "7.0.0-beta.44"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.0.0-beta.44.tgz#2a02643368de80916162be70865c97774f3adbd9"
