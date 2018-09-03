@@ -687,7 +687,7 @@ export default class Item extends Component<Props, State> {
           case 'VLC':
             return this.player.initVLC(servingUrl);
           case 'chromecast': {
-            this.player.initCast(this.playerProvider, servingUrl, item);
+            this.player.initCast(this.playerProvider, servingUrl, item, captions);
             break;
           }
           case 'youtube':

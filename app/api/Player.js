@@ -65,7 +65,7 @@ export default class Player {
     provider: ChromecastPlayerProvider,
     streamingUrl: string,
     metadata: metadataType,
-    subtitles: Array<subtitleType>
+    subtitles: Array<subtitleType> = []
   ) {
     this.powerSaveBlockerId = powerSaveBlocker.start('prevent-app-suspension');
     const addr = streamingUrl.replace('localhost', network());

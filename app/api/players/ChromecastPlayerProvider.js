@@ -86,7 +86,7 @@ class ChromecastPlayerProvider implements PlayerProviderInterface {
   play(
     contentUrl: string,
     metadata: metadataType,
-    subtitles: Array<subtitleType>
+    subtitles: Array<subtitleType> = []
   ) {
     const client = new Client();
 
@@ -138,7 +138,7 @@ class ChromecastPlayerProvider implements PlayerProviderInterface {
 
             player.load(
               media,
-              { autoplay: true, activeTrackIds: tracks.map(e => e.trackId) },
+              { autoplay: true, activeTrackIds: [0] },
               _err => {
                 if (_err) reject(_err);
                 resolve();

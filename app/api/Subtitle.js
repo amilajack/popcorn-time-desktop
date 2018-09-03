@@ -34,9 +34,8 @@ export default class SubtitleServer {
     // Enable CORS
     // https://github.com/thibauts/node-castv2-client/wiki/How-to-use-subtitles-with-the-DefaultMediaReceiver-app#subtitles
     server.use((req, res, next) => {
-      if (req.headers.origin) {
-        res.headers['Access-Control-Allow-Origin'] = req.headers.origin;
-      }
+      res.header("Access-Control-Allow-Origin", "*");
+      res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
       next();
     });
     server.use(express.static(this.basePath));
