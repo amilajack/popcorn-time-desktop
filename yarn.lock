@@ -4078,12 +4078,12 @@ electron-to-chromium@^1.3.47, electron-to-chromium@^1.3.61:
   version "1.3.61"
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.61.tgz#a8ac295b28d0f03d85e37326fd16b6b6b17a1795"
 
-electron-window-state@^4.1.1:
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/electron-window-state/-/electron-window-state-4.1.1.tgz#6b34fdc31b38514dfec8b7c8f7b5d4addb67632d"
+electron-window-state@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/electron-window-state/-/electron-window-state-5.0.1.tgz#ebda7b789e4bd2ab5c439c22090b159effe6a12d"
   dependencies:
     deep-equal "^1.0.1"
-    jsonfile "^2.2.3"
+    jsonfile "^4.0.0"
     mkdirp "^0.5.1"
 
 electron@2.0.8:
@@ -7173,7 +7173,7 @@ json5@^1.0.1:
   dependencies:
     minimist "^1.2.0"
 
-jsonfile@^2.1.0, jsonfile@^2.2.3:
+jsonfile@^2.1.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/jsonfile/-/jsonfile-2.4.0.tgz#3736a2b428b87bbda0cc83b53fa3d633a35c2ae8"
   optionalDependencies:
