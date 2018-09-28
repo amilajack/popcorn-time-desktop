@@ -3119,7 +3119,7 @@ create-hmac@^1.1.0, create-hmac@^1.1.2, create-hmac@^1.1.4:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
-create-react-class@^15.5.1:
+create-react-class@^15.6.3:
   version "15.6.3"
   resolved "https://registry.yarnpkg.com/create-react-class/-/create-react-class-15.6.3.tgz#2d73237fb3f970ae6ebe011a9e66f46dbca80036"
   dependencies:
@@ -10029,12 +10029,12 @@ react-transition-group@^2.3.1, react-transition-group@^2.4.0:
     prop-types "^15.6.2"
     react-lifecycles-compat "^3.0.4"
 
-react-visibility-sensor@^3.11.1:
-  version "3.11.1"
-  resolved "https://registry.yarnpkg.com/react-visibility-sensor/-/react-visibility-sensor-3.11.1.tgz#cdcee0e43a8c603e0feb9773fcd2b7105a1cd9c2"
+react-visibility-sensor@^4.1.2:
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/react-visibility-sensor/-/react-visibility-sensor-4.1.2.tgz#9a0dee9af0f463cf0071da430971bf611663c069"
   dependencies:
-    create-react-class "^15.5.1"
-    prop-types "^15.5.4"
+    create-react-class "^15.6.3"
+    prop-types "^15.6.2"
 
 react@16.4.2:
   version "16.4.2"
