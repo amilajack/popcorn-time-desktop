@@ -282,7 +282,7 @@
     "super-kat": "0.1.0",
     "vlc-command": "1.1.2",
     "webtorrent": "github:amilajack/webtorrent",
-    "yargs": "12.0.1"
+    "yargs": "12.0.2"
   },
   "devEngines": {
     "node": ">=8.x",
