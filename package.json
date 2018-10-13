@@ -267,7 +267,7 @@
     "react-redux": "^5.0.7",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
-    "react-router-redux": "5.0.0-alpha.6",
+    "react-router-redux": "5.0.0-alpha.9",
     "react-star-rating-component": "^1.4.1",
     "react-transition-group": "^2.4.0",
     "react-visibility-sensor": "^3.11.1",
