@@ -208,7 +208,7 @@
     "image-diff": "2.0.0",
     "ionicons-temp": "2.0.0",
     "jest-cli": "^23.5.0",
-    "jsdom": "^12.0.0",
+    "jsdom": "^12.2.0",
     "lint-staged": "^7.2.2",
     "lodash-webpack-plugin": "^0.11.5",
     "lru-cache": "4.1.3",
