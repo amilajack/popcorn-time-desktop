@@ -2,5 +2,9 @@
   "extends": [
     "config:base"
   ],
-  "rangeStrategy": "bump"
+  "patch": {
+    "automerge": true
+  },
+  "rangeStrategy": "bump",
+  "schedule": "on saturday"
 }
