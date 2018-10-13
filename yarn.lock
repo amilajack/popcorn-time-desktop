@@ -12676,9 +12676,9 @@ videostream@^2.3.0:
     pump "^3.0.0"
     range-slice-stream "^1.2.0"
 
-vlc-command@1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/vlc-command/-/vlc-command-1.1.1.tgz#349b85def831f980cd6eec560b1990fd989eaf92"
+vlc-command@1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/vlc-command/-/vlc-command-1.1.2.tgz#61a9b4249a0001c0bcac8cdaf36d3a8e674cffce"
   dependencies:
     run-parallel "^1.1.6"
     winreg "^1.2.1"
