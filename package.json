@@ -192,7 +192,7 @@
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jest": "21.24.1",
     "eslint-plugin-jsx-a11y": "^6.1.1",
-    "eslint-plugin-promise": "4.0.0",
+    "eslint-plugin-promise": "4.0.1",
     "eslint-plugin-react": "^7.11.1",
     "eslint-plugin-testcafe": "^0.2.1",
     "express": "^4.16.3",
