@@ -152,7 +152,7 @@
     "babel-loader": "^7.1.5",
     "babel-plugin-dev-expression": "0.2.1",
     "babel-plugin-dynamic-import-node": "^2.2.0",
-    "babel-plugin-dynamic-import-webpack": "1.0.2",
+    "babel-plugin-dynamic-import-webpack": "1.1.0",
     "babel-plugin-flow-runtime": "0.17.0",
     "babel-plugin-module-alias": "1.6.0",
     "babel-plugin-react-remove-properties": "^0.2.5",
