@@ -1151,11 +1151,10 @@ babel-plugin-dev-expression@0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/babel-plugin-dev-expression/-/babel-plugin-dev-expression-0.2.1.tgz#d4a7beefefbb50e3f2734990a82a2486cf9eb9ee"
 
-babel-plugin-dynamic-import-node@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/babel-plugin-dynamic-import-node/-/babel-plugin-dynamic-import-node-2.0.0.tgz#d6fc3f6c5e3bdc34e49c15faca7ce069755c0a57"
+babel-plugin-dynamic-import-node@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-dynamic-import-node/-/babel-plugin-dynamic-import-node-2.2.0.tgz#c0adfb07d95f4a4495e9aaac6ec386c4d7c2524e"
   dependencies:
-    babel-plugin-syntax-dynamic-import "^6.18.0"
     object.assign "^4.1.0"
 
 babel-plugin-dynamic-import-webpack@1.0.2:
