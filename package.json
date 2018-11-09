@@ -200,7 +200,7 @@
     "extract-zip": "1.6.7",
     "fbjs-scripts": "^0.8.3",
     "file-loader": "2.0.0",
-    "flow-bin": "^0.79.1",
+    "flow-bin": "^0.86.0",
     "flow-runtime": "^0.17.0",
     "flow-typed": "^2.5.1",
     "gm": "1.23.1",
