@@ -217,7 +217,7 @@
     "node-libs-browser": "2.1.0",
     "node-loader": "0.6.0",
     "node-sass": "4.9.4",
-    "optimize-css-assets-webpack-plugin": "^5.0.0",
+    "optimize-css-assets-webpack-plugin": "^5.0.1",
     "postcss-loader": "3.0.0",
     "prettier": "^1.15.1",
     "sass-loader": "7.1.0",
