@@ -148,7 +148,7 @@
   "devDependencies": {
     "autoprefixer": "^9.3.1",
     "babel-core": "^6.26.3",
-    "babel-eslint": "8.2.6",
+    "babel-eslint": "10.0.1",
     "babel-loader": "^7.1.5",
     "babel-plugin-dev-expression": "0.2.1",
     "babel-plugin-dynamic-import-node": "^2.2.0",
