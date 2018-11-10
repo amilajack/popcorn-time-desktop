@@ -169,7 +169,7 @@
     "concurrently": "4.0.1",
     "configstore": "^4.0.0",
     "cross-env": "^5.2.0",
-    "css-loader": "^1.0.0",
+    "css-loader": "^1.0.1",
     "css-modules-require-hook": "^4.2.3",
     "detect-port": "^1.2.3",
     "devtron": "1.4.0",
