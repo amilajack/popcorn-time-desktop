@@ -12061,9 +12061,9 @@ testcafe-legacy-api@3.1.8:
     pinkie "^2.0.1"
     strip-bom "^2.0.0"
 
-testcafe-live@^0.1.3:
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/testcafe-live/-/testcafe-live-0.1.3.tgz#5617485c3cbb0aa0206a313778b023937628ff99"
+testcafe-live@^0.1.4:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/testcafe-live/-/testcafe-live-0.1.4.tgz#a5a24e0110267a5f3c99acefdbe593efaea510fc"
   dependencies:
     ansi-escapes "^3.0.0"
     async-exit-hook "^2.0.1"
