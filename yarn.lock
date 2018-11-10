@@ -10296,9 +10296,9 @@ react@16.4.2:
     object-assign "^4.1.1"
     prop-types "^15.6.0"
 
-reactstrap@6.4.0:
-  version "6.4.0"
-  resolved "https://registry.yarnpkg.com/reactstrap/-/reactstrap-6.4.0.tgz#891252a284710180cd3d746dd236ee61d28a1c66"
+reactstrap@6.5.0:
+  version "6.5.0"
+  resolved "https://registry.yarnpkg.com/reactstrap/-/reactstrap-6.5.0.tgz#ba655e32646e2621829f61faa033e607ec6624e5"
   dependencies:
     classnames "^2.2.3"
     lodash.isfunction "^3.0.9"
