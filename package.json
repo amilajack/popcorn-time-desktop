@@ -240,7 +240,7 @@
     "webpack-dev-server": "^3.1.10",
     "webpack-hot-middleware": "^2.22.3",
     "webpack-merge": "4.1.4",
-    "why-did-you-update": "0.1.1"
+    "why-did-you-update": "0.2.0"
   },
   "dependencies": {
     "axios": "^0.18.0",
