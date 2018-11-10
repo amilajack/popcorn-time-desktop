@@ -235,7 +235,7 @@
     "url-loader": "1.1.2",
     "webpack": "^4.17.1",
     "webpack-bundle-analyzer": "^2.13.1",
-    "webpack-cli": "^3.1.0",
+    "webpack-cli": "^3.1.2",
     "webpack-dev-middleware": "^3.2.0",
     "webpack-dev-server": "^3.1.5",
     "webpack-hot-middleware": "^2.22.3",
