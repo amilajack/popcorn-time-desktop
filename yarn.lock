@@ -10280,9 +10280,9 @@ react-transition-group@^2.5.0:
     prop-types "^15.6.2"
     react-lifecycles-compat "^3.0.4"
 
-react-visibility-sensor@^3.11.1:
-  version "3.11.1"
-  resolved "https://registry.yarnpkg.com/react-visibility-sensor/-/react-visibility-sensor-3.11.1.tgz#cdcee0e43a8c603e0feb9773fcd2b7105a1cd9c2"
+react-visibility-sensor@^3.14.0:
+  version "3.14.0"
+  resolved "https://registry.yarnpkg.com/react-visibility-sensor/-/react-visibility-sensor-3.14.0.tgz#4518590defe507963a32bc9356c5007676060486"
   dependencies:
     create-react-class "^15.5.1"
     prop-types "^15.5.4"
