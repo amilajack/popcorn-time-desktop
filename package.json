@@ -272,7 +272,7 @@
     "react-transition-group": "^2.5.0",
     "react-visibility-sensor": "^3.11.1",
     "reactstrap": "6.5.0",
-    "redux": "^4.0.0",
+    "redux": "^4.0.1",
     "redux-logger": "3.0.6",
     "redux-thunk": "2.3.0",
     "rndm": "1.2.0",
