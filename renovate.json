@@ -1,11 +1,6 @@
 {
   "extends": [
-    "config:base"
+    "bliss"
   ],
-  "automerge": true,
-  "major": {
-    "automerge": false
-  },
-  "rangeStrategy": "bump",
-  "schedule": "on saturday"
+  "baseBranches": ["next"]
 }
