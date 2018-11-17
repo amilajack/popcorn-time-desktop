@@ -10,9 +10,9 @@
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/7zip/-/7zip-0.0.6.tgz#9cafb171af82329490353b4816f03347aa150a30"
 
-"@amilajack/react-plyr@^2.1.1":
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/@amilajack/react-plyr/-/react-plyr-2.1.1.tgz#5c1acd5fc56327ce28e9c107911bf2eabce4ec6f"
+"@amilajack/react-plyr@^2.1.2":
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/@amilajack/react-plyr/-/react-plyr-2.1.2.tgz#762d957526b2624d4f4cfc715ac6e12c7f64ffb8"
   dependencies:
     plyr "^3.3.21"
     prop-types "^15.6.2"

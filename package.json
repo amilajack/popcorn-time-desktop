@@ -243,7 +243,7 @@
     "why-did-you-update": "0.1.1"
   },
   "dependencies": {
-    "@amilajack/react-plyr": "^2.1.1",
+    "@amilajack/react-plyr": "^2.1.2",
     "@amilajack/yifysubtitles": "^2.1.2",
     "axios": "^0.18.0",
     "bluebird": "^3.5.1",
