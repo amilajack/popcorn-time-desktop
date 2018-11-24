@@ -204,7 +204,7 @@
     "flow-runtime": "^0.17.0",
     "flow-typed": "^2.5.1",
     "gm": "1.23.1",
-    "husky": "^1.1.4",
+    "husky": "^1.2.0",
     "image-diff": "2.0.0",
     "ionicons-temp": "2.0.0",
     "jest-cli": "^23.5.0",
