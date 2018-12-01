@@ -257,7 +257,7 @@
     "network-address": "1.1.2",
     "notie": "4.3.1",
     "opensubtitles-api": "4.1.0",
-    "popper.js": "^1.14.4",
+    "popper.js": "^1.14.6",
     "react": "16.6.3",
     "react-addons-css-transition-group": "15.6.2",
     "react-addons-test-utils": "15.6.2",
