@@ -13512,9 +13512,9 @@ webpack-dev-middleware@^3.2.0:
     url-join "^4.0.0"
     webpack-log "^2.0.0"
 
-webpack-dev-server@^3.1.11:
-  version "3.1.11"
-  resolved "https://registry.yarnpkg.com/webpack-dev-server/-/webpack-dev-server-3.1.11.tgz#3b698b5b32476f1f0d3d4014952fcf42ab118205"
+webpack-dev-server@^3.1.12:
+  version "3.1.12"
+  resolved "https://registry.yarnpkg.com/webpack-dev-server/-/webpack-dev-server-3.1.12.tgz#7419af1975877c37d1ab553c75932493a0709da3"
   dependencies:
     ansi-html "0.0.7"
     bonjour "^3.5.0"
