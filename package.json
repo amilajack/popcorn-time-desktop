@@ -270,7 +270,7 @@
     "react-router-dom": "^4.3.1",
     "react-router-redux": "5.0.0-alpha.8",
     "react-star-rating-component": "^1.4.1",
-    "react-transition-group": "^2.5.1",
+    "react-transition-group": "^2.5.2",
     "react-visibility-sensor": "^3.11.1",
     "reactstrap": "6.4.0",
     "redux": "^4.0.0",
