@@ -164,7 +164,7 @@
     "babel-preset-stage-0": "6.24.1",
     "babel-register": "^6.26.0",
     "chai": "^4.1.2",
-    "chalk": "^2.4.1",
+    "chalk": "^2.4.2",
     "classnames": "2.2.6",
     "concurrently": "4.1.0",
     "configstore": "^4.0.0",
