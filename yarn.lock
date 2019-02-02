@@ -4486,9 +4486,9 @@ electron-chromedriver@~3.0.0:
     electron-download "^4.1.0"
     extract-zip "^1.6.5"
 
-electron-debug@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/electron-debug/-/electron-debug-2.0.0.tgz#3059a6557acbfb091f138d83875f57bac80cea6d"
+electron-debug@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/electron-debug/-/electron-debug-2.1.0.tgz#8a926a37a7b2db77d35063ba1362c05e0fb78bda"
   dependencies:
     electron-is-dev "^0.3.0"
     electron-localshortcut "^3.0.0"
