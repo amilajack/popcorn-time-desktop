@@ -146,7 +146,7 @@
   },
   "homepage": "https://github.com/amilajack/popcorn-time-desktop",
   "devDependencies": {
-    "autoprefixer": "^9.4.7",
+    "autoprefixer": "^9.4.9",
     "babel-core": "^6.26.3",
     "babel-eslint": "8.2.6",
     "babel-loader": "^7.1.5",
