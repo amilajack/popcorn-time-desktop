@@ -222,7 +222,7 @@
     "prettier": "^1.15.3",
     "sass-loader": "7.1.0",
     "sinon": "^7.2.6",
-    "source-map-support": "^0.5.9",
+    "source-map-support": "^0.5.10",
     "spectron": "^5.0.0",
     "style-loader": "0.22.1",
     "stylelint": "^9.10.1",
