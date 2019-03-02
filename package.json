@@ -180,7 +180,7 @@
     "electron-debug": "^2.0.0",
     "electron-devtools-installer": "2.2.4",
     "electron-rebuild": "^1.8.4",
-    "enzyme": "^3.8.0",
+    "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.2.0",
     "enzyme-to-json": "^3.3.5",
     "eslint": "^5.12.1",
