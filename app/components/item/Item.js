@@ -812,7 +812,7 @@ export default class Item extends Component<Props, State> {
             // }]}
             type="video"
             url={playbackInProgress ? servingUrl || item.trailer : undefined}
-            poster={item.images.fanart.full || ''}
+            poster={(item && item.images && item.images.fanart.full) || ''}
             title={item.title || ''}
             volume={10}
             onEnterFullscreen={() => {
