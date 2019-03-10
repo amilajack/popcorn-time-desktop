@@ -245,7 +245,7 @@
     "@amilajack/yifysubtitles": "^2.1.2",
     "axios": "^0.18.0",
     "bluebird": "^3.5.1",
-    "bootstrap": "4.2.1",
+    "bootstrap": "4.3.1",
     "electron-window-state": "^5.0.3",
     "find-free-port": "^2.0.0",
     "get-port": "^4.1.0",
