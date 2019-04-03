@@ -799,7 +799,7 @@ export default class Item extends Component<Props, State> {
             data-e2e="item-button-back"
             onClick={() => this.stopPlayback()}
           >
-            <i className="ion-ios-arrow-back" /> Back
+            <i className="ion-md-arrow-back" /> Back
           </span>
         </Link>
         <Row>
@@ -833,7 +833,7 @@ export default class Item extends Component<Props, State> {
               id="close-button"
               onClick={() => this.closeVideo()}
             >
-              <i className="ion-close" />
+              <i className="ion-md-close" />
             </span>
           ) : null}
 
@@ -855,7 +855,7 @@ export default class Item extends Component<Props, State> {
                     <i
                       role="presentation"
                       data-e2e="item-play-button"
-                      className="Item--icon-play ion-ios-play"
+                      className="Item--icon-play ion-md-play"
                       onClick={() =>
                         this.startPlayback(
                           idealTorrent.magnet,
@@ -936,7 +936,7 @@ export default class Item extends Component<Props, State> {
                 ) : null}
 
                 <Col sm="2" className="row-center">
-                  <i className="ion-magnet" />
+                  <i className="ion-md-magnet" />
                   <div
                     id="magnetPopoverOpen"
                     data-e2e="item-magnet-torrent-health-popover"
@@ -963,7 +963,7 @@ export default class Item extends Component<Props, State> {
                     <i
                       id="trailerPopoverOpen"
                       data-e2e="item-trailer-button"
-                      className="ion-videocamera"
+                      className="ion-md-videocam"
                       onClick={() => this.setPlayer('youtube')}
                       role="presentation"
                     />

@@ -22,24 +22,24 @@
   <a target="_blank" href="https://github.com/amilajack/popcorn-time-desktop/pulls">
     <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome" />
   </a>
-  <a target="_blank" href="https://greenkeeper.io">
-    <img src="https://badges.greenkeeper.io/amilajack/popcorn-time-desktop.svg" alt="Greenkeeper" />
-  </a>
+</div>
+
+<div>
+  <img src="https://raw.github.com/amilajack/popcorn-time-desktop-design/master/Desktop.jpg" width="500px"/>
 </div>
 
 <br />
 
+
 ## Features:
 
-**Modern**: This client was started from scratch and was designed to be performant and customizable
+* ✨ **Modern**: This client was started from scratch and was designed to be performant and customizable
 
-**Performance**: Significantly faster than other clients. Everything from scrolling perf to playing movies is buttery smooth
+* ⏩ **Performance**: Significantly faster than other clients. Everything from scrolling perf to playing movies is buttery smooth
 
-**Faster Torrents**: New API optimized for fast torrents by querying the from multiple endpoints
+* 💨**Faster Torrents**: New API optimized for fast torrents by querying the from multiple endpoints
 
-**Modern Stack**: Electron, React, Redux, Webpack, ES8, Flow, and others
-
-**Cross Platform**: Works on Mac, Windows, and Linux
+* ✅**Cross Platform**: Works on Mac, Windows, and Linux
 
 ## Getting started:
 

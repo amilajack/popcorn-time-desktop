@@ -14,7 +14,7 @@ const chalk = require('chalk');
 const merge = require('webpack-merge');
 const { spawn, execSync } = require('child_process');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const baseConfig = require('./webpack.config.base');
+const baseConfig = require('./webpack.config.base.babel');
 
 const port = process.env.PORT || 1212;
 const publicPath = `http://localhost:${port}/dist`;
@@ -44,7 +44,7 @@ module.exports = merge.smart(baseConfig, {
     'react-hot-loader/patch',
     `webpack-dev-server/client?http://localhost:${port}/`,
     'webpack/hot/only-dev-server',
-    path.join(__dirname, 'app/index')
+    require.resolve('../app/index.js')
   ],
 
   output: {

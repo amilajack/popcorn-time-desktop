@@ -12,14 +12,13 @@ const style = {
   fontFamily: 'Avenir Next'
 };
 
-const LoadableHelper = (module, opts = {}) =>
+const LoadableHelper = (component, opts = {}) =>
   Loadable({
-    loader: () => module.then(e => e.default),
+    loader: () => component.then(e => e.default).catch(console.log),
     loading: () => <div style={style}>Welcome to PopcornTime</div>,
     delay: 2000,
     ...opts
   });
-
 const ItemPage = LoadableHelper(import('./containers/ItemPage'));
 const HomePage = LoadableHelper(import('./containers/HomePage'));
 

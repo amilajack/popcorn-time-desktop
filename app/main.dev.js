@@ -19,6 +19,10 @@ let mainWindow = null;
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
   sourceMapSupport.install();
+} else {
+  process.on('uncaughtRejection', (error) => {
+    throw error;
+  });
 }
 
 if (

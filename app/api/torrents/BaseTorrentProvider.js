@@ -1,11 +1,11 @@
 // @flow
 /* eslint prefer-template: 0 */
-import cache from 'lru-cache';
+import Cache from 'lru-cache';
 import url from 'url';
 import TheMovieDbMetadataProvider from '../metadata/TheMovieDbMetadataProvider';
 import type { torrentType } from './TorrentProviderInterface';
 
-export const providerCache = cache({
+export const providerCache = new Cache({
   maxAge: process.env.CONFIG_CACHE_TIMEOUT
     ? parseInt(process.env.CONFIG_CACHE_TIMEOUT, 10) * 1000 * 60 * 60
     : 1000 * 60 * 60 // 1 hr
@@ -249,15 +249,6 @@ export async function convertTmdbToImdb(tmdbId: string): Promise<string> {
   }
   return movie.ids.imdbId;
 }
-
-// export async function convertImdbtoTmdb(imdbId: string): Promise<string> {
-//   const theMovieDbProvider = new TheMovieDbMetadataProvider();
-//   const movie = await theMovieDbProvider.getMovie(imdbId);
-//   if (!movie.ids.imdbId) {
-//     throw new Error('Cannot convert imdbId to tmdbId');
-//   }
-//   return movie.ids.imdbId;
-// }
 
 export function formatSeasonEpisodeToString(
   season: number,

@@ -37,11 +37,7 @@ install:
   - bonjoursdksetup.exe /quiet
   - del bonjoursdksetup.exe
   # NPM
-  - yarn global add greenkeeper-lockfile@2
   - yarn
-
-before_test:
-  - greenkeeper-lockfile-update
 
 test_script:
   - yarn lint
@@ -49,5 +45,3 @@ test_script:
   - yarn package-ci
   - yarn build-e2e
   - yarn test-e2e --quarantine-mode
-
-after_test: greenkeeper-lockfile-upload
