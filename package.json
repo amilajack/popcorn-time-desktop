@@ -264,7 +264,7 @@
     "react-star-rating-component": "^1.4.1",
     "react-transition-group": "^2.5.3",
     "react-visibility-sensor": "^5.0.2",
-    "reactstrap": "6.5.0",
+    "reactstrap": "7.1.0",
     "redux": "^4.0.1",
     "redux-logger": "3.0.6",
     "redux-thunk": "2.3.0",
