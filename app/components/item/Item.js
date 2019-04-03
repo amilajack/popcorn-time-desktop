@@ -16,7 +16,9 @@ import {
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import notie from 'notie';
-import Plyr from 'react-plyr';
+import os from 'os';
+import Plyr from '@amilajack/react-plyr';
+import yifysubtitles from '@amilajack/yifysubtitles';
 import CardList from '../card/CardList';
 import SaveItem from '../metadata/SaveItem';
 import Rating from '../card/Rating';
@@ -53,6 +55,11 @@ type itemType = contentType & {
   images: ?imagesType
 };
 
+type captionsType = Array<{
+  src: string,
+  srclang: string
+}>;
+
 type State = {
   item: itemType,
   similarItems: Array<contentType>,
@@ -75,7 +82,8 @@ type State = {
   metadataLoading: boolean,
   torrentInProgress: boolean,
   torrentProgress: number,
-  isFinished: boolean
+  isFinished: boolean,
+  captions: captionsType
 };
 
 export default class Item extends Component<Props, State> {
@@ -221,7 +229,6 @@ export default class Item extends Component<Props, State> {
       this.initCastingDevices();
     }, 10000);
 
-    this.getAllData(itemId);
     this.stopPlayback();
     this.player.destroy();
 
@@ -233,7 +240,9 @@ export default class Item extends Component<Props, State> {
       watchList: await this.butter.watchList('get')
     });
 
-    await this.subtitleServer.startServer();
+    this.getAllData(itemId);
+
+    this.subtitleServer.startServer();
   }
 
   componentWillReceiveProps(nextProps: Props) {
@@ -264,7 +273,10 @@ export default class Item extends Component<Props, State> {
 
     return Promise.all([
       this.getItem(itemId).then((item: contentType) =>
-        this.getTorrent(item.ids.imdbId, item.title, 1, 1)
+        Promise.all([
+          this.getCaptions(item),
+          this.getTorrent(item.ids.imdbId, item.title, 1, 1)
+        ])
       ),
       this.getSimilar(itemId)
     ]);
@@ -449,9 +461,13 @@ export default class Item extends Component<Props, State> {
           '480p': torrent['480p'] || this.defaultTorrent
         }
       });
+
+      return torrent
     } catch (error) {
       console.log(error);
     }
+
+    return {};
   }
 
   async getSimilar(imdbId: string) {
@@ -466,9 +482,12 @@ export default class Item extends Component<Props, State> {
         similarLoading: false,
         isFinished: true
       });
+      return similarItems;
     } catch (error) {
       console.log(error);
     }
+
+    return [];
   }
 
   stopPlayback() {
@@ -529,45 +548,75 @@ export default class Item extends Component<Props, State> {
    * 4. Serve the file through http
    * 5. Override the default subtitle retrieved from the API
    */
-  async getSubtitles(
-    subtitleTorrentFile: Object = {},
-    activeMode: string,
-    item: contentType
-  ) {
-    // Retrieve list of subtitles
-    const subtitles = await this.butter.getSubtitles(
-      item.ids.imdbId,
-      subtitleTorrentFile.name,
-      subtitleTorrentFile.length,
-      {
-        activeMode
-      }
-    );
+  async getCaptions(item: contentType): Promise<captionsType> {
+    const captions: Array<captionsType> = await yifysubtitles(item.ids.imdbId, {
+      path: os.tmpdir(),
+      langs: ['en', 'fr']
+      // langs: [
+      //   'sq',
+      //   'ar',
+      //   'bn',
+      //   'pb',
+      //   'bg',
+      //   'zh',
+      //   'hr',
+      //   'cs',
+      //   'da',
+      //   'nl',
+      //   'en',
+      //   'et',
+      //   'fa',
+      //   'fi',
+      //   'fr',
+      //   'de',
+      //   'el',
+      //   'he',
+      //   'hu',
+      //   'id',
+      //   'it',
+      //   'ja',
+      //   'ko',
+      //   'lt',
+      //   'mk',
+      //   'ms',
+      //   'no',
+      //   'pl',
+      //   'pt',
+      //   'ro',
+      //   'ru',
+      //   'sr',
+      //   'sl',
+      //   'es',
+      //   'sv',
+      //   'th',
+      //   'tr',
+      //   'ur',
+      //   'uk',
+      //   'vi'
+      // ]
+    })
+      .then(res =>
+        res.map(subtitle => ({
+          // Set en
+          // default: (
+          //   subtitle.langShort === process.env.DEFAULT_TORRENT_LANG || subtitle.langShort === process.env.DEFAULT_TORRENT_LANG === 'en'
+          // ),
+          default: subtitle.langShort === 'en',
+          kind: 'captions',
+          label: subtitle.langShort,
+          srclang: subtitle.langShort,
+          src: `http://localhost:${this.subtitleServer.port}/${
+            subtitle.fileName
+          }`
+        }))
+      )
+      .catch(console.log);
 
-    if (!subtitleTorrentFile) {
-      return subtitles;
-    }
-
-    const { filename } = await new Promise((resolve, reject) => {
-      subtitleTorrentFile.getBuffer((err, srtSubtitleBuffer) => {
-        if (err) reject(err);
-        // Convert to vtt, get filename
-        resolve(this.subtitleServer.convertFromBuffer(srtSubtitleBuffer));
-      });
+    this.setState({
+      captions
     });
 
-    // Override the default subtitle
-    const mergedResults = subtitles.map(
-      (subtitle: Object) =>
-        subtitle.default === true
-          ? {
-              ...subtitle,
-              src: `http://localhost:${this.subtitleServer.port}/${filename}`
-            }
-          : subtitle
-    );
-
-    return mergedResults;
+    return captions;
   }
 
   closeVideo() {
@@ -603,8 +652,10 @@ export default class Item extends Component<Props, State> {
       torrentInProgress,
       selectedEpisode,
       selectedSeason,
-      item
+      item,
+      captions
     } = this.state;
+
     if (torrentInProgress) {
       this.stopPlayback();
     }
@@ -636,21 +687,9 @@ export default class Item extends Component<Props, State> {
         servingUrl: string,
         file: { name: string },
         files: string,
-        torrent: string,
-        subtitle: string
+        torrent: string
       ) => {
         console.log(`Serving torrent at: ${servingUrl}`);
-
-        // const filename = file.name;
-        const subtitles =
-          subtitle && process.env.FLAG_SUBTITLES === 'true'
-            ? await this.getSubtitles(
-                subtitle,
-                activeMode,
-                // eslint-disable-next-line
-                item
-              )
-            : [];
 
         switch (currentPlayer) {
           case 'VLC':
@@ -662,12 +701,26 @@ export default class Item extends Component<Props, State> {
           case 'youtube':
             this.toggleActive();
             setTimeout(() => {
+              this.plyr.updateHtmlVideoSource(
+                servingUrl,
+                'video',
+                item.title,
+                undefined,
+                captions
+              );
               this.plyr.play();
             }, 3000);
             break;
           case 'default':
             this.toggleActive();
             setTimeout(() => {
+              this.plyr.updateHtmlVideoSource(
+                servingUrl,
+                'video',
+                item.title,
+                undefined,
+                captions
+              );
               this.plyr.play();
             }, 3000);
             break;
@@ -685,7 +738,7 @@ export default class Item extends Component<Props, State> {
         }
 
         this.setState({
-          captions: subtitles,
+          captions,
           servingUrl
         });
 
@@ -719,7 +772,8 @@ export default class Item extends Component<Props, State> {
       watchList,
       magnetPopoverOpen,
       trailerPopoverOpen,
-      castingDevices
+      castingDevices,
+      captions
     } = this.state;
 
     const { activeMode } = this.props;
@@ -753,15 +807,20 @@ export default class Item extends Component<Props, State> {
             data-e2e="item-button-back"
             onClick={() => this.stopPlayback()}
           >
-            <i className="ion-ios-arrow-back" /> Back
+            <i className="ion-md-arrow-back" /> Back
           </span>
         </Link>
         <Row>
           <Plyr
-            captions={{ active: true, language: 'en' }}
+            captions={captions}
+            // captions={[{
+            //   kind: "captions",
+            //   label: "English captions",
+            //   src: 'http://localhost:4000/Deadpool.2.Super.Duper.Cut.2018.HDRip.XviD.AC3-EVO.vtt'
+            // }]}
             type="video"
             url={playbackInProgress ? servingUrl || item.trailer : undefined}
-            poster={item.images.fanart.full || ''}
+            poster={(item && item.images && item.images.fanart.full) || ''}
             title={item.title || ''}
             volume={10}
             onEnterFullscreen={() => {
@@ -782,7 +841,7 @@ export default class Item extends Component<Props, State> {
               id="close-button"
               onClick={() => this.closeVideo()}
             >
-              <i className="ion-close" />
+              <i className="ion-md-close" />
             </span>
           ) : null}
 
@@ -804,7 +863,7 @@ export default class Item extends Component<Props, State> {
                     <i
                       role="presentation"
                       data-e2e="item-play-button"
-                      className="Item--icon-play ion-ios-play"
+                      className="Item--icon-play ion-md-play"
                       onClick={() =>
                         this.startPlayback(
                           idealTorrent.magnet,
@@ -885,7 +944,7 @@ export default class Item extends Component<Props, State> {
                 ) : null}
 
                 <Col sm="2" className="row-center">
-                  <i className="ion-magnet" />
+                  <i className="ion-md-magnet" />
                   <div
                     id="magnetPopoverOpen"
                     data-e2e="item-magnet-torrent-health-popover"
@@ -912,7 +971,7 @@ export default class Item extends Component<Props, State> {
                     <i
                       id="trailerPopoverOpen"
                       data-e2e="item-trailer-button"
-                      className="ion-videocamera"
+                      className="ion-md-videocam"
                       onClick={() => this.setPlayer('youtube')}
                       role="presentation"
                     />

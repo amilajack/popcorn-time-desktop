@@ -6,7 +6,7 @@ const path = require('path');
 const webpack = require('webpack');
 const fs = require('fs');
 const dotenv = require('dotenv');
-const { dependencies: externals } = require('./app/package.json');
+const { dependencies: externals } = require('../app/package.json');
 
 // Get all the possible flags
 const data = fs.readFileSync('.env.example', { encoding: 'utf8' });
@@ -27,13 +27,18 @@ module.exports = {
             cacheDirectory: true
           }
         }
+      },
+      {
+        test: /node_modules[/\\](iconv-lite)[/\\].+/,
+        resolve: {
+          aliasFields: ['main']
+        }
       }
     ]
   },
 
   output: {
     path: path.join(__dirname, 'app'),
-    filename: 'bundle.js',
     // https://github.com/webpack/webpack/issues/1114
     libraryTarget: 'commonjs2'
   },

@@ -9,18 +9,18 @@ $gray-lighter: gray;
 $gray-lightest: gray;
 
 // $enable-flex:               true;
-$enable-rounded:            true;
-$enable-shadows:            true;
-$enable-gradients:          true;
-$enable-transitions:        true;
-$enable-hover-media-query:  true;
-$enable-grid-classes:       true;
+$enable-rounded: true;
+$enable-shadows: true;
+$enable-gradients: true;
+$enable-transitions: true;
+$enable-hover-media-query: true;
+$enable-grid-classes: true;
 
 // Base
 $body-bg: #252525;
 $body-color: white;
 
-$link-color: #1B221C;
+$link-color: #1b221c;
 
 $brand-primary: white;
 $enable-rounded: false;
@@ -53,8 +53,8 @@ $input-color: white;
 // List Group
 $list-group-border-color: black;
 $list-group-link-color: white;
-$list-group-hover-bg: #333333;
-$list-group-hover-bg: #333333;
+$list-group-hover-bg: #333;
+$list-group-hover-bg: #333;
 $list-group-active-border: black;
 $list-group-bg: #484848;
 
@@ -75,7 +75,8 @@ $headings-color: white;
 $navbar-dark-color: #848484;
 
 // Fonts
-$font-family-base: "Avenir Next", Avenir, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, sans-serif;
+$font-family-base: "Avenir Next", Avenir, "Segoe UI", Roboto, "Helvetica Neue",
+  Helvetica, sans-serif;
 $headings-font-weight: 400;
 
 .row-margin {

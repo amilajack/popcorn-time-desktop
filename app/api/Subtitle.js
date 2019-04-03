@@ -31,6 +31,14 @@ export default class SubtitleServer {
 
     // Start the static file server for the subtitle files
     const server = express();
+    // Enable CORS
+    // https://github.com/thibauts/node-castv2-client/wiki/How-to-use-subtitles-with-the-DefaultMediaReceiver-app#subtitles
+    server.use((req, res, next) => {
+      if (req.headers.origin) {
+        res.headers['Access-Control-Allow-Origin'] = req.headers.origin;
+      }
+      next();
+    });
     server.use(express.static(this.basePath));
     this.server = server.listen(this.port);
 

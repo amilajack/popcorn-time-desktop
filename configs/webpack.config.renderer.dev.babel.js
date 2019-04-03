@@ -1,4 +1,4 @@
-/* eslint global-require: 0, import/no-dynamic-require: 0 */
+/* eslint global-require: off, import/no-dynamic-require: off */
 
 /**
  * Build config for development electron renderer process that uses
@@ -7,24 +7,29 @@
  * https://webpack.js.org/concepts/hot-module-replacement/
  */
 
-const path = require('path');
-const fs = require('fs');
-const webpack = require('webpack');
-const chalk = require('chalk');
-const merge = require('webpack-merge');
-const { spawn, execSync } = require('child_process');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const baseConfig = require('./webpack.config.base');
+import path from 'path';
+import fs from 'fs';
+import webpack from 'webpack';
+import chalk from 'chalk';
+import merge from 'webpack-merge';
+import { spawn, execSync } from 'child_process';
+import baseConfig from './webpack.config.base.babel';
+import CheckNodeEnv from '../internals/scripts/CheckNodeEnv';
+
+CheckNodeEnv('development');
 
 const port = process.env.PORT || 1212;
 const publicPath = `http://localhost:${port}/dist`;
-const dll = path.resolve(process.cwd(), 'dll');
-const manifest = path.resolve(dll, 'vendor.json');
+const dll = path.join(__dirname, '..', 'dll');
+const manifest = path.resolve(dll, 'renderer.json');
+const requiredByDLLConfig = module.parent.filename.includes(
+  'webpack.config.renderer.dev.dll'
+);
 
 /**
  * Warn if the DLL is not built
  */
-if (!(fs.existsSync(dll) && fs.existsSync(manifest))) {
+if (!requiredByDLLConfig && !(fs.existsSync(dll) && fs.existsSync(manifest))) {
   console.log(
     chalk.black.bgYellow.bold(
       'The DLL files are missing. Sit back while we build them for you with "yarn build-dll"'
@@ -33,37 +38,104 @@ if (!(fs.existsSync(dll) && fs.existsSync(manifest))) {
   execSync('yarn build-dll');
 }
 
-module.exports = merge.smart(baseConfig, {
+export default merge.smart(baseConfig, {
   devtool: 'inline-source-map',
-
-  target: 'electron-renderer',
 
   mode: 'development',
 
+  target: 'electron-renderer',
+
   entry: [
-    'react-hot-loader/patch',
+    ...(process.env.PLAIN_HMR ? [] : ['react-hot-loader/patch']),
     `webpack-dev-server/client?http://localhost:${port}/`,
     'webpack/hot/only-dev-server',
-    path.join(__dirname, 'app/index')
+    require.resolve('../app/index')
   ],
 
   output: {
-    publicPath: `http://localhost:${port}/dist/`
+    publicPath: `http://localhost:${port}/dist/`,
+    filename: 'renderer.dev.js'
   },
 
   module: {
     rules: [
       {
-        test: /\.scss$/,
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            cacheDirectory: true
+          }
+        }
+      },
+      {
+        test: /\.global\.css$/,
         use: [
           {
-            loader: 'style-loader' // creates style nodes from JS strings
+            loader: 'style-loader'
           },
           {
-            loader: 'css-loader' // translates CSS into CommonJS
+            loader: 'css-loader',
+            options: {
+              sourceMap: true
+            }
+          }
+        ]
+      },
+      {
+        test: /^((?!\.global).)*\.css$/,
+        use: [
+          {
+            loader: 'style-loader'
           },
           {
-            loader: 'sass-loader' // compiles Sass to CSS
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              sourceMap: true,
+              importLoaders: 1,
+              localIdentName: '[name]__[local]__[hash:base64:5]'
+            }
+          }
+        ]
+      },
+      // SASS support - compile all .global.scss files and pipe it to style.css
+      {
+        test: /\.global\.(scss|sass)$/,
+        use: [
+          {
+            loader: 'style-loader'
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              sourceMap: true
+            }
+          },
+          {
+            loader: 'sass-loader'
+          }
+        ]
+      },
+      // SASS support - compile all other .scss files and pipe it to style.css
+      {
+        test: /^((?!\.global).)*\.(scss|sass)$/,
+        use: [
+          {
+            loader: 'style-loader'
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              sourceMap: true,
+              importLoaders: 1,
+              localIdentName: '[name]__[local]__[hash:base64:5]'
+            }
+          },
+          {
+            loader: 'sass-loader'
           }
         ]
       },
@@ -125,18 +197,16 @@ module.exports = merge.smart(baseConfig, {
   },
 
   plugins: [
-    new webpack.DllReferencePlugin({
-      context: process.cwd(),
-      manifest: require(manifest),
-      sourceType: 'var'
-    }),
+    requiredByDLLConfig
+      ? null
+      : new webpack.DllReferencePlugin({
+          context: path.join(__dirname, '..', 'dll'),
+          manifest: require(manifest),
+          sourceType: 'var'
+        }),
 
-    /**
-     * https://webpack.js.org/concepts/hot-module-replacement/
-     */
     new webpack.HotModuleReplacementPlugin({
-      // @TODO: Waiting on https://github.com/jantimon/html-webpack-plugin/issues/533
-      // multiStep: true
+      multiStep: true
     }),
 
     new webpack.NoEmitOnErrorsPlugin(),
@@ -153,20 +223,19 @@ module.exports = merge.smart(baseConfig, {
      * By default, use 'development' as NODE_ENV. This can be overriden with
      * 'staging', for example, by changing the ENV variables in the npm scripts
      */
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(
-        process.env.NODE_ENV || 'development'
-      )
+    new webpack.EnvironmentPlugin({
+      NODE_ENV: 'development'
     }),
 
     new webpack.LoaderOptionsPlugin({
       debug: true
-    }),
-
-    new ExtractTextPlugin({
-      filename: '[name].css'
     })
   ],
+
+  node: {
+    __dirname: false,
+    __filename: false
+  },
 
   devServer: {
     port,
@@ -181,8 +250,8 @@ module.exports = merge.smart(baseConfig, {
     contentBase: path.join(__dirname, 'dist'),
     watchOptions: {
       aggregateTimeout: 300,
-      poll: 100,
-      ignored: /node_modules/
+      ignored: /node_modules/,
+      poll: 100
     },
     historyApiFallback: {
       verbose: true,
@@ -190,7 +259,7 @@ module.exports = merge.smart(baseConfig, {
     },
     before() {
       if (process.env.START_HOT) {
-        console.log('Starting main process...');
+        console.log('Starting Main Process...');
         spawn('npm', ['run', 'start-main-dev'], {
           shell: true,
           env: process.env,

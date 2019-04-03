@@ -12,13 +12,27 @@
  */
 import { app, BrowserWindow } from 'electron';
 import windowStateKeeper from 'electron-window-state';
+import { autoUpdater } from 'electron-updater';
+import log from 'electron-log';
 import MenuBuilder from './menu';
+
+export default class AppUpdater {
+  constructor() {
+    log.transports.file.level = 'info';
+    autoUpdater.logger = log;
+    autoUpdater.checkForUpdatesAndNotify();
+  }
+}
 
 let mainWindow = null;
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
   sourceMapSupport.install();
+} else {
+  process.on('uncaughtRejection', (error) => {
+    throw error;
+  });
 }
 
 if (
@@ -94,4 +108,8 @@ app.on('ready', async () => {
 
   const menuBuilder = new MenuBuilder(mainWindow);
   menuBuilder.buildMenu();
+
+  // Remove this if your app does not use auto updates
+  // eslint-disable-next-line
+  new AppUpdater();
 });

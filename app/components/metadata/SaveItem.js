@@ -95,7 +95,7 @@ export default class SaveItem extends Component<Props, State> {
           className={classnames(
             'SaveItem--icon',
             'SaveItem--favorites',
-            'ion-heart',
+            'ion-md-heart',
             {
               'SaveItem--active-icon': isInFavorites
             }
@@ -107,7 +107,7 @@ export default class SaveItem extends Component<Props, State> {
           className={classnames(
             'SaveItem--icon',
             'SaveItem--watchlist',
-            'ion-ios-list',
+            'ion-md-list-box',
             {
               'SaveItem--active-icon': isInWatchList
             }

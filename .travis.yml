@@ -7,7 +7,6 @@ matrix:
       language: node_js
       node_js:
         - node
-        - 9
       env:
         - ELECTRON_CACHE=$HOME/.cache/electron
         - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
@@ -15,13 +14,12 @@ matrix:
       language: node_js
       node_js:
         - node
-        - 9
       addons:
         apt:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-            - g++-4.8
+            - g++-8
             - icnsutils
             - graphicsmagick
             - xz-utils
@@ -49,7 +47,7 @@ cache:
     - "$HOME/docker"
 
 install:
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export CXX="g++-4.8"; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export CXX="g++-8"; fi
   - yarn
   - |
     if [ "$TRAVIS_OS_NAME" == "linux" ]; then

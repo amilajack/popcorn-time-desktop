@@ -24,19 +24,22 @@
   </a>
 </div>
 
+<div>
+  <img src="https://raw.github.com/amilajack/popcorn-time-desktop-design/master/Desktop.jpg" width="500px"/>
+</div>
+
 <br />
+
 
 ## Features:
 
-**Modern**: This client was started from scratch and was designed to be performant and customizable
+* ✨ **Modern**: This client was started from scratch and was designed to be performant and customizable
 
-**Performance**: Significantly faster than other clients. Everything from scrolling perf to playing movies is buttery smooth
+* ⏩ **Performance**: Significantly faster than other clients. Everything from scrolling perf to playing movies is buttery smooth
 
-**Faster Torrents**: New API optimized for fast torrents by querying the from multiple endpoints
+* 💨**Faster Torrents**: New API optimized for fast torrents by querying the from multiple endpoints
 
-**Modern Stack**: Electron, React, Redux, Webpack, ES8, Flow, and others
-
-**Cross Platform**: Works on Mac, Windows, and Linux
+* ✅**Cross Platform**: Works on Mac, Windows, and Linux
 
 ## Getting started:
 
@@ -60,7 +63,7 @@ cd popcorn-time-desktop
 # 💡 For casting support, you will need to satisfy mdns's requirements:
 # For windows install bonjour: https://support.apple.com/downloads/bonjour_for_windows
 # For linux, make sure you have these dependencies installed with apt-get:
-# https://github.com/amilajack/popcorn-time-desktop/blob/v1.2.0/.travis.yml#L24-L35
+# https://github.com/amilajack/popcorn-time-desktop/blob/v1.3.0/.travis.yml#L24-L35
 
 # Install dependencies
 # Have a cup of coffee ☕️ this might take a while

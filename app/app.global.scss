@@ -1,0 +1,35 @@
+//
+// Modules
+//
+
+@import "./styles/variables.scss";
+
+//
+// Bootstrap
+// Core variables and mixins
+// @TODO: Import only boootstrap that are used
+//
+
+@import "~bootstrap/scss/bootstrap.scss";
+@import "~ionicons/dist/css/ionicons.min.css";
+@import "~plyr/src/sass/plyr.scss";
+@import "~notie/src/notie.scss";
+
+//
+// Components
+//
+
+@import "./styles/components/Movie.scss";
+@import "./styles/components/CardList.scss";
+@import "./styles/components/Rating.scss";
+@import "./styles/components/Loader.scss";
+@import "./styles/components/Item.scss";
+@import "./styles/components/Show.scss";
+@import "./styles/components/SaveItem.scss";
+@import "./styles/components/Button.scss";
+
+//
+// Utilities
+//
+
+@import "./styles/utilities/container.scss";

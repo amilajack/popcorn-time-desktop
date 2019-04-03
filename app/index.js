@@ -3,12 +3,16 @@ import React from 'react';
 import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import Root from './containers/Root';
-import configureStoreDefault from './store/configureStore';
-import './styles/main.scss';
-
-const { configureStore, history } = configureStoreDefault;
+import {history, configureStore} from './store/configureStore';
+import './app.global.scss';
 
 const store = configureStore();
+
+if (process.env.NODE_ENV !== 'production') {
+  process.on('uncaughtRejection', (error) => {
+    throw error;
+  });
+}
 
 render(
   <AppContainer>
@@ -19,7 +23,7 @@ render(
 
 if (module.hot) {
   module.hot.accept('./containers/Root', () => {
-    const NextRoot = require('./containers/Root'); // eslint-disable-line global-require
+    const NextRoot = require('./containers/Root').default; // eslint-disable-line global-require
     render(
       <AppContainer>
         <NextRoot store={store} history={history} />

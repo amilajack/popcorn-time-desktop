@@ -71,12 +71,18 @@ export default class Home extends Component<Props, State> {
 
   didMount: boolean;
 
-  onChange: () => void;
+  // onChange: () => void;
 
   constructor(props: Props) {
     super(props);
     this.butter = new Butter();
-    this.onChange = this.onChange.bind(this);
+
+    this.onChange  = async (isVisible: boolean) => {
+      const { isLoading, activeMode, activeModeOptions } = this.props;
+      if (isVisible && !isLoading) {
+        await this.paginate(activeMode, activeModeOptions);
+      }
+    };
 
     // Temporary hack to preserve scroll position
     if (!global.pct) {
@@ -86,13 +92,6 @@ export default class Home extends Component<Props, State> {
         searchScrollTop: 0,
         homeScrollTop: 0
       };
-    }
-  }
-
-  async onChange(isVisible: boolean) {
-    const { isLoading, activeMode, activeModeOptions } = this.props;
-    if (isVisible && !isLoading) {
-      await this.paginate(activeMode, activeModeOptions);
     }
   }
 
@@ -183,9 +182,7 @@ export default class Home extends Component<Props, State> {
     });
   }
 
-  componentWillMount() {
-
-  }
+  componentWillMount() {}
 
   componentWillReceiveProps(nextProps: Props) {
     const { activeMode, activeModeOptions, actions } = this.props;
@@ -264,7 +261,10 @@ export default class Home extends Component<Props, State> {
           ) : (
             <div>
               <CardList items={items} isLoading={isLoading} />
-              <VisibilitySensor onChange={this.onChange} />
+              <VisibilitySensor onChange={this.onChange}>
+                {/* A hack to make `react-visibility-sensor` work */}
+                <div style={{opacity: 0}}>Loading</div>
+              </VisibilitySensor>
             </div>
           )}
         </Col>

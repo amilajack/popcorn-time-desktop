@@ -28,7 +28,7 @@ export default function CardList(props: Props) {
           <div className="CardList" style={{ justifyContent }}>
             {(limit ? items.filter((e, i) => i < limit) : items).map(item => (
               <Card
-                image={item.images.fanart.thumb}
+                image={(item && item.images && item.images.fanart.thumb) || ''}
                 title={item.title}
                 id={item.id}
                 key={item.id}

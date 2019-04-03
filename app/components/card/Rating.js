@@ -13,8 +13,8 @@ export default function StarRating(props: Props) {
   return typeof rating === 'number' ? (
     <div className="Rating">
       <StarRatingComponent
-        renderStarIconHalf={() => <span className="ion-android-star-half" />}
-        renderStarIcon={() => <span className="ion-android-star" />}
+        renderStarIconHalf={() => <span className="ion-md-star-half" />}
+        renderStarIcon={() => <span className="ion-md-star" />}
         name="rating"
         starColor={starColor}
         emptyStarColor={emptyStarColor}
