@@ -229,7 +229,6 @@ export default class Item extends Component<Props, State> {
       this.initCastingDevices();
     }, 10000);
 
-    this.getAllData(itemId);
     this.stopPlayback();
     this.player.destroy();
 
@@ -241,7 +240,9 @@ export default class Item extends Component<Props, State> {
       watchList: await this.butter.watchList('get')
     });
 
-    await this.subtitleServer.startServer();
+    this.getAllData(itemId);
+
+    this.subtitleServer.startServer();
   }
 
   componentWillReceiveProps(nextProps: Props) {
@@ -460,9 +461,13 @@ export default class Item extends Component<Props, State> {
           '480p': torrent['480p'] || this.defaultTorrent
         }
       });
+
+      return torrent
     } catch (error) {
       console.log(error);
     }
+
+    return {};
   }
 
   async getSimilar(imdbId: string) {
@@ -477,9 +482,12 @@ export default class Item extends Component<Props, State> {
         similarLoading: false,
         isFinished: true
       });
+      return similarItems;
     } catch (error) {
       console.log(error);
     }
+
+    return [];
   }
 
   stopPlayback() {
