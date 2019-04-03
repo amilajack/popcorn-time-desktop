@@ -1,17 +1,23 @@
+/* eslint global-require: off, import/no-dynamic-require: off */
+
 /**
  * Builds the DLL for development electron renderer process
  */
 
-const webpack = require('webpack');
-const path = require('path');
-const merge = require('webpack-merge');
-const baseConfig = require('./webpack.config.base.babel');
-const { dependencies } = require('../package.json');
+import webpack from 'webpack';
+import path from 'path';
+import merge from 'webpack-merge';
+import baseConfig from './webpack.config.base.babel';
+import { dependencies } from '../package.json';
+import CheckNodeEnv from '../internals/scripts/CheckNodeEnv';
+import rendererDevConfig from './webpack.config.renderer.dev.babel'
 
-const dist = path.resolve(process.cwd(), 'dll');
+CheckNodeEnv('development');
 
-module.exports = merge.smart(baseConfig, {
-  context: process.cwd(),
+const dist = path.join(__dirname, '..', 'dll');
+
+export default merge.smart(baseConfig, {
+  context: path.join(__dirname, '..'),
 
   devtool: 'eval',
 
@@ -19,157 +25,21 @@ module.exports = merge.smart(baseConfig, {
 
   target: 'electron-renderer',
 
-  externals: ['fsevents', 'crypto-browserify', 'webtorrent'],
+  externals: ['fsevents', 'crypto-browserify'],
 
   /**
-   * @HACK: Copy and pasted from renderer dev config. Consider merging these
-   *        rules into the base config. May cause breaking changes.
+   * Use `module` from `webpack.config.renderer.dev.js`
    */
-  module: {
-    rules: [
-      {
-        test: /\.global\.css$/,
-        use: [
-          {
-            loader: 'style-loader'
-          },
-          {
-            loader: 'css-loader',
-            options: {
-              sourceMap: true
-            }
-          }
-        ]
-      },
-      {
-        test: /^((?!\.global).)*\.css$/,
-        use: [
-          {
-            loader: 'style-loader'
-          },
-          {
-            loader: 'css-loader',
-            options: {
-              modules: true,
-              sourceMap: true,
-              importLoaders: 1,
-              localIdentName: '[name]__[local]__[hash:base64:5]'
-            }
-          }
-        ]
-      },
-      // Add SASS support  - compile all .global.scss files and pipe it to style.css
-      {
-        test: /\.global\.scss$/,
-        use: [
-          {
-            loader: 'style-loader'
-          },
-          {
-            loader: 'css-loader',
-            options: {
-              sourceMap: true
-            }
-          },
-          {
-            loader: 'sass-loader'
-          }
-        ]
-      },
-      // Add SASS support  - compile all other .scss files and pipe it to style.css
-      {
-        test: /^((?!\.global).)*\.scss$/,
-        use: [
-          {
-            loader: 'style-loader'
-          },
-          {
-            loader: 'css-loader',
-            options: {
-              modules: true,
-              sourceMap: true,
-              importLoaders: 1,
-              localIdentName: '[name]__[local]__[hash:base64:5]'
-            }
-          },
-          {
-            loader: 'sass-loader'
-          }
-        ]
-      },
-      // WOFF Font
-      {
-        test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
-        use: {
-          loader: 'url-loader',
-          options: {
-            limit: 10000,
-            mimetype: 'application/font-woff'
-          }
-        }
-      },
-      // WOFF2 Font
-      {
-        test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
-        use: {
-          loader: 'url-loader',
-          options: {
-            limit: 10000,
-            mimetype: 'application/font-woff'
-          }
-        }
-      },
-      // TTF Font
-      {
-        test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-        use: {
-          loader: 'url-loader',
-          options: {
-            limit: 10000,
-            mimetype: 'application/octet-stream'
-          }
-        }
-      },
-      // EOT Font
-      {
-        test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-        use: 'file-loader'
-      },
-      // SVG Font
-      {
-        test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-        use: {
-          loader: 'url-loader',
-          options: {
-            limit: 10000,
-            mimetype: 'image/svg+xml'
-          }
-        }
-      },
-      // Common Image Formats
-      {
-        test: /\.(?:ico|gif|png|jpg|jpeg|webp)$/,
-        use: 'url-loader'
-      }
-    ]
-  },
-
-  resolve: {
-    modules: ['app']
-  },
+  module: rendererDevConfig.module,
 
   entry: {
-    vendor: Object.keys(dependencies || {}).filter(
-      dependency =>
-        dependency !== 'font-awesome' &&
-        dependency !== 'react-addons-test-utils'
-    )
+    renderer: Object.keys(dependencies || {})
   },
 
   output: {
-    library: 'vendor',
+    library: 'renderer',
     path: dist,
-    filename: '[name].dll.js',
+    filename: '[name].dev.dll.js',
     libraryTarget: 'var'
   },
 
@@ -188,18 +58,16 @@ module.exports = merge.smart(baseConfig, {
      * NODE_ENV should be production so that modules do not perform certain
      * development checks
      */
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(
-        process.env.NODE_ENV || 'development'
-      )
+    new webpack.EnvironmentPlugin({
+      NODE_ENV: 'development'
     }),
 
     new webpack.LoaderOptionsPlugin({
       debug: true,
       options: {
-        context: path.resolve(process.cwd(), 'app'),
+        context: path.join(__dirname, '..', 'app'),
         output: {
-          path: path.resolve(process.cwd(), 'dll')
+          path: path.join(__dirname, '..', 'dll')
         }
       }
     })
