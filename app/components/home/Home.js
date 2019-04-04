@@ -77,7 +77,7 @@ export default class Home extends Component<Props, State> {
     super(props);
     this.butter = new Butter();
 
-    this.onChange  = async (isVisible: boolean) => {
+    this.onChange = async (isVisible: boolean) => {
       const { isLoading, activeMode, activeModeOptions } = this.props;
       if (isVisible && !isLoading) {
         await this.paginate(activeMode, activeModeOptions);
@@ -263,7 +263,7 @@ export default class Home extends Component<Props, State> {
               <CardList items={items} isLoading={isLoading} />
               <VisibilitySensor onChange={this.onChange}>
                 {/* A hack to make `react-visibility-sensor` work */}
-                <div style={{opacity: 0}}>Loading</div>
+                <div style={{ opacity: 0 }}>Loading</div>
               </VisibilitySensor>
             </div>
           )}

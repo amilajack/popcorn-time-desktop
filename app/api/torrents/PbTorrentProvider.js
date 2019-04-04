@@ -54,7 +54,7 @@ export default class PbTorrentProvider implements TorrentProviderInterface {
       .catch(() => false);
   }
 
-  static provide(itemId: string, type: string, extendedDetails = {}) {
+  static provide(itemId: string, type: string, extendedDetails: Object = {}) {
     if (!extendedDetails.searchQuery) {
       return new Promise(resolve => resolve([]));
     }

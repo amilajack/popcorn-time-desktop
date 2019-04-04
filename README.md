@@ -13,9 +13,6 @@
   <a target="_blank" href="https://ci.appveyor.com/project/amilajack/popcorn-time-desktop/branch/master">
     <img src="https://ci.appveyor.com/api/projects/status/071qeglg94au8wr2/branch/master?svg=true" alt="AppVeyor Build status" />
   </a>
-  <a target="_blank" href="https://david-dm.org/amilajack/popcorn-time-desktop">
-    <img src="https://img.shields.io/david/amilajack/popcorn-time-desktop.svg" alt="npm dependencies" />
-  </a>
   <a target="_blank" href="https://gitter.im/amilajack/popcorn-time-desktop?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge">
     <img src="https://badges.gitter.im/amilajack/popcorn-time-desktop.svg" alt="Gitter" />
   </a>
@@ -31,15 +28,13 @@
 <br />
 
 
-## Features:
+- ✨ **Modern**: This client was started from scratch and was designed to be performant and customizable
 
-* ✨ **Modern**: This client was started from scratch and was designed to be performant and customizable
+- ⏩ **Performance**: Significantly faster than other clients. Everything from scrolling perf to playing movies is buttery smooth
 
-* ⏩ **Performance**: Significantly faster than other clients. Everything from scrolling perf to playing movies is buttery smooth
+- 💨 **Faster Torrents**: New API optimized for fast torrents by querying the from multiple endpoints
 
-* 💨**Faster Torrents**: New API optimized for fast torrents by querying the from multiple endpoints
-
-* ✅**Cross Platform**: Works on Mac, Windows, and Linux
+- ✅ **Cross Platform**: Works on Mac, Windows, and Linux
 
 ## Getting started:
 

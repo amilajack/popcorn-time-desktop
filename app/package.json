@@ -2,7 +2,7 @@
   "name": "PopcornTime",
   "description": "An experimental PopcornTime client",
   "homepage": "https://github.com/amilajack/popcorn-time-desktop",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "main": "./main.prod.js",
   "author": {
     "name": "Amila Welihinda <amilajack@gmail.com>",
@@ -16,6 +16,7 @@
   "license": "MIT",
   "dependencies": {
     "castv2-client": "^1.2.0",
-    "mdns": "^2.4.0"
+    "mdns": "^2.4.0",
+    "webtorrent": "github:amilajack/webtorrent"
   }
 }

@@ -10,7 +10,7 @@ import merge from 'webpack-merge';
 import baseConfig from './webpack.config.base.babel';
 import { dependencies } from '../package.json';
 import CheckNodeEnv from '../internals/scripts/CheckNodeEnv';
-import rendererDevConfig from './webpack.config.renderer.dev.babel'
+import rendererDevConfig from './webpack.config.renderer.dev.babel';
 
 CheckNodeEnv('development');
 

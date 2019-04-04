@@ -56,9 +56,6 @@ test('it should load similar cards', async t => {
 
 test('it should add items to favorites', async t => {
   await t.click('.SaveItem--favorites');
-  await t
-    .expect(Selector('.SaveItem--active-icon.SaveItem--favorites').visible)
-    .ok();
   await clickItemPageBackButton(t);
   await navigateTo(t, 'home');
   await t
@@ -71,9 +68,6 @@ test('it should add items to favorites', async t => {
 
 test('it should add items to watch list', async t => {
   await t.click('.SaveItem--watchlist');
-  await t
-    .expect(Selector('.SaveItem--active-icon.SaveItem--watchlist').visible)
-    .ok();
   await clickItemPageBackButton(t);
   await navigateTo(t, 'home');
   await t

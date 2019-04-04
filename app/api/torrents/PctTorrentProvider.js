@@ -16,7 +16,11 @@ export default class PctTorrentProvider implements TorrentProviderInterface {
 
   static shows = {};
 
-  static async fetch(itemId: string, type: string, extendedDetails) {
+  static async fetch(
+    itemId: string,
+    type: string,
+    extendedDetails: Object = {}
+  ) {
     const urlTypeParam = type === 'movies' ? 'movie' : 'show';
     const request = timeout(
       fetch(`${resolvedEndpoint}/${urlTypeParam}/${itemId}`).then(res =>
@@ -115,7 +119,7 @@ export default class PctTorrentProvider implements TorrentProviderInterface {
       .catch(() => false);
   }
 
-  static provide(itemId: string, type: string, extendedDetails = {}) {
+  static provide(itemId: string, type: string, extendedDetails: Object = {}) {
     switch (type) {
       case 'movies':
         return this.fetch(itemId, type, extendedDetails).catch(error => {

@@ -1,12 +1,12 @@
 // @flow
 import type { contentType } from '../api/metadata/MetadataProviderInterface';
 
-type modeType = 'movies' | 'shows' | 'search';
+type modeType = 'movies' | 'shows' | 'search' | 'home';
 
 type actionType = {
   type: string,
-  items?: Array<contentType>,
-  activeMode?: modeType,
+  items: Array<contentType>,
+  activeMode: modeType,
   activeModeOptions?: {
     [option: string]: string | boolean | number
   },
