@@ -27,15 +27,14 @@
 
 <br />
 
-## Features:
 
 - ✨ **Modern**: This client was started from scratch and was designed to be performant and customizable
 
 - ⏩ **Performance**: Significantly faster than other clients. Everything from scrolling perf to playing movies is buttery smooth
 
-- 💨**Faster Torrents**: New API optimized for fast torrents by querying the from multiple endpoints
+- 💨 **Faster Torrents**: New API optimized for fast torrents by querying the from multiple endpoints
 
-- ✅**Cross Platform**: Works on Mac, Windows, and Linux
+- ✅ **Cross Platform**: Works on Mac, Windows, and Linux
 
 ## Getting started:
 
