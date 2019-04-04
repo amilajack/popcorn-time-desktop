@@ -30,7 +30,7 @@ if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
   sourceMapSupport.install();
 } else {
-  process.on('uncaughtRejection', (error) => {
+  process.on('uncaughtRejection', error => {
     throw error;
   });
 }
@@ -92,7 +92,8 @@ app.on('ready', async () => {
       darkTheme: true,
       'web-preferences': { 'web-security': false },
       scrollBounce: true,
-      overlayFullscreenVideo: false
+      overlayFullscreenVideo: false,
+      nodeIntegration: true
     }
   });
 

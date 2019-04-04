@@ -31,7 +31,7 @@ function MetadataAdapter() {
 
 async function interceptAndHandleRequest(
   method: string,
-  args: Array<string>,
+  args: Array<string | number>,
   cache: boolean = true
 ) {
   const key = JSON.stringify(method) + JSON.stringify(args);
@@ -61,7 +61,7 @@ async function interceptAndHandleRequest(
  * @param {string} genre
  * @param {string} sortBy
  */
-function search(...args: Array<string>) {
+function search(...args: Array<string | number>) {
   return interceptAndHandleRequest('search', args);
 }
 
@@ -70,7 +70,7 @@ function search(...args: Array<string>) {
  *
  * @param {string} itemId
  */
-function getMovie(...args: Array<string>) {
+function getMovie(...args: Array<string | number>) {
   return interceptAndHandleRequest('getMovie', args);
 }
 
@@ -82,7 +82,7 @@ function getMovie(...args: Array<string>) {
  * @param {string} genre
  * @param {string} sortBy
  */
-function getMovies(...args: Array<string>) {
+function getMovies(...args: Array<string | number>) {
   return interceptAndHandleRequest('getMovies', args);
 }
 
@@ -93,7 +93,7 @@ function getMovies(...args: Array<string>) {
  * @param {string} type   | movie or show
  * @param {number} limit  | movie or show
  */
-function getSimilar(...args: Array<string>) {
+function getSimilar(...args: Array<string | number>) {
   return interceptAndHandleRequest('getSimilar', args);
 }
 
@@ -104,7 +104,7 @@ function getSimilar(...args: Array<string>) {
  * @param {string} type   | movie or show
  * @param {number} limit  | movie or show
  */
-function getSeason(...args: Array<string>) {
+function getSeason(...args: Array<string | number>) {
   return interceptAndHandleRequest('getSeason', args);
 }
 
@@ -115,7 +115,7 @@ function getSeason(...args: Array<string>) {
  * @param {string} type   | movie or show
  * @param {number} limit  | movie or show
  */
-function getSeasons(...args: Array<string>) {
+function getSeasons(...args: Array<string | number>) {
   return interceptAndHandleRequest('getSeasons', args);
 }
 
@@ -126,7 +126,7 @@ function getSeasons(...args: Array<string>) {
  * @param {string} type   | movie or show
  * @param {number} limit  | movie or show
  */
-function getEpisode(...args: Array<string>) {
+function getEpisode(...args: Array<string | number>) {
   return interceptAndHandleRequest('getEpisode', args);
 }
 
@@ -137,7 +137,7 @@ function getEpisode(...args: Array<string>) {
  * @param {string} type   | movie or show
  * @param {number} limit  | movie or show
  */
-function getShow(...args: Array<string>) {
+function getShow(...args: Array<string | number>) {
   return interceptAndHandleRequest('getShow', args);
 }
 
@@ -148,7 +148,7 @@ function getShow(...args: Array<string>) {
  * @param {string} type   | movie or show
  * @param {number} limit  | movie or show
  */
-function getShows(...args: Array<string>) {
+function getShows(...args: Array<string | number>) {
   return interceptAndHandleRequest('getShows', args);
 }
 
@@ -215,7 +215,7 @@ async function getSubtitles(
  * @param {object} metadata | Required only for `set` and `remove`
  * @param {object} metadata | 'id', Required only remove
  */
-function favorites(...args: Array<string>) {
+function favorites(...args: Array<string | number>) {
   return interceptAndHandleRequest('favorites', args, false);
 }
 
@@ -226,7 +226,7 @@ function favorites(...args: Array<string>) {
  * @param {object} metadata | Required only for `set` and `remove`
  * @param {object} metadata | 'id', Required only remove
  */
-function watchList(...args: Array<string>) {
+function watchList(...args: Array<string | number>) {
   return interceptAndHandleRequest('watchList', args, false);
 }
 

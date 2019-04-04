@@ -48,7 +48,7 @@ export default function Show(props: Props) {
       {/* Episodes */}
       <Col sm="4" xs="6">
         <ListGroup className="Show--list-group">
-          {episodes.length === 0
+          {episodes && episodes.length === 0
             ? seasons.length > 0
               ? 'No episodes for this season'
               : null
@@ -72,12 +72,18 @@ export default function Show(props: Props) {
         <div className="card">
           <div className="card-block">
             <h3 className="card-title">
-              {episodes.length && selectedSeason && episodes[selectedEpisode]
+              {episodes &&
+              episodes.length &&
+              selectedSeason &&
+              episodes[selectedEpisode]
                 ? episodes[selectedEpisode].title
                 : null}
             </h3>
             <p className="card-text">
-              {episodes.length && selectedSeason && episodes[selectedEpisode]
+              {episodes &&
+              episodes.length &&
+              selectedSeason &&
+              episodes[selectedEpisode]
                 ? episodes[selectedEpisode].overview
                 : null}
             </p>

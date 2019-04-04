@@ -96,7 +96,6 @@ export default class Torrent {
     this.engine.add(magnetURI, { path: cacheLocation }, torrent => {
       const server = torrent.createServer();
       this.server = server.listen(port);
-      // this.server = server;
 
       const { file, torrentIndex } = torrent.files.reduce(
         (previous, current, index) => {

@@ -48,7 +48,7 @@ export default class KatTorrentProvider implements TorrentProviderInterface {
       .catch(() => false);
   }
 
-  static provide(itemId: string, type: string, extendedDetails = {}) {
+  static provide(itemId: string, type: string, extendedDetails: Object = {}) {
     const { searchQuery } = extendedDetails;
 
     switch (type) {
@@ -84,13 +84,12 @@ export default class KatTorrentProvider implements TorrentProviderInterface {
 
         return timeout(Promise.all(queries.map(query => this.fetch(query))))
           .then(res =>
-            res.reduce(
-              (previous, current) =>
-                previous.length && current.length
-                  ? [...previous, ...current]
-                  : previous.length && !current.length
-                    ? previous
-                    : current
+            res.reduce((previous, current) =>
+              previous.length && current.length
+                ? [...previous, ...current]
+                : previous.length && !current.length
+                ? previous
+                : current
             )
           )
           .catch(error => {

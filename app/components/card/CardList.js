@@ -53,7 +53,7 @@ export default function CardList(props: Props) {
 
 CardList.defaultProps = {
   title: '',
-  limit: null,
+  limit: Infinity,
   items: [],
   isLoading: false,
   isFinished: false,

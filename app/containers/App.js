@@ -1,7 +1,6 @@
 // @flow
 /* eslint react/prefer-stateless-function: off */
-import React, { Component } from 'react';
-import type { Children } from 'react';
+import React, { Component, typeof Children } from 'react';
 
 type Props = {
   children: Children

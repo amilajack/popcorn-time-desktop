@@ -32,15 +32,15 @@ export default class BaseMetadataProvider {
     }
   }
 
-  favorites(...args) {
+  favorites(...args: Array<any>) {
     return this.updateConfig('favorites', ...args);
   }
 
-  recentlyWatched(...args) {
+  recentlyWatched(...args: Array<any>) {
     return this.updateConfig('recentlyWatched', ...args);
   }
 
-  watchList(...args) {
+  watchList(...args: Array<any>) {
     return this.updateConfig('watchList', ...args);
   }
 }

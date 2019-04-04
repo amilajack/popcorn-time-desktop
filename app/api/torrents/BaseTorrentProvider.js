@@ -14,10 +14,15 @@ export const providerCache = new Cache({
 // Create a promise that rejects in <ms> milliseconds
 export function timeout(promise: Promise<any>, ms: number = 20000) {
   const timeoutPromise = new Promise((resolve, reject) => {
-    const id = setTimeout(() => {
-      clearTimeout(id);
-      reject(new Error('Torrent Provider timeout exceeded'));
-    }, process.env.CONFIG_API_TIMEOUT ? parseInt(process.env.CONFIG_API_TIMEOUT, 10) : ms);
+    const id = setTimeout(
+      () => {
+        clearTimeout(id);
+        reject(new Error('Torrent Provider timeout exceeded'));
+      },
+      process.env.CONFIG_API_TIMEOUT
+        ? parseInt(process.env.CONFIG_API_TIMEOUT, 10)
+        : ms
+    );
   });
 
   // Returns a race between our timeout and the passed in promise
@@ -65,9 +70,8 @@ export function hasSubtitles(metadata: string): boolean {
 }
 
 export function sortTorrentsBySeeders(torrents: Array<any>): Array<any> {
-  return torrents.sort(
-    (prev: Object, next: Object) =>
-      prev.seeders === next.seeders ? 0 : prev.seeders > next.seeders ? -1 : 1
+  return torrents.sort((prev: Object, next: Object) =>
+    prev.seeders === next.seeders ? 0 : prev.seeders > next.seeders ? -1 : 1
   );
 }
 

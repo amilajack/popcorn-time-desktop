@@ -83,7 +83,9 @@ type State = {
   torrentInProgress: boolean,
   torrentProgress: number,
   isFinished: boolean,
-  captions: captionsType
+  captions: captionsType,
+  favorites: Array<itemType>,
+  watchList: Array<itemType>
 };
 
 export default class Item extends Component<Props, State> {
@@ -174,7 +176,9 @@ export default class Item extends Component<Props, State> {
     metadataLoading: false,
     torrentInProgress: false,
     torrentProgress: 0,
-    captions: []
+    captions: [],
+    favorites: [],
+    watchList: []
   };
 
   constructor(props: Props) {
@@ -462,7 +466,7 @@ export default class Item extends Component<Props, State> {
         }
       });
 
-      return torrent
+      return torrent;
     } catch (error) {
       console.log(error);
     }

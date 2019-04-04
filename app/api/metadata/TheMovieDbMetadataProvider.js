@@ -34,8 +34,8 @@ function formatMetadata(item, type: string, imageUri: string, genres) {
     genres: item.genres
       ? item.genres.map(genre => genre.name)
       : item.genre_ids
-        ? item.genre_ids.map(genre => genres[String(genre)])
-        : [],
+      ? item.genre_ids.map(genre => genres[String(genre)])
+      : [],
     rating: item.vote_average,
     runtime:
       item.runtime ||

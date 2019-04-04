@@ -30,12 +30,12 @@ export type runtimeType = {
 export type certificationType = 'G' | 'PG' | 'PG-13' | 'R' | 'n/a';
 
 export type imagesType = {
-  fanart: {
+  fanart?: {
     full: string,
     medium: string,
     thumb: string
   },
-  poster: {
+  poster?: {
     full: string,
     medium: string,
     thumb: string

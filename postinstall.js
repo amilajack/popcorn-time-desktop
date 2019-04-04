@@ -14,21 +14,13 @@ function copy(filepath: string, dest: string) {
   );
 }
 
-function addEnvFileIfNotExist(): boolean {
+function addEnvFileIfNotExist() {
   if (fs.existsSync(path.join(__dirname, '.env'))) {
     console.log('--> Using existing .env file...');
   } else {
     console.log('--> Creating ".env" file...');
     copy('.env.example', '.env');
   }
-}
-
-function copyRandomAccessFile() {
-  console.log('--> Creating ".env" file...');
-  fs.copyFileSync(
-    path.join(__dirname, 'node_modules', 'random-access-file', 'index.js'),
-    path.join(__dirname, 'node_modules', 'random-access-file', 'browser.js')
-  );
 }
 
 function getUrl(): { platform: string, dest: string } {
@@ -82,4 +74,3 @@ function setupFfmpeg() {
 
 setupFfmpeg();
 addEnvFileIfNotExist();
-copyRandomAccessFile();

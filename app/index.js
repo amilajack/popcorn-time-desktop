@@ -3,13 +3,13 @@ import React from 'react';
 import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import Root from './containers/Root';
-import {history, configureStore} from './store/configureStore';
+import { history, configureStore } from './store/configureStore';
 import './app.global.scss';
 
 const store = configureStore();
 
 if (process.env.NODE_ENV !== 'production') {
-  process.on('uncaughtRejection', (error) => {
+  process.on('uncaughtRejection', error => {
     throw error;
   });
 }
