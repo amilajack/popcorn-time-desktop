@@ -21,9 +21,9 @@
   </a>
 </div>
 
-<div>
-  <img src="https://raw.github.com/amilajack/popcorn-time-desktop-design/master/Desktop.jpg" width="500px"/>
-</div>
+<p align="center">
+  <img src="https://raw.github.com/amilajack/popcorn-time-desktop/master/images/movie-page.jpg" width="500px"/>
+</p>
 
 <br />
 
