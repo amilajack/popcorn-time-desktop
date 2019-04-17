@@ -71,7 +71,12 @@ before_script:
 script:
   - yarn lint
   # - yarn test
-  - yarn package-ci
+  - |
+    if [ "$TRAVIS_OS_NAME" == "linux" ]; then
+      yarn package-ci --linux --arm64 --armv7l
+    else
+      yarn package-ci
+    fi
   - yarn build-e2e
   - yarn test-e2e --quarantine-mode
 
