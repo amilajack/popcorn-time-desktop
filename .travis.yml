@@ -31,7 +31,7 @@ matrix:
             - avahi-daemon
             - avahi-discover
             - libnss-mdns
-            - snap
+            - snapd
 
 before_cache:
   - rm -rf $HOME/.cache/electron-builder/wine
@@ -49,7 +49,7 @@ cache:
 
 install:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export CXX="g++-8"; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then snap install snapcraft --classic; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo snap install snapcraft --classic; fi
   - yarn
   - |
     if [ "$TRAVIS_OS_NAME" == "linux" ]; then

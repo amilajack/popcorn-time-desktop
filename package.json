@@ -108,15 +108,20 @@
     },
     "linux": {
       "target": [
-        "deb",
+        {
+          "target": "deb",
+          "arch": [
+            "x64",
+            "ia32",
+            "arm64",
+            "armv7l"
+          ]
+        },
         "rpm",
         "snap",
         "AppImage"
       ],
       "category": "Video"
-    },
-    "snap": {
-      "target": ["arm64", "armv7"]
     },
     "directories": {
       "buildResources": "resources",
