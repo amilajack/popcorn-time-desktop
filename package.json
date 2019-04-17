@@ -115,6 +115,9 @@
       ],
       "category": "Video"
     },
+    "snap": {
+      "target": ["arm64", "armv7"]
+    },
     "directories": {
       "buildResources": "resources",
       "output": "release"
