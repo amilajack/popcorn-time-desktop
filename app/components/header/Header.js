@@ -1,7 +1,6 @@
 // @flow
 /* eslint react/no-set-state: 0 */
 import {
-  Button,
   Collapse,
   Form,
   Input,
@@ -72,7 +71,7 @@ export default class Header extends Component<Props, State> {
 
     return (
       <Navbar className="navbar navbar-expand-lg navbar-dark bg-dark col-sm-12 col-md-12">
-        <Button
+        <NavbarToggler
           className="navbar-toggler"
           type="button"
           data-toggle="collapse"
@@ -80,10 +79,7 @@ export default class Header extends Component<Props, State> {
           aria-controls="navbarSupportedContent"
           aria-expanded="false"
           aria-label="Toggle navigation"
-        >
-          <NavbarToggler />
-        </Button>
-
+        />
         <Collapse
           className="collapse navbar-collapse"
           id="navbarSupportedContent"
