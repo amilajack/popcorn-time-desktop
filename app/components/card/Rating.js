@@ -10,7 +10,12 @@ type Props = {
 
 export default function StarRating(props: Props) {
   const { rating, starColor, emptyStarColor } = props;
-  return typeof rating === 'number' ? (
+
+  if (typeof rating !== 'number') {
+    return null;
+  }
+
+  return (
     <div className="Rating">
       <StarRatingComponent
         renderStarIconHalf={() => <span className="ion-md-star-half" />}
@@ -23,7 +28,7 @@ export default function StarRating(props: Props) {
       />
       <span className="rating-number">{rating}</span>
     </div>
-  ) : null;
+  );
 }
 
 StarRating.defaultProps = {

@@ -45,9 +45,9 @@ export default function Card(props: Props) {
         </Row>
         <Row>
           <Col sm="12">
-            {typeof rating === 'number' ? (
+            {typeof rating === 'number' && (
               <Rating starColor={starColor} rating={rating} />
-            ) : null}
+            )}
           </Col>
         </Row>
       </div>
