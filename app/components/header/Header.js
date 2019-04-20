@@ -13,7 +13,6 @@ import React, { Component } from 'react';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import type { Node, SyntheticEvent as Event } from 'react';
-import Butter from '../../api/Butter';
 
 type Props = {
   setActiveMode: (mode: string, options?: { searchQuery: string }) => void,
@@ -31,39 +30,26 @@ export default class Header extends Component<Props, State> {
     searchQuery: ''
   };
 
-  butter: Butter;
-
-  butter = new Butter();
-
-  /**
-   * Set the mode of the movies to be 'search'
-   */
-  setSearchState(searchQuery: string) {
-    const { setActiveMode } = this.props;
-    setActiveMode('search', { searchQuery });
-  }
-
-  handleSearchChange({ target: { value } }: Event<HTMLButtonElement>) {
+  handleSearchChange = ({ target: { value } }: Event<HTMLButtonElement>) => {
     this.setState({
       searchQuery: value
     });
-  }
+  };
 
-  handleKeyUp({ keyCode }: Event<HTMLButtonElement>) {
-    if (keyCode === 27) {
-      document.getElementById('pct-search-input').blur();
-    }
-  }
-
-  handleKeyPress({ key }: Event<HTMLButtonElement>) {
+  handleKeyPress = ({ currentTarget, keyCode }: Event<HTMLButtonElement>) => {
     const { searchQuery } = this.state;
     const { setActiveMode } = this.props;
-    if (key === 'Enter') {
+
+    if (keyCode === 13) {
+      // Enter - keyCode 13
       setActiveMode('search', {
         searchQuery
       });
+    } else if (keyCode === 27) {
+      // Escape - keyCode 27
+      currentTarget.blur();
     }
-  }
+  };
 
   render(): Node {
     const { activeMode, setActiveMode } = this.props;
@@ -134,9 +120,8 @@ export default class Header extends Component<Props, State> {
               className="form-control mr-sm-2"
               aria-label="Search"
               value={searchQuery}
-              onKeyUp={event => this.handleKeyUp(event)}
-              onKeyPress={event => this.handleKeyPress(event)}
-              onChange={event => this.handleSearchChange(event)}
+              onKeyDown={this.handleKeyPress}
+              onChange={this.handleSearchChange}
               type="text"
               placeholder="Search"
             />
