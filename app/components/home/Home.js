@@ -128,7 +128,7 @@ export default class Home extends Component<Props, State> {
   /**
    * If bottom of component is 2000px from viewport, query
    */
-  initInfinitePagination() {
+  initInfinitePagination = () => {
     const {
       infinitePagination,
       activeMode,
@@ -144,12 +144,12 @@ export default class Home extends Component<Props, State> {
         this.paginate(activeMode, activeModeOptions);
       }
     }
-  }
+  };
 
   async componentDidMount() {
     const { activeMode } = this.props;
 
-    document.addEventListener('scroll', this.initInfinitePagination.bind(this));
+    document.addEventListener('scroll', this.initInfinitePagination);
     window.scrollTo(0, global.pct[`${activeMode}ScrollTop`]);
 
     const [favorites, watchList, recentlyWatched] = await Promise.all([
@@ -202,10 +202,7 @@ export default class Home extends Component<Props, State> {
 
     global.pct[`${activeMode}ScrollTop`] = document.body.scrollTop;
 
-    document.removeEventListener(
-      'scroll',
-      this.initInfinitePagination.bind(this)
-    );
+    document.removeEventListener('scroll', this.initInfinitePagination);
   }
 
   onChange = async (isVisible: boolean) => {
