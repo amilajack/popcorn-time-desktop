@@ -13,7 +13,6 @@ import React, { Component } from 'react';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import type { Node, SyntheticEvent as Event } from 'react';
-import Butter from '../../api/Butter';
 
 type Props = {
   setActiveMode: (mode: string, options?: { searchQuery: string }) => void,
@@ -30,10 +29,6 @@ export default class Header extends Component<Props, State> {
   state: State = {
     searchQuery: ''
   };
-
-  butter: Butter;
-
-  butter = new Butter();
 
   /**
    * Set the mode of the movies to be 'search'
