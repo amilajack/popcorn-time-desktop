@@ -30,14 +30,6 @@ export default class Header extends Component<Props, State> {
     searchQuery: ''
   };
 
-  /**
-   * Set the mode of the movies to be 'search'
-   */
-  setSearchState(searchQuery: string) {
-    const { setActiveMode } = this.props;
-    setActiveMode('search', { searchQuery });
-  }
-
   handleSearchChange = ({ target: { value } }: Event<HTMLButtonElement>) => {
     this.setState({
       searchQuery: value
