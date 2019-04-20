@@ -3,7 +3,6 @@
  * @flow
  * @TODO: Use waitForImages plugin to load background images and fade in on load
  */
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as HomeActions from '../actions/homePageActions';
 import Home from '../components/home/Home';
@@ -21,7 +20,12 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(HomeActions, dispatch)
+    clearAllItems: () => dispatch(HomeActions.clearAllItems()),
+    paginate: (activeMode, activeModeOptions) =>
+      dispatch(HomeActions.paginate(activeMode, activeModeOptions)),
+    setActiveMode: (mode, activeModeOptions) =>
+      dispatch(HomeActions.setActiveMode(mode, activeModeOptions)),
+    setLoading: isLoading => dispatch(HomeActions.setLoading(isLoading))
   };
 }
 

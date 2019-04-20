@@ -21,18 +21,16 @@ export type itemType = {
 };
 
 type Props = {
-  actions: {
-    setActiveMode: (
-      mode: string,
-      activeModeOptions?: activeModeOptionsType
-    ) => void,
-    paginate: (
-      activeMode: string,
-      activeModeOptions?: activeModeOptionsType
-    ) => void,
-    clearAllItems: () => void,
-    setLoading: (isLoading: boolean) => void
-  },
+  setActiveMode: (
+    mode: string,
+    activeModeOptions?: activeModeOptionsType
+  ) => void,
+  paginate: (
+    activeMode: string,
+    activeModeOptions?: activeModeOptionsType
+  ) => void,
+  clearAllItems: () => void,
+  setLoading: (isLoading: boolean) => void,
   activeMode: string,
   activeModeOptions: activeModeOptionsType,
   modes: {
@@ -96,9 +94,9 @@ export default class Home extends Component<Props, State> {
     queryType: string,
     activeModeOptions: activeModeOptionsType = {}
   ) {
-    const { actions, modes } = this.props;
+    const { modes, paginate, setLoading } = this.props;
 
-    actions.setLoading(true);
+    setLoading(true);
 
     // HACK: This is a temporary solution.
     // Waiting on: https://github.com/yannickcr/eslint-plugin-react/issues/818
@@ -119,8 +117,8 @@ export default class Home extends Component<Props, State> {
       }
     })();
 
-    actions.paginate(items);
-    actions.setLoading(false);
+    paginate(items);
+    setLoading(false);
 
     return items;
   }
@@ -166,7 +164,7 @@ export default class Home extends Component<Props, State> {
   }
 
   componentWillReceiveProps(nextProps: Props) {
-    const { activeMode, activeModeOptions, actions } = this.props;
+    const { activeMode, activeModeOptions, clearAllItems } = this.props;
     global.pct[`${activeMode}ScrollTop`] = document.body.scrollTop;
 
     if (activeMode !== nextProps.activeMode) {
@@ -178,7 +176,7 @@ export default class Home extends Component<Props, State> {
       JSON.stringify(activeModeOptions)
     ) {
       if (nextProps.activeMode === 'search') {
-        actions.clearAllItems();
+        clearAllItems();
       }
 
       this.paginate(nextProps.activeMode, nextProps.activeModeOptions);
@@ -213,7 +211,7 @@ export default class Home extends Component<Props, State> {
   };
 
   render() {
-    const { activeMode, actions, items, isLoading } = this.props;
+    const { activeMode, items, isLoading, setActiveMode } = this.props;
     const { favorites, watchList, recentlyWatched } = this.state;
 
     const home = (
@@ -238,7 +236,7 @@ export default class Home extends Component<Props, State> {
 
     return (
       <Row>
-        <Header activeMode={activeMode} setActiveMode={actions.setActiveMode} />
+        <Header activeMode={activeMode} setActiveMode={setActiveMode} />
         <Col sm="12">
           {activeMode === 'home' ? (
             home
