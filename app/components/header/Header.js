@@ -134,9 +134,9 @@ export default class Header extends Component<Props, State> {
               className="form-control mr-sm-2"
               aria-label="Search"
               value={searchQuery}
-              onKeyUp={event => this.handleKeyUp(event)}
-              onKeyPress={event => this.handleKeyPress(event)}
-              onChange={event => this.handleSearchChange(event)}
+              onKeyUp={this.handleKeyUp}
+              onKeyPress={this.handleKeyPress}
+              onChange={this.handleSearchChange}
               type="text"
               placeholder="Search"
             />
