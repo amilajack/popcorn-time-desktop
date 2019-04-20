@@ -40,15 +40,13 @@ export default class Header extends Component<Props, State> {
     const { searchQuery } = this.state;
     const { setActiveMode } = this.props;
 
-    // Enter - keyCode 13
     if (keyCode === 13) {
+      // Enter - keyCode 13
       setActiveMode('search', {
         searchQuery
       });
-    }
-
-    // Escape - keyCode 27
-    if (keyCode === 27) {
+    } else if (keyCode === 27) {
+      // Escape - keyCode 27
       currentTarget.blur();
     }
   };
@@ -122,7 +120,7 @@ export default class Header extends Component<Props, State> {
               className="form-control mr-sm-2"
               aria-label="Search"
               value={searchQuery}
-              onKeyPress={this.handleKeyPress}
+              onKeyDown={this.handleKeyPress}
               onChange={this.handleSearchChange}
               type="text"
               placeholder="Search"
