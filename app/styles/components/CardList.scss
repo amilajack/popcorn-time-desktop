@@ -9,10 +9,8 @@
 
 .CardList {
   display: flex;
-  justify-content: space-between;
-  align-content: space-between;
-  flex-flow: row wrap;
-  text-align: left;
+  justify-content: space-around;
+  flex-wrap: wrap;
 
   .Card {
     border: 10px solid transparent;
