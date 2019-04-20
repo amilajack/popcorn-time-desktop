@@ -49,9 +49,9 @@ export default class Header extends Component<Props, State> {
     });
   }
 
-  handleKeyUp({ keyCode }: Event<HTMLButtonElement>) {
+  handleKeyUp({ currentTarget, keyCode }: Event<HTMLButtonElement>) {
     if (keyCode === 27) {
-      document.getElementById('pct-search-input').blur();
+      currentTarget.blur();
     }
   }
 
