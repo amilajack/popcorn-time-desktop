@@ -2,9 +2,16 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
+import * as Sentry from '@sentry/electron/dist/renderer';
 import Root from './containers/Root';
 import { history, configureStore } from './store/configureStore';
 import './app.global.scss';
+
+if (process.env.NODE_ENV === 'production') {
+  Sentry.init({
+    dsn: 'https://b0d05cee653942148a43b8163bbc6cee@sentry.io/1277263'
+  });
+}
 
 const store = configureStore();
 
