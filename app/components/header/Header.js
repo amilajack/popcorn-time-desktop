@@ -36,19 +36,20 @@ export default class Header extends Component<Props, State> {
     });
   };
 
-  handleKeyUp = ({ currentTarget, keyCode }: Event<HTMLButtonElement>) => {
-    if (keyCode === 27) {
-      currentTarget.blur();
-    }
-  };
-
-  handleKeyPress = ({ key }: Event<HTMLButtonElement>) => {
+  handleKeyPress = ({ currentTarget, keyCode }: Event<HTMLButtonElement>) => {
     const { searchQuery } = this.state;
     const { setActiveMode } = this.props;
-    if (key === 'Enter') {
+
+    // Enter - keyCode 13
+    if (keyCode === 13) {
       setActiveMode('search', {
         searchQuery
       });
+    }
+
+    // Escape - keyCode 27
+    if (keyCode === 27) {
+      currentTarget.blur();
     }
   };
 
@@ -121,7 +122,6 @@ export default class Header extends Component<Props, State> {
               className="form-control mr-sm-2"
               aria-label="Search"
               value={searchQuery}
-              onKeyUp={this.handleKeyUp}
               onKeyPress={this.handleKeyPress}
               onChange={this.handleSearchChange}
               type="text"
