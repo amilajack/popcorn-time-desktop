@@ -63,7 +63,10 @@ export default class Header extends Component<Props, State> {
     const { collapsed, searchQuery } = this.state;
 
     return (
-      <Navbar className="navbar navbar-expand-lg navbar-dark bg-dark col-sm-12 col-md-12">
+      <Navbar
+        className="navbar navbar-expand-lg navbar-dark bg-dark col-sm-12 col-md-12"
+        sticky="top"
+      >
         <NavbarToggler
           className="navbar-toggler"
           type="button"
