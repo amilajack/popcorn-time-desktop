@@ -38,19 +38,19 @@ export default class Header extends Component<Props, State> {
     setActiveMode('search', { searchQuery });
   }
 
-  handleSearchChange({ target: { value } }: Event<HTMLButtonElement>) {
+  handleSearchChange = ({ target: { value } }: Event<HTMLButtonElement>) => {
     this.setState({
       searchQuery: value
     });
-  }
+  };
 
-  handleKeyUp({ currentTarget, keyCode }: Event<HTMLButtonElement>) {
+  handleKeyUp = ({ currentTarget, keyCode }: Event<HTMLButtonElement>) => {
     if (keyCode === 27) {
       currentTarget.blur();
     }
-  }
+  };
 
-  handleKeyPress({ key }: Event<HTMLButtonElement>) {
+  handleKeyPress = ({ key }: Event<HTMLButtonElement>) => {
     const { searchQuery } = this.state;
     const { setActiveMode } = this.props;
     if (key === 'Enter') {
@@ -58,7 +58,7 @@ export default class Header extends Component<Props, State> {
         searchQuery
       });
     }
-  }
+  };
 
   render(): Node {
     const { activeMode, setActiveMode } = this.props;
