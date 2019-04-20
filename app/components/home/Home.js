@@ -73,13 +73,6 @@ export default class Home extends Component<Props, State> {
     super(props);
     this.butter = new Butter();
 
-    this.onChange = async (isVisible: boolean) => {
-      const { isLoading, activeMode, activeModeOptions } = this.props;
-      if (isVisible && !isLoading) {
-        await this.paginate(activeMode, activeModeOptions);
-      }
-    };
-
     // Temporary hack to preserve scroll position
     if (!global.pct) {
       global.pct = {
@@ -214,6 +207,13 @@ export default class Home extends Component<Props, State> {
       this.initInfinitePagination.bind(this)
     );
   }
+
+  onChange = async (isVisible: boolean) => {
+    const { isLoading, activeMode, activeModeOptions } = this.props;
+    if (isVisible && !isLoading) {
+      await this.paginate(activeMode, activeModeOptions);
+    }
+  };
 
   render() {
     const { activeMode, actions, items, isLoading } = this.props;
