@@ -69,10 +69,6 @@ export default class Home extends Component<Props, State> {
 
   butter: Butter;
 
-  didMount: boolean;
-
-  // onChange: () => void;
-
   constructor(props: Props) {
     super(props);
     this.butter = new Butter();
@@ -157,15 +153,9 @@ export default class Home extends Component<Props, State> {
     }
   }
 
-  setUserMeta(type: 'favorites' | 'watchList', item) {
-    this.setState({
-      [type]: this.butter[type]('set', item)
-    });
-  }
-
   async componentDidMount() {
     const { activeMode } = this.props;
-    this.didMount = true;
+
     document.addEventListener('scroll', this.initInfinitePagination.bind(this));
     window.scrollTo(0, global.pct[`${activeMode}ScrollTop`]);
 
@@ -181,8 +171,6 @@ export default class Home extends Component<Props, State> {
       recentlyWatched
     });
   }
-
-  componentWillMount() {}
 
   componentWillReceiveProps(nextProps: Props) {
     const { activeMode, activeModeOptions, actions } = this.props;
@@ -221,7 +209,6 @@ export default class Home extends Component<Props, State> {
 
     global.pct[`${activeMode}ScrollTop`] = document.body.scrollTop;
 
-    this.didMount = false;
     document.removeEventListener(
       'scroll',
       this.initInfinitePagination.bind(this)
