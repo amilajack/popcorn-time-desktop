@@ -27,6 +27,7 @@ export default class Header extends Component<Props, State> {
   props: Props;
 
   state: State = {
+    collapsed: true,
     searchQuery: ''
   };
 
@@ -51,24 +52,32 @@ export default class Header extends Component<Props, State> {
     }
   };
 
+  setCollapse = () => {
+    this.setState(prevState => ({
+      collapsed: !prevState.collapsed
+    }));
+  };
+
   render(): Node {
     const { activeMode, setActiveMode } = this.props;
-    const { searchQuery } = this.state;
+    const { collapsed, searchQuery } = this.state;
 
     return (
-      <Navbar className="navbar navbar-expand-lg navbar-dark bg-dark col-sm-12 col-md-12">
+      <Navbar
+        className="navbar navbar-expand-lg navbar-dark bg-dark col-sm-12 col-md-12"
+        sticky="top"
+      >
         <NavbarToggler
           className="navbar-toggler"
           type="button"
-          data-toggle="collapse"
-          data-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
+          aria-expanded={!collapsed}
           aria-label="Toggle navigation"
+          onClick={this.setCollapse}
         />
         <Collapse
           className="collapse navbar-collapse"
           id="navbarSupportedContent"
+          isOpen={!collapsed}
         >
           <Nav className="navbar-nav mr-auto">
             <NavItem

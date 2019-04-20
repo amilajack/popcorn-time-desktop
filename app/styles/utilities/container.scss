@@ -1,19 +1,4 @@
-::-webkit-scrollbar-corner {
-  background-color: transparent;
-}
-
 .row-center {
   display: flex;
   align-items: center;
-}
-
-::-webkit-scrollbar {
-  z-index: 0;
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-thumb {
-  -webkit-border-radius: 2px;
-  background: rgba(150, 150, 150, 0.33);
 }
