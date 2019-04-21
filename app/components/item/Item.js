@@ -492,7 +492,7 @@ export default class Item extends Component<Props, State> {
     return [];
   }
 
-  stopPlayback() {
+  stopPlayback = () => {
     const { torrentInProgress, playbackInProgress, currentPlayer } = this.state;
     if (!torrentInProgress && !playbackInProgress) {
       return;
@@ -509,7 +509,7 @@ export default class Item extends Component<Props, State> {
     this.player.destroy();
     this.torrent.destroy();
     this.setState({ torrentInProgress: false });
-  }
+  };
 
   selectShow = (
     type: string,
@@ -621,7 +621,7 @@ export default class Item extends Component<Props, State> {
     return captions;
   }
 
-  closeVideo() {
+  closeVideo = () => {
     const { playbackInProgress } = this.state;
     if (!playbackInProgress) {
       return;
@@ -631,7 +631,7 @@ export default class Item extends Component<Props, State> {
     this.setState({
       currentPlayer: 'default'
     });
-  }
+  };
 
   toggleActive() {
     this.setState(prevState => ({
@@ -807,7 +807,7 @@ export default class Item extends Component<Props, State> {
             role="presentation"
             className="pct-btn pct-btn-tran pct-btn-outline pct-btn-round"
             data-e2e="item-button-back"
-            onClick={() => this.stopPlayback()}
+            onClick={this.stopPlayback}
           >
             <i className="ion-md-arrow-back" /> Back
           </span>
@@ -815,11 +815,6 @@ export default class Item extends Component<Props, State> {
         <Row>
           <Plyr
             captions={captions}
-            // captions={[{
-            //   kind: "captions",
-            //   label: "English captions",
-            //   src: 'http://localhost:4000/Deadpool.2.Super.Duper.Cut.2018.HDRip.XviD.AC3-EVO.vtt'
-            // }]}
             type="video"
             url={playbackInProgress ? servingUrl || item.trailer : undefined}
             poster={(item && item.images && item.images.fanart.full) || ''}
@@ -841,7 +836,7 @@ export default class Item extends Component<Props, State> {
               data-e2e="close-player"
               role="presentation"
               id="close-button"
-              onClick={() => this.closeVideo()}
+              onClick={this.closeVideo}
             >
               <i className="ion-md-close" />
             </span>
