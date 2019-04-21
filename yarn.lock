@@ -20,18 +20,19 @@
     plyr "^3.3.21"
     prop-types "^15.6.2"
 
-"@amilajack/yifysubtitles@^2.1.2":
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/@amilajack/yifysubtitles/-/yifysubtitles-2.1.2.tgz#9afc0ec2e92740acc5b9bc7617dcf38eae0dc795"
-  integrity sha512-/nCoTXAs7jykTlseANL5m9+9pQEztC/duNoC1whfZ81rA3TAgWZEPd87tMZzr/B2lETQE0bzTFwX+wAA/S6tJg==
+"@amilajack/yifysubtitles@^2.1.4":
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/@amilajack/yifysubtitles/-/yifysubtitles-2.1.4.tgz#46c5fc97b2e050e29b20b73d64d3dad11e2892e3"
+  integrity sha512-k6pkv0fsgFczMmhNE/I5q3N9Lb8SESHuDGk4mz56Rfm+aOGs4ykKlJf3t3GJWUiUg9Wwyj88Wu1blAthKHb2nA==
   dependencies:
-    cheerio "^1.0.0-rc.2"
+    cheerio "^1.0.0-rc.3"
     global "^4.3.2"
-    got "^9.2.0"
-    p-map "^1.2.0"
+    got "^9.6.0"
+    isomorphic-fetch "^2.2.1"
+    p-map "^2.1.0"
     srt-to-vtt "^1.1.3"
     streamz "^1.8.5"
-    unzipper "^0.9.3"
+    unzipper "^0.9.11"
 
 "@babel/code-frame@^7.0.0":
   version "7.0.0"
@@ -3485,6 +3486,18 @@ cheerio@^1.0.0-rc.2:
     lodash "^4.15.0"
     parse5 "^3.0.1"
 
+cheerio@^1.0.0-rc.3:
+  version "1.0.0-rc.3"
+  resolved "https://registry.yarnpkg.com/cheerio/-/cheerio-1.0.0-rc.3.tgz#094636d425b2e9c0f4eb91a46c05630c9a1a8bf6"
+  integrity sha512-0td5ijfUPuubwLUu0OBoe98gZj8C/AA+RW3v67GPlGOrvxWjZmBXiBCRU+I8VEiNyJzjth40POfHiz2RB3gImA==
+  dependencies:
+    css-select "~1.2.0"
+    dom-serializer "~0.1.1"
+    entities "~1.1.1"
+    htmlparser2 "^3.9.1"
+    lodash "^4.15.0"
+    parse5 "^3.0.1"
+
 "cheerio@github:cheeriojs/cheerio#e65ad72":
   version "0.20.0"
   resolved "https://codeload.github.com/cheeriojs/cheerio/tar.gz/e65ad72cad8fb696e0f3475b127c93492feca04d"
@@ -4900,7 +4913,7 @@ dom-helpers@^3.2.0, dom-helpers@^3.3.1:
   dependencies:
     "@babel/runtime" "^7.1.2"
 
-dom-serializer@0, dom-serializer@~0.1.0:
+dom-serializer@0, dom-serializer@~0.1.0, dom-serializer@~0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/dom-serializer/-/dom-serializer-0.1.1.tgz#1ec4059e284babed36eec2941d4a970a189ce7c0"
   integrity sha512-l0IU0pPzLWSHBcieZbpOKgkIn3ts3vAh7ZuFyXNwJxJXk/c4Gwj9xaTJwIDVQCXawWD0qb3IzMGH5rglQaO0XA==
@@ -6897,7 +6910,7 @@ got@^8.3.1:
     url-parse-lax "^3.0.0"
     url-to-options "^1.0.1"
 
-got@^9.2.0:
+got@^9.6.0:
   version "9.6.0"
   resolved "https://registry.yarnpkg.com/got/-/got-9.6.0.tgz#edf45e7d67f99545705de1f7bbeeeb121765ed85"
   integrity sha512-R7eWptXuGYxwijs0eV+v3o6+XH1IqVK8dJOEecQfTmkncw9AV4dcw/Dhxi8MdlqPthxxpZyizMzyg8RTmEsG+Q==
@@ -10445,7 +10458,7 @@ p-locate@^3.0.0:
   dependencies:
     p-limit "^2.0.0"
 
-p-map@^1.1.1, p-map@^1.2.0:
+p-map@^1.1.1:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/p-map/-/p-map-1.2.0.tgz#e4e94f311eabbc8633a1e79908165fca26241b6b"
   integrity sha512-r6zKACMNhjPJMTl8KcFH4li//gkrXWfbD6feV8l6doRHlzljFWGJ2AP6iKaCJXyZmAUMOPtvbW7EXkbWO/pLEA==
@@ -10454,6 +10467,11 @@ p-map@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/p-map/-/p-map-2.0.0.tgz#be18c5a5adeb8e156460651421aceca56c213a50"
   integrity sha512-GO107XdrSUmtHxVoi60qc9tUl/KkNKm+X2CF4P9amalpGxv5YqVPJNfSb0wcA+syCopkZvYYIzW8OVTQW59x/w==
+
+p-map@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/p-map/-/p-map-2.1.0.tgz#310928feef9c9ecc65b68b17693018a665cea175"
+  integrity sha512-y3b8Kpd8OAN444hxfBbFfj1FY/RjtTd8tzYwhUqNYXx0fXx2iX4maP4Qr6qhIKbQXI02wTLAda4fYUbDagTUFw==
 
 p-reduce@^1.0.0:
   version "1.0.0"
@@ -14441,7 +14459,7 @@ unzipper@^0.8.11:
     readable-stream "~2.1.5"
     setimmediate "~1.0.4"
 
-unzipper@^0.9.3:
+unzipper@^0.9.11:
   version "0.9.11"
   resolved "https://registry.yarnpkg.com/unzipper/-/unzipper-0.9.11.tgz#9577d9b85e5974abd6e23a30dbc9dc187940fc47"
   integrity sha512-G0z5zv8LYv4/XwpOiXgTGTcN4jyxgyg3P1DfdIeCN2QGOd6ZBl49BSbOe9JsIEvKh3tG7/b0bdJvz+UmwA+BRg==

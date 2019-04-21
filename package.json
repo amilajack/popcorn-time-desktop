@@ -240,7 +240,7 @@
   },
   "dependencies": {
     "@amilajack/react-plyr": "^2.1.2",
-    "@amilajack/yifysubtitles": "^2.1.2",
+    "@amilajack/yifysubtitles": "^2.1.4",
     "@sentry/electron": "^0.17.1",
     "axios": "^0.18.0",
     "bootstrap": "4.3.1",

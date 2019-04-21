@@ -17,7 +17,7 @@ import log from 'electron-log';
 import * as Sentry from '@sentry/electron/dist/main';
 import MenuBuilder from './menu';
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'production' && process.env.E2E_BUILD !== 'true') {
   Sentry.init({
     dsn: 'https://b0d05cee653942148a43b8163bbc6cee@sentry.io/1277263'
   });
