@@ -48,6 +48,18 @@
     }
   }
 
+  //cf. https://codepen.io/martinwolf/pen/qlFdp
+  .item__summary {
+    display: block; /* Fallback for non-webkit */
+    display: -webkit-box;
+    margin: 0 auto;
+    line-height: 2rem;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   > .row > .plyr {
     position: absolute;
     left: 0;

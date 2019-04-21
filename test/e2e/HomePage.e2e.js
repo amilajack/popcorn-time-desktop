@@ -56,7 +56,7 @@ test('it should navigate to item on CardList click', async t => {
     .contains('#/item/shows/')
     .expect(Selector('#title').visible)
     .ok()
-    .expect(Selector('#summary').visible)
+    .expect(Selector('[data-e2e="summary"]').visible)
     .ok();
 });
 
