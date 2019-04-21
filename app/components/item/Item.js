@@ -4,7 +4,7 @@
  */
 import React, { Component } from 'react';
 import {
-  Dropdown,
+  UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
@@ -73,7 +73,6 @@ type State = {
   currentPlayer: playerType,
   playbackInProgress: boolean,
   fetchingTorrents: boolean,
-  dropdownOpen: boolean,
   idealTorrent: torrentType,
   torrent: torrentSelectionType,
   servingUrl: string,
@@ -155,7 +154,6 @@ export default class Item extends Component<Props, State> {
       }
     },
     servingUrl: undefined,
-    dropdownOpen: false,
     isFinished: false,
     selectedSeason: 1,
     selectedEpisode: 1,
@@ -214,12 +212,6 @@ export default class Item extends Component<Props, State> {
     this.setState({ currentPlayer: player });
   }
 
-  toggle() {
-    this.setState(prevState => ({
-      dropdownOpen: !prevState.dropdownOpen
-    }));
-  }
-
   async componentDidMount() {
     const { itemId } = this.props;
     window.scrollTo(0, 0);
@@ -234,7 +226,6 @@ export default class Item extends Component<Props, State> {
 
     this.setState({
       ...this.initialState,
-      dropdownOpen: false,
       currentPlayer: 'default',
       favorites: await this.butter.favorites('get'),
       watchList: await this.butter.watchList('get')
@@ -752,7 +743,6 @@ export default class Item extends Component<Props, State> {
       servingUrl,
       torrentInProgress,
       fetchingTorrents,
-      dropdownOpen,
       currentPlayer,
       seasons,
       selectedSeason,
@@ -961,11 +951,7 @@ export default class Item extends Component<Props, State> {
 
         <Row className="row-margin">
           <Col sm="2">
-            <Dropdown
-              style={{ float: 'left' }}
-              isOpen={dropdownOpen}
-              toggle={() => this.toggle()}
-            >
+            <UncontrolledDropdown style={{ float: 'left' }}>
               <DropdownToggle caret>
                 {currentPlayer || 'default'}
               </DropdownToggle>
@@ -998,7 +984,7 @@ export default class Item extends Component<Props, State> {
                   </DropdownItem>
                 ))}
               </DropdownMenu>
-            </Dropdown>
+            </UncontrolledDropdown>
           </Col>
           <Col sm="10">
             {process.env.FLAG_MANUAL_TORRENT_SELECTION === 'true' && (
