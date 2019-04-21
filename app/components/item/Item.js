@@ -10,8 +10,7 @@ import {
   DropdownItem,
   Container,
   Row,
-  Col,
-  UncontrolledTooltip
+  Col
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
@@ -21,7 +20,7 @@ import Plyr from '@amilajack/react-plyr';
 import yifysubtitles from '@amilajack/yifysubtitles';
 import CardList from '../card/CardList';
 import SaveItem from '../metadata/SaveItem';
-import Rating from '../card/Rating';
+import Description from './description';
 import Show from '../show/Show';
 import ChromecastPlayerProvider from '../../api/players/ChromecastPlayerProvider';
 import { getIdealTorrent } from '../../api/torrents/BaseTorrentProvider';
@@ -765,11 +764,6 @@ export default class Item extends Component<Props, State> {
 
     const { activeMode } = this.props;
 
-    const torrentHealthClassName = classNames([
-      'torrent__health',
-      { [`torrent__health--${idealTorrent.health}`]: idealTorrent.health }
-    ]);
-
     const itemBackgroundUrl = {
       backgroundImage: `url(${item.images.fanart.full})`
     };
@@ -857,87 +851,19 @@ export default class Item extends Component<Props, State> {
                 watchList={watchList}
               />
             </Col>
-
-            <Col sm="6" className="Movie">
-              <h1 className="row-margin" id="title">
-                {item.title}
-              </h1>
-              <Row>
-                {item.runtime && item.runtime.hours && item.runtime.minutes && (
-                  <span className="col-sm-3" id="runtime">
-                    <h6>
-                      {item.runtime.hours ? `${item.runtime.hours} hrs ` : ''}
-                      {item.runtime.minutes
-                        ? `${item.runtime.minutes} min`
-                        : ''}
-                    </h6>
-                  </span>
-                )}
-                <span className="col-sm-9" id="genres">
-                  {item.genres && <h6>{item.genres.join(', ')}</h6>}
-                </span>
-              </Row>
-              <h6 className="row-margin item__summary">{item.summary}</h6>
-              <Row className="row-margin row-center Item--details">
-                {item.rating && typeof item.rating === 'number' && (
-                  <Col sm="5">
-                    <Rating
-                      emptyStarColor="rgba(255, 255, 255, 0.2)"
-                      starColor="white"
-                      rating={item.rating}
-                    />
-                  </Col>
-                )}
-                <Col sm="2">
-                  <span data-e2e="item-year">{item.year}</span>
-                </Col>
-
-                {item && item.certification && item.certification !== 'n/a' && (
-                  <Col sm="3">
-                    <div className="certification">{item.certification}</div>
-                  </Col>
-                )}
-
-                <Col sm="2" className="row-center">
-                  <i className="ion-md-magnet" />
-                  <div
-                    id="magnetPopoverOpen"
-                    data-e2e="item-magnet-torrent-health-popover"
-                    className={torrentHealthClassName}
-                  />
-                  <UncontrolledTooltip
-                    placement="top"
-                    target="magnetPopoverOpen"
-                  >
-                    {idealTorrent && idealTorrent.seeders
-                      ? idealTorrent.seeders
-                      : 0}{' '}
-                    Seeders
-                  </UncontrolledTooltip>
-                </Col>
-
-                {process.env.NODE_ENV === 'test' &&
-                  item.trailer &&
-                  item.trailer !== 'n/a' && (
-                    <Col sm="3" className="row-center">
-                      <i
-                        id="trailerPopoverOpen"
-                        data-e2e="item-trailer-button"
-                        className="ion-md-videocam"
-                        onClick={() => this.setPlayer('youtube')}
-                        role="presentation"
-                      />
-                      <UncontrolledTooltip
-                        placement="top"
-                        target="trailerPopoverOpen"
-                      >
-                        Trailer
-                      </UncontrolledTooltip>
-                    </Col>
-                  )}
-              </Row>
-            </Col>
-
+            <Description
+              certification={item.certification}
+              genres={item.genres}
+              nrSeeders={idealTorrent.seeders}
+              onTrailerClick={() => this.setPlayer('youtube')}
+              rating={item.rating}
+              runtime={item.runtime}
+              summary={item.summary}
+              title={item.title}
+              torrentHeath={idealTorrent.health}
+              trailer={item.trailer}
+              year={item.year}
+            />
             <div className="Item--overlay" />
           </Col>
         </Row>
