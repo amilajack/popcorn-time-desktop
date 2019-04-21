@@ -817,11 +817,6 @@ export default class Item extends Component<Props, State> {
         <Row>
           <Plyr
             captions={captions}
-            // captions={[{
-            //   kind: "captions",
-            //   label: "English captions",
-            //   src: 'http://localhost:4000/Deadpool.2.Super.Duper.Cut.2018.HDRip.XviD.AC3-EVO.vtt'
-            // }]}
             type="video"
             url={playbackInProgress ? servingUrl || item.trailer : undefined}
             poster={(item && item.images && item.images.fanart.full) || ''}
