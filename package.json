@@ -19,7 +19,7 @@
     "lint-fix": "yarn --silent lint --fix; exit 0",
     "package": "yarn postinstall && yarn build && electron-builder --publish never",
     "package-all": "yarn postinstall && yarn build && electron-builder --publish never --mac --win --linux",
-    "package-ci": "yarn postinstall && yarn build && electron-builder --publish always",
+    "package-ci": "yarn postinstall && cross-env ANALYTICS=true yarn build && electron-builder --publish always",
     "precommit": "yarn build-e2e && yarn test-e2e && lint-staged",
     "postinstall": "yarn flow-typed & yarn build-dll & node -r @babel/register postinstall.js & electron-builder install-app-deps",
     "test": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 jest ./test/components/*.spec.js",

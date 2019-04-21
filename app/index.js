@@ -7,7 +7,7 @@ import Root from './containers/Root';
 import { history, configureStore } from './store/configureStore';
 import './app.global.scss';
 
-if (process.env.NODE_ENV === 'production' && process.env.E2E_BUILD !== 'true') {
+if (process.env.ANALYTICS === 'true') {
   Sentry.init({
     dsn: 'https://b0d05cee653942148a43b8163bbc6cee@sentry.io/1277263'
   });
