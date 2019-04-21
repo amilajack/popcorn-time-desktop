@@ -52,7 +52,12 @@ module.exports = {
   },
 
   plugins: [
-    new webpack.EnvironmentPlugin(['NODE_ENV', 'DEBUG_PROD', ...flags]),
+    new webpack.EnvironmentPlugin([
+      'NODE_ENV',
+      'DEBUG_PROD',
+      'ANALYTICS',
+      ...flags
+    ]),
     new webpack.NamedModulesPlugin()
   ]
 };

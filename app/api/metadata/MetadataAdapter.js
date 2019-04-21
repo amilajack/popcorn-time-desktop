@@ -5,7 +5,6 @@
 import OpenSubtitles from 'opensubtitles-api';
 import { merge, resolveCache, setCache } from '../torrents/BaseTorrentProvider';
 import TheMovieDbMetadataProvider from './TheMovieDbMetadataProvider';
-import type { runtimeType } from './MetadataProviderInterface';
 
 type subtitlesType = {
   kind: 'captions',
@@ -239,30 +238,6 @@ function watchList(...args: Array<string | number>) {
  */
 function recentlyWatched(...args) {
   return interceptAndHandleRequest('recentlyWatched', args, false);
-}
-
-/**
- * Convert runtime from minutes to hours
- *
- * @param  {number} runtimeInMinutes
- * @return {object}
- */
-export function parseRuntimeMinutesToObject(
-  runtimeInMinutes: number
-): runtimeType {
-  const hours = runtimeInMinutes >= 60 ? Math.round(runtimeInMinutes / 60) : 0;
-  const minutes = runtimeInMinutes % 60;
-
-  return {
-    full:
-      hours > 0
-        ? `${hours} ${hours > 1 ? 'hours' : 'hour'}${
-            minutes > 0 ? ` ${minutes} minutes` : ''
-          }`
-        : `${minutes} minutes`,
-    hours,
-    minutes
-  };
 }
 
 export default {

@@ -1,6 +1,6 @@
 // @flow
 import axios from 'axios';
-import { parseRuntimeMinutesToObject } from './MetadataAdapter';
+import { parseRuntimeMinutesToObject } from './helpers';
 import BaseMetadataProvider from './BaseMetadataProvider';
 import type { MetadataProviderInterface } from './MetadataProviderInterface';
 
