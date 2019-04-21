@@ -66,7 +66,6 @@ type State = {
   selectedEpisode: number,
   seasons: [],
   season: [],
-  episode: {},
   episodes: [],
   castingDevices: Array<deviceType>,
   currentPlayer: playerType,
@@ -76,7 +75,6 @@ type State = {
   torrent: torrentSelectionType,
   servingUrl: string,
   similarLoading: boolean,
-  metadataLoading: boolean,
   torrentInProgress: boolean,
   torrentProgress: number,
   isFinished: boolean,
@@ -272,40 +270,22 @@ export default class Item extends Component<Props, State> {
     ]);
   }
 
-  async getShowData(
-    type: string,
-    imdbId: string,
-    season?: number,
-    episode?: number
-  ) {
+  async getShowData(type: string, imdbId: string, season?: number) {
     switch (type) {
       case 'seasons':
-        this.setState({ seasons: [], episodes: [], episode: {} });
+        this.setState({ seasons: [], episodes: [] });
         this.setState({
           seasons: await this.butter.getSeasons(imdbId),
-          episodes: await this.butter.getSeason(imdbId, 1),
-          episode: await this.butter.getEpisode(imdbId, 1, 1)
+          episodes: await this.butter.getSeason(imdbId, 1)
         });
         break;
       case 'episodes':
         if (!season) {
           throw new Error('"season" not provided to getShowData()');
         }
-        this.setState({ episodes: [], episode: {} });
+        this.setState({ episodes: [] });
         this.setState({
-          episodes: await this.butter.getSeason(imdbId, season),
-          episode: await this.butter.getEpisode(imdbId, season, 1)
-        });
-        break;
-      case 'episode':
-        if (!season || !episode) {
-          throw new Error(
-            '"season" or "episode" not provided to getShowData()'
-          );
-        }
-        this.setState({ episode: {} });
-        this.setState({
-          episode: await this.butter.getEpisode(imdbId, season, episode)
+          episodes: await this.butter.getSeason(imdbId, season)
         });
         break;
       default:
@@ -318,7 +298,6 @@ export default class Item extends Component<Props, State> {
    */
   async getItem(imdbId: string) {
     const { activeMode } = this.props;
-    this.setState({ metadataLoading: true });
 
     const item = await (() => {
       switch (activeMode) {
@@ -331,7 +310,7 @@ export default class Item extends Component<Props, State> {
       }
     })();
 
-    this.setState({ item, metadataLoading: false });
+    this.setState({ item });
 
     return item;
   }
