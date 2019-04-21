@@ -628,18 +628,23 @@ export default class Item extends Component<Props, State> {
     }));
   }
 
-  async startPlayback(
-    magnet?: string,
-    activeMode?: string,
-    currentPlayer: playerType
-  ) {
+  startPlayback = async ({
+    target: { name: playbackQuality }
+  }: Event<HTMLButtonElement>) => {
     const {
+      currentPlayer,
       torrentInProgress,
       selectedEpisode,
       selectedSeason,
       item,
-      captions
+      captions,
+      torrent,
+      idealTorrent
     } = this.state;
+
+    const { magnet, method: activeMode } = playbackQuality
+      ? torrent[playbackQuality]
+      : idealTorrent;
 
     if (torrentInProgress) {
       this.stopPlayback();
@@ -672,7 +677,7 @@ export default class Item extends Component<Props, State> {
         servingUrl: string,
         file: { name: string },
         files: string,
-        torrent: string
+        torrentHash: string
       ) => {
         console.log(`Serving torrent at: ${servingUrl}`);
 
@@ -727,13 +732,13 @@ export default class Item extends Component<Props, State> {
           servingUrl
         });
 
-        return torrent;
+        return torrentHash;
       },
       downloaded => {
         console.log('DOWNLOADING', downloaded);
       }
     );
-  }
+  };
 
   render() {
     const {
@@ -820,26 +825,14 @@ export default class Item extends Component<Props, State> {
                 <div
                   role="presentation"
                   className="Item--play"
-                  onClick={() =>
-                    this.startPlayback(
-                      idealTorrent.magnet,
-                      idealTorrent.method,
-                      currentPlayer
-                    )
-                  }
+                  onClick={this.startPlayback}
                 >
                   {idealTorrent.magnet && (
                     <i
                       role="presentation"
                       data-e2e="item-play-button"
                       className="Item--icon-play ion-md-play"
-                      onClick={() =>
-                        this.startPlayback(
-                          idealTorrent.magnet,
-                          idealTorrent.method,
-                          currentPlayer
-                        )
-                      }
+                      onClick={this.startPlayback}
                     />
                   )}
                 </div>
@@ -991,26 +984,16 @@ export default class Item extends Component<Props, State> {
               <span>
                 <button
                   type="button"
-                  onClick={() =>
-                    this.startPlayback(
-                      torrent['1080p'].magnet,
-                      torrent['1080p'].method,
-                      currentPlayer
-                    )
-                  }
+                  name="1080p"
+                  onClick={this.startPlayback}
                   disabled={!torrent['1080p'].quality}
                 >
                   Start 1080p -- {torrent['1080p'].seeders} seeders
                 </button>
                 <button
                   type="button"
-                  onClick={() =>
-                    this.startPlayback(
-                      torrent['720p'].magnet,
-                      torrent['720p'].method,
-                      currentPlayer
-                    )
-                  }
+                  name="720p"
+                  onClick={this.startPlayback}
                   disabled={!torrent['720p'].quality}
                 >
                   Start 720p -- {torrent['720p'].seeders} seeders
@@ -1018,13 +1001,8 @@ export default class Item extends Component<Props, State> {
                 {activeMode === 'shows' && (
                   <button
                     type="button"
-                    onClick={() =>
-                      this.startPlayback(
-                        torrent['480p'].magnet,
-                        torrent['480p'].method,
-                        currentPlayer
-                      )
-                    }
+                    name="480p"
+                    onClick={this.startPlayback}
                     disabled={!torrent['480p'].quality}
                   >
                     Start 480p -- {torrent['480p'].seeders} seeders
