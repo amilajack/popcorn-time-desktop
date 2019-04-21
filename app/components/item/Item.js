@@ -103,8 +103,6 @@ export default class Item extends Component<Props, State> {
 
   checkCastingDevicesInterval: number;
 
-  SUMMARY_CHAR_LIMIT = 300;
-
   defaultTorrent: torrentSelectionType = {
     default: {
       quality: undefined,
@@ -919,14 +917,7 @@ export default class Item extends Component<Props, State> {
                   {item.genres && <h6>{item.genres.join(', ')}</h6>}
                 </span>
               </Row>
-              {/* HACK: Prefer a CSS solution to this, using text-overflow: ellipse */}
-              <h6 className="row-margin" id="summary">
-                {item.summary
-                  ? item.summary.length > this.SUMMARY_CHAR_LIMIT
-                    ? `${item.summary.slice(0, this.SUMMARY_CHAR_LIMIT)}...`
-                    : item.summary
-                  : ''}
-              </h6>
+              <h6 className="row-margin item__summary">{item.summary}</h6>
               <Row className="row-margin row-center Item--details">
                 {item.rating && typeof item.rating === 'number' && (
                   <Col sm="5">
