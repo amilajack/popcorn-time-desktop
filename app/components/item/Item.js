@@ -27,7 +27,7 @@ import ChromecastPlayerProvider from '../../api/players/ChromecastPlayerProvider
 import { getIdealTorrent } from '../../api/torrents/BaseTorrentProvider';
 import Butter from '../../api/Butter';
 import Torrent from '../../api/Torrent';
-import SubtitleServer from '../../api/Subtitle';
+import SubtitleServer, { languages as langs } from '../../api/Subtitle';
 import Player from '../../api/Player';
 import type {
   contentType,
@@ -555,57 +555,12 @@ export default class Item extends Component<Props, State> {
   async getCaptions(item: contentType): Promise<captionsType> {
     const captions: Array<captionsType> = await yifysubtitles(item.ids.imdbId, {
       path: os.tmpdir(),
-      langs: ['en', 'fr']
-      // langs: [
-      //   'sq',
-      //   'ar',
-      //   'bn',
-      //   'pb',
-      //   'bg',
-      //   'zh',
-      //   'hr',
-      //   'cs',
-      //   'da',
-      //   'nl',
-      //   'en',
-      //   'et',
-      //   'fa',
-      //   'fi',
-      //   'fr',
-      //   'de',
-      //   'el',
-      //   'he',
-      //   'hu',
-      //   'id',
-      //   'it',
-      //   'ja',
-      //   'ko',
-      //   'lt',
-      //   'mk',
-      //   'ms',
-      //   'no',
-      //   'pl',
-      //   'pt',
-      //   'ro',
-      //   'ru',
-      //   'sr',
-      //   'sl',
-      //   'es',
-      //   'sv',
-      //   'th',
-      //   'tr',
-      //   'ur',
-      //   'uk',
-      //   'vi'
-      // ]
+      langs
     })
       .then(res =>
         res.map(subtitle => ({
-          // Set en
-          // default: (
-          //   subtitle.langShort === process.env.DEFAULT_TORRENT_LANG || subtitle.langShort === process.env.DEFAULT_TORRENT_LANG === 'en'
-          // ),
-          default: subtitle.langShort === 'en',
+          // Set the default language for subtitles
+          default: subtitle.langShort === process.env.DEFAULT_TORRENT_LANG,
           kind: 'captions',
           label: subtitle.langShort,
           srclang: subtitle.langShort,
