@@ -54,7 +54,9 @@ export default function Description({
           {genres && <h6>{genres.join(', ')}</h6>}
         </span>
       </Row>
-      <h6 className="row-margin item__summary">{summary}</h6>
+      <h6 data-e2e="summary" className="row-margin item__summary">
+        {summary}
+      </h6>
       <Row className="row-margin row-center Item--details">
         {rating && typeof rating === 'number' && (
           <Col sm="5">
