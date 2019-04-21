@@ -4,14 +4,14 @@
  */
 import React, { Component } from 'react';
 import {
-  Tooltip,
   Dropdown,
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
   Container,
   Row,
-  Col
+  Col,
+  UncontrolledTooltip
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
@@ -75,7 +75,6 @@ type State = {
   fetchingTorrents: boolean,
   dropdownOpen: boolean,
   idealTorrent: torrentType,
-  magnetPopoverOpen: boolean,
   torrent: torrentSelectionType,
   servingUrl: string,
   similarLoading: boolean,
@@ -165,7 +164,6 @@ export default class Item extends Component<Props, State> {
     episode: {},
     castingDevices: [],
     currentPlayer: 'default',
-    magnetPopoverOpen: false,
     playbackInProgress: false,
     fetchingTorrents: false,
     idealTorrent: this.defaultTorrent,
@@ -639,12 +637,6 @@ export default class Item extends Component<Props, State> {
     }));
   }
 
-  toggleStateProperty(property: string) {
-    this.setState(prevState => ({
-      [property]: !prevState[property]
-    }));
-  }
-
   async startPlayback(
     magnet?: string,
     activeMode?: string,
@@ -772,8 +764,6 @@ export default class Item extends Component<Props, State> {
       playbackInProgress,
       favorites,
       watchList,
-      magnetPopoverOpen,
-      trailerPopoverOpen,
       castingDevices,
       captions
     } = this.state;
@@ -932,17 +922,15 @@ export default class Item extends Component<Props, State> {
                     data-e2e="item-magnet-torrent-health-popover"
                     className={torrentHealthClassName}
                   />
-                  <Tooltip
+                  <UncontrolledTooltip
                     placement="top"
-                    isOpen={magnetPopoverOpen || false}
                     target="magnetPopoverOpen"
-                    toggle={() => this.toggleStateProperty('magnetPopoverOpen')}
                   >
                     {idealTorrent && idealTorrent.seeders
                       ? idealTorrent.seeders
                       : 0}{' '}
                     Seeders
-                  </Tooltip>
+                  </UncontrolledTooltip>
                 </Col>
 
                 {process.env.NODE_ENV === 'test' &&
@@ -956,16 +944,12 @@ export default class Item extends Component<Props, State> {
                         onClick={() => this.setPlayer('youtube')}
                         role="presentation"
                       />
-                      <Tooltip
+                      <UncontrolledTooltip
                         placement="top"
-                        isOpen={trailerPopoverOpen || false}
                         target="trailerPopoverOpen"
-                        toggle={() =>
-                          this.toggleStateProperty('trailerPopoverOpen')
-                        }
                       >
                         Trailer
-                      </Tooltip>
+                      </UncontrolledTooltip>
                     </Col>
                   )}
               </Row>
