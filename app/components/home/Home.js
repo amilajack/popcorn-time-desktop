@@ -21,18 +21,16 @@ export type itemType = {
 };
 
 type Props = {
-  actions: {
-    setActiveMode: (
-      mode: string,
-      activeModeOptions?: activeModeOptionsType
-    ) => void,
-    paginate: (
-      activeMode: string,
-      activeModeOptions?: activeModeOptionsType
-    ) => void,
-    clearAllItems: () => void,
-    setLoading: (isLoading: boolean) => void
-  },
+  setActiveMode: (
+    mode: string,
+    activeModeOptions?: activeModeOptionsType
+  ) => void,
+  paginate: (
+    activeMode: string,
+    activeModeOptions?: activeModeOptionsType
+  ) => void,
+  clearAllItems: () => void,
+  setLoading: (isLoading: boolean) => void,
   activeMode: string,
   activeModeOptions: activeModeOptionsType,
   modes: {
@@ -69,20 +67,9 @@ export default class Home extends Component<Props, State> {
 
   butter: Butter;
 
-  didMount: boolean;
-
-  // onChange: () => void;
-
   constructor(props: Props) {
     super(props);
     this.butter = new Butter();
-
-    this.onChange = async (isVisible: boolean) => {
-      const { isLoading, activeMode, activeModeOptions } = this.props;
-      if (isVisible && !isLoading) {
-        await this.paginate(activeMode, activeModeOptions);
-      }
-    };
 
     // Temporary hack to preserve scroll position
     if (!global.pct) {
@@ -107,9 +94,9 @@ export default class Home extends Component<Props, State> {
     queryType: string,
     activeModeOptions: activeModeOptionsType = {}
   ) {
-    const { actions, modes } = this.props;
+    const { modes, paginate, setLoading } = this.props;
 
-    actions.setLoading(true);
+    setLoading(true);
 
     // HACK: This is a temporary solution.
     // Waiting on: https://github.com/yannickcr/eslint-plugin-react/issues/818
@@ -130,8 +117,8 @@ export default class Home extends Component<Props, State> {
       }
     })();
 
-    actions.paginate(items);
-    actions.setLoading(false);
+    paginate(items);
+    setLoading(false);
 
     return items;
   }
@@ -139,7 +126,7 @@ export default class Home extends Component<Props, State> {
   /**
    * If bottom of component is 2000px from viewport, query
    */
-  initInfinitePagination() {
+  initInfinitePagination = () => {
     const {
       infinitePagination,
       activeMode,
@@ -155,18 +142,12 @@ export default class Home extends Component<Props, State> {
         this.paginate(activeMode, activeModeOptions);
       }
     }
-  }
-
-  setUserMeta(type: 'favorites' | 'watchList', item) {
-    this.setState({
-      [type]: this.butter[type]('set', item)
-    });
-  }
+  };
 
   async componentDidMount() {
     const { activeMode } = this.props;
-    this.didMount = true;
-    document.addEventListener('scroll', this.initInfinitePagination.bind(this));
+
+    document.addEventListener('scroll', this.initInfinitePagination);
     window.scrollTo(0, global.pct[`${activeMode}ScrollTop`]);
 
     const [favorites, watchList, recentlyWatched] = await Promise.all([
@@ -182,10 +163,8 @@ export default class Home extends Component<Props, State> {
     });
   }
 
-  componentWillMount() {}
-
   componentWillReceiveProps(nextProps: Props) {
-    const { activeMode, activeModeOptions, actions } = this.props;
+    const { activeMode, activeModeOptions, clearAllItems } = this.props;
     global.pct[`${activeMode}ScrollTop`] = document.body.scrollTop;
 
     if (activeMode !== nextProps.activeMode) {
@@ -197,7 +176,7 @@ export default class Home extends Component<Props, State> {
       JSON.stringify(activeModeOptions)
     ) {
       if (nextProps.activeMode === 'search') {
-        actions.clearAllItems();
+        clearAllItems();
       }
 
       this.paginate(nextProps.activeMode, nextProps.activeModeOptions);
@@ -221,15 +200,18 @@ export default class Home extends Component<Props, State> {
 
     global.pct[`${activeMode}ScrollTop`] = document.body.scrollTop;
 
-    this.didMount = false;
-    document.removeEventListener(
-      'scroll',
-      this.initInfinitePagination.bind(this)
-    );
+    document.removeEventListener('scroll', this.initInfinitePagination);
   }
 
+  onChange = async (isVisible: boolean) => {
+    const { isLoading, activeMode, activeModeOptions } = this.props;
+    if (isVisible && !isLoading) {
+      await this.paginate(activeMode, activeModeOptions);
+    }
+  };
+
   render() {
-    const { activeMode, actions, items, isLoading } = this.props;
+    const { activeMode, items, isLoading, setActiveMode } = this.props;
     const { favorites, watchList, recentlyWatched } = this.state;
 
     const home = (
@@ -254,7 +236,7 @@ export default class Home extends Component<Props, State> {
 
     return (
       <Row>
-        <Header activeMode={activeMode} setActiveMode={actions.setActiveMode} />
+        <Header activeMode={activeMode} setActiveMode={setActiveMode} />
         <Col sm="12">
           {activeMode === 'home' ? (
             home
