@@ -780,18 +780,10 @@ export default class Item extends Component<Props, State> {
 
     const { activeMode } = this.props;
 
-    const statusColorStyle = {
-      backgroundColor: (() => {
-        switch (idealTorrent && idealTorrent.health) {
-          case 'healthy':
-            return 'green';
-          case 'decent':
-            return 'yellow';
-          default:
-            return 'red';
-        }
-      })()
-    };
+    const torrentHealthClassName = classNames([
+      'torrent__health',
+      { [`torrent__health--${idealTorrent.health}`]: idealTorrent.health }
+    ]);
 
     const itemBackgroundUrl = {
       backgroundImage: `url(${item.images.fanart.full})`
@@ -938,8 +930,7 @@ export default class Item extends Component<Props, State> {
                   <div
                     id="magnetPopoverOpen"
                     data-e2e="item-magnet-torrent-health-popover"
-                    className="Movie--status"
-                    style={statusColorStyle}
+                    className={torrentHealthClassName}
                   />
                   <Tooltip
                     placement="top"
