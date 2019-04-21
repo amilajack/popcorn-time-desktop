@@ -20,7 +20,7 @@ import Plyr from '@amilajack/react-plyr';
 import yifysubtitles from '@amilajack/yifysubtitles';
 import CardList from '../card/CardList';
 import SaveItem from '../metadata/SaveItem';
-import Description from './description';
+import Description from './Description';
 import Show from '../show/Show';
 import ChromecastPlayerProvider from '../../api/players/ChromecastPlayerProvider';
 import { getIdealTorrent } from '../../api/torrents/BaseTorrentProvider';
