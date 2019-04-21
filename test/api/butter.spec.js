@@ -12,7 +12,7 @@ import { getStatuses } from '../../app/api/torrents/TorrentAdapter';
 import PctTorrentProvider from '../../app/api/torrents/PctTorrentProvider';
 import KatTorrentProvider from '../../app/api/torrents/KatTorrentProvider';
 import YtsTorrentProvider from '../../app/api/torrents/YtsTorrentProvider';
-import { parseRuntimeMinutesToObject } from '../../app/api/metadata/MetadataAdapter';
+import { parseRuntimeMinutesToObject } from '../../app/api/metadata/helpers';
 import { set, get, clear } from '../../app/utils/Config';
 
 const imdbId = '263115'; // The Dark Knight
