@@ -17,11 +17,11 @@ import notie from 'notie';
 import os from 'os';
 import Plyr from '@amilajack/react-plyr';
 import yifysubtitles from '@amilajack/yifysubtitles';
-import CardList from '../card/CardList';
 import SaveItem from '../metadata/SaveItem';
 import Description from './Description';
 import Poster from './Poster';
 import BackButton from './BackButton';
+import Similar from './Similar';
 import Show from '../show/Show';
 import ChromecastPlayerProvider from '../../api/players/ChromecastPlayerProvider';
 import { getIdealTorrent } from '../../api/torrents/BaseTorrentProvider';
@@ -62,7 +62,6 @@ type captionsType = Array<{
 
 type State = {
   item: itemType,
-  similarItems: Array<contentType>,
   selectedSeason: number,
   selectedEpisode: number,
   seasons: [],
@@ -75,10 +74,8 @@ type State = {
   idealTorrent: torrentType,
   torrent: torrentSelectionType,
   servingUrl: string,
-  similarLoading: boolean,
   torrentInProgress: boolean,
   torrentProgress: number,
-  isFinished: boolean,
   captions: captionsType,
   favorites: Array<itemType>,
   watchList: Array<itemType>
@@ -152,7 +149,6 @@ export default class Item extends Component<Props, State> {
       }
     },
     servingUrl: undefined,
-    isFinished: false,
     selectedSeason: 1,
     selectedEpisode: 1,
     seasons: [],
@@ -164,7 +160,6 @@ export default class Item extends Component<Props, State> {
     fetchingTorrents: false,
     idealTorrent: this.defaultTorrent,
     torrent: this.defaultTorrent,
-    similarLoading: false,
     metadataLoading: false,
     torrentInProgress: false,
     torrentProgress: 0,
@@ -266,8 +261,7 @@ export default class Item extends Component<Props, State> {
           this.getCaptions(item),
           this.getTorrent(item.ids.imdbId, item.title, 1, 1)
         ])
-      ),
-      this.getSimilar(itemId)
+      )
     ]);
   }
 
@@ -438,26 +432,6 @@ export default class Item extends Component<Props, State> {
     }
 
     return {};
-  }
-
-  async getSimilar(imdbId: string) {
-    const { activeMode } = this.props;
-    this.setState({ similarLoading: true });
-
-    try {
-      const similarItems = await this.butter.getSimilar(activeMode, imdbId);
-
-      this.setState({
-        similarItems,
-        similarLoading: false,
-        isFinished: true
-      });
-      return similarItems;
-    } catch (error) {
-      console.log(error);
-    }
-
-    return [];
   }
 
   stopPlayback = () => {
@@ -687,9 +661,6 @@ export default class Item extends Component<Props, State> {
       selectedSeason,
       episodes,
       selectedEpisode,
-      similarItems,
-      similarLoading,
-      isFinished,
       playbackInProgress,
       favorites,
       watchList,
@@ -697,7 +668,7 @@ export default class Item extends Component<Props, State> {
       captions
     } = this.state;
 
-    const { activeMode } = this.props;
+    const { activeMode, itemId } = this.props;
 
     const itemBackgroundUrl = {
       backgroundImage: `url(${item.images.fanart.full})`
@@ -855,13 +826,7 @@ export default class Item extends Component<Props, State> {
           />
         )}
 
-        <CardList
-          title="similar"
-          limit={4}
-          items={similarItems}
-          metadataLoading={similarLoading}
-          isFinished={isFinished}
-        />
+        <Similar itemId={itemId} type={activeMode} />
       </Container>
     );
   }
