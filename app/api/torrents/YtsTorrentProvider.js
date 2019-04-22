@@ -7,7 +7,7 @@ import {
 } from './BaseTorrentProvider';
 import type { TorrentProviderInterface } from './TorrentProviderInterface';
 
-const endpoint = 'https://yts.am';
+const endpoint = 'https://yst.am';
 const providerId = 'YTS';
 const resolvedEndpoint = resolveEndpoint(endpoint, providerId);
 
@@ -54,7 +54,7 @@ export default class YtsTorrentProvider implements TorrentProviderInterface {
   }
 
   static getStatus(): Promise<boolean> {
-    return fetch('https://yts.am/api/v2/list_movies.json')
+    return fetch('https://yst.am/api/v2/list_movies.json')
       .then(res => !!res.ok)
       .catch(() => false);
   }
