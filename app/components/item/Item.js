@@ -12,7 +12,6 @@ import {
   Row,
   Col
 } from 'reactstrap';
-import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import notie from 'notie';
 import os from 'os';
@@ -21,6 +20,8 @@ import yifysubtitles from '@amilajack/yifysubtitles';
 import CardList from '../card/CardList';
 import SaveItem from '../metadata/SaveItem';
 import Description from './Description';
+import Poster from './Poster';
+import BackButton from './BackButton';
 import Show from '../show/Show';
 import ChromecastPlayerProvider from '../../api/players/ChromecastPlayerProvider';
 import { getIdealTorrent } from '../../api/torrents/BaseTorrentProvider';
@@ -707,16 +708,7 @@ export default class Item extends Component<Props, State> {
         fluid
         className={classNames('Item', { active: playbackInProgress })}
       >
-        <Link to="/">
-          <span
-            role="presentation"
-            className="pct-btn pct-btn-tran pct-btn-outline pct-btn-round"
-            data-e2e="item-button-back"
-            onClick={this.stopPlayback}
-          >
-            <i className="ion-md-arrow-back" /> Back
-          </span>
-        </Link>
+        <BackButton onClick={this.stopPlayback} />
         <Row>
           <Plyr
             captions={captions}
@@ -749,31 +741,11 @@ export default class Item extends Component<Props, State> {
 
           <Col sm="12" className="Item--background" style={itemBackgroundUrl}>
             <Col sm="6" className="Item--image">
-              <div className="Item--poster-container">
-                <div
-                  role="presentation"
-                  className="Item--play"
-                  onClick={this.startPlayback}
-                >
-                  {idealTorrent.magnet && (
-                    <i
-                      role="presentation"
-                      data-e2e="item-play-button"
-                      className="Item--icon-play ion-md-play"
-                      onClick={this.startPlayback}
-                    />
-                  )}
-                </div>
-                <img
-                  className="Item--poster"
-                  height="350px"
-                  width="233px"
-                  role="presentation"
-                  alt="item-poster"
-                  style={{ opacity: item.images.poster.thumb ? 1 : 0 }}
-                  src={item.images.poster.thumb}
-                />
-              </div>
+              <Poster
+                magnetLink={idealTorrent.magnet}
+                onClick={this.startPlayback}
+                poster={item.images.poster.thumb}
+              />
               <div className="Item--loading-status">
                 {!servingUrl && torrentInProgress && 'Loading torrent...'}
                 {fetchingTorrents && 'Fetching torrents...'}
