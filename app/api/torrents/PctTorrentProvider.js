@@ -7,7 +7,7 @@ import {
 } from './BaseTorrentProvider';
 import type { TorrentProviderInterface } from './TorrentProviderInterface';
 
-const endpoint = 'http://api-fetch.website/tv';
+const endpoint = 'https://tv-v2.api-fetch.website';
 const providerId = 'PCT';
 const resolvedEndpoint = resolveEndpoint(endpoint, providerId);
 
@@ -23,8 +23,8 @@ export default class PctTorrentProvider implements TorrentProviderInterface {
   ) {
     const urlTypeParam = type === 'movies' ? 'movie' : 'show';
     const request = timeout(
-      fetch(`${resolvedEndpoint}/${urlTypeParam}/${itemId}`).then(res =>
-        res.json()
+      fetch(`${resolvedEndpoint}/${urlTypeParam}/${itemId}?id=${itemId}`).then(
+        res => res.json()
       )
     );
 
