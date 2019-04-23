@@ -3,15 +3,7 @@
  * @flow
  */
 import React, { Component } from 'react';
-import {
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  Container,
-  Row,
-  Col
-} from 'reactstrap';
+import { Container, Row, Col } from 'reactstrap';
 import classNames from 'classnames';
 import notie from 'notie';
 import os from 'os';
@@ -22,6 +14,7 @@ import Description from './Description';
 import Poster from './Poster';
 import BackButton from './BackButton';
 import Similar from './Similar';
+import SelectPlayer from './SelectPlayer';
 import Show from '../show/Show';
 import ChromecastPlayerProvider from '../../api/players/ChromecastPlayerProvider';
 import { getIdealTorrent } from '../../api/torrents/BaseTorrentProvider';
@@ -190,20 +183,18 @@ export default class Item extends Component<Props, State> {
   /**
    * Check which players are available on the system
    */
-  setPlayer(player: playerType) {
-    switch (player) {
-      case 'youtube':
+  setPlayer = ({ target: { name: player, id } }: Event<HTMLButtonElement>) => {
+    if (['youtube', 'default'].includes(player)) {
         this.player.player = this.plyr;
         this.toggleActive();
-        break;
-      case 'default':
-        this.player.player = this.plyr;
-        this.toggleActive();
-        break;
-      default:
     }
+
+    if (player === 'chromecast') {
+      this.playerProvider.selectDevice(id);
+    }
+
     this.setState({ currentPlayer: player });
-  }
+  };
 
   async componentDidMount() {
     const { itemId } = this.props;
@@ -747,40 +738,11 @@ export default class Item extends Component<Props, State> {
 
         <Row className="row-margin">
           <Col sm="2">
-            <UncontrolledDropdown style={{ float: 'left' }}>
-              <DropdownToggle caret>
-                {currentPlayer || 'default'}
-              </DropdownToggle>
-              <DropdownMenu>
-                <DropdownItem header>Select Player</DropdownItem>
-                <DropdownItem
-                  key="default"
-                  id="default"
-                  onClick={() => this.setPlayer('default')}
-                >
-                  Default
-                </DropdownItem>
-                <DropdownItem
-                  key="vlc"
-                  id="vlc"
-                  onClick={() => this.setPlayer('vlc')}
-                >
-                  VLC
-                </DropdownItem>
-                {castingDevices.map(castingDevice => (
-                  <DropdownItem
-                    key={castingDevice.id}
-                    id={castingDevice.id}
-                    onClick={() => {
-                      this.setPlayer('chromecast');
-                      this.playerProvider.selectDevice(castingDevice.id);
-                    }}
-                  >
-                    {castingDevice.name}
-                  </DropdownItem>
-                ))}
-              </DropdownMenu>
-            </UncontrolledDropdown>
+            <SelectPlayer
+              currentSelection={currentPlayer}
+              castingDevices={castingDevices}
+              onSelect={this.setPlayer}
+            />
           </Col>
           <Col sm="10">
             {process.env.FLAG_MANUAL_TORRENT_SELECTION === 'true' && (
