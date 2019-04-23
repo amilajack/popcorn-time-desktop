@@ -7,7 +7,6 @@ import { Container, Row, Col } from 'reactstrap';
 import classNames from 'classnames';
 import notie from 'notie';
 import os from 'os';
-import Plyr from '@amilajack/react-plyr';
 import yifysubtitles from '@amilajack/yifysubtitles';
 import SaveItem from '../metadata/SaveItem';
 import Description from './Description';
@@ -15,6 +14,7 @@ import Poster from './Poster';
 import BackButton from './BackButton';
 import Similar from './Similar';
 import SelectPlayer from './SelectPlayer';
+import VideoPlayer from './VideoPlayer';
 import Show from '../show/Show';
 import ChromecastPlayerProvider from '../../api/players/ChromecastPlayerProvider';
 import { getIdealTorrent } from '../../api/torrents/BaseTorrentProvider';
@@ -185,8 +185,8 @@ export default class Item extends Component<Props, State> {
    */
   setPlayer = ({ target: { name: player, id } }: Event<HTMLButtonElement>) => {
     if (['youtube', 'default'].includes(player)) {
-        this.player.player = this.plyr;
-        this.toggleActive();
+      this.player.player = this.plyr;
+      this.toggleActive();
     }
 
     if (player === 'chromecast') {
@@ -430,15 +430,10 @@ export default class Item extends Component<Props, State> {
     if (!torrentInProgress && !playbackInProgress) {
       return;
     }
-    switch (currentPlayer) {
-      case 'youtube':
-        this.plyr.pause();
-        break;
-      case 'default':
-        this.plyr.pause();
-        break;
-      default:
+    if (['youtube', 'default'].includes(currentPlayer)) {
+      this.plyr.pause();
     }
+
     this.player.destroy();
     this.torrent.destroy();
     this.setState({ torrentInProgress: false });
@@ -672,34 +667,15 @@ export default class Item extends Component<Props, State> {
       >
         <BackButton onClick={this.stopPlayback} />
         <Row>
-          <Plyr
+          <VideoPlayer
             captions={captions}
-            type="video"
             url={playbackInProgress ? servingUrl || item.trailer : undefined}
-            poster={(item && item.images && item.images.fanart.full) || ''}
-            title={item.title || ''}
-            volume={10}
-            onEnterFullscreen={() => {
-              document.querySelector('.plyr').style.height = '100%';
-            }}
-            onExitFullscreen={() => {
-              document.querySelector('.plyr').style.height = '0px';
-            }}
-            ref={plyr => {
-              this.plyr = plyr;
+            item={item}
+            onClose={this.closeVideo}
+            forwardedRef={ref => {
+              this.plyr = ref;
             }}
           />
-
-          {playbackInProgress && (
-            <span
-              data-e2e="close-player"
-              role="presentation"
-              id="close-button"
-              onClick={this.closeVideo}
-            >
-              <i className="ion-md-close" />
-            </span>
-          )}
 
           <Col sm="12" className="Item--background" style={itemBackgroundUrl}>
             <Col sm="6" className="Item--image">
@@ -746,7 +722,7 @@ export default class Item extends Component<Props, State> {
           </Col>
           <Col sm="10">
             {process.env.FLAG_MANUAL_TORRENT_SELECTION === 'true' && (
-              <span>
+              <React.Fragment>
                 <button
                   type="button"
                   name="1080p"
@@ -773,7 +749,7 @@ export default class Item extends Component<Props, State> {
                     Start 480p -- {torrent['480p'].seeders} seeders
                   </button>
                 )}
-              </span>
+              </React.Fragment>
             )}
           </Col>
         </Row>
