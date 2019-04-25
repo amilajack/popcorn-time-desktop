@@ -3,24 +3,18 @@
  * @flow
  */
 import React, { Component } from 'react';
-import {
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  Container,
-  Row,
-  Col
-} from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Container, Row, Col } from 'reactstrap';
 import classNames from 'classnames';
 import notie from 'notie';
 import os from 'os';
-import Plyr from '@amilajack/react-plyr';
 import yifysubtitles from '@amilajack/yifysubtitles';
-import CardList from '../card/CardList';
 import SaveItem from '../metadata/SaveItem';
 import Description from './Description';
+import Poster from './Poster';
+import BackButton from './BackButton';
+import Similar from './Similar';
+import SelectPlayer from './SelectPlayer';
+import VideoPlayer from './VideoPlayer';
 import Show from '../show/Show';
 import ChromecastPlayerProvider from '../../api/players/ChromecastPlayerProvider';
 import { getIdealTorrent } from '../../api/torrents/BaseTorrentProvider';
@@ -61,7 +55,6 @@ type captionsType = Array<{
 
 type State = {
   item: itemType,
-  similarItems: Array<contentType>,
   selectedSeason: number,
   selectedEpisode: number,
   seasons: [],
@@ -74,10 +67,8 @@ type State = {
   idealTorrent: torrentType,
   torrent: torrentSelectionType,
   servingUrl: string,
-  similarLoading: boolean,
   torrentInProgress: boolean,
   torrentProgress: number,
-  isFinished: boolean,
   captions: captionsType,
   favorites: Array<itemType>,
   watchList: Array<itemType>
@@ -151,7 +142,6 @@ export default class Item extends Component<Props, State> {
       }
     },
     servingUrl: undefined,
-    isFinished: false,
     selectedSeason: 1,
     selectedEpisode: 1,
     seasons: [],
@@ -163,7 +153,6 @@ export default class Item extends Component<Props, State> {
     fetchingTorrents: false,
     idealTorrent: this.defaultTorrent,
     torrent: this.defaultTorrent,
-    similarLoading: false,
     metadataLoading: false,
     torrentInProgress: false,
     torrentProgress: 0,
@@ -194,20 +183,18 @@ export default class Item extends Component<Props, State> {
   /**
    * Check which players are available on the system
    */
-  setPlayer(player: playerType) {
-    switch (player) {
-      case 'youtube':
-        this.player.player = this.plyr;
-        this.toggleActive();
-        break;
-      case 'default':
-        this.player.player = this.plyr;
-        this.toggleActive();
-        break;
-      default:
+  setPlayer = ({ target: { name: player, id } }: Event<HTMLButtonElement>) => {
+    if (['youtube', 'default'].includes(player)) {
+      this.player.player = this.plyr;
+      this.toggleActive();
     }
+
+    if (player === 'chromecast') {
+      this.playerProvider.selectDevice(id);
+    }
+
     this.setState({ currentPlayer: player });
-  }
+  };
 
   async componentDidMount() {
     const { itemId } = this.props;
@@ -265,8 +252,7 @@ export default class Item extends Component<Props, State> {
           this.getCaptions(item),
           this.getTorrent(item.ids.imdbId, item.title, 1, 1)
         ])
-      ),
-      this.getSimilar(itemId)
+      )
     ]);
   }
 
@@ -439,40 +425,15 @@ export default class Item extends Component<Props, State> {
     return {};
   }
 
-  async getSimilar(imdbId: string) {
-    const { activeMode } = this.props;
-    this.setState({ similarLoading: true });
-
-    try {
-      const similarItems = await this.butter.getSimilar(activeMode, imdbId);
-
-      this.setState({
-        similarItems,
-        similarLoading: false,
-        isFinished: true
-      });
-      return similarItems;
-    } catch (error) {
-      console.log(error);
-    }
-
-    return [];
-  }
-
   stopPlayback = () => {
     const { torrentInProgress, playbackInProgress, currentPlayer } = this.state;
     if (!torrentInProgress && !playbackInProgress) {
       return;
     }
-    switch (currentPlayer) {
-      case 'youtube':
-        this.plyr.pause();
-        break;
-      case 'default':
-        this.plyr.pause();
-        break;
-      default:
+    if (['youtube', 'default'].includes(currentPlayer)) {
+      this.plyr.pause();
     }
+
     this.player.destroy();
     this.torrent.destroy();
     this.setState({ torrentInProgress: false });
@@ -686,9 +647,6 @@ export default class Item extends Component<Props, State> {
       selectedSeason,
       episodes,
       selectedEpisode,
-      similarItems,
-      similarLoading,
-      isFinished,
       playbackInProgress,
       favorites,
       watchList,
@@ -696,7 +654,7 @@ export default class Item extends Component<Props, State> {
       captions
     } = this.state;
 
-    const { activeMode } = this.props;
+    const { activeMode, itemId } = this.props;
 
     const itemBackgroundUrl = {
       backgroundImage: `url(${item.images.fanart.full})`
@@ -707,73 +665,25 @@ export default class Item extends Component<Props, State> {
         fluid
         className={classNames('Item', { active: playbackInProgress })}
       >
-        <Link to="/">
-          <span
-            role="presentation"
-            className="pct-btn pct-btn-tran pct-btn-outline pct-btn-round"
-            data-e2e="item-button-back"
-            onClick={this.stopPlayback}
-          >
-            <i className="ion-md-arrow-back" /> Back
-          </span>
-        </Link>
+        <BackButton onClick={this.stopPlayback} />
         <Row>
-          <Plyr
+          <VideoPlayer
             captions={captions}
-            type="video"
             url={playbackInProgress ? servingUrl || item.trailer : undefined}
-            poster={(item && item.images && item.images.fanart.full) || ''}
-            title={item.title || ''}
-            volume={10}
-            onEnterFullscreen={() => {
-              document.querySelector('.plyr').style.height = '100%';
-            }}
-            onExitFullscreen={() => {
-              document.querySelector('.plyr').style.height = '0px';
-            }}
-            ref={plyr => {
-              this.plyr = plyr;
+            item={item}
+            onClose={this.closeVideo}
+            forwardedRef={ref => {
+              this.plyr = ref;
             }}
           />
 
-          {playbackInProgress && (
-            <span
-              data-e2e="close-player"
-              role="presentation"
-              id="close-button"
-              onClick={this.closeVideo}
-            >
-              <i className="ion-md-close" />
-            </span>
-          )}
-
           <Col sm="12" className="Item--background" style={itemBackgroundUrl}>
             <Col sm="6" className="Item--image">
-              <div className="Item--poster-container">
-                <div
-                  role="presentation"
-                  className="Item--play"
-                  onClick={this.startPlayback}
-                >
-                  {idealTorrent.magnet && (
-                    <i
-                      role="presentation"
-                      data-e2e="item-play-button"
-                      className="Item--icon-play ion-md-play"
-                      onClick={this.startPlayback}
-                    />
-                  )}
-                </div>
-                <img
-                  className="Item--poster"
-                  height="350px"
-                  width="233px"
-                  role="presentation"
-                  alt="item-poster"
-                  style={{ opacity: item.images.poster.thumb ? 1 : 0 }}
-                  src={item.images.poster.thumb}
-                />
-              </div>
+              <Poster
+                magnetLink={idealTorrent.magnet}
+                onClick={this.startPlayback}
+                poster={item.images.poster.thumb}
+              />
               <div className="Item--loading-status">
                 {!servingUrl && torrentInProgress && 'Loading torrent...'}
                 {fetchingTorrents && 'Fetching torrents...'}
@@ -804,44 +714,15 @@ export default class Item extends Component<Props, State> {
 
         <Row className="row-margin">
           <Col sm="2">
-            <UncontrolledDropdown style={{ float: 'left' }}>
-              <DropdownToggle caret>
-                {currentPlayer || 'default'}
-              </DropdownToggle>
-              <DropdownMenu>
-                <DropdownItem header>Select Player</DropdownItem>
-                <DropdownItem
-                  key="default"
-                  id="default"
-                  onClick={() => this.setPlayer('default')}
-                >
-                  Default
-                </DropdownItem>
-                <DropdownItem
-                  key="vlc"
-                  id="vlc"
-                  onClick={() => this.setPlayer('vlc')}
-                >
-                  VLC
-                </DropdownItem>
-                {castingDevices.map(castingDevice => (
-                  <DropdownItem
-                    key={castingDevice.id}
-                    id={castingDevice.id}
-                    onClick={() => {
-                      this.setPlayer('chromecast');
-                      this.playerProvider.selectDevice(castingDevice.id);
-                    }}
-                  >
-                    {castingDevice.name}
-                  </DropdownItem>
-                ))}
-              </DropdownMenu>
-            </UncontrolledDropdown>
+            <SelectPlayer
+              currentSelection={currentPlayer}
+              castingDevices={castingDevices}
+              onSelect={this.setPlayer}
+            />
           </Col>
           <Col sm="10">
             {process.env.FLAG_MANUAL_TORRENT_SELECTION === 'true' && (
-              <span>
+              <React.Fragment>
                 <button
                   type="button"
                   name="1080p"
@@ -868,7 +749,7 @@ export default class Item extends Component<Props, State> {
                     Start 480p -- {torrent['480p'].seeders} seeders
                   </button>
                 )}
-              </span>
+              </React.Fragment>
             )}
           </Col>
         </Row>
@@ -883,13 +764,7 @@ export default class Item extends Component<Props, State> {
           />
         )}
 
-        <CardList
-          title="similar"
-          limit={4}
-          items={similarItems}
-          metadataLoading={similarLoading}
-          isFinished={isFinished}
-        />
+        <Similar itemId={itemId} type={activeMode} />
       </Container>
     );
   }
