@@ -6,6 +6,10 @@ import TorrentAdapter from './torrents/TorrentAdapter';
 import MetadataAdapter from './metadata/MetadataAdapter';
 
 export default class Butter {
+  getTrending() {
+    return MetadataAdapter.getTrending();
+  }
+
   getMovies(page: number = 1, limit: number = 50) {
     return MetadataAdapter.getMovies(page, limit);
   }

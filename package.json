@@ -257,6 +257,7 @@
     "mousetrap": "^1.6.3",
     "network-address": "1.1.2",
     "notie": "4.3.1",
+    "nuka-carousel": "^4.5.4",
     "opensubtitles-api": "5.0.1",
     "popper.js": "^1.15.0",
     "react": "16.8.6",

@@ -151,6 +151,15 @@ function getShows(...args: Array<string | number>) {
   return interceptAndHandleRequest('getShows', args);
 }
 
+/**
+ * Get trending movies and shows
+ */
+function getTrending() {
+  return Promise.all(
+    MetadataAdapter().map(provider => provider.getTrending())
+  ).then(res => res.reduce((a, b) => [...a, ...b]));
+}
+
 function formatSubtitle(subtitle) {
   return {
     kind: 'captions',
@@ -251,6 +260,7 @@ export default {
   search,
   getSimilar,
   getSubtitles,
+  getTrending,
   favorites,
   watchList,
   recentlyWatched

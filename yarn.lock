@@ -792,6 +792,13 @@
   dependencies:
     regenerator-runtime "^0.13.2"
 
+"@babel/runtime@^7.3.4":
+  version "7.4.4"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.4.4.tgz#dc2e34982eb236803aa27a07fea6857af1b9171d"
+  integrity sha512-w0+uT71b6Yi7i5SE0co4NioIpSYS6lLiXvCzWzGSKvpK5vdQtCbICHMj+gbAKAOtxiV6HsVh/MBdaF9EQ6faSg==
+  dependencies:
+    regenerator-runtime "^0.13.2"
+
 "@babel/template@^7.0.0", "@babel/template@^7.1.0", "@babel/template@^7.2.2", "@babel/template@^7.4.0":
   version "7.4.0"
   resolved "https://registry.yarnpkg.com/@babel/template/-/template-7.4.0.tgz#12474e9c077bae585c5d835a95c0b0b790c25c8b"
@@ -4463,6 +4470,11 @@ cssstyle@^1.0.0, cssstyle@^1.1.1:
   dependencies:
     cssom "0.3.x"
 
+csstype@^2.6.3:
+  version "2.6.4"
+  resolved "https://registry.yarnpkg.com/csstype/-/csstype-2.6.4.tgz#d585a6062096e324e7187f80e04f92bd0f00e37f"
+  integrity sha512-lAJUJP3M6HxFXbqtGRc0iZrdyeN+WzOWeY0q/VnFzI+kqVrYIzC7bWlKqCW7oCIdzoPkvfp82EVvrTlQ8zsWQg==
+
 currently-unhandled@^0.4.1:
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/currently-unhandled/-/currently-unhandled-0.4.1.tgz#988df33feab191ef799a61369dd76c17adf957ea"
@@ -4479,6 +4491,16 @@ cyclist@~0.2.2:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/cyclist/-/cyclist-0.2.2.tgz#1b33792e11e914a2fd6d6ed6447464444e5fa640"
   integrity sha1-GzN5LhHpFKL9bW7WRHRkRE5fpkA=
+
+d3-ease@^1.0.3:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/d3-ease/-/d3-ease-1.0.5.tgz#8ce59276d81241b1b72042d6af2d40e76d936ffb"
+  integrity sha512-Ct1O//ly5y5lFM9YTdu+ygq7LleSgSE4oj7vUt9tPLHUi8VCV7QoizGpdWRWAwCO9LdYzIrQDg97+hGVdsSGPQ==
+
+d3-timer@^1.0.9:
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/d3-timer/-/d3-timer-1.0.9.tgz#f7bb8c0d597d792ff7131e1c24a36dd471a471ba"
+  integrity sha512-rT34J5HnQUHhcLvhSB9GjCkN0Ddd5Y8nCwDBG2u6wQEeYxT/Lf51fTFFkldeib/sE/J0clIe0pnCfs6g/lRbyg==
 
 damerau-levenshtein@^1.0.4:
   version "1.0.4"
@@ -5905,6 +5927,11 @@ execall@^1.0.0:
   integrity sha1-c9CQTjlbPKsGWLCNCewlMH8pu3M=
   dependencies:
     clone-regexp "^1.0.0"
+
+exenv@^1.2.0:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/exenv/-/exenv-1.2.2.tgz#2ae78e85d9894158670b03d47bec1f03bd91bb9d"
+  integrity sha1-KueOhdmJQVhnCwPUe+wfA72Ru50=
 
 exit-on-epipe@:
   version "1.0.1"
@@ -8778,6 +8805,13 @@ just-extend@^4.0.2:
   resolved "https://registry.yarnpkg.com/just-extend/-/just-extend-4.0.2.tgz#f3f47f7dfca0f989c55410a7ebc8854b07108afc"
   integrity sha512-FrLwOgm+iXrPV+5zDU6Jqu4gCRXbWEQg2O3SKONsWE4w7AXFRkryS53bpWdaL9cNol+AmR3AEYz6kn+o0fCPnw==
 
+kapellmeister@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/kapellmeister/-/kapellmeister-3.0.1.tgz#419b715cd221acda3db79892caedf63e1c9f7d25"
+  integrity sha512-S7+gYcziMREv8RxG46138mb1O4Xf9II/bCxEJPYkhlZ7PgGWTlicgsyNad/DGc5oEAlWGLXE5ExLbTDVvJmgDA==
+  dependencies:
+    d3-timer "^1.0.9"
+
 keyboardevent-from-electron-accelerator@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/keyboardevent-from-electron-accelerator/-/keyboardevent-from-electron-accelerator-1.1.0.tgz#324614f6e33490c37ffc5be5876b3e85fe223c84"
@@ -10133,6 +10167,17 @@ nugget@^2.0.1:
     single-line-log "^1.1.2"
     throttleit "0.0.2"
 
+nuka-carousel@^4.5.4:
+  version "4.5.4"
+  resolved "https://registry.yarnpkg.com/nuka-carousel/-/nuka-carousel-4.5.4.tgz#dd2498cd129c0f0bf235a6974bda5f2dd6874592"
+  integrity sha512-ysQb5QMqnynV+JbDA8LcYXA2gpCukm6+KVDbmo6EQl6EGKPxnq7BZcxxoVxG1LqTLRoNR8rgDckCtC7kzY1v8A==
+  dependencies:
+    csstype "^2.6.3"
+    d3-ease "^1.0.3"
+    exenv "^1.2.0"
+    prop-types "^15.6.0"
+    react-move "^5.0.0"
+
 num2fraction@^1.2.2:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/num2fraction/-/num2fraction-1.2.2.tgz#6f682b6a027a4e9ddfa4564cd2589d1d4e669ede"
@@ -11424,7 +11469,7 @@ prop-types-exact@^1.2.0:
     object.assign "^4.1.0"
     reflect.ownkeys "^0.2.0"
 
-prop-types@^15.5.0, prop-types@^15.5.6, prop-types@^15.5.8, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@^15.5.0, prop-types@^15.5.6, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -11696,6 +11741,16 @@ react-loadable@^5.5.0:
   integrity sha512-C8Aui0ZpMd4KokxRdVAm2bQtI03k2RMRNzOB+IipV3yxFTSVICv7WoUr5L9ALB5BmKO1iHgZtWM8EvYG83otdg==
   dependencies:
     prop-types "^15.5.0"
+
+react-move@^5.0.0:
+  version "5.2.1"
+  resolved "https://registry.yarnpkg.com/react-move/-/react-move-5.2.1.tgz#2098cbb071538a487a815f54b73842c30aaa7628"
+  integrity sha512-2If8uw9jJUQC8KxT1V1bJJ9amDvbHM4zCT42UekmP9KKrkf6elbc1PsXmPprfMjd20PkejtKnvs9T/TTXmTymA==
+  dependencies:
+    "@babel/runtime" "^7.3.4"
+    kapellmeister "^3.0.1"
+    prop-types "^15.7.2"
+    react-lifecycles-compat "^3.0.4"
 
 react-popper@^1.3.3:
   version "1.3.3"

@@ -656,10 +656,6 @@ export default class Item extends Component<Props, State> {
 
     const { activeMode, itemId } = this.props;
 
-    const itemBackgroundUrl = {
-      backgroundImage: `url(${item.images.fanart.full})`
-    };
-
     return (
       <Container
         fluid
@@ -677,7 +673,11 @@ export default class Item extends Component<Props, State> {
             }}
           />
 
-          <Col sm="12" className="Item--background" style={itemBackgroundUrl}>
+          <Col
+            sm="12"
+            className="Item--background"
+            style={{ backgroundImage: `url(${item.images.fanart.full})` }}
+          >
             <Col sm="6" className="Item--image">
               <Poster
                 magnetLink={idealTorrent.magnet}

@@ -3,9 +3,14 @@
 import React, { Component } from 'react';
 import { Container, Col, Row } from 'reactstrap';
 import VisibilitySensor from 'react-visibility-sensor';
+import Carousel from 'nuka-carousel';
+import { Link } from 'react-router-dom';
 import Butter from '../../api/Butter';
 import Header from '../header/Header';
 import CardList from '../card/CardList';
+import Description from '../item/Description';
+import SaveItem from '../metadata/SaveItem';
+import Poster from '../item/Poster';
 
 export type activeModeOptionsType = {
   [option: string]: number | boolean | string
@@ -54,7 +59,8 @@ type Props = {
 
 type State = {
   favorites: Array<itemType>,
-  watchList: Array<itemType>
+  watchList: Array<itemType>,
+  trending: Array<itemType>
 };
 
 export default class Home extends Component<Props, State> {
@@ -62,7 +68,8 @@ export default class Home extends Component<Props, State> {
 
   state: State = {
     favorites: [],
-    watchList: []
+    watchList: [],
+    trending: []
   };
 
   butter: Butter;
@@ -150,16 +157,20 @@ export default class Home extends Component<Props, State> {
     document.addEventListener('scroll', this.initInfinitePagination);
     window.scrollTo(0, global.pct[`${activeMode}ScrollTop`]);
 
-    const [favorites, watchList, recentlyWatched] = await Promise.all([
-      this.butter.favorites('get'),
-      this.butter.watchList('get'),
-      this.butter.recentlyWatched('get')
-    ]);
+    const [favorites, watchList, recentlyWatched, trending] = await Promise.all(
+      [
+        this.butter.favorites('get'),
+        this.butter.watchList('get'),
+        this.butter.recentlyWatched('get'),
+        this.butter.getTrending()
+      ]
+    );
 
     this.setState({
       favorites,
       watchList,
-      recentlyWatched
+      recentlyWatched,
+      trending
     });
   }
 
@@ -212,10 +223,53 @@ export default class Home extends Component<Props, State> {
 
   render() {
     const { activeMode, items, isLoading, setActiveMode } = this.props;
-    const { favorites, watchList, recentlyWatched } = this.state;
+    const { favorites, watchList, recentlyWatched, trending } = this.state;
 
     const home = (
       <Container fluid>
+        <Row>
+          <Carousel autoplay>
+            {trending.map(item => (
+              <Row className="Item">
+                <Col
+                  sm="12"
+                  className="Item--background"
+                  style={{ backgroundImage: `url(${item.images.fanart.full})` }}
+                >
+                  <Col sm="6" className="Item--image">
+                    <Link replace to={`/item/${item.type}/${item.id}`}>
+                      <Poster
+                        magnetLink=""
+                        onClick={() => this.navigateToItem(item.type, item.id)}
+                        poster={item.images.poster.thumb}
+                      />
+                    </Link>
+                    <SaveItem
+                      item={item}
+                      favorites={favorites}
+                      watchList={watchList}
+                    />
+                  </Col>
+                  <Description
+                    certification={item.certification}
+                    genres={item.genres}
+                    seederCount={0}
+                    onTrailerClick={() => this.setPlayer('youtube')}
+                    rating={item.rating}
+                    runtime={item.runtime}
+                    summary={item.summary}
+                    title={item.title}
+                    torrentHealth={0}
+                    trailer={item.trailer}
+                    year={item.year}
+                    showTorrentInfo={false}
+                  />
+                  <div className="Item--overlay" />
+                </Col>
+              </Row>
+            ))}
+          </Carousel>
+        </Row>
         <Row>
           <Col sm="12">
             <CardList title="Recently Watched" items={recentlyWatched} />

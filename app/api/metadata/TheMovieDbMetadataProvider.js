@@ -28,7 +28,7 @@ function formatMetadata(item, type: string, imageUri: string, genres) {
           ? item.external_ids.imdb_id
           : '')
     },
-    type,
+    type: 'first_air_date' in item ? 'shows' : type,
     certification: 'n/a',
     summary: item.overview,
     genres: item.genres
@@ -189,6 +189,18 @@ export default class TheMovieDbMetadataProvider extends BaseMetadataProvider
         data.results.map(movie =>
           formatMetadata(movie, 'movies', this.imageUri, this.genres)
         )
+      );
+  }
+
+  getTrending() {
+    return this.theMovieDb
+      .get('trending/all/week', { params: { limit: 5 } })
+      .then(
+        ({ data }) =>
+          console.log(data) ||
+          data.results.map(movie =>
+            formatMetadata(movie, '', this.imageUri, this.genres)
+          )
       );
   }
 

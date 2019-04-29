@@ -15,7 +15,8 @@ type Props = {
   torrentHealth: string,
   certification: string,
   seederCount: number,
-  trailer: string
+  trailer: string,
+  showTorrentInfo: boolean
 };
 
 export default function Description({
@@ -29,7 +30,8 @@ export default function Description({
   torrentHealth,
   certification,
   seederCount = 0,
-  trailer
+  trailer,
+  showTorrentInfo = true
 }: Props) {
   const torrentHealthClassName = classNames('torrent__health', {
     [`torrent__health--${torrentHealth}`]: true
@@ -38,10 +40,10 @@ export default function Description({
   return (
     <Col sm="6" className="Movie">
       <h1 className="row-margin" id="title">
-        {title} {torrentHealth}
+        {title}
       </h1>
       <Row>
-        {(runtime.hours || runtime.minutes) && (
+        {(runtime.hours || runtime.minutes) && runtime.full !== 'n/a' && (
           <span className="col-sm-3" id="runtime">
             <h6>
               {runtime.hours ? `${runtime.hours} hrs ` : ''}
@@ -76,18 +78,20 @@ export default function Description({
           </Col>
         )}
 
-        <Col sm="2" className="row-center">
-          <i className="ion-md-magnet" />
-          <div
-            id="magnetPopoverOpen"
-            data-e2e="item-magnet-torrent-health-popover"
-            className={torrentHealthClassName}
-          />
-          <UncontrolledTooltip placement="top" target="magnetPopoverOpen">
-            {seederCount}
-            {' Seeders'}
-          </UncontrolledTooltip>
-        </Col>
+        {showTorrentInfo && (
+          <Col sm="2" className="row-center">
+            <i className="ion-md-magnet" />
+            <div
+              id="magnetPopoverOpen"
+              data-e2e="item-magnet-torrent-health-popover"
+              className={torrentHealthClassName}
+            />
+            <UncontrolledTooltip placement="top" target="magnetPopoverOpen">
+              {seederCount}
+              {' Seeders'}
+            </UncontrolledTooltip>
+          </Col>
+        )}
 
         {process.env.NODE_ENV === 'test' && trailer !== 'n/a' && (
           <Col sm="3" className="row-center">
