@@ -13,19 +13,18 @@ type Props = {
   limit?: number,
   items?: Array<contentType>,
   isLoading?: boolean,
-  isFinished?: boolean,
-  justifyContent?: string
+  isFinished?: boolean
 };
 
 export default function CardList(props: Props) {
-  const { items, isLoading, isFinished, title, limit, justifyContent } = props;
+  const { items, isLoading, isFinished, title, limit } = props;
 
   return (
     <Container fluid>
       <Row data-e2e={`${title}-card-list`}>
         <Col sm="12">
           <h4 className="CardList--header">{title}</h4>
-          <div className="CardList" style={{ justifyContent }}>
+          <div className="CardList">
             {(limit ? items.filter((e, i) => i < limit) : items).map(item => (
               <Card
                 image={(item && item.images && item.images.fanart.thumb) || ''}
@@ -56,6 +55,5 @@ CardList.defaultProps = {
   limit: Infinity,
   items: [],
   isLoading: false,
-  isFinished: false,
-  justifyContent: 'space-between'
+  isFinished: false
 };

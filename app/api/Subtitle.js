@@ -78,3 +78,46 @@ export default class SubtitleServer {
     });
   }
 }
+
+export const languages = [
+  // 'sq',
+  'ar',
+  // 'bn',
+  // 'pb',
+  // 'bg',
+  'zh',
+  // 'hr',
+  // 'cs',
+  // 'da',
+  // 'nl',
+  'en',
+  // 'et',
+  // 'fa',
+  // 'fi',
+  // 'fr',
+  // 'de',
+  // 'el',
+  // 'he',
+  // 'hu',
+  // 'id',
+  // 'it',
+  // 'ja',
+  // 'ko',
+  // 'lt',
+  // 'mk',
+  // 'ms',
+  // 'no',
+  // 'pl',
+  // 'pt',
+  // 'ro',
+  'ru',
+  // 'sr',
+  // 'sl',
+  'es'
+  // 'sv',
+  // 'th',
+  // 'tr',
+  // 'ur',
+  // 'uk',
+  // 'vi'
+];

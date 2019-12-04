@@ -27,7 +27,7 @@ import ChromecastPlayerProvider from '../../api/players/ChromecastPlayerProvider
 import { getIdealTorrent } from '../../api/torrents/BaseTorrentProvider';
 import Butter from '../../api/Butter';
 import Torrent from '../../api/Torrent';
-import SubtitleServer from '../../api/Subtitle';
+import SubtitleServer, { languages as langs } from '../../api/Subtitle';
 import Player from '../../api/Player';
 import type {
   contentType,
@@ -555,57 +555,12 @@ export default class Item extends Component<Props, State> {
   async getCaptions(item: contentType): Promise<captionsType> {
     const captions: Array<captionsType> = await yifysubtitles(item.ids.imdbId, {
       path: os.tmpdir(),
-      langs: ['en', 'fr']
-      // langs: [
-      //   'sq',
-      //   'ar',
-      //   'bn',
-      //   'pb',
-      //   'bg',
-      //   'zh',
-      //   'hr',
-      //   'cs',
-      //   'da',
-      //   'nl',
-      //   'en',
-      //   'et',
-      //   'fa',
-      //   'fi',
-      //   'fr',
-      //   'de',
-      //   'el',
-      //   'he',
-      //   'hu',
-      //   'id',
-      //   'it',
-      //   'ja',
-      //   'ko',
-      //   'lt',
-      //   'mk',
-      //   'ms',
-      //   'no',
-      //   'pl',
-      //   'pt',
-      //   'ro',
-      //   'ru',
-      //   'sr',
-      //   'sl',
-      //   'es',
-      //   'sv',
-      //   'th',
-      //   'tr',
-      //   'ur',
-      //   'uk',
-      //   'vi'
-      // ]
+      langs
     })
       .then(res =>
         res.map(subtitle => ({
-          // Set en
-          // default: (
-          //   subtitle.langShort === process.env.DEFAULT_TORRENT_LANG || subtitle.langShort === process.env.DEFAULT_TORRENT_LANG === 'en'
-          // ),
-          default: subtitle.langShort === 'en',
+          // Set the default language for subtitles
+          default: subtitle.langShort === process.env.DEFAULT_TORRENT_LANG,
           kind: 'captions',
           label: subtitle.langShort,
           srclang: subtitle.langShort,
@@ -817,11 +772,6 @@ export default class Item extends Component<Props, State> {
         <Row>
           <Plyr
             captions={captions}
-            // captions={[{
-            //   kind: "captions",
-            //   label: "English captions",
-            //   src: 'http://localhost:4000/Deadpool.2.Super.Duper.Cut.2018.HDRip.XviD.AC3-EVO.vtt'
-            // }]}
             type="video"
             url={playbackInProgress ? servingUrl || item.trailer : undefined}
             poster={(item && item.images && item.images.fanart.full) || ''}
@@ -838,7 +788,7 @@ export default class Item extends Component<Props, State> {
             }}
           />
 
-          {playbackInProgress ? (
+          {playbackInProgress && (
             <span
               data-e2e="close-player"
               role="presentation"
@@ -847,7 +797,7 @@ export default class Item extends Component<Props, State> {
             >
               <i className="ion-md-close" />
             </span>
-          ) : null}
+          )}
 
           <Col sm="12" className="Item--background" style={itemBackgroundUrl}>
             <Col sm="6" className="Item--image">
@@ -863,7 +813,7 @@ export default class Item extends Component<Props, State> {
                     )
                   }
                 >
-                  {idealTorrent.magnet ? (
+                  {idealTorrent.magnet && (
                     <i
                       role="presentation"
                       data-e2e="item-play-button"
@@ -876,7 +826,7 @@ export default class Item extends Component<Props, State> {
                         )
                       }
                     />
-                  ) : null}
+                  )}
                 </div>
                 <img
                   className="Item--poster"
@@ -889,8 +839,8 @@ export default class Item extends Component<Props, State> {
                 />
               </div>
               <div className="Item--loading-status">
-                {!servingUrl && torrentInProgress ? 'Loading torrent...' : null}
-                {fetchingTorrents ? 'Fetching torrents...' : null}
+                {!servingUrl && torrentInProgress && 'Loading torrent...'}
+                {fetchingTorrents && 'Fetching torrents...'}
               </div>
 
               <SaveItem
@@ -905,7 +855,7 @@ export default class Item extends Component<Props, State> {
                 {item.title}
               </h1>
               <Row>
-                {item.runtime && item.runtime.hours && item.runtime.minutes ? (
+                {item.runtime && item.runtime.hours && item.runtime.minutes && (
                   <span className="col-sm-3" id="runtime">
                     <h6>
                       {item.runtime.hours ? `${item.runtime.hours} hrs ` : ''}
@@ -914,9 +864,9 @@ export default class Item extends Component<Props, State> {
                         : ''}
                     </h6>
                   </span>
-                ) : null}
+                )}
                 <span className="col-sm-9" id="genres">
-                  {item.genres ? <h6>{item.genres.join(', ')}</h6> : null}
+                  {item.genres && <h6>{item.genres.join(', ')}</h6>}
                 </span>
               </Row>
               {/* HACK: Prefer a CSS solution to this, using text-overflow: ellipse */}
@@ -928,7 +878,7 @@ export default class Item extends Component<Props, State> {
                   : ''}
               </h6>
               <Row className="row-margin row-center Item--details">
-                {item.rating && typeof item.rating === 'number' ? (
+                {item.rating && typeof item.rating === 'number' && (
                   <Col sm="5">
                     <Rating
                       emptyStarColor="rgba(255, 255, 255, 0.2)"
@@ -936,16 +886,16 @@ export default class Item extends Component<Props, State> {
                       rating={item.rating}
                     />
                   </Col>
-                ) : null}
+                )}
                 <Col sm="2">
                   <span data-e2e="item-year">{item.year}</span>
                 </Col>
 
-                {item && item.certification && item.certification !== 'n/a' ? (
+                {item && item.certification && item.certification !== 'n/a' && (
                   <Col sm="3">
                     <div className="certification">{item.certification}</div>
                   </Col>
-                ) : null}
+                )}
 
                 <Col sm="2" className="row-center">
                   <i className="ion-md-magnet" />
@@ -969,28 +919,28 @@ export default class Item extends Component<Props, State> {
                 </Col>
 
                 {process.env.NODE_ENV === 'test' &&
-                item.trailer &&
-                item.trailer !== 'n/a' ? (
-                  <Col sm="3" className="row-center">
-                    <i
-                      id="trailerPopoverOpen"
-                      data-e2e="item-trailer-button"
-                      className="ion-md-videocam"
-                      onClick={() => this.setPlayer('youtube')}
-                      role="presentation"
-                    />
-                    <Tooltip
-                      placement="top"
-                      isOpen={trailerPopoverOpen || false}
-                      target="trailerPopoverOpen"
-                      toggle={() =>
-                        this.toggleStateProperty('trailerPopoverOpen')
-                      }
-                    >
-                      Trailer
-                    </Tooltip>
-                  </Col>
-                ) : null}
+                  item.trailer &&
+                  item.trailer !== 'n/a' && (
+                    <Col sm="3" className="row-center">
+                      <i
+                        id="trailerPopoverOpen"
+                        data-e2e="item-trailer-button"
+                        className="ion-md-videocam"
+                        onClick={() => this.setPlayer('youtube')}
+                        role="presentation"
+                      />
+                      <Tooltip
+                        placement="top"
+                        isOpen={trailerPopoverOpen || false}
+                        target="trailerPopoverOpen"
+                        toggle={() =>
+                          this.toggleStateProperty('trailerPopoverOpen')
+                        }
+                      >
+                        Trailer
+                      </Tooltip>
+                    </Col>
+                  )}
               </Row>
             </Col>
 
@@ -1040,67 +990,55 @@ export default class Item extends Component<Props, State> {
             </Dropdown>
           </Col>
           <Col sm="10">
-            {(() => {
-              if (process.env.FLAG_MANUAL_TORRENT_SELECTION === 'true') {
-                return (
-                  <span>
-                    <button
-                      type="button"
-                      onClick={() =>
-                        this.startPlayback(
-                          torrent['1080p'].magnet,
-                          torrent['1080p'].method,
-                          currentPlayer
-                        )
-                      }
-                      disabled={!torrent['1080p'].quality}
-                    >
-                      Start 1080p -- {torrent['1080p'].seeders} seeders
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() =>
-                        this.startPlayback(
-                          torrent['720p'].magnet,
-                          torrent['720p'].method,
-                          currentPlayer
-                        )
-                      }
-                      disabled={!torrent['720p'].quality}
-                    >
-                      Start 720p -- {torrent['720p'].seeders} seeders
-                    </button>
-                    {(() => {
-                      if (activeMode === 'shows') {
-                        return (
-                          <button
-                            type="button"
-                            onClick={() =>
-                              this.startPlayback(
-                                torrent['480p'].magnet,
-                                torrent['480p'].method,
-                                currentPlayer
-                              )
-                            }
-                            disabled={!torrent['480p'].quality}
-                          >
-                            Start 480p -- {torrent['480p'].seeders} seeders
-                          </button>
-                        );
-                      }
-
-                      return null;
-                    })()}
-                  </span>
-                );
-              }
-
-              return null;
-            })()}
+            {process.env.FLAG_MANUAL_TORRENT_SELECTION === 'true' && (
+              <span>
+                <button
+                  type="button"
+                  onClick={() =>
+                    this.startPlayback(
+                      torrent['1080p'].magnet,
+                      torrent['1080p'].method,
+                      currentPlayer
+                    )
+                  }
+                  disabled={!torrent['1080p'].quality}
+                >
+                  Start 1080p -- {torrent['1080p'].seeders} seeders
+                </button>
+                <button
+                  type="button"
+                  onClick={() =>
+                    this.startPlayback(
+                      torrent['720p'].magnet,
+                      torrent['720p'].method,
+                      currentPlayer
+                    )
+                  }
+                  disabled={!torrent['720p'].quality}
+                >
+                  Start 720p -- {torrent['720p'].seeders} seeders
+                </button>
+                {activeMode === 'shows' && (
+                  <button
+                    type="button"
+                    onClick={() =>
+                      this.startPlayback(
+                        torrent['480p'].magnet,
+                        torrent['480p'].method,
+                        currentPlayer
+                      )
+                    }
+                    disabled={!torrent['480p'].quality}
+                  >
+                    Start 480p -- {torrent['480p'].seeders} seeders
+                  </button>
+                )}
+              </span>
+            )}
           </Col>
         </Row>
 
-        {activeMode === 'shows' ? (
+        {activeMode === 'shows' && (
           <Show
             selectShow={this.selectShow}
             seasons={seasons}
@@ -1108,7 +1046,7 @@ export default class Item extends Component<Props, State> {
             selectedSeason={selectedSeason}
             selectedEpisode={selectedEpisode}
           />
-        ) : null}
+        )}
 
         <CardList
           title="similar"
