@@ -178,7 +178,7 @@
     "electron-builder": "^20.39.0",
     "electron-debug": "^2.2.0",
     "electron-devtools-installer": "2.2.4",
-    "electron-rebuild": "^1.8.4",
+    "electron-rebuild": "^1.10.1",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.12.1",
     "enzyme-to-json": "^3.3.5",
