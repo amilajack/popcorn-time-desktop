@@ -247,7 +247,7 @@
     "bootstrap": "4.3.1",
     "core-js": "2",
     "electron-log": "^3.0.5",
-    "electron-updater": "^4.0.6",
+    "electron-updater": "^4.2.5",
     "electron-window-state": "^5.0.3",
     "find-free-port": "^2.0.0",
     "get-port": "^5.0.0",
