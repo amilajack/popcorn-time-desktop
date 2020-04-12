@@ -212,7 +212,7 @@
     "lodash-webpack-plugin": "^0.11.5",
     "lru-cache": "5.1.1",
     "mini-css-extract-plugin": "^0.6.0",
-    "minimist": "1.2.0",
+    "minimist": "1.2.3",
     "mkdirp": "0.5.1",
     "node-loader": "0.6.0",
     "node-sass": "4.11.0",
