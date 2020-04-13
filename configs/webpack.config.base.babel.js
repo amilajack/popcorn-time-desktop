@@ -2,14 +2,14 @@
  * Base webpack config used across other specific configs
  */
 
-const path = require('path');
-const webpack = require('webpack');
-const fs = require('fs');
-const dotenv = require('dotenv');
-const { dependencies: externals } = require('../app/package.json');
+const path = require("path");
+const webpack = require("webpack");
+const fs = require("fs");
+const dotenv = require("dotenv");
+const { dependencies: externals } = require("../app/package.json");
 
 // Get all the possible flags
-const data = fs.readFileSync('.env.example', { encoding: 'utf8' });
+const data = fs.readFileSync(".env.example", { encoding: "utf8" });
 const buffer = Buffer.from(data);
 const flags = Object.keys(dotenv.parse(buffer));
 
@@ -22,42 +22,42 @@ module.exports = {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         use: {
-          loader: 'babel-loader',
+          loader: "babel-loader",
           options: {
-            cacheDirectory: true
-          }
-        }
+            cacheDirectory: true,
+          },
+        },
       },
       {
         test: /node_modules[/\\](iconv-lite)[/\\].+/,
         resolve: {
-          aliasFields: ['main']
-        }
-      }
-    ]
+          aliasFields: ["main"],
+        },
+      },
+    ],
   },
 
   output: {
-    path: path.join(__dirname, 'app'),
+    path: path.join(__dirname, "app"),
     // https://github.com/webpack/webpack/issues/1114
-    libraryTarget: 'commonjs2'
+    libraryTarget: "commonjs2",
   },
 
   /**
    * Determine the array of extensions that should be used to resolve modules.
    */
   resolve: {
-    extensions: ['.js', '.json'],
-    modules: [path.join(__dirname, 'app'), 'node_modules']
+    extensions: [".js", ".json"],
+    modules: [path.join(__dirname, "app"), "node_modules"],
   },
 
   plugins: [
     new webpack.EnvironmentPlugin([
-      'NODE_ENV',
-      'DEBUG_PROD',
-      'ANALYTICS',
-      ...flags
+      "NODE_ENV",
+      "DEBUG_PROD",
+      "ANALYTICS",
+      ...flags,
     ]),
-    new webpack.NamedModulesPlugin()
-  ]
+    new webpack.NamedModulesPlugin(),
+  ],
 };

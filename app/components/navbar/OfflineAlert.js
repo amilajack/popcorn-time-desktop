@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
-import { Alert } from 'reactstrap';
+import React, { Component } from "react";
+import { Alert } from "reactstrap";
 
 type State = {
-  online: true
+  online: true,
 };
 
 export default class OfflineAlert extends Component<{}, State> {
   state: State = {
-    online: true
+    online: true,
   };
 
   onlineCheckInterval: ?number;
@@ -16,11 +16,11 @@ export default class OfflineAlert extends Component<{}, State> {
 
   componentDidMount() {
     this.setState({
-      online: navigator.onLine
+      online: navigator.onLine,
     });
     this.onlineCheckInterval = setInterval(() => {
       this.setState({
-        online: navigator.onLine
+        online: navigator.onLine,
       });
     }, this.ONLINE_INTERVAL);
   }

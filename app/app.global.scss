@@ -1,8 +1,21 @@
+.row-margin {
+  margin: 20px 0;
+}
+
+::selection {
+  background: black;
+  color: white;
+}
+
 //
-// Modules
+// CSS Variables
 //
 
 @import "./styles/variables.scss";
+
+//
+// Modules
+//
 
 //
 // Bootstrap
@@ -11,16 +24,16 @@
 //
 
 @import "~bootstrap/scss/bootstrap.scss";
-@import "~ionicons/dist/css/ionicons.min.css";
 @import "~plyr/src/sass/plyr.scss";
+@import "~ionicons/dist/css/ionicons.min.css";
 @import "~notie/src/notie.scss";
 
 //
 // Components
 //
 
-@import "./styles/components/Movie.scss";
-@import "./styles/components/CardList.scss";
+@import "./styles/components/Description.scss";
+@import "./styles/components/CardsGrid.scss";
 @import "./styles/components/Rating.scss";
 @import "./styles/components/Loader.scss";
 @import "./styles/components/Item.scss";

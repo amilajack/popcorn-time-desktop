@@ -1,18 +1,18 @@
 // @flow
-import { remote } from 'electron';
-import plyr from 'plyr';
-import childProcess from 'child_process';
-import network from 'network-address';
-import vlcCommand from 'vlc-command';
-import ChromecastPlayerProvider from './players/ChromecastPlayerProvider';
-import type { metadataType } from './players/PlayerProviderInterface';
+import { remote } from "electron";
+import plyr from "plyr";
+import childProcess from "child_process";
+import network from "network-address";
+import vlcCommand from "vlc-command";
+import ChromecastPlayerProvider from "./players/ChromecastPlayerProvider";
+import type { metadataType } from "./players/PlayerProviderInterface";
 
 export type subtitleType = { kind: string, src: string, srclang: string };
 
 const { powerSaveBlocker } = remote;
 
 export default class Player {
-  currentPlayer = 'plyr';
+  currentPlayer = "plyr";
 
   powerSaveBlockerId: number;
 
@@ -22,13 +22,13 @@ export default class Player {
   player: plyr;
 
   static nativePlaybackFormats = [
-    'mp4',
-    'ogg',
-    'mov',
-    'webmv',
-    'mkv',
-    'wmv',
-    'avi'
+    "mp4",
+    "ogg",
+    "mov",
+    "webmv",
+    "mkv",
+    "wmv",
+    "avi",
   ];
 
   static experimentalPlaybackFormats = [];
@@ -56,7 +56,7 @@ export default class Player {
     filename: string,
     mimeTypes: Array<string>
   ): boolean {
-    return !!mimeTypes.find(mimeType =>
+    return !!mimeTypes.find((mimeType) =>
       filename.toLowerCase().includes(mimeType)
     );
   }
@@ -67,31 +67,31 @@ export default class Player {
     metadata: metadataType,
     subtitles: Array<subtitleType>
   ) {
-    this.powerSaveBlockerId = powerSaveBlocker.start('prevent-app-suspension');
-    const addr = streamingUrl.replace('localhost', network());
+    this.powerSaveBlockerId = powerSaveBlocker.start("prevent-app-suspension");
+    const addr = streamingUrl.replace("localhost", network());
     return provider.play(addr, metadata, subtitles);
   }
 
   initYouTube() {
-    console.info('Initializing plyr...');
-    this.currentPlayer = 'plyr';
+    console.info("Initializing plyr...");
+    this.currentPlayer = "plyr";
     this.player = {};
     return this.player;
   }
 
   initPlyr(): plyr {
-    console.info('Initializing plyr...');
-    this.currentPlayer = 'plyr';
-    this.powerSaveBlockerId = powerSaveBlocker.start('prevent-app-suspension');
+    console.info("Initializing plyr...");
+    this.currentPlayer = "plyr";
+    this.powerSaveBlockerId = powerSaveBlocker.start("prevent-app-suspension");
     this.player = {};
     return this.player;
   }
 
   initVLC(servingUrl: string) {
     vlcCommand((error, cmd: string) => {
-      if (error) return console.error('Could not find vlc command path');
+      if (error) return console.error("Could not find vlc command path");
 
-      if (process.platform === 'win32') {
+      if (process.platform === "win32") {
         childProcess.execFile(cmd, [servingUrl], (_error, stdout) => {
           if (_error) return console.error(_error);
           return console.log(stdout);
@@ -104,7 +104,7 @@ export default class Player {
       }
 
       this.powerSaveBlockerId = powerSaveBlocker.start(
-        'prevent-app-suspension'
+        "prevent-app-suspension"
       );
 
       return true;

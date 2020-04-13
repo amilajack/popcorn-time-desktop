@@ -1,9 +1,9 @@
 // @flow
-import { createStore, applyMiddleware } from 'redux';
-import thunk from 'redux-thunk';
-import { createHashHistory } from 'history';
-import { routerMiddleware } from 'connected-react-router';
-import createRootReducer from '../reducers';
+import { createStore, applyMiddleware } from "redux";
+import thunk from "redux-thunk";
+import { createHashHistory } from "history";
+import { routerMiddleware } from "connected-react-router";
+import createRootReducer from "../reducers";
 
 const history = createHashHistory();
 const rootReducer = createRootReducer(history);

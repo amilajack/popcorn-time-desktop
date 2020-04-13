@@ -1,8 +1,8 @@
 // @flow
-import { set, get } from '../../utils/Config';
-import type { contentType, methodType } from './MetadataProviderInterface';
+import { set, get } from "../../utils/Config";
+import type { contentType, methodType } from "./MetadataProviderInterface";
 
-type configType = 'favorites' | 'recentlyWatched' | 'watchList';
+type configType = "favorites" | "recentlyWatched" | "watchList";
 
 export default class BaseMetadataProvider {
   /**
@@ -16,14 +16,14 @@ export default class BaseMetadataProvider {
     const property = String(type);
 
     switch (method) {
-      case 'set':
+      case "set":
         set(property, [...(get(property) || []), metadata]);
         return get(property);
-      case 'get':
+      case "get":
         return get(property);
-      case 'remove': {
+      case "remove": {
         const items = [
-          ...(get(property) || []).filter(item => item.id !== metadata.id)
+          ...(get(property) || []).filter((item) => item.id !== metadata.id),
         ];
         return set(property, items);
       }
@@ -33,14 +33,14 @@ export default class BaseMetadataProvider {
   }
 
   favorites(...args: Array<any>) {
-    return this.updateConfig('favorites', ...args);
+    return this.updateConfig("favorites", ...args);
   }
 
   recentlyWatched(...args: Array<any>) {
-    return this.updateConfig('recentlyWatched', ...args);
+    return this.updateConfig("recentlyWatched", ...args);
   }
 
   watchList(...args: Array<any>) {
-    return this.updateConfig('watchList', ...args);
+    return this.updateConfig("watchList", ...args);
   }
 }

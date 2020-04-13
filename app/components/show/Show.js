@@ -1,7 +1,7 @@
 // @flow
-import React from 'react';
-import { Col, Row, ListGroup, ListGroupItem } from 'reactstrap';
-import classNames from 'classnames';
+import React from "react";
+import { Col, Row, ListGroup, ListGroupItem } from "reactstrap";
+import classNames from "classnames";
 
 type Props = {
   selectShow: (type: string, season: number, episode?: number) => void,
@@ -9,13 +9,13 @@ type Props = {
   selectedEpisode: number,
   seasons?: Array<{
     season: number,
-    overview: string
+    overview: string,
   }>,
   episodes?: Array<{
     episode: number,
     overview: string,
-    title: string
-  }>
+    title: string,
+  }>,
 };
 
 export default function Show(props: Props) {
@@ -24,7 +24,7 @@ export default function Show(props: Props) {
     selectShow,
     selectedSeason,
     episodes,
-    selectedEpisode
+    selectedEpisode,
   } = props;
 
   return (
@@ -32,12 +32,12 @@ export default function Show(props: Props) {
       {/* Seasons */}
       <Col sm="2" xs="6">
         <ListGroup className="Show--list-group">
-          {seasons.map(season => (
+          {seasons.map((season) => (
             <ListGroupItem
-              className={classNames('list-group-item', {
-                active: season.season === selectedSeason
+              className={classNames("list-group-item", {
+                active: season.season === selectedSeason,
               })}
-              onClick={() => selectShow('episodes', season.season)}
+              onClick={() => selectShow("episodes", season.season)}
               key={season.season}
             >
               Season {season.season}
@@ -50,15 +50,15 @@ export default function Show(props: Props) {
         <ListGroup className="Show--list-group">
           {episodes && episodes.length === 0
             ? seasons.length > 0
-              ? 'No episodes for this season'
+              ? "No episodes for this season"
               : null
-            : episodes.map(episode => (
+            : episodes.map((episode) => (
                 <ListGroupItem
-                  className={classNames('list-group-item', {
-                    active: episode.episode === selectedEpisode
+                  className={classNames("list-group-item", {
+                    active: episode.episode === selectedEpisode,
                   })}
                   onClick={() =>
-                    selectShow('episode', selectedSeason, episode.episode)
+                    selectShow("episode", selectedSeason, episode.episode)
                   }
                   key={episode.episode}
                 >
@@ -96,5 +96,5 @@ export default function Show(props: Props) {
 
 Show.defaultProps = {
   seasons: [],
-  episodes: []
+  episodes: [],
 };

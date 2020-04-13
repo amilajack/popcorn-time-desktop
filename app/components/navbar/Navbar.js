@@ -7,33 +7,36 @@ import {
   Nav,
   Navbar,
   NavbarToggler,
-  NavItem
-} from 'reactstrap';
-import React, { Component } from 'react';
-import classNames from 'classnames';
-import { Link } from 'react-router-dom';
-import type { Node, SyntheticEvent as Event } from 'react';
+  NavItem,
+  NavbarBrand,
+} from "reactstrap";
+import React, { Component } from "react";
+import classNames from "classnames";
+import { Link } from "react-router-dom";
+import type { Node, SyntheticEvent as Event } from "react";
+import logo from "../../../resources/icon.png";
 
 type Props = {
   setActiveMode: (mode: string, options?: { searchQuery: string }) => void,
-  activeMode: string
+  activeMode: string,
+  theme: string,
 };
 
 type State = {
-  searchQuery: string
+  searchQuery: string,
 };
 
-export default class Header extends Component<Props, State> {
+export default class PopcornTimeNavbar extends Component<Props, State> {
   props: Props;
 
   state: State = {
     collapsed: true,
-    searchQuery: ''
+    searchQuery: "",
   };
 
   handleSearchChange = ({ target: { value } }: Event<HTMLButtonElement>) => {
     this.setState({
-      searchQuery: value
+      searchQuery: value,
     });
   };
 
@@ -43,8 +46,8 @@ export default class Header extends Component<Props, State> {
 
     if (keyCode === 13) {
       // Enter - keyCode 13
-      setActiveMode('search', {
-        searchQuery
+      setActiveMode("search", {
+        searchQuery,
       });
     } else if (keyCode === 27) {
       // Escape - keyCode 27
@@ -53,20 +56,28 @@ export default class Header extends Component<Props, State> {
   };
 
   setCollapse = () => {
-    this.setState(prevState => ({
-      collapsed: !prevState.collapsed
+    this.setState((prevState) => ({
+      collapsed: !prevState.collapsed,
     }));
   };
 
   render(): Node {
-    const { activeMode, setActiveMode } = this.props;
+    const { activeMode, setActiveMode, theme } = this.props;
     const { collapsed, searchQuery } = this.state;
 
     return (
       <Navbar
-        className="navbar navbar-expand-lg navbar-dark bg-dark col-sm-12 col-md-12"
+        color={theme}
+        dark={theme === "dark"}
+        light={theme === "light"}
+        expand="sm"
         sticky="top"
+        fixed="top"
+        className={`col-sm-12 bg-${theme}`}
       >
+        <NavbarBrand>
+          <img src={logo} width={40} alt="popcorn time logo" />
+        </NavbarBrand>
         <NavbarToggler
           className="navbar-toggler"
           type="button"
@@ -79,45 +90,45 @@ export default class Header extends Component<Props, State> {
           id="navbarSupportedContent"
           isOpen={!collapsed}
         >
-          <Nav className="navbar-nav mr-auto">
+          <Nav navbar className="navbar-nav mr-auto">
             <NavItem
-              className={classNames('nav-item', {
-                active: activeMode === 'home'
+              className={classNames({
+                active: activeMode === "home",
               })}
             >
               <Link
                 className="nav-link"
                 to="/item/home"
                 replace
-                onClick={() => setActiveMode('home')}
+                onClick={() => setActiveMode("home")}
               >
                 Home
               </Link>
             </NavItem>
             <NavItem
-              className={classNames('nav-item', {
-                active: activeMode === 'movies'
+              className={classNames({
+                active: activeMode === "movies",
               })}
             >
               <Link
                 to="/item/movies"
                 replace
                 className="nav-link"
-                onClick={() => setActiveMode('movies')}
+                onClick={() => setActiveMode("movies")}
               >
                 Movies
               </Link>
             </NavItem>
             <NavItem
-              className={classNames('nav-item', {
-                active: activeMode === 'shows'
+              className={classNames({
+                active: activeMode === "shows",
               })}
             >
               <Link
                 className="nav-link"
                 to="/item/shows"
                 replace
-                onClick={() => setActiveMode('shows')}
+                onClick={() => setActiveMode("shows")}
               >
                 TV Shows
               </Link>

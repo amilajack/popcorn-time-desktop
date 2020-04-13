@@ -1,17 +1,17 @@
-import { createStore, applyMiddleware, compose } from 'redux';
-import thunk from 'redux-thunk';
-import { createHashHistory } from 'history';
-import { routerMiddleware, routerActions } from 'connected-react-router';
-import { createLogger } from 'redux-logger';
-import createRootReducer from '../reducers';
-import * as homePageActions from '../actions/homePageActions';
-import * as itemPageActions from '../actions/itemPageActions';
+import { createStore, applyMiddleware, compose } from "redux";
+import thunk from "redux-thunk";
+import { createHashHistory } from "history";
+import { routerMiddleware, routerActions } from "connected-react-router";
+import { createLogger } from "redux-logger";
+import createRootReducer from "../reducers";
+import * as homePageActions from "../actions/homePageActions";
+import * as itemPageActions from "../actions/itemPageActions";
 
 const history = createHashHistory();
 
 const rootReducer = createRootReducer(history);
 
-const configureStore = initialState => {
+const configureStore = (initialState) => {
   // Redux Configuration
   const middleware = [];
   const enhancers = [];
@@ -21,12 +21,12 @@ const configureStore = initialState => {
 
   // Logging Middleware
   const logger = createLogger({
-    level: 'info',
-    collapsed: true
+    level: "info",
+    collapsed: true,
   });
 
   // Skip redux logs in console during the tests
-  if (process.env.NODE_ENV !== 'test') {
+  if (process.env.NODE_ENV !== "test") {
     middleware.push(logger);
   }
 
@@ -38,14 +38,14 @@ const configureStore = initialState => {
   const actionCreators = {
     ...homePageActions,
     ...itemPageActions,
-    ...routerActions
+    ...routerActions,
   };
   // If Redux DevTools Extension is installed use it, otherwise use Redux compose
   /* eslint-disable no-underscore-dangle */
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
         // Options: http://extension.remotedev.io/docs/API/Arguments.html
-        actionCreators
+        actionCreators,
       })
     : compose;
   /* eslint-enable no-underscore-dangle */
@@ -59,9 +59,9 @@ const configureStore = initialState => {
 
   if (module.hot) {
     module.hot.accept(
-      '../reducers',
+      "../reducers",
       // eslint-disable-next-line global-require
-      () => store.replaceReducer(require('../reducers').default)
+      () => store.replaceReducer(require("../reducers").default)
     );
   }
 

@@ -1,31 +1,31 @@
 /**
- * Card in the CardList component
+ * Card in the CardsGrid component
  * @flow
  */
-import React from 'react';
-import { Col, Row } from 'reactstrap';
-import { Link } from 'react-router-dom';
-import Rating from './Rating';
+import React from "react";
+import { Col, Row } from "reactstrap";
+import { Link } from "react-router-dom";
+import Rating from "./Rating";
 
 type Props = {
   title: string,
   starColor?: string,
   image: string,
   id: string,
-  rating: number | 'n/a',
-  type: string
+  rating: number | "n/a",
+  type: string,
 };
 
 export default function Card(props: Props) {
   const { type, image, id, rating, title, starColor } = props;
 
   const placeholder =
-    process.env.NODE_ENV === 'production'
-      ? './images/posterholder.png'
-      : './app/images/posterholder.png';
+    process.env.NODE_ENV === "production"
+      ? "./images/posterholder.png"
+      : "./app/images/posterholder.png";
 
   const backgroundImageStyle = {
-    backgroundImage: `url(${image !== 'n/a' ? image : placeholder})`
+    backgroundImage: `url(${image !== "n/a" ? image : placeholder})`,
   };
 
   return (
@@ -41,11 +41,7 @@ export default function Card(props: Props) {
             <Link className="Card--title" replace to={`/item/${type}/${id}`}>
               {title}
             </Link>
-          </Col>
-        </Row>
-        <Row>
-          <Col sm="12">
-            {typeof rating === 'number' && (
+            {typeof rating === "number" && (
               <Rating starColor={starColor} rating={rating} />
             )}
           </Col>
@@ -56,5 +52,5 @@ export default function Card(props: Props) {
 }
 
 Card.defaultProps = {
-  starColor: '#848484'
+  starColor: "#848484",
 };

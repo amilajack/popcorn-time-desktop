@@ -1,11 +1,11 @@
 // @flow
-import fetch from 'isomorphic-fetch';
-import { remote } from 'electron';
-import semver from 'semver';
+import fetch from "isomorphic-fetch";
+import { remote } from "electron";
+import semver from "semver";
 
 export const defaultUpdateEndpoint =
   process.env.APP_API_UPDATE_ENDPOINT ||
-  'https://api.github.com/repos/amilajack/popcorn-time-desktop/releases';
+  "https://api.github.com/repos/amilajack/popcorn-time-desktop/releases";
 
 export function isNewerSemvar(current: string, next: string): boolean {
   return semver.gt(current, next);
@@ -18,11 +18,11 @@ export default function CheckUpdate(): Promise<boolean> {
   const currentSemvar = remote.app.getVersion();
 
   return fetch(defaultUpdateEndpoint)
-    .then(res => res.json())
+    .then((res) => res.json())
     .then(
-      res =>
+      (res) =>
         !!res.filter(
-          each =>
+          (each) =>
             each.prerelease === false && isNewerSemvar(each.name, currentSemvar)
         ).length
     );

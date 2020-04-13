@@ -1,8 +1,8 @@
-import React from 'react';
-import classNames from 'classnames';
-import { Row, Col, UncontrolledTooltip } from 'reactstrap';
+import React from "react";
+import classNames from "classnames";
+import { Row, Col, UncontrolledTooltip } from "reactstrap";
 
-import Rating from '../card/Rating';
+import Rating from "../card/Rating";
 
 type Props = {
   title: string,
@@ -15,7 +15,7 @@ type Props = {
   torrentHealth: string,
   certification: string,
   seederCount: number,
-  trailer: string
+  trailer: string,
 };
 
 export default function Description({
@@ -23,20 +23,20 @@ export default function Description({
   runtime,
   genres,
   summary,
-  rating = 'n/a',
+  rating = "n/a",
   onTrailerClick,
   year,
   torrentHealth,
   certification,
   seederCount = 0,
-  trailer
+  trailer,
 }: Props) {
-  const torrentHealthClassName = classNames('torrent__health', {
-    [`torrent__health--${torrentHealth}`]: true
+  const torrentHealthClassName = classNames("torrent__health", {
+    [`torrent__health--${torrentHealth}`]: true,
   });
 
   return (
-    <Col sm="6" className="Movie">
+    <Col sm="6" className="Description">
       <h1 className="row-margin" id="title">
         {title} {torrentHealth}
       </h1>
@@ -44,20 +44,20 @@ export default function Description({
         {(runtime.hours || runtime.minutes) && (
           <span className="col-sm-3" id="runtime">
             <h6>
-              {runtime.hours ? `${runtime.hours} hrs ` : ''}
-              {runtime.minutes ? `${runtime.minutes} min` : ''}
+              {runtime.hours ? `${runtime.hours} hrs ` : ""}
+              {runtime.minutes ? `${runtime.minutes} min` : ""}
             </h6>
           </span>
         )}
         <span className="col-sm-9" id="genres">
-          {genres && <h6>{genres.join(', ')}</h6>}
+          {genres && <h6>{genres.join(", ")}</h6>}
         </span>
       </Row>
       <h6 data-e2e="summary" className="row-margin item__summary">
         {summary}
       </h6>
       <Row className="row-margin row-center Item--details">
-        {rating && typeof rating === 'number' && (
+        {rating && typeof rating === "number" && (
           <Col sm="5">
             <Rating
               emptyStarColor="rgba(255, 255, 255, 0.2)"
@@ -70,7 +70,7 @@ export default function Description({
           <span data-e2e="item-year">{year}</span>
         </Col>
 
-        {certification && certification !== 'n/a' && (
+        {certification && certification !== "n/a" && (
           <Col sm="3">
             <div className="certification">{certification}</div>
           </Col>
@@ -85,11 +85,11 @@ export default function Description({
           />
           <UncontrolledTooltip placement="top" target="magnetPopoverOpen">
             {seederCount}
-            {' Seeders'}
+            {" Seeders"}
           </UncontrolledTooltip>
         </Col>
 
-        {process.env.NODE_ENV === 'test' && trailer !== 'n/a' && (
+        {process.env.NODE_ENV === "test" && trailer !== "n/a" && (
           <Col sm="3" className="row-center">
             <i
               id="trailerPopoverOpen"

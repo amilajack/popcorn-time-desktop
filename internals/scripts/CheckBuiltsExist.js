@@ -1,18 +1,18 @@
 // @flow
 // Check if the renderer and main bundles are built
-const path = require('path');
-const chalk = require('chalk');
-const fs = require('fs');
+const path = require("path");
+const chalk = require("chalk");
+const fs = require("fs");
 
 function CheckBuildsExist() {
-  const mainPath = path.join(__dirname, '..', '..', 'app', 'main.prod.js');
+  const mainPath = path.join(__dirname, "..", "..", "app", "main.prod.js");
   const rendererPath = path.join(
     __dirname,
-    '..',
-    '..',
-    'app',
-    'dist',
-    'renderer.prod.js'
+    "..",
+    "..",
+    "app",
+    "dist",
+    "renderer.prod.js"
   );
 
   if (!fs.existsSync(mainPath)) {

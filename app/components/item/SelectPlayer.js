@@ -1,23 +1,23 @@
-import React from 'react';
+import React from "react";
 import {
   UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
-  DropdownItem
-} from 'reactstrap';
+  DropdownItem,
+} from "reactstrap";
 
 type SelectPlayerProps = {
   currentSelection: String,
   castingDevices: Array,
-  onSelect: Function
+  onSelect: Function,
 };
 
 const SelectPlayer = ({
   castingDevices,
   currentSelection,
-  onSelect
+  onSelect,
 }: SelectPlayerProps) => (
-  <UncontrolledDropdown style={{ float: 'left' }}>
+  <UncontrolledDropdown style={{ float: "left" }}>
     <DropdownToggle caret>{currentSelection}</DropdownToggle>
     <DropdownMenu>
       <DropdownItem header>Select Player</DropdownItem>

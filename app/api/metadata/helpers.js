@@ -1,5 +1,5 @@
 /* eslint import/prefer-default-export: off */
-import type { runtimeType } from './MetadataProviderInterface';
+import type { runtimeType } from "./MetadataProviderInterface";
 
 /**
  * Convert runtime from minutes to hours
@@ -16,11 +16,11 @@ export function parseRuntimeMinutesToObject(
   return {
     full:
       hours > 0
-        ? `${hours} ${hours > 1 ? 'hours' : 'hour'}${
-            minutes > 0 ? ` ${minutes} minutes` : ''
+        ? `${hours} ${hours > 1 ? "hours" : "hour"}${
+            minutes > 0 ? ` ${minutes} minutes` : ""
           }`
         : `${minutes} minutes`,
     hours,
-    minutes
+    minutes,
   };
 }

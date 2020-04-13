@@ -2,55 +2,55 @@
  * Movie component that is responsible for playing movies
  * @flow
  */
-import React, { Component } from 'react';
-import { Container, Row, Col } from 'reactstrap';
-import classNames from 'classnames';
-import notie from 'notie';
-import os from 'os';
-import yifysubtitles from '@amilajack/yifysubtitles';
-import SaveItem from '../metadata/SaveItem';
-import Description from './Description';
-import Poster from './Poster';
-import BackButton from './BackButton';
-import Similar from './Similar';
-import SelectPlayer from './SelectPlayer';
-import VideoPlayer from './VideoPlayer';
-import Show from '../show/Show';
-import ChromecastPlayerProvider from '../../api/players/ChromecastPlayerProvider';
-import { getIdealTorrent } from '../../api/torrents/BaseTorrentProvider';
-import Butter from '../../api/Butter';
-import Torrent from '../../api/Torrent';
-import SubtitleServer, { languages as langs } from '../../api/Subtitle';
-import Player from '../../api/Player';
+import React, { Component } from "react";
+import { Button, Container, Row, Col } from "reactstrap";
+import classNames from "classnames";
+import notie from "notie";
+import os from "os";
+import yifysubtitles from "@amilajack/yifysubtitles";
+import SaveItem from "../metadata/SaveItem";
+import Description from "./Description";
+import Poster from "./Poster";
+import BackButton from "./BackButton";
+import Similar from "./Similar";
+import SelectPlayer from "./SelectPlayer";
+import VideoPlayer from "./VideoPlayer";
+import Show from "../show/Show";
+import ChromecastPlayerProvider from "../../api/players/ChromecastPlayerProvider";
+import { getIdealTorrent } from "../../api/torrents/BaseTorrentProvider";
+import Butter from "../../api/Butter";
+import Torrent from "../../api/Torrent";
+import SubtitleServer, { languages as langs } from "../../api/Subtitle";
+import Player from "../../api/Player";
 import type {
   contentType,
-  imagesType
-} from '../../api/metadata/MetadataProviderInterface';
+  imagesType,
+} from "../../api/metadata/MetadataProviderInterface";
 import type {
   torrentType,
-  qualityType
-} from '../../api/torrents/TorrentProviderInterface';
-import type { deviceType } from '../../api/players/PlayerProviderInterface';
+  qualityType,
+} from "../../api/torrents/TorrentProviderInterface";
+import type { deviceType } from "../../api/players/PlayerProviderInterface";
 
-type playerType = 'default' | 'plyr' | 'vlc' | 'chromecast' | 'youtube';
+type playerType = "default" | "plyr" | "vlc" | "chromecast" | "youtube";
 
 type torrentSelectionType = {
   default: torrentType,
-  [quality: qualityType]: torrentType
+  [quality: qualityType]: torrentType,
 };
 
 type Props = {
   itemId?: string,
-  activeMode?: string
+  activeMode?: string,
 };
 
 type itemType = contentType & {
-  images: ?imagesType
+  images: ?imagesType,
 };
 
 type captionsType = Array<{
   src: string,
-  srclang: string
+  srclang: string,
 }>;
 
 type State = {
@@ -71,7 +71,7 @@ type State = {
   torrentProgress: number,
   captions: captionsType,
   favorites: Array<itemType>,
-  watchList: Array<itemType>
+  watchList: Array<itemType>,
 };
 
 export default class Item extends Component<Props, State> {
@@ -95,51 +95,51 @@ export default class Item extends Component<Props, State> {
       magnet: undefined,
       health: undefined,
       method: undefined,
-      seeders: 0
+      seeders: 0,
     },
-    '1080p': {
+    "1080p": {
       quality: undefined,
       magnet: undefined,
       health: undefined,
       method: undefined,
-      seeders: 0
+      seeders: 0,
     },
-    '720p': {
+    "720p": {
       quality: undefined,
       magnet: undefined,
       health: undefined,
       method: undefined,
-      seeders: 0
+      seeders: 0,
     },
-    '480p': {
+    "480p": {
       quality: undefined,
       magnet: undefined,
       health: undefined,
       method: undefined,
-      seeders: 0
-    }
+      seeders: 0,
+    },
   };
 
   initialState: State = {
     item: {
-      id: '',
-      rating: 'n/a',
-      summary: '',
-      title: '',
-      trailer: '',
-      type: '',
+      id: "",
+      rating: "n/a",
+      summary: "",
+      title: "",
+      trailer: "",
+      type: "",
       year: 0,
-      certification: 'n/a',
+      certification: "n/a",
       genres: [],
       images: {
         poster: {},
-        fanart: {}
+        fanart: {},
       },
       runtime: {
-        full: '',
+        full: "",
         hours: 0,
-        minutes: 0
-      }
+        minutes: 0,
+      },
     },
     servingUrl: undefined,
     selectedSeason: 1,
@@ -148,7 +148,7 @@ export default class Item extends Component<Props, State> {
     season: [],
     episode: {},
     castingDevices: [],
-    currentPlayer: 'default',
+    currentPlayer: "default",
     playbackInProgress: false,
     fetchingTorrents: false,
     idealTorrent: this.defaultTorrent,
@@ -158,7 +158,7 @@ export default class Item extends Component<Props, State> {
     torrentProgress: 0,
     captions: [],
     favorites: [],
-    watchList: []
+    watchList: [],
   };
 
   constructor(props: Props) {
@@ -176,7 +176,7 @@ export default class Item extends Component<Props, State> {
 
   async initCastingDevices() {
     this.setState({
-      castingDevices: await this.playerProvider.getDevices()
+      castingDevices: await this.playerProvider.getDevices(),
     });
   }
 
@@ -184,12 +184,12 @@ export default class Item extends Component<Props, State> {
    * Check which players are available on the system
    */
   setPlayer = ({ target: { name: player, id } }: Event<HTMLButtonElement>) => {
-    if (['youtube', 'default'].includes(player)) {
+    if (["youtube", "default"].includes(player)) {
       this.player.player = this.plyr;
       this.toggleActive();
     }
 
-    if (player === 'chromecast') {
+    if (player === "chromecast") {
       this.playerProvider.selectDevice(id);
     }
 
@@ -201,7 +201,7 @@ export default class Item extends Component<Props, State> {
     window.scrollTo(0, 0);
     this.initCastingDevices();
     this.checkCastingDevicesInterval = setInterval(() => {
-      console.log('Looking for casting devices...');
+      console.log("Looking for casting devices...");
       this.initCastingDevices();
     }, 10000);
 
@@ -210,9 +210,9 @@ export default class Item extends Component<Props, State> {
 
     this.setState({
       ...this.initialState,
-      currentPlayer: 'default',
-      favorites: await this.butter.favorites('get'),
-      watchList: await this.butter.watchList('get')
+      currentPlayer: "default",
+      favorites: await this.butter.favorites("get"),
+      watchList: await this.butter.watchList("get"),
     });
 
     this.getAllData(itemId);
@@ -220,11 +220,12 @@ export default class Item extends Component<Props, State> {
     this.subtitleServer.startServer();
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     window.scrollTo(0, 0);
     this.stopPlayback();
     this.setState({
-      ...this.initialState
+      ...this.initialState,
     });
     this.getAllData(nextProps.itemId);
     this.initCastingDevices();
@@ -241,8 +242,8 @@ export default class Item extends Component<Props, State> {
     const { activeMode } = this.props;
     const { selectedSeason, selectedEpisode } = this.state;
     this.setState(this.initialState, () => {
-      if (activeMode === 'shows') {
-        this.getShowData('seasons', itemId, selectedSeason, selectedEpisode);
+      if (activeMode === "shows") {
+        this.getShowData("seasons", itemId, selectedSeason, selectedEpisode);
       }
     });
 
@@ -250,32 +251,32 @@ export default class Item extends Component<Props, State> {
       this.getItem(itemId).then((item: contentType) =>
         Promise.all([
           this.getCaptions(item),
-          this.getTorrent(item.ids.imdbId, item.title, 1, 1)
+          this.getTorrent(item.ids.imdbId, item.title, 1, 1),
         ])
-      )
+      ),
     ]);
   }
 
   async getShowData(type: string, imdbId: string, season?: number) {
     switch (type) {
-      case 'seasons':
+      case "seasons":
         this.setState({ seasons: [], episodes: [] });
         this.setState({
           seasons: await this.butter.getSeasons(imdbId),
-          episodes: await this.butter.getSeason(imdbId, 1)
+          episodes: await this.butter.getSeason(imdbId, 1),
         });
         break;
-      case 'episodes':
+      case "episodes":
         if (!season) {
           throw new Error('"season" not provided to getShowData()');
         }
         this.setState({ episodes: [] });
         this.setState({
-          episodes: await this.butter.getSeason(imdbId, season)
+          episodes: await this.butter.getSeason(imdbId, season),
         });
         break;
       default:
-        throw new Error('Invalid getShowData() type');
+        throw new Error("Invalid getShowData() type");
     }
   }
 
@@ -287,12 +288,12 @@ export default class Item extends Component<Props, State> {
 
     const item = await (() => {
       switch (activeMode) {
-        case 'movies':
+        case "movies":
           return this.butter.getMovie(imdbId);
-        case 'shows':
+        case "shows":
           return this.butter.getShow(imdbId);
         default:
-          throw new Error('Active mode not found');
+          throw new Error("Active mode not found");
       }
     })();
 
@@ -311,66 +312,66 @@ export default class Item extends Component<Props, State> {
     this.setState({
       fetchingTorrents: true,
       idealTorrent: this.defaultTorrent,
-      torrent: this.defaultTorrent
+      torrent: this.defaultTorrent,
     });
 
     try {
       const { torrent, idealTorrent } = await (async () => {
         switch (activeMode) {
-          case 'movies': {
+          case "movies": {
             const originalTorrent = await this.butter.getTorrent(
               imdbId,
               activeMode,
               {
-                searchQuery: title
+                searchQuery: title,
               }
             );
             return {
               torrent: originalTorrent,
               idealTorrent: getIdealTorrent([
-                originalTorrent['1080p'],
-                originalTorrent['720p'],
-                originalTorrent['480p']
-              ])
+                originalTorrent["1080p"],
+                originalTorrent["720p"],
+                originalTorrent["480p"],
+              ]),
             };
           }
-          case 'shows': {
-            if (process.env.FLAG_SEASON_COMPLETE === 'true') {
+          case "shows": {
+            if (process.env.FLAG_SEASON_COMPLETE === "true") {
               const [shows, seasonComplete] = await Promise.all([
                 this.butter.getTorrent(imdbId, activeMode, {
                   season,
                   episode,
-                  searchQuery: title
+                  searchQuery: title,
                 }),
-                this.butter.getTorrent(imdbId, 'season_complete', {
+                this.butter.getTorrent(imdbId, "season_complete", {
                   season,
-                  searchQuery: title
-                })
+                  searchQuery: title,
+                }),
               ]);
 
               return {
                 torrent: {
-                  '1080p': getIdealTorrent([
-                    shows['1080p'],
-                    seasonComplete['1080p']
+                  "1080p": getIdealTorrent([
+                    shows["1080p"],
+                    seasonComplete["1080p"],
                   ]),
-                  '720p': getIdealTorrent([
-                    shows['720p'],
-                    seasonComplete['720p']
+                  "720p": getIdealTorrent([
+                    shows["720p"],
+                    seasonComplete["720p"],
                   ]),
-                  '480p': getIdealTorrent([
-                    shows['480p'],
-                    seasonComplete['480p']
-                  ])
+                  "480p": getIdealTorrent([
+                    shows["480p"],
+                    seasonComplete["480p"],
+                  ]),
                 },
                 idealTorrent: getIdealTorrent([
-                  shows['1080p'],
-                  shows['720p'],
-                  shows['480p'],
-                  seasonComplete['1080p'],
-                  seasonComplete['720p'],
-                  seasonComplete['480p']
-                ])
+                  shows["1080p"],
+                  shows["720p"],
+                  shows["480p"],
+                  seasonComplete["1080p"],
+                  seasonComplete["720p"],
+                  seasonComplete["480p"],
+                ]),
               };
             }
 
@@ -380,41 +381,41 @@ export default class Item extends Component<Props, State> {
               {
                 season,
                 episode,
-                searchQuery: title
+                searchQuery: title,
               }
             );
 
             return {
               torrent: singleEpisodeTorrent,
               idealTorrent: getIdealTorrent([
-                singleEpisodeTorrent['1080p'] || this.defaultTorrent,
-                singleEpisodeTorrent['720p'] || this.defaultTorrent,
-                singleEpisodeTorrent['480p'] || this.defaultTorrent
-              ])
+                singleEpisodeTorrent["1080p"] || this.defaultTorrent,
+                singleEpisodeTorrent["720p"] || this.defaultTorrent,
+                singleEpisodeTorrent["480p"] || this.defaultTorrent,
+              ]),
             };
           }
           default:
-            throw new Error('Invalid active mode');
+            throw new Error("Invalid active mode");
         }
       })();
 
-      if (idealTorrent && idealTorrent.quality === 'poor') {
-        notie.alert(2, 'Slow torrent, low seeder count', 1);
+      if (idealTorrent && idealTorrent.quality === "poor") {
+        notie.alert(2, "Slow torrent, low seeder count", 1);
       }
 
       if (idealTorrent) {
         this.setState({
-          idealTorrent
+          idealTorrent,
         });
       }
 
       this.setState({
         fetchingTorrents: false,
         torrent: {
-          '1080p': torrent['1080p'] || this.defaultTorrent,
-          '720p': torrent['720p'] || this.defaultTorrent,
-          '480p': torrent['480p'] || this.defaultTorrent
-        }
+          "1080p": torrent["1080p"] || this.defaultTorrent,
+          "720p": torrent["720p"] || this.defaultTorrent,
+          "480p": torrent["480p"] || this.defaultTorrent,
+        },
       });
 
       return torrent;
@@ -430,7 +431,7 @@ export default class Item extends Component<Props, State> {
     if (!torrentInProgress && !playbackInProgress) {
       return;
     }
-    if (['youtube', 'default'].includes(currentPlayer)) {
+    if (["youtube", "default"].includes(currentPlayer)) {
       this.plyr.pause();
     }
 
@@ -446,15 +447,15 @@ export default class Item extends Component<Props, State> {
   ) => {
     const { item } = this.state;
     switch (type) {
-      case 'episodes':
+      case "episodes":
         this.setState({ selectedSeason });
-        this.getShowData('episodes', item.ids.tmdbId, selectedSeason);
-        this.selectShow('episode', selectedSeason, 1);
+        this.getShowData("episodes", item.ids.tmdbId, selectedSeason);
+        this.selectShow("episode", selectedSeason, 1);
         break;
-      case 'episode':
+      case "episode":
         this.setState({ selectedSeason, selectedEpisode });
         this.getShowData(
-          'episode',
+          "episode",
           item.ids.tmdbId,
           selectedSeason,
           selectedEpisode
@@ -467,7 +468,7 @@ export default class Item extends Component<Props, State> {
         );
         break;
       default:
-        throw new Error('Invalid selectShow() type');
+        throw new Error("Invalid selectShow() type");
     }
   };
 
@@ -481,24 +482,22 @@ export default class Item extends Component<Props, State> {
   async getCaptions(item: contentType): Promise<captionsType> {
     const captions: Array<captionsType> = await yifysubtitles(item.ids.imdbId, {
       path: os.tmpdir(),
-      langs
+      langs,
     })
-      .then(res =>
-        res.map(subtitle => ({
+      .then((res) =>
+        res.map((subtitle) => ({
           // Set the default language for subtitles
           default: subtitle.langShort === process.env.DEFAULT_TORRENT_LANG,
-          kind: 'captions',
+          kind: "captions",
           label: subtitle.langShort,
           srclang: subtitle.langShort,
-          src: `http://localhost:${this.subtitleServer.port}/${
-            subtitle.fileName
-          }`
+          src: `http://localhost:${this.subtitleServer.port}/${subtitle.fileName}`,
         }))
       )
       .catch(console.log);
 
     this.setState({
-      captions
+      captions,
     });
 
     return captions;
@@ -512,18 +511,18 @@ export default class Item extends Component<Props, State> {
     this.toggleActive();
     this.stopPlayback();
     this.setState({
-      currentPlayer: 'default'
+      currentPlayer: "default",
     });
   };
 
   toggleActive() {
-    this.setState(prevState => ({
-      playbackInProgress: !prevState.playbackInProgress
+    this.setState((prevState) => ({
+      playbackInProgress: !prevState.playbackInProgress,
     }));
   }
 
   startPlayback = async ({
-    target: { name: playbackQuality }
+    target: { name: playbackQuality },
   }: Event<HTMLButtonElement>) => {
     const {
       currentPlayer,
@@ -533,7 +532,7 @@ export default class Item extends Component<Props, State> {
       item,
       captions,
       torrent,
-      idealTorrent
+      idealTorrent,
     } = this.state;
 
     const { magnet, method: activeMode } = playbackQuality
@@ -549,18 +548,18 @@ export default class Item extends Component<Props, State> {
 
     this.setState({
       servingUrl: undefined,
-      torrentInProgress: true
+      torrentInProgress: true,
     });
 
     const metadata = {
       activeMode,
       season: selectedSeason,
-      episode: selectedEpisode
+      episode: selectedEpisode,
     };
 
     const formats = [
       ...Player.experimentalPlaybackFormats,
-      ...Player.nativePlaybackFormats
+      ...Player.nativePlaybackFormats,
     ];
 
     await this.torrent.start(
@@ -576,18 +575,18 @@ export default class Item extends Component<Props, State> {
         console.log(`Serving torrent at: ${servingUrl}`);
 
         switch (currentPlayer) {
-          case 'VLC':
+          case "VLC":
             return this.player.initVLC(servingUrl);
-          case 'chromecast': {
+          case "chromecast": {
             this.player.initCast(this.playerProvider, servingUrl, item);
             break;
           }
-          case 'youtube':
+          case "youtube":
             this.toggleActive();
             setTimeout(() => {
               this.plyr.updateHtmlVideoSource(
                 servingUrl,
-                'video',
+                "video",
                 item.title,
                 undefined,
                 captions
@@ -595,12 +594,12 @@ export default class Item extends Component<Props, State> {
               this.plyr.play();
             }, 3000);
             break;
-          case 'default':
+          case "default":
             this.toggleActive();
             setTimeout(() => {
               this.plyr.updateHtmlVideoSource(
                 servingUrl,
-                'video',
+                "video",
                 item.title,
                 undefined,
                 captions
@@ -609,27 +608,27 @@ export default class Item extends Component<Props, State> {
             }, 3000);
             break;
           default:
-            console.error('Invalid player');
+            console.error("Invalid player");
             break;
         }
 
-        const recentlyWatchedList = await this.butter.recentlyWatched('get');
+        const recentlyWatchedList = await this.butter.recentlyWatched("get");
         const containsRecentlyWatchedItem = recentlyWatchedList.some(
-          e => e.id === item.id
+          (e) => e.id === item.id
         );
         if (!containsRecentlyWatchedItem) {
-          await this.butter.recentlyWatched('set', item);
+          await this.butter.recentlyWatched("set", item);
         }
 
         this.setState({
           captions,
-          servingUrl
+          servingUrl,
         });
 
         return torrentHash;
       },
-      downloaded => {
-        console.log('DOWNLOADING', downloaded);
+      (downloaded) => {
+        console.log("DOWNLOADING", downloaded);
       }
     );
   };
@@ -651,19 +650,19 @@ export default class Item extends Component<Props, State> {
       favorites,
       watchList,
       castingDevices,
-      captions
+      captions,
     } = this.state;
 
     const { activeMode, itemId } = this.props;
 
     const itemBackgroundUrl = {
-      backgroundImage: `url(${item.images.fanart.full})`
+      backgroundImage: `url(${item.images.fanart.full})`,
     };
 
     return (
       <Container
         fluid
-        className={classNames('Item', { active: playbackInProgress })}
+        className={classNames("Item", { active: playbackInProgress })}
       >
         <BackButton onClick={this.stopPlayback} />
         <Row>
@@ -672,7 +671,7 @@ export default class Item extends Component<Props, State> {
             url={playbackInProgress ? servingUrl || item.trailer : undefined}
             item={item}
             onClose={this.closeVideo}
-            forwardedRef={ref => {
+            forwardedRef={(ref) => {
               this.plyr = ref;
             }}
           />
@@ -685,8 +684,8 @@ export default class Item extends Component<Props, State> {
                 poster={item.images.poster.thumb}
               />
               <div className="Item--loading-status">
-                {!servingUrl && torrentInProgress && 'Loading torrent...'}
-                {fetchingTorrents && 'Fetching torrents...'}
+                {!servingUrl && torrentInProgress && "Loading torrent..."}
+                {fetchingTorrents && "Fetching torrents..."}
               </div>
 
               <SaveItem
@@ -699,7 +698,7 @@ export default class Item extends Component<Props, State> {
               certification={item.certification}
               genres={item.genres}
               seederCount={idealTorrent.seeders}
-              onTrailerClick={() => this.setPlayer('youtube')}
+              onTrailerClick={() => this.setPlayer("youtube")}
               rating={item.rating}
               runtime={item.runtime}
               summary={item.summary}
@@ -721,40 +720,40 @@ export default class Item extends Component<Props, State> {
             />
           </Col>
           <Col sm="10">
-            {process.env.FLAG_MANUAL_TORRENT_SELECTION === 'true' && (
-              <React.Fragment>
-                <button
+            {process.env.FLAG_MANUAL_TORRENT_SELECTION === "true" && (
+              <>
+                <Button
                   type="button"
                   name="1080p"
                   onClick={this.startPlayback}
-                  disabled={!torrent['1080p'].quality}
+                  disabled={!torrent["1080p"].quality}
                 >
-                  Start 1080p -- {torrent['1080p'].seeders} seeders
-                </button>
-                <button
+                  Start 1080p -- {torrent["1080p"].seeders} seeders
+                </Button>
+                <Button
                   type="button"
                   name="720p"
                   onClick={this.startPlayback}
-                  disabled={!torrent['720p'].quality}
+                  disabled={!torrent["720p"].quality}
                 >
-                  Start 720p -- {torrent['720p'].seeders} seeders
-                </button>
-                {activeMode === 'shows' && (
-                  <button
+                  Start 720p -- {torrent["720p"].seeders} seeders
+                </Button>
+                {activeMode === "shows" && (
+                  <Button
                     type="button"
                     name="480p"
                     onClick={this.startPlayback}
-                    disabled={!torrent['480p'].quality}
+                    disabled={!torrent["480p"].quality}
                   >
-                    Start 480p -- {torrent['480p'].seeders} seeders
-                  </button>
+                    Start 480p -- {torrent["480p"].seeders} seeders
+                  </Button>
                 )}
-              </React.Fragment>
+              </>
             )}
           </Col>
         </Row>
 
-        {activeMode === 'shows' && (
+        {activeMode === "shows" && (
           <Show
             selectShow={this.selectShow}
             seasons={seasons}
@@ -771,6 +770,6 @@ export default class Item extends Component<Props, State> {
 }
 
 Item.defaultProps = {
-  itemId: '',
-  activeMode: 'movies'
+  itemId: "",
+  activeMode: "movies",
 };

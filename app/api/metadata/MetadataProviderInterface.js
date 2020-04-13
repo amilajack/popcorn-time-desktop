@@ -4,42 +4,42 @@ type seasonType = {
   id: string,
   ids: {
     imdbId?: string,
-    tmdbId?: string
+    tmdbId?: string,
   },
   title: string,
   season: number,
   overview: string,
-  rating: number | 'n/a',
+  rating: number | "n/a",
   images: {
     full: string,
     medium: string,
-    thumb: string
-  }
+    thumb: string,
+  },
 };
 
 type episodeType = seasonType & {
-  episode: number
+  episode: number,
 };
 
 export type runtimeType = {
   full: string,
   hours: number,
-  minutes: number
+  minutes: number,
 };
 
-export type certificationType = 'G' | 'PG' | 'PG-13' | 'R' | 'n/a';
+export type certificationType = "G" | "PG" | "PG-13" | "R" | "n/a";
 
 export type imagesType = {
   fanart?: {
     full: string,
     medium: string,
-    thumb: string
+    thumb: string,
   },
   poster?: {
     full: string,
     medium: string,
-    thumb: string
-  }
+    thumb: string,
+  },
 };
 
 export type contentType = {
@@ -51,24 +51,24 @@ export type contentType = {
   id: string,
   ids: {
     imdbId?: string,
-    tmdbId?: string
+    tmdbId?: string,
   },
-  type: 'movies' | 'shows',
+  type: "movies" | "shows",
   certification: certificationType,
   summary: string,
   genres: Array<string>,
-  rating: number | 'n/a',
+  rating: number | "n/a",
   runtime: runtimeType,
-  trailer: string | 'n/a',
-  images: imagesType
+  trailer: string | "n/a",
+  images: imagesType,
 };
 
 type optionsType = {
-  sort?: 'ratings' | 'popular' | 'trending',
-  genres?: Array<string>
+  sort?: "ratings" | "popular" | "trending",
+  genres?: Array<string>,
 };
 
-export type methodType = 'set' | 'get' | 'remove';
+export type methodType = "set" | "get" | "remove";
 
 export interface MetadataProviderInterface {
   getMovies: (
@@ -85,7 +85,7 @@ export interface MetadataProviderInterface {
     limit: number
   ) => Promise<Array<contentType>>;
 
-  supportedIdTypes: Array<'tmdb' | 'imdb'>;
+  supportedIdTypes: Array<"tmdb" | "imdb">;
 
   getSeasons: (itemId: string) => Promise<Array<seasonType>>;
   getSeason: (itemId: string, season: number) => Promise<episodeType>;

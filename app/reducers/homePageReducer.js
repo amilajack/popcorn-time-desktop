@@ -1,44 +1,48 @@
 // @flow
-import type { contentType } from '../api/metadata/MetadataProviderInterface';
+import type { contentType } from "../api/metadata/MetadataProviderInterface";
 
-type modeType = 'movies' | 'shows' | 'search' | 'home';
+type modeType = "movies" | "shows" | "search" | "home";
 
 type actionType = {
   type: string,
   items: Array<contentType>,
   activeMode: modeType,
   activeModeOptions?: {
-    [option: string]: string | boolean | number
+    [option: string]: string | boolean | number,
   },
   infinitePagination?: boolean,
-  isLoading?: boolean
+  isLoading?: boolean,
 };
 
 type homePageReducerStateType = {
   activeMode: modeType,
   activeModeOptions: {
-    [option: string]: string | boolean | number
+    [option: string]: string | boolean | number,
   },
   modes: {
-    [mode: modeType]: { page: number, limit: number, items: Array<contentType> }
+    [mode: modeType]: {
+      page: number,
+      limit: number,
+      items: Array<contentType>,
+    },
   },
   infinitePagination: boolean,
   isLoading: boolean,
-  items: Array<contentType>
+  items: Array<contentType>,
 };
 
 const defaultState: homePageReducerStateType = {
-  activeMode: 'home',
+  activeMode: "home",
   activeModeOptions: {},
   modes: {
     movies: { page: 1, limit: 50, items: [] },
     shows: { page: 1, limit: 50, items: [] },
     search: { page: 1, limit: 50, items: [] },
-    home: { page: 1, limit: 50, items: [] }
+    home: { page: 1, limit: 50, items: [] },
   },
   infinitePagination: false,
   isLoading: false,
-  items: []
+  items: [],
 };
 
 export default function homePageReducer(
@@ -47,7 +51,7 @@ export default function homePageReducer(
 ): homePageReducerStateType {
   switch (action.type) {
     // Add the items. This should be done after getting the paginated results
-    case 'PAGINATE':
+    case "PAGINATE":
       return {
         ...state,
         items: [...state.modes[state.activeMode].items, ...action.items],
@@ -56,23 +60,23 @@ export default function homePageReducer(
           [state.activeMode]: {
             items: [...state.modes[state.activeMode].items, ...action.items],
             page: state.modes[state.activeMode].page + 1,
-            limit: 50
-          }
-        }
+            limit: 50,
+          },
+        },
       };
-    case 'SET_ACTIVE_MODE':
+    case "SET_ACTIVE_MODE":
       return {
         ...state,
         items: state.modes[action.activeMode].items,
         activeMode: action.activeMode,
-        activeModeOptions: action.activeModeOptions
+        activeModeOptions: action.activeModeOptions,
       };
-    case 'CLEAR_ITEMS':
+    case "CLEAR_ITEMS":
       return {
         ...state,
-        items: []
+        items: [],
       };
-    case 'CLEAR_ALL_ITEMS':
+    case "CLEAR_ALL_ITEMS":
       return {
         ...state,
         items: [],
@@ -81,14 +85,14 @@ export default function homePageReducer(
           [state.activeMode]: {
             items: [],
             page: 0,
-            limit: 50
-          }
-        }
+            limit: 50,
+          },
+        },
       };
-    case 'SET_LOADING':
+    case "SET_LOADING":
       return {
         ...state,
-        isLoading: action.isLoading
+        isLoading: action.isLoading,
       };
     default:
       return state;

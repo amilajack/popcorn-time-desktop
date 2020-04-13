@@ -1,23 +1,23 @@
-//
-// Card list
-//
-
-.CardList--header {
+.CardsGrid--header {
   text-transform: capitalize;
   margin: 30px 0;
 }
 
-.CardList {
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
+.CardsGrid {
+  display: grid;
+  grid-gap: 50px;
+  // grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+
+  &.CardsGrid--autofit {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+
+  &.CardsGrid--autofill {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
 
   .Card {
-    border: 10px solid transparent;
-    max-width: 280px;
-    min-width: 200px;
     width: 100%;
-    margin: 10px 0;
     overflow: hidden;
     position: relative;
 
@@ -32,6 +32,11 @@
           0 2px 4px 0 rgba(0, 0, 0, 0.08);
         border: 2px solid white;
       }
+    }
+
+    .dv-star-rating-star {
+      margin: 0 6px 0 0;
+      color: $card-list-color;
     }
 
     .Card--icon {
@@ -99,7 +104,3 @@
   }
 }
 
-.dv-star-rating-star {
-  margin: 0 6px 0 0;
-  color: $card-list-color;
-}

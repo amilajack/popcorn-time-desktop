@@ -1,18 +1,18 @@
 // @flow
-import express from 'express';
-import path from 'path';
-import os from 'os';
-import fs from 'fs';
-import srt2vtt from 'srt2vtt';
-import rndm from 'rndm';
-import getPort from 'get-port';
+import express from "express";
+import path from "path";
+import os from "os";
+import fs from "fs";
+import srt2vtt from "srt2vtt";
+import rndm from "rndm";
+import getPort from "get-port";
 
 export type subtitleType = {
   filename: string,
   basePath: string,
   port: number,
   fullPath: string,
-  buffer: Buffer
+  buffer: Buffer,
 };
 
 export default class SubtitleServer {
@@ -25,7 +25,7 @@ export default class SubtitleServer {
   async startServer(): Promise<void> {
     // Find a port at runtime. Default to 4000 if it is available
     this.port =
-      typeof process.env.SUBTITLES_PORT === 'number'
+      typeof process.env.SUBTITLES_PORT === "number"
         ? parseInt(process.env.SUBTITLES_PORT, 10)
         : await getPort({ port: 4000 });
 
@@ -35,7 +35,7 @@ export default class SubtitleServer {
     // https://github.com/thibauts/node-castv2-client/wiki/How-to-use-subtitles-with-the-DefaultMediaReceiver-app#subtitles
     server.use((req, res, next) => {
       if (req.headers.origin) {
-        res.headers['Access-Control-Allow-Origin'] = req.headers.origin;
+        res.headers["Access-Control-Allow-Origin"] = req.headers.origin;
       }
       next();
     });
@@ -43,9 +43,7 @@ export default class SubtitleServer {
     this.server = server.listen(this.port);
 
     console.info(
-      `Subtitle server serving on http://localhost:${this.port}, serving ${
-        this.basePath
-      }`
+      `Subtitle server serving on http://localhost:${this.port}, serving ${this.basePath}`
     );
   }
 
@@ -71,7 +69,7 @@ export default class SubtitleServer {
             basePath,
             port,
             fullPath,
-            buffer: vttBuffer
+            buffer: vttBuffer,
           });
         });
       });
@@ -81,16 +79,16 @@ export default class SubtitleServer {
 
 export const languages = [
   // 'sq',
-  'ar',
+  "ar",
   // 'bn',
   // 'pb',
   // 'bg',
-  'zh',
+  "zh",
   // 'hr',
   // 'cs',
   // 'da',
   // 'nl',
-  'en',
+  "en",
   // 'et',
   // 'fa',
   // 'fi',
@@ -110,10 +108,10 @@ export const languages = [
   // 'pl',
   // 'pt',
   // 'ro',
-  'ru',
+  "ru",
   // 'sr',
   // 'sl',
-  'es'
+  "es",
   // 'sv',
   // 'th',
   // 'tr',

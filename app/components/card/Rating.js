@@ -1,25 +1,23 @@
 // @flow
-import React from 'react';
-import StarRatingComponent from 'react-star-rating-component';
+import React from "react";
+import StarRatingComponent from "react-star-rating-component";
 
 type Props = {
-  rating?: number | 'n/a',
+  rating?: number | "n/a",
   starColor?: string,
-  emptyStarColor?: string
+  emptyStarColor?: string,
 };
 
 export default function StarRating(props: Props) {
   const { rating, starColor, emptyStarColor } = props;
 
-  if (typeof rating !== 'number') {
+  if (typeof rating !== "number") {
     return null;
   }
 
   return (
     <div className="Rating">
       <StarRatingComponent
-        renderStarIconHalf={() => <span className="ion-md-star-half" />}
-        renderStarIcon={() => <span className="ion-md-star" />}
         name="rating"
         starColor={starColor}
         emptyStarColor={emptyStarColor}
@@ -33,6 +31,6 @@ export default function StarRating(props: Props) {
 
 StarRating.defaultProps = {
   rating: 0,
-  starColor: '#848484',
-  emptyStarColor: 'rgba(255, 255, 255, 0.2)'
+  starColor: "#848484",
+  emptyStarColor: "rgba(255, 255, 255, 0.2)",
 };

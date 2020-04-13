@@ -1,26 +1,28 @@
 // @flow
-import React, { Component } from 'react';
-import classnames from 'classnames';
-import Butter from '../../api/Butter';
-import type { contentType } from '../../api/metadata/MetadataProviderInterface';
+import React, { Component } from "react";
+import classnames from "classnames";
+import Butter from "../../api/Butter";
+import type { contentType } from "../../api/metadata/MetadataProviderInterface";
 
 type Props = {
   item?: contentType,
   favorites?: Array<contentType>,
-  watchList?: Array<contentType>
+  watchList?: Array<contentType>,
 };
 
 type State = {
   isInWatchList: boolean,
-  isInFavorites: boolean
+  isInFavorites: boolean,
 };
 
 function hasFavorites(favorites: Array<contentType>, tmdbId: string): boolean {
-  return !!favorites.find(favorite => favorite.ids.tmdbId === tmdbId);
+  return !!favorites.find((favorite) => favorite.ids.tmdbId === tmdbId);
 }
 
 function hasWatchList(watchList: Array<contentType>, tmdbId: string): boolean {
-  return !!watchList.find(watchListItem => watchListItem.ids.tmdbId === tmdbId);
+  return !!watchList.find(
+    (watchListItem) => watchListItem.ids.tmdbId === tmdbId
+  );
 }
 
 export default class SaveItem extends Component<Props, State> {
@@ -28,7 +30,7 @@ export default class SaveItem extends Component<Props, State> {
 
   state: State = {
     isInFavorites: false,
-    isInWatchList: false
+    isInWatchList: false,
   };
 
   butter = new Butter();
@@ -36,10 +38,11 @@ export default class SaveItem extends Component<Props, State> {
   static defaultProps: Props = {
     item: {},
     favorites: [],
-    watchList: []
+    watchList: [],
   };
 
-  componentWillReceiveProps(nextProps: Props) {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (!(nextProps.item && nextProps.item.ids && nextProps.item.ids.tmdbId)) {
       return;
     }
@@ -50,38 +53,38 @@ export default class SaveItem extends Component<Props, State> {
 
     this.setState({
       isInFavorites,
-      isInWatchList
+      isInWatchList,
     });
   }
 
   async addFavorite() {
     const { item } = this.props;
-    const favorites = await this.butter.favorites('get');
+    const favorites = await this.butter.favorites("get");
     if (!hasFavorites(favorites, item.ids.tmdbId)) {
-      await this.butter.favorites('set', item);
+      await this.butter.favorites("set", item);
       this.setState({
-        isInFavorites: true
+        isInFavorites: true,
       });
     } else {
-      await this.butter.favorites('remove', item);
+      await this.butter.favorites("remove", item);
       this.setState({
-        isInFavorites: false
+        isInFavorites: false,
       });
     }
   }
 
   async addWatchList() {
     const { item } = this.props;
-    const watchList = await this.butter.watchList('get');
+    const watchList = await this.butter.watchList("get");
     if (!hasWatchList(watchList, item.ids.tmdbId)) {
-      await this.butter.watchList('set', item);
+      await this.butter.watchList("set", item);
       this.setState({
-        isInWatchList: true
+        isInWatchList: true,
       });
     } else {
-      await this.butter.watchList('remove', item);
+      await this.butter.watchList("remove", item);
       this.setState({
-        isInWatchList: false
+        isInWatchList: false,
       });
     }
   }
@@ -89,15 +92,15 @@ export default class SaveItem extends Component<Props, State> {
   render() {
     const { isInFavorites, isInWatchList } = this.state;
     return (
-      <div className="SaveItem" style={{ color: 'white' }}>
+      <div className="SaveItem" style={{ color: "white" }}>
         <i
           role="presentation"
           className={classnames(
-            'SaveItem--icon',
-            'SaveItem--favorites',
-            'ion-md-heart',
+            "SaveItem--icon",
+            "SaveItem--favorites",
+            "ion-md-heart",
             {
-              'SaveItem--active-icon': isInFavorites
+              "SaveItem--active-icon": isInFavorites,
             }
           )}
           onClick={() => this.addFavorite()}
@@ -105,11 +108,11 @@ export default class SaveItem extends Component<Props, State> {
         <i
           role="presentation"
           className={classnames(
-            'SaveItem--icon',
-            'SaveItem--watchlist',
-            'ion-md-list-box',
+            "SaveItem--icon",
+            "SaveItem--watchlist",
+            "ion-md-list-box",
             {
-              'SaveItem--active-icon': isInWatchList
+              "SaveItem--active-icon": isInWatchList,
             }
           )}
           onClick={() => this.addWatchList()}

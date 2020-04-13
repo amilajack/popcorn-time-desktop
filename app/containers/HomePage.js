@@ -1,16 +1,16 @@
 /**
- * Home page component that renders CardList and uses VisibilitySensor
+ * Home page component that renders CardsGrid and uses VisibilitySensor
  * @flow
  * @TODO: Use waitForImages plugin to load background images and fade in on load
  */
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 import {
   clearAllItems,
   paginate,
   setActiveMode,
-  setLoading
-} from '../actions/homePageActions';
-import Home from '../components/home/Home';
+  setLoading,
+} from "../actions/homePageActions";
+import Home from "../components/home/Home";
 
 function mapStateToProps(state) {
   return {
@@ -19,7 +19,7 @@ function mapStateToProps(state) {
     modes: state.homePageReducer.modes,
     items: state.homePageReducer.items,
     isLoading: state.homePageReducer.isLoading,
-    infinitePagination: false
+    infinitePagination: false,
   };
 }
 
@@ -30,11 +30,8 @@ function mapDispatchToProps(dispatch) {
       dispatch(paginate(activeMode, activeModeOptions)),
     setActiveMode: (mode, activeModeOptions) =>
       dispatch(setActiveMode(mode, activeModeOptions)),
-    setLoading: isLoading => dispatch(setLoading(isLoading))
+    setLoading: (isLoading) => dispatch(setLoading(isLoading)),
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

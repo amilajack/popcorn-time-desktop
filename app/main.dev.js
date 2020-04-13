@@ -1,5 +1,3 @@
-/* eslint global-require: off, flowtype-errors/show-errors: off */
-
 /**
  * This module executes inside of electron's main process. You can start
  * electron renderer process from here and communicate with the other processes
@@ -10,55 +8,47 @@
  *
  * @flow
  */
-import { app, BrowserWindow } from 'electron';
-import windowStateKeeper from 'electron-window-state';
-import { autoUpdater } from 'electron-updater';
-import log from 'electron-log';
-import * as Sentry from '@sentry/electron/dist/main';
-import MenuBuilder from './menu';
+/* eslint global-require: off */
+import { app, BrowserWindow } from "electron";
+import windowStateKeeper from "electron-window-state";
+import * as Sentry from "@sentry/electron/dist/main";
+import MenuBuilder from "./menu";
+import AutoUpdater from "./utils/AutoUpdater";
 
-if (process.env.ANALYTICS === 'true') {
+if (process.env.ANALYTICS === "true") {
   Sentry.init({
-    dsn: 'https://b0d05cee653942148a43b8163bbc6cee@sentry.io/1277263'
+    dsn: "https://b0d05cee653942148a43b8163bbc6cee@sentry.io/1277263",
   });
-}
-
-export default class AppUpdater {
-  constructor() {
-    log.transports.file.level = 'info';
-    autoUpdater.logger = log;
-    autoUpdater.checkForUpdatesAndNotify();
-  }
 }
 
 let mainWindow = null;
 
-if (process.env.NODE_ENV === 'production') {
-  const sourceMapSupport = require('source-map-support');
+if (process.env.NODE_ENV === "production") {
+  const sourceMapSupport = require("source-map-support");
   sourceMapSupport.install();
 } else {
-  process.on('uncaughtRejection', error => {
+  process.on("uncaughtRejection", (error) => {
     throw error;
   });
 }
 
 if (
-  process.env.NODE_ENV === 'development' ||
-  process.env.DEBUG_PROD === 'true'
+  process.env.NODE_ENV === "development" ||
+  process.env.DEBUG_PROD === "true"
 ) {
-  require('electron-debug')();
-  const path = require('path');
-  const p = path.join(__dirname, '..', 'app', 'node_modules');
-  require('module').globalPaths.push(p);
+  require("electron-debug")();
+  const path = require("path");
+  const p = path.join(__dirname, "..", "app", "node_modules");
+  require("module").globalPaths.push(p);
 }
 
 const installExtensions = async () => {
-  const installer = require('electron-devtools-installer');
+  const installer = require("electron-devtools-installer");
   const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
-  const extensions = ['REACT_DEVELOPER_TOOLS', 'REDUX_DEVTOOLS'];
+  const extensions = ["REACT_DEVELOPER_TOOLS", "REDUX_DEVTOOLS"];
 
   return Promise.all(
-    extensions.map(name => installer.default(installer[name], forceDownload))
+    extensions.map((name) => installer.default(installer[name], forceDownload))
   ).catch(console.log);
 };
 
@@ -66,25 +56,25 @@ const installExtensions = async () => {
  * Add event listeners...
  */
 
-app.on('window-all-closed', () => {
+app.on("window-all-closed", () => {
   // Respect the OSX convention of having the application in memory even
   // after all windows have been closed
-  if (process.platform !== 'darwin') {
+  if (process.platform !== "darwin") {
     app.quit();
   }
 });
 
-app.on('ready', async () => {
+app.on("ready", async () => {
   if (
-    process.env.NODE_ENV === 'development' ||
-    process.env.DEBUG_PROD === 'true'
+    process.env.NODE_ENV === "development" ||
+    process.env.DEBUG_PROD === "true"
   ) {
     await installExtensions();
   }
 
   const mainWindowState = windowStateKeeper({
     defaultWidth: 1224,
-    defaultHeight: 728
+    defaultHeight: 728,
   });
 
   mainWindow = new BrowserWindow({
@@ -94,14 +84,14 @@ app.on('ready', async () => {
     width: mainWindowState.width,
     height: mainWindowState.height,
     minWidth: 900,
-    backgroundColor: '#252525',
+    backgroundColor: "white",
     webPreferences: {
       darkTheme: true,
-      'web-preferences': { 'web-security': false },
+      "web-preferences": { "web-security": false },
       scrollBounce: true,
       overlayFullscreenVideo: false,
-      nodeIntegration: true
-    }
+      nodeIntegration: true,
+    },
   });
 
   mainWindowState.manage(mainWindow);
@@ -110,7 +100,7 @@ app.on('ready', async () => {
   mainWindow.show();
   mainWindow.focus();
 
-  mainWindow.on('closed', () => {
+  mainWindow.on("closed", () => {
     mainWindow = null;
   });
 
@@ -118,6 +108,5 @@ app.on('ready', async () => {
   menuBuilder.buildMenu();
 
   // Remove this if your app does not use auto updates
-  // eslint-disable-next-line
-  new AppUpdater();
+  await AutoUpdater();
 });

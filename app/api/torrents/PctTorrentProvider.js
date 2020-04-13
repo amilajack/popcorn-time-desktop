@@ -1,18 +1,18 @@
 // @flow
-import fetch from 'isomorphic-fetch';
+import fetch from "isomorphic-fetch";
 import {
   handleProviderError,
   timeout,
-  resolveEndpoint
-} from './BaseTorrentProvider';
-import type { TorrentProviderInterface } from './TorrentProviderInterface';
+  resolveEndpoint,
+} from "./BaseTorrentProvider";
+import type { TorrentProviderInterface } from "./TorrentProviderInterface";
 
-const endpoint = 'http://api-fetch.website/tv';
-const providerId = 'PCT';
+const endpoint = "http://api-fetch.website/tv";
+const providerId = "PCT";
 const resolvedEndpoint = resolveEndpoint(endpoint, providerId);
 
 export default class PctTorrentProvider implements TorrentProviderInterface {
-  static providerName = 'PopcornTime API';
+  static providerName = "PopcornTime API";
 
   static shows = {};
 
@@ -21,29 +21,29 @@ export default class PctTorrentProvider implements TorrentProviderInterface {
     type: string,
     extendedDetails: Object = {}
   ) {
-    const urlTypeParam = type === 'movies' ? 'movie' : 'show';
+    const urlTypeParam = type === "movies" ? "movie" : "show";
     const request = timeout(
-      fetch(`${resolvedEndpoint}/${urlTypeParam}/${itemId}`).then(res =>
+      fetch(`${resolvedEndpoint}/${urlTypeParam}/${itemId}`).then((res) =>
         res.json()
       )
     );
 
     switch (type) {
-      case 'movies':
-        return request.then(movie =>
+      case "movies":
+        return request.then((movie) =>
           [
-            { ...movie.torrents.en['1080p'], quality: '1080p' },
-            { ...movie.torrents.en['720p'], quality: '720p' }
-          ].map(torrent => this.formatMovieTorrent(torrent))
+            { ...movie.torrents.en["1080p"], quality: "1080p" },
+            { ...movie.torrents.en["720p"], quality: "720p" },
+          ].map((torrent) => this.formatMovieTorrent(torrent))
         );
-      case 'shows': {
+      case "shows": {
         const { season, episode } = extendedDetails;
 
         const show = await request
-          .then(res =>
-            res.episodes.map(eachEpisode => this.formatEpisode(eachEpisode))
+          .then((res) =>
+            res.episodes.map((eachEpisode) => this.formatEpisode(eachEpisode))
           )
-          .catch(error => {
+          .catch((error) => {
             handleProviderError(error);
             return [];
           });
@@ -68,11 +68,11 @@ export default class PctTorrentProvider implements TorrentProviderInterface {
   static filterTorrents(show, season: number, episode: number) {
     const filterTorrents = show
       .filter(
-        eachEpisode =>
+        (eachEpisode) =>
           String(eachEpisode.season) === String(season) &&
           String(eachEpisode.episode) === String(episode)
       )
-      .map(eachEpisode => eachEpisode.torrents);
+      .map((eachEpisode) => eachEpisode.torrents);
 
     return filterTorrents.length > 0 ? filterTorrents[0] : [];
   }
@@ -81,7 +81,7 @@ export default class PctTorrentProvider implements TorrentProviderInterface {
     return {
       season,
       episode,
-      torrents: this.formatEpisodeTorrents(torrents)
+      torrents: this.formatEpisodeTorrents(torrents),
     };
   }
 
@@ -92,13 +92,13 @@ export default class PctTorrentProvider implements TorrentProviderInterface {
       seeders: torrent.seed || torrent.seeds,
       leechers: 0,
       metadata: String(torrent.url),
-      _provider: 'pct'
+      _provider: "pct",
     };
   }
 
   static formatEpisodeTorrents(torrents) {
-    return Object.keys(torrents).map(videoQuality => ({
-      quality: videoQuality === '0' ? '0p' : videoQuality,
+    return Object.keys(torrents).map((videoQuality) => ({
+      quality: videoQuality === "0" ? "0p" : videoQuality,
       magnet: torrents[videoQuality] && torrents[videoQuality].url,
       metadata: String(torrents[videoQuality] && torrents[videoQuality].url),
       seeders:
@@ -109,25 +109,25 @@ export default class PctTorrentProvider implements TorrentProviderInterface {
       leechers:
         (torrents[videoQuality] && torrents[videoQuality].peers) ||
         (torrents[videoQuality] && torrents[videoQuality].peer),
-      _provider: 'pct'
+      _provider: "pct",
     }));
   }
 
   static getStatus() {
     return fetch(resolvedEndpoint)
-      .then(res => res.ok)
+      .then((res) => res.ok)
       .catch(() => false);
   }
 
   static provide(itemId: string, type: string, extendedDetails: Object = {}) {
     switch (type) {
-      case 'movies':
-        return this.fetch(itemId, type, extendedDetails).catch(error => {
+      case "movies":
+        return this.fetch(itemId, type, extendedDetails).catch((error) => {
           handleProviderError(error);
           return [];
         });
-      case 'shows':
-        return this.fetch(itemId, type, extendedDetails).catch(error => {
+      case "shows":
+        return this.fetch(itemId, type, extendedDetails).catch((error) => {
           handleProviderError(error);
           return [];
         });

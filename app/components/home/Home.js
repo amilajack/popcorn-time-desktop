@@ -1,14 +1,14 @@
 // @flow
 /* eslint react/no-unused-prop-types: 0 */
-import React, { Component } from 'react';
-import { Container, Col, Row } from 'reactstrap';
-import VisibilitySensor from 'react-visibility-sensor';
-import Butter from '../../api/Butter';
-import Header from '../header/Header';
-import CardList from '../card/CardList';
+import React, { Component } from "react";
+import { Container, Col, Row } from "reactstrap";
+import VisibilitySensor from "react-visibility-sensor";
+import Butter from "../../api/Butter";
+import Navbar from "../navbar/Navbar";
+import CardsGrid from "../card/CardsGrid";
 
 export type activeModeOptionsType = {
-  [option: string]: number | boolean | string
+  [option: string]: number | boolean | string,
 };
 
 export type itemType = {
@@ -16,11 +16,12 @@ export type itemType = {
   id: string,
   year: number,
   type: string,
-  rating: number | 'n/a',
-  genres: Array<string>
+  rating: number | "n/a",
+  genres: Array<string>,
 };
 
 type Props = {
+  theme: string,
   setActiveMode: (
     mode: string,
     activeModeOptions?: activeModeOptionsType
@@ -42,19 +43,19 @@ type Props = {
         id: string,
         year: number,
         type: string,
-        rating: number | 'n/a',
-        genres: Array<string>
-      }
-    }
+        rating: number | "n/a",
+        genres: Array<string>,
+      },
+    },
   },
   items: Array<itemType>,
   isLoading: boolean,
-  infinitePagination: boolean
+  infinitePagination: boolean,
 };
 
 type State = {
   favorites: Array<itemType>,
-  watchList: Array<itemType>
+  watchList: Array<itemType>,
 };
 
 export default class Home extends Component<Props, State> {
@@ -62,7 +63,7 @@ export default class Home extends Component<Props, State> {
 
   state: State = {
     favorites: [],
-    watchList: []
+    watchList: [],
   };
 
   butter: Butter;
@@ -77,7 +78,7 @@ export default class Home extends Component<Props, State> {
         moviesScrollTop: 0,
         showsScrollTop: 0,
         searchScrollTop: 0,
-        homeScrollTop: 0
+        homeScrollTop: 0,
       };
     }
   }
@@ -105,12 +106,12 @@ export default class Home extends Component<Props, State> {
 
     const items = await (async () => {
       switch (queryType) {
-        case 'search': {
+        case "search": {
           return this.butter.search(activeModeOptions.searchQuery, page);
         }
-        case 'movies':
+        case "movies":
           return this.butter.getMovies(page, limit);
-        case 'shows':
+        case "shows":
           return this.butter.getShows(page, limit);
         default:
           return this.butter.getMovies(page, limit);
@@ -131,12 +132,12 @@ export default class Home extends Component<Props, State> {
       infinitePagination,
       activeMode,
       activeModeOptions,
-      isLoading
+      isLoading,
     } = this.props;
 
     if (infinitePagination) {
       const scrollDimentions = document
-        .querySelector('body')
+        .querySelector("body")
         .getBoundingClientRect();
       if (scrollDimentions.bottom < 2000 && !isLoading) {
         this.paginate(activeMode, activeModeOptions);
@@ -147,23 +148,24 @@ export default class Home extends Component<Props, State> {
   async componentDidMount() {
     const { activeMode } = this.props;
 
-    document.addEventListener('scroll', this.initInfinitePagination);
+    document.addEventListener("scroll", this.initInfinitePagination);
     window.scrollTo(0, global.pct[`${activeMode}ScrollTop`]);
 
     const [favorites, watchList, recentlyWatched] = await Promise.all([
-      this.butter.favorites('get'),
-      this.butter.watchList('get'),
-      this.butter.recentlyWatched('get')
+      this.butter.favorites("get"),
+      this.butter.watchList("get"),
+      this.butter.recentlyWatched("get"),
     ]);
 
     this.setState({
       favorites,
       watchList,
-      recentlyWatched
+      recentlyWatched,
     });
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     const { activeMode, activeModeOptions, clearAllItems } = this.props;
     global.pct[`${activeMode}ScrollTop`] = document.body.scrollTop;
 
@@ -175,7 +177,7 @@ export default class Home extends Component<Props, State> {
       JSON.stringify(nextProps.activeModeOptions) !==
       JSON.stringify(activeModeOptions)
     ) {
-      if (nextProps.activeMode === 'search') {
+      if (nextProps.activeMode === "search") {
         clearAllItems();
       }
 
@@ -200,7 +202,7 @@ export default class Home extends Component<Props, State> {
 
     global.pct[`${activeMode}ScrollTop`] = document.body.scrollTop;
 
-    document.removeEventListener('scroll', this.initInfinitePagination);
+    document.removeEventListener("scroll", this.initInfinitePagination);
   }
 
   onChange = async (isVisible: boolean) => {
@@ -211,24 +213,24 @@ export default class Home extends Component<Props, State> {
   };
 
   render() {
-    const { activeMode, items, isLoading, setActiveMode } = this.props;
+    const { activeMode, items, isLoading, setActiveMode, theme } = this.props;
     const { favorites, watchList, recentlyWatched } = this.state;
 
     const home = (
       <Container fluid>
         <Row>
           <Col sm="12">
-            <CardList title="Recently Watched" items={recentlyWatched} />
+            <CardsGrid title="Recently Watched" items={recentlyWatched} />
           </Col>
         </Row>
         <Row>
           <Col sm="12">
-            <CardList title="Favorites" items={favorites} />
+            <CardsGrid title="Favorites" items={favorites} />
           </Col>
         </Row>
         <Row>
           <Col sm="12">
-            <CardList title="Watch List" items={watchList} />
+            <CardsGrid title="Watch List" items={watchList} />
           </Col>
         </Row>
       </Container>
@@ -236,13 +238,17 @@ export default class Home extends Component<Props, State> {
 
     return (
       <Row>
-        <Header activeMode={activeMode} setActiveMode={setActiveMode} />
+        <Navbar
+          activeMode={activeMode}
+          setActiveMode={setActiveMode}
+          theme={theme}
+        />
         <Col sm="12">
-          {activeMode === 'home' ? (
+          {activeMode === "home" ? (
             home
           ) : (
             <div>
-              <CardList items={items} isLoading={isLoading} />
+              <CardsGrid items={items} isLoading={isLoading} />
               <VisibilitySensor onChange={this.onChange}>
                 {/* A hack to make `react-visibility-sensor` work */}
                 <div style={{ opacity: 0 }}>Loading</div>

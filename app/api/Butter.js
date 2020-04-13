@@ -2,8 +2,8 @@
  * The highest level abstraction layer for querying torrents and metadata
  * @flow
  */
-import TorrentAdapter from './torrents/TorrentAdapter';
-import MetadataAdapter from './metadata/MetadataAdapter';
+import TorrentAdapter from "./torrents/TorrentAdapter";
+import MetadataAdapter from "./metadata/MetadataAdapter";
 
 export default class Butter {
   getMovies(page: number = 1, limit: number = 50) {
@@ -34,7 +34,7 @@ export default class Butter {
     return MetadataAdapter.getEpisode(itemId, season, episode);
   }
 
-  getSimilar(type: string = 'movies', itemId: string) {
+  getSimilar(type: string = "movies", itemId: string) {
     return MetadataAdapter.getSimilar(type, itemId, 5);
   }
 

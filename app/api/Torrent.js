@@ -2,16 +2,16 @@
  * Torrents controller, responsible for playing, stoping, etc
  * @flow
  */
-import os from 'os';
-import WebTorrent from 'webtorrent';
+import os from "os";
+import WebTorrent from "webtorrent";
 // 'get-port' lib doesn't work here for some reason. Not sure why
-import findFreePort from 'find-free-port';
-import { isExactEpisode } from './torrents/BaseTorrentProvider';
+import findFreePort from "find-free-port";
+import { isExactEpisode } from "./torrents/BaseTorrentProvider";
 
 type metadataType = {
   season: number,
   episode: number,
-  activeMode: string
+  activeMode: string,
 };
 
 /**
@@ -23,12 +23,12 @@ export function selectSubtitleFile(
   metadata: { season: number, episode: number }
 ): { name: string } | boolean {
   return (
-    files.find(file => {
-      const formatIsSupported = file.name.includes('.srt');
+    files.find((file) => {
+      const formatIsSupported = file.name.includes(".srt");
 
       switch (activeMode) {
         // Check if the current file is the exact episode we're looking for
-        case 'season_complete': {
+        case "season_complete": {
           const { season, episode } = metadata;
           return (
             formatIsSupported && isExactEpisode(file.name, season, episode)
@@ -58,7 +58,7 @@ export default class Torrent {
     | {}
     | {
         close: () => void,
-        listen: (port: number) => void
+        listen: (port: number) => void,
       };
 
   async start(
@@ -74,7 +74,7 @@ export default class Torrent {
     ) => void
   ) {
     if (this.inProgress) {
-      console.log('Torrent already in progress');
+      console.log("Torrent already in progress");
       return;
     }
 
@@ -89,23 +89,23 @@ export default class Torrent {
     this.magnetURI = magnetURI;
 
     const cacheLocation =
-      process.env.CONFIG_PERSIST_DOWNLOADS === 'true'
-        ? process.env.CONFIG_DOWNLOAD_LOCATION || '/tmp/popcorn-time-desktop'
+      process.env.CONFIG_PERSIST_DOWNLOADS === "true"
+        ? process.env.CONFIG_DOWNLOAD_LOCATION || "/tmp/popcorn-time-desktop"
         : os.tmpdir();
 
-    this.engine.add(magnetURI, { path: cacheLocation }, torrent => {
+    this.engine.add(magnetURI, { path: cacheLocation }, (torrent) => {
       const server = torrent.createServer();
       this.server = server.listen(port);
 
       const { file, torrentIndex } = torrent.files.reduce(
         (previous, current, index) => {
-          const formatIsSupported = !!supportedFormats.find(format =>
+          const formatIsSupported = !!supportedFormats.find((format) =>
             current.name.includes(format)
           );
 
           switch (activeMode) {
             // Check if the current file is the exact episode we're looking for
-            case 'season_complete':
+            case "season_complete":
               if (
                 formatIsSupported &&
                 isExactEpisode(current.name, season, episode)
@@ -113,7 +113,7 @@ export default class Torrent {
                 previous.file.deselect();
                 return {
                   file: current,
-                  torrentIndex: index
+                  torrentIndex: index,
                 };
               }
 
@@ -125,7 +125,7 @@ export default class Torrent {
                 previous.file.deselect();
                 return {
                   file: current,
-                  torrentIndex: index
+                  torrentIndex: index,
                 };
               }
 
@@ -135,8 +135,11 @@ export default class Torrent {
         { file: torrent.files[0], torrentIndex: 0 }
       );
 
-      if (typeof torrentIndex !== 'number') {
-        console.warn('File List', torrent.files.map(_file => _file.name));
+      if (typeof torrentIndex !== "number") {
+        console.warn(
+          "File List",
+          torrent.files.map((_file) => _file.name)
+        );
         throw new Error(
           `No torrent could be selected. Torrent Index: ${torrentIndex}`
         );
@@ -147,14 +150,14 @@ export default class Torrent {
 
       file.select();
 
-      torrent.on('done', () => {
+      torrent.on("done", () => {
         this.inProgress = false;
         this.clearIntervals();
       });
 
       this.checkDownloadInterval = setInterval(async () => {
         if (torrent.downloaded > buffer) {
-          console.log('Ready...');
+          console.log("Ready...");
           if (!this.checkDownloadInterval) {
             return;
           }
@@ -182,14 +185,14 @@ export default class Torrent {
   destroy() {
     if (this.inProgress) {
       if (this.server && this.server.close) {
-        console.log('Closing the torrent server...');
+        console.log("Closing the torrent server...");
         this.server.close();
         this.server = {};
       }
 
       this.clearIntervals();
 
-      console.log('Destroying the torrent engine...');
+      console.log("Destroying the torrent engine...");
       this.engine.destroy();
       this.engine = undefined;
 
@@ -203,7 +206,7 @@ type torrentSpeedsType = {
   uploadSpeed: number,
   progress: number,
   numPeers: number,
-  ratio: number
+  ratio: number,
 };
 
 export function formatSpeeds(
@@ -214,7 +217,7 @@ export function formatSpeeds(
     uploadSpeed,
     progress,
     numPeers,
-    ratio
+    ratio,
   } = torrentSpeeds;
 
   return {
@@ -222,6 +225,6 @@ export function formatSpeeds(
     uploadSpeed: uploadSpeed / 1000000,
     progress: Math.round(progress * 100) / 100,
     numPeers,
-    ratio
+    ratio,
   };
 }

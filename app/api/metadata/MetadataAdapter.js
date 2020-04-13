@@ -2,26 +2,26 @@
  * Resolve requests from cache
  * @flow
  */
-import OpenSubtitles from 'opensubtitles-api';
-import { merge, resolveCache, setCache } from '../torrents/BaseTorrentProvider';
-import TheMovieDbMetadataProvider from './TheMovieDbMetadataProvider';
+import OpenSubtitles from "opensubtitles-api";
+import { merge, resolveCache, setCache } from "../torrents/BaseTorrentProvider";
+import TheMovieDbMetadataProvider from "./TheMovieDbMetadataProvider";
 
 type subtitlesType = {
-  kind: 'captions',
+  kind: "captions",
   label: string,
   srclang: string,
   src: string,
-  default: boolean
+  default: boolean,
 };
 
 const subtitlesEndpoint =
-  'https://popcorn-time-api-server.herokuapp.com/subtitles';
+  "https://popcorn-time-api-server.herokuapp.com/subtitles";
 
 const openSubtitles = new OpenSubtitles({
-  useragent: 'OSTestUserAgent',
-  username: '',
-  password: '',
-  ssl: true
+  useragent: "OSTestUserAgent",
+  username: "",
+  password: "",
+  ssl: true,
 });
 
 function MetadataAdapter() {
@@ -61,7 +61,7 @@ async function interceptAndHandleRequest(
  * @param {string} sortBy
  */
 function search(...args: Array<string | number>) {
-  return interceptAndHandleRequest('search', args);
+  return interceptAndHandleRequest("search", args);
 }
 
 /**
@@ -70,7 +70,7 @@ function search(...args: Array<string | number>) {
  * @param {string} itemId
  */
 function getMovie(...args: Array<string | number>) {
-  return interceptAndHandleRequest('getMovie', args);
+  return interceptAndHandleRequest("getMovie", args);
 }
 
 /**
@@ -82,7 +82,7 @@ function getMovie(...args: Array<string | number>) {
  * @param {string} sortBy
  */
 function getMovies(...args: Array<string | number>) {
-  return interceptAndHandleRequest('getMovies', args);
+  return interceptAndHandleRequest("getMovies", args);
 }
 
 /**
@@ -93,7 +93,7 @@ function getMovies(...args: Array<string | number>) {
  * @param {number} limit  | movie or show
  */
 function getSimilar(...args: Array<string | number>) {
-  return interceptAndHandleRequest('getSimilar', args);
+  return interceptAndHandleRequest("getSimilar", args);
 }
 
 /**
@@ -104,7 +104,7 @@ function getSimilar(...args: Array<string | number>) {
  * @param {number} limit  | movie or show
  */
 function getSeason(...args: Array<string | number>) {
-  return interceptAndHandleRequest('getSeason', args);
+  return interceptAndHandleRequest("getSeason", args);
 }
 
 /**
@@ -115,7 +115,7 @@ function getSeason(...args: Array<string | number>) {
  * @param {number} limit  | movie or show
  */
 function getSeasons(...args: Array<string | number>) {
-  return interceptAndHandleRequest('getSeasons', args);
+  return interceptAndHandleRequest("getSeasons", args);
 }
 
 /**
@@ -126,7 +126,7 @@ function getSeasons(...args: Array<string | number>) {
  * @param {number} limit  | movie or show
  */
 function getEpisode(...args: Array<string | number>) {
-  return interceptAndHandleRequest('getEpisode', args);
+  return interceptAndHandleRequest("getEpisode", args);
 }
 
 /**
@@ -137,7 +137,7 @@ function getEpisode(...args: Array<string | number>) {
  * @param {number} limit  | movie or show
  */
 function getShow(...args: Array<string | number>) {
-  return interceptAndHandleRequest('getShow', args);
+  return interceptAndHandleRequest("getShow", args);
 }
 
 /**
@@ -148,16 +148,16 @@ function getShow(...args: Array<string | number>) {
  * @param {number} limit  | movie or show
  */
 function getShows(...args: Array<string | number>) {
-  return interceptAndHandleRequest('getShows', args);
+  return interceptAndHandleRequest("getShows", args);
 }
 
 function formatSubtitle(subtitle) {
   return {
-    kind: 'captions',
+    kind: "captions",
     label: subtitle.langName,
     srclang: subtitle.lang,
     src: `${subtitlesEndpoint}/${encodeURIComponent(subtitle.url)}`,
-    default: subtitle.lang === 'en'
+    default: subtitle.lang === "en",
   };
 }
 
@@ -177,24 +177,24 @@ async function getSubtitles(
   const { activeMode } = metadata;
 
   const defaultOptions = {
-    sublanguageid: 'eng',
+    sublanguageid: "eng",
     // sublanguageid: 'all', // @TODO
     // hash: '8e245d9679d31e12', // @TODO
     filesize: length || undefined,
     filename: filename || undefined,
     season: metadata.season || undefined,
     episode: metadata.episode || undefined,
-    extensions: ['srt', 'vtt'],
-    imdbid: imdbId
+    extensions: ["srt", "vtt"],
+    imdbid: imdbId,
   };
 
   const subtitles = (() => {
     switch (activeMode) {
-      case 'shows': {
+      case "shows": {
         const { season, episode } = metadata;
         return openSubtitles.search({
           ...defaultOptions,
-          ...{ season, episode }
+          ...{ season, episode },
         });
       }
       default:
@@ -202,8 +202,8 @@ async function getSubtitles(
     }
   })();
 
-  return subtitles.then(res =>
-    Object.values(res).map(subtitle => formatSubtitle(subtitle))
+  return subtitles.then((res) =>
+    Object.values(res).map((subtitle) => formatSubtitle(subtitle))
   );
 }
 
@@ -215,7 +215,7 @@ async function getSubtitles(
  * @param {object} metadata | 'id', Required only remove
  */
 function favorites(...args: Array<string | number>) {
-  return interceptAndHandleRequest('favorites', args, false);
+  return interceptAndHandleRequest("favorites", args, false);
 }
 
 /**
@@ -226,7 +226,7 @@ function favorites(...args: Array<string | number>) {
  * @param {object} metadata | 'id', Required only remove
  */
 function watchList(...args: Array<string | number>) {
-  return interceptAndHandleRequest('watchList', args, false);
+  return interceptAndHandleRequest("watchList", args, false);
 }
 
 /**
@@ -237,7 +237,7 @@ function watchList(...args: Array<string | number>) {
  * @param {object} metadata | 'id', Required only remove
  */
 function recentlyWatched(...args) {
-  return interceptAndHandleRequest('recentlyWatched', args, false);
+  return interceptAndHandleRequest("recentlyWatched", args, false);
 }
 
 export default {
@@ -253,5 +253,5 @@ export default {
   getSubtitles,
   favorites,
   watchList,
-  recentlyWatched
+  recentlyWatched,
 };

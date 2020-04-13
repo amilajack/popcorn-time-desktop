@@ -5,16 +5,16 @@
  * If it doesn't, create it and initialize it with the fields:
  * 'favorites', 'watchList', 'recentlyWatched'
  */
-import ConfigStore from 'configstore';
+import ConfigStore from "configstore";
 
 export default function setupConfig() {
   return new ConfigStore(
-    process.env.E2E_BUILD === 'true' ? 'popcorn-time-test' : 'popcorn-time',
+    process.env.E2E_BUILD === "true" ? "popcorn-time-test" : "popcorn-time",
     {
       favorites: [],
       recentlyWatched: [],
       watchList: [],
-      state: {}
+      state: {},
     }
   );
 }

@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 
 type PosterProps = {
   magnetLink: String,
   onClick: Function,
-  poster: string
+  poster: string,
 };
 
 const Poster = ({ magnetLink, onClick, poster }: PosterProps) => (

@@ -2,11 +2,11 @@
  * Provide a single API interface for all the providers
  * @flow
  */
-import ChromecastPlayerProvider from './ChromecastPlayerProvider';
+import ChromecastPlayerProvider from "./ChromecastPlayerProvider";
 import type {
   PlayerProviderInterface,
-  deviceType
-} from './PlayerProviderInterface';
+  deviceType,
+} from "./PlayerProviderInterface";
 
 export default class PlayerAdapter {
   providers: Array<PlayerProviderInterface> = [new ChromecastPlayerProvider()];
@@ -17,7 +17,7 @@ export default class PlayerAdapter {
 
   getDevices() {
     return Promise.all(
-      this.providers.map(provider => provider.getDevices(2000))
+      this.providers.map((provider) => provider.getDevices(2000))
     );
   }
 

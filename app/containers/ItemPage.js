@@ -1,14 +1,14 @@
 // @flow
-import React from 'react';
-import Item from '../components/item/Item';
+import React from "react";
+import Item from "../components/item/Item";
 
 type Props = {
   match: {
     params: {
       itemId: string,
-      activeMode: string
-    }
-  }
+      activeMode: string,
+    },
+  },
 };
 
 export default function ItemPage(props: Props) {

@@ -1,18 +1,16 @@
-import React, { Component } from 'react';
-
-import CardList from '../card/CardList';
-
-import Butter from '../../api/Butter';
+import React, { Component } from "react";
+import CardsGrid from "../card/CardsGrid";
+import Butter from "../../api/Butter";
 
 type Props = {
   itemId: string,
-  type: string
+  type: string,
 };
 
 type State = {
   items: Array<Object>,
   isLoading: boolean,
-  hasFetched: boolean
+  hasFetched: boolean,
 };
 
 export default class Similar extends Component<Props, State> {
@@ -25,7 +23,7 @@ export default class Similar extends Component<Props, State> {
   initialState: State = {
     items: [],
     isLoading: false,
-    hasFetched: false
+    hasFetched: false,
   };
 
   constructor(props: Props) {
@@ -50,7 +48,7 @@ export default class Similar extends Component<Props, State> {
       this.setState({
         similarItems,
         isLoading: false,
-        isFinished: true
+        isFinished: true,
       });
     } catch (error) {
       console.log(error);
@@ -63,12 +61,13 @@ export default class Similar extends Component<Props, State> {
     const { isLoading, isFinished, similarItems } = this.state;
 
     return (
-      <CardList
+      <CardsGrid
         title="similar"
         limit={4}
         items={similarItems}
         metadataLoading={isLoading}
         isFinished={isFinished}
+        autofit
       />
     );
   }
