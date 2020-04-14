@@ -257,13 +257,22 @@ export default class Item extends Component<Props, State> {
     ]);
   }
 
-  async getShowData(type: string, imdbId: string, season?: number) {
+  async getShowData(
+    type: string,
+    imdbId: string,
+    season?: number,
+    episode?: number
+  ) {
     switch (type) {
       case "seasons":
         this.setState({ seasons: [], episodes: [] });
+        const [seasons, episodes] = await Promise.all([
+          this.butter.getSeasons(imdbId),
+          this.butter.getSeason(imdbId, 1),
+        ]);
         this.setState({
-          seasons: await this.butter.getSeasons(imdbId),
-          episodes: await this.butter.getSeason(imdbId, 1),
+          seasons,
+          episodes,
         });
         break;
       case "episodes":
@@ -275,8 +284,19 @@ export default class Item extends Component<Props, State> {
           episodes: await this.butter.getSeason(imdbId, season),
         });
         break;
+      case "episode":
+        if (!season) {
+          throw new Error('"season" not provided to getShowData()');
+        }
+        if (!episode) {
+          throw new Error('"episode" not provided to getShowData()');
+        }
+        this.setState({
+          episode: await this.butter.getEpisode(imdbId, season, episode),
+        });
+        break;
       default:
-        throw new Error("Invalid getShowData() type");
+        throw new Error(`Invalid getShowData() type "${type}"`);
     }
   }
 
@@ -399,7 +419,7 @@ export default class Item extends Component<Props, State> {
         }
       })();
 
-      if (idealTorrent && idealTorrent.quality === "poor") {
+      if (idealTorrent?.quality === "poor") {
         notie.alert(2, "Slow torrent, low seeder count", 1);
       }
 
@@ -651,6 +671,7 @@ export default class Item extends Component<Props, State> {
       watchList,
       castingDevices,
       captions,
+      episode,
     } = this.state;
 
     const { activeMode, itemId } = this.props;
@@ -722,30 +743,33 @@ export default class Item extends Component<Props, State> {
           <Col sm="10">
             {process.env.FLAG_MANUAL_TORRENT_SELECTION === "true" && (
               <>
-                <Button
-                  type="button"
-                  name="1080p"
-                  onClick={this.startPlayback}
-                  disabled={!torrent["1080p"].quality}
-                >
-                  Start 1080p -- {torrent["1080p"].seeders} seeders
-                </Button>
-                <Button
-                  type="button"
-                  name="720p"
-                  onClick={this.startPlayback}
-                  disabled={!torrent["720p"].quality}
-                >
-                  Start 720p -- {torrent["720p"].seeders} seeders
-                </Button>
-                {activeMode === "shows" && (
+                {torrent["1080p"].quality && (
+                  <Button
+                    type="button"
+                    name="1080p"
+                    onClick={this.startPlayback}
+                  >
+                    Play 1080p ({torrent["1080p"].seeders} seeders)
+                  </Button>
+                )}
+                {torrent["720p"].quality && (
+                  <Button
+                    type="button"
+                    name="720p"
+                    onClick={this.startPlayback}
+                    disabled={!torrent["720p"].quality}
+                  >
+                    Play 720p ({torrent["720p"].seeders} seeders)
+                  </Button>
+                )}
+                {torrent["480p"].quality && activeMode === "shows" && (
                   <Button
                     type="button"
                     name="480p"
                     onClick={this.startPlayback}
                     disabled={!torrent["480p"].quality}
                   >
-                    Start 480p -- {torrent["480p"].seeders} seeders
+                    Play 480p ({torrent["480p"].seeders} seeders)
                   </Button>
                 )}
               </>
@@ -756,6 +780,7 @@ export default class Item extends Component<Props, State> {
         {activeMode === "shows" && (
           <Show
             selectShow={this.selectShow}
+            episode={episode}
             seasons={seasons}
             episodes={episodes}
             selectedSeason={selectedSeason}

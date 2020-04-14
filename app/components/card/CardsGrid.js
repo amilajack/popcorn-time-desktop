@@ -36,7 +36,7 @@ export default function CardsGrid(props: Props) {
           >
             {(limit ? items.filter((e, i) => i < limit) : items).map((item) => (
               <Card
-                image={(item && item.images && item.images.fanart.thumb) || ""}
+                image={item?.images?.fanart?.thumb || ""}
                 title={item.title}
                 id={item.id}
                 key={item.id}

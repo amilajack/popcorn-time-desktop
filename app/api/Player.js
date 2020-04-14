@@ -40,7 +40,7 @@ export default class Player {
     if (this.powerSaveBlockerId) {
       powerSaveBlocker.stop(this.powerSaveBlockerId);
     }
-    if (this.player && this.player.destroy) {
+    if (this.player?.destroy) {
       this.player.destroy();
     }
   }

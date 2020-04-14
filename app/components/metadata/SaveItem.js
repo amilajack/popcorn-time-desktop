@@ -43,7 +43,7 @@ export default class SaveItem extends Component<Props, State> {
 
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
-    if (!(nextProps.item && nextProps.item.ids && nextProps.item.ids.tmdbId)) {
+    if (!nextProps?.item?.ids?.tmdbId) {
       return;
     }
     const { tmdbId } = nextProps.item.ids;

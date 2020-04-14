@@ -19,7 +19,7 @@ export default class VideoPlayer extends Component<Props> {
           captions={captions}
           type="video"
           url={url}
-          poster={(item && item.images && item.images.fanart.full) || ""}
+          poster={item?.images?.fanart?.full || ""}
           title={item.title || ""}
           volume={10}
           onEnterFullscreen={() => {

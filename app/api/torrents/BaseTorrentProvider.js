@@ -29,18 +29,18 @@ export function timeout(promise: Promise<any>, ms: number = 20000) {
   return Promise.race([promise, timeoutPromise]);
 }
 
-export function getHealth(seeders: number, leechers: number = 0): string {
-  const ratio = seeders && !!leechers ? seeders / leechers : seeders;
+export function getHealth(seeders: number = 0, leechers: number = 1): string {
+  const ratio = seeders / leechers;
 
   if (seeders < 50) {
     return "poor";
   }
 
-  if (ratio > 1 && seeders >= 50 && seeders < 500) {
+  if (ratio > 0.4 && seeders >= 50 && seeders < 500) {
     return "decent";
   }
 
-  if (ratio > 1 && seeders >= 100) {
+  if (ratio > 0.7 && seeders >= 100) {
     return "healthy";
   }
 

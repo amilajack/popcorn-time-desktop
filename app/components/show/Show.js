@@ -72,10 +72,7 @@ export default function Show(props: Props) {
         <div className="card">
           <div className="card-block">
             <h3 className="card-title">
-              {episodes &&
-              episodes.length &&
-              selectedSeason &&
-              episodes[selectedEpisode]
+              {episodes?.length && selectedSeason && episodes[selectedEpisode]
                 ? episodes[selectedEpisode].title
                 : null}
             </h3>

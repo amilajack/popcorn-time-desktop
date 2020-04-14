@@ -7,7 +7,7 @@ import {
 } from "./BaseTorrentProvider";
 import type { TorrentProviderInterface } from "./TorrentProviderInterface";
 
-const endpoint = "http://api-fetch.website/tv";
+const endpoint = "https://tv-v2.api-fetch.website";
 const providerId = "PCT";
 const resolvedEndpoint = resolveEndpoint(endpoint, providerId);
 
@@ -90,7 +90,7 @@ export default class PctTorrentProvider implements TorrentProviderInterface {
       quality: torrent.quality,
       magnet: torrent.url,
       seeders: torrent.seed || torrent.seeds,
-      leechers: 0,
+      leechers: torrent.peer || 0,
       metadata: String(torrent.url),
       _provider: "pct",
     };
@@ -99,16 +99,14 @@ export default class PctTorrentProvider implements TorrentProviderInterface {
   static formatEpisodeTorrents(torrents) {
     return Object.keys(torrents).map((videoQuality) => ({
       quality: videoQuality === "0" ? "0p" : videoQuality,
-      magnet: torrents[videoQuality] && torrents[videoQuality].url,
-      metadata: String(torrents[videoQuality] && torrents[videoQuality].url),
+      magnet: torrents[videoQuality]?.url,
+      metadata: String(torrents[videoQuality]?.url),
       seeders:
-        (torrents[videoQuality] && torrents[videoQuality].seeds) ||
-        (torrents[videoQuality] && torrents[videoQuality].seed) ||
-        (torrents[videoQuality] && torrents[videoQuality].seeders) ||
+        torrents[videoQuality]?.seeds ||
+        torrents[videoQuality]?.seed ||
+        torrents[videoQuality]?.seeders ||
         0,
-      leechers:
-        (torrents[videoQuality] && torrents[videoQuality].peers) ||
-        (torrents[videoQuality] && torrents[videoQuality].peer),
+      leechers: torrents[videoQuality]?.peer || 0,
       _provider: "pct",
     }));
   }

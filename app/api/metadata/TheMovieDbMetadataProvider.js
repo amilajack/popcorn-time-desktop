@@ -22,11 +22,8 @@ function formatMetadata(item, type: string, imageUri: string, genres) {
     id: String(item.id),
     ids: {
       tmdbId: String(item.id),
-      imdbId:
-        item.imdb_id ||
-        (item.external_ids && item.external_ids.imdb_id
-          ? item.external_ids.imdb_id
-          : ""),
+      // eslint-disable-next-line camelcase
+      imdbId: item.imdb_id || item.external_ids?.imdb_id || "",
     },
     type,
     certification: "n/a",
@@ -38,8 +35,7 @@ function formatMetadata(item, type: string, imageUri: string, genres) {
       : [],
     rating: item.vote_average,
     runtime:
-      item.runtime ||
-      (item.episode_run_time && item.episode_run_time.length > 0)
+      item.runtime || item.episode_run_time?.length
         ? parseRuntimeMinutesToObject(
             type === "movies" ? item.runtime : item.episode_run_time[0]
           )
@@ -48,10 +44,9 @@ function formatMetadata(item, type: string, imageUri: string, genres) {
             hours: "n/a",
             minutes: "n/a",
           },
-    trailer:
-      item.videos && item.videos.results && item.videos.results.length > 0
-        ? `http://youtube.com/watch?v=${item.videos.results[0].key}`
-        : "n/a",
+    trailer: item.videos?.results?.length
+      ? `http://youtube.com/watch?v=${item.videos.results[0].key}`
+      : "n/a",
     images: {
       fanart: {
         full: formatImage(imageUri, item.backdrop_path, "original"),
@@ -106,7 +101,7 @@ function formatSeason(season) {
   }));
 }
 
-function formatEpisode(episode) {
+function formatEpisode(episode, imageUri) {
   return {
     id: String(episode.id),
     ids: {
@@ -119,9 +114,9 @@ function formatEpisode(episode) {
     rating: episode.vote_average,
     // rating: episode.rating ? roundRating(episode.rating) : 'n/a',
     images: {
-      full: episode.still_path,
-      medium: episode.still_path,
-      thumb: episode.still_path,
+      full: formatImage(imageUri, episode.still_path, "original"),
+      medium: formatImage(imageUri, episode.still_path, "w780"),
+      thumb: formatImage(imageUri, episode.still_path, "w342"),
     },
   };
 }
@@ -253,7 +248,7 @@ export default class TheMovieDbMetadataProvider extends BaseMetadataProvider
       .get(`tv/${itemId}/season/${season}/episode/${episode}`, {
         params: this.params,
       })
-      .then(({ data }) => formatEpisode(data));
+      .then(({ data }) => formatEpisode(data, this.imageUri));
   }
 
   search(query: string, page: number = 1) {
