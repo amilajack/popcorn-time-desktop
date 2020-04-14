@@ -7,13 +7,13 @@ type Props = {
 };
 
 export default function Loader({ isLoading, isFinished }: Props) {
-  const shouldShow = {
+  const style = {
     opacity: isLoading ? 1 : 0,
     display: isFinished ? "none" : "initial",
   };
 
   return (
-    <div className="Loader" style={shouldShow}>
+    <div className="Loader" style={style}>
       <div className="Loader--container">
         <div className="Loader--dot" />
         <div className="Loader--dot" />

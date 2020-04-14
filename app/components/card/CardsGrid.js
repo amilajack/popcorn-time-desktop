@@ -24,8 +24,6 @@ export default function CardsGrid(props: Props) {
   return (
     <>
       <Row>
-        <ion-icon ios="heart-outline" md="heart-sharp" />
-
         <Col sm="12" data-e2e={`${title}-card-list`}>
           <h4 className="CardsGrid--header">{title}</h4>
           <div

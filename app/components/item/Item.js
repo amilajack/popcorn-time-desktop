@@ -264,7 +264,7 @@ export default class Item extends Component<Props, State> {
     episode?: number
   ) {
     switch (type) {
-      case "seasons":
+      case "seasons": {
         this.setState({ seasons: [], episodes: [] });
         const [seasons, episodes] = await Promise.all([
           this.butter.getSeasons(imdbId),
@@ -275,6 +275,7 @@ export default class Item extends Component<Props, State> {
           episodes,
         });
         break;
+      }
       case "episodes":
         if (!season) {
           throw new Error('"season" not provided to getShowData()');
