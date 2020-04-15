@@ -3,7 +3,7 @@
  * @flow
  */
 import React, { Component } from "react";
-import { Button, Container, Row, Col } from "reactstrap";
+import { Button, Row, Col } from "reactstrap";
 import classNames from "classnames";
 import notie from "notie";
 import os from "os";
@@ -123,7 +123,7 @@ export default class Item extends Component<Props, State> {
   initialState: State = {
     item: {
       id: "",
-      rating: "n/a",
+      rating: 0,
       summary: "",
       title: "",
       trailer: "",
@@ -677,15 +677,8 @@ export default class Item extends Component<Props, State> {
 
     const { activeMode, itemId } = this.props;
 
-    const itemBackgroundUrl = {
-      backgroundImage: `url(${item.images.fanart.full})`,
-    };
-
     return (
-      <Container
-        fluid
-        className={classNames("Item", { active: playbackInProgress })}
-      >
+      <div className={classNames("Item", { active: playbackInProgress })}>
         <BackButton onClick={this.stopPlayback} />
         <Row>
           <VideoPlayer
@@ -698,7 +691,11 @@ export default class Item extends Component<Props, State> {
             }}
           />
 
-          <Col sm="12" className="Item--background" style={itemBackgroundUrl}>
+          <Col
+            sm="12"
+            className="Item--background"
+            style={{ backgroundImage: `url(${item.images.fanart.full})` }}
+          >
             <Col sm="6" className="Item--image">
               <Poster
                 magnetLink={idealTorrent.magnet}
@@ -790,7 +787,7 @@ export default class Item extends Component<Props, State> {
         )}
 
         <Similar itemId={itemId} type={activeMode} />
-      </Container>
+      </div>
     );
   }
 }

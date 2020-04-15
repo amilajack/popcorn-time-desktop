@@ -60,7 +60,7 @@ async function interceptAndHandleRequest(
  * @param {string} genre
  * @param {string} sortBy
  */
-function search(...args: Array<string | number>) {
+export function search(...args: Array<string | number>) {
   return interceptAndHandleRequest("search", args);
 }
 
@@ -69,7 +69,7 @@ function search(...args: Array<string | number>) {
  *
  * @param {string} itemId
  */
-function getMovie(...args: Array<string | number>) {
+export function getMovie(...args: Array<string | number>) {
   return interceptAndHandleRequest("getMovie", args);
 }
 
@@ -81,7 +81,7 @@ function getMovie(...args: Array<string | number>) {
  * @param {string} genre
  * @param {string} sortBy
  */
-function getMovies(...args: Array<string | number>) {
+export function getMovies(...args: Array<string | number>) {
   return interceptAndHandleRequest("getMovies", args);
 }
 
@@ -92,7 +92,7 @@ function getMovies(...args: Array<string | number>) {
  * @param {string} type   | movie or show
  * @param {number} limit  | movie or show
  */
-function getSimilar(...args: Array<string | number>) {
+export function getSimilar(...args: Array<string | number>) {
   return interceptAndHandleRequest("getSimilar", args);
 }
 
@@ -103,7 +103,7 @@ function getSimilar(...args: Array<string | number>) {
  * @param {string} type   | movie or show
  * @param {number} limit  | movie or show
  */
-function getSeason(...args: Array<string | number>) {
+export function getSeason(...args: Array<string | number>) {
   return interceptAndHandleRequest("getSeason", args);
 }
 
@@ -114,7 +114,7 @@ function getSeason(...args: Array<string | number>) {
  * @param {string} type   | movie or show
  * @param {number} limit  | movie or show
  */
-function getSeasons(...args: Array<string | number>) {
+export function getSeasons(...args: Array<string | number>) {
   return interceptAndHandleRequest("getSeasons", args);
 }
 
@@ -125,7 +125,7 @@ function getSeasons(...args: Array<string | number>) {
  * @param {string} type   | movie or show
  * @param {number} limit  | movie or show
  */
-function getEpisode(...args: Array<string | number>) {
+export function getEpisode(...args: Array<string | number>) {
   return interceptAndHandleRequest("getEpisode", args);
 }
 
@@ -136,7 +136,7 @@ function getEpisode(...args: Array<string | number>) {
  * @param {string} type   | movie or show
  * @param {number} limit  | movie or show
  */
-function getShow(...args: Array<string | number>) {
+export function getShow(...args: Array<string | number>) {
   return interceptAndHandleRequest("getShow", args);
 }
 
@@ -147,11 +147,20 @@ function getShow(...args: Array<string | number>) {
  * @param {string} type   | movie or show
  * @param {number} limit  | movie or show
  */
-function getShows(...args: Array<string | number>) {
+export function getShows(...args: Array<string | number>) {
   return interceptAndHandleRequest("getShows", args);
 }
 
-function formatSubtitle(subtitle) {
+/**
+ * Get trending movies and shows
+ */
+export function getTrending() {
+  return Promise.all(
+    MetadataAdapter().map((provider) => provider.getTrending())
+  ).then((res) => res.flat());
+}
+
+export function formatSubtitle(subtitle) {
   return {
     kind: "captions",
     label: subtitle.langName,
@@ -168,7 +177,7 @@ function formatSubtitle(subtitle) {
  * @param {string} filename
  * @param {object} metadata
  */
-async function getSubtitles(
+export async function getSubtitles(
   imdbId: string,
   filename: string,
   length: number,
@@ -214,7 +223,7 @@ async function getSubtitles(
  * @param {object} metadata | Required only for `set` and `remove`
  * @param {object} metadata | 'id', Required only remove
  */
-function favorites(...args: Array<string | number>) {
+export function favorites(...args: Array<string | number>) {
   return interceptAndHandleRequest("favorites", args, false);
 }
 
@@ -225,7 +234,7 @@ function favorites(...args: Array<string | number>) {
  * @param {object} metadata | Required only for `set` and `remove`
  * @param {object} metadata | 'id', Required only remove
  */
-function watchList(...args: Array<string | number>) {
+export function watchList(...args: Array<string | number>) {
   return interceptAndHandleRequest("watchList", args, false);
 }
 
@@ -236,22 +245,6 @@ function watchList(...args: Array<string | number>) {
  * @param {object} metadata | Required only for `set` and `remove`
  * @param {object} metadata | 'id', Required only remove
  */
-function recentlyWatched(...args) {
+export function recentlyWatched(...args) {
   return interceptAndHandleRequest("recentlyWatched", args, false);
 }
-
-export default {
-  getMovie,
-  getMovies,
-  getShow,
-  getShows,
-  getSeason,
-  getSeasons,
-  getEpisode,
-  search,
-  getSimilar,
-  getSubtitles,
-  favorites,
-  watchList,
-  recentlyWatched,
-};

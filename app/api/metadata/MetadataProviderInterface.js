@@ -9,7 +9,7 @@ type seasonType = {
   title: string,
   season: number,
   overview: string,
-  rating: number | "n/a",
+  rating: number,
   images: {
     full: string,
     medium: string,
@@ -57,7 +57,7 @@ export type contentType = {
   certification: certificationType,
   summary: string,
   genres: Array<string>,
-  rating: number | "n/a",
+  rating: number,
   runtime: runtimeType,
   trailer: string | "n/a",
   images: imagesType,

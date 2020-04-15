@@ -12,7 +12,7 @@ type Props = {
   starColor?: string,
   image: string,
   id: string,
-  rating: number | "n/a",
+  rating: number,
   type: string,
 };
 

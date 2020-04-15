@@ -3,39 +3,58 @@
  * @flow
  */
 import TorrentAdapter from "./torrents/TorrentAdapter";
-import MetadataAdapter from "./metadata/MetadataAdapter";
+import {
+  getTrending,
+  getMovies,
+  getMovie,
+  getShows,
+  getShow,
+  getSeasons,
+  getSeason,
+  getEpisode,
+  getSimilar,
+  search,
+  getSubtitles,
+  favorites,
+  recentlyWatched,
+  watchList,
+} from "./metadata/MetadataAdapter";
 
 export default class Butter {
+  getTrending() {
+    return getTrending();
+  }
+
   getMovies(page: number = 1, limit: number = 50) {
-    return MetadataAdapter.getMovies(page, limit);
+    return getMovies(page, limit);
   }
 
   getMovie(itemId: string) {
-    return MetadataAdapter.getMovie(itemId);
+    return getMovie(itemId);
   }
 
   getShows(page: number = 1, limit: number = 50) {
-    return MetadataAdapter.getShows(page, limit);
+    return getShows(page, limit);
   }
 
   getShow(itemId: string) {
-    return MetadataAdapter.getShow(itemId);
+    return getShow(itemId);
   }
 
   getSeasons(itemId: string) {
-    return MetadataAdapter.getSeasons(itemId);
+    return getSeasons(itemId);
   }
 
   getSeason(itemId: string, season: number) {
-    return MetadataAdapter.getSeason(itemId, season);
+    return getSeason(itemId, season);
   }
 
   getEpisode(itemId: string, season: number, episode: number) {
-    return MetadataAdapter.getEpisode(itemId, season, episode);
+    return getEpisode(itemId, season, episode);
   }
 
   getSimilar(type: string = "movies", itemId: string) {
-    return MetadataAdapter.getSimilar(type, itemId, 5);
+    return getSimilar(type, itemId, 5);
   }
 
   /**
@@ -54,7 +73,7 @@ export default class Butter {
   }
 
   search(query: string, page: number = 1) {
-    return MetadataAdapter.search(query, page);
+    return search(query, page);
   }
 
   getSubtitles(
@@ -63,18 +82,18 @@ export default class Butter {
     length: number,
     metadata: Object
   ) {
-    return MetadataAdapter.getSubtitles(itemId, filename, length, metadata);
+    return getSubtitles(itemId, filename, length, metadata);
   }
 
   favorites(method: string, metadata: Object) {
-    return MetadataAdapter.favorites(method, metadata);
+    return favorites(method, metadata);
   }
 
   recentlyWatched(method: string, metadata: Object) {
-    return MetadataAdapter.recentlyWatched(method, metadata);
+    return recentlyWatched(method, metadata);
   }
 
   watchList(method: string, metadata: Object) {
-    return MetadataAdapter.watchList(method, metadata);
+    return watchList(method, metadata);
   }
 }
