@@ -1,4 +1,4 @@
-// @flow
+//
 /* eslint react/prefer-stateless-function: off */
 import React, { Component, typeof Children } from "react";
 import { Container } from "reactstrap";

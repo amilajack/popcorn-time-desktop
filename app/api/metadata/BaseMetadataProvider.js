@@ -1,4 +1,4 @@
-// @flow
+//
 import { set, get } from "../../utils/Config";
 import type { contentType, methodType } from "./MetadataProviderInterface";
 

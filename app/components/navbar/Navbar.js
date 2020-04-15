@@ -1,4 +1,4 @@
-// @flow
+//
 /* eslint react/no-set-state: 0 */
 import {
   Collapse,

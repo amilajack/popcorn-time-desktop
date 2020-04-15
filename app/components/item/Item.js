@@ -1,6 +1,6 @@
 /**
  * Movie component that is responsible for playing movies
- * @flow
+ *
  */
 import React, { Component } from "react";
 import { Button, Row, Col } from "reactstrap";

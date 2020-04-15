@@ -5,8 +5,7 @@
 
     ".env": "ignore",
     ".env.example": "ignore",
-    ".eslintignore": "ignore",
-    ".flowconfig": "ignore"
+    ".eslintignore": "ignore"
   },
 
   "javascript.validate.enable": false,
@@ -14,7 +13,6 @@
   "typescript.validate.enable": false,
   "typescript.format.enable": false,
 
-  "flow.useNPMPackagedFlow": true,
   "search.exclude": {
     ".git": true,
     ".eslintcache": true,
@@ -23,7 +21,6 @@
     "app/main.prod.js.map": true,
     "bower_components": true,
     "dll": true,
-    "flow-typed": true,
     "release": true,
     "node_modules": true,
     "npm-debug.log.*": true,

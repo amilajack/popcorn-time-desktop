@@ -1,4 +1,4 @@
-// @flow
+//
 import type { contentType } from "../api/metadata/MetadataProviderInterface";
 
 type modeType = "movies" | "shows" | "search" | "home";

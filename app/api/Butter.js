@@ -1,6 +1,6 @@
 /**
  * The highest level abstraction layer for querying torrents and metadata
- * @flow
+ *
  */
 import TorrentAdapter from "./torrents/TorrentAdapter";
 import {

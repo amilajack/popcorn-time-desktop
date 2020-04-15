@@ -1,4 +1,4 @@
-// @flow
+//
 // Initialize the player
 
 import type { imagesType } from "../metadata/MetadataProviderInterface";

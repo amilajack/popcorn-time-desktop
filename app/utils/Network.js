@@ -1,4 +1,4 @@
-// @flow
+//
 import speedTest from "speedtest-net";
 
 export const timeout: number = 30000;

@@ -1,4 +1,4 @@
-// @flow
+//
 const chalk = require("chalk");
 
 module.exports = function CheckNodeEnv(expectedEnv: string) {

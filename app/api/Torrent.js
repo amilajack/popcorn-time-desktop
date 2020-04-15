@@ -1,6 +1,6 @@
 /**
  * Torrents controller, responsible for playing, stoping, etc
- * @flow
+ *
  */
 import os from "os";
 import WebTorrent from "webtorrent";

@@ -1,4 +1,4 @@
-// @flow
+//
 /* eslint react/no-unused-prop-types: 0 */
 import React, { Component } from "react";
 import { Col, Row } from "reactstrap";

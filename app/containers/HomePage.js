@@ -1,6 +1,6 @@
 /**
  * Home page component that renders CardsGrid and uses VisibilitySensor
- * @flow
+ *
  * @TODO: Use waitForImages plugin to load background images and fade in on load
  */
 import { connect } from "react-redux";

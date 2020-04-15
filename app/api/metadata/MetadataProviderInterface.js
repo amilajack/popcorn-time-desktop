@@ -1,4 +1,4 @@
-// @flow
+//
 type seasonType = {
   // @DEPRECATE (in favor of .ids)
   id: string,

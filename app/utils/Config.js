@@ -1,6 +1,6 @@
 /**
  * Check if config file exists
- * @flow
+ *
  *
  * If it doesn't, create it and initialize it with the fields:
  * 'favorites', 'watchList', 'recentlyWatched'

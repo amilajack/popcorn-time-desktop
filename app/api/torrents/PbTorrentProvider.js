@@ -1,6 +1,6 @@
 /**
  * Pirate Bay torrent provider
- * @flow
+ *
  */
 import fetch from "isomorphic-fetch";
 import {

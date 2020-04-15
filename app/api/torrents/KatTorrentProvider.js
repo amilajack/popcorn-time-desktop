@@ -1,4 +1,4 @@
-// @flow
+//
 import { search } from "super-kat";
 import {
   formatSeasonEpisodeToString,

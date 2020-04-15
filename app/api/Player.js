@@ -1,4 +1,4 @@
-// @flow
+//
 import { remote } from "electron";
 import plyr from "plyr";
 import childProcess from "child_process";

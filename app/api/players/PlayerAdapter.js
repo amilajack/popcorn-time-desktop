@@ -1,6 +1,6 @@
 /**
  * Provide a single API interface for all the providers
- * @flow
+ *
  */
 import ChromecastPlayerProvider from "./ChromecastPlayerProvider";
 import type {

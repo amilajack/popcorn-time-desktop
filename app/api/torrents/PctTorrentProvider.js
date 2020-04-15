@@ -1,4 +1,4 @@
-// @flow
+//
 import fetch from "isomorphic-fetch";
 import {
   handleProviderError,

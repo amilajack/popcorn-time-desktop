@@ -1,4 +1,4 @@
-// @flow
+//
 import fetch from "isomorphic-fetch";
 import { remote } from "electron";
 import semver from "semver";

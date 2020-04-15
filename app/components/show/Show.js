@@ -1,4 +1,4 @@
-// @flow
+//
 import React from "react";
 import { Col, Row, ListGroup, ListGroupItem } from "reactstrap";
 import classNames from "classnames";

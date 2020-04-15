@@ -1,6 +1,6 @@
 /**
  * Resolve requests from cache
- * @flow
+ *
  */
 import OpenSubtitles from "opensubtitles-api";
 import { merge, resolveCache, setCache } from "../torrents/BaseTorrentProvider";

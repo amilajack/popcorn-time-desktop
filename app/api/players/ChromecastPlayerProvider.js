@@ -1,4 +1,4 @@
-// @flow
+//
 import { Client, DefaultMediaReceiver } from "castv2-client";
 import mdns from "mdns";
 import network from "network-address";

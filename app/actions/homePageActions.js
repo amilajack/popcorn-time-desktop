@@ -1,4 +1,3 @@
-// @flow
 import type { activeModeOptionsType, itemType } from "../components/home/Home";
 
 export function setActiveMode(

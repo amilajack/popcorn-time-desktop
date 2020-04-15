@@ -1,4 +1,4 @@
-// @flow
+//
 export type fetchType = {
   quality: string,
   magnet: string,

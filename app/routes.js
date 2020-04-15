@@ -1,6 +1,6 @@
 /* eslint react/jsx-props-no-spreading: off */
 import React from "react";
-import { Switch, Route } from "react-router";
+import { Switch, Route } from "react-router-dom";
 import Loadable from "react-loadable";
 import { Row, Col } from "reactstrap";
 import { remote } from "electron";
