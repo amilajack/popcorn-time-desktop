@@ -14,8 +14,6 @@ type Props = {
 export default function ItemPage(props: Props) {
   const { match } = props;
   return (
-    <div>
-      <Item itemId={match.params.itemId} activeMode={match.params.activeMode} />
-    </div>
+    <Item itemId={match.params.itemId} activeMode={match.params.activeMode} />
   );
 }

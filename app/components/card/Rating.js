@@ -3,7 +3,7 @@ import React from "react";
 import StarRatingComponent from "react-star-rating-component";
 
 type Props = {
-  rating?: number | "n/a",
+  rating?: number,
   starColor?: string,
   emptyStarColor?: string,
 };

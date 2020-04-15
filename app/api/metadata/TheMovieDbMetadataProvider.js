@@ -25,7 +25,7 @@ function formatMetadata(item, type: string, imageUri: string, genres) {
       // eslint-disable-next-line camelcase
       imdbId: item.imdb_id || item.external_ids?.imdb_id || "",
     },
-    type,
+    type: "first_air_date" in item ? "shows" : type,
     certification: "n/a",
     summary: item.overview,
     genres: item.genres
@@ -40,9 +40,9 @@ function formatMetadata(item, type: string, imageUri: string, genres) {
             type === "movies" ? item.runtime : item.episode_run_time[0]
           )
         : {
-            full: "n/a",
-            hours: "n/a",
-            minutes: "n/a",
+            full: 0,
+            hours: 0,
+            minutes: 0,
           },
     trailer: item.videos?.results?.length
       ? `http://youtube.com/watch?v=${item.videos.results[0].key}`
@@ -189,6 +189,18 @@ export default class TheMovieDbMetadataProvider extends BaseMetadataProvider
         data.results.map((movie) =>
           formatMetadata(movie, "movies", this.imageUri, this.genres)
         )
+      );
+  }
+
+  getTrending(limit: number = 5) {
+    return this.theMovieDb
+      .get("trending/all/week", { params: { ...this.params, limit: 5 } })
+      .then(({ data }) =>
+        data.results
+          .map((movie) =>
+            formatMetadata(movie, "movies", this.imageUri, this.genres)
+          )
+          .slice(0, limit)
       );
   }
 

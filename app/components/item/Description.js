@@ -16,6 +16,7 @@ type Props = {
   certification: string,
   seederCount: number,
   trailer: string,
+  showTorrentInfo: boolean,
 };
 
 export default function Description({
@@ -23,13 +24,14 @@ export default function Description({
   runtime,
   genres,
   summary,
-  rating = "n/a",
+  rating = 0,
   onTrailerClick,
   year,
   torrentHealth,
   certification,
   seederCount = 0,
   trailer,
+  showTorrentInfo = true,
 }: Props) {
   const torrentHealthClassName = classNames("torrent__health", {
     [`torrent__health--${torrentHealth}`]: true,
@@ -38,17 +40,17 @@ export default function Description({
   return (
     <Col sm="6" className="Description">
       <h1 className="row-margin" id="title">
-        {title} {torrentHealth}
+        {title} {torrentHealth || ""}
       </h1>
       <Row>
-        {(runtime.hours || runtime.minutes) && (
+        {runtime.hours || runtime.minutes ? (
           <span className="col-sm-3" id="runtime">
             <h6>
               {runtime.hours ? `${runtime.hours} hrs ` : ""}
               {runtime.minutes ? `${runtime.minutes} min` : ""}
             </h6>
           </span>
-        )}
+        ) : null}
         <span className="col-sm-9" id="genres">
           {genres && <h6>{genres.join(", ")}</h6>}
         </span>
@@ -76,18 +78,20 @@ export default function Description({
           </Col>
         )}
 
-        <Col sm="2" className="row-center">
-          <i className="ion-md-magnet" />
-          <div
-            id="magnetPopoverOpen"
-            data-e2e="item-magnet-torrent-health-popover"
-            className={torrentHealthClassName}
-          />
-          <UncontrolledTooltip placement="top" target="magnetPopoverOpen">
-            {seederCount}
-            {" Seeders"}
-          </UncontrolledTooltip>
-        </Col>
+        {showTorrentInfo && (
+          <Col sm="2" className="row-center">
+            <i className="ion-md-magnet" />
+            <div
+              id="magnetPopoverOpen"
+              data-e2e="item-magnet-torrent-health-popover"
+              className={torrentHealthClassName}
+            />
+            <UncontrolledTooltip placement="top" target="magnetPopoverOpen">
+              {seederCount}
+              {" Seeders"}
+            </UncontrolledTooltip>
+          </Col>
+        )}
 
         {process.env.NODE_ENV === "test" && trailer !== "n/a" && (
           <Col sm="3" className="row-center">
