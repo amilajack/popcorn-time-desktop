@@ -2,17 +2,10 @@
   "files.associations": {
     ".stylelintrc": "jsonc",
     ".testcafe-electron-rc": "jsonc",
-
     ".env": "ignore",
     ".env.example": "ignore",
     ".eslintignore": "ignore"
   },
-
-  "javascript.validate.enable": false,
-  "javascript.format.enable": false,
-  "typescript.validate.enable": false,
-  "typescript.format.enable": false,
-
   "search.exclude": {
     ".git": true,
     ".eslintcache": true,

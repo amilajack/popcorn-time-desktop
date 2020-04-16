@@ -1,5 +1,3 @@
-/* eslint global-require: off, import/no-dynamic-require: off */
-
 /**
  * Builds the DLL for development electron renderer process
  */
@@ -7,10 +5,9 @@
 import webpack from "webpack";
 import path from "path";
 import merge from "webpack-merge";
-import baseConfig from "./webpack.config.base.babel";
+import baseConfig from "./webpack.config.base";
 import { dependencies } from "../package.json";
 import CheckNodeEnv from "../internals/scripts/CheckNodeEnv";
-import rendererDevConfig from "./webpack.config.renderer.dev.babel";
 
 CheckNodeEnv("development");
 
@@ -19,7 +16,7 @@ const dist = path.join(__dirname, "..", "dll");
 export default merge.smart(baseConfig, {
   context: path.join(__dirname, ".."),
 
-  devtool: "eval",
+  devtool: "inline-source-map",
 
   mode: "development",
 
@@ -30,7 +27,7 @@ export default merge.smart(baseConfig, {
   /**
    * Use `module` from `webpack.config.renderer.dev.js`
    */
-  module: rendererDevConfig.module,
+  module: require("./webpack.config.renderer.dev.babel").default.module,
 
   entry: {
     renderer: Object.keys(dependencies || {}),
