@@ -11,7 +11,6 @@ cache:
   - "%LOCALAPPDATA%/Yarn"
   - node_modules -> yarn.lock
   - app/node_modules -> app/yarn.lock
-  - flow-typed
   - '%LOCALAPPDATA%\electron\Cache'
   - '%LOCALAPPDATA%\electron-builder\cache'
 

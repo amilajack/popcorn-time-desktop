@@ -2,9 +2,9 @@ const chalk = require("chalk");
 const detectPort = require("detect-port");
 
 (function CheckPortInUse() {
-  const port: string = process.env.PORT || "1212";
+  const port = process.env.PORT || "1212";
 
-  detectPort(port, (err: ?Error, availablePort: number) => {
+  detectPort(port, (err, availablePort) => {
     if (port !== String(availablePort)) {
       throw new Error(
         chalk.whiteBright.bgRed.bold(

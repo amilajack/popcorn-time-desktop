@@ -1,4 +1,3 @@
-// @flow
 // Check if the renderer and main bundles are built
 const path = require("path");
 const chalk = require("chalk");
