@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosInstance } from "axios";
 import { parseRuntimeMinutesToObject } from "./helpers";
 import BaseMetadataProvider from "./BaseMetadataProvider";
 import {
@@ -6,6 +6,8 @@ import {
   Item,
   Season,
   Episode,
+  Runtime,
+  ItemKind,
 } from "./MetadataProviderInterface";
 
 function formatImage(
@@ -16,12 +18,60 @@ function formatImage(
   return `${imageUri}${size}/${path}`;
 }
 
-function formatMetadata(
-  item,
-  type: string,
+type RawItem = {
+  name: string;
+  title: string;
+  release_date: number;
+  first_air_date: number;
+  videos?: {
+    results?: [
+      {
+        key: string;
+      }
+    ];
+  };
+  id: string;
+  imdb_id?: string;
+  media_type: "movie" | "shows";
+  external_ids?: {
+    imdb_id?: string;
+  };
+  overview: string;
+  genres?: [{ name: string }];
+  genre_ids?: number[];
+  backdrop_path: string;
+  poster_path: string;
+  vote_average: number;
+  runtime?: number;
+  episode_run_time?: number[];
+};
+
+type Genres = Record<number, string>;
+
+function formatGenres(item: RawItem, genres: Genres): string[] {
+  if (item.genres) {
+    return item.genres.map((genre) => genre.name);
+  }
+  return item.genre_ids ? item.genre_ids.map((genre) => genres[genre]) : [];
+}
+
+function formatItem(
+  item: RawItem,
+  type: ItemKind,
   imageUri: string,
-  genres: string[]
+  genres: Genres
 ): Item {
+  const runtime: Runtime =
+    item.runtime || item.episode_run_time?.[0]
+      ? parseRuntimeMinutesToObject(
+          item.runtime || item.episode_run_time?.[0] || 0
+        )
+      : {
+          full: "",
+          hours: 0,
+          minutes: 0,
+        };
+
   return {
     // 'title' property is on movies only. 'name' property is on
     // shows only
@@ -34,25 +84,12 @@ function formatMetadata(
       // eslint-disable-next-line camelcase
       imdbId: item.imdb_id || item.external_ids?.imdb_id || "",
     },
-    type: "first_air_date" in item ? "shows" : type,
+    type: "first_air_date" in item ? "shows" : (type as "movies"),
     certification: "n/a",
     summary: item.overview,
-    genres: item.genres
-      ? item.genres.map((genre) => genre.name)
-      : item.genre_ids
-      ? item.genre_ids.map((genre) => genres[String(genre)])
-      : [],
+    genres: formatGenres(item, genres),
     rating: item.vote_average,
-    runtime:
-      item.runtime || item.episode_run_time?.length
-        ? parseRuntimeMinutesToObject(
-            type === "movies" ? item.runtime : item.episode_run_time[0]
-          )
-        : {
-            full: 0,
-            hours: 0,
-            minutes: 0,
-          },
+    runtime,
     trailer: item.videos?.results?.length
       ? `http://youtube.com/watch?v=${item.videos.results[0].key}`
       : "n/a",
@@ -71,11 +108,20 @@ function formatMetadata(
   };
 }
 
-function formatSeasons(show): Season[] {
+type RawSeasons = {
+  id: string;
+  name: string;
+  overview: string;
+  seasons: RawSeason[];
+};
+
+function formatSeasons(show: RawSeasons): Season[] {
   const firstSeasonIsZero =
     show.seasons.length > 0 ? show.seasons[0].season_number === 0 : false;
 
   return show.seasons.map((season) => ({
+    title: show.name,
+    rating: 0,
     season: firstSeasonIsZero ? season.season_number + 1 : season.season_number,
     overview: show.overview,
     id: String(season.id),
@@ -90,7 +136,14 @@ function formatSeasons(show): Season[] {
   }));
 }
 
-function formatSeason(season): Season {
+type RawSeason = {
+  id: string;
+  poster_path: string;
+  season_number: number;
+  episodes: RawEpisode[];
+};
+
+function formatSeason(season: RawSeason): Episode[] {
   return season.episodes.map((episode) => ({
     id: String(episode.id),
     ids: {
@@ -110,7 +163,18 @@ function formatSeason(season): Season {
   }));
 }
 
-function formatEpisode(episode, imageUri: string): Episode {
+type RawEpisode = {
+  id: string;
+  name: string;
+  season_number: number;
+  episode_number: number;
+  overview: string;
+  vote_average: number;
+  still_path: string;
+  poster_path: string;
+};
+
+function formatEpisode(episode: RawEpisode, imageUri: string): Episode {
   return {
     id: String(episode.id),
     ids: {
@@ -130,15 +194,21 @@ function formatEpisode(episode, imageUri: string): Episode {
   };
 }
 
+type Results<T> = {
+  results: T;
+};
+
 export default class TheMovieDbMetadataProvider extends BaseMetadataProvider
   implements MetadataProviderInterface {
-  readonly apiKey: string = "c8cd3c25956bd78c687685e6dcb82a64";
+  private readonly apiKey: string = "c8cd3c25956bd78c687685e6dcb82a64";
 
-  readonly imageUri: string = "https://image.tmdb.org/t/p/";
+  private readonly imageUri: string = "https://image.tmdb.org/t/p/";
 
-  readonly apiUri: string = "https://api.themoviedb.org/3/";
+  private readonly apiUri: string = "https://api.themoviedb.org/3/";
 
-  readonly genres = {
+  readonly supportedIdTypes: Array<"tmdb" | "imdb"> = ["tmdb", "imdb"];
+
+  private readonly genres: Genres = {
     12: "Adventure",
     14: "Fantasy",
     16: "Animation",
@@ -168,29 +238,20 @@ export default class TheMovieDbMetadataProvider extends BaseMetadataProvider
     10768: "War & Politics",
   };
 
-  theMovieDb: axios;
-
-  params: {
-    api_key: string;
-    append_to_response: "external_ids,videos";
+  private readonly params = {
+    api_key: this.apiKey,
+    append_to_response: "external_ids,videos",
   };
 
-  constructor() {
-    super();
-    this.params = {
-      api_key: this.apiKey,
-      append_to_response: "external_ids,videos",
-    };
-    this.theMovieDb = axios.create({
-      baseURL: this.apiUri,
-      timeout: 10000,
-      params: this.params
-    });
-  }
+  private readonly theMovieDb: AxiosInstance = axios.create({
+    baseURL: this.apiUri,
+    timeout: 10000,
+    params: this.params,
+  });
 
   getMovies(page = 1) {
     return this.theMovieDb
-      .get("movie/popular", {
+      .get<Results<RawItem[]>>("movie/popular", {
         params: {
           page,
           ...this.params,
@@ -198,18 +259,20 @@ export default class TheMovieDbMetadataProvider extends BaseMetadataProvider
       })
       .then(({ data }) =>
         data.results.map((movie) =>
-          formatMetadata(movie, "movies", this.imageUri, this.genres)
+          formatItem(movie, "movies", this.imageUri, this.genres)
         )
       );
   }
 
   getTrending(limit = 5) {
     return this.theMovieDb
-      .get("trending/all/week", { params: { ...this.params, limit: 5 } })
+      .get<Results<RawItem[]>>("trending/all/week", {
+        params: { ...this.params, limit: 5 },
+      })
       .then(({ data }) =>
         data.results
           .map((movie) =>
-            formatMetadata(movie, "movies", this.imageUri, this.genres)
+            formatItem(movie, "movies", this.imageUri, this.genres)
           )
           .slice(0, limit)
       );
@@ -221,13 +284,13 @@ export default class TheMovieDbMetadataProvider extends BaseMetadataProvider
         params: this.params,
       })
       .then(({ data }) =>
-        formatMetadata(data, "movies", this.imageUri, this.genres)
+        formatItem(data, "movies", this.imageUri, this.genres)
       );
   }
 
   getShows(page = 1) {
     return this.theMovieDb
-      .get("tv/popular", {
+      .get<Results<RawItem[]>>("tv/popular", {
         params: {
           page,
           ...this.params,
@@ -235,18 +298,18 @@ export default class TheMovieDbMetadataProvider extends BaseMetadataProvider
       })
       .then(({ data }) =>
         data.results.map((show) =>
-          formatMetadata(show, "shows", this.imageUri, this.genres)
+          formatItem(show, "shows", this.imageUri, this.genres)
         )
       );
   }
 
-  getShow(itemId: string) {
+  getShow(itemId: string): Promise<Item> {
     return this.theMovieDb
       .get(`tv/${itemId}`, {
         params: this.params,
       })
       .then(({ data }) =>
-        formatMetadata(data, "shows", this.imageUri, this.genres)
+        formatItem(data, "shows", this.imageUri, this.genres)
       );
   }
 
@@ -260,7 +323,7 @@ export default class TheMovieDbMetadataProvider extends BaseMetadataProvider
 
   getSeason(itemId: string, season: number) {
     return this.theMovieDb
-      .get(`tv/${itemId}/season/${season}`, {
+      .get<RawSeason>(`tv/${itemId}/season/${season}`, {
         params: this.params,
       })
       .then(({ data }) => formatSeason(data));
@@ -276,7 +339,7 @@ export default class TheMovieDbMetadataProvider extends BaseMetadataProvider
 
   search(query: string, page = 1) {
     return this.theMovieDb
-      .get("search/multi", {
+      .get<Results<RawItem[]>>("search/multi", {
         params: {
           page,
           include_adult: true,
@@ -286,7 +349,7 @@ export default class TheMovieDbMetadataProvider extends BaseMetadataProvider
       })
       .then(({ data }) =>
         data.results.map((result) =>
-          formatMetadata(
+          formatItem(
             result,
             result.media_type === "movie" ? "movies" : "shows",
             this.imageUri,
@@ -296,7 +359,7 @@ export default class TheMovieDbMetadataProvider extends BaseMetadataProvider
       );
   }
 
-  getSimilar(type = "movies", itemId: string) {
+  getSimilar(type: ItemKind = ItemKind.Movie, itemId: string): Promise<Item[]> {
     const urlType = (() => {
       switch (type) {
         case "movies":
@@ -310,16 +373,13 @@ export default class TheMovieDbMetadataProvider extends BaseMetadataProvider
     })();
 
     return this.theMovieDb
-      .get(`${urlType}/${itemId}/recommendations`, {
+      .get<Results<RawItem[]>>(`${urlType}/${itemId}/recommendations`, {
         params: this.params,
       })
       .then(({ data }) =>
         data.results.map((movie) =>
-          formatMetadata(movie, type, this.imageUri, this.genres)
+          formatItem(movie, type, this.imageUri, this.genres)
         )
       );
   }
-
-  // @TODO: Properly implement provider architecture
-  provide() {}
 }

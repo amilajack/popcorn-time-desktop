@@ -11,11 +11,12 @@ import {
   setLoading,
 } from "../actions/homePageActions";
 import Home from "../components/home/Home";
+import { ItemKind } from "../api/metadata/MetadataProviderInterface";
 
 type State = {
-  activeMode: "";
+  activeMode: ItemKind;
   activeModeOptions: Record<string, string>;
-  modes: "";
+  modes: ItemKind[];
   items: string[];
   isLoading: boolean;
   infinitePagination: boolean;

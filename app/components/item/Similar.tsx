@@ -1,37 +1,27 @@
 import React, { Component } from "react";
 import CardsGrid from "../card/CardsGrid";
 import Butter from "../../api/Butter";
+import { Item, ItemKind } from "../../api/metadata/MetadataProviderInterface";
 
 type Props = {
   itemId: string;
-  type: string;
+  type: ItemKind;
 };
 
 type State = {
-  items: Array<Record<string, any>>;
   isLoading: boolean;
-  hasFetched: boolean;
+  isFinished: boolean;
+  similarItems: Item[];
 };
 
 export default class Similar extends Component<Props, State> {
-  props: Props;
-
-  state: State;
-
-  butter: Butter;
-
-  initialState: State = {
-    items: [],
+  state: State = {
+    similarItems: [],
     isLoading: false,
-    hasFetched: false,
+    isFinished: false,
   };
 
-  constructor(props: Props) {
-    super(props);
-
-    this.butter = new Butter();
-    this.state = this.initialState;
-  }
+  butter: Butter = new Butter();
 
   componentDidMount() {
     const { itemId } = this.props;
@@ -65,7 +55,7 @@ export default class Similar extends Component<Props, State> {
         title="similar"
         limit={4}
         items={similarItems}
-        metadataLoading={isLoading}
+        isLoading={isLoading}
         isFinished={isFinished}
         autofit
       />

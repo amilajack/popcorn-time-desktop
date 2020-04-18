@@ -8,7 +8,11 @@ import {
   NavItem,
   NavbarBrand,
 } from "reactstrap";
-import React, { Component, SyntheticEvent as Event } from "react";
+import React, {
+  Component,
+  SyntheticEvent as Event,
+  SyntheticEvent,
+} from "react";
 import classNames from "classnames";
 import { Link } from "react-router-dom";
 import logo from "../../../resources/icon.png";
@@ -25,20 +29,18 @@ type State = {
 };
 
 export default class PopcornTimeNavbar extends Component<Props, State> {
-  props: Props;
-
   state: State = {
     collapsed: true,
     searchQuery: "",
   };
 
-  handleSearchChange = ({ target: { value } }: Event<HTMLButtonElement>) => {
+  handleSearchChange = (event: SyntheticEvent) => {
     this.setState({
-      searchQuery: value,
+      searchQuery: event.target.value,
     });
   };
 
-  handleKeyPress = ({ currentTarget, keyCode }: Event<HTMLButtonElement>) => {
+  handleKeyPress = ({ currentTarget, keyCode }: SyntheticEvent) => {
     const { searchQuery } = this.state;
     const { setActiveMode } = this.props;
 
@@ -96,7 +98,7 @@ export default class PopcornTimeNavbar extends Component<Props, State> {
             >
               <Link
                 className="nav-link"
-                to="/item/home"
+                to="/home"
                 replace
                 onClick={() => setActiveMode("home")}
               >
@@ -109,7 +111,7 @@ export default class PopcornTimeNavbar extends Component<Props, State> {
               })}
             >
               <Link
-                to="/item/movies"
+                to="/movies"
                 replace
                 className="nav-link"
                 onClick={() => setActiveMode("movies")}
@@ -124,7 +126,7 @@ export default class PopcornTimeNavbar extends Component<Props, State> {
             >
               <Link
                 className="nav-link"
-                to="/item/shows"
+                to="/shows"
                 replace
                 onClick={() => setActiveMode("shows")}
               >

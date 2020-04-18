@@ -1,22 +1,19 @@
 import React from "react";
 
-type PosterProps = {
-  magnetLink: string;
-  onClick: Function;
-  poster: string;
+type Props = {
+  onClick?: Function;
+  image?: string;
 };
 
-const Poster = ({ magnetLink, onClick, poster }: PosterProps) => (
+const Poster = ({ onClick, image }: Props) => (
   <div className="Item--poster-container">
     <div role="presentation" className="Item--play" onClick={onClick}>
-      {magnetLink && (
-        <i
-          role="presentation"
-          data-e2e="item-play-button"
-          className="Item--icon-play ion-md-play"
-          onClick={onClick}
-        />
-      )}
+      <i
+        role="presentation"
+        data-e2e="item-play-button"
+        className="Item--icon-play ion-md-play"
+        onClick={onClick}
+      />
     </div>
     <img
       className="Item--poster"
@@ -24,10 +21,16 @@ const Poster = ({ magnetLink, onClick, poster }: PosterProps) => (
       width="233px"
       role="presentation"
       alt="item-poster"
-      style={{ opacity: poster ? 1 : 0 }}
-      src={poster}
+      style={{ opacity: image ? 1 : 0 }}
+      src={image}
     />
   </div>
 );
+
+Poster.defaultProps = {
+  onClick: () => {},
+  // @TODO Use placeholder image when image is undefined
+  // image: '...'
+};
 
 export default Poster;

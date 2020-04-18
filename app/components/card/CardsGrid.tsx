@@ -7,12 +7,12 @@ import { Col, Row } from "reactstrap";
 import classNames from "classnames";
 import Card from "./Card";
 import Loader from "../loader/Loader";
-import { Content } from "../../api/metadata/MetadataProviderInterface";
+import { Item } from "../../api/metadata/MetadataProviderInterface";
 
 type Props = {
   title?: string;
   limit?: number;
-  items?: Array<Content>;
+  items: Array<Item>;
   isLoading?: boolean;
   isFinished?: boolean;
   autofit?: boolean;
@@ -20,6 +20,7 @@ type Props = {
 
 export default function CardsGrid(props: Props) {
   const { items, isLoading, isFinished, title, limit, autofit } = props;
+  const limitedItems = limit ? items.slice(0, limit + 1) : items;
 
   return (
     <>
@@ -32,17 +33,14 @@ export default function CardsGrid(props: Props) {
               autofit ? "CardsGrid--autofit" : "CardsGrid--autofill"
             )}
           >
-            {(limit ? items.filter((e, i) => i < limit) : items).map((item) => (
+            {limitedItems.map((item) => (
               <Card
                 image={item?.images?.fanart?.thumb || ""}
                 title={item.title}
                 id={item.id}
                 key={item.id}
-                year={item.year}
                 type={item.type}
                 rating={item.rating}
-                genres={item.genres}
-                item={item}
               />
             ))}
           </div>

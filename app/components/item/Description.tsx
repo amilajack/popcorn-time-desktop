@@ -1,36 +1,40 @@
 import React from "react";
 import classNames from "classnames";
 import { Row, Col, UncontrolledTooltip } from "reactstrap";
-
 import Rating from "../card/Rating";
+import { Runtime } from "../../api/metadata/MetadataProviderInterface";
 
 type Props = {
   title: string;
-  runtime: Record<string, any>;
+  runtime?: Runtime;
   genres: Array<string>;
   summary: string;
-  rating: number;
-  onTrailerClick: Function;
+  onTrailerClick?: Function;
   year: number;
-  torrentHealth: string;
+  torrentHealth?: string;
   certification: string;
-  seederCount: number;
-  trailer: string;
+  trailer?: string;
+  seederCount?: number;
+  rating?: number;
   showTorrentInfo?: boolean;
 };
 
 export default function Description({
   title,
-  runtime,
+  runtime = {
+    full: "n/a",
+    minutes: 0,
+    hours: 0,
+  },
   genres,
   summary,
-  rating = 0,
   onTrailerClick,
   year,
   torrentHealth,
   certification,
-  seederCount = 0,
   trailer,
+  rating = 0,
+  seederCount = 0,
   showTorrentInfo = true,
 }: Props) {
   const torrentHealthClassName = classNames("torrent__health", {
@@ -93,20 +97,22 @@ export default function Description({
           </Col>
         )}
 
-        {process.env.NODE_ENV === "test" && trailer !== "n/a" && (
-          <Col sm="3" className="row-center">
-            <i
-              id="trailerPopoverOpen"
-              data-e2e="item-trailer-button"
-              className="ion-md-videocam"
-              onClick={onTrailerClick}
-              role="presentation"
-            />
-            <UncontrolledTooltip placement="top" target="trailerPopoverOpen">
-              Trailer
-            </UncontrolledTooltip>
-          </Col>
-        )}
+        {process.env.NODE_ENV === "test" &&
+          trailer !== "n/a" &&
+          onTrailerClick && (
+            <Col sm="3" className="row-center">
+              <i
+                id="trailerPopoverOpen"
+                data-e2e="item-trailer-button"
+                className="ion-md-videocam"
+                onClick={onTrailerClick}
+                role="presentation"
+              />
+              <UncontrolledTooltip placement="top" target="trailerPopoverOpen">
+                Trailer
+              </UncontrolledTooltip>
+            </Col>
+          )}
       </Row>
     </Col>
   );

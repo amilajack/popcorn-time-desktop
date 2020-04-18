@@ -5,7 +5,9 @@ module.exports = {
     'import/no-extraneous-dependencies': 'off',
     "@typescript-eslint/no-implied-eval": "off",
     "@typescript-eslint/no-throw-literal": "off",
-    "react/state-in-constructor": "off"
+    "react/state-in-constructor": "off",
+    "react/static-property-placement": "off",
+    "react/jsx-props-no-spreading": "off"
   },
   parserOptions: {
     project: {

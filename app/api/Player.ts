@@ -1,4 +1,3 @@
-//
 import { remote } from "electron";
 import plyr from "plyr";
 import childProcess from "child_process";
@@ -6,8 +5,7 @@ import network from "network-address";
 import vlcCommand from "vlc-command";
 import ChromecastPlayerProvider from "./players/ChromecastPlayerProvider";
 import { Metadata } from "./players/PlayerProviderInterface";
-
-export type Subtitle = { kind: string; src: string; srclang: string };
+import { PlayerSubtitle } from "./Subtitle";
 
 const { powerSaveBlocker } = remote;
 
@@ -16,9 +14,6 @@ export default class Player {
 
   powerSaveBlockerId?: number;
 
-  /**
-   * @private
-   */
   player?: plyr;
 
   static nativePlaybackFormats = [
@@ -65,7 +60,7 @@ export default class Player {
     provider: ChromecastPlayerProvider,
     streamingUrl: string,
     metadata: Metadata,
-    subtitles: Array<Subtitle>
+    subtitles: Array<PlayerSubtitle> = []
   ) {
     this.powerSaveBlockerId = powerSaveBlocker.start("prevent-app-suspension");
     const addr = streamingUrl.replace("localhost", network());
@@ -88,7 +83,7 @@ export default class Player {
   }
 
   initVLC(servingUrl: string) {
-    vlcCommand((error, cmd: string) => {
+    vlcCommand((error: Error, cmd: string) => {
       if (error) return console.error("Could not find vlc command path");
 
       if (process.platform === "win32") {

@@ -10,6 +10,11 @@ export function isNewerSemvar(current: string, next: string): boolean {
   return semver.gt(current, next);
 }
 
+type Release = {
+  prerelease: boolean;
+  name: string;
+};
+
 /**
  * Return if the current application version is the latest
  */
@@ -18,11 +23,9 @@ export default function CheckUpdate(): Promise<boolean> {
 
   return fetch(defaultUpdateEndpoint)
     .then((res) => res.json())
-    .then(
-      (res) =>
-        !!res.filter(
-          (each) =>
-            each.prerelease === false && isNewerSemvar(each.name, currentSemvar)
-        ).length
+    .then((res: Release[]) =>
+      res.some(
+        (each) => !each.prerelease && isNewerSemvar(each.name, currentSemvar)
+      )
     );
 }

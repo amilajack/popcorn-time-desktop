@@ -6,6 +6,7 @@ import React from "react";
 import { Col, Row } from "reactstrap";
 import { Link } from "react-router-dom";
 import Rating from "./Rating";
+import { ItemKind } from "../../api/metadata/MetadataProviderInterface";
 
 type Props = {
   title: string;
@@ -13,7 +14,7 @@ type Props = {
   image: string;
   id: string;
   rating: number;
-  type: string;
+  type: ItemKind;
 };
 
 export default function Card(props: Props) {
@@ -30,7 +31,7 @@ export default function Card(props: Props) {
 
   return (
     <div className="Card">
-      <Link replace to={`/item/${type}/${id}`}>
+      <Link replace to={`/${type}/${id}`}>
         <div className="Card--overlay-container" style={backgroundImageStyle}>
           <div className="Card--overlay" />
         </div>
@@ -38,7 +39,7 @@ export default function Card(props: Props) {
       <div className="Card--descrption">
         <Row>
           <Col sm="12">
-            <Link className="Card--title" replace to={`/item/${type}/${id}`}>
+            <Link className="Card--title" replace to={`/${type}/${id}`}>
               {title}
             </Link>
             {typeof rating === "number" && (

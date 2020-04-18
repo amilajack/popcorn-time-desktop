@@ -44,6 +44,86 @@ function greaterThanOrEqualTo(first, second) {
   return first > second || first === second;
 }
 
+function butterFactory() {
+  return new Butter();
+}
+
+function moviesFactory() {
+  return new Butter().getMovies(1, 50);
+}
+
+function assertNAorNumber(variable) {
+  const assertion = variable === "n/a" || typeof variable === "number";
+  expect(assertion).toBe(true);
+}
+
+function assertImageFormat(item) {
+  chaiExpect(item.images.poster).to.be.an("object");
+  chaiExpect(item.images.fanart).to.be.an("object");
+  chaiExpect(item.images.fanart.full).to.be.a("string");
+  chaiExpect(item.images.fanart.medium).to.be.a("string");
+  chaiExpect(item.images.fanart.thumb).to.be.a("string");
+  chaiExpect(item.images.poster.full).to.be.a("string");
+  chaiExpect(item.images.poster.medium).to.be.a("string");
+  chaiExpect(item.images.poster.thumb).to.be.a("string");
+}
+
+function assertMovieFormat(movie) {
+  assertNAorNumber(movie.rating);
+  assertNAorNumber(movie.runtime.hours);
+  assertNAorNumber(movie.runtime.minutes);
+  assertImageFormat(movie);
+  chaiExpect(movie).to.have.property("trailer").that.is.a("string");
+}
+
+function assertSingleTorrent(torrent) {
+  chaiExpect(torrent).to.be.an("object");
+  chaiExpect(torrent.magnet).to.be.a("string");
+  chaiExpect(torrent.quality).to.be.a("string");
+  chaiExpect(torrent.metadata).to.be.a("string");
+  chaiExpect(torrent._provider).to.be.a("string");
+
+  chaiExpect(torrent)
+    .to.have.property("health")
+    .that.is.a("string")
+    .that.oneOf(["healthy", "decent", "poor"]);
+  chaiExpect(torrent).to.have.property("seeders").that.is.a("number");
+  // .that.is.greaterThan(0);
+  chaiExpect(torrent).to.have.property("leechers").that.is.a("number");
+  // .that.is.greaterThan(0);
+
+  assertNAorNumber(torrent.seeders);
+  assertNAorNumber(torrent.leechers);
+}
+
+function assertProviderTorrent(torrent) {
+  chaiExpect(torrent).to.be.an("object");
+  chaiExpect(torrent.magnet).to.be.a("string");
+  chaiExpect(torrent.quality).to.be.a("string");
+  chaiExpect(torrent.metadata).to.be.a("string");
+  chaiExpect(torrent._provider).to.be.a("string");
+
+  chaiExpect(torrent)
+    .to.have.property("seeders")
+    .that.is.a("number")
+    .that.is.greaterThan(0);
+  chaiExpect(torrent)
+    .to.have.property("leechers")
+    .that.is.a("number")
+    .that.is.greaterThan(0);
+
+  assertNAorNumber(torrent.seeders);
+  assertNAorNumber(torrent.leechers);
+}
+
+function assertNotEmptySingleTorrent(torrent) {
+  expect(torrent).not.toEqual({
+    "480p": undefined,
+    "720p": undefined,
+    "1080p": undefined,
+  });
+}
+
 describe("API", () => {
   describe("Status", () => {
     it("should get status of providers", async () => {
@@ -692,83 +772,3 @@ describe("API", () => {
     });
   });
 });
-
-function butterFactory() {
-  return new Butter();
-}
-
-function moviesFactory() {
-  return new Butter().getMovies(1, 50);
-}
-
-function assertNAorNumber(variable) {
-  const assertion = variable === "n/a" || typeof variable === "number";
-  expect(assertion).toBe(true);
-}
-
-function assertMovieFormat(movie) {
-  assertNAorNumber(movie.rating);
-  assertNAorNumber(movie.runtime.hours);
-  assertNAorNumber(movie.runtime.minutes);
-  assertImageFormat(movie);
-  chaiExpect(movie).to.have.property("trailer").that.is.a("string");
-}
-
-function assertImageFormat(item) {
-  chaiExpect(item.images.poster).to.be.an("object");
-  chaiExpect(item.images.fanart).to.be.an("object");
-  chaiExpect(item.images.fanart.full).to.be.a("string");
-  chaiExpect(item.images.fanart.medium).to.be.a("string");
-  chaiExpect(item.images.fanart.thumb).to.be.a("string");
-  chaiExpect(item.images.poster.full).to.be.a("string");
-  chaiExpect(item.images.poster.medium).to.be.a("string");
-  chaiExpect(item.images.poster.thumb).to.be.a("string");
-}
-
-function assertSingleTorrent(torrent) {
-  chaiExpect(torrent).to.be.an("object");
-  chaiExpect(torrent.magnet).to.be.a("string");
-  chaiExpect(torrent.quality).to.be.a("string");
-  chaiExpect(torrent.metadata).to.be.a("string");
-  chaiExpect(torrent._provider).to.be.a("string");
-
-  chaiExpect(torrent)
-    .to.have.property("health")
-    .that.is.a("string")
-    .that.oneOf(["healthy", "decent", "poor"]);
-  chaiExpect(torrent).to.have.property("seeders").that.is.a("number");
-  // .that.is.greaterThan(0);
-  chaiExpect(torrent).to.have.property("leechers").that.is.a("number");
-  // .that.is.greaterThan(0);
-
-  assertNAorNumber(torrent.seeders);
-  assertNAorNumber(torrent.leechers);
-}
-
-function assertProviderTorrent(torrent) {
-  chaiExpect(torrent).to.be.an("object");
-  chaiExpect(torrent.magnet).to.be.a("string");
-  chaiExpect(torrent.quality).to.be.a("string");
-  chaiExpect(torrent.metadata).to.be.a("string");
-  chaiExpect(torrent._provider).to.be.a("string");
-
-  chaiExpect(torrent)
-    .to.have.property("seeders")
-    .that.is.a("number")
-    .that.is.greaterThan(0);
-  chaiExpect(torrent)
-    .to.have.property("leechers")
-    .that.is.a("number")
-    .that.is.greaterThan(0);
-
-  assertNAorNumber(torrent.seeders);
-  assertNAorNumber(torrent.leechers);
-}
-
-function assertNotEmptySingleTorrent(torrent) {
-  expect(torrent).not.toEqual({
-    "480p": undefined,
-    "720p": undefined,
-    "1080p": undefined,
-  });
-}

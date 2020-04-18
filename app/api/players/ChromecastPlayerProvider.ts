@@ -7,7 +7,7 @@ import {
   Device,
   Metadata,
 } from "./PlayerProviderInterface";
-import { Subtitle } from "../Player";
+import { PlayerSubtitle } from "../Subtitle";
 
 type Castv2Device = {
   fullname: string;
@@ -26,7 +26,7 @@ export default class ChromecastPlayerProvider
 
   supportsSubtitles = true;
 
-  selectedDevice: Device;
+  selectedDevice?: Device;
 
   devices: Array<Device> = [];
 
@@ -86,10 +86,14 @@ export default class ChromecastPlayerProvider
     return selectedDevice;
   }
 
-  play(contentUrl: string, metadata: Metadata, subtitles: Array<Subtitle>) {
+  play(
+    contentUrl: string,
+    metadata: Metadata,
+    subtitles: Array<PlayerSubtitle>
+  ) {
     const client = new Client();
 
-    if (!this.selectDevice) {
+    if (!this.selectDevice || !this.selectedDevice) {
       throw new Error("No device selected");
     }
 
@@ -105,6 +109,10 @@ export default class ChromecastPlayerProvider
     }));
 
     return new Promise((resolve, reject) => {
+      if (!this.selectedDevice) {
+        throw new Error("No device selected");
+      }
+
       client.connect(this.selectedDevice.address, () => {
         client.launch(DefaultMediaReceiver, (err: Error, player) => {
           if (err) reject(err);

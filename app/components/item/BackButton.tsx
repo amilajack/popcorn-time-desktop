@@ -13,7 +13,8 @@ const BackButton = ({ onClick }: BackButtonProps) => (
       data-e2e="item-button-back"
       onClick={onClick}
     >
-      <i className="ion-md-arrow-back" /> Back
+      <i className="ion-md-arrow-back" />
+      Back
     </span>
   </Link>
 );

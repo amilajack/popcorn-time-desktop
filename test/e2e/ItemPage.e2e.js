@@ -12,7 +12,7 @@ import {
   getLowerCaseCardTitle,
 } from "./helpers";
 
-const TEST_MOVIE_URL = "#/item/movies/351286";
+const TEST_MOVIE_URL = "#/movies/351286";
 
 fixture`Item Page Movies`.page(BASE_URL).beforeEach(async (t) => {
   clearConfigs();

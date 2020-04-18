@@ -4,79 +4,97 @@ import {
   timeout,
   resolveEndpoint,
 } from "./BaseTorrentProvider";
-import { TorrentProviderInterface } from "./TorrentProviderInterface";
+import {
+  TorrentProviderInterface,
+  ProviderTorrent,
+  ExtendedDetails,
+  ShowDetail,
+} from "./TorrentProviderInterface";
+import { ItemKind } from "../metadata/MetadataProviderInterface";
 
 const endpoint = "https://tv-v2.api-fetch.website";
 const providerId = "PCT";
 const resolvedEndpoint = resolveEndpoint(endpoint, providerId);
 
-export default class PctTorrentProvider implements TorrentProviderInterface {
+type RawTorrent = {
+  quality: string;
+  url: string;
+  seed?: number;
+  seeds?: number;
+  seeders?: number;
+  peer?: number;
+  season?: number;
+  episode?: number;
+};
+
+type RawEpisode = {
+  season: number;
+  episode: number;
+  torrents: RawTorrent[];
+};
+
+type RawMovieTorrent = {
+  torrents: {
+    en: {
+      "1080p": RawTorrent;
+      "720p": RawTorrent;
+    };
+  };
+};
+
+type RawEpisodeTorrent = {
+  episodes: RawEpisode[];
+};
+
+export default class PctTorrentProvider extends TorrentProviderInterface {
   static providerName = "PopcornTime API";
 
   static shows = {};
 
   static async fetch(
     itemId: string,
-    type: string,
-    extendedDetails: Record<string, any> = {}
-  ) {
+    type: ItemKind,
+    extendedDetails: ExtendedDetails = {}
+  ): Promise<ProviderTorrent[]> {
     const urlTypeParam = type === "movies" ? "movie" : "show";
-    const request = timeout(
+    const request = timeout<RawMovieTorrent | RawEpisodeTorrent>(
       fetch(`${resolvedEndpoint}/${urlTypeParam}/${itemId}`).then((res) =>
         res.json()
       )
     );
 
     switch (type) {
-      case "movies":
-        return request.then((movie) =>
-          [
-            { ...movie.torrents.en["1080p"], quality: "1080p" },
-            { ...movie.torrents.en["720p"], quality: "720p" },
-          ].map((torrent) => this.formatMovieTorrent(torrent))
-        );
+      case "movies": {
+        const movieTorrent = (await request) as RawMovieTorrent;
+        return [
+          { ...movieTorrent.torrents.en["1080p"], quality: "1080p" },
+          { ...movieTorrent.torrents.en["720p"], quality: "720p" },
+        ].map((torrent) => this.formatMovieTorrent(torrent));
+      }
       case "shows": {
-        const { season, episode } = extendedDetails;
-
-        const show = await request
-          .then((res) =>
-            res.episodes.map((eachEpisode) => this.formatEpisode(eachEpisode))
-          )
-          .catch((error) => {
-            handleProviderError(error);
-            return [];
-          });
-
-        this.shows[itemId] = show;
-
-        return this.filterTorrents(show, season, episode);
+        const { season, episode } = extendedDetails as ShowDetail;
+        try {
+          const show = (await request) as RawEpisodeTorrent;
+          const episodes = show.episodes
+            .map((eachEpisode) => this.formatEpisodeTorrent(eachEpisode))
+            .filter(
+              (eachEpisode) =>
+                String(eachEpisode.season) === String(season) &&
+                String(eachEpisode.episode) === String(episode)
+            )
+            .map((eachEpisode) => eachEpisode.torrents);
+          return episodes.length > 0 ? episodes[0] : [];
+        } catch (error) {
+          handleProviderError(error);
+          return [];
+        }
       }
       default:
         return [];
     }
   }
 
-  /**
-   * Filter torrent from episodes
-   *
-   * @param {array}  | Episodes
-   * @param {number} | season
-   * @param {number} | episode
-   * @return {array} | Array of torrents
-   */
-  static filterTorrents(show, season: number, episode: number) {
-    const filterTorrents = show
-      .filter(
-        (eachEpisode) =>
-          String(eachEpisode.season) === String(season) &&
-          String(eachEpisode.episode) === String(episode)
-      )
-      .map((eachEpisode) => eachEpisode.torrents);
-
-    return filterTorrents.length > 0 ? filterTorrents[0] : [];
-  }
-
-  static formatEpisode({ season, episode, torrents }) {
+  static formatEpisodeTorrent({ season, episode, torrents }: RawEpisode) {
     return {
       season,
       episode,
@@ -84,28 +102,24 @@ export default class PctTorrentProvider implements TorrentProviderInterface {
     };
   }
 
-  static formatMovieTorrent(torrent) {
+  static formatMovieTorrent(torrent: RawTorrent): ProviderTorrent {
     return {
       quality: torrent.quality,
       magnet: torrent.url,
-      seeders: torrent.seed || torrent.seeds,
+      seeders: torrent.seed || torrent.seeds || 0,
       leechers: torrent.peer || 0,
       metadata: String(torrent.url),
       _provider: "pct",
     };
   }
 
-  static formatEpisodeTorrents(torrents) {
-    return Object.keys(torrents).map((videoQuality) => ({
+  static formatEpisodeTorrents(torrents: RawTorrent[]): ProviderTorrent[] {
+    return Object.entries(torrents).map(([videoQuality, video]) => ({
       quality: videoQuality === "0" ? "0p" : videoQuality,
-      magnet: torrents[videoQuality]?.url,
-      metadata: String(torrents[videoQuality]?.url),
-      seeders:
-        torrents[videoQuality]?.seeds ||
-        torrents[videoQuality]?.seed ||
-        torrents[videoQuality]?.seeders ||
-        0,
-      leechers: torrents[videoQuality]?.peer || 0,
+      magnet: video?.url,
+      metadata: String(video?.url),
+      seeders: video?.seeds || video?.seed || video?.seeders || 0,
+      leechers: video?.peer || 0,
       _provider: "pct",
     }));
   }
@@ -116,11 +130,7 @@ export default class PctTorrentProvider implements TorrentProviderInterface {
       .catch(() => false);
   }
 
-  static provide(
-    itemId: string,
-    type: string,
-    extendedDetails: Record<string, any> = {}
-  ) {
+  static provide(itemId: string, type: ItemKind, extendedDetails: ShowDetail) {
     switch (type) {
       case "movies":
         return this.fetch(itemId, type, extendedDetails).catch((error) => {

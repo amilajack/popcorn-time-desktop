@@ -1,7 +1,6 @@
 /**
  * Check if config file exists
  *
- *
  * If it doesn't, create it and initialize it with the fields:
  * 'favorites', 'watchList', 'recentlyWatched'
  */
@@ -21,11 +20,11 @@ export default function setupConfig() {
 
 const config = setupConfig();
 
-export function set(key: string, value: any) {
+export function set<T = any>(key: string, value: T) {
   return config.set(key, value);
 }
 
-export function get(key: string) {
+export function get<T>(key: string): T {
   return config.get(key);
 }
 

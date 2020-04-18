@@ -15,10 +15,16 @@ export type Subtitle = {
   buffer: Buffer;
 };
 
+/**
+ * The subtitles for the player
+ * These are different from the subtitles from the API
+ */
+export type PlayerSubtitle = { kind: string; src: string; srclang: string };
+
 export default class SubtitleServer {
   basePath = os.tmpdir();
 
-  server: express;
+  server: Express.Application;
 
   port?: number;
 
@@ -60,7 +66,7 @@ export default class SubtitleServer {
     const fullPath = path.join(basePath, filename);
 
     return new Promise((resolve, reject) => {
-      srt2vtt(srtBuffer, (error?: Error, vttBuffer: Buffer) => {
+      srt2vtt(srtBuffer, (error: Error, vttBuffer: Buffer) => {
         if (error) reject(error);
 
         fs.writeFile(fullPath, vttBuffer, () => {

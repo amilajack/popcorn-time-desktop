@@ -1,33 +1,30 @@
-import { Content } from "../api/metadata/MetadataProviderInterface";
+import { Item, ItemKind } from "../api/metadata/MetadataProviderInterface";
+import { ActiveModeOptions } from "../components/home/Home";
 
 type Mode = "movies" | "shows" | "search" | "home";
 
+type PageInfo = {
+  page: number;
+  limit: number;
+  items: Array<Item>;
+};
+
 type Action = {
-  type: string;
-  items: Array<Content>;
+  type: ItemKind;
+  items: Array<Item>;
   activeMode: Mode;
-  activeModeOptions?: {
-    [option: string]: string | boolean | number;
-  };
+  activeModeOptions?: ActiveModeOptions;
   infinitePagination?: boolean;
   isLoading?: boolean;
 };
 
 type HomePageReducerState = {
   activeMode: Mode;
-  activeModeOptions: {
-    [option: string]: string | boolean | number;
-  };
-  modes: {
-    [mode: Mode]: {
-      page: number;
-      limit: number;
-      items: Array<Content>;
-    };
-  };
+  activeModeOptions: ActiveModeOptions;
+  modes: Record<Mode, PageInfo>;
   infinitePagination: boolean;
   isLoading: boolean;
-  items: Array<Content>;
+  items: Array<Item>;
 };
 
 const defaultState: HomePageReducerState = {

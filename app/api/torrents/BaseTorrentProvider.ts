@@ -1,9 +1,8 @@
-//
-/* eslint prefer-template: 0 */
+/* eslint prefer-template: off */
 import Cache from "lru-cache";
 import url from "url";
 import TheMovieDbMetadataProvider from "../metadata/TheMovieDbMetadataProvider";
-import { Torrent } from "./TorrentProviderInterface";
+import { Torrent, Health } from "./TorrentProviderInterface";
 
 export const providerCache = new Cache({
   maxAge: process.env.CONFIG_CACHE_TIMEOUT
@@ -12,7 +11,7 @@ export const providerCache = new Cache({
 });
 
 // Create a promise that rejects in <ms> milliseconds
-export function timeout(promise: Promise<any>, ms = 20000) {
+export function timeout<T>(promise: Promise<T>, ms = 20000): Promise<T> {
   const timeoutPromise = new Promise((resolve, reject) => {
     const id = setTimeout(
       () => {
@@ -29,7 +28,7 @@ export function timeout(promise: Promise<any>, ms = 20000) {
   return Promise.race([promise, timeoutPromise]);
 }
 
-export function getHealth(seeders = 0, leechers = 1): string {
+export function getHealth(seeders = 0, leechers = 1): Health {
   const ratio = seeders / leechers;
 
   if (seeders < 50) {
@@ -69,10 +68,8 @@ export function hasSubtitles(metadata: string): boolean {
   return metadata.includes("sub");
 }
 
-export function sortTorrentsBySeeders(torrents: Array<any>): Array<any> {
-  return torrents.sort((prev: Record<string, any>, next: Record<string, any>) =>
-    prev.seeders === next.seeders ? 0 : prev.seeders > next.seeders ? -1 : 1
-  );
+export function sortTorrentsBySeeders(torrents: Torrent[]): Torrent[] {
+  return torrents.sort((a, b) => b.seeders - a.seeders);
 }
 
 export function constructMovieQueries(
@@ -90,7 +87,7 @@ export function constructMovieQueries(
 export function formatSeasonEpisodeToObject(
   season: number,
   episode?: number
-): Record<string, any> {
+): { season: string; episode: string } {
   return {
     season: String(season).length === 1 ? "0" + String(season) : String(season),
     episode:
@@ -113,13 +110,6 @@ export function constructSeasonQueries(
   ];
 }
 
-/**
- * @param {array} results | A two-dimentional array containing arrays of results
- */
-export function merge(results: Array<any>) {
-  return results.reduce((previous, current) => [...previous, ...current]);
-}
-
 export function resolveEndpoint(defaultEndpoint: string, providerId: string) {
   const endpointEnvVariable = `CONFIG_ENDPOINT_${providerId}`;
 
@@ -135,23 +125,20 @@ export function resolveEndpoint(defaultEndpoint: string, providerId: string) {
   }
 }
 
+/**
+ * Sort the torrents by seeders in descending order
+ */
 export function getIdealTorrent(torrents: Array<Torrent>): Torrent {
   const idealTorrent = torrents
-    .filter((torrent) => !!torrent)
+    .filter((torrent) => !!torrent && torrent.seeders)
     .filter(
       (torrent) =>
         !!torrent && !!torrent.magnet && typeof torrent.seeders === "number"
     );
 
-  return idealTorrent.sort((prev: Torrent, next: Torrent) => {
-    if (prev.seeders === next.seeders) {
-      return 0;
-    }
-
-    if (!next.seeders || !prev.seeders) return 1;
-
-    return prev.seeders > next.seeders ? -1 : 1;
-  })[0];
+  return idealTorrent.sort(
+    (a: Torrent, b: Torrent) => b.seeders - a.seeders
+  )[0];
 }
 
 export function handleProviderError(error: Error) {
@@ -184,7 +171,7 @@ export function resolveCache(key: string): boolean | any {
   return providerCache.has(key) ? providerCache.get(key) : false;
 }
 
-export function setCache(key: string, value: any) {
+export function setCache<K = string, V = any>(key: K, value: V) {
   if (process.env.NODE_ENV === "development") {
     console.info("Setting cache key:", key);
   }

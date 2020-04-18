@@ -3,9 +3,6 @@ import { Runtime } from "./MetadataProviderInterface";
 
 /**
  * Convert runtime from minutes to hours
- *
- * @param  {number} runtimeInMinutes
- * @return {object}
  */
 export function parseRuntimeMinutesToObject(runtimeInMinutes: number): Runtime {
   const hours = runtimeInMinutes >= 60 ? Math.round(runtimeInMinutes / 60) : 0;

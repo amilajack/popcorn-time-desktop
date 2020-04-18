@@ -53,7 +53,7 @@ test("it should navigate to item on CardsGrid click", async (t) => {
   await t
     .click(cardSelector)
     .expect(getPageUrl())
-    .contains("#/item/shows/")
+    .contains("#/shows/")
     .expect(Selector("#title").visible)
     .ok()
     .expect(Selector('[data-e2e="summary"]').visible)
@@ -62,9 +62,9 @@ test("it should navigate to item on CardsGrid click", async (t) => {
 
 test("it should navigate between movies and shows", async (t) => {
   await navigateTo(t, "shows");
-  await t.expect(getPageUrl()).contains("#/item/shows");
+  await t.expect(getPageUrl()).contains("#/shows");
   await navigateTo(t, "movies");
-  await t.expect(getPageUrl()).contains("#/item/movies");
+  await t.expect(getPageUrl()).contains("#/movies");
 });
 
 test("it should paginate items on scroll to bottom of viewport", async (t) => {

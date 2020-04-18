@@ -23,9 +23,8 @@ function hasWatchList(watchList: Array<Item>, tmdbId: string): boolean {
 }
 
 export default class SaveItem extends Component<Props, State> {
-  props: Props;
-
-  static defaultProps = {
+  static defaultProps: Props = {
+    item: undefined,
     favorites: [],
     watchList: [],
   };
@@ -36,12 +35,6 @@ export default class SaveItem extends Component<Props, State> {
   };
 
   butter = new Butter();
-
-  static defaultProps: Props = {
-    item: undefined,
-    favorites: [],
-    watchList: [],
-  };
 
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(nextProps: Props) {
@@ -62,6 +55,9 @@ export default class SaveItem extends Component<Props, State> {
   async addFavorite() {
     const { item } = this.props;
     const favorites = await this.butter.favorites("get");
+    if (!item?.ids?.tmdbId) {
+      throw new Error("tmdb id not set yet");
+    }
     if (!hasFavorites(favorites, item.ids.tmdbId)) {
       await this.butter.favorites("set", item);
       this.setState({
@@ -78,6 +74,9 @@ export default class SaveItem extends Component<Props, State> {
   async addWatchList() {
     const { item } = this.props;
     const watchList = await this.butter.watchList("get");
+    if (!item?.ids?.tmdbId) {
+      throw new Error("tmdb id not set yet");
+    }
     if (!hasWatchList(watchList, item.ids.tmdbId)) {
       await this.butter.watchList("set", item);
       this.setState({

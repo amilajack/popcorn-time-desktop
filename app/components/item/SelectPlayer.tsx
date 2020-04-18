@@ -5,11 +5,12 @@ import {
   DropdownMenu,
   DropdownItem,
 } from "reactstrap";
+import { Device } from "../../api/players/PlayerProviderInterface";
 
 type SelectPlayerProps = {
   currentSelection: string;
-  castingDevices: Array;
-  onSelect: Function;
+  castingDevices: Array<Device>;
+  onSelect: React.MouseEventHandler<Element>;
 };
 
 const SelectPlayer = ({

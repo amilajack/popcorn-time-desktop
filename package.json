@@ -19,7 +19,7 @@
     "package-all": "yarn postinstall && yarn build && electron-builder --publish never --mac --win --linux",
     "package-ci": "yarn postinstall && cross-env ANALYTICS=true yarn build && electron-builder --publish always",
     "precommit": "yarn build-e2e && yarn test-e2e && lint-staged",
-    "postinstall": "yarn build-dll & node -r ./internals/scripts/BabelRegister ./internals/scripts/Postinstall.js & electron-builder install-app-deps",
+    "postinstall": "yarn build-dll & node -r ./internals/scripts/BabelRegister ./internals/scripts/PostInstall.js & electron-builder install-app-deps",
     "start": "cross-env NODE_ENV=production electron ./app",
     "start-main-dev": "cross-env HOT=1 NODE_ENV=development electron -r ./internals/scripts/BabelRegister ./app/main.dev",
     "start-renderer-dev": "cross-env NODE_ENV=development HOT=1 node -r ./internals/scripts/BabelRegister ./node_modules/webpack-dev-server/bin/webpack-dev-server --config ./configs/webpack.config.renderer.dev.babel.js",
@@ -209,6 +209,7 @@
     "@types/configstore": "^4.0.0",
     "@types/enzyme": "^3.10.5",
     "@types/enzyme-adapter-react-16": "^1.0.6",
+    "@types/express": "^4.17.6",
     "@types/history": "^4.7.5",
     "@types/jest": "^24.9.1",
     "@types/mousetrap": "^1.6.3",
@@ -335,39 +336,5 @@
   ],
   "erb": {
     "keepSourceMapsProd": true
-  },
-  "eslintConfig": {
-    "extends": [
-      "airbnb",
-      "bliss"
-    ],
-    "parser": "babel-eslint",
-    "env": {
-      "browser": true,
-      "node": true
-    },
-    "rules": {
-      "class-methods-use-this": "off",
-      "no-let": "off",
-      "no-plusplus": "off",
-      "no-console": "off",
-      "promise/avoid-new": "off",
-      "react/sort-comp": "off",
-      "react/static-property-placement": "off",
-      "react/jsx-props-no-spreading": "off",
-      "react/state-in-constructor": "off",
-      "react/jsx-filename-extension": "off",
-      "import/no-extraneous-dependencies": "off",
-      "no-nested-ternary": "off"
-    },
-    "settings": {
-      "import/extensions": [
-        ".jsx",
-        ".js"
-      ],
-      "webpack": {
-        "config": "./configs/webpack.config.eslint.babel.js"
-      }
-    }
   }
 }

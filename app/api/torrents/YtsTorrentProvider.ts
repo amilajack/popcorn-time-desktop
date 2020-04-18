@@ -4,13 +4,14 @@ import {
   timeout,
   resolveEndpoint,
 } from "./BaseTorrentProvider";
-import { TorrentProviderInterface } from "./TorrentProviderInterface";
+import { TorrentProviderInterface, Quality } from "./TorrentProviderInterface";
+import { ItemKind } from "../metadata/MetadataProviderInterface";
 
 const endpoint = "https://yts.am";
 const providerId = "YTS";
 const resolvedEndpoint = resolveEndpoint(endpoint, providerId);
 
-const trackers = [
+const trackers: string[] = [
   "udp://glotorrents.pw:6969/announce",
   "udp://tracker.opentrackr.org:1337/announce",
   "udp://torrent.gresille.org:80/announce",
@@ -25,10 +26,25 @@ function constructMagnet(hash: string): string {
   return `magnet:?xt=urn:btih:${hash}&tr=${trackers.join("&tr=")}`;
 }
 
-export default class YtsTorrentProvider implements TorrentProviderInterface {
+type RawTorrents = {
+  data: {
+    movie_count: number;
+    movies: [{ torrents: RawTorrent[] }];
+  };
+};
+
+type RawTorrent = {
+  quality: Quality;
+  seeds: string;
+  peers: string;
+  hash: string;
+  url: string;
+};
+
+export default class YtsTorrentProvider extends TorrentProviderInterface {
   static providerName = "YTS";
 
-  static fetch(itemId: string) {
+  static fetch(itemId: string): Promise<RawTorrents> {
     return timeout(
       fetch(
         [
@@ -40,7 +56,7 @@ export default class YtsTorrentProvider implements TorrentProviderInterface {
     ).then((res) => res.json());
   }
 
-  static formatTorrent(torrent) {
+  static formatTorrent(torrent: RawTorrent) {
     return {
       quality: determineQuality(torrent.quality),
       magnet: constructMagnet(torrent.hash),
@@ -58,9 +74,9 @@ export default class YtsTorrentProvider implements TorrentProviderInterface {
       .catch(() => false);
   }
 
-  static provide(itemId: string, type) {
+  static provide(itemId: string, type: ItemKind) {
     switch (type) {
-      case "movies":
+      case ItemKind.Movie:
         return this.fetch(itemId).then((results) => {
           if (!results.data.movie_count) return [];
           const { torrents } = results.data.movies[0];

@@ -12,10 +12,16 @@ if (process.env.ANALYTICS === "true") {
   });
 }
 
+declare global {
+  interface Window {
+    currentCardSelectedIndex: number;
+  }
+}
+
 const store = configureStore();
 
 if (process.env.NODE_ENV !== "production") {
-  process.on("uncaughtRejection", (error) => {
+  process.on("uncaughtRejection", (error: Error) => {
     throw error;
   });
 }
@@ -43,7 +49,12 @@ import("mousetrap")
   .then((mousetrap) => {
     mousetrap.bind(["command+f", "ctrl+f"], () => {
       window.scrollTo(0, 0);
-      document.getElementById("pct-search-input").focus();
+      const searchElm = document.getElementById("pct-search-input");
+      if (searchElm) {
+        searchElm.focus();
+      } else {
+        throw new Error("search element not found");
+      }
       return false;
     });
 
@@ -83,19 +94,19 @@ import("mousetrap")
       switch (event.key) {
         case "ArrowLeft": {
           if (window.currentCardSelectedIndex - 1 >= 0) {
-            window.currentCardSelectedIndex--;
+            window.currentCardSelectedIndex -= 1;
           }
           break;
         }
         case "ArrowRight": {
           if (window.currentCardSelectedIndex + 1 <= cards.length - 1) {
-            window.currentCardSelectedIndex++;
+            window.currentCardSelectedIndex += 1;
           }
           break;
         }
         case "Enter": {
           if (prevSelectedCard) {
-            prevSelectedCard.querySelector("a").click();
+            prevSelectedCard.querySelector("a")?.click();
           }
           break;
         }

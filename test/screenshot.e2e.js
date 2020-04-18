@@ -19,6 +19,63 @@ const app = new Application({
 
 const delay = (time) => new Promise((resolve) => setTimeout(resolve, time));
 
+async function capturePage(_app, filename, basePath) {
+  const imageMagickSubClass = gm.subClass({ imageMagick: true });
+
+  const imageBuffer = await app.browserWindow.capturePage();
+  await imageMagickSubClass(imageBuffer)
+    .resize(800)
+    .write(`${basePath}/${filename}.png`, (error) => {
+      if (error) console.log(error);
+    });
+}
+
+async function compareScreenshot(_app, filename) {
+  await capturePage(_app, filename, "./.tmp");
+
+  return new Promise((resolve, reject) =>
+    imageDiff.getFullResult(
+      {
+        actualImage: `./.tmp/${filename}.png`,
+        expectedImage: `./test/screenshots/${filename}.png`,
+        diffImage: "./.tmp/difference.png",
+      },
+      (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(result);
+      }
+    )
+  );
+}
+
+async function handleScreenshot(_app, filename) {
+  // Check if the file exists
+  const hasExpectationScreenshot = await new Promise((resolve) => {
+    fs.access(`./test/screenshots/${filename}.png`, (error) => {
+      if (error) {
+        return resolve(false);
+      }
+      return resolve(true);
+    });
+  });
+
+  if (hasExpectationScreenshot) {
+    return compareScreenshot(_app, filename);
+  }
+
+  console.log("Does not have screenshot");
+  await capturePage(_app, filename, "./test/screenshots");
+  return compareScreenshot(_app, filename);
+}
+
+async function screenshotTest(_app, filename, differencePercentage = 0.2) {
+  const diff = await handleScreenshot(_app, filename);
+  // Allow 10% of pixels to be different by default
+  expect(diff).toHavePropertys("percentage").toBeLessThan(differencePercentage);
+}
+
 describe("screenshot", function testApp() {
   // Constructs url similar to file:///Users/john/popcorn-desktop-experimental/app/app.html#/${url}
   const navigate = (url) =>
@@ -56,60 +113,3 @@ describe("screenshot", function testApp() {
     });
   });
 });
-
-async function screenshotTest(_app, filename, differencePercentage = 0.2) {
-  const diff = await handleScreenshot(_app, filename);
-  // Allow 10% of pixels to be different by default
-  expect(diff).toHavePropertys("percentage").toBeLessThan(differencePercentage);
-}
-
-async function handleScreenshot(_app, filename) {
-  // Check if the file exists
-  const hasExpectationScreenshot = await new Promise((resolve) => {
-    fs.access(`./test/screenshots/${filename}.png`, (error) => {
-      if (error) {
-        return resolve(false);
-      }
-      return resolve(true);
-    });
-  });
-
-  if (hasExpectationScreenshot) {
-    return compareScreenshot(_app, filename);
-  }
-
-  console.log("Does not have screenshot");
-  await capturePage(_app, filename, "./test/screenshots");
-  return compareScreenshot(_app, filename);
-}
-
-async function capturePage(_app, filename, basePath) {
-  const imageMagickSubClass = gm.subClass({ imageMagick: true });
-
-  const imageBuffer = await app.browserWindow.capturePage();
-  await imageMagickSubClass(imageBuffer)
-    .resize(800)
-    .write(`${basePath}/${filename}.png`, (error) => {
-      if (error) console.log(error);
-    });
-}
-
-async function compareScreenshot(_app, filename) {
-  await capturePage(_app, filename, "./.tmp");
-
-  return new Promise((resolve, reject) =>
-    imageDiff.getFullResult(
-      {
-        actualImage: `./.tmp/${filename}.png`,
-        expectedImage: `./test/screenshots/${filename}.png`,
-        diffImage: "./.tmp/difference.png",
-      },
-      (error, result) => {
-        if (error) {
-          return reject(error);
-        }
-        return resolve(result);
-      }
-    )
-  );
-}

@@ -1,4 +1,5 @@
-import { ActiveModeOptions, Item } from "../components/home/Home";
+import { ActiveModeOptions } from "../components/home/Home";
+import { Item } from "../api/metadata/MetadataProviderInterface";
 
 export function setActiveMode(
   activeMode: string,

@@ -1,3 +1,15 @@
+export enum ItemKind {
+  Movie = "movies",
+  Show = "shows",
+}
+
+export enum ShowKind {
+  Episode = "episode",
+  Episodes = "episodes",
+  Season = "season",
+  Seasons = "seasons",
+}
+
 export type Season = {
   // @DEPRECATE (in favor of .ids)
   id: string;
@@ -52,7 +64,7 @@ export type Item = {
     imdbId?: string;
     tmdbId?: string;
   };
-  type: "movies" | "shows";
+  type: ItemKind;
   certification: Certification;
   summary: string;
   genres: Array<string>;
@@ -67,28 +79,35 @@ type Options = {
   genres?: Array<string>;
 };
 
-export type Method = "set" | "get" | "remove";
+export type Method = "set" | "get" | "add" | "remove";
+
+export type UserList<T = Item> = {
+  add: (content: T) => Promise<void>;
+  get: () => Promise<T[]>;
+  remove: (content: Item) => Promise<void>;
+  clear: () => Promise<void>;
+};
 
 export interface MetadataProviderInterface {
-  getMovies: (page: number, limit: number, options: Options) => Promise<Item>;
-  getMovie: (itemId: string) => Item;
-  getShows: (page: number, limit: number) => Promise<Item>;
-  getShow: (itemId: string) => Item;
-  getSimilar: (
-    type: string,
-    itemId: string,
-    limit: number
-  ) => Promise<Array<Item>>;
-
   supportedIdTypes: Array<"tmdb" | "imdb">;
 
-  getSeasons: (itemId: string) => Promise<Array<Season>>;
-  getSeason: (itemId: string, season: number) => Promise<Episode>;
-  getEpisode: (itemId: string, season: number, episode: number) => Episode;
+  getMovies: (page: number, limit: number, options: Options) => Promise<Item[]>;
+  getMovie: (itemId: string) => Promise<Item>;
+  getShows: (page: number, limit: number) => Promise<Item[]>;
+  getShow: (itemId: string) => Promise<Item>;
+  getSimilar: (type: ItemKind, itemId: string) => Promise<Item[]>;
 
-  search: (query: string, page: number) => Promise<Array<Item>>;
+  getSeasons: (itemId: string) => Promise<Season[]>;
+  getSeason: (itemId: string, season: number) => Promise<Episode[]>;
+  getEpisode: (
+    itemId: string,
+    season: number,
+    episode: number
+  ) => Promise<Episode>;
 
-  favorites: (method: Method, item?: Item) => void | Array<Item>;
-  recentlyWatched: (method: Method, item?: Item) => void | Array<Item>;
-  watchList: (method: Method, item?: Item) => void | Array<Item>;
+  search: (query: string, page: number) => Promise<Item[]>;
+
+  favorites: UserList;
+  recentlyWatched: UserList;
+  watchList: UserList;
 }

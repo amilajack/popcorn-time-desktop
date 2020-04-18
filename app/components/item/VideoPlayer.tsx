@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import Plyr from "@amilajack/react-plyr";
+import { Item } from "../../api/metadata/MetadataProviderInterface";
+import { Subtitle } from "../../api/Subtitle";
 
 type Props = {
-  captions: Record<string, any>;
+  captions: Subtitle[];
   url: string;
-  item: Record<string, any>;
+  item: Item;
   onClose: Function;
   forwardedRef: Function;
 };
@@ -23,10 +25,12 @@ export default class VideoPlayer extends Component<Props> {
           title={item.title || ""}
           volume={10}
           onEnterFullscreen={() => {
-            document.querySelector(".plyr").style.height = "100%";
+            (document.querySelector(".plyr") as HTMLElement).style.height =
+              "100%";
           }}
           onExitFullscreen={() => {
-            document.querySelector(".plyr").style.height = "0px";
+            (document.querySelector(".plyr") as HTMLElement).style.height =
+              "0px";
           }}
           ref={forwardedRef}
         />

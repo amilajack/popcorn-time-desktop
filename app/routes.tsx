@@ -19,6 +19,7 @@ const style = {
 const LoadableHelper = (component, opts = {}) =>
   Loadable({
     loader: () => component.then((e) => e.default).catch(console.log),
+    // eslint-disable-next-line react/display-name
     loading: () => <div style={style}>Welcome to PopcornTime</div>,
     delay: 2000,
     ...opts,
@@ -26,15 +27,12 @@ const LoadableHelper = (component, opts = {}) =>
 const ItemPage = LoadableHelper(import("./containers/ItemPage"));
 const HomePage = LoadableHelper(import("./containers/HomePage"));
 
-export default class PCT extends React.Component {
-  state: {
-    theme: string;
-  };
+type State = {
+  theme: string;
+};
 
-  constructor(props) {
-    super(props);
-    this.state = { theme: nativeTheme.shouldUseDarkColors ? "dark" : "light" };
-  }
+export default class PCT extends React.Component {
+  state: State = { theme: nativeTheme.shouldUseDarkColors ? "dark" : "light" };
 
   componentDidMount() {
     const themeManager = new ThemeManager(
@@ -62,13 +60,13 @@ export default class PCT extends React.Component {
           <Route
             exact
             strict
-            path="/item/:activeMode/:itemId"
+            path="/:activeMode/:itemId"
             render={(props) => <ItemPage {...props} theme={theme} />}
           />
           <Route
             exact
             strict
-            path="/item/:activeMode"
+            path="/:activeMode"
             render={(props) => <HomePage {...props} theme={theme} />}
           />
           <Route
