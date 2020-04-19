@@ -8,7 +8,7 @@ import Butter from "../../api/Butter";
 import Navbar from "../navbar/Navbar";
 import CardsGrid from "../card/CardsGrid";
 import Description from "../item/Description";
-import SaveItem from "../metadata/SaveItem";
+import SaveItem from "../item/SaveItem";
 import Poster from "../item/Poster";
 import { Item, ItemKind } from "../../api/metadata/MetadataProviderInterface";
 
@@ -85,9 +85,9 @@ export default class Home extends Component<Props, State> {
       recentlyWatched,
       trending,
     ] = await Promise.all([
-      this.butter.favorites("get"),
-      this.butter.watchList("get"),
-      this.butter.recentlyWatched("get"),
+      this.butter.favorites.get(),
+      this.butter.watchList.get(),
+      this.butter.recentlyWatched.get(),
       this.butter.getTrending(),
     ]);
 
@@ -179,7 +179,7 @@ export default class Home extends Component<Props, State> {
     // HACK: This is a temporary solution.
     // Waiting on: https://github.com/yannickcr/eslint-plugin-react/issues/818
 
-    const { limit, page } = modes[queryType];
+    const { page } = modes[queryType];
 
     const items = await (async () => {
       switch (queryType) {
@@ -187,11 +187,11 @@ export default class Home extends Component<Props, State> {
           return this.butter.search(activeModeOptions.searchQuery, page);
         }
         case "movies":
-          return this.butter.getMovies(page, limit);
+          return this.butter.getMovies(page);
         case "shows":
-          return this.butter.getShows(page, limit);
+          return this.butter.getShows(page);
         default:
-          return this.butter.getMovies(page, limit);
+          return this.butter.getMovies(page);
       }
     })();
 

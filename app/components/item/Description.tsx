@@ -64,7 +64,7 @@ export default function Description({
       </h6>
       <Row className="row-margin row-center Item--details">
         {rating && typeof rating === "number" && (
-          <Col sm="5">
+          <Col sm="6" lg="5">
             <Rating
               emptyStarColor="rgba(255, 255, 255, 0.2)"
               starColor="white"
@@ -72,18 +72,18 @@ export default function Description({
             />
           </Col>
         )}
-        <Col sm="2">
+        <Col lg="2" className="d-none d-lg-block">
           <span data-e2e="item-year">{year}</span>
         </Col>
 
         {certification && certification !== "n/a" && (
-          <Col sm="3">
+          <Col sm="3" className="d-none d-lg-block">
             <div className="certification">{certification}</div>
           </Col>
         )}
 
         {showTorrentInfo && (
-          <Col sm="2" className="row-center">
+          <Col sm="6" lg="2" className="row-center">
             <i className="ion-md-magnet" />
             <div
               id="magnetPopoverOpen"

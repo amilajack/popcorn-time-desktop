@@ -24,7 +24,7 @@ export default function StarRating(props: Props) {
         value={Math.floor(rating / 2)}
         editing={false}
       />
-      <span className="rating-number">{rating}</span>
+      <span className="rating-number d-none d-lg-block">{rating}</span>
     </div>
   );
 }

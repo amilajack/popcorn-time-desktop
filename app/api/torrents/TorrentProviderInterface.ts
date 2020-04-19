@@ -10,7 +10,7 @@ export type Health = "poor" | "decent" | "healthy";
 
 export type TorrentMethod = "all" | "race";
 
-export type Quality = "1080p" | "720p" | "480p" | "default";
+export type Quality = "1080p" | "720p" | "480p";
 
 export type TorrentQuery = "movies" | "shows" | "season_complete";
 
@@ -41,9 +41,7 @@ export type Torrent = ProviderTorrent & {
   method: TorrentQuery;
 };
 
-export type TorrentSelection = Record<Quality, Torrent> & {
-  default: Torrent;
-};
+export type TorrentSelection = Record<Quality, Torrent | undefined>;
 
 export abstract class TorrentProviderInterface {
   static providerName: string;

@@ -84,7 +84,7 @@ function formatItem(
       // eslint-disable-next-line camelcase
       imdbId: item.imdb_id || item.external_ids?.imdb_id || "",
     },
-    type: "first_air_date" in item ? "shows" : (type as "movies"),
+    type: "first_air_date" in item ? ItemKind.Show : ItemKind.Movie,
     certification: "n/a",
     summary: item.overview,
     genres: formatGenres(item, genres),
@@ -259,7 +259,7 @@ export default class TheMovieDbMetadataProvider extends BaseMetadataProvider
       })
       .then(({ data }) =>
         data.results.map((movie) =>
-          formatItem(movie, "movies", this.imageUri, this.genres)
+          formatItem(movie, ItemKind.Movie, this.imageUri, this.genres)
         )
       );
   }
@@ -272,7 +272,7 @@ export default class TheMovieDbMetadataProvider extends BaseMetadataProvider
       .then(({ data }) =>
         data.results
           .map((movie) =>
-            formatItem(movie, "movies", this.imageUri, this.genres)
+            formatItem(movie, ItemKind.Movie, this.imageUri, this.genres)
           )
           .slice(0, limit)
       );
@@ -284,7 +284,7 @@ export default class TheMovieDbMetadataProvider extends BaseMetadataProvider
         params: this.params,
       })
       .then(({ data }) =>
-        formatItem(data, "movies", this.imageUri, this.genres)
+        formatItem(data, ItemKind.Movie, this.imageUri, this.genres)
       );
   }
 
@@ -298,7 +298,7 @@ export default class TheMovieDbMetadataProvider extends BaseMetadataProvider
       })
       .then(({ data }) =>
         data.results.map((show) =>
-          formatItem(show, "shows", this.imageUri, this.genres)
+          formatItem(show, ItemKind.Show, this.imageUri, this.genres)
         )
       );
   }
@@ -309,7 +309,7 @@ export default class TheMovieDbMetadataProvider extends BaseMetadataProvider
         params: this.params,
       })
       .then(({ data }) =>
-        formatItem(data, "shows", this.imageUri, this.genres)
+        formatItem(data, ItemKind.Show, this.imageUri, this.genres)
       );
   }
 
@@ -351,7 +351,7 @@ export default class TheMovieDbMetadataProvider extends BaseMetadataProvider
         data.results.map((result) =>
           formatItem(
             result,
-            result.media_type === "movie" ? "movies" : "shows",
+            result.media_type === "movie" ? ItemKind.Movie : ItemKind.Show,
             this.imageUri,
             this.genres
           )

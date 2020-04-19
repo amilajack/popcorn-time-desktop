@@ -86,6 +86,7 @@ export type UserList<T = Item> = {
   get: () => Promise<T[]>;
   remove: (content: Item) => Promise<void>;
   clear: () => Promise<void>;
+  has: (item: Item) => Promise<boolean>;
 };
 
 export interface MetadataProviderInterface {

@@ -46,7 +46,7 @@ export function filterShowTorrent(
  */
 export function selectTorrents(
   torrents: Torrent[],
-  returnAll = false,
+  returnAll: boolean,
   key: string
 ): TorrentSelection {
   const sortedTorrents = sortTorrentsBySeeders(
@@ -56,14 +56,19 @@ export function selectTorrents(
     )
   );
 
-  const formattedTorrents = returnAll
-    ? sortedTorrents
-    : {
-        "480p": sortedTorrents.find((torrent) => torrent.quality === "480p"),
-        "720p": sortedTorrents.find((torrent) => torrent.quality === "720p"),
-        "1080p": sortedTorrents.find((torrent) => torrent.quality === "1080p"),
-      };
+  const formattedTorrents = {
+    "1080p": sortedTorrents.find((torrent) => torrent.quality === "1080p"),
+    "720p": sortedTorrents.find((torrent) => torrent.quality === "720p"),
+    "480p": sortedTorrents.find((torrent) => torrent.quality === "480p"),
+  };
 
+  // const formattedTorrents = returnAll
+  //   ? sortedTorrents
+  //   : {
+  //       "1080p": sortedTorrents.find((torrent) => torrent.quality === "1080p"),
+  //       "720p": sortedTorrents.find((torrent) => torrent.quality === "720p"),
+  //       "480p": sortedTorrents.find((torrent) => torrent.quality === "480p"),
+  //     };
   setCache(key, formattedTorrents);
 
   return formattedTorrents;

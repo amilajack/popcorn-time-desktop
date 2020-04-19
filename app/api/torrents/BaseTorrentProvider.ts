@@ -128,7 +128,9 @@ export function resolveEndpoint(defaultEndpoint: string, providerId: string) {
 /**
  * Sort the torrents by seeders in descending order
  */
-export function getIdealTorrent(torrents: Array<Torrent>): Torrent {
+export function selectIdealTorrent(
+  torrents: Array<Torrent>
+): Torrent | undefined {
   const idealTorrent = torrents
     .filter((torrent) => !!torrent && torrent.seeders)
     .filter(

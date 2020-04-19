@@ -6,7 +6,7 @@ import { Row, Col } from "reactstrap";
 import classNames from "classnames";
 import os from "os";
 import yifysubtitles from "@amilajack/yifysubtitles";
-import SaveItem from "../metadata/SaveItem";
+import SaveItem from "./SaveItem";
 import Description from "./Description";
 import Poster from "./Poster";
 import BackButton from "./BackButton";
@@ -16,7 +16,7 @@ import VideoPlayer from "./VideoPlayer";
 import TorrentSelector from "./TorrentSelector";
 import Show from "../show/Show";
 import ChromecastPlayerProvider from "../../api/players/ChromecastPlayerProvider";
-import { getIdealTorrent } from "../../api/torrents/BaseTorrentProvider";
+import { selectIdealTorrent } from "../../api/torrents/BaseTorrentProvider";
 import Butter from "../../api/Butter";
 import Torrent from "../../api/Torrent";
 import SubtitleServer, { languages as langs } from "../../api/Subtitle";
@@ -33,10 +33,12 @@ import { Device } from "../../api/players/PlayerProviderInterface";
 
 type PlayerKind = "default" | "plyr" | "vlc" | "chromecast" | "youtube";
 
-type Captions = Array<{
+type PlyrCaptions = Array<{
   src: string;
   srclang: string;
 }>;
+
+type StartPlayback = (e: React.MouseEvent<any, MouseEvent>) => void;
 
 type Props = {
   itemId?: string;
@@ -59,7 +61,7 @@ type State = {
   torrent?: TorrentProvider.Torrent;
   servingUrl?: string;
   torrentInProgress: boolean;
-  captions: Captions;
+  captions: PlyrCaptions;
   favorites: Array<Item>;
   watchList: Array<Item>;
 };
@@ -162,11 +164,15 @@ export default class ItemComponent extends Component<Props, State> {
     this.stopPlayback();
     this.player.destroy();
 
+    const [favorites, watchList] = await Promise.all([
+      this.butter.favorites.get(),
+      this.butter.watchList.get(),
+    ]);
     this.setState({
       ...this.initialState,
       currentPlayer: "default",
-      favorites: await this.butter.favorites("get"),
-      watchList: await this.butter.watchList("get"),
+      favorites,
+      watchList,
     });
 
     this.getAllData(itemId);
@@ -215,7 +221,7 @@ export default class ItemComponent extends Component<Props, State> {
     this.setState({ currentPlayer: player });
   };
 
-  getAllData(itemId: string) {
+  getAllData(itemId: string): Promise<Item> {
     const { activeMode } = this.props;
     const { selectedSeason, selectedEpisode } = this.state;
     this.setState(this.initialState, () => {
@@ -229,14 +235,16 @@ export default class ItemComponent extends Component<Props, State> {
       }
     });
 
-    return this.getItem(itemId).then((item: Item) => {
+    return this.getItem(itemId).then(async (item: Item) => {
       if (!item.ids.imdbId) {
         throw new Error("imdb id not set yet");
       }
-      return Promise.all([
+      await Promise.all([
         this.getCaptions(item),
         this.getTorrent(item.ids.imdbId, item.title, 1, 1),
       ]);
+
+      return item;
     });
   }
 
@@ -311,7 +319,7 @@ export default class ItemComponent extends Component<Props, State> {
     title: string,
     season: number,
     episode: number
-  ) {
+  ): Promise<void> {
     this.setState({
       fetchingTorrents: true,
     });
@@ -319,17 +327,12 @@ export default class ItemComponent extends Component<Props, State> {
     const { activeMode } = this.props;
 
     try {
-      const torrent = await (async () => {
+      const torrentSelection: TorrentProvider.TorrentSelection = await (async () => {
         switch (activeMode) {
           case "movies": {
-            const originalTorrent = await this.butter.getTorrent(
-              imdbId,
-              activeMode,
-              {
-                searchQuery: title,
-              }
-            );
-            return originalTorrent;
+            return this.butter.getTorrent(imdbId, activeMode, {
+              searchQuery: title,
+            });
           }
           case "shows": {
             if (process.env.FLAG_SEASON_COMPLETE === "true") {
@@ -346,51 +349,46 @@ export default class ItemComponent extends Component<Props, State> {
               ]);
 
               return {
-                "1080p": getIdealTorrent([
+                "1080p": selectIdealTorrent([
                   shows["1080p"],
                   seasonComplete["1080p"],
                 ]),
-                "720p": getIdealTorrent([
+                "720p": selectIdealTorrent([
                   shows["720p"],
                   seasonComplete["720p"],
                 ]),
-                "480p": getIdealTorrent([
+                "480p": selectIdealTorrent([
                   shows["480p"],
                   seasonComplete["480p"],
                 ]),
               };
             }
 
-            const singleEpisodeTorrent = await this.butter.getTorrent(
-              imdbId,
-              activeMode,
-              {
-                season,
-                episode,
-                searchQuery: title,
-              }
-            );
-
-            return {
-              torrent: singleEpisodeTorrent,
-            };
+            return this.butter.getTorrent(imdbId, activeMode, {
+              season,
+              episode,
+              searchQuery: title,
+            });
           }
           default:
             throw new Error("Invalid active mode");
         }
       })();
 
+      const torrents = Object.values(torrentSelection).filter(
+        Boolean
+      ) as TorrentProvider.Torrent[];
+
+      const torrent = selectIdealTorrent(torrents);
+
       this.setState({
         fetchingTorrents: false,
-        torrent: getIdealTorrent(Object.values(torrent)),
+        torrentSelection,
+        torrent,
       });
-
-      return torrent;
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
-
-    return {};
   }
 
   /**
@@ -400,11 +398,11 @@ export default class ItemComponent extends Component<Props, State> {
    * 4. Serve the file through http
    * 5. Override the default subtitle retrieved from the API
    */
-  async getCaptions(item: Item): Promise<Captions> {
+  async getCaptions(item: Item): Promise<PlyrCaptions> {
     type RawSubtitle = {
       langShort: string;
     };
-    const captions: Captions = await yifysubtitles(item.ids.imdbId, {
+    const captions: PlyrCaptions = await yifysubtitles(item.ids.imdbId, {
       path: os.tmpdir(),
       langs,
     })
@@ -487,7 +485,7 @@ export default class ItemComponent extends Component<Props, State> {
     });
   };
 
-  startPlayback = async (a: SyntheticEvent<HTMLButtonElement>) => {
+  startPlayback: StartPlayback = async () => {
     const {
       currentPlayer,
       torrentInProgress,
@@ -577,12 +575,12 @@ export default class ItemComponent extends Component<Props, State> {
             break;
         }
 
-        const recentlyWatchedList = await this.butter.recentlyWatched("get");
+        const recentlyWatchedList = await this.butter.recentlyWatched.get();
         const containsRecentlyWatchedItem = recentlyWatchedList.some(
           (e: Item) => e.id === item.id
         );
         if (!containsRecentlyWatchedItem) {
-          await this.butter.recentlyWatched("set", item);
+          await this.butter.recentlyWatched.add(item);
         }
 
         this.setState({

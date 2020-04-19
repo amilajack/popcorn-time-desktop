@@ -173,12 +173,12 @@ describe("API", () => {
         const butter = butterFactory();
 
         // Test addition
-        expect(await butter[type]("set", res)).toEqual([res]);
-        expect(await butter[type]("get")).toEqual([res]);
+        expect(await butter[type].add(res)).toEqual([res]);
+        expect(await butter[type].get()).toEqual([res]);
 
         // Test addition of multiple elements
         expect(
-          await butter[type]("set", {
+          await butter[type].add({
             ...res,
             id: "lee",
           })
@@ -189,7 +189,7 @@ describe("API", () => {
             id: "lee",
           },
         ]);
-        expect(await butter[type]("get")).toEqual([
+        expect(await butter[type].get()).toEqual([
           res,
           {
             ...res,

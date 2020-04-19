@@ -44,7 +44,7 @@ export function formatSubtitle(subtitle: RawSubtitle): Subtitle {
  * Get the subtitles for a movie or show
  */
 
-function userListsHelper(listName: ConfigKind): UserList {
+export function userListsHelper(listName: ConfigKind): UserList {
   return {
     async add(item: Item): Promise<void> {
       const items: Item[] = get<Item[]>(listName) || [];
@@ -61,6 +61,12 @@ function userListsHelper(listName: ConfigKind): UserList {
       const items: Item[] = get<Item[]>(listName) || [];
       return items;
     },
+    async has(item: Item): Promise<boolean> {
+      const items: Item[] = get<Item[]>(listName);
+      return items.some(
+        (_item) => _item.ids.tmdbId === item.id || _item.ids.imdbId === item.id
+      );
+    },
     async clear() {
       set(listName, []);
     },
@@ -70,7 +76,7 @@ function userListsHelper(listName: ConfigKind): UserList {
 export default class BaseMetadataProvider {
   favorites = userListsHelper("favorites");
 
-  recentlyAdded = userListsHelper("recentlyWatched");
+  recentlyWatched = userListsHelper("recentlyWatched");
 
   watchList = userListsHelper("watchList");
 

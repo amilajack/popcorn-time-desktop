@@ -14,17 +14,8 @@ type State = {
   isInFavorites: boolean;
 };
 
-function hasFavorites(favorites: Array<Item>, tmdbId: string): boolean {
-  return favorites.some((favorite) => favorite.ids.tmdbId === tmdbId);
-}
-
-function hasWatchList(watchList: Array<Item>, tmdbId: string): boolean {
-  return watchList.some((watchListItem) => watchListItem.ids.tmdbId === tmdbId);
-}
-
 export default class SaveItem extends Component<Props, State> {
   static defaultProps: Props = {
-    item: undefined,
     favorites: [],
     watchList: [],
   };
@@ -34,17 +25,18 @@ export default class SaveItem extends Component<Props, State> {
     isInWatchList: false,
   };
 
-  butter = new Butter();
+  butter: Butter = new Butter();
 
   // eslint-disable-next-line camelcase
-  UNSAFE_componentWillReceiveProps(nextProps: Props) {
+  async UNSAFE_componentWillReceiveProps(nextProps: Props) {
     if (!nextProps?.item?.ids?.tmdbId) {
       return;
     }
-    const { tmdbId } = nextProps.item.ids;
 
-    const isInFavorites = hasFavorites(nextProps.favorites, tmdbId);
-    const isInWatchList = hasWatchList(nextProps.watchList, tmdbId);
+    const [isInFavorites, isInWatchList] = await Promise.all([
+      this.butter.favorites.has(nextProps.item),
+      this.butter.watchList.has(nextProps.item),
+    ]);
 
     this.setState({
       isInFavorites,
@@ -54,40 +46,34 @@ export default class SaveItem extends Component<Props, State> {
 
   async addFavorite() {
     const { item } = this.props;
-    const favorites = await this.butter.favorites("get");
     if (!item?.ids?.tmdbId) {
       throw new Error("tmdb id not set yet");
     }
-    if (!hasFavorites(favorites, item.ids.tmdbId)) {
-      await this.butter.favorites("set", item);
-      this.setState({
-        isInFavorites: true,
-      });
+    const isInFavorites = await this.butter.favorites.has(item);
+    if (isInFavorites) {
+      await this.butter.favorites.remove(item);
     } else {
-      await this.butter.favorites("remove", item);
-      this.setState({
-        isInFavorites: false,
-      });
+      await this.butter.favorites.add(item);
     }
+    this.setState({
+      isInFavorites,
+    });
   }
 
   async addWatchList() {
     const { item } = this.props;
-    const watchList = await this.butter.watchList("get");
     if (!item?.ids?.tmdbId) {
       throw new Error("tmdb id not set yet");
     }
-    if (!hasWatchList(watchList, item.ids.tmdbId)) {
-      await this.butter.watchList("set", item);
-      this.setState({
-        isInWatchList: true,
-      });
+    const isInWatchList = await this.butter.watchList.has(item);
+    if (isInWatchList) {
+      await this.butter.watchList.remove(item);
     } else {
-      await this.butter.watchList("remove", item);
-      this.setState({
-        isInWatchList: false,
-      });
+      await this.butter.watchList.add(item);
     }
+    this.setState({
+      isInWatchList,
+    });
   }
 
   render() {
