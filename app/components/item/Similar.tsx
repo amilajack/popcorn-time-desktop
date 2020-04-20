@@ -11,12 +11,12 @@ type Props = {
 type State = {
   isLoading: boolean;
   isFinished: boolean;
-  similarItems: Item[];
+  items: Item[];
 };
 
 export default class Similar extends Component<Props, State> {
   state: State = {
-    similarItems: [],
+    items: [],
     isLoading: false,
     isFinished: false,
   };
@@ -33,10 +33,10 @@ export default class Similar extends Component<Props, State> {
     this.setState({ isLoading: true });
 
     try {
-      const similarItems = await this.butter.getSimilar(type, imdbId);
+      const items = await this.butter.getSimilar(type, imdbId);
 
       this.setState({
-        similarItems,
+        items,
         isLoading: false,
         isFinished: true,
       });
@@ -48,13 +48,13 @@ export default class Similar extends Component<Props, State> {
   }
 
   render() {
-    const { isLoading, isFinished, similarItems } = this.state;
+    const { isLoading, isFinished, items } = this.state;
 
     return (
       <CardsGrid
         title="similar"
         limit={4}
-        items={similarItems}
+        items={items}
         isLoading={isLoading}
         isFinished={isFinished}
         autofit

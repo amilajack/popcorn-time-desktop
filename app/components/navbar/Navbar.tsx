@@ -8,19 +8,18 @@ import {
   NavItem,
   NavbarBrand,
 } from "reactstrap";
-import React, {
-  Component,
-  SyntheticEvent as Event,
-  SyntheticEvent,
-} from "react";
+import React, { Component, SyntheticEvent } from "react";
 import classNames from "classnames";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
+import { History, Location } from "history";
 import logo from "../../../resources/icon.png";
+import { ItemKind } from "../../api/metadata/MetadataProviderInterface";
+import { Theme } from "../../utils/Theme";
 
 type Props = {
-  setActiveMode: (mode: string, options?: { searchQuery: string }) => void;
-  activeMode: string;
   theme: string;
+  history: History;
+  location: Location;
 };
 
 type State = {
@@ -28,11 +27,22 @@ type State = {
   collapsed: boolean;
 };
 
-export default class PopcornTimeNavbar extends Component<Props, State> {
+class PopcornTimeNavbar extends Component<Props, State> {
   state: State = {
     collapsed: true,
-    searchQuery: "",
+    searchQuery: this.getSearchQuery(),
   };
+
+  UNSAFE_componentWillReceiveProps() {
+    this.setState({
+      searchQuery: this.getSearchQuery(),
+    });
+  }
+
+  getSearchQuery() {
+    const { location } = this.props;
+    return new URLSearchParams(location.search).get("searchQuery") || "";
+  }
 
   handleSearchChange = (event: SyntheticEvent) => {
     this.setState({
@@ -41,18 +51,27 @@ export default class PopcornTimeNavbar extends Component<Props, State> {
   };
 
   handleKeyPress = ({ currentTarget, keyCode }: SyntheticEvent) => {
+    const { history } = this.props;
     const { searchQuery } = this.state;
-    const { setActiveMode } = this.props;
 
+    // Enter - keyCode 13
     if (keyCode === 13) {
-      // Enter - keyCode 13
-      setActiveMode("search", {
-        searchQuery,
-      });
-    } else if (keyCode === 27) {
-      // Escape - keyCode 27
+      if (searchQuery !== "") {
+        history.push({
+          pathname: "/search",
+          search: `?${new URLSearchParams({ searchQuery }).toString()}`,
+          state: {
+            searchQuery,
+          },
+        });
+      }
+    }
+    // Escape - keyCode 27
+    if (keyCode === 27) {
       currentTarget.blur();
     }
+
+    return false;
   };
 
   setCollapse = () => {
@@ -62,18 +81,18 @@ export default class PopcornTimeNavbar extends Component<Props, State> {
   };
 
   render() {
-    const { activeMode, setActiveMode, theme } = this.props;
+    const { theme, match } = this.props;
     const { collapsed, searchQuery } = this.state;
+    const { activeMode } = match.params;
 
     return (
       <Navbar
         color={theme}
-        dark={theme === "dark"}
-        light={theme === "light"}
+        dark={theme === Theme.Dark}
+        light={theme === Theme.Light}
         expand="sm"
         sticky="top"
-        fixed="top"
-        className={`col-sm-12 bg-${theme}`}
+        className={`bg-${theme}`}
       >
         <NavbarBrand>
           <img src={logo} width={40} alt="popcorn time logo" />
@@ -96,40 +115,25 @@ export default class PopcornTimeNavbar extends Component<Props, State> {
                 active: activeMode === "home",
               })}
             >
-              <Link
-                className="nav-link"
-                to="/home"
-                replace
-                onClick={() => setActiveMode("home")}
-              >
+              <Link className="nav-link" to="/home" replace>
                 Home
               </Link>
             </NavItem>
             <NavItem
               className={classNames({
-                active: activeMode === "movies",
+                active: activeMode === ItemKind.Movie,
               })}
             >
-              <Link
-                to="/movies"
-                replace
-                className="nav-link"
-                onClick={() => setActiveMode("movies")}
-              >
+              <Link to="/movies" replace className="nav-link">
                 Movies
               </Link>
             </NavItem>
             <NavItem
               className={classNames({
-                active: activeMode === "shows",
+                active: activeMode === ItemKind.Show,
               })}
             >
-              <Link
-                className="nav-link"
-                to="/shows"
-                replace
-                onClick={() => setActiveMode("shows")}
-              >
+              <Link className="nav-link" to="/shows" replace>
                 TV Shows
               </Link>
             </NavItem>
@@ -151,3 +155,5 @@ export default class PopcornTimeNavbar extends Component<Props, State> {
     );
   }
 }
+
+export default withRouter(PopcornTimeNavbar);

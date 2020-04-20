@@ -1,42 +1,43 @@
 import { Item, ItemKind } from "../api/metadata/MetadataProviderInterface";
-import { ActiveModeOptions } from "../components/home/Home";
 
-type Mode = "movies" | "shows" | "search" | "home";
+export type ActiveMode = ItemKind | "search" | "home";
 
-type PageInfo = {
+export type PageInfo = {
   page: number;
   limit: number;
   items: Array<Item>;
+  isLastPage: boolean;
 };
 
 type Action = {
-  type: ItemKind;
+  type: string;
   items: Array<Item>;
-  activeMode: Mode;
-  activeModeOptions?: ActiveModeOptions;
-  infinitePagination?: boolean;
+  activeMode: ActiveMode;
   isLoading?: boolean;
 };
 
 type HomePageReducerState = {
-  activeMode: Mode;
-  activeModeOptions: ActiveModeOptions;
-  modes: Record<Mode, PageInfo>;
-  infinitePagination: boolean;
+  activeMode: ActiveMode;
+  modes: Record<ActiveMode, PageInfo>;
   isLoading: boolean;
   items: Array<Item>;
 };
 
-const defaultState: HomePageReducerState = {
+const initialMode: PageInfo = {
+  page: 1,
+  limit: 50,
+  items: [],
+  isLastPage: false,
+};
+
+export const defaultState: HomePageReducerState = {
   activeMode: "home",
-  activeModeOptions: {},
   modes: {
-    movies: { page: 1, limit: 50, items: [] },
-    shows: { page: 1, limit: 50, items: [] },
-    search: { page: 1, limit: 50, items: [] },
-    home: { page: 1, limit: 50, items: [] },
+    movies: initialMode,
+    shows: initialMode,
+    search: initialMode,
+    home: initialMode,
   },
-  infinitePagination: false,
   isLoading: false,
   items: [],
 };
@@ -60,17 +61,23 @@ export default function homePageReducer(
           },
         },
       };
+    case "SET_LAST_PAGE": {
+      return {
+        ...state,
+        modes: {
+          ...state.modes,
+          [state.activeMode]: {
+            ...state.modes[state.activeMode],
+            isLastPage: true,
+          },
+        },
+      };
+    }
     case "SET_ACTIVE_MODE":
       return {
         ...state,
         items: state.modes[action.activeMode].items,
         activeMode: action.activeMode,
-        activeModeOptions: action.activeModeOptions,
-      };
-    case "CLEAR_ITEMS":
-      return {
-        ...state,
-        items: [],
       };
     case "CLEAR_ALL_ITEMS":
       return {
@@ -78,11 +85,7 @@ export default function homePageReducer(
         items: [],
         modes: {
           ...state.modes,
-          [state.activeMode]: {
-            items: [],
-            page: 0,
-            limit: 50,
-          },
+          [state.activeMode]: initialMode,
         },
       };
     case "SET_LOADING":

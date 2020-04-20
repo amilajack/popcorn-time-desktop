@@ -1,47 +1,44 @@
 /**
  * Home page component that renders CardsGrid and uses VisibilitySensor
- *
- * @TODO: Use waitForImages plugin to load background images and fade in on load
  */
 import { connect } from "react-redux";
+import { withRouter } from "react-router";
 import {
   clearAllItems,
   paginate,
-  setActiveMode,
   setLoading,
+  setActiveMode,
+  setLastPage,
 } from "../actions/homePageActions";
 import Home from "../components/home/Home";
-import { ItemKind } from "../api/metadata/MetadataProviderInterface";
+import { ItemKind, Item } from "../api/metadata/MetadataProviderInterface";
+import { ActiveMode } from "../reducers/homePageReducer";
 
 type State = {
-  activeMode: ItemKind;
-  activeModeOptions: Record<string, string>;
-  modes: ItemKind[];
-  items: string[];
-  isLoading: boolean;
-  infinitePagination: boolean;
+  home: {
+    modes: ItemKind[];
+    items: string[];
+    isLoading: boolean;
+  };
 };
 
 function mapStateToProps(state: State) {
   return {
-    activeMode: state.homePageReducer.activeMode,
-    activeModeOptions: state.homePageReducer.activeModeOptions,
-    modes: state.homePageReducer.modes,
-    items: state.homePageReducer.items,
-    isLoading: state.homePageReducer.isLoading,
-    infinitePagination: false,
+    modes: state.home.modes,
+    items: state.home.items,
+    isLoading: state.home.isLoading,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
+    setActiveMode: (activeMode: ActiveMode) =>
+      dispatch(setActiveMode(activeMode)),
     clearAllItems: () => dispatch(clearAllItems()),
-    paginate: (activeMode, activeModeOptions) =>
-      dispatch(paginate(activeMode, activeModeOptions)),
-    setActiveMode: (mode, activeModeOptions) =>
-      dispatch(setActiveMode(mode, activeModeOptions)),
+    setLastPage: () => dispatch(setLastPage()),
+    paginate: (items: Item[]) => dispatch(paginate(items)),
     setLoading: (isLoading: boolean) => dispatch(setLoading(isLoading)),
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Home));

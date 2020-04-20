@@ -1,6 +1,6 @@
 import OpenSubtitles from "opensubtitles-api";
 import { set, get } from "../../utils/Config";
-import { Item, UserList } from "./MetadataProviderInterface";
+import { Item, UserList, ItemKind } from "./MetadataProviderInterface";
 
 /* eslint class-methods-use-this: off */
 
@@ -102,7 +102,7 @@ export default class BaseMetadataProvider {
 
     const subtitles: RawSubtitle[] = await (() => {
       switch (activeMode) {
-        case "shows": {
+        case ItemKind.Show: {
           const { season, episode } = metadata;
           return openSubtitles.search({
             ...defaultOptions,

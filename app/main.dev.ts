@@ -11,9 +11,15 @@
 import path from "path";
 import { app, BrowserWindow } from "electron";
 import windowStateKeeper from "electron-window-state";
+import * as Sentry from "@sentry/electron/dist/main";
 import MenuBuilder from "./menu";
 import AutoUpdater from "./utils/AutoUpdater";
-import "./utils/Analytics";
+
+if (process.env.ANALYTICS === "true") {
+  Sentry.init({
+    dsn: "https://b0d05cee653942148a43b8163bbc6cee@sentry.io/1277263",
+  });
+}
 
 let mainWindow: BrowserWindow | null = null;
 

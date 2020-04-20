@@ -1,44 +1,38 @@
-/* eslint react/no-unused-prop-types: 0 */
+/* eslint react/no-unused-prop-types: off */
 import React, { Component } from "react";
 import { Col, Row } from "reactstrap";
 import VisibilitySensor from "react-visibility-sensor";
 import Carousel from "nuka-carousel";
 import { Link } from "react-router-dom";
+import { Location, History } from "history";
+import _ from "lodash";
 import Butter from "../../api/Butter";
-import Navbar from "../navbar/Navbar";
 import CardsGrid from "../card/CardsGrid";
 import Description from "../item/Description";
 import SaveItem from "../item/SaveItem";
 import Poster from "../item/Poster";
 import { Item, ItemKind } from "../../api/metadata/MetadataProviderInterface";
-
-export type ActiveModeOptions = Record<string, number | boolean | string>;
+import { PageInfo, ActiveMode } from "../../reducers/homePageReducer";
 
 type Props = {
-  theme: string;
-  setActiveMode: (mode: string, activeModeOptions?: ActiveModeOptions) => void;
-  paginate: (activeMode: string, activeModeOptions?: ActiveModeOptions) => void;
+  paginate: (items: Item[]) => void;
   clearAllItems: () => void;
   setLoading: (isLoading: boolean) => void;
+  setLastPage: () => void;
+  setActiveMode: (activeMode: ActiveMode) => void;
+  history: History;
   activeMode: string;
-  activeModeOptions: ActiveModeOptions;
-  modes: {
-    movies: {
-      page: number;
-      limit: number;
-      items: {
-        title: string;
-        id: string;
-        year: number;
-        type: ItemKind;
-        rating: number;
-        genres: Array<string>;
-      };
+  location: Location<{
+    searchQuery?: string;
+  }>;
+  match: {
+    params: {
+      activeMode?: ActiveMode;
     };
   };
+  modes: Record<ActiveMode, PageInfo>;
   items: Array<Item>;
   isLoading: boolean;
-  infinitePagination: boolean;
 };
 
 type State = {
@@ -56,28 +50,23 @@ export default class Home extends Component<Props, State> {
     recentlyWatched: [],
   };
 
-  butter: Butter;
+  butter: Butter = new Butter();
 
-  constructor(props: Props) {
-    super(props);
-    this.butter = new Butter();
-
-    // Temporary hack to preserve scroll position
-    // if (!global.pct) {
-    //   global.pct = {
-    //     moviesScrollTop: 0,
-    //     showsScrollTop: 0,
-    //     searchScrollTop: 0,
-    //     homeScrollTop: 0,
-    //   };
-    // }
-  }
+  /**
+   * If bottom of component is 2000px from viewport, query
+   */
+  infinitePagination = _.debounce(() => {
+    const { isLoading, match } = this.props;
+    const { activeMode } = match.params;
+    const scrollDimentions = document.body.getBoundingClientRect();
+    if (scrollDimentions.bottom < 2000 && !isLoading) {
+      this.paginate(activeMode);
+    }
+  }, 1000);
 
   async componentDidMount() {
-    // const { activeMode } = this.props;
-
-    document.addEventListener("scroll", this.initInfinitePagination);
-    // window.scrollTo(0, global.pct[`${activeMode}ScrollTop`]);
+    const { setActiveMode, match } = this.props;
+    setActiveMode(match.params.activeMode || "home");
 
     const [
       favorites,
@@ -97,113 +86,124 @@ export default class Home extends Component<Props, State> {
       recentlyWatched,
       trending,
     });
+
+    import("mousetrap")
+      .then((mousetrap) => {
+        mousetrap.bind(["command+f", "ctrl+f"], () => {
+          window.scrollTo(0, 0);
+          const searchElm = document.getElementById("pct-search-input");
+          if (searchElm) {
+            searchElm.focus();
+          } else {
+            throw new Error("search element not found");
+          }
+        });
+
+        const { history } = this.props;
+
+        mousetrap.bind(["command+1", "ctrl+1"], () => {
+          history.push("/home");
+        });
+
+        mousetrap.bind(["command+2", "ctrl+2"], () => {
+          history.push("/movies");
+        });
+
+        mousetrap.bind(["command+3", "ctrl+3"], () => {
+          history.push("/shows");
+        });
+
+        return true;
+      })
+      .catch(console.log);
+
+    document.addEventListener("scroll", this.infinitePagination);
   }
 
   // eslint-disable-next-line camelcase
-  UNSAFE_componentWillReceiveProps(nextProps: Props) {
-    const { activeMode, activeModeOptions, clearAllItems } = this.props;
-    // global.pct[`${activeMode}ScrollTop`] = document.body.scrollTop;
+  async UNSAFE_componentWillReceiveProps(nextProps: Props) {
+    const { clearAllItems, setActiveMode, match, location } = this.props;
+    const { activeMode: nextActiveMode } = nextProps.match.params;
+    const { activeMode } = match.params;
 
-    if (activeMode !== nextProps.activeMode) {
-      window.currentCardSelectedIndex = 0;
+    if (activeMode !== nextActiveMode && nextActiveMode) {
+      setActiveMode(nextActiveMode);
     }
 
-    if (
-      JSON.stringify(nextProps.activeModeOptions) !==
-      JSON.stringify(activeModeOptions)
-    ) {
-      if (nextProps.activeMode === "search") {
+    if (activeMode === "search") {
+      const searchQuery = location.state?.searchQuery || "";
+      const nextSearchQuery = nextProps.location?.state?.searchQuery || "";
+      if (searchQuery !== nextSearchQuery) {
         clearAllItems();
+        await this.paginate(activeMode, nextProps);
       }
-
-      this.paginate(nextProps.activeMode, nextProps.activeModeOptions);
     }
-  }
-
-  componentDidUpdate(prevProps: Props) {
-    // const { activeMode } = this.props;
-    // if (prevProps.activeMode !== activeMode) {
-    //   window.scrollTo(0, global.pct[`${activeMode}ScrollTop`]);
-    // }
   }
 
   componentWillUnmount() {
-    // const { activeMode } = this.props;
-    // if (!document.body) {
-    //   throw new Error(
-    //     '"document" not defined. You are probably not running in the renderer process'
-    //   );
-    // }
-    // global.pct[`${activeMode}ScrollTop`] = document.body.scrollTop;
-    // document.removeEventListener("scroll", this.initInfinitePagination);
+    document.removeEventListener("scroll", this.infinitePagination);
   }
 
-  /**
-   * If bottom of component is 2000px from viewport, query
-   */
-  initInfinitePagination = () => {
-    const {
-      infinitePagination,
-      activeMode,
-      activeModeOptions,
-      isLoading,
-    } = this.props;
-
-    if (infinitePagination) {
-      const scrollDimentions = document
-        .querySelector("body")
-        .getBoundingClientRect();
-      if (scrollDimentions.bottom < 2000 && !isLoading) {
-        this.paginate(activeMode, activeModeOptions);
-      }
-    }
-  };
-
   onChange = async (isVisible: boolean) => {
-    const { isLoading, activeMode, activeModeOptions } = this.props;
+    const { isLoading, match } = this.props;
+    const { activeMode } = match.params;
     if (isVisible && !isLoading) {
-      await this.paginate(activeMode, activeModeOptions);
+      await this.paginate(activeMode);
     }
   };
 
   /**
-   * Return movies and finished status without mutation
-   * @TODO: Migrate this to redux
-   * @TODO: Determine if query has reached last page
+   * Query items and add them to redux store
    */
-  async paginate(queryType: string, activeModeOptions: ActiveModeOptions = {}) {
-    const { modes, paginate, setLoading } = this.props;
+  async paginate(
+    activeMode: ActiveMode = "home",
+    props?: Props
+  ): Promise<void> {
+    const { modes, paginate, setLoading, setLastPage, location } =
+      props || this.props;
+
+    if (modes[activeMode].isLastPage) return;
 
     setLoading(true);
 
-    // HACK: This is a temporary solution.
-    // Waiting on: https://github.com/yannickcr/eslint-plugin-react/issues/818
-
-    const { page } = modes[queryType];
-
-    const items = await (async () => {
-      switch (queryType) {
-        case "search": {
-          return this.butter.search(activeModeOptions.searchQuery, page);
+    try {
+      const items = await (async () => {
+        const { page } = modes[activeMode];
+        switch (activeMode) {
+          case "search": {
+            const searchQuery = new URLSearchParams(location.search).get(
+              "searchQuery"
+            );
+            if (!searchQuery) {
+              throw new Error("searchQuery must be set");
+            }
+            return this.butter.search(searchQuery, page);
+          }
+          case ItemKind.Movie:
+            return this.butter.getMovies(page);
+          case ItemKind.Show:
+            return this.butter.getShows(page);
+          default:
+            return this.butter.getMovies(page);
         }
-        case "movies":
-          return this.butter.getMovies(page);
-        case "shows":
-          return this.butter.getShows(page);
-        default:
-          return this.butter.getMovies(page);
+      })();
+      // @HACK A temporary workaround for detecting the last page
+      if (items.length) {
+        paginate(items);
+      } else {
+        setLastPage();
       }
-    })();
-
-    paginate(items);
-    setLoading(false);
-
-    return items;
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setLoading(false);
+    }
   }
 
   render() {
-    const { activeMode, items, isLoading, setActiveMode, theme } = this.props;
+    const { items, isLoading, match } = this.props;
     const { favorites, watchList, recentlyWatched, trending } = this.state;
+    const { activeMode } = match.params;
 
     const home = (
       <>
@@ -231,11 +231,13 @@ export default class Home extends Component<Props, State> {
                 <Col
                   sm="12"
                   className="Item--background"
-                  style={{ backgroundImage: `url(${item.images.fanart.full})` }}
+                  style={{
+                    backgroundImage: `url(${item.images.fanart?.full || ""})`,
+                  }}
                 >
                   <Col sm="6" className="Item--image">
                     <Link replace to={`/${item.type}/${item.id}`}>
-                      <Poster image={item.images.poster.thumb} />
+                      <Poster image={item.images.poster?.thumb || ""} />
                     </Link>
                     <SaveItem
                       item={item}
@@ -283,15 +285,8 @@ export default class Home extends Component<Props, State> {
     return (
       <>
         <Row>
-          <Navbar
-            activeMode={activeMode}
-            setActiveMode={setActiveMode}
-            theme={theme}
-          />
-        </Row>
-        <Row>
           <Col sm="12">
-            {activeMode === "home" ? (
+            {activeMode === "home" || !activeMode ? (
               home
             ) : (
               <CardsGrid items={items} isLoading={isLoading} />

@@ -29,9 +29,7 @@ import {
   Season,
 } from "../../api/metadata/MetadataProviderInterface";
 import * as TorrentProvider from "../../api/torrents/TorrentProviderInterface";
-import { Device } from "../../api/players/PlayerProviderInterface";
-
-type PlayerKind = "default" | "plyr" | "vlc" | "chromecast" | "youtube";
+import { Device, PlayerKind } from "../../api/players/PlayerProviderInterface";
 
 type PlyrCaptions = Array<{
   src: string;
@@ -42,7 +40,7 @@ type StartPlayback = (e: React.MouseEvent<any, MouseEvent>) => void;
 
 type Props = {
   itemId?: string;
-  activeMode?: ItemKind;
+  activeMode: ItemKind;
 };
 
 type State = {
@@ -300,9 +298,9 @@ export default class ItemComponent extends Component<Props, State> {
 
     const item = await (() => {
       switch (activeMode) {
-        case "movies":
+        case ItemKind.Movie:
           return this.butter.getMovie(imdbId);
-        case "shows":
+        case ItemKind.Show:
           return this.butter.getShow(imdbId);
         default:
           throw new Error("Active mode not found");
@@ -329,12 +327,12 @@ export default class ItemComponent extends Component<Props, State> {
     try {
       const torrentSelection: TorrentProvider.TorrentSelection = await (async () => {
         switch (activeMode) {
-          case "movies": {
+          case ItemKind.Movie: {
             return this.butter.getTorrent(imdbId, activeMode, {
               searchQuery: title,
             });
           }
-          case "shows": {
+          case ItemKind.Show: {
             if (process.env.FLAG_SEASON_COMPLETE === "true") {
               const [shows, seasonComplete] = await Promise.all([
                 this.butter.getTorrent(imdbId, activeMode, {
@@ -697,7 +695,7 @@ export default class ItemComponent extends Component<Props, State> {
           </Col>
         </Row>
 
-        {activeMode === "shows" && (
+        {activeMode === ItemKind.Show && (
           <Show
             selectShow={this.selectShow}
             episode={episode}

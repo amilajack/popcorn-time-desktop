@@ -69,7 +69,7 @@ export default class KatTorrentProvider implements TorrentProviderInterface {
     const { searchQuery } = extendedDetails;
 
     switch (type) {
-      case "movies":
+      case ItemKind.Movie:
         return (
           timeout(
             Promise.all<RawTorrent[]>(
@@ -85,7 +85,7 @@ export default class KatTorrentProvider implements TorrentProviderInterface {
               return [];
             })
         );
-      case "shows": {
+      case ItemKind.Show: {
         const { season, episode } = extendedDetails;
 
         return this.fetch(

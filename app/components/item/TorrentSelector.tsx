@@ -32,7 +32,7 @@ export default function TorrentSelector({
           {text720p}
         </Button>
       )}
-      {torrentSelection["480p"] && activeMode === "shows" && (
+      {torrentSelection["480p"] && activeMode === ItemKind.Show && (
         <Button type="button" name="480p" onClick={startPlayback}>
           {text480p}
         </Button>

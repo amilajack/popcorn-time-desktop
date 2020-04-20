@@ -5,6 +5,8 @@ interface Butter extends TorrentAdapter, MetadataAdapter {}
 
 const torrentAdapter = new TorrentAdapter();
 
-export default class Butter extends MetadataAdapter {
+class Butter extends MetadataAdapter {
   getTorrent = torrentAdapter.getTorrent;
 }
+
+export default Butter;

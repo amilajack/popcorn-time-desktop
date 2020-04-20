@@ -362,9 +362,9 @@ export default class TheMovieDbMetadataProvider extends BaseMetadataProvider
   getSimilar(type: ItemKind = ItemKind.Movie, itemId: string): Promise<Item[]> {
     const urlType = (() => {
       switch (type) {
-        case "movies":
+        case ItemKind.Movie:
           return "movie";
-        case "shows":
+        case ItemKind.Show:
           return "tv";
         default: {
           throw new Error(`Unexpected type "${type}"`);

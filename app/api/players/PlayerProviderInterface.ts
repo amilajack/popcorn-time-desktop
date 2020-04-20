@@ -7,6 +7,8 @@ export type Device = {
   port: number;
 };
 
+export type PlayerKind = "default" | "plyr" | "vlc" | "chromecast" | "youtube";
+
 export type Metadata = {
   title: string;
   images: Images;

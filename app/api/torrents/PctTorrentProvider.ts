@@ -56,7 +56,7 @@ export default class PctTorrentProvider extends TorrentProviderInterface {
     type: ItemKind,
     extendedDetails: ExtendedDetails = {}
   ): Promise<ProviderTorrent[]> {
-    const urlTypeParam = type === "movies" ? "movie" : "show";
+    const urlTypeParam = type === ItemKind.Movie ? "movie" : "show";
     const request = timeout<RawMovieTorrent | RawEpisodeTorrent>(
       fetch(`${resolvedEndpoint}/${urlTypeParam}/${itemId}`).then((res) =>
         res.json()
@@ -64,14 +64,14 @@ export default class PctTorrentProvider extends TorrentProviderInterface {
     );
 
     switch (type) {
-      case "movies": {
+      case ItemKind.Movie: {
         const movieTorrent = (await request) as RawMovieTorrent;
         return [
           { ...movieTorrent.torrents.en["1080p"], quality: "1080p" },
           { ...movieTorrent.torrents.en["720p"], quality: "720p" },
         ].map((torrent) => this.formatMovieTorrent(torrent));
       }
-      case "shows": {
+      case ItemKind.Show: {
         const { season, episode } = extendedDetails as ShowDetail;
         try {
           const show = (await request) as RawEpisodeTorrent;
@@ -132,12 +132,12 @@ export default class PctTorrentProvider extends TorrentProviderInterface {
 
   static provide(itemId: string, type: ItemKind, extendedDetails: ShowDetail) {
     switch (type) {
-      case "movies":
+      case ItemKind.Movie:
         return this.fetch(itemId, type, extendedDetails).catch((error) => {
           handleProviderError(error);
           return [];
         });
-      case "shows":
+      case ItemKind.Show:
         return this.fetch(itemId, type, extendedDetails).catch((error) => {
           handleProviderError(error);
           return [];

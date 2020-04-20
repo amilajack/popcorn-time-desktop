@@ -38,6 +38,7 @@ export const lightTheme = {
 };
 
 export const darkTheme = {
+  "bg-dark": "#1b1b1b",
   gray: "#303030",
   "gray-dark": "#151515",
   "gray-light": "gray",

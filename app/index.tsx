@@ -12,12 +12,6 @@ if (process.env.ANALYTICS === "true") {
   });
 }
 
-declare global {
-  interface Window {
-    currentCardSelectedIndex: number;
-  }
-}
-
 const store = configureStore();
 
 if (process.env.NODE_ENV !== "production") {
@@ -44,85 +38,3 @@ if (module.hot) {
     );
   });
 }
-
-import("mousetrap")
-  .then((mousetrap) => {
-    mousetrap.bind(["command+f", "ctrl+f"], () => {
-      window.scrollTo(0, 0);
-      const searchElm = document.getElementById("pct-search-input");
-      if (searchElm) {
-        searchElm.focus();
-      } else {
-        throw new Error("search element not found");
-      }
-      return false;
-    });
-
-    mousetrap.bind(["command+1", "ctrl+1"], () => {
-      const [firstLink] = Array.from(
-        document.querySelectorAll(".Navbar .nav-link")
-      );
-      firstLink.click();
-      return false;
-    });
-
-    mousetrap.bind(["command+2", "ctrl+2"], () => {
-      const secondLink = Array.from(
-        document.querySelectorAll(".Navbar .nav-link")
-      )[1];
-      secondLink.click();
-      return false;
-    });
-
-    mousetrap.bind(["command+3", "ctrl+3"], () => {
-      const secondLink = Array.from(
-        document.querySelectorAll(".Navbar .nav-link")
-      )[2];
-      secondLink.click();
-      return false;
-    });
-
-    mousetrap.bind(["left", "right", "enter"], (event) => {
-      const cards = Array.from(document.querySelectorAll(".Card"));
-      if (!cards.length) {
-        return;
-      }
-
-      const prevIndex = window.currentCardSelectedIndex;
-      const prevSelectedCard = document.querySelector(".Card--selected");
-
-      switch (event.key) {
-        case "ArrowLeft": {
-          if (window.currentCardSelectedIndex - 1 >= 0) {
-            window.currentCardSelectedIndex -= 1;
-          }
-          break;
-        }
-        case "ArrowRight": {
-          if (window.currentCardSelectedIndex + 1 <= cards.length - 1) {
-            window.currentCardSelectedIndex += 1;
-          }
-          break;
-        }
-        case "Enter": {
-          if (prevSelectedCard) {
-            prevSelectedCard.querySelector("a")?.click();
-          }
-          break;
-        }
-        default:
-          throw new Error("Unsupported key event");
-      }
-
-      if (window.currentCardSelectedIndex !== prevIndex || !prevSelectedCard) {
-        if (prevSelectedCard) {
-          prevSelectedCard.classList.remove("Card--selected");
-        }
-        cards[window.currentCardSelectedIndex].classList.add("Card--selected");
-        cards[window.currentCardSelectedIndex].scrollIntoView();
-      }
-    });
-
-    return true;
-  })
-  .catch(console.log);

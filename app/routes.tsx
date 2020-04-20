@@ -1,26 +1,36 @@
 /* eslint react/jsx-props-no-spreading: off */
 import React from "react";
-import { Switch, Route } from "react-router";
+import { Switch, Route } from "react-router-dom";
 import Loadable from "react-loadable";
-import { Row, Col } from "reactstrap";
+import { Row, Col, Container } from "reactstrap";
 import { remote } from "electron";
-import App from "./containers/App";
-import OfflineAlert from "./components/navbar/OfflineAlert";
+import ContentLoader from "react-content-loader";
+import AppPage from "./containers/AppPage";
 import ThemeManager, { Theme } from "./utils/Theme";
 
 const { nativeTheme } = remote;
 
-const style = {
-  width: "100%",
-  display: "flex",
-  fontFamily: "Avenir Next",
-};
+const SkeletonLoader = () => (
+  <ContentLoader
+    speed={2}
+    style={{ width: "100%" }}
+    viewBox="0 0 400 160"
+    backgroundColor="gray"
+    foregroundColor="black"
+  >
+    <rect x="48" y="8" rx="3" ry="3" width="88" height="6" />
+    <rect x="48" y="26" rx="3" ry="3" width="52" height="6" />
+    <rect x="0" y="56" rx="3" ry="3" width="410" height="6" />
+    <rect x="0" y="72" rx="3" ry="3" width="380" height="6" />
+    <rect x="0" y="88" rx="3" ry="3" width="178" height="6" />
+    <circle cx="20" cy="20" r="20" />
+  </ContentLoader>
+);
 
-const LoadableHelper = (component, opts = {}) =>
+const LoadableHelper = (component: Promise<NodeJS.Module>, opts = {}) =>
   Loadable({
     loader: () => component.then((e) => e.default).catch(console.log),
-    // eslint-disable-next-line react/display-name
-    loading: () => <div style={style}>Welcome to PopcornTime</div>,
+    loading: SkeletonLoader,
     delay: 2000,
     ...opts,
   });
@@ -28,11 +38,13 @@ const ItemPage = LoadableHelper(import("./containers/ItemPage"));
 const HomePage = LoadableHelper(import("./containers/HomePage"));
 
 type State = {
-  theme: string;
+  theme: Theme;
 };
 
-export default class PCT extends React.Component {
-  state: State = { theme: nativeTheme.shouldUseDarkColors ? "dark" : "light" };
+export default class Routes extends React.Component {
+  state: State = {
+    theme: nativeTheme.shouldUseDarkColors ? Theme.Dark : Theme.Light,
+  };
 
   componentDidMount() {
     const themeManager = new ThemeManager(
@@ -49,39 +61,29 @@ export default class PCT extends React.Component {
 
   render() {
     const { theme } = this.state;
+
+    const A = (props) => {
+      const { itemId } = props.match.params;
+
+      const route = itemId ? (
+        <ItemPage {...props} theme={theme} />
+      ) : (
+        <HomePage {...props} theme={theme} />
+      );
+
+      return (
+        <AppPage>
+          <Container fluid>{route}</Container>
+        </AppPage>
+      );
+    };
     return (
-      <App>
-        <Row>
-          <Col sm="12">
-            <OfflineAlert />
-          </Col>
-        </Row>
-        <Switch>
-          <Route
-            exact
-            strict
-            path="/:activeMode/:itemId"
-            render={(props) => <ItemPage {...props} theme={theme} />}
-          />
-          <Route
-            exact
-            strict
-            path="/:activeMode"
-            render={(props) => <HomePage {...props} theme={theme} />}
-          />
-          <Route
-            exact
-            strict
-            path="/"
-            render={(props) => <HomePage {...props} theme={theme} />}
-          />
-          <Route
-            exact
-            strict
-            render={(props) => <HomePage {...props} theme={theme} />}
-          />
-        </Switch>
-      </App>
+      <Switch>
+        <Route exact strict path="/:activeMode/:itemId" component={A} />
+        <Route exact strict path="/:activeMode" component={A} />
+        <Route exact strict path="/" component={A} />
+        <Route exact strict component={A} />
+      </Switch>
     );
   }
 }

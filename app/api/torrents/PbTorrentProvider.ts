@@ -81,7 +81,7 @@ export default class PbTorrentProvider implements TorrentProviderInterface {
     const { searchQuery } = extendedDetails;
 
     switch (type) {
-      case "movies": {
+      case ItemKind.Movie: {
         return (
           Promise.all(
             constructMovieQueries(searchQuery, itemId).map((query) =>
@@ -96,7 +96,7 @@ export default class PbTorrentProvider implements TorrentProviderInterface {
             })
         );
       }
-      case "shows": {
+      case ItemKind.Show: {
         const { season, episode } = extendedDetails;
         return this.fetch(
           `${searchQuery} ${formatSeasonEpisodeToString(season, episode)}`

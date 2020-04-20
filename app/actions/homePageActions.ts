@@ -1,14 +1,10 @@
-import { ActiveModeOptions } from "../components/home/Home";
 import { Item } from "../api/metadata/MetadataProviderInterface";
+import { ActiveMode } from "../reducers/homePageReducer";
 
-export function setActiveMode(
-  activeMode: string,
-  activeModeOptions: ActiveModeOptions = {}
-) {
+export function setActiveMode(activeMode: ActiveMode) {
   return {
     type: "SET_ACTIVE_MODE",
     activeMode,
-    activeModeOptions,
   };
 }
 
@@ -16,12 +12,6 @@ export function paginate(items: Array<Item>) {
   return {
     type: "PAGINATE",
     items,
-  };
-}
-
-export function clearItems() {
-  return {
-    type: "CLEAR_ITEMS",
   };
 }
 
@@ -38,9 +28,8 @@ export function setLoading(isLoading: boolean) {
   };
 }
 
-export function setCurrentPlayer(player: string) {
+export function setLastPage() {
   return {
-    type: "SET_CURRENT_PLAYER",
-    player,
+    type: "SET_LAST_PAGE",
   };
 }

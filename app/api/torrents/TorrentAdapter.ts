@@ -18,6 +18,7 @@ import {
   ShowDetail,
   TorrentSelection,
 } from "./TorrentProviderInterface";
+import { ItemKind } from "../metadata/MetadataProviderInterface";
 
 const providers: Promise<TorrentProviderInterface>[] = [
   import("./YtsTorrentProvider").then((e) => e.default || e),
@@ -144,16 +145,16 @@ export default class TorrentAdapter {
         const { season, episode } = extendedDetails as ShowDetail;
 
         switch (type) {
-          case "movies":
+          case ItemKind.Movie:
             return selectTorrents(
               appendAttributes(providerResults).map((result) => ({
                 ...result,
-                method: "movies",
+                method: ItemKind.Movie,
               })),
               returnAll,
               args
             );
-          case "shows":
+          case ItemKind.Show:
             return selectTorrents(
               appendAttributes(providerResults)
                 .filter((show: Torrent) => !!show.metadata)
@@ -162,7 +163,7 @@ export default class TorrentAdapter {
                 )
                 .map((result) => ({
                   ...result,
-                  method: "shows",
+                  method: ItemKind.Show,
                 })),
               returnAll,
               args

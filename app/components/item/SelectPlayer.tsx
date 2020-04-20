@@ -19,9 +19,8 @@ const SelectPlayer = ({
   onSelect,
 }: SelectPlayerProps) => (
   <UncontrolledDropdown style={{ float: "left" }}>
-    <DropdownToggle caret>{currentSelection}</DropdownToggle>
+    <DropdownToggle caret>Player</DropdownToggle>
     <DropdownMenu>
-      <DropdownItem header>Select Player</DropdownItem>
       <DropdownItem
         key="default"
         id="default"

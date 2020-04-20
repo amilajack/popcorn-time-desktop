@@ -12,7 +12,7 @@ export type TorrentMethod = "all" | "race";
 
 export type Quality = "1080p" | "720p" | "480p";
 
-export type TorrentQuery = "movies" | "shows" | "season_complete";
+export type TorrentQuery = ItemKind | "season_complete";
 
 export type ProviderTorrent = {
   quality: string;

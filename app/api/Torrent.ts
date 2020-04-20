@@ -6,11 +6,12 @@ import WebTorrent from "webtorrent";
 // 'get-port' lib doesn't work here for some reason. Not sure why
 import findFreePort from "find-free-port";
 import { isExactEpisode } from "./torrents/BaseTorrentProvider";
+import { TorrentKind } from "./torrents/TorrentProviderInterface";
 
 type Metadata = {
   season: number;
   episode: number;
-  activeMode: string;
+  torrentKind: string;
 };
 
 /**
@@ -18,14 +19,14 @@ type Metadata = {
  */
 export function selectSubtitleFile(
   files: Array<{ name: string }> = [],
-  activeMode: string,
+  torrentKind: TorrentKind,
   metadata: { season: number; episode: number }
 ): { name: string } | boolean {
   return (
     files.find((file) => {
       const formatIsSupported = file.name.includes(".srt");
 
-      switch (activeMode) {
+      switch (torrentKind) {
         // Check if the current file is the exact episode we're looking for
         case "season_complete": {
           const { season, episode } = metadata;
@@ -47,18 +48,16 @@ export default class Torrent {
 
   finished = false;
 
-  checkDownloadInterval: number;
+  checkDownloadInterval?: NodeJS.Timeout;
 
   engine: WebTorrent;
 
   magnetURI?: string;
 
-  server:
-    | {}
-    | {
-        close: () => void;
-        listen: (port: number) => void;
-      };
+  server?: {
+    close: () => void;
+    listen: (port: number) => void;
+  };
 
   async start(
     magnetURI: string,
@@ -78,7 +77,7 @@ export default class Torrent {
     }
 
     const [port] = await findFreePort(9090);
-    const { season, episode, activeMode } = metadata;
+    const { season, episode, torrentKind } = metadata;
     const maxConns = process.env.CONFIG_MAX_CONNECTIONS
       ? parseInt(process.env.CONFIG_MAX_CONNECTIONS, 10)
       : 20;
@@ -102,7 +101,7 @@ export default class Torrent {
             current.name.includes(format)
           );
 
-          switch (activeMode) {
+          switch (torrentKind) {
             // Check if the current file is the exact episode we're looking for
             case "season_complete":
               if (
@@ -167,7 +166,7 @@ export default class Torrent {
             files,
             torrent,
             false
-            // selectSubtitleFile(files, activeMode, metadata)
+            // selectSubtitleFile(files, torrentKind, metadata)
           );
 
           this.clearIntervals();
@@ -177,8 +176,10 @@ export default class Torrent {
   }
 
   clearIntervals() {
-    clearInterval(this.checkDownloadInterval);
-    this.checkDownloadInterval = undefined;
+    if (this.checkDownloadInterval) {
+      clearInterval(this.checkDownloadInterval);
+      this.checkDownloadInterval = undefined;
+    }
   }
 
   destroy() {
@@ -186,7 +187,7 @@ export default class Torrent {
       if (this.server && this.server.close) {
         console.log("Closing the torrent server...");
         this.server.close();
-        this.server = {};
+        this.server = undefined;
       }
 
       this.clearIntervals();
