@@ -716,7 +716,7 @@ describe("API", () => {
             "The.Dark.Knight.2008.720p.BluRay.x264.YIFY.mp4",
             undefined,
             {
-              activeMode: "movies",
+              view: "movies",
             }
           );
         });

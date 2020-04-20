@@ -12,25 +12,25 @@ import Description from "../item/Description";
 import SaveItem from "../item/SaveItem";
 import Poster from "../item/Poster";
 import { Item, ItemKind } from "../../api/metadata/MetadataProviderInterface";
-import { PageInfo, ActiveMode } from "../../reducers/homePageReducer";
+import { PageInfo, View } from "../../reducers/homePageReducer";
 
 type Props = {
   paginate: (items: Item[]) => void;
   clearAllItems: () => void;
   setLoading: (isLoading: boolean) => void;
   setLastPage: () => void;
-  setActiveMode: (activeMode: ActiveMode) => void;
+  setView: (view: View) => void;
   history: History;
-  activeMode: string;
+  view: View;
   location: Location<{
     searchQuery?: string;
   }>;
   match: {
     params: {
-      activeMode?: ActiveMode;
+      view?: View;
     };
   };
-  modes: Record<ActiveMode, PageInfo>;
+  modes: Record<View, PageInfo>;
   items: Array<Item>;
   isLoading: boolean;
 };
@@ -55,18 +55,18 @@ export default class Home extends Component<Props, State> {
   /**
    * If bottom of component is 2000px from viewport, query
    */
-  infinitePagination = _.debounce(() => {
+  infinitePagination = _.throttle(() => {
     const { isLoading, match } = this.props;
-    const { activeMode } = match.params;
+    const { view } = match.params;
     const scrollDimentions = document.body.getBoundingClientRect();
     if (scrollDimentions.bottom < 2000 && !isLoading) {
-      this.paginate(activeMode);
+      this.paginate(view);
     }
   }, 1000);
 
   async componentDidMount() {
-    const { setActiveMode, match } = this.props;
-    setActiveMode(match.params.activeMode || "home");
+    const { setView, match } = this.props;
+    setView(match.params.view || "home");
 
     const [
       favorites,
@@ -122,20 +122,20 @@ export default class Home extends Component<Props, State> {
 
   // eslint-disable-next-line camelcase
   async UNSAFE_componentWillReceiveProps(nextProps: Props) {
-    const { clearAllItems, setActiveMode, match, location } = this.props;
-    const { activeMode: nextActiveMode } = nextProps.match.params;
-    const { activeMode } = match.params;
+    const { clearAllItems, setView, match, location } = this.props;
+    const { view: nextView } = nextProps.match.params;
+    const { view } = match.params;
 
-    if (activeMode !== nextActiveMode && nextActiveMode) {
-      setActiveMode(nextActiveMode);
+    if (view !== nextView && nextView) {
+      setView(nextView);
     }
 
-    if (activeMode === "search") {
+    if (view === "search") {
       const searchQuery = location.state?.searchQuery || "";
       const nextSearchQuery = nextProps.location?.state?.searchQuery || "";
       if (searchQuery !== nextSearchQuery) {
         clearAllItems();
-        await this.paginate(activeMode, nextProps);
+        await this.paginate(view, nextProps);
       }
     }
   }
@@ -146,30 +146,27 @@ export default class Home extends Component<Props, State> {
 
   onChange = async (isVisible: boolean) => {
     const { isLoading, match } = this.props;
-    const { activeMode } = match.params;
+    const { view } = match.params;
     if (isVisible && !isLoading) {
-      await this.paginate(activeMode);
+      await this.paginate(view);
     }
   };
 
   /**
    * Query items and add them to redux store
    */
-  async paginate(
-    activeMode: ActiveMode = "home",
-    props?: Props
-  ): Promise<void> {
+  async paginate(view: View = "home", props?: Props): Promise<void> {
     const { modes, paginate, setLoading, setLastPage, location } =
       props || this.props;
 
-    if (modes[activeMode].isLastPage) return;
+    if (modes[view].isLastPage) return;
 
     setLoading(true);
 
     try {
       const items = await (async () => {
-        const { page } = modes[activeMode];
-        switch (activeMode) {
+        const { page } = modes[view];
+        switch (view) {
           case "search": {
             const searchQuery = new URLSearchParams(location.search).get(
               "searchQuery"
@@ -203,7 +200,7 @@ export default class Home extends Component<Props, State> {
   render() {
     const { items, isLoading, match } = this.props;
     const { favorites, watchList, recentlyWatched, trending } = this.state;
-    const { activeMode } = match.params;
+    const { view } = match.params;
 
     const home = (
       <>
@@ -286,7 +283,7 @@ export default class Home extends Component<Props, State> {
       <>
         <Row>
           <Col sm="12">
-            {activeMode === "home" || !activeMode ? (
+            {view === "home" || !view ? (
               home
             ) : (
               <CardsGrid items={items} isLoading={isLoading} />

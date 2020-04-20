@@ -2,30 +2,13 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
 import Loadable from "react-loadable";
-import { Row, Col, Container } from "reactstrap";
+import { Container } from "reactstrap";
 import { remote } from "electron";
-import ContentLoader from "react-content-loader";
+import SkeletonLoader from "./components/app/Skeleton";
 import AppPage from "./containers/AppPage";
 import ThemeManager, { Theme } from "./utils/Theme";
 
 const { nativeTheme } = remote;
-
-const SkeletonLoader = () => (
-  <ContentLoader
-    speed={2}
-    style={{ width: "100%" }}
-    viewBox="0 0 400 160"
-    backgroundColor="gray"
-    foregroundColor="black"
-  >
-    <rect x="48" y="8" rx="3" ry="3" width="88" height="6" />
-    <rect x="48" y="26" rx="3" ry="3" width="52" height="6" />
-    <rect x="0" y="56" rx="3" ry="3" width="410" height="6" />
-    <rect x="0" y="72" rx="3" ry="3" width="380" height="6" />
-    <rect x="0" y="88" rx="3" ry="3" width="178" height="6" />
-    <circle cx="20" cy="20" r="20" />
-  </ContentLoader>
-);
 
 const LoadableHelper = (component: Promise<NodeJS.Module>, opts = {}) =>
   Loadable({
@@ -79,8 +62,8 @@ export default class Routes extends React.Component {
     };
     return (
       <Switch>
-        <Route exact strict path="/:activeMode/:itemId" component={A} />
-        <Route exact strict path="/:activeMode" component={A} />
+        <Route exact strict path="/:view/:itemId" component={A} />
+        <Route exact strict path="/:view" component={A} />
         <Route exact strict path="/" component={A} />
         <Route exact strict component={A} />
       </Switch>

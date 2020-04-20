@@ -7,12 +7,12 @@ import {
   clearAllItems,
   paginate,
   setLoading,
-  setActiveMode,
+  setView,
   setLastPage,
 } from "../actions/homePageActions";
 import Home from "../components/home/Home";
 import { ItemKind, Item } from "../api/metadata/MetadataProviderInterface";
-import { ActiveMode } from "../reducers/homePageReducer";
+import { View } from "../reducers/homePageReducer";
 
 type State = {
   home: {
@@ -32,8 +32,7 @@ function mapStateToProps(state: State) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    setActiveMode: (activeMode: ActiveMode) =>
-      dispatch(setActiveMode(activeMode)),
+    setView: (view: View) => dispatch(setView(view)),
     clearAllItems: () => dispatch(clearAllItems()),
     setLastPage: () => dispatch(setLastPage()),
     paginate: (items: Item[]) => dispatch(paginate(items)),

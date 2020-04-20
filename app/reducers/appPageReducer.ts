@@ -8,15 +8,15 @@ enum Type {
 
 type Action = {
   type: Type;
-  activeMode: Mode;
+  view: Mode;
 };
 
 type ItemPageReducerState = {
-  activeMode: Mode;
+  view: Mode;
 };
 
 export const defaultState: ItemPageReducerState = {
-  activeMode: "home",
+  view: "home",
 };
 
 export default function appPageReducer(
@@ -28,7 +28,7 @@ export default function appPageReducer(
     case Type.SET_ACTIVE_MODE:
       return {
         ...state,
-        activeMode: action.activeMode,
+        view: action.view,
       };
     default:
       return state;

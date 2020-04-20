@@ -1,10 +1,8 @@
 import { remote } from "electron";
 import plyr from "plyr";
-import childProcess from "child_process";
 import network from "network-address";
-import vlcCommand from "vlc-command";
 import ChromecastPlayerProvider from "./players/ChromecastPlayerProvider";
-import { Metadata } from "./players/PlayerProviderInterface";
+import { ItemMetadata } from "./players/PlayerProviderInterface";
 import { PlayerSubtitle } from "./Subtitle";
 
 const { powerSaveBlocker } = remote;
@@ -59,7 +57,7 @@ export default class Player {
   async initCast(
     provider: ChromecastPlayerProvider,
     streamingUrl: string,
-    metadata: Metadata,
+    metadata: ItemMetadata,
     subtitles: Array<PlayerSubtitle> = []
   ) {
     this.powerSaveBlockerId = powerSaveBlocker.start("prevent-app-suspension");
@@ -80,29 +78,5 @@ export default class Player {
     this.powerSaveBlockerId = powerSaveBlocker.start("prevent-app-suspension");
     this.player = {};
     return this.player;
-  }
-
-  initVLC(servingUrl: string) {
-    vlcCommand((error: Error, cmd: string) => {
-      if (error) return console.error("Could not find vlc command path");
-
-      if (process.platform === "win32") {
-        childProcess.execFile(cmd, [servingUrl], (_error, stdout) => {
-          if (_error) return console.error(_error);
-          return console.log(stdout);
-        });
-      } else {
-        childProcess.exec(`${cmd} ${servingUrl}`, (_error, stdout) => {
-          if (_error) return console.error(_error);
-          return console.log(stdout);
-        });
-      }
-
-      this.powerSaveBlockerId = powerSaveBlocker.start(
-        "prevent-app-suspension"
-      );
-
-      return true;
-    });
   }
 }

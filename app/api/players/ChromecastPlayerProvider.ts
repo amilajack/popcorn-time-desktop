@@ -4,7 +4,7 @@ import network from "network-address";
 import {
   PlayerProviderInterface,
   Device,
-  Metadata,
+  ItemMetadata,
 } from "./PlayerProviderInterface";
 import { PlayerSubtitle } from "../Subtitle";
 
@@ -25,11 +25,11 @@ export default class ChromecastPlayerProvider
 
   supportsSubtitles = true;
 
-  selectedDevice?: Device;
+  private selectedDevice?: Device;
 
-  devices: Array<Device> = [];
+  private devices: Device[] = [];
 
-  browser: {
+  private browser: {
     on: (event: string, cb: (device: Castv2Device) => void) => void;
     start: () => void;
     stop: () => void;
@@ -46,7 +46,7 @@ export default class ChromecastPlayerProvider
     }
   }
 
-  getDevices(timeout = 2000): Promise<Device[]> {
+  private getDevices(timeout = 2000): Promise<Device[]> {
     return new Promise((resolve) => {
       const devices: Device[] = [];
 
@@ -74,7 +74,7 @@ export default class ChromecastPlayerProvider
     });
   }
 
-  selectDevice(deviceId: string) {
+  private selectDevice(deviceId: string) {
     const selectedDevice = this.devices.find(
       (device) => device.id === deviceId
     );
@@ -87,7 +87,7 @@ export default class ChromecastPlayerProvider
 
   play(
     contentUrl: string,
-    metadata: Metadata,
+    metadata: ItemMetadata,
     subtitles: Array<PlayerSubtitle>
   ) {
     const client = new Client();
@@ -116,6 +116,8 @@ export default class ChromecastPlayerProvider
         client.launch(DefaultMediaReceiver, (err: Error, player) => {
           if (err) reject(err);
 
+          const { item } = metadata;
+
           const media = {
             // Here you can plug an URL to any mp4, webm, mp3 or jpg file with the proper contentType.
             contentId: contentUrl,
@@ -128,13 +130,13 @@ export default class ChromecastPlayerProvider
             metadata: {
               type: 0,
               metadataType: 0,
-              title: metadata.title,
+              title: item.title,
               images: [
                 {
-                  url: metadata.images.poster.full,
+                  url: item.images.poster?.full || "",
                 },
                 {
-                  url: metadata.images.fanart.full,
+                  url: item.images.fanart?.full || "",
                 },
               ],
             },

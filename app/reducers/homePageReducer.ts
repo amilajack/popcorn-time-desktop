@@ -1,6 +1,6 @@
 import { Item, ItemKind } from "../api/metadata/MetadataProviderInterface";
 
-export type ActiveMode = ItemKind | "search" | "home";
+export type View = ItemKind | "search" | "home";
 
 export type PageInfo = {
   page: number;
@@ -12,13 +12,13 @@ export type PageInfo = {
 type Action = {
   type: string;
   items: Array<Item>;
-  activeMode: ActiveMode;
+  view: View;
   isLoading?: boolean;
 };
 
 type HomePageReducerState = {
-  activeMode: ActiveMode;
-  modes: Record<ActiveMode, PageInfo>;
+  view: View;
+  modes: Record<View, PageInfo>;
   isLoading: boolean;
   items: Array<Item>;
 };
@@ -31,7 +31,7 @@ const initialMode: PageInfo = {
 };
 
 export const defaultState: HomePageReducerState = {
-  activeMode: "home",
+  view: "home",
   modes: {
     movies: initialMode,
     shows: initialMode,
@@ -51,12 +51,12 @@ export default function homePageReducer(
     case "PAGINATE":
       return {
         ...state,
-        items: [...state.modes[state.activeMode].items, ...action.items],
+        items: [...state.modes[state.view].items, ...action.items],
         modes: {
           ...state.modes,
-          [state.activeMode]: {
-            items: [...state.modes[state.activeMode].items, ...action.items],
-            page: state.modes[state.activeMode].page + 1,
+          [state.view]: {
+            items: [...state.modes[state.view].items, ...action.items],
+            page: state.modes[state.view].page + 1,
             limit: 50,
           },
         },
@@ -66,8 +66,8 @@ export default function homePageReducer(
         ...state,
         modes: {
           ...state.modes,
-          [state.activeMode]: {
-            ...state.modes[state.activeMode],
+          [state.view]: {
+            ...state.modes[state.view],
             isLastPage: true,
           },
         },
@@ -76,8 +76,8 @@ export default function homePageReducer(
     case "SET_ACTIVE_MODE":
       return {
         ...state,
-        items: state.modes[action.activeMode].items,
-        activeMode: action.activeMode,
+        items: state.modes[action.view].items,
+        view: action.view,
       };
     case "CLEAR_ALL_ITEMS":
       return {
@@ -85,7 +85,7 @@ export default function homePageReducer(
         items: [],
         modes: {
           ...state.modes,
-          [state.activeMode]: initialMode,
+          [state.view]: initialMode,
         },
       };
     case "SET_LOADING":

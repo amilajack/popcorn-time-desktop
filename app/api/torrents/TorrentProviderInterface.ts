@@ -38,7 +38,7 @@ export type ExtendedDetails = ShowDetail | SearchDetail | {};
 export type Torrent = ProviderTorrent & {
   health: Health;
   quality: Quality;
-  method: TorrentQuery;
+  kind: TorrentQuery;
 };
 
 export type TorrentSelection = Record<Quality, Torrent | undefined>;

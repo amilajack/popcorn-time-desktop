@@ -5,32 +5,25 @@ import {
   DropdownMenu,
   DropdownItem,
 } from "reactstrap";
-import { Device } from "../../api/players/PlayerProviderInterface";
+import { Device, PlayerKind } from "../../api/players/PlayerProviderInterface";
 
 type SelectPlayerProps = {
   currentSelection: string;
-  castingDevices: Array<Device>;
+  castingDevices: Device[];
   onSelect: React.MouseEventHandler<Element>;
 };
 
-const SelectPlayer = ({
-  castingDevices,
-  currentSelection,
-  onSelect,
-}: SelectPlayerProps) => (
+const SelectPlayer = ({ castingDevices, onSelect }: SelectPlayerProps) => (
   <UncontrolledDropdown style={{ float: "left" }}>
     <DropdownToggle caret>Player</DropdownToggle>
     <DropdownMenu>
       <DropdownItem
         key="default"
-        id="default"
-        name="default"
+        id="plyr"
+        name={PlayerKind.Plyr}
         onClick={onSelect}
       >
         Default
-      </DropdownItem>
-      <DropdownItem key="vlc" id="vlc" name="vlc" onClick={onSelect}>
-        VLC
       </DropdownItem>
       {castingDevices.map(({ id, name }) => (
         <DropdownItem key={id} id={id} name="chromecast" onClick={onSelect}>

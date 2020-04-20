@@ -1,25 +1,85 @@
+import ChromecastPlayerProvider from "./ChromecastPlayerProvider";
+import PlyrPlayerProvider from "./PlyrPlayerProvider";
+import {
+  PlayerProviderInterface,
+  PlayerSelectMetadata,
+  PlayerKind,
+  Device,
+  ItemMetadata,
+} from "./PlayerProviderInterface";
+
 /**
  * Provide a single API interface for all the providers
  *
+ * @example
+ * ```ts
+ * const player = new PlayerAdapter();
+ * await player.selectPlayer(PlayerKind.ChromeCast);
+ * await player.play();
+ * await player.pause();
+ * ```
  */
-import ChromecastPlayerProvider from "./ChromecastPlayerProvider";
-import { PlayerProviderInterface, Device } from "./PlayerProviderInterface";
-
 export default class PlayerAdapter {
-  providers: Array<PlayerProviderInterface> = [new ChromecastPlayerProvider()];
+  static nativePlaybackFormats = [
+    "mp4",
+    "ogg",
+    "mov",
+    "webmv",
+    "mkv",
+    "wmv",
+    "avi",
+  ];
 
-  devices: Array<Device>;
+  static experimentalPlaybackFormats = [];
 
-  selectedDevice: Device;
+  private providers: Map<PlayerKind, PlayerProviderInterface> = new Map([
+    [PlayerKind.Plyr, new PlyrPlayerProvider()],
+    // [PlayerKind.Chromecast, new ChromecastPlayerProvider()],
+  ]);
 
-  getDevices() {
-    return Promise.all(
-      this.providers.map((provider) => provider.getDevices(2000))
-    );
+  private provider: PlayerProviderInterface = this.providers.get(
+    PlayerKind.Plyr
+  ) as PlayerProviderInterface;
+
+  public isPlaying = false;
+
+  public async selectPlayer(
+    playerKind: PlayerKind,
+    metadata: PlayerSelectMetadata = {}
+  ): Promise<void> {
+    if (!this.providers.has(playerKind)) {
+      throw new Error(`Player "${playerKind}" not supported`);
+    }
+    await this.provider.cleanup();
+    this.provider = this.providers.get(playerKind) as PlayerProviderInterface;
+    return this.provider.setup(metadata);
   }
 
-  /**
-   * @TODO: Proxy all other method calls (ex. play, etc) to the selectedDevice
-   *        instance
-   */
+  public play(url: string, metadata: ItemMetadata): Promise<void> {
+    return this.provider.play(url, metadata);
+  }
+
+  public pause(): Promise<void> {
+    return this.provider.pause();
+  }
+
+  public setup(arg): Promise<void> {
+    return this.provider.setup(arg);
+  }
+
+  public cleanup(): Promise<void> {
+    return this.provider.cleanup();
+  }
+
+  getPlayerName(): PlayerKind {
+    return this.provider.name;
+  }
+
+  public async getDevices(): Promise<Device[]> {
+    const providers = Array.from(this.providers.values());
+    const devices = await Promise.all(
+      providers.map((provider) => provider.getDevices())
+    );
+    return devices.flat();
+  }
 }

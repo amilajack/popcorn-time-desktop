@@ -5,14 +5,12 @@ type Props = {
   match: {
     params: {
       itemId: string;
-      activeMode: string;
+      itemKind: string;
     };
   };
 };
 
 export default function ItemPage(props: Props) {
   const { match } = props;
-  return (
-    <Item itemId={match.params.itemId} activeMode={match.params.activeMode} />
-  );
+  return <Item itemId={match.params.itemId} itemKind={match.params.view} />;
 }

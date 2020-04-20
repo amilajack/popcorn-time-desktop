@@ -1,10 +1,10 @@
 import { Item } from "../api/metadata/MetadataProviderInterface";
-import { ActiveMode } from "../reducers/homePageReducer";
+import { View } from "../reducers/homePageReducer";
 
-export function setActiveMode(activeMode: ActiveMode) {
+export function setView(view: View) {
   return {
     type: "SET_ACTIVE_MODE",
-    activeMode,
+    view,
   };
 }
 

@@ -1,4 +1,17 @@
-import { Images } from "../metadata/MetadataProviderInterface";
+import { Item } from "../metadata/MetadataProviderInterface";
+
+export type PlayerSelectMetadata = Record<string, any>;
+
+export type PlayerCaptions = Array<{
+  src: string;
+  srclang: string;
+}>;
+
+export enum PlayerKind {
+  Plyr = "plyr",
+  Chromecast = "chromecast",
+  YouTube = "youtube",
+}
 
 export type Device = {
   id: string;
@@ -7,53 +20,32 @@ export type Device = {
   port: number;
 };
 
-export type PlayerKind = "default" | "plyr" | "vlc" | "chromecast" | "youtube";
+export type PlayerKindNames = "plyr" | "chromecast" | "youtube";
 
-export type Metadata = {
-  title: string;
-  images: Images;
+export type ItemMetadata = {
+  item: Item;
+  captions: PlayerCaptions;
 };
 
 export interface PlayerProviderInterface {
-  provider: string;
+  name: PlayerKind;
 
-  providerId: string;
+  getDevices: () => Promise<Device[]>;
 
-  selectedDevice?: Device;
-
-  devices: Array<Device>;
-
-  supportedFormats: Array<string>;
-
-  supportsSubtitles: boolean;
-
-  svgIconFilename: string;
-
-  contentUrl: string;
-
-  port: number;
-
-  constructor: () => void;
-
-  getDevices: (timeout: number) => Promise<Array<Device>>;
+  selectDevice: (id: string) => Promise<void>;
 
   seek: (seconds: number) => void;
 
-  selectDevice: (deviceId: string) => Device;
-
-  play: (contentUrl: string, metadata: Metadata) => Promise<void>;
+  play: (contentUrl: string, metadata?: ItemMetadata) => Promise<void>;
 
   pause: () => Promise<void>;
 
   restart: () => Promise<void>;
 
+  setup: (metadata?: PlayerSelectMetadata) => Promise<void>;
+
   /**
    * Handle any logic to remove the traces of the player from memory
    */
-  destroy: () => Promise<void>;
-
-  /**
-   * Check if the plugin is supported on the machine
-   */
-  isSupported: () => Promise<boolean>;
+  cleanup: () => Promise<void>;
 }

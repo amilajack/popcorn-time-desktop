@@ -1,15 +1,14 @@
-import OpenSubtitles from "opensubtitles-api";
+import os from "os";
+import yifysubtitles from "@amilajack/yifysubtitles";
 import { set, get } from "../../utils/Config";
-import { Item, UserList, ItemKind } from "./MetadataProviderInterface";
+import { Item, UserList } from "./MetadataProviderInterface";
 
 /* eslint class-methods-use-this: off */
 
 type ConfigKind = "favorites" | "recentlyWatched" | "watchList";
 
 type RawSubtitle = {
-  langName: string;
-  lang: string;
-  url: string;
+  langShort: string;
 };
 
 type Subtitle = {
@@ -19,26 +18,6 @@ type Subtitle = {
   src: string;
   default: boolean;
 };
-
-const SUBTITLES_ENDPOINT =
-  "https://popcorn-time-api-server.herokuapp.com/subtitles";
-
-const openSubtitles = new OpenSubtitles({
-  useragent: "OSTestUserAgent",
-  username: "",
-  password: "",
-  ssl: true,
-});
-
-export function formatSubtitle(subtitle: RawSubtitle): Subtitle {
-  return {
-    kind: "captions",
-    label: subtitle.langName,
-    srclang: subtitle.lang,
-    src: `${SUBTITLES_ENDPOINT}/${encodeURIComponent(subtitle.url)}`,
-    default: subtitle.lang === "en",
-  };
-}
 
 /**
  * Get the subtitles for a movie or show
@@ -80,40 +59,32 @@ export default class BaseMetadataProvider {
 
   watchList = userListsHelper("watchList");
 
-  async getSubtitles(
-    imdbId: string,
-    filename: string,
-    length: number,
-    metadata: { season?: number; episode?: number; activeMode?: string } = {}
-  ): Promise<Array<Subtitle>> {
-    const { activeMode } = metadata;
-
-    const defaultOptions = {
-      sublanguageid: "eng",
-      // sublanguageid: 'all', // @TODO
-      // hash: '8e245d9679d31e12', // @TODO
-      filesize: length || undefined, // @TODO remove these `undefined` values
-      filename: filename || undefined,
-      season: metadata.season || undefined,
-      episode: metadata.episode || undefined,
-      extensions: ["srt", "vtt"],
-      imdbid: imdbId,
-    };
-
-    const subtitles: RawSubtitle[] = await (() => {
-      switch (activeMode) {
-        case ItemKind.Show: {
-          const { season, episode } = metadata;
-          return openSubtitles.search({
-            ...defaultOptions,
-            ...{ season, episode },
-          });
-        }
-        default:
-          return openSubtitles.search(defaultOptions);
-      }
-    })();
-
-    return Object.values(subtitles).map((subtitle) => formatSubtitle(subtitle));
+  /**
+   * 1. Retrieve list of subtitles
+   * 2. If the torrent has subtitles, get the subtitle buffer
+   * 3. Convert the buffer (srt) to vtt, save the file to a tmp dir
+   * 4. Serve the file through http
+   * 5. Override the default subtitle retrieved from the API
+   */
+  getCaptions(
+    item: Item,
+    langs: string[] = ["en"],
+    port: number
+  ): Promise<Subtitle[]> {
+    return yifysubtitles(item.ids.imdbId, {
+      path: os.tmpdir(),
+      langs,
+    })
+      .then((res: RawSubtitle[]) =>
+        res.map((subtitle: RawSubtitle) => ({
+          // Set the default language for subtitles
+          default: subtitle.langShort === process.env.DEFAULT_TORRENT_LANG,
+          kind: "captions",
+          label: subtitle.langShort,
+          srclang: subtitle.langShort,
+          src: `http://localhost:${port}/${subtitle.fileName}`,
+        }))
+      )
+      .catch(console.log);
   }
 }

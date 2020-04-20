@@ -118,7 +118,7 @@ export async function getStatuses() {
 export default class TorrentAdapter {
   async getTorrent(
     itemId: string,
-    type: TorrentKind,
+    kind: TorrentKind,
     extendedDetails: ExtendedDetails = {},
     returnAll = false,
     method = "all",
@@ -136,7 +136,7 @@ export default class TorrentAdapter {
       : itemId;
 
     const torrentPromises = (await Promise.all(providers)).map((provider) =>
-      provider.provide(imdbId, type)
+      provider.provide(imdbId, kind)
     );
 
     switch (method) {
@@ -144,12 +144,12 @@ export default class TorrentAdapter {
         const providerResults = await Promise.all(torrentPromises);
         const { season, episode } = extendedDetails as ShowDetail;
 
-        switch (type) {
+        switch (kind) {
           case ItemKind.Movie:
             return selectTorrents(
               appendAttributes(providerResults).map((result) => ({
                 ...result,
-                method: ItemKind.Movie,
+                kind: ItemKind.Movie,
               })),
               returnAll,
               args
@@ -163,7 +163,7 @@ export default class TorrentAdapter {
                 )
                 .map((result) => ({
                   ...result,
-                  method: ItemKind.Show,
+                  kind: ItemKind.Show,
                 })),
               returnAll,
               args
@@ -175,20 +175,20 @@ export default class TorrentAdapter {
                 .filter((show) => filterShowsComplete(show, season))
                 .map((result) => ({
                   ...result,
-                  method: "season_complete",
+                  kind: "season_complete",
                 })),
               returnAll,
               args
             );
           default:
-            throw new Error("Invalid query method");
+            throw new Error("Invalid query kind");
         }
       }
       case "race": {
         return Promise.race(torrentPromises);
       }
       default:
-        throw new Error("Invalid query method");
+        throw new Error("Invalid query kind");
     }
   }
 }

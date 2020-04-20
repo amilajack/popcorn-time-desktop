@@ -105,7 +105,7 @@ test.skip("it should play trailer", async (t) => {
     .ok();
 });
 
-test("it should click player dropdown menu", async (t) => {
+test.skip("it should click player dropdown menu", async (t) => {
   await waitForReact();
   await t
     .click(ReactSelector("DropdownToggle"))

@@ -11,7 +11,7 @@ import { TorrentKind } from "./torrents/TorrentProviderInterface";
 type Metadata = {
   season: number;
   episode: number;
-  torrentKind: string;
+  kind: string;
 };
 
 /**
@@ -19,14 +19,14 @@ type Metadata = {
  */
 export function selectSubtitleFile(
   files: Array<{ name: string }> = [],
-  torrentKind: TorrentKind,
+  kind: TorrentKind,
   metadata: { season: number; episode: number }
 ): { name: string } | boolean {
   return (
     files.find((file) => {
       const formatIsSupported = file.name.includes(".srt");
 
-      switch (torrentKind) {
+      switch (kind) {
         // Check if the current file is the exact episode we're looking for
         case "season_complete": {
           const { season, episode } = metadata;
@@ -77,7 +77,7 @@ export default class Torrent {
     }
 
     const [port] = await findFreePort(9090);
-    const { season, episode, torrentKind } = metadata;
+    const { season, episode, kind: torrentKind } = metadata;
     const maxConns = process.env.CONFIG_MAX_CONNECTIONS
       ? parseInt(process.env.CONFIG_MAX_CONNECTIONS, 10)
       : 20;
@@ -150,33 +150,27 @@ export default class Torrent {
 
       torrent.on("done", () => {
         this.inProgress = false;
-        this.clearIntervals();
+        this.clearInterval();
       });
 
-      this.checkDownloadInterval = setInterval(async () => {
+      this.checkDownloadInterval = setInterval(() => {
         if (torrent.downloaded > buffer) {
-          console.log("Ready...");
-          if (!this.checkDownloadInterval) {
-            return;
-          }
-
-          await cb(
+          clearInterval(this.checkDownloadInterval as NodeJS.Timeout);
+          this.clearInterval();
+          cb(
             `http://localhost:${port}/${torrentIndex}`,
             file,
             files,
             torrent,
             false
-            // selectSubtitleFile(files, torrentKind, metadata)
           );
-
-          this.clearIntervals();
         }
       }, 1000);
     });
   }
 
-  clearIntervals() {
-    if (this.checkDownloadInterval) {
+  clearInterval() {
+    if (typeof this.checkDownloadInterval === "number") {
       clearInterval(this.checkDownloadInterval);
       this.checkDownloadInterval = undefined;
     }
@@ -190,7 +184,7 @@ export default class Torrent {
         this.server = undefined;
       }
 
-      this.clearIntervals();
+      this.clearInterval();
 
       console.log("Destroying the torrent engine...");
       this.engine.destroy();

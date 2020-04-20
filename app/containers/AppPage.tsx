@@ -1,26 +1,26 @@
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { setActiveMode } from "../actions/homePageActions";
+import { setView } from "../actions/homePageActions";
 import App from "../components/app/App";
-import { ActiveMode } from "../reducers/homePageReducer";
+import { View } from "../reducers/homePageReducer";
 
 type State = {
   app: {
-    activeMode: ActiveMode;
-    modes: ActiveMode[];
+    view: View;
+    modes: View[];
   };
 };
 
 function mapStateToProps(state: State) {
   return {
-    activeMode: state.app.activeMode,
+    view: state.app.view,
     modes: state.app.modes,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    setActiveMode: (mode: ActiveMode) => dispatch(setActiveMode(mode)),
+    setView: (mode: View) => dispatch(setView(mode)),
   };
 }
 

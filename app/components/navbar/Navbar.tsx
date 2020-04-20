@@ -83,7 +83,7 @@ class PopcornTimeNavbar extends Component<Props, State> {
   render() {
     const { theme, match } = this.props;
     const { collapsed, searchQuery } = this.state;
-    const { activeMode } = match.params;
+    const { view } = match.params;
 
     return (
       <Navbar
@@ -112,7 +112,7 @@ class PopcornTimeNavbar extends Component<Props, State> {
           <Nav navbar className="navbar-nav mr-auto">
             <NavItem
               className={classNames({
-                active: activeMode === "home",
+                active: view === "home",
               })}
             >
               <Link className="nav-link" to="/home" replace>
@@ -121,7 +121,7 @@ class PopcornTimeNavbar extends Component<Props, State> {
             </NavItem>
             <NavItem
               className={classNames({
-                active: activeMode === ItemKind.Movie,
+                active: view === ItemKind.Movie,
               })}
             >
               <Link to="/movies" replace className="nav-link">
@@ -130,7 +130,7 @@ class PopcornTimeNavbar extends Component<Props, State> {
             </NavItem>
             <NavItem
               className={classNames({
-                active: activeMode === ItemKind.Show,
+                active: view === ItemKind.Show,
               })}
             >
               <Link className="nav-link" to="/shows" replace>

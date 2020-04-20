@@ -58,6 +58,15 @@ const createWindow = async () => {
     defaultHeight: 728,
   });
 
+  const webPreferences =
+    process.env.NODE_ENV === "development" || process.env.E2E_BUILD === "true"
+      ? {
+          nodeIntegration: true,
+        }
+      : {
+          preload: path.join(__dirname, "dist/renderer.prod.js"),
+        };
+
   mainWindow = new BrowserWindow({
     x: mainWindowState.x,
     y: mainWindowState.y,
@@ -66,14 +75,10 @@ const createWindow = async () => {
     minWidth: 800,
     minHeight: 800,
     show: false,
-    webPreferences:
-      process.env.NODE_ENV === "development" || process.env.E2E_BUILD === "true"
-        ? {
-            nodeIntegration: true,
-          }
-        : {
-            preload: path.join(__dirname, "dist/renderer.prod.js"),
-          },
+    webPreferences: {
+      ...webPreferences,
+      scrollBounce: true,
+    },
   });
 
   mainWindow.loadURL(`file://${__dirname}/app.html`);

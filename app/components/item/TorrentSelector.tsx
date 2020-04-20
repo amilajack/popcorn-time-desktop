@@ -6,13 +6,13 @@ import { ItemKind } from "../../api/metadata/MetadataProviderInterface";
 type Props = {
   torrentSelection: TorrentSelection;
   startPlayback: (e: React.MouseEvent<any, MouseEvent>) => void;
-  activeMode: ItemKind;
+  itemKind: ItemKind;
 };
 
 export default function TorrentSelector({
   startPlayback,
   torrentSelection,
-  activeMode,
+  itemKind,
 }: Props) {
   if (!torrentSelection) return null;
 
@@ -32,7 +32,7 @@ export default function TorrentSelector({
           {text720p}
         </Button>
       )}
-      {torrentSelection["480p"] && activeMode === ItemKind.Show && (
+      {torrentSelection["480p"] && itemKind === ItemKind.Show && (
         <Button type="button" name="480p" onClick={startPlayback}>
           {text480p}
         </Button>
