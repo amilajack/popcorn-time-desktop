@@ -15,7 +15,7 @@ function formatImage(
   path: string,
   size = "original"
 ): string {
-  return `${imageUri}${size}/${path}`;
+  return `${imageUri}/${size}/${path}`;
 }
 
 type RawItem = {
@@ -202,9 +202,9 @@ export default class TheMovieDbMetadataProvider extends BaseMetadataProvider
   implements MetadataProviderInterface {
   private readonly apiKey: string = "c8cd3c25956bd78c687685e6dcb82a64";
 
-  private readonly imageUri: string = "https://image.tmdb.org/t/p/";
+  private readonly imageUri: string = "https://image.tmdb.org/t/p";
 
-  private readonly apiUri: string = "https://api.themoviedb.org/3/";
+  private readonly apiUri: string = "https://api.themoviedb.org/3";
 
   readonly supportedIdTypes: Array<"tmdb" | "imdb"> = ["tmdb", "imdb"];
 

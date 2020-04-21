@@ -4,7 +4,7 @@ import { Switch, Route } from "react-router-dom";
 import Loadable from "react-loadable";
 import { Container } from "reactstrap";
 import { remote } from "electron";
-import SkeletonLoader from "./components/app/Skeleton";
+import SkeletonLoader from "./components/app/SkeletonLoader";
 import AppPage from "./containers/AppPage";
 import ThemeManager, { Theme } from "./utils/Theme";
 

@@ -291,7 +291,7 @@ export default class Home extends Component<Props, State> {
           </Col>
         </Row>
         <Row>
-          <VisibilitySensor onChange={this.onChange}>
+          <VisibilitySensor active={view !== "home"} onChange={this.onChange}>
             {/* A hack to make `react-visibility-sensor` work */}
             <div style={{ opacity: 0 }}>Loading</div>
           </VisibilitySensor>

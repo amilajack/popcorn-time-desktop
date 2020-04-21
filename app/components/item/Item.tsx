@@ -532,7 +532,6 @@ export default class ItemComponent extends Component<Props, State> {
         <BackButton onClick={this.stopPlayback} />
         <Row>
           <VideoPlayer
-            captions={subtitles}
             url={playbackInProgress ? servingUrl || item.trailer : undefined}
             item={item}
             onClose={this.stopPlayback}

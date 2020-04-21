@@ -1,6 +1,5 @@
 import {
   Collapse,
-  Form,
   Input,
   Nav,
   Navbar,
@@ -138,7 +137,7 @@ class PopcornTimeNavbar extends Component<Props, State> {
               </Link>
             </NavItem>
           </Nav>
-          <Form className="form-inline my-2 my-lg-0">
+          <div className="form-inline">
             <Input
               id="pct-search-input"
               className="form-control mr-sm-2"
@@ -149,7 +148,7 @@ class PopcornTimeNavbar extends Component<Props, State> {
               type="text"
               placeholder="Search"
             />
-          </Form>
+          </div>
         </Collapse>
       </Navbar>
     );

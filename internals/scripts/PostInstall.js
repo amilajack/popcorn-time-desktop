@@ -5,20 +5,17 @@ import extract from "extract-zip";
 
 const version = process.env.PREBUILT_FFMPEG_RELEASE || "0.37.4";
 const baseDir = path.join(__dirname, "node_modules", "electron", "dist");
-
-function copy(filepath, dest) {
-  fs.writeFileSync(
-    path.join(__dirname, dest),
-    fs.readFileSync(path.join(__dirname, filepath))
-  );
-}
+const projectRoot = path.dirname(require.resolve("../../package.json"));
 
 function addEnvFileIfNotExist() {
-  if (fs.existsSync(path.join(__dirname, ".env"))) {
+  if (fs.existsSync(path.join(projectRoot, ".env"))) {
     console.log("--> Using existing .env file...");
   } else {
     console.log('--> Creating ".env" file...');
-    copy(".env.example", ".env");
+    fs.copyFileSync(
+      path.join(projectRoot, ".env.example"),
+      path.join(projectRoot, ".env")
+    );
   }
 }
 
@@ -57,7 +54,7 @@ function getUrl() {
 function setupFFmpeg() {
   const { platform, dest } = getUrl();
   const zipLocation = path.join(
-    __dirname,
+    projectRoot,
     "ffmpeg",
     `${version}-${platform}-${os.arch()}.zip`
   );

@@ -68,7 +68,7 @@ export default class PlayerAdapter {
     return this.provider.pause();
   }
 
-  public setup(arg: Record<string, string>): Promise<void> {
+  public setup(arg: Record<string, any>): Promise<void> {
     return this.provider.setup(arg);
   }
 
