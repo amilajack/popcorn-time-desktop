@@ -1,9 +1,13 @@
 /* eslint class-methods-use-this: off */
 import { remote } from "electron";
+import Plyr from "plyr";
 import BaseTorrentProvider from "./BasePlayerProvider";
 import { ItemMetadata } from "./PlayerProviderInterface";
+import { Subtitle } from "../Subtitle";
 
 const { powerSaveBlocker } = remote;
+
+type PlyrSubtitle = { kind: string; src: string; srclang: string };
 
 export default class PlayerProviderInterface extends BaseTorrentProvider
   implements PlayerProviderInterface {
@@ -17,6 +21,17 @@ export default class PlayerProviderInterface extends BaseTorrentProvider
 
   getDevices() {
     return [];
+  }
+
+  private formatSubtitles(subtitles: Subtitle[]): PlyrSubtitle[] {
+    return subtitles.map((subtitle) => ({
+      // Set the default language for subtitles
+      default: subtitle.language === process.env.DEFAULT_TORRENT_LANG,
+      kind: "captions",
+      label: subtitle.language,
+      srclang: subtitle.language,
+      src: subtitle.fullPath,
+    }));
   }
 
   play(url: string, metadata: ItemMetadata) {

@@ -1,21 +1,30 @@
-import { Client, DefaultMediaReceiver } from "castv2-client";
-import mdns from "mdns";
+import { Client, DefaultMediaReceiver, Player } from "castv2-client";
+import mdns, { Browser } from "mdns-js";
 import network from "network-address";
 import {
   PlayerProviderInterface,
   Device,
   ItemMetadata,
 } from "./PlayerProviderInterface";
-import { PlayerSubtitle } from "../Subtitle";
+import { Subtitle } from "../Subtitle";
 
-type Castv2Device = {
+type RawDevice = {
+  addresses: string[];
   fullname: string;
-  addresses: Array<string>;
+  host: string;
+  interfaceIndex: number;
+  networkInterface: string;
   port: number;
-  txtRecord: {
-    fn: string;
-  };
+  type: Array<{
+    description: string;
+    name: string;
+    protocol: string;
+  }>;
 };
+
+type DeviceMap = Map<string, Device>;
+
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export default class ChromecastPlayerProvider
   implements PlayerProviderInterface {
@@ -23,21 +32,17 @@ export default class ChromecastPlayerProvider
 
   providerId = "chromecast";
 
-  supportsSubtitles = true;
-
   private selectedDevice?: Device;
 
-  private devices: Device[] = [];
+  private devices: DeviceMap = new Map<string, Device>();
 
-  private browser: {
-    on: (event: string, cb: (device: Castv2Device) => void) => void;
-    start: () => void;
-    stop: () => void;
-    removeAllListeners: () => void;
-  };
+  private browser: Browser;
 
   constructor() {
     this.browser = mdns.createBrowser(mdns.tcp("googlecast"));
+    this.browser.on("ready", () => {
+      this.browser.discover();
+    });
   }
 
   destroy() {
@@ -46,53 +51,52 @@ export default class ChromecastPlayerProvider
     }
   }
 
-  private getDevices(timeout = 2000): Promise<Device[]> {
-    return new Promise((resolve) => {
-      const devices: Device[] = [];
+  public async getDevices(timeout = 2000): Promise<Device[]> {
+    const devices: DeviceMap = new Map<string, Device>();
 
-      this.browser.on("serviceUp", (service) => {
-        devices.push({
-          name: service.txtRecord.fn,
-          id: service.fullname,
-          address: service.addresses[0],
-          port: service.port,
+    this.browser.on("update", (data: RawDevice[]) => {
+      data.forEach((device) => {
+        devices.set(device.fullname, {
+          id: device.fullname,
+          address: device.addresses[0],
+          port: device.port,
+          name: "",
         });
       });
-
-      try {
-        this.browser.start();
-      } catch (e) {
-        console.log(e);
-      }
-
-      setTimeout(() => {
-        this.browser.stop();
-        this.browser.removeAllListeners();
-        resolve(devices);
-        this.devices = devices;
-      }, timeout);
     });
+
+    await delay(timeout);
+    this.browser.stop();
+    this.browser.removeAllListeners();
+    this.devices = devices;
+
+    const deviceList = Array.from(devices.values());
+
+    if (deviceList.length) {
+      this.selectDevice(deviceList[0].id);
+    }
+
+    return deviceList;
   }
 
-  private selectDevice(deviceId: string) {
-    const selectedDevice = this.devices.find(
+  private async selectDevice(deviceId: string) {
+    const selectedDevice = Array.from(this.devices.values()).find(
       (device) => device.id === deviceId
     );
     if (!selectedDevice) {
       throw new Error("Cannot find selected device");
     }
     this.selectedDevice = selectedDevice;
-    return selectedDevice;
   }
 
-  play(
+  async play(
     contentUrl: string,
     metadata: ItemMetadata,
-    subtitles: Array<PlayerSubtitle>
+    subtitles: Array<Subtitle>
   ) {
     const client = new Client();
 
-    if (!this.selectDevice || !this.selectedDevice) {
+    if (!this.selectedDevice) {
       throw new Error("No device selected");
     }
 
@@ -113,8 +117,9 @@ export default class ChromecastPlayerProvider
       }
 
       client.connect(this.selectedDevice.address, () => {
-        client.launch(DefaultMediaReceiver, (err: Error, player) => {
-          if (err) reject(err);
+        client.launch(DefaultMediaReceiver, (err?: Error, player?: Player) => {
+          if (err) throw err;
+          if (!player) throw new Error("Player not set");
 
           const { item } = metadata;
 
@@ -145,7 +150,7 @@ export default class ChromecastPlayerProvider
           player.load(
             media,
             { autoplay: true, activeTrackIds: tracks.map((e) => e.trackId) },
-            (_err: Error) => {
+            (_err?: Error) => {
               if (_err) reject(_err);
               resolve();
             }

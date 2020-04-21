@@ -1,4 +1,3 @@
-//
 import speedTest from "speedtest-net";
 
 export const timeout = 30000;

@@ -4,7 +4,11 @@ import {
   timeout,
   resolveEndpoint,
 } from "./BaseTorrentProvider";
-import { TorrentProviderInterface, Quality } from "./TorrentProviderInterface";
+import {
+  TorrentProviderInterface,
+  Quality,
+  ProviderTorrent,
+} from "./TorrentProviderInterface";
 import { ItemKind } from "../metadata/MetadataProviderInterface";
 
 const endpoint = "https://yts.am";
@@ -44,7 +48,7 @@ type RawTorrent = {
 export default class YtsTorrentProvider extends TorrentProviderInterface {
   static providerName = "YTS";
 
-  static fetch(itemId: string): Promise<RawTorrents> {
+  static fetch<RawTorrents>(itemId: string): Promise<RawTorrents> {
     return timeout(
       fetch(
         [
@@ -74,10 +78,10 @@ export default class YtsTorrentProvider extends TorrentProviderInterface {
       .catch(() => false);
   }
 
-  static provide(itemId: string, type: ItemKind) {
+  static provide(itemId: string, type: ItemKind): Promise<ProviderTorrent[]> {
     switch (type) {
       case ItemKind.Movie:
-        return this.fetch(itemId).then((results) => {
+        return this.fetch<RawTorrents>(itemId).then((results) => {
           if (!results.data.movie_count) return [];
           const { torrents } = results.data.movies[0];
           return torrents.map(this.formatTorrent);

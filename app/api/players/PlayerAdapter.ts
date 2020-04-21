@@ -7,6 +7,7 @@ import {
   Device,
   ItemMetadata,
 } from "./PlayerProviderInterface";
+import { Subtitle } from "../Subtitle";
 
 /**
  * Provide a single API interface for all the providers
@@ -34,7 +35,7 @@ export default class PlayerAdapter {
 
   private providers: Map<PlayerKind, PlayerProviderInterface> = new Map([
     [PlayerKind.Plyr, new PlyrPlayerProvider()],
-    // [PlayerKind.Chromecast, new ChromecastPlayerProvider()],
+    [PlayerKind.Chromecast, new ChromecastPlayerProvider()],
   ]);
 
   private provider: PlayerProviderInterface = this.providers.get(
@@ -55,15 +56,19 @@ export default class PlayerAdapter {
     return this.provider.setup(metadata);
   }
 
-  public play(url: string, metadata: ItemMetadata): Promise<void> {
-    return this.provider.play(url, metadata);
+  public play(
+    url: string,
+    metadata: ItemMetadata,
+    subtitles: Subtitle[] = []
+  ): Promise<void> {
+    return this.provider.play(url, metadata, subtitles);
   }
 
   public pause(): Promise<void> {
     return this.provider.pause();
   }
 
-  public setup(arg): Promise<void> {
+  public setup(arg: Record<string, string>): Promise<void> {
     return this.provider.setup(arg);
   }
 

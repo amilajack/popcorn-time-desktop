@@ -2,22 +2,11 @@ import os from "os";
 import yifysubtitles from "@amilajack/yifysubtitles";
 import { set, get } from "../../utils/Config";
 import { Item, UserList } from "./MetadataProviderInterface";
+import { Subtitle } from "../Subtitle";
 
 /* eslint class-methods-use-this: off */
 
 type ConfigKind = "favorites" | "recentlyWatched" | "watchList";
-
-type RawSubtitle = {
-  langShort: string;
-};
-
-type Subtitle = {
-  kind: "captions";
-  label: string;
-  srclang: string;
-  src: string;
-  default: boolean;
-};
 
 /**
  * Get the subtitles for a movie or show
@@ -66,25 +55,26 @@ export default class BaseMetadataProvider {
    * 4. Serve the file through http
    * 5. Override the default subtitle retrieved from the API
    */
-  getCaptions(
+  async getSubtitles(
     item: Item,
     langs: string[] = ["en"],
     port: number
   ): Promise<Subtitle[]> {
-    return yifysubtitles(item.ids.imdbId, {
+    const itemId = item.ids.imdbId || item.id;
+    if (!itemId) throw new Error("itemId not set");
+
+    const subtitles = await yifysubtitles(itemId, {
       path: os.tmpdir(),
       langs,
-    })
-      .then((res: RawSubtitle[]) =>
-        res.map((subtitle: RawSubtitle) => ({
-          // Set the default language for subtitles
-          default: subtitle.langShort === process.env.DEFAULT_TORRENT_LANG,
-          kind: "captions",
-          label: subtitle.langShort,
-          srclang: subtitle.langShort,
-          src: `http://localhost:${port}/${subtitle.fileName}`,
-        }))
-      )
-      .catch(console.log);
+    });
+
+    return subtitles.map((subtitle) => ({
+      ...subtitle,
+      default: subtitle.langShort === process.env.DEFAULT_TORRENT_LANG,
+      language: subtitle.langShort,
+      basePath: `http://localhost:${port}`,
+      port,
+      fullPath: `http://localhost:${port}/${subtitle.fileName}`,
+    }));
   }
 }

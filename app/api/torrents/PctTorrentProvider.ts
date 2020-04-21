@@ -47,9 +47,7 @@ type RawEpisodeTorrent = {
 };
 
 export default class PctTorrentProvider extends TorrentProviderInterface {
-  static providerName = "PopcornTime API";
-
-  static shows = {};
+  static providerName = "PopcornTime";
 
   static async fetch(
     itemId: string,
@@ -130,7 +128,11 @@ export default class PctTorrentProvider extends TorrentProviderInterface {
       .catch(() => false);
   }
 
-  static provide(itemId: string, type: ItemKind, extendedDetails: ShowDetail) {
+  static provide(
+    itemId: string,
+    type: ItemKind,
+    extendedDetails: ShowDetail
+  ): Promise<ProviderTorrent[]> {
     switch (type) {
       case ItemKind.Movie:
         return this.fetch(itemId, type, extendedDetails).catch((error) => {

@@ -1,11 +1,7 @@
 import { Item } from "../metadata/MetadataProviderInterface";
+import { Subtitle } from "../Subtitle";
 
 export type PlayerSelectMetadata = Record<string, any>;
-
-export type PlayerCaptions = Array<{
-  src: string;
-  srclang: string;
-}>;
 
 export enum PlayerKind {
   Plyr = "plyr",
@@ -24,7 +20,7 @@ export type PlayerKindNames = "plyr" | "chromecast" | "youtube";
 
 export type ItemMetadata = {
   item: Item;
-  captions: PlayerCaptions;
+  subtitle: Subtitle[];
 };
 
 export interface PlayerProviderInterface {
@@ -36,7 +32,11 @@ export interface PlayerProviderInterface {
 
   seek: (seconds: number) => void;
 
-  play: (contentUrl: string, metadata?: ItemMetadata) => Promise<void>;
+  play: (
+    contentUrl: string,
+    metadata: ItemMetadata,
+    subtitles: Subtitle[]
+  ) => Promise<void>;
 
   pause: () => Promise<void>;
 

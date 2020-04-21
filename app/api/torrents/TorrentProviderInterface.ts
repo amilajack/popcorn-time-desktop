@@ -55,5 +55,8 @@ export abstract class TorrentProviderInterface {
     extendedDetails?: ExtendedDetails
   ) => Promise<T>;
 
-  static provide: (itemId: string, type: ItemKind) => Promise<Array<Torrent>>;
+  static provide: (
+    itemId: string,
+    type: ItemKind
+  ) => Promise<Array<ProviderTorrent>>;
 }

@@ -4,6 +4,7 @@
 import React, { Component, SyntheticEvent } from "react";
 import { Row, Col } from "reactstrap";
 import classNames from "classnames";
+import Plyr from "plyr";
 import SaveItem from "./SaveItem";
 import Description from "./Description";
 import Poster from "./Poster";
@@ -16,7 +17,10 @@ import Show from "../show/Show";
 import { selectIdealTorrent } from "../../api/torrents/BaseTorrentProvider";
 import Butter from "../../api/Butter";
 import Torrent from "../../api/Torrent";
-import SubtitleServer, { languages as langs } from "../../api/Subtitle";
+import SubtitleServer, {
+  languages as langs,
+  Subtitle,
+} from "../../api/Subtitle";
 import Player from "../../api/players/PlayerAdapter";
 import {
   Item,
@@ -26,12 +30,7 @@ import {
   Season,
 } from "../../api/metadata/MetadataProviderInterface";
 import * as TorrentProvider from "../../api/torrents/TorrentProviderInterface";
-import {
-  Device,
-  PlayerKindNames,
-  PlayerCaptions,
-  PlayerKind,
-} from "../../api/players/PlayerProviderInterface";
+import { Device, PlayerKind } from "../../api/players/PlayerProviderInterface";
 
 type StartPlayback = (e: React.MouseEvent<any, MouseEvent>) => void;
 
@@ -56,7 +55,7 @@ type State = {
   torrent?: TorrentProvider.Torrent;
   servingUrl?: string;
   torrentInProgress: boolean;
-  captions: PlayerCaptions;
+  subtitles: Subtitle[];
   favorites: Array<Item>;
   watchList: Array<Item>;
 };
@@ -115,7 +114,7 @@ export default class ItemComponent extends Component<Props, State> {
     playbackInProgress: false,
     fetchingTorrents: false,
     torrentInProgress: false,
-    captions: [],
+    subtitles: [],
     favorites: [],
     watchList: [],
   };
@@ -139,6 +138,10 @@ export default class ItemComponent extends Component<Props, State> {
     this.player.setup({
       plyr: this.plyr,
     });
+
+    setInterval(async () => {
+      console.log(await this.player.getDevices());
+    }, 5000);
 
     const [favorites, watchList] = await Promise.all([
       this.butter.favorites.get(),
@@ -207,7 +210,7 @@ export default class ItemComponent extends Component<Props, State> {
         throw new Error("imdb id not set yet");
       }
       await Promise.all([
-        this.getCaptions(item),
+        this.getSubtitles(item),
         this.getTorrent(item.ids.imdbId, item.title, 1, 1),
       ]);
 
@@ -358,20 +361,20 @@ export default class ItemComponent extends Component<Props, State> {
     }
   }
 
-  async getCaptions(item: Item): Promise<PlayerCaptions> {
+  async getSubtitles(item: Item): Promise<Subtitle[]> {
     if (!this.subtitleServer.port)
       throw new Error(
-        "subtitle server must be started before getting captions"
+        "subtitle server must be started before getting subtitles"
       );
-    const captions = await this.butter.getCaptions(
+    const subtitles = await this.butter.getSubtitles(
       item,
       langs,
       this.subtitleServer.port
     );
     this.setState({
-      captions,
+      subtitles,
     });
-    return captions;
+    return subtitles;
   }
 
   selectShow = (
@@ -427,7 +430,7 @@ export default class ItemComponent extends Component<Props, State> {
       selectedEpisode,
       selectedSeason,
       item,
-      captions,
+      subtitles,
       torrentSelection,
       torrent,
       currentPlayer,
@@ -474,14 +477,14 @@ export default class ItemComponent extends Component<Props, State> {
       }
       this.player.play(servingUrl, {
         item,
-        captions,
+        subtitles,
       });
       const hasRecentlyWatched = await this.butter.recentlyWatched.has(item);
       if (!hasRecentlyWatched) {
         await this.butter.recentlyWatched.add(item);
       }
       this.setState({
-        captions,
+        subtitles,
         servingUrl,
       });
       return torrentHash;
@@ -518,7 +521,7 @@ export default class ItemComponent extends Component<Props, State> {
       favorites,
       watchList,
       castingDevices,
-      captions,
+      subtitles,
       episode,
       torrentSelection,
     } = this.state;
@@ -529,7 +532,7 @@ export default class ItemComponent extends Component<Props, State> {
         <BackButton onClick={this.stopPlayback} />
         <Row>
           <VideoPlayer
-            captions={captions}
+            captions={subtitles}
             url={playbackInProgress ? servingUrl || item.trailer : undefined}
             item={item}
             onClose={this.stopPlayback}

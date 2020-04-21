@@ -1,3 +1,4 @@
+// @ts-ignore
 import React, { Component } from "react";
 import { withToastManager } from "react-toast-notifications";
 
@@ -58,7 +59,7 @@ class ConnectivityListener extends Component<{}, State> {
   onlineCallback = () => {
     const { toastManager } = this.props;
     toastManager.remove(this.offlineToastId);
-    this.offlineToastId = null;
+    this.offlineToastId = undefined;
   };
 
   render() {
