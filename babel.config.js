@@ -35,6 +35,7 @@ module.exports = (api) => {
     plugins: [
       // Stage 1
       require("@babel/plugin-proposal-export-default-from"),
+      [require("@babel/plugin-proposal-decorators"), { legacy: true }],
 
       // Stage 3
       require("@babel/plugin-syntax-dynamic-import"),

@@ -1,4 +1,4 @@
-import { Item, ItemKind } from "../api/metadata/MetadataProviderInterface";
+import { ItemKind } from "../../api/metadata/MetadataProviderInterface";
 
 type Mode = ItemKind | "search" | "home";
 
@@ -19,7 +19,7 @@ export const defaultState: ItemPageReducerState = {
   view: "home",
 };
 
-export default function appPageReducer(
+export default function appReducer(
   state: ItemPageReducerState = defaultState,
   action: Action
 ): ItemPageReducerState {

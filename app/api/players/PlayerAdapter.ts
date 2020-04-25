@@ -5,9 +5,9 @@ import {
   PlayerSelectMetadata,
   PlayerKind,
   Device,
-  ItemMetadata,
 } from "./PlayerProviderInterface";
 import { Subtitle } from "../Subtitle";
+import { Item } from "../metadata/MetadataProviderInterface";
 
 /**
  * Provide a single API interface for all the providers
@@ -58,7 +58,7 @@ export default class PlayerAdapter {
 
   public play(
     url: string,
-    metadata: ItemMetadata,
+    metadata: Item,
     subtitles: Subtitle[] = []
   ): Promise<void> {
     return this.provider.play(url, metadata, subtitles);

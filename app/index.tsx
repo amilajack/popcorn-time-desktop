@@ -2,8 +2,8 @@ import React from "react";
 import { render } from "react-dom";
 import { AppContainer } from "react-hot-loader";
 import * as Sentry from "@sentry/electron/dist/renderer";
-import Root from "./containers/Root";
-import { history, configureStore } from "./store/configureStore";
+import Root from "./root";
+import { history, configuredStore } from "./store";
 import "./app.global.scss";
 
 if (process.env.ANALYTICS === "true") {
@@ -12,7 +12,7 @@ if (process.env.ANALYTICS === "true") {
   });
 }
 
-const store = configureStore();
+const store = configuredStore();
 
 if (process.env.NODE_ENV !== "production") {
   process.on("uncaughtRejection", (error: Error) => {
@@ -28,8 +28,8 @@ render(
 );
 
 if (module.hot) {
-  module.hot.accept("./containers/Root", () => {
-    const NextRoot = require("./containers/Root").default; // eslint-disable-line global-require
+  module.hot.accept("./root", () => {
+    const NextRoot = require("./root").default; // eslint-disable-line global-require
     render(
       <AppContainer>
         <NextRoot store={store} history={history} />

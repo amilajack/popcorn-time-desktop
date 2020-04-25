@@ -1,16 +1,11 @@
+/* eslint class-methods-use-this: off */
 import os from "os";
 import yifysubtitles from "@amilajack/yifysubtitles";
 import { set, get } from "../../utils/Config";
 import { Item, UserList } from "./MetadataProviderInterface";
 import { Subtitle } from "../Subtitle";
 
-/* eslint class-methods-use-this: off */
-
 type ConfigKind = "favorites" | "recentlyWatched" | "watchList";
-
-/**
- * Get the subtitles for a movie or show
- */
 
 export function userListsHelper(listName: ConfigKind): UserList {
   return {

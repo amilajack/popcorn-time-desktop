@@ -4,7 +4,7 @@ import { remote } from "electron";
 import { ToastProvider } from "react-toast-notifications";
 import ConnectivityListener from "./ConnectivityListener";
 import ThemeManager, { Theme } from "../../utils/Theme";
-import Navbar from "../navbar/Navbar";
+import Navbar from "./Navbar";
 
 const { nativeTheme } = remote;
 

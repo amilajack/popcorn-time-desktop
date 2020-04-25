@@ -1,4 +1,4 @@
-import { Item, ItemKind } from "../api/metadata/MetadataProviderInterface";
+import { Item, ItemKind } from "../../api/metadata/MetadataProviderInterface";
 
 export type View = ItemKind | "search" | "home";
 

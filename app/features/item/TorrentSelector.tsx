@@ -5,7 +5,7 @@ import { ItemKind } from "../../api/metadata/MetadataProviderInterface";
 
 type Props = {
   torrentSelection: TorrentSelection;
-  startPlayback: (e: React.MouseEvent<any, MouseEvent>) => void;
+  startPlayback?: (e: React.MouseEvent<any, MouseEvent>) => void;
   itemKind: ItemKind;
 };
 

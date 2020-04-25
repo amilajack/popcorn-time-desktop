@@ -1,10 +1,10 @@
 import React from "react";
 import { Col, Row, ListGroup, ListGroupItem } from "reactstrap";
 import classNames from "classnames";
-import { ItemKind } from "../../api/metadata/MetadataProviderInterface";
+import { ShowKind } from "../../api/metadata/MetadataProviderInterface";
 
 type Props = {
-  selectShow: (type: ItemKind, season: number, episode?: number) => void;
+  selectShow: (type: ShowKind, season: number, episode?: number) => void;
   selectedSeason: number;
   selectedEpisode: number;
   seasons: Array<{
@@ -37,7 +37,7 @@ export default function Show(props: Props) {
               className={classNames("list-group-item", {
                 active: season.season === selectedSeason,
               })}
-              onClick={() => selectShow("episodes", season.season)}
+              onClick={() => selectShow(ShowKind.Episodes, season.season)}
               key={season.season}
             >
               Season
@@ -55,7 +55,7 @@ export default function Show(props: Props) {
                 active: episode.episode === selectedEpisode,
               })}
               onClick={() => {
-                selectShow("episode", selectedSeason, episode.episode);
+                selectShow(ShowKind.Episode, selectedSeason, episode.episode);
               }}
               key={episode.episode}
             >

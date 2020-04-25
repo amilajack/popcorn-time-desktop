@@ -1,9 +1,5 @@
 import express from "express";
-import path from "path";
 import os from "os";
-import fs from "fs";
-import srt2vtt from "srt2vtt";
-import rndm from "rndm";
 import getPort from "get-port";
 
 export type Subtitle = {
@@ -12,7 +8,6 @@ export type Subtitle = {
   basePath: string;
   port: number;
   fullPath: string;
-  buffer: Buffer;
   language: string;
 };
 
@@ -30,10 +25,9 @@ export default class SubtitleServer {
 
   async startServer(): Promise<void> {
     // Find a port at runtime. Default to 4000 if it is available
-    this.port =
-      typeof process.env.SUBTITLES_PORT === "number"
-        ? parseInt(process.env.SUBTITLES_PORT, 10)
-        : await getPort({ port: 4000 });
+    this.port = process.env.SUBTITLES_PORT
+      ? parseInt(process.env.SUBTITLES_PORT, 10)
+      : await getPort({ port: 4000 });
 
     // Start the static file server for the subtitle files
     const server = express();
@@ -57,33 +51,6 @@ export default class SubtitleServer {
     if (this.server) {
       this.server.close();
     }
-  }
-
-  fromBuffer(srtBuffer: Buffer): Promise<Subtitle> {
-    const randomString = rndm(16);
-    const filename = `${randomString}.vtt`;
-    const { basePath, port } = this;
-    const fullPath = path.join(basePath, filename);
-
-    return new Promise((resolve, reject) => {
-      srt2vtt(srtBuffer, (error, vttBuffer) => {
-        if (error) reject(error);
-
-        if (!port) throw new Error("port not set");
-
-        fs.writeFile(fullPath, vttBuffer, () => {
-          resolve({
-            default: false,
-            language: "n/a",
-            filename,
-            basePath,
-            port,
-            fullPath,
-            buffer: vttBuffer,
-          });
-        });
-      });
-    });
   }
 }
 

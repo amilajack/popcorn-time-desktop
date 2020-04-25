@@ -6,8 +6,6 @@ import {
   convertTmdbToImdb,
   sortTorrentsBySeeders,
   getHealth,
-  resolveCache,
-  setCache,
 } from "./BaseTorrentProvider";
 import {
   Torrent,
@@ -19,6 +17,8 @@ import {
   TorrentSelection,
 } from "./TorrentProviderInterface";
 import { ItemKind } from "../metadata/MetadataProviderInterface";
+import Cache, { PctCache } from "./Cache";
+import cache from "../helpers/cache-decorator";
 
 const providers: Promise<TorrentProviderInterface>[] = [
   import("./YtsTorrentProvider").then((e) => e.default || e),
@@ -47,14 +47,10 @@ export function filterShowTorrent(
  */
 export function selectTorrents(
   torrents: Torrent[],
-  returnAll: boolean,
   key: string
 ): TorrentSelection {
   const sortedTorrents = sortTorrentsBySeeders(
-    torrents.filter(
-      (torrent) =>
-        torrent.quality !== "n/a" && torrent.quality !== "" && !!torrent.magnet
-    )
+    torrents.filter((torrent) => !!torrent.magnet)
   );
 
   const formattedTorrents = {
@@ -62,15 +58,6 @@ export function selectTorrents(
     "720p": sortedTorrents.find((torrent) => torrent.quality === "720p"),
     "480p": sortedTorrents.find((torrent) => torrent.quality === "480p"),
   };
-
-  // const formattedTorrents = returnAll
-  //   ? sortedTorrents
-  //   : {
-  //       "1080p": sortedTorrents.find((torrent) => torrent.quality === "1080p"),
-  //       "720p": sortedTorrents.find((torrent) => torrent.quality === "720p"),
-  //       "480p": sortedTorrents.find((torrent) => torrent.quality === "480p"),
-  //     };
-  setCache(key, formattedTorrents);
 
   return formattedTorrents;
 }
@@ -116,19 +103,20 @@ export async function getStatuses() {
 }
 
 export default class TorrentAdapter {
+  private cache: PctCache;
+
+  constructor(opts: { cache?: PctCache } = {}) {
+    this.cache = opts.cache || new Cache();
+  }
+
+  @cache()
   async getTorrent(
     itemId: string,
     kind: TorrentKind,
     extendedDetails: ExtendedDetails = {},
-    returnAll = false,
-    method = "all",
-    cache = true
+    method = "all"
   ): Promise<TorrentSelection> {
-    const args = JSON.stringify({ extendedDetails, returnAll, method });
-
-    if (resolveCache(args) && cache) {
-      return resolveCache(args);
-    }
+    const args = JSON.stringify({ extendedDetails, method });
 
     // Temporary hack to convert tmdbIds to imdbIds if necessary
     const imdbId = !itemId.includes("tt")
@@ -151,7 +139,6 @@ export default class TorrentAdapter {
                 ...result,
                 kind: ItemKind.Movie,
               })),
-              returnAll,
               args
             );
           case ItemKind.Show:
@@ -165,7 +152,6 @@ export default class TorrentAdapter {
                   ...result,
                   kind: ItemKind.Show,
                 })),
-              returnAll,
               args
             );
           case "season_complete":
@@ -177,7 +163,6 @@ export default class TorrentAdapter {
                   ...result,
                   kind: "season_complete",
                 })),
-              returnAll,
               args
             );
           default:

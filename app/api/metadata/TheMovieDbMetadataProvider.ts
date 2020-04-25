@@ -9,6 +9,8 @@ import {
   Runtime,
   ItemKind,
 } from "./MetadataProviderInterface";
+import cache from "../helpers/cache-decorator";
+import Cache, { PctCache } from "../torrents/Cache";
 
 function formatImage(
   imageUri: string,
@@ -200,6 +202,8 @@ type Results<T> = {
 
 export default class TheMovieDbMetadataProvider extends BaseMetadataProvider
   implements MetadataProviderInterface {
+  private cache: PctCache;
+
   private readonly apiKey: string = "c8cd3c25956bd78c687685e6dcb82a64";
 
   private readonly imageUri: string = "https://image.tmdb.org/t/p";
@@ -249,6 +253,12 @@ export default class TheMovieDbMetadataProvider extends BaseMetadataProvider
     params: this.params,
   });
 
+  constructor(opts: { cache?: PctCache } = {}) {
+    super();
+    this.cache = opts.cache || new Cache();
+  }
+
+  @cache()
   getMovies(page = 1) {
     return this.theMovieDb
       .get<Results<RawItem[]>>("movie/popular", {
@@ -264,6 +274,7 @@ export default class TheMovieDbMetadataProvider extends BaseMetadataProvider
       );
   }
 
+  @cache()
   getTrending(limit = 5) {
     return this.theMovieDb
       .get<Results<RawItem[]>>("trending/all/week", {
@@ -278,6 +289,7 @@ export default class TheMovieDbMetadataProvider extends BaseMetadataProvider
       );
   }
 
+  @cache()
   getMovie(itemId: string) {
     return this.theMovieDb
       .get(`movie/${itemId}`, {
@@ -288,6 +300,7 @@ export default class TheMovieDbMetadataProvider extends BaseMetadataProvider
       );
   }
 
+  @cache()
   getShows(page = 1) {
     return this.theMovieDb
       .get<Results<RawItem[]>>("tv/popular", {
@@ -303,6 +316,7 @@ export default class TheMovieDbMetadataProvider extends BaseMetadataProvider
       );
   }
 
+  @cache()
   getShow(itemId: string): Promise<Item> {
     return this.theMovieDb
       .get(`tv/${itemId}`, {
@@ -313,6 +327,7 @@ export default class TheMovieDbMetadataProvider extends BaseMetadataProvider
       );
   }
 
+  @cache()
   getSeasons(itemId: string) {
     return this.theMovieDb
       .get(`tv/${itemId}`, {
@@ -321,6 +336,7 @@ export default class TheMovieDbMetadataProvider extends BaseMetadataProvider
       .then(({ data }) => formatSeasons(data));
   }
 
+  @cache()
   getSeason(itemId: string, season: number) {
     return this.theMovieDb
       .get<RawSeason>(`tv/${itemId}/season/${season}`, {
@@ -329,6 +345,7 @@ export default class TheMovieDbMetadataProvider extends BaseMetadataProvider
       .then(({ data }) => formatSeason(data));
   }
 
+  @cache()
   getEpisode(itemId: string, season: number, episode: number) {
     return this.theMovieDb
       .get(`tv/${itemId}/season/${season}/episode/${episode}`, {
@@ -337,6 +354,7 @@ export default class TheMovieDbMetadataProvider extends BaseMetadataProvider
       .then(({ data }) => formatEpisode(data, this.imageUri));
   }
 
+  @cache()
   search(query: string, page = 1) {
     return this.theMovieDb
       .get<Results<RawItem[]>>("search/multi", {
@@ -359,6 +377,7 @@ export default class TheMovieDbMetadataProvider extends BaseMetadataProvider
       );
   }
 
+  @cache()
   getSimilar(type: ItemKind = ItemKind.Movie, itemId: string): Promise<Item[]> {
     const urlType = (() => {
       switch (type) {

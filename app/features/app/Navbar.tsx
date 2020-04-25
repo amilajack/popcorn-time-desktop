@@ -9,17 +9,24 @@ import {
 } from "reactstrap";
 import React, { Component, SyntheticEvent } from "react";
 import classNames from "classnames";
-import { Link, withRouter } from "react-router-dom";
+import { Link, withRouter, RouteComponentProps } from "react-router-dom";
 import { History, Location } from "history";
 import logo from "../../../resources/icon.png";
 import { ItemKind } from "../../api/metadata/MetadataProviderInterface";
 import { Theme } from "../../utils/Theme";
+import { View } from "../home/reducer";
 
-type Props = {
+interface MatchParams {
+  itemId: string;
+  itemKind: ItemKind;
+  view: View;
+}
+
+interface Props extends RouteComponentProps<MatchParams> {
   theme: string;
   history: History;
   location: Location;
-};
+}
 
 type State = {
   searchQuery: string;

@@ -1,34 +1,41 @@
 /* eslint react/jsx-props-no-spreading: off */
 import React from "react";
 import { Switch, Route } from "react-router-dom";
-import Loadable from "react-loadable";
 import { Container } from "reactstrap";
 import { remote } from "electron";
-import SkeletonLoader from "./components/app/SkeletonLoader";
-import AppPage from "./containers/AppPage";
+import SkeletonLoader from "./features/app/SkeletonLoader";
+import AppPage from "./features/app/AppPage";
 import ThemeManager, { Theme } from "./utils/Theme";
+import { ItemKind } from "./api/metadata/MetadataProviderInterface";
 
 const { nativeTheme } = remote;
 
-const LoadableHelper = (component: Promise<NodeJS.Module>, opts = {}) =>
-  Loadable({
-    loader: () => component.then((e) => e.default).catch(console.log),
-    loading: SkeletonLoader,
-    delay: 2000,
-    ...opts,
-  });
-const ItemPage = LoadableHelper(import("./containers/ItemPage"));
-const HomePage = LoadableHelper(import("./containers/HomePage"));
+const LazyItemPage = React.lazy(() =>
+  import(/* webpackChunkName: "ItemPage" */ "./features/item/ItemPage")
+);
+const LazyHomePage = React.lazy(() =>
+  import(/* webpackChunkName: "HomePage" */ "./features/home/HomePage")
+);
 
-type State = {
-  theme: Theme;
+type AProps = {
+  match: {
+    params: { itemId: string; itemKind: ItemKind };
+  };
 };
 
-export default class Routes extends React.Component {
-  state: State = {
-    theme: nativeTheme.shouldUseDarkColors ? Theme.Dark : Theme.Light,
-  };
+export const ItemPage = (props: AProps) => (
+  <React.Suspense fallback={<SkeletonLoader />}>
+    <LazyItemPage {...props} />
+  </React.Suspense>
+);
 
+export const HomePage = () => (
+  <React.Suspense fallback={<SkeletonLoader />}>
+    <LazyHomePage />
+  </React.Suspense>
+);
+
+export default class Routes extends React.Component {
   componentDidMount() {
     const themeManager = new ThemeManager(
       nativeTheme.shouldUseDarkColors ? Theme.Dark : Theme.Light
@@ -36,22 +43,15 @@ export default class Routes extends React.Component {
     nativeTheme.on("updated", () => {
       const theme = nativeTheme.shouldUseDarkColors ? Theme.Dark : Theme.Light;
       themeManager.change(theme);
-      this.setState({
-        theme,
-      });
     });
   }
 
   render() {
-    const { theme } = this.state;
-
-    const A = (props) => {
-      const { itemId } = props.match.params;
-
-      const route = itemId ? (
-        <ItemPage {...props} theme={theme} />
+    const A = (props: AProps) => {
+      const route = props.match.params.itemId ? (
+        <ItemPage {...props} />
       ) : (
-        <HomePage {...props} theme={theme} />
+        <HomePage />
       );
 
       return (
@@ -70,5 +70,3 @@ export default class Routes extends React.Component {
     );
   }
 }
-
-ItemPage.preload();

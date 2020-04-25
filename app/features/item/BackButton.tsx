@@ -1,8 +1,9 @@
-import React from "react";
+import React, { DetailedHTMLProps } from "react";
 import { Link } from "react-router-dom";
+import { HTMLAttributes } from "enzyme";
 
 type BackButtonProps = {
-  onClick: Function;
+  onClick: DetailedHTMLProps<HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>;
 };
 
 const BackButton = ({ onClick }: BackButtonProps) => (

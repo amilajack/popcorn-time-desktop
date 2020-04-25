@@ -1,14 +1,7 @@
 /* eslint prefer-template: off */
-import Cache from "lru-cache";
 import url from "url";
 import TheMovieDbMetadataProvider from "../metadata/TheMovieDbMetadataProvider";
 import { Torrent, Health } from "./TorrentProviderInterface";
-
-export const providerCache = new Cache({
-  maxAge: process.env.CONFIG_CACHE_TIMEOUT
-    ? parseInt(process.env.CONFIG_CACHE_TIMEOUT, 10) * 1000 * 60 * 60
-    : 1000 * 60 * 60, // 1 hr
-});
 
 // Create a promise that rejects in <ms> milliseconds
 export function timeout<T>(promise: Promise<T>, ms = 20000): Promise<T> {
@@ -46,22 +39,22 @@ export function getHealth(seeders = 0, leechers = 1): Health {
   return "poor";
 }
 
-export function hasNonEnglishLanguage(metadata: string): boolean {
-  if (metadata.includes("french")) return true;
-  if (metadata.includes("german")) return true;
-  if (metadata.includes("greek")) return true;
-  if (metadata.includes("dutch")) return true;
-  if (metadata.includes("hindi")) return true;
-  if (metadata.includes("português")) return true;
-  if (metadata.includes("portugues")) return true;
-  if (metadata.includes("spanish")) return true;
-  if (metadata.includes("español")) return true;
-  if (metadata.includes("espanol")) return true;
-  if (metadata.includes("latino")) return true;
-  if (metadata.includes("russian")) return true;
-  if (metadata.includes("subtitulado")) return true;
-
-  return false;
+export function hasNonEnglishLanguage(language: string): boolean {
+  return [
+    "french",
+    "german",
+    "greek",
+    "dutch",
+    "hindi",
+    "português",
+    "portugues",
+    "spanish",
+    "español",
+    "espanol",
+    "latino",
+    "russian",
+    "subtitulado",
+  ].includes(language);
 }
 
 export function hasSubtitles(metadata: string): boolean {
@@ -147,37 +140,6 @@ export function handleProviderError(error: Error) {
   if (process.env.NODE_ENV === "development") {
     console.log(error);
   }
-}
-
-export function resolveCache(key: string): boolean | any {
-  if (process.env.API_USE_MOCK_DATA === "true") {
-    const mock = {
-      ...require("../../../test/api/metadata.mock"), // eslint-disable-line global-require
-      ...require("../../../test/api/torrent.mock"), // eslint-disable-line global-require
-    };
-
-    const resolvedCacheItem = Object.keys(mock).find(
-      (mockKey: string): boolean =>
-        key.includes(`${mockKey}"`) && !!Object.keys(mock[mockKey]).length
-    );
-
-    if (resolvedCacheItem) {
-      return resolvedCacheItem;
-    }
-
-    console.warn("Fetching from network:", key);
-
-    return false;
-  }
-
-  return providerCache.has(key) ? providerCache.get(key) : false;
-}
-
-export function setCache<K = string, V = any>(key: K, value: V) {
-  if (process.env.NODE_ENV === "development") {
-    console.info("Setting cache key:", key);
-  }
-  return providerCache.set(key, value);
 }
 
 export function hasNonNativeCodec(metadata: string): boolean {

@@ -1,6 +1,5 @@
 /**
  * A list of thumbnail poster images of items that are rendered on the home page
- *
  */
 import React from "react";
 import { Col, Row } from "reactstrap";

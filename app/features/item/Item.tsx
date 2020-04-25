@@ -1,7 +1,7 @@
 /**
  * Movie component that is responsible for playing movies
  */
-import React, { Component, SyntheticEvent } from "react";
+import React, { Component, Ref } from "react";
 import { Row, Col } from "reactstrap";
 import classNames from "classnames";
 import Plyr from "plyr";
@@ -13,7 +13,7 @@ import Similar from "./Similar";
 import SelectPlayer from "./SelectPlayer";
 import VideoPlayer from "./VideoPlayer";
 import TorrentSelector from "./TorrentSelector";
-import Show from "../show/Show";
+import Show from "./Show";
 import { selectIdealTorrent } from "../../api/torrents/BaseTorrentProvider";
 import Butter from "../../api/Butter";
 import Torrent from "../../api/Torrent";
@@ -40,24 +40,29 @@ type Props = {
 };
 
 type State = {
-  episode?: Episode;
+  // Item
   item: Item;
-  torrentSelection?: TorrentProvider.TorrentSelection;
+  // Show
   selectedSeason: number;
   selectedEpisode: number;
   seasons: Season[];
-  season: Season;
+  season?: Season;
+  episode?: Episode;
   episodes: Episode[];
+  // Player
   castingDevices: Device[];
   currentPlayer: PlayerKind;
   playbackInProgress: boolean;
+  // Torrents
   fetchingTorrents: boolean;
   torrent?: TorrentProvider.Torrent;
-  servingUrl?: string;
   torrentInProgress: boolean;
+  servingUrl?: string;
+  torrentSelection?: TorrentProvider.TorrentSelection;
+  // User Lists
   subtitles: Subtitle[];
-  favorites: Array<Item>;
-  watchList: Array<Item>;
+  favorites: Item[];
+  watchList: Item[];
 };
 
 export default class ItemComponent extends Component<Props, State> {
@@ -69,7 +74,7 @@ export default class ItemComponent extends Component<Props, State> {
 
   player: Player = new Player();
 
-  private plyr?: Plyr;
+  private plyr?: Ref<Plyr>;
 
   torrentSelection?: TorrentProvider.TorrentSelection;
 
@@ -106,6 +111,7 @@ export default class ItemComponent extends Component<Props, State> {
         minutes: 0,
       },
     },
+    currentPlayer: PlayerKind.Plyr,
     selectedSeason: 1,
     selectedEpisode: 1,
     seasons: [],
@@ -140,7 +146,7 @@ export default class ItemComponent extends Component<Props, State> {
     });
 
     setInterval(async () => {
-      console.log(await this.player.getDevices());
+      console.log({ devices: await this.player.getDevices() });
     }, 5000);
 
     const [favorites, watchList] = await Promise.all([
@@ -181,9 +187,10 @@ export default class ItemComponent extends Component<Props, State> {
   /**
    * Check which players are available on the system
    */
-  setPlayer = ({
-    target: { name: player, id },
-  }: SyntheticEvent<HTMLButtonElement>) => {
+  setPlayer = (event: React.MouseEventHandler<Element>): void => {
+    const {
+      target: { name: player, id },
+    } = event;
     if (player === PlayerKind.Plyr) {
       this.toggleCinema(true);
     }
@@ -253,9 +260,6 @@ export default class ItemComponent extends Component<Props, State> {
         if (!episode) {
           throw new Error('"episode" not provided to getShowData()');
         }
-        this.setState({
-          episode: await this.butter.getEpisode(imdbId, season, episode),
-        });
         break;
       default:
         throw new Error(`Invalid getShowData() type "${type}"`);
@@ -312,25 +316,38 @@ export default class ItemComponent extends Component<Props, State> {
                   episode,
                   searchQuery: title,
                 }),
-                this.butter.getTorrent(imdbId, "season_complete", {
-                  season,
-                  searchQuery: title,
-                }),
+                this.butter.getTorrent(
+                  imdbId,
+                  TorrentProvider.TorrentKind.SeasonComplete,
+                  {
+                    season,
+                    searchQuery: title,
+                  }
+                ),
               ]);
 
               return {
-                "1080p": selectIdealTorrent([
-                  shows["1080p"],
-                  seasonComplete["1080p"],
-                ]),
-                "720p": selectIdealTorrent([
-                  shows["720p"],
-                  seasonComplete["720p"],
-                ]),
-                "480p": selectIdealTorrent([
-                  shows["480p"],
-                  seasonComplete["480p"],
-                ]),
+                "1080p":
+                  shows["1080p"] && seasonComplete["1080p"]
+                    ? selectIdealTorrent([
+                        shows["1080p"],
+                        seasonComplete["1080p"],
+                      ])
+                    : undefined,
+                "720p":
+                  shows["720p"] && seasonComplete["720p"]
+                    ? selectIdealTorrent([
+                        shows["720p"],
+                        seasonComplete["720p"],
+                      ])
+                    : undefined,
+                "480p":
+                  shows["480p"] && seasonComplete["480p"]
+                    ? selectIdealTorrent([
+                        shows["480p"],
+                        seasonComplete["480p"],
+                      ])
+                    : undefined,
               };
             }
 
@@ -381,7 +398,7 @@ export default class ItemComponent extends Component<Props, State> {
     type: ShowKind,
     selectedSeason: number,
     selectedEpisode = 1
-  ) => {
+  ): void => {
     const { item } = this.state;
     if (!item.ids.tmdbId) throw new Error("id is not defined yet");
     switch (type) {
@@ -475,10 +492,7 @@ export default class ItemComponent extends Component<Props, State> {
       if (currentPlayer === PlayerKind.Plyr) {
         this.toggleCinema(true);
       }
-      this.player.play(servingUrl, {
-        item,
-        subtitles,
-      });
+      this.player.play(servingUrl, item, subtitles);
       const hasRecentlyWatched = await this.butter.recentlyWatched.has(item);
       if (!hasRecentlyWatched) {
         await this.butter.recentlyWatched.add(item);
@@ -521,8 +535,6 @@ export default class ItemComponent extends Component<Props, State> {
       favorites,
       watchList,
       castingDevices,
-      subtitles,
-      episode,
       torrentSelection,
     } = this.state;
     const { itemKind, itemId } = this.props;
@@ -535,7 +547,7 @@ export default class ItemComponent extends Component<Props, State> {
             url={playbackInProgress ? servingUrl || item.trailer : undefined}
             item={item}
             onClose={this.stopPlayback}
-            forwardedRef={(ref) => {
+            forwardedRef={(ref: Ref<Plyr>) => {
               this.plyr = ref;
             }}
           />
@@ -598,7 +610,6 @@ export default class ItemComponent extends Component<Props, State> {
         {itemKind === ItemKind.Show && (
           <Show
             selectShow={this.selectShow}
-            episode={episode}
             seasons={seasons}
             episodes={episodes}
             selectedSeason={selectedSeason}
@@ -606,7 +617,7 @@ export default class ItemComponent extends Component<Props, State> {
           />
         )}
 
-        <Similar itemId={itemId} type={itemKind} />
+        {itemId && <Similar itemId={itemId} type={itemKind} />}
       </div>
     );
   }

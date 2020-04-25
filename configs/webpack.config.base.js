@@ -5,9 +5,10 @@
 import path from "path";
 import webpack from "webpack";
 import { dependencies as externals } from "../app/package.json";
+import pkg from "../package.json";
 
 export default {
-  externals: [...Object.keys(externals || {})],
+  externals: [...Object.keys(externals || {}), ...(pkg.erb?.externals || [])],
 
   module: {
     rules: [

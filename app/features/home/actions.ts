@@ -1,5 +1,5 @@
-import { Item } from "../api/metadata/MetadataProviderInterface";
-import { View } from "../reducers/homePageReducer";
+import { Item } from "../../api/metadata/MetadataProviderInterface";
+import { View } from "./reducer";
 
 export function setView(view: View) {
   return {

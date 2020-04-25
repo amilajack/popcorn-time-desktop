@@ -18,11 +18,6 @@ export type Device = {
 
 export type PlayerKindNames = "plyr" | "chromecast" | "youtube";
 
-export type ItemMetadata = {
-  item: Item;
-  subtitle: Subtitle[];
-};
-
 export interface PlayerProviderInterface {
   name: PlayerKind;
 
@@ -34,7 +29,7 @@ export interface PlayerProviderInterface {
 
   play: (
     contentUrl: string,
-    metadata: ItemMetadata,
+    metadata: Item,
     subtitles: Subtitle[]
   ) => Promise<void>;
 

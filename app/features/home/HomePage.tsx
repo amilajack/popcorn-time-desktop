@@ -9,10 +9,10 @@ import {
   setLoading,
   setView,
   setLastPage,
-} from "../actions/homePageActions";
-import Home from "../components/home/Home";
-import { ItemKind, Item } from "../api/metadata/MetadataProviderInterface";
-import { View } from "../reducers/homePageReducer";
+} from "./actions";
+import Home from "./Home";
+import { ItemKind, Item } from "../../api/metadata/MetadataProviderInterface";
+import { View } from "./reducer";
 
 type State = {
   home: {

@@ -2,7 +2,7 @@
  * Torrents controller, responsible for playing, stoping, etc
  */
 import os from "os";
-import WebTorrent from "webtorrent";
+import WebTorrent, { TorrentFile } from "webtorrent";
 // 'get-port' lib doesn't work here for some reason. Not sure why
 import findFreePort from "find-free-port";
 import { isExactEpisode } from "./torrents/BaseTorrentProvider";
@@ -50,7 +50,7 @@ export default class Torrent {
 
   checkDownloadInterval?: NodeJS.Timeout;
 
-  engine: WebTorrent;
+  engine?: WebTorrent.Instance;
 
   magnetURI?: string;
 
@@ -66,8 +66,8 @@ export default class Torrent {
     cb: (
       servingUrl: string,
       file: { name: string },
-      files: string,
-      torrent: string,
+      files: TorrentFile[],
+      torrent: WebTorrent.Torrent,
       subtitle: { name: string } | boolean
     ) => void
   ) {
@@ -187,7 +187,9 @@ export default class Torrent {
       this.clearInterval();
 
       console.log("Destroying the torrent engine...");
-      this.engine.destroy();
+      if (this.engine) {
+        this.engine.destroy();
+      }
       this.engine = undefined;
 
       this.inProgress = false;

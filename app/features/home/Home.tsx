@@ -12,7 +12,7 @@ import Description from "../item/Description";
 import SaveItem from "../item/SaveItem";
 import Poster from "../item/Poster";
 import { Item, ItemKind } from "../../api/metadata/MetadataProviderInterface";
-import { PageInfo, View } from "../../reducers/homePageReducer";
+import { PageInfo, View } from "./reducer";
 
 type Props = {
   paginate: (items: Item[]) => void;
@@ -89,7 +89,7 @@ export default class Home extends Component<Props, State> {
 
     import("mousetrap")
       .then((mousetrap) => {
-        mousetrap.bind(["command+f", "ctrl+f"], () => {
+        mousetrap.bind(["mod+f"], () => {
           window.scrollTo(0, 0);
           const searchElm = document.getElementById("pct-search-input");
           if (searchElm) {
@@ -101,15 +101,15 @@ export default class Home extends Component<Props, State> {
 
         const { history } = this.props;
 
-        mousetrap.bind(["command+1", "ctrl+1"], () => {
+        mousetrap.bind(["mod+1"], () => {
           history.push("/home");
         });
 
-        mousetrap.bind(["command+2", "ctrl+2"], () => {
+        mousetrap.bind(["mod+2"], () => {
           history.push("/movies");
         });
 
-        mousetrap.bind(["command+3", "ctrl+3"], () => {
+        mousetrap.bind(["mod+3"], () => {
           history.push("/shows");
         });
 

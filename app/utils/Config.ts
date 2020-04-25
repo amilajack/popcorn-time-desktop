@@ -1,9 +1,3 @@
-/**
- * Check if config file exists
- *
- * If it doesn't, create it and initialize it with the fields:
- * 'favorites', 'watchList', 'recentlyWatched'
- */
 import ConfigStore from "configstore";
 
 export default function setupConfig() {
@@ -14,6 +8,7 @@ export default function setupConfig() {
       recentlyWatched: [],
       watchList: [],
       state: {},
+      cache: [],
     }
   );
 }

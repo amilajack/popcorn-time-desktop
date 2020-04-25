@@ -28,6 +28,9 @@ export default class Similar extends Component<Props, State> {
     this.getSimilar(itemId);
   }
 
+  /**
+   * @TODO @HACK Remove this!!!!!
+   */
   async getSimilar(imdbId: string) {
     const { type } = this.props;
     this.setState({ isLoading: true });

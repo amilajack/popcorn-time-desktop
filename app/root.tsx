@@ -2,11 +2,13 @@ import React from "react";
 import { Provider } from "react-redux";
 import { hot } from "react-hot-loader/root";
 import { ConnectedRouter } from "connected-react-router";
-import Routes from "../routes";
+import { History } from "history";
+import Routes from "./routes";
+import { Store } from "./store";
 
 type Root = {
-  store: {};
-  history: {};
+  store: Store;
+  history: History;
 };
 
 function Root({ store, history }: Root) {
