@@ -3,7 +3,7 @@ import { View } from "./reducer";
 
 export function setView(view: View) {
   return {
-    type: "SET_ACTIVE_MODE",
+    type: "SET_VIEW",
     view,
   };
 }

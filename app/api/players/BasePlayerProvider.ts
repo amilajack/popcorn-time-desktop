@@ -1,14 +1,17 @@
+import { Item } from "../metadata/MetadataProviderInterface";
+import { Subtitle } from "../metadata/Subtitle";
+
 export default class BasePlayerProvider {
   public isPlaying = false;
 
-  play() {
+  async play(contentUrl: string, item: Item, subtitles: Subtitle[]) {
     if (!this.isPlaying) {
-      this.play();
+      this.play(contentUrl, item, subtitles);
       this.isPlaying = true;
     }
   }
 
-  pause() {
+  async pause() {
     if (this.isPlaying) {
       this.pause();
       this.isPlaying = false;

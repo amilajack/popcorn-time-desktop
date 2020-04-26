@@ -1,12 +1,9 @@
 import { Client, DefaultMediaReceiver, Player } from "castv2-client";
 import mdns, { Browser } from "mdns-js";
 import network from "network-address";
-import {
-  PlayerProviderInterface,
-  Device,
-  ItemMetadata,
-} from "./PlayerProviderInterface";
+import { PlayerProviderInterface, Device } from "./PlayerProviderInterface";
 import { Subtitle } from "../metadata/Subtitle";
+import { Item } from "../metadata/MetadataProviderInterface";
 
 type RawDevice = {
   addresses: string[];
@@ -45,7 +42,7 @@ export default class ChromecastPlayerProvider
     });
   }
 
-  destroy() {
+  async cleanup() {
     if (this.browser) {
       this.browser.stop();
     }
@@ -79,7 +76,7 @@ export default class ChromecastPlayerProvider
     return deviceList;
   }
 
-  private async selectDevice(deviceId: string) {
+  private async selectDevice(deviceId: string): Promise<void> {
     const selectedDevice = Array.from(this.devices.values()).find(
       (device) => device.id === deviceId
     );
@@ -91,9 +88,9 @@ export default class ChromecastPlayerProvider
 
   async play(
     contentUrl: string,
-    metadata: ItemMetadata,
-    subtitles: Array<Subtitle>
-  ) {
+    item: Item,
+    subtitles: Subtitle[]
+  ): Promise<void> {
     const client = new Client();
 
     if (!this.selectedDevice) {
@@ -104,14 +101,14 @@ export default class ChromecastPlayerProvider
     const tracks = subtitles.map((subtitle, index) => ({
       trackId: index, // This is an unique ID, used to reference the track
       type: "TEXT", // Default Media Receiver currently only supports TEXT
-      trackContentId: subtitle.src.replace("localhost", networkAddress), // the URL of the VTT (enabled CORS and the correct ContentType are required)
+      trackContentId: subtitle.fullPath.replace("localhost", networkAddress), // the URL of the VTT (enabled CORS and the correct ContentType are required)
       trackContentType: "text/vtt", // Currently only VTT is supported
-      name: subtitle.srclang, // a Name for humans
-      language: subtitle.srclang, // the language
+      name: subtitle.language, // a Name for humans
+      language: subtitle.language, // the language
       subtype: "SUBTITLES", // should be SUBTITLES
     }));
 
-    return new Promise((resolve, reject) => {
+    await new Promise((resolve, reject) => {
       if (!this.selectedDevice) {
         throw new Error("No device selected");
       }
@@ -120,8 +117,6 @@ export default class ChromecastPlayerProvider
         client.launch(DefaultMediaReceiver, (err?: Error, player?: Player) => {
           if (err) throw err;
           if (!player) throw new Error("Player not set");
-
-          const { item } = metadata;
 
           const media = {
             // Here you can plug an URL to any mp4, webm, mp3 or jpg file with the proper contentType.

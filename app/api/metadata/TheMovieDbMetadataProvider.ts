@@ -86,7 +86,7 @@ function formatItem(
       // eslint-disable-next-line camelcase
       imdbId: item.imdb_id || item.external_ids?.imdb_id || "",
     },
-    type: "first_air_date" in item ? ItemKind.Show : ItemKind.Movie,
+    type,
     certification: "n/a",
     summary: item.overview,
     genres: formatGenres(item, genres),

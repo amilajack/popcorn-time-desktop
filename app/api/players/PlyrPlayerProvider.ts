@@ -2,8 +2,8 @@
 import { remote } from "electron";
 import Plyr from "plyr";
 import BaseTorrentProvider from "./BasePlayerProvider";
-import { ItemMetadata } from "./PlayerProviderInterface";
 import { Subtitle } from "../metadata/Subtitle";
+import { Item } from "../metadata/MetadataProviderInterface";
 
 const { powerSaveBlocker } = remote;
 
@@ -19,7 +19,7 @@ export default class PlayerProviderInterface extends BaseTorrentProvider
 
   public readonly name = "plyr";
 
-  getDevices() {
+  async getDevices() {
     return [];
   }
 
@@ -34,37 +34,37 @@ export default class PlayerProviderInterface extends BaseTorrentProvider
     }));
   }
 
-  play(url: string, metadata: ItemMetadata) {
-    const { item, captions } = metadata;
+  async play(url: string, item: Item, _subtitles: Subtitle[]) {
+    const subtitles = this.formatSubtitles(_subtitles);
     if (!this.plyr) throw new Error("plyr not setup");
     this.plyr.updateHtmlVideoSource(
       url,
       "video",
       item.title,
       undefined,
-      captions
+      subtitles
     );
     this.plyr.play();
   }
 
-  restart() {
+  async restart() {
     if (!this.plyr) throw new Error("plyr not setup");
     this.plyr.restart();
   }
 
-  pause() {
+  async pause() {
     if (!this.plyr) throw new Error("plyr not setup");
     this.plyr.pause();
   }
 
-  setup({ plyr }: { plyr: Plyr }) {
+  async setup({ plyr }: { plyr: Plyr }) {
     if (this.isSetup) return;
     this.plyr = plyr;
     this.powerSaveBlockerId = powerSaveBlocker.start("prevent-app-suspension");
     this.isSetup = true;
   }
 
-  cleanup() {
+  async cleanup() {
     if (!this.isSetup) return;
     if (!this.plyr) throw new Error("plyr not setup");
 

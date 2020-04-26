@@ -143,7 +143,7 @@ export default class Torrent {
         );
       }
 
-      const buffer = 1 * 1024 * 1024; // 1MB
+      const buffer = 1 * 1_024 * 1_024; // 1MB
       const { files } = torrent;
 
       file.select();

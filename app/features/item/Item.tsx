@@ -143,11 +143,6 @@ class ItemComponent extends Component<Props, State> {
 
   state: State = this.initialState;
 
-  static defaultProps = {
-    itemId: "",
-    itemKind: ItemKind.Movie,
-  };
-
   async componentDidMount() {
     const { itemId } = this.props;
     if (!itemId) {
@@ -214,8 +209,8 @@ class ItemComponent extends Component<Props, State> {
     this.setState({ currentPlayer: player });
   };
 
-  async getSimilar(type: ItemKind, imdbId: string) {
-    const similar = await this.butter.getSimilar(type, imdbId);
+  async getSimilar(type: ItemKind, itemId: string) {
+    const similar = await this.butter.getSimilar(type, itemId);
     this.setState({
       similar,
       similarFinished: true,
@@ -224,10 +219,11 @@ class ItemComponent extends Component<Props, State> {
   }
 
   async getAllData(itemId: string): Promise<void> {
-    const { itemKind } = this.props;
-    const { selectedSeason, selectedEpisode } = this.state;
+    const { match } = this.props;
+    const { view: itemKind } = match.params;
 
     this.setState(this.initialState, () => {
+      const { selectedSeason, selectedEpisode } = this.state;
       if (itemKind === ItemKind.Show) {
         this.getShowData(
           ShowKind.Seasons,
@@ -252,7 +248,7 @@ class ItemComponent extends Component<Props, State> {
 
   async getShowData(
     type: ShowKind,
-    imdbId: string,
+    itemId: string,
     season?: number,
     episode?: number
   ): Promise<void> {
@@ -260,8 +256,8 @@ class ItemComponent extends Component<Props, State> {
       case "seasons": {
         this.setState({ seasons: [], episodes: [] });
         const [seasons, episodes] = await Promise.all<Season[], Episode[]>([
-          this.butter.getSeasons(imdbId),
-          this.butter.getSeason(imdbId, 1),
+          this.butter.getSeasons(itemId),
+          this.butter.getSeason(itemId, 1),
         ]);
         this.setState({
           seasons,
@@ -275,7 +271,7 @@ class ItemComponent extends Component<Props, State> {
         }
         this.setState({ episodes: [] });
         this.setState({
-          episodes: await this.butter.getSeason(imdbId, season),
+          episodes: await this.butter.getSeason(itemId, season),
         });
         break;
       case "episode":
@@ -294,15 +290,16 @@ class ItemComponent extends Component<Props, State> {
   /**
    * Get the details of a movie using the Butter API
    */
-  async getItem(imdbId: string): Promise<Item> {
-    const { itemKind } = this.props;
+  async getItem(itemId: string): Promise<Item> {
+    const { match } = this.props;
+    const { view: itemKind } = match.params;
 
     const item = await (() => {
       switch (itemKind) {
         case ItemKind.Movie:
-          return this.butter.getMovie(imdbId);
+          return this.butter.getMovie(itemId);
         case ItemKind.Show:
-          return this.butter.getShow(imdbId);
+          return this.butter.getShow(itemId);
         default:
           throw new Error("Active mode not found");
       }
@@ -314,7 +311,7 @@ class ItemComponent extends Component<Props, State> {
   }
 
   async getTorrent(
-    imdbId: string,
+    itemId: string,
     title: string,
     season: number,
     episode: number
@@ -323,25 +320,26 @@ class ItemComponent extends Component<Props, State> {
       fetchingTorrents: true,
     });
 
-    const { itemKind } = this.props;
-
     try {
+      const { match } = this.props;
+      const { view: itemKind } = match.params;
+
       const torrentSelection: TorrentSelection = await (async () => {
         switch (itemKind) {
           case ItemKind.Movie: {
-            return this.butter.getTorrent(imdbId, itemKind, {
+            return this.butter.getTorrent(itemId, itemKind, {
               searchQuery: title,
             });
           }
           case ItemKind.Show: {
             if (process.env.FLAG_SEASON_COMPLETE === "true") {
               const [shows, seasonComplete] = await Promise.all([
-                this.butter.getTorrent(imdbId, itemKind, {
+                this.butter.getTorrent(itemId, itemKind, {
                   season,
                   episode,
                   searchQuery: title,
                 }),
-                this.butter.getTorrent(imdbId, "season_complete", {
+                this.butter.getTorrent(itemId, "season_complete", {
                   season,
                   searchQuery: title,
                 }),
@@ -372,7 +370,7 @@ class ItemComponent extends Component<Props, State> {
               };
             }
 
-            return this.butter.getTorrent(imdbId, itemKind, {
+            return this.butter.getTorrent(itemId, itemKind, {
               season,
               episode,
               searchQuery: title,
@@ -400,10 +398,11 @@ class ItemComponent extends Component<Props, State> {
   }
 
   async getSubtitles(item: Item): Promise<Subtitle[]> {
-    if (!this.subtitleServer.port)
+    if (!this.subtitleServer.port) {
       throw new Error(
         "subtitle server must be started before getting subtitles"
       );
+    }
     const subtitles = await this.butter.getSubtitles(
       item,
       langs,
@@ -556,7 +555,8 @@ class ItemComponent extends Component<Props, State> {
       similarLoading,
       similarFinished,
     } = this.state;
-    const { itemKind, itemId, history } = this.props;
+    const { match, itemId, history } = this.props;
+    const { view: itemKind } = match.params;
 
     return (
       <div className={classNames("Item", { active: playbackInProgress })}>

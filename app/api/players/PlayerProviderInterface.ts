@@ -25,11 +25,11 @@ export interface PlayerProviderInterface {
 
   selectDevice: (id: string) => Promise<void>;
 
-  seek: (seconds: number) => void;
+  seek: (seconds: number) => Promise<void>;
 
   play: (
     contentUrl: string,
-    metadata: Item,
+    item: Item,
     subtitles: Subtitle[]
   ) => Promise<void>;
 

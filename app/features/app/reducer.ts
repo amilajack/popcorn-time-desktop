@@ -4,7 +4,7 @@ import { View } from "../home/reducer";
 type Mode = ItemKind | View;
 
 enum Type {
-  SET_ACTIVE_MODE = "SET_ACTIVE_MODE",
+  SET_VIEW = "SET_VIEW",
 }
 
 type Action = {
@@ -26,7 +26,7 @@ export default function appReducer(
 ): ItemPageReducerState {
   switch (action.type) {
     // Add the items. This should be done after getting the paginated results
-    case Type.SET_ACTIVE_MODE:
+    case Type.SET_VIEW:
       return {
         ...state,
         view: action.view,

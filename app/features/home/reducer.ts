@@ -79,7 +79,7 @@ export default function homePageReducer(
         },
       };
     }
-    case "SET_ACTIVE_MODE":
+    case "SET_VIEW":
       return {
         ...state,
         items: state.modes[action.view].items,
