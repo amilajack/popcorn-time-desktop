@@ -1,5 +1,5 @@
 import { Item } from "../metadata/MetadataProviderInterface";
-import { Subtitle } from "../Subtitle";
+import { Subtitle } from "../metadata/Subtitle";
 
 export type PlayerSelectMetadata = Record<string, any>;
 

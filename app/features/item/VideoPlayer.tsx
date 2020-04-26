@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Plyr from "@amilajack/react-plyr";
 import { Item } from "../../api/metadata/MetadataProviderInterface";
-import { Subtitle } from "../../api/Subtitle";
+import { Subtitle } from "../../api/metadata/Subtitle";
 
 type Props = {
   captions: Subtitle[];

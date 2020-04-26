@@ -4,9 +4,9 @@ import Butter from "../../api/Butter";
 import { Item } from "../../api/metadata/MetadataProviderInterface";
 
 type Props = {
-  item?: Item;
-  favorites: Array<Item>;
-  watchList: Array<Item>;
+  item: Item;
+  favorites?: Array<Item>;
+  watchList?: Array<Item>;
 };
 
 type State = {
@@ -15,7 +15,7 @@ type State = {
 };
 
 export default class SaveItem extends Component<Props, State> {
-  static defaultProps: Props = {
+  static defaultProps = {
     favorites: [],
     watchList: [],
   };

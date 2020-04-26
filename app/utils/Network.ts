@@ -1,6 +1,6 @@
 import speedTest from "speedtest-net";
 
-export const timeout = 30000;
+export const timeout = 30_000;
 
 export function getDownloadSpeed(): Promise<number> {
   return new Promise((resolve, reject) => {

@@ -1,12 +1,11 @@
 /* eslint react/jsx-props-no-spreading: off */
 import React from "react";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import { Container } from "reactstrap";
 import { remote } from "electron";
 import SkeletonLoader from "./features/app/SkeletonLoader";
 import AppPage from "./features/app/AppPage";
 import ThemeManager, { Theme } from "./utils/Theme";
-import { ItemKind } from "./api/metadata/MetadataProviderInterface";
 
 const { nativeTheme } = remote;
 
@@ -17,13 +16,7 @@ const LazyHomePage = React.lazy(() =>
   import(/* webpackChunkName: "HomePage" */ "./features/home/HomePage")
 );
 
-type AProps = {
-  match: {
-    params: { itemId: string; itemKind: ItemKind };
-  };
-};
-
-export const ItemPage = (props: AProps) => (
+export const ItemPage = (props) => (
   <React.Suspense fallback={<SkeletonLoader />}>
     <LazyItemPage {...props} />
   </React.Suspense>
@@ -47,26 +40,16 @@ export default class Routes extends React.Component {
   }
 
   render() {
-    const A = (props: AProps) => {
-      const route = props.match.params.itemId ? (
-        <ItemPage {...props} />
-      ) : (
-        <HomePage />
-      );
-
-      return (
-        <AppPage>
-          <Container fluid>{route}</Container>
-        </AppPage>
-      );
-    };
     return (
-      <Switch>
-        <Route exact strict path="/:view/:itemId" component={A} />
-        <Route exact strict path="/:view" component={A} />
-        <Route exact strict path="/" component={A} />
-        <Route exact strict component={A} />
-      </Switch>
+      <AppPage>
+        <Container fluid>
+          <Switch>
+            <Route path="/:view/:itemId" component={ItemPage} />
+            <Route path="/:view" component={HomePage} />
+            <Redirect to="/home" />
+          </Switch>
+        </Container>
+      </AppPage>
     );
   }
 }

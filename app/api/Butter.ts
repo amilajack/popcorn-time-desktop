@@ -1,3 +1,6 @@
+/**
+ * Butter is single API that abstracts over all the APIs
+ */
 import TorrentAdapter from "./torrents/TorrentAdapter";
 import MetadataAdapter from "./metadata/MetadataAdapter";
 import Cache, { PctCache } from "./torrents/Cache";

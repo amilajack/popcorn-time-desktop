@@ -22,7 +22,7 @@ interface MatchParams {
   view: View;
 }
 
-interface Props extends RouteComponentProps<MatchParams> {
+export interface Props extends RouteComponentProps<MatchParams> {
   theme: string;
   history: History;
   location: Location;
@@ -118,28 +118,28 @@ class PopcornTimeNavbar extends Component<Props, State> {
           <Nav navbar className="navbar-nav mr-auto">
             <NavItem
               className={classNames({
-                active: view === "home",
+                active: view === View.Home,
               })}
             >
-              <Link className="nav-link" to="/home" replace>
+              <Link to="/home" className="nav-link">
                 Home
               </Link>
             </NavItem>
             <NavItem
               className={classNames({
-                active: view === ItemKind.Movie,
+                active: view === View.Movie,
               })}
             >
-              <Link to="/movies" replace className="nav-link">
+              <Link to="/movies" className="nav-link">
                 Movies
               </Link>
             </NavItem>
             <NavItem
               className={classNames({
-                active: view === ItemKind.Show,
+                active: view === View.Show,
               })}
             >
-              <Link className="nav-link" to="/shows" replace>
+              <Link to="/shows" className="nav-link">
                 TV Shows
               </Link>
             </NavItem>

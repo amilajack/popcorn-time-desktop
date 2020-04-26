@@ -3,7 +3,7 @@ import { remote } from "electron";
 import Plyr from "plyr";
 import BaseTorrentProvider from "./BasePlayerProvider";
 import { ItemMetadata } from "./PlayerProviderInterface";
-import { Subtitle } from "../Subtitle";
+import { Subtitle } from "../metadata/Subtitle";
 
 const { powerSaveBlocker } = remote;
 

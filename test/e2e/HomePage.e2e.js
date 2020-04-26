@@ -72,7 +72,7 @@ test("it should paginate items on scroll to bottom of viewport", async (t) => {
 
   const selector1 = await Selector(".Card a").count;
   await scrollBottom();
-  await t.expect(Selector(".Loader").visible).notOk().wait(3000);
+  await t.expect(Selector(".Loader").visible).notOk().wait(3_000);
   const selector2 = await Selector(".Card a").count;
 
   await t.expect(selector1).lt(selector2);

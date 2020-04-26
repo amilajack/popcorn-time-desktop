@@ -11,8 +11,8 @@ export default class Cache<K, V> extends LruCache<K, V> {
   constructor() {
     // CONFIG_CACHE_TIMEOUT is given as hours
     const maxAge = process.env.CONFIG_CACHE_TIMEOUT
-      ? parseInt(process.env.CONFIG_CACHE_TIMEOUT, 10) * 1000 * 60 * 60
-      : 1000 * 60 * 60;
+      ? parseInt(process.env.CONFIG_CACHE_TIMEOUT, 10) * 1_000 * 60 * 60
+      : 1_000 * 60 * 60;
 
     super({
       maxAge,
@@ -21,11 +21,15 @@ export default class Cache<K, V> extends LruCache<K, V> {
     this.load(Config.get("cache") || []);
 
     remote.getCurrentWindow().on("close", () => {
-      if (process.env.NODE_ENV === "development") {
-        console.log("Setting cache config");
-      }
-      Config.set("cache", this.dump());
+      this.destroy();
     });
+  }
+
+  destroy() {
+    if (process.env.NODE_ENV === "development") {
+      console.log("Setting cache config");
+    }
+    Config.set("cache", this.dump());
   }
 
   set(key: K, value: V): boolean {

@@ -40,6 +40,7 @@ module.exports = (api) => {
       // Stage 3
       require("@babel/plugin-syntax-dynamic-import"),
       [require("@babel/plugin-proposal-class-properties"), { loose: true }],
+      require("@babel/plugin-proposal-numeric-separator"),
 
       ...(development ? developmentPlugins : productionPlugins),
     ],

@@ -1,7 +1,6 @@
 /**
  * Build config for electron renderer process
  */
-
 import path from "path";
 import webpack from "webpack";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
@@ -11,17 +10,15 @@ import merge from "webpack-merge";
 import TerserPlugin from "terser-webpack-plugin";
 import baseConfig from "./webpack.config.base";
 import CheckNodeEnv from "../internals/scripts/CheckNodeEnv";
-import DeleteSourceMaps from "../internals/scripts/DeleteSourceMaps";
 
 CheckNodeEnv("production");
-DeleteSourceMaps();
 
 export default merge.smart(baseConfig, {
   devtool: process.env.DEBUG_PROD === "true" ? "source-map" : "none",
 
   mode: "production",
 
-  target: "electron-preload",
+  target: "electron-renderer",
 
   entry: path.join(__dirname, "..", "app/index.tsx"),
 
@@ -122,7 +119,7 @@ export default merge.smart(baseConfig, {
         use: {
           loader: "url-loader",
           options: {
-            limit: 10000,
+            limit: 10_000,
             mimetype: "application/font-woff",
           },
         },
@@ -133,7 +130,7 @@ export default merge.smart(baseConfig, {
         use: {
           loader: "url-loader",
           options: {
-            limit: 10000,
+            limit: 10_000,
             mimetype: "application/font-woff",
           },
         },
@@ -144,7 +141,7 @@ export default merge.smart(baseConfig, {
         use: {
           loader: "url-loader",
           options: {
-            limit: 10000,
+            limit: 10_000,
             mimetype: "application/octet-stream",
           },
         },
@@ -160,7 +157,7 @@ export default merge.smart(baseConfig, {
         use: {
           loader: "url-loader",
           options: {
-            limit: 10000,
+            limit: 10_000,
             mimetype: "image/svg+xml",
           },
         },

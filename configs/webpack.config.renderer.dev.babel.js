@@ -4,7 +4,6 @@
  *
  * https://webpack.js.org/concepts/hot-module-replacement/
  */
-
 import path from "path";
 import fs from "fs";
 import webpack from "webpack";
@@ -139,7 +138,7 @@ export default merge.smart(baseConfig, {
         use: {
           loader: "url-loader",
           options: {
-            limit: 10000,
+            limit: 10_000,
             mimetype: "application/font-woff",
           },
         },
@@ -150,7 +149,7 @@ export default merge.smart(baseConfig, {
         use: {
           loader: "url-loader",
           options: {
-            limit: 10000,
+            limit: 10_000,
             mimetype: "application/font-woff",
           },
         },
@@ -161,7 +160,7 @@ export default merge.smart(baseConfig, {
         use: {
           loader: "url-loader",
           options: {
-            limit: 10000,
+            limit: 10_000,
             mimetype: "application/octet-stream",
           },
         },
@@ -177,7 +176,7 @@ export default merge.smart(baseConfig, {
         use: {
           loader: "url-loader",
           options: {
-            limit: 10000,
+            limit: 10_000,
             mimetype: "image/svg+xml",
           },
         },

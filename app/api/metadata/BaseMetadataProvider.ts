@@ -3,7 +3,7 @@ import os from "os";
 import yifysubtitles from "@amilajack/yifysubtitles";
 import { set, get } from "../../utils/Config";
 import { Item, UserList } from "./MetadataProviderInterface";
-import { Subtitle } from "../Subtitle";
+import { Subtitle } from "./Subtitle";
 
 type ConfigKind = "favorites" | "recentlyWatched" | "watchList";
 

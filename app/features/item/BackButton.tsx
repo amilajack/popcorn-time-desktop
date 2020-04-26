@@ -1,23 +1,26 @@
 import React, { DetailedHTMLProps } from "react";
-import { Link } from "react-router-dom";
 import { HTMLAttributes } from "enzyme";
 
 type BackButtonProps = {
   onClick: DetailedHTMLProps<HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>;
+  goBack: () => void;
 };
 
-const BackButton = ({ onClick }: BackButtonProps) => (
-  <Link to="/">
-    <span
-      role="presentation"
-      className="pct-btn pct-btn-tran pct-btn-outline pct-btn-round"
-      data-e2e="item-button-back"
-      onClick={onClick}
-    >
+const BackButton = ({ onClick, goBack }: BackButtonProps) => (
+  <button
+    type="button"
+    onClick={(e) => {
+      onClick(e);
+      goBack();
+    }}
+    className="pct-btn pct-btn-tran pct-btn-round"
+    data-e2e="item-button-back"
+  >
+    <span role="presentation">
       <i className="ion-md-arrow-back" />
       Back
     </span>
-  </Link>
+  </button>
 );
 
 export default BackButton;

@@ -81,7 +81,7 @@ test("it should add items to watch list", async (t) => {
 test.skip("it should add items to recently watched list", async (t) => {
   await t
     .click('[data-e2e="item-play-button"]')
-    .wait(20000)
+    .wait(20_000)
     .click('[data-e2e="close-player"]');
 
   await clickItemPageBackButton(t);

@@ -5,8 +5,8 @@ import os from "os";
 import WebTorrent, { TorrentFile } from "webtorrent";
 // 'get-port' lib doesn't work here for some reason. Not sure why
 import findFreePort from "find-free-port";
-import { isExactEpisode } from "./torrents/BaseTorrentProvider";
-import { TorrentKind } from "./torrents/TorrentProviderInterface";
+import { isExactEpisode } from "./BaseTorrentProvider";
+import { TorrentKind } from "./TorrentProviderInterface";
 
 type Metadata = {
   season: number;
@@ -68,7 +68,7 @@ export default class Torrent {
       file: { name: string },
       files: TorrentFile[],
       torrent: WebTorrent.Torrent,
-      subtitle: { name: string } | boolean
+      subtitle: WebTorrent.Torrent
     ) => void
   ) {
     if (this.inProgress) {
@@ -162,10 +162,10 @@ export default class Torrent {
             file,
             files,
             torrent,
-            false
+            torrent
           );
         }
-      }, 1000);
+      }, 1_000);
     });
   }
 
@@ -215,8 +215,8 @@ export function formatSpeeds(torrentSpeeds: TorrentSpeeds): TorrentSpeeds {
   } = torrentSpeeds;
 
   return {
-    downloadSpeed: downloadSpeed / 1000000,
-    uploadSpeed: uploadSpeed / 1000000,
+    downloadSpeed: downloadSpeed / 1_000_000,
+    uploadSpeed: uploadSpeed / 1_000_000,
     progress: Math.round(progress * 100) / 100,
     numPeers,
     ratio,

@@ -42,3 +42,6 @@ resources
 .idea
 npm-debug.log.*
 __snapshots__
+*.css.d.ts
+*.sass.d.ts
+*.scss.d.ts

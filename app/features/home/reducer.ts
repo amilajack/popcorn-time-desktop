@@ -1,6 +1,12 @@
-import { Item, ItemKind } from "../../api/metadata/MetadataProviderInterface";
+import { Item } from "../../api/metadata/MetadataProviderInterface";
 
-export type View = ItemKind | "search" | "home";
+export enum View {
+  Search = "search",
+  Home = "home",
+  // @TODO Remove duplication by extending ItemKind
+  Movie = "movies",
+  Show = "shows",
+}
 
 export type PageInfo = {
   page: number;
@@ -31,7 +37,7 @@ const initialMode: PageInfo = {
 };
 
 export const defaultState: HomePageReducerState = {
-  view: "home",
+  view: View.Home,
   modes: {
     movies: initialMode,
     shows: initialMode,

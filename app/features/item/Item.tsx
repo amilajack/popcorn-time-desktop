@@ -5,22 +5,23 @@ import React, { Component, Ref } from "react";
 import { Row, Col } from "reactstrap";
 import classNames from "classnames";
 import Plyr from "plyr";
+import { History } from "history";
+import { withRouter } from "react-router";
 import SaveItem from "./SaveItem";
 import Description from "./Description";
 import Poster from "./Poster";
 import BackButton from "./BackButton";
-import Similar from "./Similar";
 import SelectPlayer from "./SelectPlayer";
 import VideoPlayer from "./VideoPlayer";
 import TorrentSelector from "./TorrentSelector";
 import Show from "./Show";
 import { selectIdealTorrent } from "../../api/torrents/BaseTorrentProvider";
 import Butter from "../../api/Butter";
-import Torrent from "../../api/Torrent";
+import Torrent from "../../api/torrents/Torrent";
 import SubtitleServer, {
   languages as langs,
   Subtitle,
-} from "../../api/Subtitle";
+} from "../../api/metadata/Subtitle";
 import Player from "../../api/players/PlayerAdapter";
 import {
   Item,
@@ -29,14 +30,19 @@ import {
   ItemKind,
   Season,
 } from "../../api/metadata/MetadataProviderInterface";
-import * as TorrentProvider from "../../api/torrents/TorrentProviderInterface";
+import {
+  TorrentSelection,
+  Torrent as ApiTorrent,
+} from "../../api/torrents/TorrentProviderInterface";
 import { Device, PlayerKind } from "../../api/players/PlayerProviderInterface";
+import CardsGrid from "../card/CardsGrid";
 
 type StartPlayback = (e: React.MouseEvent<any, MouseEvent>) => void;
 
 type Props = {
   itemId?: string;
   itemKind: ItemKind;
+  history: History;
 };
 
 type State = {
@@ -55,17 +61,21 @@ type State = {
   playbackInProgress: boolean;
   // Torrents
   fetchingTorrents: boolean;
-  torrent?: TorrentProvider.Torrent;
+  torrent?: ApiTorrent;
   torrentInProgress: boolean;
   servingUrl?: string;
-  torrentSelection?: TorrentProvider.TorrentSelection;
+  torrentSelection?: TorrentSelection;
   // User Lists
   subtitles: Subtitle[];
   favorites: Item[];
   watchList: Item[];
+  // Similar
+  similar: Item[];
+  similarLoading: boolean;
+  similarFinished: boolean;
 };
 
-export default class ItemComponent extends Component<Props, State> {
+class ItemComponent extends Component<Props, State> {
   butter: Butter = new Butter();
 
   torrent: Torrent = new Torrent();
@@ -76,9 +86,10 @@ export default class ItemComponent extends Component<Props, State> {
 
   private plyr?: Ref<Plyr>;
 
-  torrentSelection?: TorrentProvider.TorrentSelection;
+  torrentSelection?: TorrentSelection;
 
   initialState: State = {
+    // @TODO Better defaults here!!!!
     item: {
       id: "",
       ids: {
@@ -123,11 +134,16 @@ export default class ItemComponent extends Component<Props, State> {
     subtitles: [],
     favorites: [],
     watchList: [],
+
+    // Similar
+    similar: [],
+    similarLoading: true,
+    similarFinished: false,
   };
 
   state: State = this.initialState;
 
-  static defaultProps: Props = {
+  static defaultProps = {
     itemId: "",
     itemKind: ItemKind.Movie,
   };
@@ -145,9 +161,9 @@ export default class ItemComponent extends Component<Props, State> {
       plyr: this.plyr,
     });
 
-    setInterval(async () => {
-      console.log({ devices: await this.player.getDevices() });
-    }, 5000);
+    // setInterval(async () => {
+    //   console.log({ devices: await this.player.getDevices() });
+    // }, 5_000);
 
     const [favorites, watchList] = await Promise.all([
       this.butter.favorites.get(),
@@ -198,9 +214,19 @@ export default class ItemComponent extends Component<Props, State> {
     this.setState({ currentPlayer: player });
   };
 
-  getAllData(itemId: string): Promise<Item> {
+  async getSimilar(type: ItemKind, imdbId: string) {
+    const similar = await this.butter.getSimilar(type, imdbId);
+    this.setState({
+      similar,
+      similarFinished: true,
+      similarLoading: false,
+    });
+  }
+
+  async getAllData(itemId: string): Promise<void> {
     const { itemKind } = this.props;
     const { selectedSeason, selectedEpisode } = this.state;
+
     this.setState(this.initialState, () => {
       if (itemKind === ItemKind.Show) {
         this.getShowData(
@@ -212,17 +238,16 @@ export default class ItemComponent extends Component<Props, State> {
       }
     });
 
-    return this.getItem(itemId).then(async (item: Item) => {
-      if (!item.ids.imdbId) {
-        throw new Error("imdb id not set yet");
-      }
-      await Promise.all([
-        this.getSubtitles(item),
-        this.getTorrent(item.ids.imdbId, item.title, 1, 1),
-      ]);
+    const item = await this.getItem(itemId);
+    if (!item.ids.imdbId) {
+      throw new Error("imdb id not set yet");
+    }
 
-      return item;
-    });
+    await Promise.all([
+      this.getSubtitles(item),
+      this.getTorrent(item.ids.imdbId, item.title, 1, 1),
+      this.getSimilar(itemKind, itemId),
+    ]);
   }
 
   async getShowData(
@@ -230,7 +255,7 @@ export default class ItemComponent extends Component<Props, State> {
     imdbId: string,
     season?: number,
     episode?: number
-  ) {
+  ): Promise<void> {
     switch (type) {
       case "seasons": {
         this.setState({ seasons: [], episodes: [] });
@@ -267,9 +292,9 @@ export default class ItemComponent extends Component<Props, State> {
   }
 
   /**
-   * Get the details of a movie using the butter api
+   * Get the details of a movie using the Butter API
    */
-  async getItem(imdbId: string) {
+  async getItem(imdbId: string): Promise<Item> {
     const { itemKind } = this.props;
 
     const item = await (() => {
@@ -301,7 +326,7 @@ export default class ItemComponent extends Component<Props, State> {
     const { itemKind } = this.props;
 
     try {
-      const torrentSelection: TorrentProvider.TorrentSelection = await (async () => {
+      const torrentSelection: TorrentSelection = await (async () => {
         switch (itemKind) {
           case ItemKind.Movie: {
             return this.butter.getTorrent(imdbId, itemKind, {
@@ -316,14 +341,10 @@ export default class ItemComponent extends Component<Props, State> {
                   episode,
                   searchQuery: title,
                 }),
-                this.butter.getTorrent(
-                  imdbId,
-                  TorrentProvider.TorrentKind.SeasonComplete,
-                  {
-                    season,
-                    searchQuery: title,
-                  }
-                ),
+                this.butter.getTorrent(imdbId, "season_complete", {
+                  season,
+                  searchQuery: title,
+                }),
               ]);
 
               return {
@@ -364,7 +385,7 @@ export default class ItemComponent extends Component<Props, State> {
 
       const torrents = Object.values(torrentSelection).filter(
         Boolean
-      ) as TorrentProvider.Torrent[];
+      ) as ApiTorrent[];
 
       const torrent = selectIdealTorrent(torrents);
 
@@ -482,12 +503,7 @@ export default class ItemComponent extends Component<Props, State> {
       episode: selectedEpisode,
     };
 
-    const playTorrent = async (
-      servingUrl: string,
-      _file: { name: string },
-      _files: string,
-      torrentHash: string
-    ) => {
+    const playTorrent = async (servingUrl: string) => {
       console.log(`Serving torrent at: ${servingUrl}`);
       if (currentPlayer === PlayerKind.Plyr) {
         this.toggleCinema(true);
@@ -501,7 +517,7 @@ export default class ItemComponent extends Component<Props, State> {
         subtitles,
         servingUrl,
       });
-      return torrentHash;
+      return torrent;
     };
 
     await this.torrent.start(magnet, metadata, formats, playTorrent);
@@ -536,12 +552,15 @@ export default class ItemComponent extends Component<Props, State> {
       watchList,
       castingDevices,
       torrentSelection,
+      similar,
+      similarLoading,
+      similarFinished,
     } = this.state;
-    const { itemKind, itemId } = this.props;
+    const { itemKind, itemId, history } = this.props;
 
     return (
       <div className={classNames("Item", { active: playbackInProgress })}>
-        <BackButton onClick={this.stopPlayback} />
+        <BackButton goBack={history.goBack} onClick={this.stopPlayback} />
         <Row>
           <VideoPlayer
             url={playbackInProgress ? servingUrl || item.trailer : undefined}
@@ -561,6 +580,7 @@ export default class ItemComponent extends Component<Props, State> {
               <Poster
                 onClick={this.startPlayback}
                 image={item?.images?.poster?.thumb}
+                isPlayable
               />
               <div className="Item--loading-status">
                 {!servingUrl && torrentInProgress && "Loading torrent..."}
@@ -590,6 +610,7 @@ export default class ItemComponent extends Component<Props, State> {
         </Row>
 
         <Row className="row-margin">
+          {/* Device Playback Selection */}
           <Col sm="2">
             <SelectPlayer
               currentSelection={currentPlayer}
@@ -597,6 +618,7 @@ export default class ItemComponent extends Component<Props, State> {
               onSelect={this.setPlayer}
             />
           </Col>
+          {/* Torrent Quality Selection */}
           <Col sm="10">
             {torrentSelection && (
               <TorrentSelector
@@ -607,6 +629,7 @@ export default class ItemComponent extends Component<Props, State> {
           </Col>
         </Row>
 
+        {/* Shows */}
         {itemKind === ItemKind.Show && (
           <Show
             selectShow={this.selectShow}
@@ -617,8 +640,20 @@ export default class ItemComponent extends Component<Props, State> {
           />
         )}
 
-        {itemId && <Similar itemId={itemId} type={itemKind} />}
+        {/* Similar */}
+        {itemId && (
+          <CardsGrid
+            title="similar"
+            limit={4}
+            items={similar}
+            isLoading={similarLoading}
+            isFinished={similarFinished}
+            autofit
+          />
+        )}
       </div>
     );
   }
 }
+
+export default withRouter(ItemComponent);

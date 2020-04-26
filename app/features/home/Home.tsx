@@ -11,7 +11,7 @@ import CardsGrid from "../card/CardsGrid";
 import Description from "../item/Description";
 import SaveItem from "../item/SaveItem";
 import Poster from "../item/Poster";
-import { Item, ItemKind } from "../../api/metadata/MetadataProviderInterface";
+import { Item } from "../../api/metadata/MetadataProviderInterface";
 import { PageInfo, View } from "./reducer";
 
 type Props = {
@@ -42,7 +42,7 @@ type State = {
   recentlyWatched: Array<Item>;
 };
 
-export default class Home extends Component<Props, State> {
+class Home extends Component<Props, State> {
   state: State = {
     favorites: [],
     watchList: [],
@@ -56,17 +56,20 @@ export default class Home extends Component<Props, State> {
    * If bottom of component is 2000px from viewport, query
    */
   infinitePagination = _.throttle(() => {
-    const { isLoading, match } = this.props;
+    const { match } = this.props;
     const { view } = match.params;
-    const scrollDimentions = document.body.getBoundingClientRect();
-    if (scrollDimentions.bottom < 2000 && !isLoading) {
-      this.paginate(view);
+    if (view && view !== View.Home) {
+      const { isLoading } = this.props;
+      const scrollDimentions = document.body.getBoundingClientRect();
+      if (scrollDimentions.bottom < 2_000 && !isLoading) {
+        this.paginate(view);
+      }
     }
-  }, 1000);
+  }, 1_000);
 
   async componentDidMount() {
     const { setView, match } = this.props;
-    setView(match.params.view || "home");
+    setView(match.params.view || View.Home);
 
     const [
       favorites,
@@ -155,7 +158,7 @@ export default class Home extends Component<Props, State> {
   /**
    * Query items and add them to redux store
    */
-  async paginate(view: View = "home", props?: Props): Promise<void> {
+  async paginate(view: View = View.Home, props?: Props): Promise<void> {
     const { modes, paginate, setLoading, setLastPage, location } =
       props || this.props;
 
@@ -176,9 +179,9 @@ export default class Home extends Component<Props, State> {
             }
             return this.butter.search(searchQuery, page);
           }
-          case ItemKind.Movie:
+          case View.Movie:
             return this.butter.getMovies(page);
-          case ItemKind.Show:
+          case View.Show:
             return this.butter.getShows(page);
           default:
             return this.butter.getMovies(page);
@@ -220,7 +223,6 @@ export default class Home extends Component<Props, State> {
               pagingDotsStyle: { fill: "white" },
             }}
             autoplay
-            autoplayReverse
             pauseOnHover={false}
           >
             {trending.map((item) => (
@@ -233,7 +235,7 @@ export default class Home extends Component<Props, State> {
                   }}
                 >
                   <Col sm="6" className="Item--image">
-                    <Link replace to={`/${item.type}/${item.id}`}>
+                    <Link to={`/${item.type}/${item.id}`}>
                       <Poster image={item.images.poster?.thumb || ""} />
                     </Link>
                     <SaveItem
@@ -283,7 +285,7 @@ export default class Home extends Component<Props, State> {
       <>
         <Row>
           <Col sm="12">
-            {view === "home" || !view ? (
+            {view === View.Home || !view ? (
               home
             ) : (
               <CardsGrid items={items} isLoading={isLoading} />
@@ -291,7 +293,10 @@ export default class Home extends Component<Props, State> {
           </Col>
         </Row>
         <Row>
-          <VisibilitySensor active={view !== "home"} onChange={this.onChange}>
+          <VisibilitySensor
+            active={view && view !== View.Home}
+            onChange={this.onChange}
+          >
             {/* A hack to make `react-visibility-sensor` work */}
             <div style={{ opacity: 0 }}>Loading</div>
           </VisibilitySensor>
@@ -300,3 +305,5 @@ export default class Home extends Component<Props, State> {
     );
   }
 }
+
+export default Home;

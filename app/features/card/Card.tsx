@@ -1,6 +1,5 @@
 /**
  * Card in the CardsGrid component
- *
  */
 import React from "react";
 import { Col, Row } from "reactstrap";
@@ -31,7 +30,7 @@ export default function Card(props: Props) {
 
   return (
     <div className="Card">
-      <Link replace to={`/${type}/${id}`}>
+      <Link to={`/${type}/${id}`}>
         <div className="Card--overlay-container" style={backgroundImageStyle}>
           <div className="Card--overlay" />
         </div>
@@ -39,7 +38,7 @@ export default function Card(props: Props) {
       <div className="Card--descrption">
         <Row>
           <Col sm="12">
-            <Link className="Card--title" replace to={`/${type}/${id}`}>
+            <Link className="Card--title" to={`/${type}/${id}`}>
               {title}
             </Link>
             {typeof rating === "number" && (

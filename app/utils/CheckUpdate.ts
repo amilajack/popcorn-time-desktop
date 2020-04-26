@@ -1,6 +1,7 @@
 import fetch from "node-fetch";
 import { remote } from "electron";
 import semver from "semver";
+import { EventEmitter } from "events";
 
 export const defaultUpdateEndpoint =
   process.env.APP_API_UPDATE_ENDPOINT ||
@@ -18,14 +19,39 @@ type Release = {
 /**
  * Return if the current application version is the latest
  */
-export default function CheckUpdate(): Promise<boolean> {
+export async function checkUpdate(): Promise<boolean> {
   const currentSemvar = remote.app.getVersion();
+  const releases: Release[] = await fetch(defaultUpdateEndpoint).then((res) =>
+    res.json()
+  );
+  return releases.some((release) => {
+    return !release.prerelease && isNewerSemvar(release.name, currentSemvar);
+  });
+}
 
-  return fetch(defaultUpdateEndpoint)
-    .then((res) => res.json())
-    .then((res: Release[]) =>
-      res.some(
-        (each) => !each.prerelease && isNewerSemvar(each.name, currentSemvar)
-      )
-    );
+export default class CheckUpdateServer extends EventEmitter {
+  updateInterval?: number;
+
+  intervalId?: number;
+
+  constructor(opts?: { updateInterval?: number }) {
+    super();
+    this.updateInterval = opts?.updateInterval || 10_000;
+  }
+
+  start() {
+    this.intervalId = setInterval(async () => {
+      const hasUpdate = await checkUpdate();
+      if (hasUpdate) {
+        this.stop();
+        this.emit("hasNewVersion");
+      }
+    }, this.updateInterval);
+  }
+
+  stop() {
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+    }
+  }
 }

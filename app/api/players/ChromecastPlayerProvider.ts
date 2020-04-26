@@ -6,7 +6,7 @@ import {
   Device,
   ItemMetadata,
 } from "./PlayerProviderInterface";
-import { Subtitle } from "../Subtitle";
+import { Subtitle } from "../metadata/Subtitle";
 
 type RawDevice = {
   addresses: string[];
@@ -51,7 +51,7 @@ export default class ChromecastPlayerProvider
     }
   }
 
-  public async getDevices(timeout = 2000): Promise<Device[]> {
+  public async getDevices(timeout = 2_000): Promise<Device[]> {
     const devices: DeviceMap = new Map<string, Device>();
 
     this.browser.on("update", (data: RawDevice[]) => {

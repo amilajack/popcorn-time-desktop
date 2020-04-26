@@ -4,7 +4,7 @@ import TheMovieDbMetadataProvider from "../metadata/TheMovieDbMetadataProvider";
 import { Torrent, Health } from "./TorrentProviderInterface";
 
 // Create a promise that rejects in <ms> milliseconds
-export function timeout<T>(promise: Promise<T>, ms = 20000): Promise<T> {
+export function timeout<T>(promise: Promise<T>, ms = 20_000): Promise<T> {
   const timeoutPromise = new Promise((resolve, reject) => {
     const id = setTimeout(
       () => {

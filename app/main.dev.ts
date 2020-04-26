@@ -8,7 +8,6 @@
  * When running `yarn build` or `yarn build-main`, this file is compiled to
  * `./src/main.prod.js` using webpack. This gives us some performance wins.
  */
-import path from "path";
 import { app, BrowserWindow } from "electron";
 import windowStateKeeper from "electron-window-state";
 import * as Sentry from "@sentry/electron/dist/main";
@@ -58,15 +57,6 @@ const createWindow = async () => {
     defaultHeight: 728,
   });
 
-  const webPreferences =
-    process.env.NODE_ENV === "development" || process.env.E2E_BUILD === "true"
-      ? {
-          nodeIntegration: true,
-        }
-      : {
-          preload: path.join(__dirname, "dist/renderer.prod.js"),
-        };
-
   mainWindow = new BrowserWindow({
     x: mainWindowState.x,
     y: mainWindowState.y,
@@ -76,7 +66,7 @@ const createWindow = async () => {
     minHeight: 800,
     show: false,
     webPreferences: {
-      ...webPreferences,
+      nodeIntegration: true,
       scrollBounce: true,
     },
   });

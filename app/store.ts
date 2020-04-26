@@ -1,12 +1,12 @@
 import { configureStore, getDefaultMiddleware, Action } from "@reduxjs/toolkit";
-import { createHashHistory } from "history";
+import { createBrowserHistory } from "history";
 import { routerMiddleware } from "connected-react-router";
 import { createLogger } from "redux-logger";
 import { ThunkAction } from "redux-thunk";
 // eslint-disable-next-line import/no-cycle
 import createRootReducer from "./rootReducer";
 
-export const history = createHashHistory();
+export const history = createBrowserHistory();
 const rootReducer = createRootReducer(history);
 export type RootState = ReturnType<typeof rootReducer>;
 

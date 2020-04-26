@@ -249,7 +249,7 @@ export default class TheMovieDbMetadataProvider extends BaseMetadataProvider
 
   private readonly theMovieDb: AxiosInstance = axios.create({
     baseURL: this.apiUri,
-    timeout: 10000,
+    timeout: 10_000,
     params: this.params,
   });
 

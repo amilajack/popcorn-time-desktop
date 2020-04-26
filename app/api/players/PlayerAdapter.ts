@@ -6,7 +6,7 @@ import {
   PlayerKind,
   Device,
 } from "./PlayerProviderInterface";
-import { Subtitle } from "../Subtitle";
+import { Subtitle } from "../metadata/Subtitle";
 import { Item } from "../metadata/MetadataProviderInterface";
 
 /**

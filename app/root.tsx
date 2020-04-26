@@ -1,7 +1,7 @@
 import React from "react";
 import { Provider } from "react-redux";
 import { hot } from "react-hot-loader/root";
-import { ConnectedRouter } from "connected-react-router";
+import { HashRouter as Router } from "react-router-dom";
 import { History } from "history";
 import Routes from "./routes";
 import { Store } from "./store";
@@ -11,12 +11,12 @@ type Root = {
   history: History;
 };
 
-function Root({ store, history }: Root) {
+function Root({ store }: Root) {
   return (
     <Provider store={store}>
-      <ConnectedRouter history={history}>
+      <Router>
         <Routes />
-      </ConnectedRouter>
+      </Router>
     </Provider>
   );
 }

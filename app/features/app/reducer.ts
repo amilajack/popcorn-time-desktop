@@ -1,6 +1,7 @@
 import { ItemKind } from "../../api/metadata/MetadataProviderInterface";
+import { View } from "../home/reducer";
 
-type Mode = ItemKind | "search" | "home";
+type Mode = ItemKind | View;
 
 enum Type {
   SET_ACTIVE_MODE = "SET_ACTIVE_MODE",
@@ -16,7 +17,7 @@ type ItemPageReducerState = {
 };
 
 export const defaultState: ItemPageReducerState = {
-  view: "home",
+  view: View.Home,
 };
 
 export default function appReducer(

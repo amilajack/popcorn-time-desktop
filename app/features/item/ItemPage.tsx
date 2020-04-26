@@ -1,8 +1,10 @@
 import React from "react";
+import { History } from "history";
 import Item from "./Item";
 import { ItemKind } from "../../api/metadata/MetadataProviderInterface";
 
 type Props = {
+  history: History;
   match: {
     params: {
       itemId: string;
@@ -12,6 +14,12 @@ type Props = {
 };
 
 export default function ItemPage(props: Props) {
-  const { match } = props;
-  return <Item itemId={match.params.itemId} itemKind={match.params.itemKind} />;
+  const { match, history } = props;
+  return (
+    <Item
+      history={history}
+      itemId={match.params.itemId}
+      itemKind={match.params.itemKind}
+    />
+  );
 }

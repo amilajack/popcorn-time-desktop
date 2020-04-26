@@ -27,7 +27,7 @@ export default class SubtitleServer {
     // Find a port at runtime. Default to 4000 if it is available
     this.port = process.env.SUBTITLES_PORT
       ? parseInt(process.env.SUBTITLES_PORT, 10)
-      : await getPort({ port: 4000 });
+      : await getPort({ port: 4_000 });
 
     // Start the static file server for the subtitle files
     const server = express();

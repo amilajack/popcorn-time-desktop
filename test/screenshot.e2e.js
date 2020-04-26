@@ -14,7 +14,7 @@ import electronPrebuilt from "electron";
 const app = new Application({
   path: electronPrebuilt,
   args: [path.join(__dirname, "..", "app")],
-  waitTimeout: 2000,
+  waitTimeout: 2_000,
 });
 
 const delay = (time) => new Promise((resolve) => setTimeout(resolve, time));
@@ -94,7 +94,7 @@ describe("screenshot", function testApp() {
   describe("HomePage", () => {
     beforeEach(async () => {
       await navigate("");
-      await delay(2000);
+      await delay(2_000);
     });
 
     it("should display CardsGrid", async () => {
@@ -105,7 +105,7 @@ describe("screenshot", function testApp() {
   describe("ItemPage", () => {
     beforeEach(async () => {
       await navigate("item/shows/tt0944947");
-      await delay(2000);
+      await delay(2_000);
     });
 
     it("should display Movie", async () => {
