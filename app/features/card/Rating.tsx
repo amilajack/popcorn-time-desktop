@@ -5,10 +5,11 @@ type Props = {
   rating?: number;
   starColor?: string;
   emptyStarColor?: string;
+  showScore?: boolean;
 };
 
 export default function StarRating(props: Props) {
-  const { rating, starColor, emptyStarColor } = props;
+  const { rating, starColor, emptyStarColor, showScore } = props;
 
   if (typeof rating !== "number") {
     return null;
@@ -23,7 +24,9 @@ export default function StarRating(props: Props) {
         value={Math.floor(rating / 2)}
         editing={false}
       />
-      <span className="rating-number d-none d-lg-block">{rating}</span>
+      {showScore && (
+        <span className="rating-number d-none d-lg-block">{rating}</span>
+      )}
     </div>
   );
 }
@@ -31,5 +34,6 @@ export default function StarRating(props: Props) {
 StarRating.defaultProps = {
   rating: 0,
   starColor: "#848484",
+  showScore: false,
   emptyStarColor: "rgba(255, 255, 255, 0.2)",
 };

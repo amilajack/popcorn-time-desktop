@@ -1,3 +1,6 @@
+import { remote } from "electron";
+import { EventEmitter } from "events";
+
 export const lightTheme = {
   "body-bg": "#fff",
   "body-color": "#212529",
@@ -34,7 +37,8 @@ export const lightTheme = {
   warning: "#ffc107",
   danger: "#dc3545",
   light: "#f8f9fa",
-  dark: "#343a40; ",
+  dark: "#343a40",
+  "modal-content-bg": "white",
 };
 
 export const darkTheme = {
@@ -76,6 +80,7 @@ export const darkTheme = {
   "component-active-bg": "gray",
   "headings-color": "white",
   "navbar-dark-color": "#848484",
+  "modal-content-bg": "#343a40",
 };
 
 export enum Theme {
@@ -83,25 +88,87 @@ export enum Theme {
   Dark = "dark",
 }
 
-export default class ThemeManager {
-  theme: Theme = Theme.Light;
+export enum ThemeWithSystem {
+  Light = "light",
+  Dark = "dark",
+  System = "system",
+}
 
-  themes = {
-    light: lightTheme,
-    dark: darkTheme,
-  };
+type ManagerTheme = {
+  id: string;
+  name: string;
+  colors: Record<string, string>;
+};
 
-  constructor(themeColor: Theme = Theme.Light) {
-    this.theme = themeColor;
+const { nativeTheme } = remote;
+
+export default class ThemeManager extends EventEmitter {
+  private theme: ThemeWithSystem = ThemeWithSystem.System;
+
+  private systemTheme: Theme;
+
+  static themes: ManagerTheme[] = [
+    {
+      name: "Light",
+      id: "light",
+      colors: lightTheme,
+    },
+    {
+      name: "Dark",
+      id: "dark",
+      colors: darkTheme,
+    },
+    {
+      name: "System",
+      id: "system",
+      colors: {},
+    },
+  ];
+
+  constructor(themeId: ThemeWithSystem = ThemeWithSystem.System) {
+    super();
+    this.theme = themeId;
+    this.systemTheme = nativeTheme.shouldUseDarkColors
+      ? Theme.Dark
+      : Theme.Light;
+
     this.change(this.theme);
+
+    nativeTheme.on("updated", () => {
+      if (this.theme === ThemeWithSystem.System) {
+        this.systemTheme = nativeTheme.shouldUseDarkColors
+          ? Theme.Dark
+          : Theme.Light;
+        this.change(ThemeWithSystem.System);
+      }
+      this.emit("themeChanged");
+    });
   }
 
-  change(themeColor: Theme) {
-    if (!(themeColor in this.themes)) {
-      throw new Error(`Theme color name "${themeColor}" not found`);
+  cleanup() {
+    nativeTheme.removeAllListeners();
+    this.removeAllListeners();
+  }
+
+  getTheme(): Theme {
+    return this.theme === ThemeWithSystem.System
+      ? this.systemTheme
+      : this.theme;
+  }
+
+  change(themeId: ThemeWithSystem) {
+    this.theme = themeId;
+    if (themeId === ThemeWithSystem.System) {
+      themeId = this.systemTheme;
     }
-    const styles = this.themes[themeColor];
-    Object.entries(styles).forEach(([cssVar, value]) => {
+
+    const theme = ThemeManager.themes.find((_theme) => _theme.id === themeId);
+    if (!theme) {
+      throw new Error(`Theme "${themeId}" not found`);
+    }
+
+    const { colors } = theme;
+    Object.entries(colors).forEach(([cssVar, value]) => {
       document.documentElement.style.setProperty(`--${cssVar}`, value);
     });
   }

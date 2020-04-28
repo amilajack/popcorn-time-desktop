@@ -21,11 +21,14 @@ export default class Cache<K, V> extends LruCache<K, V> {
     this.load(Config.get("cache") || []);
 
     remote.getCurrentWindow().on("close", () => {
-      this.destroy();
+      this.write();
     });
   }
 
-  destroy() {
+  /**
+   * Write the cache to the user's config
+   */
+  write() {
     if (process.env.NODE_ENV === "development") {
       console.log("Setting cache config");
     }

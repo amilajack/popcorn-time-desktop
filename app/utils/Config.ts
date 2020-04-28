@@ -11,6 +11,7 @@ export default function setupConfig() {
       watchList: [],
       state: {},
       cache: [],
+      settings: {},
     }
   );
 }

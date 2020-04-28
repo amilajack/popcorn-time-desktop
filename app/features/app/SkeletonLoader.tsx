@@ -1,21 +1,40 @@
-import React from "react";
+import React, { useContext } from "react";
 import ContentLoader from "react-content-loader";
+import { ThemeContext } from "./theme-context";
+import { Theme } from "../../utils/Theme";
+
+type Props = {
+  heading?: {
+    width: number;
+    height: number;
+  };
+  items?: any[];
+  row?: number;
+  column?: number;
+  width?: number;
+  padding?: number;
+  borderRadius?: number;
+};
 
 const YoutubeMagic = ({
   heading = { width: 140, height: 24 },
   items = [],
   row = 2,
   column = 5,
-  width = 1366,
+  width = window.document.body.getClientRects()[0].width - 30,
   padding = 12,
   borderRadius = 4,
   ...props
-}) => {
+}: Props) => {
+  const theme = useContext(ThemeContext);
+  const [foregroundColor, backgroundColor] =
+    theme === Theme.Dark ? ["#2C2C2C", "#373737"] : ["#ecebeb", "#f3f3f3"];
+
   const list = [];
 
   let height;
 
-  for (let i = 1; i <= row; i++) {
+  for (let i = 1; i <= row; i += 1) {
     const itemWidth = (width - padding * (column + 1)) / column;
 
     const height1 = (itemWidth * 9) / 16;
@@ -49,7 +68,7 @@ const YoutubeMagic = ({
       />
     );
 
-    for (let j = 0; j < column; j++) {
+    for (let j = 0; j < column; j += 1) {
       const x = padding + j * (itemWidth + padding);
 
       const y1 = yHeading + headingHeight + (padding * 3) / 2;
@@ -92,6 +111,8 @@ const YoutubeMagic = ({
       width={width}
       height={height}
       speed={2}
+      foregroundColor={foregroundColor}
+      backgroundColor={backgroundColor}
       {...props}
     >
       {list}

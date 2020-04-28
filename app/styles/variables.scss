@@ -48,14 +48,12 @@ $plyr-tooltip-radius: 0;
   --component-active-bg: #{$component-active-bg};
   --headings-color: #{$headings-color};
   --navbar-dark-color: #{$navbar-dark-color};
+  --modal-content-bg: #{$modal-content-bg};
 }
 
 //
 //  Bootstrap variables override
 //
-
-$body-bg: var(--body-bg);
-$body-color: var(--body-color);
 
 $gray: var(--gray);
 $gray-dark: var(--gray-dark);
@@ -95,3 +93,4 @@ $card-color: var(--card-color);
 $component-active-bg: var(--component-active-bg);
 $headings-color: var(--headings-color);
 $navbar-dark-color: var(--navbar-dark-color);
+$modal-content-bg: var(--modal-content-bg);

@@ -1,3 +1,4 @@
+import path from "path";
 import {
   Collapse,
   Input,
@@ -6,6 +7,7 @@ import {
   NavbarToggler,
   NavItem,
   NavbarBrand,
+  Button,
 } from "reactstrap";
 import React, { Component, SyntheticEvent } from "react";
 import classNames from "classnames";
@@ -15,6 +17,7 @@ import logo from "../../../resources/icon.png";
 import { ItemKind } from "../../api/metadata/MetadataProviderInterface";
 import { Theme } from "../../utils/Theme";
 import { View } from "../home/reducer";
+import { ThemeContext } from "./theme-context";
 
 interface MatchParams {
   itemId: string;
@@ -23,7 +26,6 @@ interface MatchParams {
 }
 
 export interface Props extends RouteComponentProps<MatchParams> {
-  theme: string;
   history: History;
   location: Location;
 }
@@ -34,6 +36,8 @@ type State = {
 };
 
 class PopcornTimeNavbar extends Component<Props, State> {
+  static contextType = ThemeContext;
+
   state: State = {
     collapsed: true,
     searchQuery: this.getSearchQuery(),
@@ -87,9 +91,14 @@ class PopcornTimeNavbar extends Component<Props, State> {
   };
 
   render() {
-    const { theme, match } = this.props;
+    const { location, openSettingsModal } = this.props;
     const { collapsed, searchQuery } = this.state;
-    const { view } = match.params;
+    const theme = this.context;
+    const { pathname } = location;
+    // 'match.params' is not updated because navbar is not a child of <Route>
+    // We need to manually update 'view' by parsing `location.pathname`, which
+    // is updated
+    const { base: view } = path.parse(pathname);
 
     return (
       <Navbar
@@ -155,6 +164,9 @@ class PopcornTimeNavbar extends Component<Props, State> {
               type="text"
               placeholder="Search"
             />
+            <Button type="button" onClick={openSettingsModal}>
+              <i className="ion-md-settings" />
+            </Button>
           </div>
         </Collapse>
       </Navbar>
