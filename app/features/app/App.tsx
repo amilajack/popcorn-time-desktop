@@ -1,5 +1,5 @@
 /* eslint react/jsx-props-no-spreading: off */
-import React, { useEffect } from "react";
+import React from "react";
 import { remote } from "electron";
 import { ToastProvider } from "react-toast-notifications";
 import ConnectivityListener from "./ConnectivityListener";

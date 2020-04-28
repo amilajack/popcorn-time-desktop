@@ -1,7 +1,7 @@
 /* eslint class-methods-use-this: off */
 import os from "os";
 import yifysubtitles from "@amilajack/yifysubtitles";
-import { set, get } from "../../utils/Config";
+import Config from "../../utils/Config";
 import { Item, UserList } from "./MetadataProviderInterface";
 import { Subtitle } from "./Subtitle";
 
@@ -10,28 +10,28 @@ type ConfigKind = "favorites" | "recentlyWatched" | "watchList";
 export function userListsHelper(listName: ConfigKind): UserList {
   return {
     async add(item: Item): Promise<void> {
-      const items: Item[] = get<Item[]>(listName) || [];
+      const items: Item[] = Config.get<Item[]>(listName) || [];
       const newItems = [...items, item];
-      set(listName, newItems);
+      Config.set(listName, newItems);
     },
     async remove(item: Item) {
-      const items: Item[] = get<Item[]>(listName) || [];
+      const items: Item[] = Config.get<Item[]>(listName) || [];
       if (!item?.id) throw new Error("id not passed");
       const newItems = items.filter((_item) => _item.id !== item.id);
-      set(listName, newItems);
+      Config.set(listName, newItems);
     },
     async get() {
-      const items: Item[] = get<Item[]>(listName) || [];
+      const items: Item[] = Config.get<Item[]>(listName) || [];
       return items;
     },
     async has(item: Item): Promise<boolean> {
-      const items: Item[] = get<Item[]>(listName);
+      const items: Item[] = Config.get<Item[]>(listName);
       return items.some(
         (_item) => _item.ids.tmdbId === item.id || _item.ids.imdbId === item.id
       );
     },
     async clear() {
-      set(listName, []);
+      Config.set(listName, []);
     },
   };
 }
@@ -69,6 +69,7 @@ export default class BaseMetadataProvider {
       language: subtitle.langShort,
       basePath: `http://localhost:${port}`,
       port,
+      filename: subtitle.fileName,
       fullPath: `http://localhost:${port}/${subtitle.fileName}`,
     }));
   }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, SyntheticEvent } from "react";
 import {
   Modal,
   ModalHeader,
@@ -12,22 +12,23 @@ import {
   Label,
 } from "reactstrap";
 import Settings from "../../utils/Settings";
-import ThemeManager from "../../utils/Theme";
+import ThemeManager, { Theme } from "../../utils/Theme";
 
 type Props = {
   open?: boolean;
+  changeTheme: (theme: Theme) => void;
+  openSettingsModal: () => void;
 };
 
 export default function SettingsComponent(props: Props) {
   const { open, changeTheme, openSettingsModal } = props;
-  const [modal, setModal] = useState(open);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [settings, setSettings] = useState(Settings.load());
-  const toggleSwitch = (e) => {
+  const toggleSwitch = (e: SyntheticEvent) => {
     Settings.toggleFlag(e.target.id);
     setSettings({ ...Settings.settings });
   };
-  const clickDropdownItem = (e) => {
+  const clickDropdownItem = (e: SyntheticEvent) => {
     changeTheme(e.target.id);
     setSettings({ ...Settings.settings });
   };

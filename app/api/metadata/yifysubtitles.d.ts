@@ -1,7 +1,9 @@
 declare module "@amilajack/yifysubtitles" {
   export interface YifySubtitle {
+    lang: string;
     langShort: string;
-    filename: string;
+    path: string;
+    fileName: string;
   }
   export interface Opts {
     path?: string;

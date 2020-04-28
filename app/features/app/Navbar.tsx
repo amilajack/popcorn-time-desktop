@@ -28,6 +28,7 @@ interface MatchParams {
 export interface Props extends RouteComponentProps<MatchParams> {
   history: History;
   location: Location;
+  openSettingsModal: () => void;
 }
 
 type State = {

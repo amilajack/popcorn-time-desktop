@@ -2,7 +2,7 @@ import { remote } from "electron";
 import LruCache from "lru-cache";
 import { Item } from "../metadata/MetadataProviderInterface";
 import { Torrent, TorrentSelection } from "./TorrentProviderInterface";
-import * as Config from "../../utils/Config";
+import Config from "../../utils/Config";
 
 export type PctCacheValue = Item | Item[] | Torrent | TorrentSelection;
 export type PctCache = Cache<string, PctCacheValue>;

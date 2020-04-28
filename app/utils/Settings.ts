@@ -1,4 +1,4 @@
-import * as Config from "./Config";
+import Config from "./Config";
 import { ThemeWithSystem } from "./Theme";
 
 type Flag = {

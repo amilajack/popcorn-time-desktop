@@ -4,8 +4,8 @@ import { Item } from "../../api/metadata/MetadataProviderInterface";
 import { Subtitle } from "../../api/metadata/Subtitle";
 
 type Props = {
-  captions: Subtitle[];
-  url: string;
+  subtitles: Subtitle[];
+  url?: string;
   item: Item;
   onClose: Function;
   forwardedRef: Function;
@@ -13,12 +13,12 @@ type Props = {
 
 export default class VideoPlayer extends Component<Props> {
   render() {
-    const { captions, url, item, onClose, forwardedRef } = this.props;
+    const { subtitles, url, item, onClose, forwardedRef } = this.props;
 
     return (
       <>
         <Plyr
-          captions={captions}
+          captions={subtitles}
           type="video"
           url={url}
           poster={item?.images?.fanart?.full || ""}

@@ -554,6 +554,7 @@ class ItemComponent extends Component<Props, State> {
       similar,
       similarLoading,
       similarFinished,
+      subtitles,
     } = this.state;
     const { match, itemId, history } = this.props;
     const { view: itemKind } = match.params;
@@ -569,6 +570,7 @@ class ItemComponent extends Component<Props, State> {
             forwardedRef={(ref: Ref<Plyr>) => {
               this.plyr = ref;
             }}
+            subtitles={subtitles}
           />
 
           <Col
