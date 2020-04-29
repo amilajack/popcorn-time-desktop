@@ -2,6 +2,7 @@
 import url from "url";
 import TheMovieDbMetadataProvider from "../metadata/TheMovieDbMetadataProvider";
 import { Torrent, Health } from "./TorrentProviderInterface";
+import SettingsManager from "../../utils/Settings";
 
 // Create a promise that rejects in <ms> milliseconds
 export function timeout<T>(promise: Promise<T>, ms = 20_000): Promise<T> {
@@ -149,10 +150,6 @@ export function hasNonNativeCodec(metadata: string): boolean {
 export function determineQuality(magnet: string, metadata = ""): string {
   const lowerCaseMetadata = (metadata || magnet).toLowerCase();
 
-  if (process.env.FLAG_UNVERIFIED_TORRENTS === "true") {
-    return "480p";
-  }
-
   // Filter non-english languages
   if (hasNonEnglishLanguage(lowerCaseMetadata)) {
     return "";
@@ -160,7 +157,9 @@ export function determineQuality(magnet: string, metadata = ""): string {
 
   // Filter videos with 'rendered' subtitles
   if (hasSubtitles(lowerCaseMetadata)) {
-    return process.env.FLAG_SUBTITLE_EMBEDDED_MOVIES === "true" ? "480p" : "";
+    return SettingsManager.isFlagEnabled("subtitle_embedded_movies")
+      ? "480p"
+      : "";
   }
 
   // Most accurate categorization
@@ -181,16 +180,14 @@ export function determineQuality(magnet: string, metadata = ""): string {
   if (lowerCaseMetadata.includes("eng")) return "720p";
 
   if (hasNonNativeCodec(lowerCaseMetadata)) {
-    return process.env.FLAG_SUPPORTED_PLAYBACK_FILTERING === "true"
-      ? "720p"
-      : "";
+    return "720p";
   }
 
   if (process.env.NODE_ENV === "development") {
     console.warn(`${magnet}, could not be verified`);
   }
 
-  return "";
+  return SettingsManager.isFlagEnabled("unverified_torrents") ? "7200p" : "";
 }
 
 export async function convertTmdbToImdb(tmdbId: string): Promise<string> {

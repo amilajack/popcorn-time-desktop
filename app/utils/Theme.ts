@@ -94,7 +94,7 @@ export enum ThemeWithSystem {
   System = "system",
 }
 
-type ManagerTheme = {
+export type ManagerTheme = {
   id: string;
   name: string;
   colors: Record<string, string>;

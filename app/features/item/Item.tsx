@@ -36,6 +36,7 @@ import {
 } from "../../api/torrents/TorrentProviderInterface";
 import { Device, PlayerKind } from "../../api/players/PlayerProviderInterface";
 import CardsGrid from "../card/CardsGrid";
+import SettingsManager from "../../utils/Settings";
 
 type StartPlayback = (e: React.MouseEvent<any, MouseEvent>) => void;
 
@@ -332,7 +333,7 @@ class ItemComponent extends Component<Props, State> {
             });
           }
           case ItemKind.Show: {
-            if (process.env.FLAG_SEASON_COMPLETE === "true") {
+            if (SettingsManager.isFlagEnabled("season_complete")) {
               const [shows, seasonComplete] = await Promise.all([
                 this.butter.getTorrent(itemId, itemKind, {
                   season,

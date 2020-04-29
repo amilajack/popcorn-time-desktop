@@ -12,7 +12,7 @@ import {
   Label,
 } from "reactstrap";
 import Settings from "../../utils/Settings";
-import ThemeManager, { Theme } from "../../utils/Theme";
+import ThemeManager, { Theme, ManagerTheme } from "../../utils/Theme";
 
 type Props = {
   open?: boolean;
@@ -34,6 +34,9 @@ export default function SettingsComponent(props: Props) {
   };
   const toggleDropdownOpen = () => setDropdownOpen(!dropdownOpen);
   const { themes } = ThemeManager;
+  const { name: currentThemeName } = themes.find(
+    (theme) => theme.id === settings.theme
+  ) as ManagerTheme;
 
   return (
     <Modal isOpen={open} toggle={openSettingsModal} centered>
@@ -42,7 +45,7 @@ export default function SettingsComponent(props: Props) {
         <FormGroup>
           <Label for="exampleCheckbox">Theme</Label>
           <Dropdown isOpen={dropdownOpen} toggle={toggleDropdownOpen}>
-            <DropdownToggle caret>Theme</DropdownToggle>
+            <DropdownToggle caret>{currentThemeName}</DropdownToggle>
             <DropdownMenu>
               <DropdownItem header>Theme</DropdownItem>
               {themes.map((theme) => (

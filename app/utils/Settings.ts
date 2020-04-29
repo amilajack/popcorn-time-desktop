@@ -18,13 +18,18 @@ export default class SettingsManager {
     flags: [
       {
         id: "season_complete",
-        name: "Complete Season Torrents",
+        name: 'Allow the "complete season torrents" feature',
         enabled: process.env.FLAG_SEASON_COMPLETE === "true",
       },
       {
         id: "subtitle_embedded_movies",
-        name: "Ignore Torrents with Embedded Subtitles",
+        name: "Ignore torrents with embedded subtitles",
         enabled: process.env.FLAG_SUBTITLE_EMBEDDED_MOVIES === "true",
+      },
+      {
+        id: "unverified_torrents",
+        name: "Allow torrents whose quality cannot be verified",
+        enabled: process.env.FLAG_UNVERIFIED_TORRENTS === "true",
       },
     ],
   };
