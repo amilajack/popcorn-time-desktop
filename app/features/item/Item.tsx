@@ -612,7 +612,7 @@ class ItemComponent extends Component<Props, State> {
           </Col>
         </Row>
 
-        <Row className="row-margin">
+        <Row className="my-3">
           {/* Device Playback Selection */}
           <Col sm="2">
             <SelectPlayer

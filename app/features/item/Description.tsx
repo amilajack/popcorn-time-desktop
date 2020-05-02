@@ -43,7 +43,7 @@ export default function Description({
 
   return (
     <Col sm="6" className="Description">
-      <h1 className="row-margin" id="title">
+      <h1 className="my-2" id="title">
         {title}
       </h1>
       <Row>
@@ -59,10 +59,10 @@ export default function Description({
           {genres && <h6>{genres.join(", ")}</h6>}
         </span>
       </Row>
-      <h6 data-e2e="summary" className="row-margin item__summary">
+      <h6 data-e2e="summary" className="my-2 item__summary">
         {summary}
       </h6>
-      <Row className="row-margin row-center Item--details">
+      <Row className="my-2 row-center Item--details">
         {rating && typeof rating === "number" && (
           <Col sm="6" lg="5">
             <Rating
