@@ -16,7 +16,8 @@
  */
 import Butter from "../../app/api/Butter";
 import shows from "./butter.mock";
-import { getIdealTorrent } from "../../app/api/torrents/BaseTorrentProvider";
+import TorrentAdapter from "../../app/api/torrents/TorrentAdapter";
+import { selectIdealTorrent } from "../../app/api/torrents/BaseTorrentProvider";
 
 const butter = new Butter();
 
@@ -35,6 +36,7 @@ describe("Benchmark Butter Shows: Top 50", () => {
       });
       for (const show of shows) {
         it(`Shows: ${show.title} season 1, episode 1`, async (done) => {
+          const adapter = new TorrentAdapter();
           try {
             const torrents = await butter.getTorrent(
               show.id,
@@ -47,7 +49,7 @@ describe("Benchmark Butter Shows: Top 50", () => {
               true
             );
             const torrentCount = torrents.length
-              ? getIdealTorrent(torrents).seeders
+              ? adapter.getTorrent(torrents).seeders
               : 0;
             this.torrentCount += torrentCount;
             console.log("\t Seeder Count: ", torrentCount);
@@ -83,7 +85,7 @@ describe("Benchmark Butter Shows: Top 50", () => {
               true
             );
             const torrentCount = torrents.length
-              ? getIdealTorrent(torrents).seeders
+              ? selectIdealTorrent(torrents).seeders
               : 0;
             this.torrentCount += torrentCount;
             console.log("\t Seeder Count: ", torrentCount);
@@ -122,7 +124,7 @@ describe("Benchmark Butter Shows: Top 50", () => {
               true
             );
             const torrentCount = torrents.length
-              ? getIdealTorrent(torrents).seeders
+              ? selectIdealTorrent(torrents).seeders
               : 0;
             this.torrentCount += torrentCount;
             console.log("\t Seeder Count: ", torrentCount);
@@ -158,7 +160,7 @@ describe("Benchmark Butter Shows: Top 50", () => {
               true
             );
             const torrentCount = torrents.length
-              ? getIdealTorrent(torrents).seeders
+              ? selectIdealTorrent(torrents).seeders
               : 0;
             this.torrentCount += torrentCount;
             console.log("\t Seeder Count: ", torrentCount);

@@ -111,7 +111,9 @@ class PopcornTimeNavbar extends Component<Props, State> {
         className={`bg-${theme}`}
       >
         <NavbarBrand>
-          <img src={logo} width={40} alt="popcorn time logo" />
+          <Link to="/home" className="nav-link">
+            <img src={logo} width={40} alt="popcorn time logo" />
+          </Link>
         </NavbarBrand>
         <NavbarToggler
           className="navbar-toggler"

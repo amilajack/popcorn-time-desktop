@@ -1,3 +1,4 @@
+/* eslint-disable */
 // @ts-ignore
 import React, { Component } from "react";
 import { withToastManager } from "react-toast-notifications";

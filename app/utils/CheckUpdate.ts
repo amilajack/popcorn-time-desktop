@@ -36,17 +36,19 @@ export default class CheckUpdateServer extends EventEmitter {
 
   constructor(opts?: { updateInterval?: number }) {
     super();
-    this.updateInterval = opts?.updateInterval || 10_000;
+    this.updateInterval = opts?.updateInterval || 1_000_000;
   }
 
   start() {
-    this.intervalId = setInterval(async () => {
+    const checkUpdateInInterval = async () => {
       const hasUpdate = await checkUpdate();
       if (hasUpdate) {
-        this.stop();
         this.emit("hasNewVersion");
+        this.stop();
       }
-    }, this.updateInterval);
+    };
+    checkUpdateInInterval();
+    this.intervalId = setInterval(checkUpdateInInterval, this.updateInterval);
   }
 
   stop() {

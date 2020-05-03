@@ -159,6 +159,7 @@ export default class ThemeManager extends EventEmitter {
   change(themeId: ThemeWithSystem) {
     this.theme = themeId;
     if (themeId === ThemeWithSystem.System) {
+      // eslint-disable-next-line no-param-reassign
       themeId = this.systemTheme;
     }
 

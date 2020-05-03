@@ -45,10 +45,7 @@ export function filterShowTorrent(
  * Select one 720p and 1080p quality movie from torrent list
  * By default, sort all torrents by seeders
  */
-export function selectTorrents(
-  torrents: Torrent[],
-  key: string
-): TorrentSelection {
+export function selectTorrents(torrents: Torrent[]): TorrentSelection {
   const sortedTorrents = sortTorrentsBySeeders(
     torrents.filter((torrent) => !!torrent.magnet)
   );

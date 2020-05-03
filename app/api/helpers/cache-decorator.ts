@@ -1,21 +1,5 @@
+/* eslint-disable */
 import { PctCacheValue, PctCache } from "../torrents/Cache";
-
-export default function cacheDecorator() {
-  return function cacheFn(target, name, descriptor) {
-    if (descriptor.value != null)
-      descriptor.value = getNewFunction(name, descriptor.value);
-    else if (descriptor.get != null)
-      descriptor.get = getNewFunction(name, descriptor.get);
-    else
-      throw new Error(
-        "Only put a Memoize decorator on a method or get accessor."
-      );
-  };
-}
-
-interface CacheFunction {
-  cache: PctCache;
-}
 
 function getNewFunction(
   name: string,
@@ -35,4 +19,20 @@ function getNewFunction(
 
     return returnedValue;
   };
+}
+export default function cacheDecorator() {
+  return function cacheFn(target, name, descriptor) {
+    if (descriptor.value != null)
+      descriptor.value = getNewFunction(name, descriptor.value);
+    else if (descriptor.get != null)
+      descriptor.get = getNewFunction(name, descriptor.get);
+    else
+      throw new Error(
+        "Only put a Memoize decorator on a method or get accessor."
+      );
+  };
+}
+
+interface CacheFunction {
+  cache: PctCache;
 }
