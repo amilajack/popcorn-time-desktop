@@ -204,22 +204,6 @@ class ItemComponent extends Component<Props, State> {
     this.subtitleServer.closeServer();
   }
 
-  async toggleWatchList() {
-    const { item } = this.props;
-    if (!item?.ids?.tmdbId) {
-      throw new Error("tmdb id not set yet");
-    }
-    const isInWatchList = await this.butter.watchList.has(item);
-    if (isInWatchList) {
-      await this.butter.watchList.remove(item);
-    } else {
-      await this.butter.watchList.add(item);
-    }
-    this.setState({
-      isInWatchList: !isInWatchList,
-    });
-  }
-
   /**
    * Check which players are available on the system
    */
@@ -574,6 +558,22 @@ class ItemComponent extends Component<Props, State> {
     });
   }
 
+  async toggleWatchList() {
+    const { item } = this.props;
+    if (!item?.ids?.tmdbId) {
+      throw new Error("tmdb id not set yet");
+    }
+    const isInWatchList = await this.butter.watchList.has(item);
+    if (isInWatchList) {
+      await this.butter.watchList.remove(item);
+    } else {
+      await this.butter.watchList.add(item);
+    }
+    this.setState({
+      isInWatchList: !isInWatchList,
+    });
+  }
+
   toggleCinema(open?: boolean) {
     this.setState((prevState) => ({
       playbackInProgress: open || !prevState.playbackInProgress,
@@ -607,6 +607,8 @@ class ItemComponent extends Component<Props, State> {
       similarLoading,
       similarFinished,
       subtitles,
+      isInFavorites,
+      isInWatchList,
     } = this.state;
     const { match, itemId, history } = this.props;
     const { view: itemKind } = match.params;
@@ -649,6 +651,8 @@ class ItemComponent extends Component<Props, State> {
                 item={item}
                 favorites={favorites}
                 watchList={watchList}
+                isInWatchList={isInWatchList}
+                isInFavorites={isInFavorites}
               />
             </Col>
             <Description
