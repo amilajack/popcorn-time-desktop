@@ -4,7 +4,7 @@ platform:
 image: Visual Studio 2017
 
 environment:
-  nodejs_version: 11
+  nodejs_version: 12
   BONJOUR_SDK_HOME: 'C:\\Program Files\\Bonjour SDK'
 
 cache:
