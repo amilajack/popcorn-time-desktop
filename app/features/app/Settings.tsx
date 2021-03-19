@@ -17,11 +17,11 @@ import ThemeManager, { Theme, ManagerTheme } from "../../utils/Theme";
 type Props = {
   open?: boolean;
   changeTheme: (theme: Theme) => void;
-  openSettingsModal: () => void;
+  toggleSettingsModal: () => void;
 };
 
 export default function SettingsComponent(props: Props) {
-  const { open, changeTheme, openSettingsModal } = props;
+  const { open, changeTheme, toggleSettingsModal } = props;
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [settings, setSettings] = useState(Settings.load());
   const toggleSwitch = (e: SyntheticEvent) => {
@@ -30,7 +30,7 @@ export default function SettingsComponent(props: Props) {
   };
   const clickDropdownItem = (e: SyntheticEvent) => {
     changeTheme(e.target.id);
-    setSettings({ ...Settings.settings });
+    setSettings({ ...Settings.settings, theme: e.target.id });
   };
   const toggleDropdownOpen = () => setDropdownOpen(!dropdownOpen);
   const { themes } = ThemeManager;
@@ -39,8 +39,8 @@ export default function SettingsComponent(props: Props) {
   ) as ManagerTheme;
 
   return (
-    <Modal isOpen={open} toggle={openSettingsModal} centered>
-      <ModalHeader toggle={openSettingsModal}>Settings</ModalHeader>
+    <Modal isOpen={open} toggle={toggleSettingsModal} centered>
+      <ModalHeader toggle={toggleSettingsModal}>Settings</ModalHeader>
       <ModalBody>
         <FormGroup>
           <Label for="exampleCheckbox">Theme</Label>

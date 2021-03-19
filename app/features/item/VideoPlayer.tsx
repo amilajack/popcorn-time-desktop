@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import Plyr from "@amilajack/react-plyr";
+import { IonIcon } from "@ionic/react";
+import { close } from "ionicons/icons";
 import { Item } from "../../api/metadata/MetadataProviderInterface";
 import { Subtitle } from "../../api/metadata/Subtitle";
 
@@ -42,7 +44,7 @@ export default class VideoPlayer extends Component<Props> {
             id="close-button"
             onClick={onClose}
           >
-            <i className="ion-md-close" />
+            <IonIcon icon={close} />
           </span>
         )}
       </>

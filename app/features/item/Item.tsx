@@ -5,8 +5,8 @@ import React, { Component, Ref } from "react";
 import { Row, Col } from "reactstrap";
 import classNames from "classnames";
 import Plyr from "plyr";
-import { History } from "history";
 import { withRouter } from "react-router";
+import { History } from "history";
 import SaveItem from "./SaveItem";
 import Description from "./Description";
 import Poster from "./Poster";
@@ -37,14 +37,15 @@ import {
 import { Device, PlayerKind } from "../../api/players/PlayerProviderInterface";
 import CardsGrid from "../card/CardsGrid";
 import SettingsManager from "../../utils/Settings";
+import { RouterProps } from "../../types/match";
 
 type StartPlayback = (e: React.MouseEvent<any, MouseEvent>) => void;
 
-type Props = {
+interface Props extends RouterProps {
+  history: History;
   itemId?: string;
   itemKind: ItemKind;
-  history: History;
-};
+}
 
 type State = {
   // Item
@@ -70,6 +71,8 @@ type State = {
   subtitles: Subtitle[];
   favorites: Item[];
   watchList: Item[];
+  isInFavorites: boolean;
+  isInWatchList: boolean;
   // Similar
   similar: Item[];
   similarLoading: boolean;
@@ -123,18 +126,26 @@ class ItemComponent extends Component<Props, State> {
         minutes: 0,
       },
     },
-    currentPlayer: PlayerKind.Plyr,
+
+    // Show Metadata
     selectedSeason: 1,
     selectedEpisode: 1,
     seasons: [],
     episodes: [],
     castingDevices: [],
+
+    // Players
     playbackInProgress: false,
     fetchingTorrents: false,
     torrentInProgress: false,
+    currentPlayer: PlayerKind.Plyr,
     subtitles: [],
+
+    // User Lists
     favorites: [],
     watchList: [],
+    isInFavorites: false,
+    isInWatchList: false,
 
     // Similar
     similar: [],
@@ -156,10 +167,6 @@ class ItemComponent extends Component<Props, State> {
     this.player.setup({
       plyr: this.plyr,
     });
-
-    // setInterval(async () => {
-    //   console.log({ devices: await this.player.getDevices() });
-    // }, 5_000);
 
     const [favorites, watchList] = await Promise.all([
       this.butter.favorites.get(),
@@ -187,6 +194,7 @@ class ItemComponent extends Component<Props, State> {
     if (!nextProps.itemId) {
       throw new Error("itemId not set before fetching data");
     }
+    this.stopPlayback();
     this.getAllData(nextProps.itemId);
   }
 
@@ -194,6 +202,22 @@ class ItemComponent extends Component<Props, State> {
     this.stopPlayback();
     this.player.cleanup();
     this.subtitleServer.closeServer();
+  }
+
+  async toggleWatchList() {
+    const { item } = this.props;
+    if (!item?.ids?.tmdbId) {
+      throw new Error("tmdb id not set yet");
+    }
+    const isInWatchList = await this.butter.watchList.has(item);
+    if (isInWatchList) {
+      await this.butter.watchList.remove(item);
+    } else {
+      await this.butter.watchList.add(item);
+    }
+    this.setState({
+      isInWatchList: !isInWatchList,
+    });
   }
 
   /**
@@ -245,6 +269,16 @@ class ItemComponent extends Component<Props, State> {
       this.getTorrent(item.ids.imdbId, item.title, 1, 1),
       this.getSimilar(itemKind, itemId),
     ]);
+
+    const [isInFavorites, isInWatchList] = await Promise.all([
+      this.butter.favorites.has(item),
+      this.butter.watchList.has(item),
+    ]);
+
+    this.setState({
+      isInFavorites,
+      isInWatchList,
+    });
   }
 
   async getShowData(
@@ -457,6 +491,7 @@ class ItemComponent extends Component<Props, State> {
     if (currentPlayer === PlayerKind.Plyr) {
       this.toggleCinema(false);
     }
+    this.player.pause();
     this.player.cleanup();
     this.torrent.destroy();
     this.setState({ torrentInProgress: false, currentPlayer: PlayerKind.Plyr });
@@ -523,6 +558,22 @@ class ItemComponent extends Component<Props, State> {
     await this.torrent.start(magnet, metadata, formats, playTorrent);
   };
 
+  async toggleFavorite() {
+    const { item } = this.props;
+    if (!item?.ids?.tmdbId) {
+      throw new Error("tmdb id not set yet");
+    }
+    const isInFavorites = await this.butter.favorites.has(item);
+    if (isInFavorites) {
+      await this.butter.favorites.remove(item);
+    } else {
+      await this.butter.favorites.add(item);
+    }
+    this.setState({
+      isInFavorites: !isInFavorites,
+    });
+  }
+
   toggleCinema(open?: boolean) {
     this.setState((prevState) => ({
       playbackInProgress: open || !prevState.playbackInProgress,
@@ -583,7 +634,11 @@ class ItemComponent extends Component<Props, State> {
               <Poster
                 onClick={this.startPlayback}
                 image={item?.images?.poster?.thumb}
-                isPlayable
+                isPlayable={Boolean(
+                  torrentSelection?.["1080p"] ||
+                    torrentSelection?.["720p"] ||
+                    torrentSelection?.["480p"]
+                )}
               />
               <div className="Item--loading-status">
                 {!servingUrl && torrentInProgress && "Loading torrent..."}

@@ -1,4 +1,6 @@
 import React from "react";
+import { IonIcon } from "@ionic/react";
+import { play } from "ionicons/icons";
 
 type Props = {
   onClick?: Function;
@@ -10,11 +12,11 @@ const Poster = ({ onClick, image, isPlayable }: Props) => (
   <div className="Item--poster-container">
     <div role="presentation" className="Item--play" onClick={onClick}>
       {isPlayable && (
-        <i
+        <IonIcon
+          icon={play}
           role="presentation"
           data-e2e="item-play-button"
-          className="Item--icon-play ion-md-play"
-          onClick={onClick}
+          className="Item--icon-play"
         />
       )}
     </div>

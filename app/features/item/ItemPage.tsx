@@ -1,19 +1,8 @@
 import React from "react";
-import { History } from "history";
 import Item from "./Item";
-import { ItemKind } from "../../api/metadata/MetadataProviderInterface";
+import { RouterProps } from "../../types/match";
 
-type Props = {
-  history: History;
-  match: {
-    params: {
-      itemId: string;
-      itemKind: ItemKind;
-    };
-  };
-};
-
-export default function ItemPage(props: Props) {
+export default function ItemPage(props: RouterProps) {
   const { match, history } = props;
   return (
     <Item

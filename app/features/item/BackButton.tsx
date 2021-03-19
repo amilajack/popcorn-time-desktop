@@ -1,5 +1,7 @@
 import React, { DetailedHTMLProps } from "react";
 import { HTMLAttributes } from "enzyme";
+import { IonIcon } from "@ionic/react";
+import { arrowBack } from "ionicons/icons";
 
 type BackButtonProps = {
   onClick: DetailedHTMLProps<HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>;
@@ -17,7 +19,7 @@ const BackButton = ({ onClick, goBack }: BackButtonProps) => (
     data-e2e="item-button-back"
   >
     <span role="presentation">
-      <i className="ion-md-arrow-back" />
+      <IonIcon icon={arrowBack} />
       Back
     </span>
   </button>

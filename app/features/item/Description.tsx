@@ -1,6 +1,8 @@
 import React from "react";
 import classNames from "classnames";
 import { Row, Col, UncontrolledTooltip } from "reactstrap";
+import { IonIcon } from "@ionic/react";
+import { magnet, videocam } from "ionicons/icons";
 import Rating from "../card/Rating";
 import { Runtime } from "../../api/metadata/MetadataProviderInterface";
 
@@ -84,7 +86,7 @@ export default function Description({
 
         {showTorrentInfo && (
           <Col sm="6" lg="2" className="row-center">
-            <i className="ion-md-magnet" />
+            <IonIcon icon={magnet} />
             <div
               id="magnetPopoverOpen"
               data-e2e="item-magnet-torrent-health-popover"
@@ -101,10 +103,10 @@ export default function Description({
           trailer !== "n/a" &&
           onTrailerClick && (
             <Col sm="3" className="row-center">
-              <i
+              <IonIcon
                 id="trailerPopoverOpen"
                 data-e2e="item-trailer-button"
-                className="ion-md-videocam"
+                icon={videocam}
                 onClick={onTrailerClick}
                 role="presentation"
               />

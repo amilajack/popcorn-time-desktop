@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { remote } from "electron";
 import ReactNotification, { store } from "react-notifications-component";
 import ConnectivityListener from "./ConnectivityListener";
-import ThemeManager from "../../utils/Theme";
+import ThemeManager, { Theme } from "../../utils/Theme";
 import Navbar from "./Navbar";
 import Settings from "./Settings";
 import CheckUpdateServer from "../../utils/CheckUpdate";
@@ -14,11 +14,14 @@ type Props = {
   children: React.ReactNode;
 };
 
+const themeManager = new ThemeManager(SettingsManager.settings.theme);
+
 export default function App(props: Props) {
   SettingsManager.load();
-  const themeManager = new ThemeManager(SettingsManager.settings.theme);
   const [settingsModalOpen, setSettingsModalOpen] = useState(false);
   const [theme, setTheme] = useState(themeManager.getTheme());
+
+  const toggleSetingsModalOpen = () => setSettingsModalOpen(!settingsModalOpen);
 
   useEffect(() => {
     themeManager.on("themeChanged", () => {
@@ -53,16 +56,21 @@ export default function App(props: Props) {
     };
   });
 
+  const changeTheme = (toTheme: Theme) => {
+    setTheme(toTheme);
+    themeManager.change(toTheme);
+  };
+
   const { children } = props;
   return (
     <ThemeContext.Provider value={theme}>
       <ReactNotification />
       <ConnectivityListener />
-      <Navbar openSettingsModal={setSettingsModalOpen} />
+      <Navbar toggleSettingsModal={toggleSetingsModalOpen} />
       <Settings
         open={settingsModalOpen}
-        changeTheme={setTheme}
-        openSettingsModal={setSettingsModalOpen}
+        changeTheme={changeTheme}
+        toggleSettingsModal={toggleSetingsModalOpen}
       />
       {children}
     </ThemeContext.Provider>

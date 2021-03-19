@@ -11,30 +11,23 @@ import {
 } from "reactstrap";
 import React, { Component, SyntheticEvent } from "react";
 import classNames from "classnames";
-import { Link, withRouter, RouteComponentProps } from "react-router-dom";
-import { History, Location } from "history";
+import { Link, withRouter } from "react-router-dom";
+import { IonIcon } from "@ionic/react";
+import { settings } from "ionicons/icons";
 import logo from "../../../resources/icon.png";
-import { ItemKind } from "../../api/metadata/MetadataProviderInterface";
 import { Theme } from "../../utils/Theme";
 import { View } from "../home/reducer";
 import { ThemeContext } from "./theme-context";
-
-interface MatchParams {
-  itemId: string;
-  itemKind: ItemKind;
-  view: View;
-}
-
-export interface Props extends RouteComponentProps<MatchParams> {
-  history: History;
-  location: Location;
-  openSettingsModal: () => void;
-}
+import { RouterProps } from "../../types/match";
 
 type State = {
   searchQuery: string;
   collapsed: boolean;
 };
+
+interface Props extends RouterProps {
+  toggleSettingsModal: () => void;
+}
 
 class PopcornTimeNavbar extends Component<Props, State> {
   static contextType = ThemeContext;
@@ -92,7 +85,7 @@ class PopcornTimeNavbar extends Component<Props, State> {
   };
 
   render() {
-    const { location, openSettingsModal } = this.props;
+    const { location, toggleSettingsModal } = this.props;
     const { collapsed, searchQuery } = this.state;
     const theme = this.context;
     const { pathname } = location;
@@ -167,8 +160,8 @@ class PopcornTimeNavbar extends Component<Props, State> {
               type="text"
               placeholder="Search"
             />
-            <Button type="button" onClick={openSettingsModal}>
-              <i className="ion-md-settings" />
+            <Button type="button" onClick={toggleSettingsModal}>
+              <IonIcon icon={settings} />
             </Button>
           </div>
         </Collapse>

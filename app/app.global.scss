@@ -10,18 +10,13 @@
 @import "./styles/variables.scss";
 
 //
-// Modules
-//
-
-//
-// Bootstrap
+// 3rd Party Libraries
 // Core variables and mixins
 // @TODO: Import only boootstrap that are used
 //
 
 @import "~bootstrap/scss/bootstrap.scss";
 @import "~plyr/src/sass/plyr.scss";
-@import "~ionicons/dist/css/ionicons.min.css";
 @import "~react-notifications-component/dist/theme.css";
 
 //

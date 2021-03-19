@@ -6,6 +6,8 @@ import Carousel from "nuka-carousel";
 import { Link } from "react-router-dom";
 import { Location, History } from "history";
 import _ from "lodash";
+import { IonIcon } from "@ionic/react";
+import { arrowBack, arrowForward } from "ionicons/icons";
 import Butter from "../../api/Butter";
 import CardsGrid from "../card/CardsGrid";
 import Description from "../item/Description";
@@ -13,8 +15,9 @@ import SaveItem from "../item/SaveItem";
 import Poster from "../item/Poster";
 import { Item } from "../../api/metadata/MetadataProviderInterface";
 import { PageInfo, View } from "./reducer";
+import { RouterProps } from "../../types/match";
 
-type Props = {
+interface Props extends RouterProps {
   paginate: (items: Item[]) => void;
   clearAllItems: () => void;
   setLoading: (isLoading: boolean) => void;
@@ -25,15 +28,10 @@ type Props = {
   location: Location<{
     searchQuery?: string;
   }>;
-  match: {
-    params: {
-      view?: View;
-    };
-  };
   modes: Record<View, PageInfo>;
   items: Array<Item>;
   isLoading: boolean;
-};
+}
 
 type State = {
   favorites: Array<Item>;
@@ -211,12 +209,12 @@ class Home extends Component<Props, State> {
           <Carousel
             renderCenterLeftControls={({ previousSlide }) => (
               <button type="button" onClick={previousSlide}>
-                <i className="ion-md-arrow-back" />
+                <IonIcon icon={arrowBack} />
               </button>
             )}
             renderCenterRightControls={({ nextSlide }) => (
               <button type="button" onClick={nextSlide}>
-                <i className="ion-md-arrow-forward" />
+                <IonIcon icon={arrowForward} />
               </button>
             )}
             defaultControlsConfig={{
