@@ -86,11 +86,6 @@ export const darkTheme = {
 export enum Theme {
   Light = "light",
   Dark = "dark",
-}
-
-export enum ThemeWithSystem {
-  Light = "light",
-  Dark = "dark",
   System = "system",
 }
 
@@ -103,7 +98,7 @@ export type ManagerTheme = {
 const { nativeTheme } = remote;
 
 export default class ThemeManager extends EventEmitter {
-  private theme: ThemeWithSystem = ThemeWithSystem.System;
+  private theme: Theme = Theme.System;
 
   private systemTheme: Theme;
 
@@ -125,7 +120,7 @@ export default class ThemeManager extends EventEmitter {
     },
   ];
 
-  constructor(themeId: ThemeWithSystem = ThemeWithSystem.System) {
+  constructor(themeId: Theme = Theme.System) {
     super();
     this.theme = themeId;
     this.systemTheme = nativeTheme.shouldUseDarkColors
@@ -135,11 +130,11 @@ export default class ThemeManager extends EventEmitter {
     this.change(this.theme);
 
     nativeTheme.on("updated", () => {
-      if (this.theme === ThemeWithSystem.System) {
+      if (this.theme === Theme.System) {
         this.systemTheme = nativeTheme.shouldUseDarkColors
           ? Theme.Dark
           : Theme.Light;
-        this.change(ThemeWithSystem.System);
+        this.change(Theme.System);
       }
     });
   }
@@ -150,14 +145,12 @@ export default class ThemeManager extends EventEmitter {
   }
 
   getTheme(): Theme {
-    return this.theme === ThemeWithSystem.System
-      ? this.systemTheme
-      : this.theme;
+    return this.theme === Theme.System ? this.systemTheme : this.theme;
   }
 
-  change(themeId: ThemeWithSystem) {
+  change(themeId: Theme) {
     this.theme = themeId;
-    if (themeId === ThemeWithSystem.System) {
+    if (themeId === Theme.System) {
       // eslint-disable-next-line no-param-reassign
       themeId = this.systemTheme;
     }

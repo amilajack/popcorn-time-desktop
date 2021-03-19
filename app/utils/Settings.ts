@@ -1,5 +1,5 @@
 import Config from "./Config";
-import { ThemeWithSystem } from "./Theme";
+import { Theme } from "./Theme";
 
 type Flag = {
   id: string;
@@ -8,13 +8,13 @@ type Flag = {
 };
 
 type Settings = {
-  theme: ThemeWithSystem;
+  theme: Theme;
   flags: Flag[];
 };
 
 export default class SettingsManager {
   static settings: Settings = {
-    theme: ThemeWithSystem.System,
+    theme: Theme.System,
     flags: [
       {
         id: "season_complete",
@@ -40,7 +40,7 @@ export default class SettingsManager {
     );
   }
 
-  static setTheme(theme: ThemeWithSystem) {
+  static setTheme(theme: Theme) {
     this.settings.theme = theme;
     this.save();
   }
