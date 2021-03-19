@@ -6,6 +6,16 @@ import { magnet, videocam } from "ionicons/icons";
 import Rating from "../card/Rating";
 import { Runtime } from "../../api/metadata/MetadataProviderInterface";
 
+const defaultProps = {
+  runtime: {},
+  onTrailerClick: () => {},
+  torrentHealth: "poor",
+  showTorrentInfo: false,
+  trailer: "",
+  seederCount: 0,
+  rating: 0,
+};
+
 type Props = {
   title: string;
   runtime?: Runtime;
@@ -19,7 +29,7 @@ type Props = {
   seederCount?: number;
   rating?: number;
   showTorrentInfo?: boolean;
-};
+} & typeof defaultProps;
 
 export default function Description({
   title,
@@ -119,3 +129,5 @@ export default function Description({
     </Col>
   );
 }
+
+Description.defaultProps = defaultProps;

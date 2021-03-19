@@ -1,3 +1,4 @@
+/* eslint react/require-default-props: off */
 import React, { useContext } from "react";
 import ContentLoader from "react-content-loader";
 import { ThemeContext } from "./theme-context";

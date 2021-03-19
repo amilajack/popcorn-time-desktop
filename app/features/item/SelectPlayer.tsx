@@ -8,7 +8,6 @@ import {
 import { Device, PlayerKind } from "../../api/players/PlayerProviderInterface";
 
 type SelectPlayerProps = {
-  currentSelection: string;
   castingDevices: Device[];
   onSelect: React.MouseEventHandler<Element>;
 };

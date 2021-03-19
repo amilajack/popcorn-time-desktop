@@ -141,7 +141,6 @@ export default class ThemeManager extends EventEmitter {
           : Theme.Light;
         this.change(ThemeWithSystem.System);
       }
-      this.emit("themeChanged");
     });
   }
 
@@ -172,5 +171,6 @@ export default class ThemeManager extends EventEmitter {
     Object.entries(colors).forEach(([cssVar, value]) => {
       document.documentElement.style.setProperty(`--${cssVar}`, value);
     });
+    this.emit("updated");
   }
 }

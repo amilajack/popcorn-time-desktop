@@ -14,11 +14,15 @@ import {
 import Settings from "../../utils/Settings";
 import ThemeManager, { Theme, ManagerTheme } from "../../utils/Theme";
 
+const defaultProps = {
+  open: false,
+};
+
 type Props = {
   open?: boolean;
   changeTheme: (theme: Theme) => void;
   toggleSettingsModal: () => void;
-};
+} & typeof defaultProps;
 
 export default function SettingsComponent(props: Props) {
   const { open, changeTheme, toggleSettingsModal } = props;
@@ -79,6 +83,4 @@ export default function SettingsComponent(props: Props) {
   );
 }
 
-Settings.defaultProps = {
-  open: false,
-};
+SettingsComponent.defaultProps = defaultProps;

@@ -3,11 +3,15 @@ import { Button } from "reactstrap";
 import { TorrentSelection } from "../../api/torrents/TorrentProviderInterface";
 import { ItemKind } from "../../api/metadata/MetadataProviderInterface";
 
+const defaultProps = {
+  startPlayback: () => {},
+};
+
 type Props = {
   torrentSelection: TorrentSelection;
   startPlayback?: (e: React.MouseEvent<any, MouseEvent>) => void;
   itemKind: ItemKind;
-};
+} & typeof defaultProps;
 
 export default function TorrentSelector({
   startPlayback,
@@ -40,3 +44,5 @@ export default function TorrentSelector({
     </>
   );
 }
+
+TorrentSelector.defaultProps = defaultProps;

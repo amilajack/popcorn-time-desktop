@@ -1,6 +1,5 @@
 /* eslint react/jsx-props-no-spreading: off */
 import React, { useEffect, useState } from "react";
-import { remote } from "electron";
 import ReactNotification, { store } from "react-notifications-component";
 import ConnectivityListener from "./ConnectivityListener";
 import ThemeManager, { Theme } from "../../utils/Theme";
@@ -24,7 +23,7 @@ export default function App(props: Props) {
   const toggleSetingsModalOpen = () => setSettingsModalOpen(!settingsModalOpen);
 
   useEffect(() => {
-    themeManager.on("themeChanged", () => {
+    themeManager.on("updated", () => {
       setTheme(themeManager.getTheme());
     });
     // Update server
@@ -50,11 +49,10 @@ export default function App(props: Props) {
       }, 1000);
     });
     return () => {
-      const { nativeTheme } = remote;
-      nativeTheme.removeAllListeners();
+      themeManager.cleanup();
       if (updateServer) updateServer.stop();
     };
-  });
+  }, []);
 
   const changeTheme = (toTheme: Theme) => {
     setTheme(toTheme);

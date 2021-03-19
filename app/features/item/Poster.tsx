@@ -2,11 +2,19 @@ import React from "react";
 import { IonIcon } from "@ionic/react";
 import { play } from "ionicons/icons";
 
+const defaultProps = {
+  onClick: () => {},
+  isPlayable: false,
+  image: "",
+  // @TODO Use placeholder image when image is undefined
+  // image: '...'
+};
+
 type Props = {
   onClick?: Function;
   image?: string;
   isPlayable?: boolean;
-};
+} & typeof defaultProps;
 
 const Poster = ({ onClick, image, isPlayable }: Props) => (
   <div className="Item--poster-container">
@@ -32,11 +40,6 @@ const Poster = ({ onClick, image, isPlayable }: Props) => (
   </div>
 );
 
-Poster.defaultProps = {
-  onClick: () => {},
-  isPlayable: false,
-  // @TODO Use placeholder image when image is undefined
-  // image: '...'
-};
+Poster.defaultProps = defaultProps;
 
 export default Poster;

@@ -3,20 +3,25 @@ import { Col, Row, ListGroup, ListGroupItem } from "reactstrap";
 import classNames from "classnames";
 import { ShowKind } from "../../api/metadata/MetadataProviderInterface";
 
+const defaultProps = {
+  seasons: [],
+  episodes: [],
+};
+
 type Props = {
   selectShow: (type: ShowKind, season: number, episode?: number) => void;
   selectedSeason: number;
   selectedEpisode: number;
-  seasons: Array<{
+  seasons?: Array<{
     season: number;
     overview: string;
   }>;
-  episodes: Array<{
+  episodes?: Array<{
     episode: number;
     overview: string;
     title: string;
   }>;
-};
+} & typeof defaultProps;
 
 export default function Show(props: Props) {
   const {
@@ -88,7 +93,4 @@ export default function Show(props: Props) {
   );
 }
 
-Show.defaultProps = {
-  seasons: [],
-  episodes: [],
-};
+Show.defaultProps = defaultProps;

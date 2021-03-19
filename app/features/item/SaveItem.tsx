@@ -2,15 +2,18 @@ import React from "react";
 import classnames from "classnames";
 import { IonIcon } from "@ionic/react";
 import { heart, list } from "ionicons/icons";
-import { Item } from "../../api/metadata/MetadataProviderInterface";
+
+const defaultProps = {
+  isInFavorites: false,
+  isInWatchList: false,
+};
 
 type Props = {
-  item: Item;
   toggleFavorite: () => void;
   toggleWatchList: () => void;
-  isInWatchList: boolean;
-  isInFavorites: boolean;
-};
+  isInWatchList?: boolean;
+  isInFavorites?: boolean;
+} & typeof defaultProps;
 
 export default function SaveItem(props: Props) {
   const {
@@ -41,7 +44,4 @@ export default function SaveItem(props: Props) {
   );
 }
 
-SaveItem.defaultProps = {
-  isInFavorites: false,
-  isInWatchList: false,
-};
+SaveItem.defaultProps = defaultProps;

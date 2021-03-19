@@ -8,14 +8,23 @@ import Card from "./Card";
 import Loader from "../loader/Loader";
 import { Item } from "../../api/metadata/MetadataProviderInterface";
 
+const defaultProps = {
+  title: "",
+  limit: Infinity,
+  items: [],
+  isLoading: false,
+  isFinished: false,
+  autofit: false,
+};
+
 type Props = {
   title?: string;
   limit?: number;
-  items: Array<Item>;
+  items?: Array<Item>;
   isLoading?: boolean;
   isFinished?: boolean;
   autofit?: boolean;
-};
+} & typeof defaultProps;
 
 export default function CardsGrid(props: Props) {
   const { items, isLoading, isFinished, title, limit, autofit } = props;
@@ -54,11 +63,4 @@ export default function CardsGrid(props: Props) {
   );
 }
 
-CardsGrid.defaultProps = {
-  title: "",
-  limit: Infinity,
-  items: [],
-  isLoading: false,
-  isFinished: false,
-  autofit: false,
-};
+CardsGrid.defaultProps = defaultProps;
