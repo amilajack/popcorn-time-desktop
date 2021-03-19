@@ -221,6 +221,7 @@ class Home extends Component<Props, State> {
               pagingDotsStyle: { fill: "white" },
             }}
             autoplay
+            wrapAround
             pauseOnHover={false}
           >
             {trending.map((item) => (
