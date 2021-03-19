@@ -200,7 +200,8 @@ type Results<T> = {
   results: T;
 };
 
-export default class TheMovieDbMetadataProvider extends BaseMetadataProvider
+export default class TheMovieDbMetadataProvider
+  extends BaseMetadataProvider
   implements MetadataProviderInterface {
   private cache: PctCache;
 

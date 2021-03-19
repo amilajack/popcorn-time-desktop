@@ -5,11 +5,11 @@ import { Container } from "reactstrap";
 import SkeletonLoader from "./features/app/SkeletonLoader";
 import App from "./features/app/App";
 
-const LazyItemPage = React.lazy(() =>
-  import(/* webpackChunkName: "ItemPage" */ "./features/item/ItemPage")
+const LazyItemPage = React.lazy(
+  () => import(/* webpackChunkName: "ItemPage" */ "./features/item/ItemPage")
 );
-const LazyHomePage = React.lazy(() =>
-  import(/* webpackChunkName: "HomePage" */ "./features/home/HomePage")
+const LazyHomePage = React.lazy(
+  () => import(/* webpackChunkName: "HomePage" */ "./features/home/HomePage")
 );
 
 export const ItemPage = (props) => (

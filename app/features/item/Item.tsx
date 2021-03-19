@@ -543,7 +543,7 @@ class ItemComponent extends Component<Props, State> {
   };
 
   async toggleFavorite() {
-    const { item } = this.props;
+    const { item } = this.state;
     if (!item?.ids?.tmdbId) {
       throw new Error("tmdb id not set yet");
     }
@@ -559,7 +559,7 @@ class ItemComponent extends Component<Props, State> {
   }
 
   async toggleWatchList() {
-    const { item } = this.props;
+    const { item } = this.state;
     if (!item?.ids?.tmdbId) {
       throw new Error("tmdb id not set yet");
     }
@@ -651,6 +651,8 @@ class ItemComponent extends Component<Props, State> {
                 item={item}
                 favorites={favorites}
                 watchList={watchList}
+                toggleFavorite={() => this.toggleFavorite()}
+                toggleWatchList={() => this.toggleWatchList()}
                 isInWatchList={isInWatchList}
                 isInFavorites={isInFavorites}
               />

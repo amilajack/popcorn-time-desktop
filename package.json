@@ -164,6 +164,7 @@
     "network-address": "1.1.2",
     "node-fetch": "^2.6.0",
     "nuka-carousel": "^4.7.7",
+    "random-access-file": "github:amilajack/random-access-file",
     "react": "16.13.1",
     "react-content-loader": "^5.0.4",
     "react-dom": "^16.13.1",
@@ -183,7 +184,7 @@
     "speedtest-net": "^2.1.1",
     "srt2vtt": "1.3.1",
     "super-kat": "0.1.0",
-    "webtorrent": "^0.108.1"
+    "webtorrent": "github:amilajack/webtorrent"
   },
   "devDependencies": {
     "@amilajack/testcafe-browser-provider-electron": "^0.0.15-alpha.1",
@@ -312,6 +313,9 @@
     "webpack-dev-middleware": "^3.7.2",
     "webpack-dev-server": "^3.10.3",
     "webpack-merge": "4.2.2"
+  },
+  "resolutions": {
+    "random-access-file": "github:amilajack/random-access-file"
   },
   "devEngines": {
     "node": ">=19.x",

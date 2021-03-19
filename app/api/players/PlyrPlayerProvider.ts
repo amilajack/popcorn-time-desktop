@@ -9,7 +9,8 @@ const { powerSaveBlocker } = remote;
 
 type PlyrSubtitle = { kind: string; src: string; srclang: string };
 
-export default class PlayerProviderInterface extends BaseTorrentProvider
+export default class PlayerProviderInterface
+  extends BaseTorrentProvider
   implements PlayerProviderInterface {
   private powerSaveBlockerId?: number;
 
@@ -44,7 +45,7 @@ export default class PlayerProviderInterface extends BaseTorrentProvider
       undefined,
       subtitles
     );
-    this.plyr.play();
+    // this.plyr.play();
   }
 
   async restart() {

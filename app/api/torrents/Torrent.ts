@@ -166,7 +166,6 @@ export default class Torrent {
           );
         }
       }, 1_000);
-      console.log(this.checkDownloadInterval);
     });
   }
 

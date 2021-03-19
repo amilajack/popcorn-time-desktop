@@ -27,7 +27,7 @@ export default function SaveItem(props: Props) {
         className={classnames("SaveItem--icon", "SaveItem--favorites", {
           "SaveItem--active-icon": isInFavorites,
         })}
-        onClick={() => toggleFavorite()}
+        onClick={toggleFavorite}
       />
       <IonIcon
         icon={list}
