@@ -247,7 +247,7 @@
     "dotenv": "8.2.0",
     "download": "^8.0.0",
     "electron": "8.2.5",
-    "electron-builder": "^22.5.1",
+    "electron-builder": "^22.10.5",
     "electron-debug": "^3.0.1",
     "electron-devtools-installer": "3.0.0",
     "electron-rebuild": "^1.10.1",
