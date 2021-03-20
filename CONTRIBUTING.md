@@ -5,17 +5,8 @@ The branch to be PR'd against depends on what the feature is. If the PR is addin
 This project has **VERY** strict eslint rules. Adding eslint support to your text-editor will make contributing a lot easier.
 
 ## Editor Configuration
-### Atom
-Recommended Development Packages:
-```bash
-apm install editorconfig es6-javascript javascript-snippets linter linter-eslint language-babel autocomplete-flow
-```
 
-### Sublime
-* https://github.com/sindresorhus/editorconfig-sublime#readme
-* https://github.com/SublimeLinter/SublimeLinter3
-* https://github.com/roadhump/SublimeLinter-eslint
-* https://github.com/babel/babel-sublime
+See the [electron-react-boilerplate docs](https://electron-react-boilerplate.js.org/docs/editor-configuration/)
 
 ## FAQ
  * `CALL_AND_RETRY_LAST Allocation failed`: If your node process's heap runs out of memory (`CALL_AND_RETRY_LAST Allocation failed - JavaScript heap out of memory`), kill close the electron app and restart the electron process. A proper solution hasn't been found for this yet.

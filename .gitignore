@@ -31,10 +31,6 @@ app/node_modules
 # OSX
 .DS_Store
 
-# flow-typed
-flow-typed/npm/*
-!flow-typed/npm/module_vx.x.x.js
-
 # App packaged
 release
 app/main.prod.js
@@ -51,3 +47,7 @@ npm-debug.log.*
 
 # Project specific
 .env
+
+*.css.d.ts
+*.sass.d.ts
+*.scss.d.ts

@@ -31,10 +31,6 @@ app/node_modules
 # OSX
 .DS_Store
 
-# flow-typed
-flow-typed/npm/*
-!flow-typed/npm/module_vx.x.x.js
-
 # App packaged
 app/main.prod.js
 app/main.prod.js.map
@@ -46,3 +42,6 @@ resources
 .idea
 npm-debug.log.*
 __snapshots__
+*.css.d.ts
+*.sass.d.ts
+*.scss.d.ts

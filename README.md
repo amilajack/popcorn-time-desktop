@@ -37,7 +37,7 @@
 
 - 🎞 **Subtitles**: Subtitle integration for movies
 
-## Getting started:
+## Installation:
 
 - **I am a tester:** Download the latest build from the [releases](https://github.com/amilajack/popcorn-time-desktop/releases) section.
 
@@ -50,7 +50,7 @@
 - For packaging, see [packaging requirements](https://github.com/amilajack/popcorn-time-desktop/wiki/Packaging-Requirements)
 - For casting support, you will need to [satisfy mdns's requirements](https://github.com/agnat/node_mdns#installation)
 
-## Installation:
+## Local Setup:
 
 ```bash
 git clone https://github.com/amilajack/popcorn-time-desktop.git

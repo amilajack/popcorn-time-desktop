@@ -1,26 +1,30 @@
+::selection {
+  background: black;
+  color: white;
+}
+
 //
-// Modules
+// CSS Variables
 //
 
 @import "./styles/variables.scss";
 
 //
-// Bootstrap
+// 3rd Party Libraries
 // Core variables and mixins
 // @TODO: Import only boootstrap that are used
 //
 
 @import "~bootstrap/scss/bootstrap.scss";
-@import "~ionicons/dist/css/ionicons.min.css";
 @import "~plyr/src/sass/plyr.scss";
-@import "~notie/src/notie.scss";
+@import "~react-notifications-component/dist/theme.css";
 
 //
 // Components
 //
 
-@import "./styles/components/Movie.scss";
-@import "./styles/components/CardList.scss";
+@import "./styles/components/Description.scss";
+@import "./styles/components/CardsGrid.scss";
 @import "./styles/components/Rating.scss";
 @import "./styles/components/Loader.scss";
 @import "./styles/components/Item.scss";

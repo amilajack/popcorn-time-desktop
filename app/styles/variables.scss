@@ -1,99 +1,12 @@
-//
-//  Bootstrap variables override
-//
+$include-column-box-sizing: true !default;
 
-$gray: #303030;
-$gray-dark: #151515;
-$gray-light: gray;
-$gray-lighter: gray;
-$gray-lightest: gray;
-
-// $enable-flex:               true;
-$enable-rounded: true;
-$enable-shadows: true;
-$enable-gradients: true;
-$enable-transitions: true;
-$enable-hover-media-query: true;
-$enable-grid-classes: true;
-
-// Base
-$body-bg: #252525;
-$body-color: white;
-
-$link-color: #1b221c;
-
-$brand-primary: white;
-$enable-rounded: false;
-$enable-hover-media-query: true;
-
-$grid-breakpoints: (
-  xs: 0,
-  sm: 544px,
-  md: 768px,
-  lg: 992px,
-  xl: 1200px
-);
-
-$container-max-widths: (
-  sm: 576px,
-  md: 720px,
-  lg: 940px,
-  xl: 1200px
-);
-
-// Navbar
-$dark: #151515;
-
-// Input
-$input-bg: rgb(53, 53, 53);
-$input-border-color: rgb(53, 53, 53);
-$input-group-addon-bg: rgb(53, 53, 53);
-$input-color: white;
-
-// List Group
-$list-group-border-color: black;
-$list-group-link-color: white;
-$list-group-hover-bg: #333;
-$list-group-hover-bg: #333;
-$list-group-active-border: black;
-$list-group-bg: #484848;
-
-// Card
-$card-bg: #484848;
-$card-border-color: none;
-$card-color: white;
-
-// Components
-$component-active-bg: gray;
-$container-max-widths: (
-  sm: 576px,
-  md: 720px,
-  lg: 1440px,
-  xl: 1540px
-) !default;
-$headings-color: white;
-$navbar-dark-color: #848484;
+@import "~bootstrap/scss/_functions.scss";
+@import "~bootstrap/scss/_variables.scss";
 
 // Fonts
 $font-family-base: "Avenir Next", Avenir, "Segoe UI", Roboto, "Helvetica Neue",
   Helvetica, sans-serif;
 $headings-font-weight: 400;
-
-.row-margin {
-  margin: 20px 0;
-}
-
-::selection {
-  background: black;
-  color: white;
-}
-
-.btn-back {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 10;
-}
 
 //
 // Custom Components
@@ -102,10 +15,82 @@ $headings-font-weight: 400;
 // Card list
 $card-list-color: #848484;
 
-// Notie
-$notie-font-size-big: 18px;
-$notie-font-size-small: 18px;
-
 // Plyr
 $plyr-color-main: gray;
 $plyr-tooltip-radius: 0;
+
+:root {
+  // Base
+  --body-bg: white;
+  --body-color: #{$body-color};
+
+  // Navbar
+  --dark: #{$dark};
+
+  // Input
+  --input-bg: #{$input-bg};
+  --input-border-color: #{$input-border-color};
+  --input-group-addon-bg: #{$input-group-addon-bg};
+  --input-color: #{$input-color};
+
+  // List Group
+  --list-group-border-color: #{$list-group-border-color};
+  --list-group-hover-bg: #{$list-group-hover-bg};
+  --list-group-hover-bg: #{$list-group-hover-bg};
+  --list-group-bg: #{$list-group-bg};
+
+  // Card
+  --card-bg: #{$card-bg};
+  --card-border-color: #{$card-border-color};
+  --card-color: #{$card-color};
+
+  // Components
+  --component-active-bg: #{$component-active-bg};
+  --headings-color: #{$headings-color};
+  --navbar-dark-color: #{$navbar-dark-color};
+  --modal-content-bg: #{$modal-content-bg};
+}
+
+//
+//  Bootstrap variables override
+//
+
+$gray: var(--gray);
+$gray-dark: var(--gray-dark);
+$gray-light: var(--gray-light);
+$gray-lighter: var(--gray-lighter);
+$gray-lightest: var(--gray-lightest);
+
+// Base
+$body-bg: var(--body-bg);
+$body-color: var(--body-color);
+$link-color: var(--link-color);
+$brand-primary: var(--brand-primary);
+
+// Navbar
+$dark: var(--dark);
+
+// Input
+$input-bg: var(--input-bg);
+$input-border-color: var(--input-border-color);
+$input-group-addon-bg: var(--input-group-addon-bg);
+$input-color: var(--input-color);
+
+// List Group
+$list-group-border-color: var(--list-group-border-color);
+$list-group-link-color: var(--list-group-link-color);
+$list-group-hover-bg: var(--list-group-hover-bg);
+$list-group-hover-bg: var(--list-group-hover-bg);
+$list-group-active-border: var(--list-group-active-border);
+$list-group-bg: var(--list-group-bg);
+
+// Card
+$card-bg: var(--card-bg);
+$card-border-color: var(--card-border-color);
+$card-color: var(--card-color);
+
+// Components
+$component-active-bg: var(--component-active-bg);
+$headings-color: var(--headings-color);
+$navbar-dark-color: var(--navbar-dark-color);
+$modal-content-bg: var(--modal-content-bg);
