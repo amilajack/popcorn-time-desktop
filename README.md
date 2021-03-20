@@ -7,11 +7,8 @@
 <h3 align="center">A Modern and Experimental Popcorn Time Client</h3>
 
 <div align="center">
-  <a target="_blank" href="https://travis-ci.org/amilajack/popcorn-time-desktop/">
-    <img src="https://img.shields.io/travis/amilajack/popcorn-time-desktop/master.svg" alt="Travis Build branch" />
-  </a>
-  <a target="_blank" href="https://ci.appveyor.com/project/amilajack/popcorn-time-desktop/branch/master">
-    <img src="https://ci.appveyor.com/api/projects/status/071qeglg94au8wr2/branch/master?svg=true" alt="AppVeyor Build status" />
+  <a target="_blank" href="https://github.com/amilajack/popcorn-time-desktop/actions/workflows/test.yml">
+    <img src="https://github.com/amilajack/popcorn-time-desktop/actions/workflows/test.yml/badge.svg" alt="GH Actions status" />
   </a>
   <a target="_blank" href="https://gitter.im/amilajack/popcorn-time-desktop?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge">
     <img src="https://badges.gitter.im/amilajack/popcorn-time-desktop.svg" alt="Gitter" />
