@@ -23,12 +23,16 @@ jobs:
         run: |
           yarn install --frozen-lockfile --network-timeout 300000
 
-      - name: yarn test
+      # Wait to re-enable tests after migration to modern erb
+      # - name: yarn test
+      #    run: |
+      #      yarn lint
+      #      yarn tsc
+      #      yarn test
+
+      - name: publish
+        if: ${{ github.event_name == 'push' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           yarn package-ci
-        # run: |
-        #   yarn lint
-        #   yarn tsc
-        #   yarn test
