@@ -27,8 +27,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          yarn lint
           yarn package-ci
         # run: |
+        #   yarn lint
         #   yarn tsc
         #   yarn test

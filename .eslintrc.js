@@ -1,27 +1,28 @@
 module.exports = {
-  extends: 'erb/typescript',
+  extends: "erb",
   rules: {
     // A temporary hack related to IDE not resolving correct package.json
-    'import/no-extraneous-dependencies': 'off',
-    "@typescript-eslint/no-implied-eval": "off",
-    "@typescript-eslint/no-throw-literal": "off",
-    "react/state-in-constructor": "off",
-    "react/static-property-placement": "off",
+    "import/no-extraneous-dependencies": "off",
+    "@typescript-eslint/camelcase": "off",
     "react/jsx-props-no-spreading": "off",
-    "no-console": "off"
   },
   parserOptions: {
-    project: {
-      tsconfigRootDir: __dirname
-    }
+    ecmaVersion: 2020,
+    sourceType: "module",
+    project: "./tsconfig.json",
+    tsconfigRootDir: __dirname,
+    createDefaultProgram: true,
   },
   settings: {
-    'import/resolver': {
+    "import/resolver": {
       // See https://github.com/benmosher/eslint-plugin-import/issues/1396#issuecomment-575727774 for line below
       node: {},
       webpack: {
-        config: require.resolve('./configs/webpack.config.eslint.js')
-      }
-    }
-  }
+        config: require.resolve("./configs/webpack.config.eslint.js"),
+      },
+    },
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx"],
+    },
+  },
 };
