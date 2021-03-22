@@ -10,9 +10,6 @@
   <a target="_blank" href="https://github.com/amilajack/popcorn-time-desktop/actions/workflows/test.yml">
     <img src="https://github.com/amilajack/popcorn-time-desktop/actions/workflows/test.yml/badge.svg" alt="GH Actions status" />
   </a>
-  <a target="_blank" href="https://gitter.im/amilajack/popcorn-time-desktop?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge">
-    <img src="https://badges.gitter.im/amilajack/popcorn-time-desktop.svg" alt="Gitter" />
-  </a>
   <a target="_blank" href="https://github.com/amilajack/popcorn-time-desktop/pulls">
     <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome" />
   </a>
