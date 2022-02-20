@@ -1,6 +1,5 @@
 import React from "react";
 import { render } from "react-dom";
-import { AppContainer } from "react-hot-loader";
 import * as Sentry from "@sentry/electron/dist/renderer";
 import Root from "./root";
 import { history, configuredStore } from "./store";
@@ -21,8 +20,6 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 render(
-  <AppContainer>
-    <Root store={store} history={history} />
-  </AppContainer>,
+  <Root store={store} history={history} />,
   document.getElementById("root")
 );

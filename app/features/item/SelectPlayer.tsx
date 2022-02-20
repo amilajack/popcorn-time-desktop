@@ -26,7 +26,7 @@ const SelectPlayer = ({ castingDevices, onSelect }: SelectPlayerProps) => (
       </DropdownItem>
       {castingDevices.map(({ id, name }) => (
         <DropdownItem key={id} id={id} name="chromecast" onClick={onSelect}>
-          {name}
+          {name || id}
         </DropdownItem>
       ))}
     </DropdownMenu>
