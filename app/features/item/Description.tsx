@@ -10,7 +10,7 @@ const defaultProps = {
   runtime: {},
   onTrailerClick: () => {},
   torrentHealth: "poor",
-  showTorrentInfo: false,
+  showTorrentInfo: true,
   trailer: "",
   seederCount: 0,
   rating: 0,

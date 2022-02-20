@@ -1,7 +1,7 @@
 import { Client, DefaultMediaReceiver, Player } from "castv2-client";
 import mdns, { Browser } from "mdns-js";
 import network from "network-address";
-import { PlayerProviderInterface, Device } from "./PlayerProviderInterface";
+import { PlayerProviderInterface, Device, PlayerKind } from "./PlayerProviderInterface";
 import { Subtitle } from "../metadata/Subtitle";
 import { Item } from "../metadata/MetadataProviderInterface";
 
@@ -25,6 +25,7 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export default class ChromecastPlayerProvider
   implements PlayerProviderInterface {
+  name = PlayerKind.Chromecast;
   provider = "Chromecast";
 
   providerId = "chromecast";
@@ -36,11 +37,42 @@ export default class ChromecastPlayerProvider
   private browser: Browser;
 
   constructor() {
+    // this.browser = mdns.createBrowser();
+    // this.browser = mdns.createBrowser(mdns.tcp("airplay"));
     this.browser = mdns.createBrowser(mdns.tcp("googlecast"));
     this.browser.on("ready", () => {
       this.browser.discover();
     });
+
+    this.browser.on("update", (data: RawDevice | RawDevice[]) => {
+      if (Array.isArray(data)) {
+        data?.forEach((device) => {
+        console.log(device)
+          this.devices.set(device.fullname, {
+            id: device.fullname,
+            address: device.addresses[0],
+            port: device.port,
+            name: device.fullname,
+          });
+        });
+      } else {
+        const device = data;
+        console.log(device)
+        this.devices.set(device.fullname, {
+            id: device.fullname,
+            address: device.addresses[0],
+            port: device.port,
+            name: device.fullname,
+        });
+      }
+    });
   }
+
+  // @TODO
+  public async setup() {}
+  public async pause() {}
+  public async seek() {}
+  public async restart() {}
 
   async cleanup() {
     if (this.browser) {
@@ -48,35 +80,16 @@ export default class ChromecastPlayerProvider
     }
   }
 
-  public async getDevices(timeout = 2_000): Promise<Device[]> {
-    const devices: DeviceMap = new Map<string, Device>();
-
-    this.browser.on("update", (data: RawDevice[]) => {
-      data.forEach((device) => {
-        devices.set(device.fullname, {
-          id: device.fullname,
-          address: device.addresses[0],
-          port: device.port,
-          name: "",
-        });
-      });
-    });
-
+  public async getDevices(timeout = 5_000): Promise<Device[]> {
     await delay(timeout);
-    this.browser.stop();
-    this.browser.removeAllListeners();
-    this.devices = devices;
-
-    const deviceList = Array.from(devices.values());
-
+    const deviceList = Array.from(this.devices.values());
     if (deviceList.length) {
       this.selectDevice(deviceList[0].id);
     }
-
     return deviceList;
   }
 
-  private async selectDevice(deviceId: string): Promise<void> {
+  async selectDevice(deviceId: string): Promise<void> {
     const selectedDevice = Array.from(this.devices.values()).find(
       (device) => device.id === deviceId
     );

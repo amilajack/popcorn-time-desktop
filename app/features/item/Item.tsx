@@ -182,6 +182,7 @@ class ItemComponent extends Component<Props, State> {
     this.getAllData(itemId);
 
     this.subtitleServer.startServer();
+    this.initCastingDevices()
   }
 
   // eslint-disable-next-line camelcase
@@ -580,10 +581,12 @@ class ItemComponent extends Component<Props, State> {
     }));
   }
 
-  async initCastingDevices() {
-    this.setState({
-      castingDevices: await this.player.getDevices(),
-    });
+  initCastingDevices() {
+    setInterval(async () => {
+      this.setState({
+        castingDevices: await this.player.getDevices(),
+      });
+    }, 3_000)
   }
 
   render() {
